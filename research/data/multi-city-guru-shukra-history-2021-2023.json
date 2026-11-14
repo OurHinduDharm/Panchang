@@ -1,0 +1,909 @@
+{
+  "schemaVersion": 1,
+  "title": "Supplemental direct Drik Guru-Shukra historical references — four cities, 2021–2023",
+  "source": "Drik Panchang named-city annual Tara Asta pages; Playwright Chromium capture with requested city, planet and year independently confirmed",
+  "capturedAt": "2026-11-14T04:11:38.657Z",
+  "captureRunId": 43555330612,
+  "requestedPages": 24,
+  "identityAndBoundaryVerifiedPages": 24,
+  "verifiedWindows": 28,
+  "coordinateCaveat": "Drik confirms the named city but does not publish its internal observer coordinates/elevation; city-label-only references are not exact arbitrary-coordinate predictions.",
+  "years": [
+    2021,
+    2022,
+    2023
+  ],
+  "cities": [
+    {
+      "name": "Varanasi, Uttar Pradesh, India",
+      "geonameId": "1253405"
+    },
+    {
+      "name": "Ujjain, Madhya Pradesh, India",
+      "geonameId": "1253914"
+    },
+    {
+      "name": "New Delhi, NCT, India",
+      "geonameId": "1261481"
+    },
+    {
+      "name": "Mumbai, Maharashtra, India",
+      "geonameId": "1275339"
+    }
+  ],
+  "planets": [
+    "Jupiter",
+    "Venus"
+  ],
+  "publicationEligible": false,
+  "windows": [
+    {
+      "id": "drik-1261481-jupiter-2021-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1261481&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 18, 2021",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "18:25",
+          "normalizedLocalDateTime": "2021-01-18T18:25:00+05:30",
+          "normalizedUtcInstant": "2021-01-18T12:55:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 15, 2021",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "30:17+",
+          "normalizedLocalDateTime": "2021-02-16T06:17:00+05:30",
+          "normalizedUtcInstant": "2021-02-16T00:47:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-jupiter-2022-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1261481&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 23, 2022",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "18:50",
+          "normalizedLocalDateTime": "2022-02-23T18:50:00+05:30",
+          "normalizedUtcInstant": "2022-02-23T13:20:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 26, 2022",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "29:37+",
+          "normalizedLocalDateTime": "2022-03-27T05:37:00+05:30",
+          "normalizedUtcInstant": "2022-03-27T00:07:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-jupiter-2023-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1261481&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 1, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:12",
+          "normalizedLocalDateTime": "2023-04-01T19:12:00+05:30",
+          "normalizedUtcInstant": "2023-04-01T13:42:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 3, 2023",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:53+",
+          "normalizedLocalDateTime": "2023-05-04T04:53:00+05:30",
+          "normalizedUtcInstant": "2023-05-03T23:23:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-venus-2021-window-1",
+      "planet": "Venus",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 14, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "30:34+",
+          "normalizedLocalDateTime": "2021-02-15T06:34:00+05:30",
+          "normalizedUtcInstant": "2021-02-15T01:04:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 18, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "19:14",
+          "normalizedLocalDateTime": "2021-04-18T19:14:00+05:30",
+          "normalizedUtcInstant": "2021-04-18T13:44:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-venus-2022-window-1",
+      "planet": "Venus",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 6, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:04",
+          "normalizedLocalDateTime": "2022-01-06T18:04:00+05:30",
+          "normalizedUtcInstant": "2022-01-06T12:34:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 10, 2022",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "30:48+",
+          "normalizedLocalDateTime": "2022-01-11T06:48:00+05:30",
+          "normalizedUtcInstant": "2022-01-11T01:18:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-venus-2022-window-2",
+      "planet": "Venus",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 30, 2022",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "29:49+",
+          "normalizedLocalDateTime": "2022-10-01T05:49:00+05:30",
+          "normalizedUtcInstant": "2022-10-01T00:19:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 22, 2022",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "17:52",
+          "normalizedLocalDateTime": "2022-11-22T17:52:00+05:30",
+          "normalizedUtcInstant": "2022-11-22T12:22:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1261481-venus-2023-window-1",
+      "planet": "Venus",
+      "sourceLocation": "New Delhi, NCT, India",
+      "sourceCityId": "1261481",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 3, 2023",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "19:37",
+          "normalizedLocalDateTime": "2023-08-03T19:37:00+05:30",
+          "normalizedUtcInstant": "2023-08-03T14:07:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 18, 2023",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "29:21+",
+          "normalizedLocalDateTime": "2023-08-19T05:21:00+05:30",
+          "normalizedUtcInstant": "2023-08-18T23:51:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-jupiter-2021-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1275339&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 19, 2021",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:56",
+          "normalizedLocalDateTime": "2021-01-19T18:56:00+05:30",
+          "normalizedUtcInstant": "2021-01-19T13:26:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 13, 2021",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "30:27+",
+          "normalizedLocalDateTime": "2021-02-14T06:27:00+05:30",
+          "normalizedUtcInstant": "2021-02-14T00:57:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-jupiter-2022-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1275339&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 23, 2022",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "19:14",
+          "normalizedLocalDateTime": "2022-02-23T19:14:00+05:30",
+          "normalizedUtcInstant": "2022-02-23T13:44:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 22, 2022",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "30:03+",
+          "normalizedLocalDateTime": "2022-03-23T06:03:00+05:30",
+          "normalizedUtcInstant": "2022-03-23T00:33:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-jupiter-2023-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1275339&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 1, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:24",
+          "normalizedLocalDateTime": "2023-04-01T19:24:00+05:30",
+          "normalizedUtcInstant": "2023-04-01T13:54:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 29, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "29:31+",
+          "normalizedLocalDateTime": "2023-04-30T05:31:00+05:30",
+          "normalizedUtcInstant": "2023-04-30T00:01:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-venus-2021-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1275339&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 19, 2021",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "30:40+",
+          "normalizedLocalDateTime": "2021-02-20T06:40:00+05:30",
+          "normalizedUtcInstant": "2021-02-20T01:10:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 18, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "19:22",
+          "normalizedLocalDateTime": "2021-04-18T19:22:00+05:30",
+          "normalizedUtcInstant": "2021-04-18T13:52:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-venus-2022-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1275339&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 5, 2022",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "18:42",
+          "normalizedLocalDateTime": "2022-01-05T18:42:00+05:30",
+          "normalizedUtcInstant": "2022-01-05T13:12:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 11, 2022",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "30:44+",
+          "normalizedLocalDateTime": "2022-01-12T06:44:00+05:30",
+          "normalizedUtcInstant": "2022-01-12T01:14:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-venus-2022-window-2",
+      "planet": "Venus",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1275339&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 29, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "30:05+",
+          "normalizedLocalDateTime": "2022-09-30T06:05:00+05:30",
+          "normalizedUtcInstant": "2022-09-30T00:35:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 18, 2022",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:24",
+          "normalizedLocalDateTime": "2022-11-18T18:24:00+05:30",
+          "normalizedUtcInstant": "2022-11-18T12:54:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1275339-venus-2023-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Mumbai, Maharashtra, India",
+      "sourceCityId": "1275339",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1275339&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 5, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:36",
+          "normalizedLocalDateTime": "2023-08-05T19:36:00+05:30",
+          "normalizedUtcInstant": "2023-08-05T14:06:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 17, 2023",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:51+",
+          "normalizedLocalDateTime": "2023-08-18T05:51:00+05:30",
+          "normalizedUtcInstant": "2023-08-18T00:21:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-jupiter-2021-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253914&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 19, 2021",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:38",
+          "normalizedLocalDateTime": "2021-01-19T18:38:00+05:30",
+          "normalizedUtcInstant": "2021-01-19T13:08:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 14, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "30:18+",
+          "normalizedLocalDateTime": "2021-02-15T06:18:00+05:30",
+          "normalizedUtcInstant": "2021-02-15T00:48:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-jupiter-2022-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253914&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 23, 2022",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "18:59",
+          "normalizedLocalDateTime": "2022-02-23T18:59:00+05:30",
+          "normalizedUtcInstant": "2022-02-23T13:29:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 24, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:47+",
+          "normalizedLocalDateTime": "2022-03-25T05:47:00+05:30",
+          "normalizedUtcInstant": "2022-03-25T00:17:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-jupiter-2023-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253914&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 1, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:15",
+          "normalizedLocalDateTime": "2023-04-01T19:15:00+05:30",
+          "normalizedUtcInstant": "2023-04-01T13:45:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 30, 2023",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "29:13+",
+          "normalizedLocalDateTime": "2023-05-01T05:13:00+05:30",
+          "normalizedUtcInstant": "2023-04-30T23:43:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-venus-2021-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253914&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 17, 2021",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "30:33+",
+          "normalizedLocalDateTime": "2021-02-18T06:33:00+05:30",
+          "normalizedUtcInstant": "2021-02-18T01:03:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 18, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "19:14",
+          "normalizedLocalDateTime": "2021-04-18T19:14:00+05:30",
+          "normalizedUtcInstant": "2021-04-18T13:44:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-venus-2022-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253914&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 6, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:19",
+          "normalizedLocalDateTime": "2022-01-06T18:19:00+05:30",
+          "normalizedUtcInstant": "2022-01-06T12:49:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 10, 2022",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "30:45+",
+          "normalizedLocalDateTime": "2022-01-11T06:45:00+05:30",
+          "normalizedUtcInstant": "2022-01-11T01:15:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-venus-2022-window-2",
+      "planet": "Venus",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253914&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 29, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:53+",
+          "normalizedLocalDateTime": "2022-09-30T05:53:00+05:30",
+          "normalizedUtcInstant": "2022-09-30T00:23:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 20, 2022",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "18:07",
+          "normalizedLocalDateTime": "2022-11-20T18:07:00+05:30",
+          "normalizedUtcInstant": "2022-11-20T12:37:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1253914-venus-2023-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Ujjain, Madhya Pradesh, India",
+      "sourceCityId": "1253914",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253914&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 4, 2023",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "19:33",
+          "normalizedLocalDateTime": "2023-08-04T19:33:00+05:30",
+          "normalizedUtcInstant": "2023-08-04T14:03:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 17, 2023",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:37+",
+          "normalizedLocalDateTime": "2023-08-18T05:37:00+05:30",
+          "normalizedUtcInstant": "2023-08-18T00:07:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-jupiter-2021-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253405&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 19, 2021",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:05",
+          "normalizedLocalDateTime": "2021-01-19T18:05:00+05:30",
+          "normalizedUtcInstant": "2021-01-19T12:35:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 14, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "29:52+",
+          "normalizedLocalDateTime": "2021-02-15T05:52:00+05:30",
+          "normalizedUtcInstant": "2021-02-15T00:22:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-jupiter-2022-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253405&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 23, 2022",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "18:29",
+          "normalizedLocalDateTime": "2022-02-23T18:29:00+05:30",
+          "normalizedUtcInstant": "2022-02-23T12:59:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 25, 2022",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "29:15+",
+          "normalizedLocalDateTime": "2022-03-26T05:15:00+05:30",
+          "normalizedUtcInstant": "2022-03-25T23:45:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-jupiter-2023-window-1",
+      "planet": "Jupiter",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1253405&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 1, 2023",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "18:47",
+          "normalizedLocalDateTime": "2023-04-01T18:47:00+05:30",
+          "normalizedUtcInstant": "2023-04-01T13:17:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 1, 2023",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "28:39+",
+          "normalizedLocalDateTime": "2023-05-02T04:39:00+05:30",
+          "normalizedUtcInstant": "2023-05-01T23:09:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-venus-2021-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2021,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253405&year=2021&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 16, 2021",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "30:06+",
+          "normalizedLocalDateTime": "2021-02-17T06:06:00+05:30",
+          "normalizedUtcInstant": "2021-02-17T00:36:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 18, 2021",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "18:48",
+          "normalizedLocalDateTime": "2021-04-18T18:48:00+05:30",
+          "normalizedUtcInstant": "2021-04-18T13:18:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-venus-2022-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253405&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 6, 2022",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "17:47",
+          "normalizedLocalDateTime": "2022-01-06T17:47:00+05:30",
+          "normalizedUtcInstant": "2022-01-06T12:17:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 10, 2022",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "30:20+",
+          "normalizedLocalDateTime": "2022-01-11T06:20:00+05:30",
+          "normalizedUtcInstant": "2022-01-11T00:50:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-venus-2022-window-2",
+      "planet": "Venus",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2022,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253405&year=2022&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 30, 2022",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "29:26+",
+          "normalizedLocalDateTime": "2022-10-01T05:26:00+05:30",
+          "normalizedUtcInstant": "2022-09-30T23:56:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 20, 2022",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "17:34",
+          "normalizedLocalDateTime": "2022-11-20T17:34:00+05:30",
+          "normalizedUtcInstant": "2022-11-20T12:04:00.000Z",
+          "dayRollover": 0
+        }
+      }
+    },
+    {
+      "id": "drik-1253405-venus-2023-window-1",
+      "planet": "Venus",
+      "sourceLocation": "Varanasi, Uttar Pradesh, India",
+      "sourceCityId": "1253405",
+      "sourcePageYear": 2023,
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1253405&year=2023&time-format=24plushour&lang=en",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "comparisonLevel": "city-label-only",
+      "sourceCapturedAt": "2026-11-14T04:11:38.657Z",
+      "captureRunId": 43555330612,
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 4, 2023",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "19:05",
+          "normalizedLocalDateTime": "2023-08-04T19:05:00+05:30",
+          "normalizedUtcInstant": "2023-08-04T13:35:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 17, 2023",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:07+",
+          "normalizedLocalDateTime": "2023-08-18T05:07:00+05:30",
+          "normalizedUtcInstant": "2023-08-17T23:37:00.000Z",
+          "dayRollover": 1
+        }
+      }
+    }
+  ]
+}
