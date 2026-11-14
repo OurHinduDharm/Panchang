@@ -7,7 +7,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPanchangam, Observer } from "@ishubhamx/panchangam-js";
-import { buildVaruniCandidates } from "../special-punya-kaal.mjs";
+import { buildVaruniCandidates, buildMahodayaCandidates } from "../special-punya-kaal.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "data/reviews/special-punya-kaal-2026-2030-candidates.json");
@@ -59,13 +59,15 @@ for (const year of YEARS) {
       masa: monthName(current.masa ?? current.month),
       paksha: current.paksha,
       sunrise: iso(current.sunrise),
+      sunset: iso(current.sunset),
       tithis: intervals(current.tithis),
       nakshatras: intervals(current.nakshatras),
       yogas: intervals(current.yogas)
     };
-    if (!record.sunrise || !record.tithis.length || !record.nakshatras.length || !record.yogas.length) {
+    if (!record.sunrise || !record.sunset || !record.tithis.length || !record.nakshatras.length || !record.yogas.length) {
       diagnostics.push({ date, missing: [
         !record.sunrise ? "sunrise" : null,
+        !record.sunset ? "sunset" : null,
         !record.tithis.length ? "tithis" : null,
         !record.nakshatras.length ? "nakshatras" : null,
         !record.yogas.length ? "yogas" : null
@@ -75,6 +77,7 @@ for (const year of YEARS) {
   }
 }
 const candidates = buildVaruniCandidates(days);
+const mahodayaCandidates = buildMahodayaCandidates(days);
 const output = {
   status: "research-only-not-approved",
   generatedAt: new Date().toISOString(),
@@ -86,7 +89,9 @@ const output = {
   dayCount: days.length,
   diagnostics,
   candidateCount: candidates.length,
-  candidates
+  candidates,
+  mahodayaCandidateCount: mahodayaCandidates.length,
+  mahodayaCandidates
 };
 await fs.mkdir(path.dirname(OUT), { recursive: true });
 await fs.writeFile(OUT, JSON.stringify(output, null, 2) + "\n");
@@ -97,5 +102,7 @@ console.log(JSON.stringify({
   dayCount: output.dayCount,
   diagnostics: output.diagnostics,
   candidateCount: output.candidateCount,
-  candidates: output.candidates
+  candidates: output.candidates,
+  mahodayaCandidateCount: output.mahodayaCandidateCount,
+  mahodayaCandidates: output.mahodayaCandidates
 }, null, 2));
