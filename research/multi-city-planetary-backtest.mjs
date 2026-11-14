@@ -347,10 +347,10 @@ for (const profile of profiles) {
 
 const report = {
   schemaVersion: 2,
-  model: "same-city-conjunction-paired-rise-set-sun-depression-threshold-backtest-v3",
+  model: "same-city-conjunction-paired-rise-set-sun-depression-threshold-backtest-v4-event-instant-calibration",
   sourceDataset: ["data/drik-planetary-reference-2024-2027.json", "research/data/multi-city-guru-shukra-history-2021-2023.json"],
   observerProfiles: "city-observer-profiles.json",
-  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years 2021-2025; source records with unresolved/mismatched conjunction branches are excluded; whole-year leave-one-out threshold stability is reported separately",
+  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years 2021-2025; Sun depression and local geometry are sampled at the actual computed local horizon-event instant, while rounded Drik source instants are retained separately for signed clock-time error; source records with unresolved/mismatched conjunction branches are excluded; whole-year leave-one-out threshold stability is reported separately",
   holdoutPolicy: "2026-2027; no holdout threshold tuning; candidates are generated across the fixed horizon series and paired to conjunctions using branch and side only; reference timestamps are used only after selection to measure error",
   cities: cityReports,
   publicationEligible: false,
