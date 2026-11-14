@@ -116,7 +116,7 @@ function isVyatipata(item) {
 }
 
 function localWeekday(isoDate) {
-  const match = String(isoDate || "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return null;
   return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 6)).getUTCDay();
 }
