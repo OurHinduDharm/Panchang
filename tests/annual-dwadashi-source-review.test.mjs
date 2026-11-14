@@ -492,3 +492,25 @@ test("2030 Chaitra Krishna and Ashwin Shukla reject unsupported Drik Ekadashi-Sh
   assert.deepEqual(ashwin.candidateDates,["2030-10-08"]);
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Krishna Bhishma Dwadashi locally meets the Shravana overlap threshold and stays separate from Shukra Pradosh", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="phalguna-krishna");
+  const source=record.drikSpecialObservances.find(item=>item.referenceDate==="2030-03-01");
+  assert.ok(source);
+  assert.equal(source.status,"local-48-minute-overlap-confirmed-source-review-pending");
+  assert.equal(source.localDwadashiShravanaOverlapMs,3027927);
+  assert.equal(source.localAssessment.result,"qualifying-candidate");
+  assert.equal(source.localAssessment.thresholdMs,48*60*1000);
+  assert.equal(record.shravanaYogaDecision.selectedDate,"2030-03-01");
+  assert.equal(record.shravanaYogaDecision.autoApproved,false);
+  const bhishma=record.observanceDateReviews.find(item=>item.observanceId==="krishna-bhishma");
+  assert.equal(bhishma.selectedDate,"2030-03-01");
+  assert.equal(bhishma.overlapMs,3027927);
+  assert.equal(bhishma.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
