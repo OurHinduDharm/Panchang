@@ -8,7 +8,7 @@ import {
 } from "../monthly-religious-calendar.js";
 
 const approved = (id, date, start, end, status = "approved") => ({
-  id, date, start, end, status, label: id
+  id, date, start, end, status, label: id, type: "varuni"
 });
 
 const records = [
@@ -52,4 +52,12 @@ test("monthly link targets selected month and special punya-kaal anchor", () => 
     buildMonthlyReligiousCalendarUrl("https://example.test/p/masik-vrat-parv.html", 2027, 4),
     "https://example.test/p/masik-vrat-parv.html?year=2027&month=04#special-punya-kaal"
   );
+});
+
+test("Sankranti and unknown event types are excluded from special punya-kaal", () => {
+  const nonSpecial = [
+    { ...approved("sankranti", "2027-04-04", "2027-04-04T04:00:00+05:30", "2027-04-04T05:00:00+05:30"), type: "sankranti" },
+    { ...approved("unknown", "2027-04-04", "2027-04-04T04:00:00+05:30", "2027-04-04T05:00:00+05:30"), type: "other" }
+  ];
+  assert.deepEqual(getApprovedSpecialPunyaKaalForMonth(nonSpecial, 2027, 4), []);
 });
