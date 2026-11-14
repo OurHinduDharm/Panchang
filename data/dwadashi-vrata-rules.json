@@ -1802,5 +1802,17 @@
     "drikPanchangRole": "Named-observance date reference and timing cross-check; never an automatic approval or override of Smarta vrata rules.",
     "conflictResolution": "When calendar dates conflict, apply Smarta vrata rules. Drik Panchang dates remain source references for review and Drik timings may be used, but a listed date must not override the applicable Smarta rule or be auto-approved.",
     "localCalculationRole": "The local Panchanga engine inspects tithi intervals and sunrise observations against the source reference. A candidate remains review-required until the applicable Smarta vrata rule is confirmed."
+  },
+  "generalDwadashiYogas": {
+    "shravana": {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "minimumOverlapMinutes": 48,
+      "paksha": "शुक्ल और कृष्ण दोनों पक्ष",
+      "criterion": "स्थानीय सूर्योदय से अगले सूर्योदय तक द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग कम-से-कम एक मुहूर्त (48 मिनट) हो।",
+      "decisionPolicy": "यह केवल योग-साक्ष्य है। इससे अकेले उपवास-दिन या पारण-दिन तय नहीं होता; स्मार्त एकादशी-व्रत और व्रत-विशेष के नियम अलग जाँचे जाएँ।"
+    }
   }
 }
