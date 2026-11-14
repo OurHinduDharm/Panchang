@@ -233,6 +233,7 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
               sourceUrl:variant.sourceUrl || null,
               month:masa.month,
               paksha:requiredPaksha,
+              adhika:masa.adhika,
               observanceDate:day.date,
               nakshatra:requiredNakshatra,
               tithiStartTime:new Date(tithiStart).toISOString(),
@@ -465,7 +466,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       !!item.adhika === !!group.adhika && group.noonDates.includes(item.observanceDate)
     ).concat(nakshatraMahadwadashiCandidates.filter(item =>
       item.month === group.month && item.paksha === group.paksha &&
-      candidateDates.includes(item.observanceDate)
+      !!item.adhika === !!group.adhika && candidateDates.includes(item.observanceDate)
     ));
     const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries.find(item => item.referenceDate)?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
