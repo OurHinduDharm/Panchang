@@ -126,3 +126,20 @@ The Panchangam engine uses zero-based indices: Shatabhisha = 23 and Shubha nitya
 ## Cross-sunrise candidate audit
 
 The first full-year run revealed that the Panchang engine splits intervals at sunrise. Treating each split as a separate event incorrectly assigned a pre-dawn Sunday fragment to the preceding Saturday. The candidate builder now joins adjacent same-index intervals across sunrise boundaries before intersecting tithi and nakshatra. It derives the Varuni civil date from the actual local overlap start and applies Saturday upgrades only to the actual Saturday portion. This correction is covered by a 2027-04-04 fixture matching the independently published 04:27–16:32 IST conjunction window.
+
+
+## 2026–2030 first candidate scan — internal only
+
+Pithoragarh / Asia-Kolkata, Purnimanta, pinned Panchangam engine; all intervals below remain `research-candidate`, not public-approved:
+
+| Gregorian date (local start) | Exact overlap (IST) | Current classification |
+|---|---|---|
+| 17 Mar 2026 | 06:22:08–09:23:26 | वारुणी candidate |
+| 04 Apr 2027 | 04:26:57–16:32:55 | वारुणी candidate |
+| 23–24 Mar 2028 | 11:22:19–05:33:52 (next day) | वारुणी candidate |
+| 31 Mar 2030 | 00:42:52–19:49:26 | वारुणी candidate |
+| 2029 | no conjunction found | no candidate |
+
+The 2027 overlap agrees to the minute with an independent published computation (04:27–16:32 IST). The 2028 overlap also agrees to the minute (23 March 11:22 to 24 March 05:33 IST), but that source explicitly leaves the sunrise-based observance date unsettled because the tithi ends only minutes before the next sunrise. These matches validate the interval intersection, not the complete source tradition or public observance date.
+
+A 2026 public article calls the event “Maha Varuni” even though 17 March 2026 is Tuesday, while the chosen Smarta profile reserves Mahavaruni for the Saturday conjunction. This is a nomenclature/source-profile conflict; do not silently upgrade the 2026 candidate. The 2030 candidate and the 2029 absence still require independent date-wise cross-check. Keep all rows research-only until those checks are complete.
