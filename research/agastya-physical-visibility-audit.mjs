@@ -95,9 +95,13 @@ export function findGeometricHorizonCrossing({astronomy,observer,instant,directi
     if(beforeSide){lo=mid;loAlt=midAlt;}else{hi=mid;hiAlt=midAlt;}
   }
   const crossing=new Date((lo.getTime()+hi.getTime())/2);
+  const horizontal=getCanopusHorizontalPosition({astronomy,observer,instant:crossing,refraction:null});
+  const azimuthDeg=horizontal.azimuthDeg;
+  const horizonDirection=azimuthDeg<180?"पूर्वी क्षितिज":"पश्चिमी क्षितिज";
   return Object.freeze({
     direction,instant:crossing.toISOString(),localDate:localDate(crossing),localTime:localClock(crossing),
     errorMinutes:(crossing.getTime()-reference.getTime())/60_000,
+    azimuthDeg,horizonDirection,
     geometricAltitudeBeforeDeg:loAlt,geometricAltitudeAfterDeg:hiAlt,
     precisionSeconds
   });
