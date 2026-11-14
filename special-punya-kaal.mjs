@@ -97,25 +97,82 @@ function isShubha(item) {
   return index === 22;
 }
 
-function localWeekday(isoDate) {
-  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return null;
-  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 6)).getUTCDay();
+function localDate(value, timezoneOffsetMinutes = 330) {
+  return new Date(value + timezoneOffsetMinutes * 60000).toISOString().slice(0, 10);
 }
 
-function toIso(value) {
-  return new Date(value).toISOString();
+function weekdaySegments(interval, weekday, timezoneOffsetMinutes = 330) {
+  const offset = timezoneOffsetMinutes * 60000;
+  const localStart = interval.start + offset;
+  const localEnd = interval.end + offset;
+  let dayStart = Math.floor(localStart / 86400000) * 86400000;
+  const segments = [];
+  while (dayStart < localEnd) {
+    if (new Date(dayStart).getUTCDay() === weekday) {
+      const start = Math.max(interval.start, dayStart - offset);
+      const end = Math.min(interval.end, dayStart + 86400000 - offset);
+      if (end > start) {
+        segments.push({
+          date: new Date(dayStart).toISOString().slice(0, 10),
+          start,
+          end
+        });
+      }
+    }
+    dayStart += 86400000;
+  }
+  return segments;
+}
+
+function collectIntervals(days, field, predicate, options = {}) {
+  const rows = [];
+  for (const day of days) {
+    if (options.requireChaitra && !isChaitra(day)) continue;
+    const items = normalizeTransitionIntervals(day?.[field]);
+    for (const item of items) {
+      if (!predicate(item)) continue;
+      const interval = intervalOf(item);
+      if (!interval) continue;
+      const rawKey = item?.index ?? item?.name ?? item?.label ?? "";
+      rows.push({ ...interval, key: String(rawKey) });
+    }
+  }
+
+  rows.sort((a, b) => a.start - b.start || a.end - b.end);
+  const merged = [];
+  for (const item of rows) {
+    const previous = merged[merged.length - 1];
+    if (previous && previous.key === item.key && item.start <= previous.end + 60000) {
+      previous.end = Math.max(previous.end, item.end);
+    } else {
+      merged.push({ ...item });
+    }
+  }
+  return merged;
+}
+
+function addCandidate(candidates, interval, label, date, tradition) {
+  candidates.push({
+    date,
+    labels: [label],
+    startTime: toIso(interval.start),
+    endTime: toIso(interval.end),
+    status: "research-candidate",
+    location: "Pithoragarh",
+    timezone: "Asia/Kolkata",
+    ruleProfile: tradition
+  });
 }
 
 /**
- * Input: consecutive local Hindu-day records:
- * { date, masa, paksha, sunrise, nextSunrise,
- *   tithis:[{index,name,paksha,startTime,endTime}],
- *   nakshatras:[{index,name,startTime,endTime}],
- *   yogas:[{index,name,startTime,endTime}] }
+ * Input: consecutive local Hindu-day records generated from the Purnimanta
+ * Panchangam engine. Day arrays may split one tithi/nakshatra/yoga at sunrise;
+ * same-index intervals are therefore rejoined across adjacent day records
+ * before the actual astronomical conjunction is calculated.
  *
- * Dates should be generated from Panchangam at Pithoragarh with IST (+330).
- * Returns research candidates, not approved religious determinations.
+ * Returns research candidates only. Weekday labels are based on the local
+ * civil Saturday portions of the true overlap, never on the preceding
+ * sunrise-day record's date.
  */
 export function buildVaruniCandidates(days, options = {}) {
   if (!Array.isArray(days)) throw new TypeError("days must be an array");
@@ -123,50 +180,28 @@ export function buildVaruniCandidates(days, options = {}) {
   if (tradition !== "chaitra-krishna-trayodashi-shatabhisha") {
     throw new RangeError("Unsupported Varuni tradition profile");
   }
+  const timezoneOffsetMinutes = Number(options.timezoneOffsetMinutes ?? 330);
+  if (!Number.isFinite(timezoneOffsetMinutes)) throw new TypeError("timezoneOffsetMinutes must be finite");
 
+  const tithis = collectIntervals(days, "tithis", item => isTrayodashi(item) && isKrishna(item), { requireChaitra: true });
+  const nakshatras = collectIntervals(days, "nakshatras", isShatabhisha);
+  const yogas = collectIntervals(days, "yogas", isShubha);
   const candidates = [];
-  const addCandidate = (day, interval, label) => {
-    candidates.push({
-      date: day.date,
-      labels: [label],
-      startTime: toIso(interval.start),
-      endTime: toIso(interval.end),
-      status: "research-candidate",
-      location: "Pithoragarh",
-      timezone: "Asia/Kolkata",
-      ruleProfile: tradition
-    });
-  };
 
-  for (const day of days) {
-    if (!day?.date || !isChaitra(day)) continue;
-    const sunrise = validTime(day.sunrise);
-    const nextSunrise = validTime(day.nextSunrise);
-    if (sunrise === null || nextSunrise === null || nextSunrise <= sunrise) continue;
-    const weekday = localWeekday(day.date);
-    if (weekday === null) continue;
+  for (const tithi of tithis) {
+    for (const nakshatra of nakshatras) {
+      const base = intersect(tithi, nakshatra);
+      if (!base) continue;
 
-    const tithis = normalizeTransitionIntervals(day.tithis).filter(isTrayodashi).filter(item => isKrishna(item, day));
-    const nakshatras = normalizeTransitionIntervals(day.nakshatras).filter(isShatabhisha);
-    const yogas = normalizeTransitionIntervals(day.yogas).filter(isShubha);
+      addCandidate(candidates, base, "वारुणी योग", localDate(base.start, timezoneOffsetMinutes), tradition);
 
-    for (const tithi of tithis) {
-      const tithiInterval = intervalOf(tithi);
-      if (!tithiInterval) continue;
-      for (const nakshatra of nakshatras) {
-        const nakshatraInterval = intervalOf(nakshatra);
-        if (!nakshatraInterval) continue;
-        const base = intersect(tithiInterval, nakshatraInterval, { start: sunrise, end: nextSunrise });
-        if (!base) continue;
-
-        addCandidate(day, base, "वारुणी योग");
-        if (weekday === 6) {
-          addCandidate(day, base, "महावारुणी योग");
-          for (const yoga of yogas) {
-            const yogaInterval = intervalOf(yoga);
-            if (!yogaInterval) continue;
-            const mahavaruni = intersect(base, yogaInterval);
-            if (mahavaruni) addCandidate(day, mahavaruni, "महामहावारुणी योग");
+      const saturdays = weekdaySegments(base, 6, timezoneOffsetMinutes);
+      for (const saturday of saturdays) {
+        addCandidate(candidates, base, "महावारुणी योग", saturday.date, tradition);
+        for (const yoga of yogas) {
+          const overlap = intersect(base, yoga, saturday);
+          if (overlap) {
+            addCandidate(candidates, overlap, "महामहावारुणी योग", saturday.date, tradition);
           }
         }
       }
@@ -175,6 +210,7 @@ export function buildVaruniCandidates(days, options = {}) {
 
   return candidates.sort((a, b) =>
     a.startTime.localeCompare(b.startTime) ||
+    a.date.localeCompare(b.date) ||
     a.labels[0].localeCompare(b.labels[0], "hi")
   );
 }
