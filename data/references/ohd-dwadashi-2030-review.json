@@ -71,7 +71,7 @@
             "result": "not-qualified",
             "overlapMs": 0,
             "thresholdMs": 2880000,
-            "dwanashiIntervalIST": {
+            "dwadashiIntervalIST": {
               "start": "2030-03-30T00:34:51.604+05:30",
               "end": "2030-03-31T00:42:52.860+05:30"
             },
@@ -1228,7 +1228,7 @@
             "result": "not-qualified",
             "overlapMs": 0,
             "thresholdMs": 2880000,
-            "dwanashiIntervalIST": {
+            "dwadashiIntervalIST": {
               "start": "2030-10-07T16:31:39.907+05:30",
               "end": "2030-10-08T15:50:29.356+05:30"
             },
