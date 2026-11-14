@@ -19,11 +19,11 @@
   ],
   "scan": {
     "dayCount": 1826,
-    "panchangCalls": 3652,
+    "panchangCalls": 1826,
     "diagnostics": [],
     "candidateCount": 4
   },
-  "ruleProfile": "smarta-kalanirnaya-sindhu-chaitra-krishna-trayodashi-shatabhisha",
+  "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha",
   "candidates": [
     {
       "date": "2026-03-17",
@@ -34,7 +34,8 @@
       "endTime": "2026-03-17T03:53:26.360Z",
       "status": "research-candidate",
       "location": "Pithoragarh",
-      "timezone": "Asia/Kolkata"
+      "timezone": "Asia/Kolkata",
+      "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha"
     },
     {
       "date": "2027-04-04",
@@ -45,7 +46,8 @@
       "endTime": "2027-04-04T11:02:55.133Z",
       "status": "research-candidate",
       "location": "Pithoragarh",
-      "timezone": "Asia/Kolkata"
+      "timezone": "Asia/Kolkata",
+      "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha"
     },
     {
       "date": "2028-03-23",
@@ -57,7 +59,8 @@
       "status": "research-candidate",
       "location": "Pithoragarh",
       "timezone": "Asia/Kolkata",
-      "reviewNote": "Overlap ends only minutes before 24 March sunrise; calendar observance date unresolved."
+      "reviewNote": "Overlap ends only minutes before 24 March sunrise; calendar observance date unresolved.",
+      "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha"
     },
     {
       "date": "2030-03-31",
@@ -69,7 +72,8 @@
       "status": "research-candidate",
       "location": "Pithoragarh",
       "timezone": "Asia/Kolkata",
-      "reviewNote": "Independent date-wise cross-check pending."
+      "reviewNote": "Independent date-wise cross-check pending.",
+      "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha"
     }
   ],
   "yearsWithoutCandidate": [
@@ -80,5 +84,6 @@
     "2027 and 2028 overlap intervals agree with an independent published calculation to the minute.",
     "2026 has a source nomenclature conflict: one source calls it Maha Varuni despite Tuesday; the selected Smarta profile requires Saturday for Mahavaruni.",
     "No Mahavaruni or Mahamahavaruni label was assigned in this first scan."
-  ]
+  ],
+  "sourceProfile": "smarta-kalanirnaya-sindhu"
 }
