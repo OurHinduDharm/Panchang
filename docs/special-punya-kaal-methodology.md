@@ -218,3 +218,16 @@ Automated reference regression tests now pin representative 2026, 2027 and 2028 
 ## Mahodaya first annual scan
 
 The Pithoragarh/Purnimanta scan covered all 1,826 days in 2026–2030 with no missing sunrise, sunset, tithi, nakshatra or yoga intervals. Under the specific Somavati profile (Pausha/Magha Amavasya + Monday + Shravana + Vyatipata, all overlapping in daylight), it found **zero** candidates in these five years. Therefore the Mahodaya section must remain hidden for this range; do not manufacture an entry from the rejected “one factor missing” interpretation. The rule engine and synthetic boundary tests are present so future years can be scanned consistently.
+
+
+## करणकुतूहल पाताधिकार — source-based implementation requirements
+
+The primary computational reference is **भास्कराचार्यकृत करणकुतूहल, पाताधिकार (अध्याय 9)**, not the ordinary nitya-yoga calculation. The checked Hindi/Sanskrit edition gives these distinct steps:
+
+1. **Mean pāta and type:** tropical Sun–Moon longitude sum of 6 rāśis (180°) → Vyatipata; 12 rāśis (360°) → Vaidhriti. A true pāta is possible only when the corrected declinations reach equality.
+2. **True pāta correction:** use the 24-position signed kranti-khanda and shara-khanda sequences. The six base kranti values are 362, 349, 299, 236, 150, 52; the six base shara values are 70, 65, 54, 43, 29, 19. Expand each forward/reverse with the prescribed dhan/ṛṇa signs; do not use a plain longitude-sum timestamp as the true midpoint.
+3. **Pāta midpoint:** calculate the remaining shara/kranti segments and interpolate the true equal-declination midpoint. Retain multiple crossings near solstice and select the crossing according to the mean-pāta relation, preserving the others for review.
+4. **Sparsha–moksha sthiti:** derive the duration from the अशुद्ध शरखण्ड using the chapter's 220 divisor, then apply it before and after the true midpoint. The shloka 12–14 shuddha-khanda tests must be applied; if the shara threshold is exceeded, mark no pāta rather than forcing a time.
+5. **Modern comparison only:** the current Astronomy Engine model independently finds the apparent disk-overlap interval and is useful for regression checks, but it must not replace the above table-based method in the final public calculator.
+
+This is the acceptance target for the next Mahapata implementation pass. The current model's 2026–2030 candidate windows remain research-only until the classical table method is implemented and reconciled.
