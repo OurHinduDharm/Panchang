@@ -131,44 +131,56 @@ A complete scan has now been located and opened:
 - Includes Sumatiharṣa's *Gaṇakakumudakaumudī*, Sudhākara Dvivedī's *Vāsanāvibhūṣaṇa*, and the *Śivamatī* Hindi translation.
 - Public scan: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
 - Printed chapter 6 is Udayāsta-adhikāra. Its contents identify separate sections for Guru, Shukra, motion/retrogression, Bhīma/Guru/Shani timing, Mercury/Venus, elapsed/future days, kalāṃśa and pāta, special procedures, and Agastya.
-- The scan's extracted text places the relevant planetary procedure at chapter 6, verses 11–14 (printed book pages around 63–66); the Agastya rule is verse 15 (around printed page 66). Verify every OCR reading against the page image before implementation.
+- The searchable Hindi translation/commentary identifies **Guru** in verses 1–2, **Shukra** in verses 3–4, retrograde/forward motion in verse 5, specific event-centre markers in verse 6, elapsed-day corrections in verse 7, and planetary kalāṃśa/pāta values in verse 8. This is materially different from the previously assumed verses 11–14 sequence; the earlier sequence and constants below are withdrawn.
+- The available text extraction is OCR/search indexing, not a verified diplomatic transcription. Use it to guide image inspection, not as production-grade source text.
 
-### Verified Hindi-commentary procedure: planetary verses 11–13
+### Guru — verses 1–2 (OCR-derived Hindi commentary)
 
-The commentary describes the following sequence:
+The commentary's stated procedure is a cyclic ahargaṇa calculation tied to the text's epoch Śaka 1105:
 
-1. Select the event direction from the relevant śīghra-kendra and shift the planet by three rāśis: subtract for the eastern case, add for the western case.
-2. Derive the corresponding declination (krānti); combine it with the observer's terrestrial latitude according to sign/direction to obtain natāṃśa.
-3. Obtain unnataṃśa as 90° minus natāṃśa, then calculate both sine quantities.
-4. Derive the planet's śara from the planet's corrected position/pāta and use the prescribed sine ratio to calculate dṛkkarma.
-5. Apply the sign of dṛkkarma according to event direction and whether śara and natāṃśa are in the same or opposite direction; this yields the dṛk-corrected planet.
-6. Compare the corrected planet with the contemporaneous true Sun through the prescribed lagna construction to obtain the desired kalāṃśa/time quantity.
-7. Compare calculated and prescribed kalāṃśa; convert the difference to days using the Sun/planet true-motion difference, or their sum for retrograde motion, with the text's east/west and elapsed/future sign rules.
+1. Take the elapsed year relative to the text's stated epoch.
+2. Form the ahargaṇa from one copy of that elapsed-year value.
+3. Divide a second copy by 10, add the quotient to the ahargaṇa, subtract 105, and divide by 399.
+4. The OCR commentary says remainder 15 indicates Guru rising; a remainder greater than 348 indicates setting.
+5. Apply a solar-rāśi svodaya correction: take the svodaya for the Sun's current sign, perform the stated 300-based adjustment, multiply the remainder by 15, divide by the svodaya, and add the resulting day-fraction to the Guru rising result.
 
-Do not reduce this sequence to a fixed geocentric elongation threshold. The worked example in the commentary must be transcribed and reproduced before the code is considered verified.
+The exact meaning of “elapsed year”, ahargaṇa epoch origin, remainder intervals, and the solar correction's arithmetic must be checked against the printed verse and worked example. Do not infer all unlisted remainders as continuous visibility states.
 
-### Numeric details recovered from the scan text (OCR; image check still pending)
+### Shukra — verses 3–4 (OCR-derived Hindi commentary)
 
-The searchable text of the 1991 scan gives useful candidate constants. These are transcribed as **OCR-derived candidates**, not yet approved production constants:
+The OCR commentary gives this cyclic calculation:
 
-| Body | Karaṇakutūhala śīghra-kendra event markers in the commentary | Kalāṃśa, direct | Kalāṃśa, retrograde |
-|---|---|---:|---:|
-| Guru | OCR commentary gives eastern rising near 14° and western setting near 346° of the relevant śīghra-kendra; exact reading/role needs page-image confirmation. | 11° | 10° |
-| Shukra | Western rise 24°; western set 177°; eastern rise 183°; eastern set 336°. | 9° | 8° |
-| Agastya | Dedicated verse 15; not part of the planetary śīghra-kendra procedure. | — | — |
+1. Start with ahargaṇa − 125 + (elapsed year / 16).
+2. Divide by 548 and use the remainder to classify the event:
+   - remainder > 36: western rising;
+   - remainder > 287: western setting;
+   - remainder > 217: eastern rising;
+   - remainder > 148: eastern setting.
+3. Apply the solar-rāśi svodaya correction. The commentary says to perform a 300-based adjustment and, for the setting cases, multiply by 35 (western) or 36 (eastern), then divide by the relevant svodaya. The exact sign, order, and whether the same correction is applied to rising cases must be checked against the printed text.
 
-The Guru/Shukra kalāṃśa values above are from the commentary on verse 9. The retrograde values are one degree lower in the OCR text. The Venus event markers are from the commentary on verse 7. Their exact Sanskrit numerals, interpretation, and whether the markers are initial event-location criteria or final boundaries must be checked against the page images and the worked example before implementation.
+The inequalities above overlap if read literally in descending order. Their intended interpretation must be reconstructed as ordered remainder intervals from the original verse/commentary; do not implement these as independent greater-than checks.
 
-### Agastya verse 15
+### Shared motion and event markers — verses 5–8 (OCR-derived)
 
-The searchable scan text gives a separate latitude-dependent solar-longitude rule and a worked example. The OCR appears to combine the observer's latitude with an 18° base quantity for the rising boundary, and to use a corresponding reduced quantity for setting; however, the exact arithmetic and the example's numeral grouping are not sufficiently reliable in OCR to encode. Transcribe the exact Sanskrit verse and Sumatiharṣa commentary from the page image, resolve the latitude term and units, and reproduce the commentary's worked example. This is a dedicated Agastya rule, not the Guru/Shukra planetary algorithm.
+- Verse 5 gives the second śīghra-kendra retrograde/forward transition markers: Guru 125°/235°, Shukra 167°/193°. These are motion-state markers, not visibility thresholds.
+- Verse 6 gives Venus event markers: western rise 24°, western set 177°, eastern rise 183°, eastern set 336°. It also includes Mercury values, which are out of scope and must be ignored.
+- Verse 7 describes converting the angular interval between retrograde/forward transition and current śīghra-kendra into elapsed days using śīghra-kendra motion.
+- Verse 8 lists kalāṃśa values: Guru 11°, Shukra 9°. The OCR's further list is out of scope. The text extraction does not yet prove that a separate retrograde kalāṃśa of 10°/8° applies; the earlier claim of 10°/8° is withdrawn pending image verification.
+
+### Agastya — dedicated rule (verse/page identification pending)
+
+The Agastya section exists in chapter 6's contents/commentary, but the searchable OCR snippets recovered so far do not reliably establish its exact verse number or full arithmetic. Earlier claims of an “18° ± latitude/8” rule and related field-angle numbers are withdrawn until the page image and worked example are inspected. Keep the existing source-backed traditional Agastya Arghya records separate from a computed Canopus geometric/heliacal event.
+
+### Critical implementation consequence
+
+The Karaṇakutūhala Guru/Shukra method is not simply a modern topocentric ephemeris threshold. It appears to be a cyclic traditional calendar algorithm using ahargaṇa, elapsed years, śīghra-kendra state, and solar-sign svodaya corrections. Implement it as a separate classical engine only after exact verse transcription and example reproduction. In parallel, continue the modern local-horizon/visibility engine for location-specific date/time output and compare it with Drik. Do not force the classical result to mimic Drik if the event definitions differ.
 
 ### Important comparison with Sūrya Siddhānta / TKS
 
 TKS's published Udaya-Asta beta page explicitly identifies its primary classical model as Sūrya Siddhānta chapter 9's lagnāntara-asu method, with visibility condition K = lagnāntara-asu / 60 > C. It separately exposes arcus-visionis and Schaefer physical-visibility models. Thus Karaṇakutūhala is a valuable independent classical comparator, but it is not automatically more likely to reproduce TKS, whose declared primary model is already Sūrya-Siddhānta-based.
 
-The commentary's kalāṃśa list appears to differ from the TKS/Sūrya-Siddhānta list for several planets and motion cases (notably Venus and Mercury); parse the complete Sanskrit and direction/retrograde rules before producing a machine-readable comparison. Never compare only a planet-wide number without its event direction and motion state.
+The currently recovered Karaṇakutūhala kalāṃśa values (Guru 11°, Shukra 9°) and cyclic event rules must be compared with TKS/Drik only after image-verified interpretation. Never compare only a planet-wide number without its event direction, motion state, location, and event definition.
 
 ### Corrected source blocker
 
-The scan is available at the URL above. The remaining blocker is image-verified transcription and interpretation of the three-body procedures, including unit/sign conventions and worked examples. Until those checks pass, Karaṇakutūhala calculations remain research-only.
+The scan and useful searchable OCR are available. The immediate next task is image verification of the Guru/Shukra verses 1–8 and the dedicated Agastya section, then reproduction of the printed examples. Until these checks pass, Karaṇakutūhala calculations remain research-only.
