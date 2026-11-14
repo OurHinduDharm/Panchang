@@ -143,3 +143,16 @@ Pithoragarh / Asia-Kolkata, Purnimanta, pinned Panchangam engine; all intervals 
 The 2027 overlap agrees to the minute with an independent published computation (04:27–16:32 IST). The 2028 overlap also agrees to the minute (23 March 11:22 to 24 March 05:33 IST), but that source explicitly leaves the sunrise-based observance date unsettled because the tithi ends only minutes before the next sunrise. These matches validate the interval intersection, not the complete source tradition or public observance date.
 
 A 2026 public article calls the event “Maha Varuni” even though 17 March 2026 is Tuesday, while the chosen Smarta profile reserves Mahavaruni for the Saturday conjunction. This is a nomenclature/source-profile conflict; do not silently upgrade the 2026 candidate. The 2030 candidate and the 2029 absence still require independent date-wise cross-check. Keep all rows research-only until those checks are complete.
+
+
+## Mahapata rule interpretation and modern comparison
+
+The Mahapata section must show only the computed beginning and ending of the subtle Kranti-Samya interval. It must not mark the whole tithi, nakshatra, or civil day as prohibited. During this interval, mantra-japa, tantra-sadhana, snana, dana, shraddha, vrata, worship and homa are described as meritorious; the restriction on marriage and other auspicious samskaras applies only to this Mahapata interval. Do not copy severe or fatalistic source language into the public UI.
+
+The Drik Kranti-Samya page independently confirms that:
+- the exact start/end interval is the relevant interval, not the entire day;
+- Mahapata Vyatipata and Mahapata Vaidhriti are distinct from the ordinary 27 nitya-yogas;
+- mantra and tantra practice are permitted during the interval;
+- its published windows are local-time display values.
+
+The new `scripts/compare-mahapat-ephemeris.mjs` computes a research-only geocentric apparent declination-band overlap using the Astronomy Engine vectors and apparent solar/lunar semidiameters. It is a numerical comparison model, not yet the accepted classical engine. Its output is archived separately and must be compared against the Karana-Kutuhala shara-khanda method and the Drik 2026–2030 windows. Do not expose its output publicly or use it as final times until the classical contact definition is reconciled.
