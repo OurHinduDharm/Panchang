@@ -22,6 +22,7 @@ import {
   expectedBoundaryEventType,
   pairCandidatesAroundConjunctions
 } from "./planetary-conjunction-association.mjs";
+import { leaveOneYearOutThresholdAudit } from "./threshold-crossvalidation.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
