@@ -31,6 +31,8 @@ on:
       - "research/planetary-city-backtest.mjs"
       - "research/city-observer-profiles.mjs"
       - "research/multi-city-planetary-backtest.mjs"
+      - "research/holdout-error-audit.mjs"
+      - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "tests/planetary-conjunction-association.test.mjs"
       - "research/pithoragarh-horizon-thresholds-2021-2025.json"
