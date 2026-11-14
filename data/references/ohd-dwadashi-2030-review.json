@@ -108,7 +108,42 @@
         "preserveNamedDwadashi": true,
         "publicDateChanged": false,
         "namedDwadashiDateReview": "कृष्ण-नृसिंह द्वादशी का 29 मार्च स्रोत-दिन और 30 मार्च सूर्योदय-दिन अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
-      }
+      },
+      "observanceDateReviews": [
+        {
+          "observanceId": "krishna-narasimha",
+          "name": "कृष्ण नृसिंह द्वादशी",
+          "sourceReferenceDate": "2030-03-29",
+          "selectedDate": "2030-03-30",
+          "decisionStatus": "local-sunrise-dwadashi-day-confirmed-source-review-pending",
+          "source": "Drik Panchang 2030 Dwadashi list; PanchangTime Krishna Narasimha Dwadashi 2026–2030",
+          "sourceCrossCheck": {
+            "drikReferenceDate": "2030-03-29",
+            "drikTithiStart": "2030-03-30T00:34:00+05:30",
+            "drikTithiEnd": "2030-03-31T00:42:00+05:30",
+            "panchangTimeDate": "2030-03-30",
+            "panchangTimeRule": "पापमोचनी एकादशी पर पूर्व-दिन उपवास; अगले दिन चैत्र कृष्ण द्वादशी पर नृसिंह-पूजन; यह पारण-दिन भी है।"
+          },
+          "localTithiIntervalIST": {
+            "start": "2030-03-30T00:34:51.604+05:30",
+            "end": "2030-03-31T00:42:52.860+05:30"
+          },
+          "localDayEvidence": {
+            "date": "2030-03-30",
+            "sunrise": "2030-03-30T06:01:49.178+05:30",
+            "sunriseTithi": "द्वादशी",
+            "noonTithi": "द्वादशी",
+            "followingSunriseDate": "2030-03-31",
+            "followingSunriseTithi": "त्रयोदशी"
+          },
+          "vrataDate": "2030-03-29",
+          "observanceAndParanaDate": "2030-03-30",
+          "localDayDecision": "29 मार्च के सूर्योदय पर एकादशी है। द्वादशी 30 मार्च 00:34:51 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न दोनों पर उपस्थित रहती है; 31 मार्च के सूर्योदय से पहले समाप्त हो जाती है। इसलिए नृसिंह-पूजन/द्वादशी-दिवस 30 मार्च है, जबकि पूर्व-दिन पापमोचनी एकादशी-व्रत 29 मार्च और उसका पारण 30 मार्च है।",
+          "publicCardDisposition": "separate-30-march-krishna-narasimha-dwadashi-card",
+          "autoApproved": false
+        }
+      ],
+      "sourceDateDecisionNote": "Drik की annual list में कृष्ण नृसिंह द्वादशी का source-reference 29 मार्च है, पर वास्तविक स्थानीय द्वादशी 30 मार्च 00:34 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न में उपस्थित रहती है। PanchangTime भी 2030 के लिए 30 मार्च को नृसिंह-द्वादशी/पारण-दिन रखता है। इसलिए सार्वजनिक द्वादशी-दिन 30 मार्च है; 29 मार्च पापमोचनी एकादशी-व्रत-दिन है।"
     },
     {
       "id": "chaitra-shukla",

@@ -307,6 +307,19 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-03-30",
+      "dateLabel": "30 मार्च",
+      "title": "कृष्ण नृसिंह द्वादशी",
+      "description": "पापमोचनी एकादशी के अगले दिन चैत्र कृष्ण द्वादशी पर भगवान नृसिंह का पूजन करें। यह पापमोचनी एकादशी का पारण-दिन भी है; पारण स्थानीय द्वादशी और हरिवासर के नियम से करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 द्वादशी सूची; PanchangTime — कृष्ण नृसिंह द्वादशी",
+      "associatedEkadashiDate": "2030-03-29",
+      "paranaDate": "2030-03-30"
+    },
+    {
       "date": "2030-03-31",
       "dateLabel": "31 मार्च",
       "title": "रवि प्रदोष व्रत",

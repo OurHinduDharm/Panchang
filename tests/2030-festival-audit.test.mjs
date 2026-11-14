@@ -113,6 +113,13 @@ test("2030 same-tithi festival observances preserve distinct cards where require
   assert.equal(shukraPradosh.muhurtaRule,"pradosh-kala");
   assert.equal(has("2030-03-01", /कृष्ण भीष्म द्वादशी.*शुक्र प्रदोष/),undefined);
   assert.ok(has("2030-03-16", /नृसिंह द्वादशी/));
+  const krishnaNarasimha=has("2030-03-30", /^कृष्ण नृसिंह द्वादशी$/);
+  assert.ok(krishnaNarasimha);
+  assert.equal(krishnaNarasimha.hinduTithi,"चैत्र कृष्ण द्वादशी");
+  assert.equal(krishnaNarasimha.associatedEkadashiDate,"2030-03-29");
+  assert.equal(krishnaNarasimha.paranaDate,"2030-03-30");
+  assert.equal(krishnaNarasimha.muhurtaRule,undefined);
+  assert.equal(has("2030-03-29", /^कृष्ण नृसिंह द्वादशी$/),undefined);
   assert.ok(has("2030-03-26", /^शीतला अष्टमी \/ बसोड़ा$/));
   assert.ok(has("2030-03-26", /^मासिक कालाष्टमी$/));
   assert.equal(has("2030-03-26", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
@@ -340,7 +347,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 23);
-  assert.equal(months[2].events.length, 24);
+  assert.equal(months[2].events.length, 25);
   assert.equal(months[8].events.length, 34);
   assert.equal(oct.length, 36);
   assert.equal(nov.length, 26);
@@ -396,7 +403,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 302);
+  assert.equal(events.length, 303);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
