@@ -25,7 +25,11 @@ const IST_OFFSET_MS = 330 * 60000;
 const YEARS = [2026, 2027, 2028, 2029, 2030];
 const cache = new Map();
 
-function toIST(value) {\n  return new Date(value + IST_OFFSET_MS).toISOString().replace("Z", "+05:30");\n}\n\nfunction normDegrees(value) {
+function toIST(value) {
+  return new Date(value + IST_OFFSET_MS).toISOString().replace("Z", "+05:30");
+}
+
+function normDegrees(value) {
   return ((value % 360) + 360) % 360;
 }
 function vectorLength(v) {
