@@ -11,14 +11,23 @@
     {
       "date": "2030-03-01",
       "dateLabel": "1 मार्च",
-      "title": "कृष्ण भीष्म द्वादशी / शुक्र प्रदोष व्रत",
-      "description": "कृष्ण भीष्म द्वादशी पर पितामह भीष्म का स्मरण और उनके निमित्त तर्पण किया जाता है। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा, व्रत और दीपदान की परंपरा है।",
+      "title": "कृष्ण भीष्म द्वादशी",
+      "description": "कृष्ण भीष्म द्वादशी पर भगवान विष्णु का पूजन, व्रत और दान करें। पितामह भीष्म का स्मरण एवं तर्पण भी किया जाता है। इस दिन द्वादशी और श्रवण नक्षत्र का एक मुहूर्त से अधिक संयोग होने से श्रवण योग द्वादशी भी है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण द्वादशी / त्रयोदशी",
-      "sourceName": "Drik Panchang — 2030 March Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030",
+      "hinduTithi": "फाल्गुन कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 Krishna Bhishma Dwadashi"
+    },
+    {
+      "date": "2030-03-01",
+      "dateLabel": "1 मार्च",
+      "title": "शुक्र प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव का पूजन, व्रत और दीपदान करें। शुक्रवार को पड़ने से इसे शुक्र प्रदोष कहा जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण त्रयोदशी",
       "muhurtaRule": "pradosh-kala"
     },
     {
