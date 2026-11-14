@@ -51,6 +51,6 @@ export const MAHAPATA_SOURCE_CONSTANTS = Object.freeze({
   bhogyaCorrectionDivisor: 13,
   shuddhaKhandaLimit: 480,
   sthitiDivisorHindiTranslation: 220,
-  alternativeSthitiSubtrahend: 48,
+  alternativeSthitiSubtrahend: 480,
   alternativeSthitiMultiplier: 9
 });
