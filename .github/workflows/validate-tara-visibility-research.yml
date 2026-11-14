@@ -26,6 +26,7 @@ on:
       - "planetary-city-horizon-threshold.mjs"
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
+      - "research/city-observer-profiles.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "tests/planetary-conjunction-association.test.mjs"
       - "research/pithoragarh-horizon-thresholds-2021-2025.json"
