@@ -19,6 +19,7 @@ const SHATABHISHA_NAMES = new Set(["शतभिषा", "शतभिषक्"
 const SHUBHA_NAMES = new Set(["शुभ", "Shubha"]);
 
 function validTime(value) {
+  if (value === null || value === undefined || value === "") return null;
   const time = value instanceof Date ? value.getTime() : new Date(value).getTime();
   return Number.isFinite(time) ? time : null;
 }
