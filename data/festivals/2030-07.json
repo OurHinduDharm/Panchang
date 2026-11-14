@@ -308,12 +308,12 @@
     {
       "date": "2030-07-26",
       "dateLabel": "26 जुलाई",
-      "title": "कामिका एकादशी (स्मार्त) / कृष्ण वासुदेव द्वादशी",
-      "description": "स्मार्त परंपरा में श्रावण कृष्ण एकादशी पर भगवान विष्णु का पूजन, तुलसी-दल अर्पण, व्रत, जप और दान करें। द्वादशी तिथि की व्याप्ति में कृष्ण वासुदेव द्वादशी का पूजन भी करें। पारण अगले दिन द्वादशी-व्याप्ति और हरिवासर की समाप्ति के बाद करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "कामिका एकादशी (स्मार्त)",
+      "description": "स्मार्त परंपरा में श्रावण कृष्ण एकादशी पर भगवान विष्णु का पूजन, तुलसी-दल अर्पण, व्रत, जप और दान करें। पारण अगले दिन स्थानीय द्वादशी-व्याप्ति और हरिवासर की समाप्ति के बाद करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण कृष्ण एकादशी / द्वादशी व्याप्ति",
+      "hinduTithi": "श्रावण कृष्ण एकादशी",
       "sourceName": "Drik Panchang — जुलाई 2030 पर्व सूची",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030",
       "muhurtaRule": "ekadashi-parana",
@@ -321,6 +321,18 @@
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2030-07-26",
+      "dateLabel": "26 जुलाई",
+      "title": "कृष्ण वासुदेव द्वादशी",
+      "description": "श्रावण कृष्ण द्वादशी पर वैष्णव परंपरा में भगवान वासुदेव का पूजन, तुलसी-दल, पुष्प और नैवेद्य अर्पित करने तथा विष्णु-नाम-जप की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — Krishna Vasudeva Dwadashi",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030"
     },
     {
       "date": "2030-07-27",
