@@ -17,6 +17,8 @@ on:
       - "tests/pac-heliacal-reference.test.mjs"
       - "research/multi-city-planetary-backtest.mjs"
       - "research/holdout-error-audit.mjs"
+      - "research/threshold-crossvalidation.mjs"
+      - "tests/threshold-crossvalidation.test.mjs"
       - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
@@ -37,6 +39,8 @@ on:
       - "data/pac-heliacal-reference-central-station-2026-2027.json"
       - "tests/pac-heliacal-reference.test.mjs"
       - "research/holdout-error-audit.mjs"
+      - "research/threshold-crossvalidation.mjs"
+      - "tests/threshold-crossvalidation.test.mjs"
       - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "tests/planetary-conjunction-association.test.mjs"
@@ -75,6 +79,7 @@ jobs:
           node --test tests/agastya-canopus-position.test.mjs
           node --test tests/holdout-error-audit.test.mjs
           node --test tests/pac-heliacal-reference.test.mjs
+          node --test tests/threshold-crossvalidation.test.mjs
       - name: Resolve five city-centre observer coordinates and DEM elevations
         run: node research/city-observer-profiles.mjs --snapshot data/city-observer-profiles-2026-11-14.json --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
