@@ -14,7 +14,7 @@ function validInstant(value) {
 }
 
 function isPublicApprovedRecord(record) {
-  if (!record || record.status !== "approved" || !validDate(record.date)) return false;
+  if (!record || record.status !== "approved" || !validDate(record.date)) return false;\n  if (!ALLOWED_TYPES.has(record.type)) return false;
   if (typeof record.id !== "string" || !record.id.trim()) return false;
   if (typeof record.label !== "string" || !record.label.trim()) return false;
   if (!validInstant(record.start) || !validInstant(record.end)) return false;
