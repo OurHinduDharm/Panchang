@@ -390,3 +390,33 @@ test("real Pithoragarh 2030 August and May cases do not inherit false Unmilini o
     "24/25 August do not have Ekadashi at both consecutive local sunrises");
 });
 
+
+
+test("2030 general Shravana Yoga Dwadashi annual evidence stays review-only and within the year", async () => {
+  const review = JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const audit = review.generalDwadashiYogaReview;
+  assert.ok(audit);
+  assert.equal(audit.calculation.observedVrataDays,48);
+  assert.equal(audit.calculation.minimumOverlapMs,48*60*1000);
+  assert.ok(audit.observations.every(item=>item.observanceDate.startsWith("2030-")));
+  assert.deepEqual(audit.qualifyingCandidates,["2030-03-01","2030-09-08"]);
+  assert.equal(audit.status,"candidate-evidence-only");
+  assert.equal(audit.autoApproved,false);
+  assert.equal(review.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+  assert.ok(review.tithis.every(item=>item.status==="needs-review"));
+
+  const record = date => audit.observations.find(item=>item.observanceDate===date);
+  assert.equal(record("2030-03-01").overlapMs,3027927);
+  assert.equal(record("2030-03-01").meetsOneMuhurta,true);
+  assert.equal(record("2030-03-29").overlapMs,0);
+  assert.equal(record("2030-03-29").meetsOneMuhurta,false);
+  assert.equal(record("2030-09-08").overlapMs,35514971);
+  assert.equal(record("2030-09-08").meetsOneMuhurta,true);
+  assert.equal(record("2030-09-09").overlapMs,2513945);
+  assert.equal(record("2030-09-09").meetsOneMuhurta,false);
+  assert.equal(record("2030-10-07").overlapMs,0);
+  assert.equal(record("2030-10-07").meetsOneMuhurta,false);
+});
