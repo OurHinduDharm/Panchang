@@ -13,6 +13,8 @@ on:
       - "research/planetary-city-backtest.mjs"
       - "research/city-observer-profiles.mjs"
       - "research/multi-city-planetary-backtest.mjs"
+      - "research/holdout-error-audit.mjs"
+      - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
       - "data/agastya-arghya-pithoragarh.json"
@@ -64,12 +66,15 @@ jobs:
           node --test tests/planetary-conjunction-association.test.mjs
           node --test tests/planetary-city-location.test.mjs
           node --test tests/agastya-canopus-position.test.mjs
+          node --test tests/holdout-error-audit.test.mjs
       - name: Resolve five city-centre observer coordinates and DEM elevations
         run: node research/city-observer-profiles.mjs --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
         run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
       - name: Back-test Guru/Shukra independently for each city
         run: node research/multi-city-planetary-backtest.mjs --profiles city-observer-profiles.json --output multi-city-planetary-backtest.json
+      - name: Audit exact local-date and clock-time holdout errors
+        run: node research/holdout-error-audit.mjs --input multi-city-planetary-backtest.json --output multi-city-planetary-error-audit.json
       - name: Upload city-profile and research-only back-test reports
         uses: actions/upload-artifact@v4
         with:
@@ -78,6 +83,7 @@ jobs:
             city-observer-profiles.json
             planetary-city-backtest.json
             multi-city-planetary-backtest.json
+            multi-city-planetary-error-audit.json
           if-no-files-found: error
       - name: Smoke-test the real Astronomy Engine adapter
         run: |
