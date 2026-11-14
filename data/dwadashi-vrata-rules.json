@@ -212,7 +212,9 @@
           "paksha": "शुक्ल",
           "name": "परशुराम-द्वादशी",
           "deity": "भगवान परशुराम",
-          "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।"
+          "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
+          "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
         },
         {
           "id": "rama",
@@ -655,7 +657,8 @@
             "deity": "भगवान परशुराम",
             "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
             "sourceProfile": "varahaPurana",
-            "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+            "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+            "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
           }
         ],
         "displayNames": [
