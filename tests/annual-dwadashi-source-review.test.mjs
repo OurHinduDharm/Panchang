@@ -614,3 +614,19 @@ test("2030 Krishna Narasimha Dwadashi is dated on the local sunrise Dwadashi day
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Vamana Dwadashi is not mislabeled Vamana Jayanti when Madhyahna Shravana is absent", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const vamana=record.observanceDateReviews.find(item=>item.observanceId==="vamana");
+  assert.equal(vamana.selectedDate,"2030-09-08");
+  assert.equal(vamana.name,"वामन-द्वादशी व्रत");
+  assert.equal(vamana.jayantiRuleConflict.publicDecision,"no-vamana-jayanti-label");
+  assert.match(vamana.jayantiRuleConflict.result,/मध्याह्न के बाद/);
+  assert.equal(vamana.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
