@@ -19,7 +19,9 @@ on:
       - "research/data/multi-city-guru-shukra-history-2021-2023.json"
       - "research/holdout-error-audit.mjs"
       - "research/threshold-crossvalidation.mjs"
+      - "research/azimuth-conditioned-threshold-audit.mjs"
       - "tests/threshold-crossvalidation.test.mjs"
+      - "tests/azimuth-conditioned-threshold-audit.test.mjs"
       - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
@@ -81,10 +83,13 @@ jobs:
           node --test tests/holdout-error-audit.test.mjs
           node --test tests/pac-heliacal-reference.test.mjs
           node --test tests/threshold-crossvalidation.test.mjs
+          node --test tests/azimuth-conditioned-threshold-audit.test.mjs
       - name: Resolve five city-centre observer coordinates and DEM elevations
         run: node research/city-observer-profiles.mjs --snapshot data/city-observer-profiles-2026-11-14.json --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
         run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
+      - name: Audit azimuth-conditioned twilight threshold hypothesis
+        run: node research/azimuth-conditioned-threshold-audit.mjs --input planetary-city-backtest.json --output azimuth-conditioned-threshold-audit.json
       - name: Back-test Guru/Shukra independently for each city
         run: node research/multi-city-planetary-backtest.mjs --profiles city-observer-profiles.json --output multi-city-planetary-backtest.json
       - name: Audit exact local-date and clock-time holdout errors
@@ -97,6 +102,7 @@ jobs:
             city-observer-profiles.json
             data/pac-heliacal-reference-central-station-2026-2027.json
             planetary-city-backtest.json
+            azimuth-conditioned-threshold-audit.json
             research/data/multi-city-guru-shukra-history-2021-2023.json
             multi-city-planetary-backtest.json
             multi-city-planetary-error-audit.json
