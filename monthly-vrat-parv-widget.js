@@ -1387,7 +1387,7 @@
       var observances=Array.isArray(record.observances)?record.observances:[];
       function normalizeName(value){
         return String(value||"").normalize("NFC")
-          .replace(/[\s\-–—।|/.,:;()]+/g,"")
+          .replace(/[\s\-–—।|\/.,:;()]+/g,"")
           .toLocaleLowerCase("hi");
       }
       function isMatchingDwadashiEvent(item){
