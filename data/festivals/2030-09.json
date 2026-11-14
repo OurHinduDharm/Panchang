@@ -238,17 +238,47 @@
     {
       "date": "2030-09-19",
       "dateLabel": "19 सितंबर",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी / महालक्ष्मी व्रत पूर्ण / अष्टमी श्राद्ध",
-      "description": "कृष्ण पक्ष की अष्टमी निशीथ काल में व्याप्त होने पर मासिक कृष्ण जन्माष्टमी का व्रत और रात्रि में श्रीकृष्ण पूजन किया जाता है। इसी दिन कालाष्टमी पर भगवान भैरव की पूजा तथा महालक्ष्मी व्रत का समापन होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"https://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+    },
+    {
+      "date": "2030-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी में निशीथकालीन उपासना का विशेष महत्व है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "muhurtaRule": "janmashtami-nishita",
       "sourceName": "Drik Panchang — 2030 September Festival Calendar",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
+    },
+    {
+      "date": "2030-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "महालक्ष्मी व्रत समापन",
+      "description": "महालक्ष्मी व्रत के समापन पर देवी महालक्ष्मी का पूजन, व्रत-उद्यापन और सामर्थ्य के अनुसार दान करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "अष्टमी श्राद्ध",
+      "description": "पितृपक्ष की अष्टमी तिथि पर दिवंगत पितरों के निमित्त श्रद्धापूर्वक श्राद्ध, तर्पण और ब्राह्मण-भोजन करें।",
+      "category": "श्राद्ध",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)"
     },
     {
       "date": "2030-09-20",
