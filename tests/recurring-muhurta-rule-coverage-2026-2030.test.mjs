@@ -43,3 +43,20 @@ test("Mahashivaratri cards retain both Nishita and four-prahar rules", () => {
     assert.ok(rules.includes("mahashivaratri-four-prahar"), event.date + " four-prahar rule");
   }
 });
+
+
+test("Dhanteras and Chhath muhurta rules never leak onto unrelated cards", () => {
+  const misplaced = events.flatMap(event => {
+    const rules = rulesOf(event);
+    const title = String(event.title || "");
+    const failures = [];
+    if (rules.includes("dhanteras-muhurta") && !/धनतेरस|धन्वन्तरि/.test(title)) {
+      failures.push([event.date, title, "dhanteras-muhurta"]);
+    }
+    if (rules.includes("chhath-arghya") && !/छठ/.test(title)) {
+      failures.push([event.date, title, "chhath-arghya"]);
+    }
+    return failures;
+  });
+  assert.deepEqual(misplaced, []);
+});
