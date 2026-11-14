@@ -67,12 +67,12 @@ try {
           capture.httpStatus = response?.status() ?? null;
           await page.waitForTimeout(450);
           capture.pageTitle = await page.title();
-          const yearMatch = capture.pageTitle.match(/^(20\\d{2})\\b/);
+          const yearMatch = capture.pageTitle.match(/^(20\d{2})\b/);
           capture.renderedYear = yearMatch ? Number(yearMatch[1]) : null;
           const body = await page.locator("body").innerText({ timeout: 15000 });
-          const lines = body.split(/\\r?\\n/).map(line => line.trim()).filter(Boolean);
-          const identityText = `${capture.pageTitle}\\n${body}`;
-          capture.cityConfirmed = new RegExp(city.name.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&"), "i").test(identityText);
+          const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+          const identityText = `${capture.pageTitle}\n${body}`;
+          capture.cityConfirmed = identityText.toLowerCase().includes(city.name.toLowerCase());
           capture.planetConfirmed = target.names.test(identityText);
           capture.requestedYearConfirmed = capture.renderedYear === year;
 
