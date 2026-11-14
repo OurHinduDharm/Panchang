@@ -156,7 +156,9 @@ for (const profile of profiles) {
         horizonEventErrorMinutes: horizon?.errorMinutes ?? null,
         sunDepressionDeg: -geometry.sunAltitudeDeg,
         planetAltitudeDeg: geometry.objectAltitudeDeg,
-        planetAzimuthDeg: geometry.objectAzimuthDeg
+        planetAzimuthDeg: geometry.objectAzimuthDeg,
+        sunAzimuthDeg: geometry.sunAzimuthDeg,
+        apparentMagnitude: geometry.apparentMagnitude
       });
     }
   }
@@ -303,7 +305,7 @@ for (const profile of profiles) {
       elevationResolutionMeters: profile.elevationResolutionMeters
     },
     sourceWindows: rows.length,
-    sourceBoundaries: observations.length,
+    sourceBoundaries: observations.length,\n    sourceObservations: observations,
     trainingYears: "available 2021-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
