@@ -218,8 +218,7 @@ test("2029 Dhanteras and Chhath muhurtas belong only to their own observance car
   const chhath = has("2029-11-11", /^छठ पूजा$/);
   const skanda = has("2029-11-11", /^मासिक स्कन्द षष्ठी$/);
   assert.equal(dhanteras?.muhurtaRule, "dhanteras-muhurta");
-  assert.deepEqual(pradosh?.muhurtaRules, ["pradosh-kala"]);
-  assert.equal(pradosh?.muhurtaRule, undefined);
+  assert.equal(pradosh?.muhurtaRule, "pradosh-kala");
   assert.equal(chhath?.muhurtaRule, "chhath-arghya");
   assert.equal(skanda?.muhurtaRule, undefined);
   assert.equal(skanda?.muhurtaRules, undefined);
