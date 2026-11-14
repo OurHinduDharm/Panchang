@@ -128,12 +128,12 @@ const PROFILES = {
   },
   "ratha-saptami-review": {
     id: "ratha-saptami-review", aliases: ["ratha-saptami", "magha-saptami", "surya-jayanti"],
-    label: "रथ सप्तमी — अरुणोदय के विशेष नियम की जाँच", tithiIndices: [6], paksha: "शुक्ल पक्ष",
-    decisionMoment: "manual-review", windowLabel: "अरुणोदय और षष्ठी-सप्तमी संयोग",
-    calculationBasis: "magha-shukla-saptami-arunodaya-or-previous-day-yoga-special-case",
+    label: "रथ सप्तमी — अरुणोदय और क्षय का निर्णय", tithiIndices: [6], paksha: "शुक्ल पक्ष",
+    decisionMoment: "arunodaya-special", windowLabel: "सूर्योदय से 96 मिनट पूर्व अरुणोदय",
+    calculationBasis: "magha-shukla-saptami-at-arunodaya-first-day-on-vriddhi-shashthi-yukta-kshaya-exception",
     allowedMonths: ["माघ"], reviewOnly: true,
-    reviewNote: "धर्मसिंधु के माघ अध्याय में अरुणोदय पर सप्तमी और पिछले दिन षष्ठी-सप्तमी संयोग का विशेष विकल्प है। तिथि-व्रत अध्याय में अलग सामान्य नियम भी मिलता है। दोनों स्थितियों का पूरा मिलान किए बिना तारीख़ तय नहीं की जाएगी।",
-    sourceReview: "dharmasindhu-chapter-5-and-12-rule-reconciliation-pending"
+    reviewNote: "धर्मसिंधु के अनुसार माघ शुक्ल सप्तमी अरुणोदयव्यापिनी होनी चाहिए; दो अरुणोदयों में हो तो पहला दिन। सप्तमी अगले अरुणोदय से पहले क्षीण हो तो षष्ठीयुक्त पूर्वदिन का विशेष अपवाद भी जाँचा जाता है।",
+    sourceReview: "dharmasindhu-magha-ratha-saptami-primary-text-rule-implemented-source-approval-pending"
   },
   "chhath-kartika-review": {
     id: "chhath-kartika-review", aliases: ["chhath", "chhath-puja", "surya-shashthi-chhath"],
@@ -467,6 +467,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     evaluations: [], finalDate: null, autoApproved: false
   };
   if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(candidateContexts);
+  if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(candidateContexts);
   if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(candidateContexts);
   const dates = candidateContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
@@ -776,6 +777,109 @@ export function calculateEkadashiParanaWindow(context = {}) {
  * Dharmasindhu (p.44) and Nirnaya Sindhu (p.164). Muhurtas are 1/15 of
  * each local day's daylight. Ambiguous or incomplete cases stay in review.
  */
+/**
+ * Resolve Magha Shukla Ratha Saptami from local Arunodaya (96 minutes
+ * before sunrise). Dharmasindhu: if Saptami covers Arunodaya on both days,
+ * take the first; if it has kshaya and ends before the following Arunodaya,
+ * the preceding Shashthi-yukta day is a separate source-backed exception.
+ * Results remain candidates and are never auto-approved.
+ */
+export function resolveRathaSaptamiCandidates(candidateDays) {
+  const fail = (status, warnings, evaluations = []) => ({
+    status, ruleId: "ratha-saptami-review", evaluations,
+    selectedDate: null, finalDate: null, autoApproved: false, warnings
+  });
+  if (!Array.isArray(candidateDays) || candidateDays.length !== 2) {
+    return fail("insufficient-data", ["exactly-two-consecutive-local-days-required"]);
+  }
+  const days = candidateDays.slice().sort((a, b) => String(a?.date ?? "").localeCompare(String(b?.date ?? "")));
+  const info = days.map(day => {
+    const date = String(day?.date ?? "");
+    const sunrise = asDate(day?.sunrise);
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
+    const paksha = String(day?.paksha ?? "").trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !sunrise ||
+        masa !== "माघ" || !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
+        !Array.isArray(day?.tithis) || !day.tithis.length) return null;
+    const arunodaya = new Date(sunrise.getTime() - 96 * 60000);
+    const intervals = day.tithis.map(asInterval).filter(Boolean);
+    const saptami = intervals.filter(item => item.index === 6);
+    const shashthi = intervals.filter(item => item.index === 5);
+    const activeAt = (items, point) => items.find(item => item.start <= point && item.end > point) ?? null;
+    return {
+      date, sunrise, arunodaya,
+      saptamiAtArunodaya: activeAt(saptami, arunodaya),
+      shashthiAtSunrise: activeAt(shashthi, sunrise),
+      shashthiRemainingAtSunriseMs: activeAt(shashthi, sunrise)
+        ? activeAt(shashthi, sunrise).end.getTime() - sunrise.getTime() : 0,
+      saptami,
+      saptamiIntervals: saptami.map(item => ({ start: item.start.toISOString(), end: item.end.toISOString() }))
+    };
+  });
+  if (info.some(item => !item)) return fail("insufficient-data", [
+    "local-sunrise-magha-shukla-paksha-or-tithi-interval-missing"
+  ]);
+  const nextExpected = new Date(info[0].sunrise.getTime());
+  nextExpected.setUTCDate(nextExpected.getUTCDate() + 1);
+  if (nextExpected.toISOString().slice(0, 10) !== info[1].sunrise.toISOString().slice(0, 10)) {
+    return fail("insufficient-data", ["candidate-days-are-not-consecutive"]);
+  }
+  const evaluations = info.map(day => ({
+    date: day.date,
+    arunodaya: day.arunodaya.toISOString(),
+    sunrise: day.sunrise.toISOString(),
+    saptamiAtArunodaya: Boolean(day.saptamiAtArunodaya),
+    shashthiAtSunrise: Boolean(day.shashthiAtSunrise),
+    shashthiRemainingAtSunriseMs: day.shashthiRemainingAtSunriseMs,
+    saptamiIntervals: day.saptamiIntervals
+  }));
+  const arunodayaDays = info.filter(day => day.saptamiAtArunodaya);
+  if (arunodayaDays.length) {
+    const selected = arunodayaDays[0];
+    return {
+      status: "date-selected-needs-source-approval",
+      ruleId: "ratha-saptami-review",
+      selectedDate: selected.date, finalDate: selected.date,
+      selectionBasis: arunodayaDays.length > 1
+        ? "dharmasindhu-arunodaya-vyapti-on-two-days-first-day"
+        : "magha-shukla-saptami-at-local-arunodaya",
+      evaluations,
+      warnings: [
+        "arunodaya-is-four-ghatis-96-minutes-before-local-sunrise",
+        ...(arunodayaDays.length > 1 ? ["both-arunodaya-days-covered-first-day-selected"] : []),
+        "dharmasindhu-primary-text-rule-applied-source-and-publication-approval-required"
+      ],
+      autoApproved: false
+    };
+  }
+  const earlier = info[0], later = info[1];
+  const earlyEndingSaptami = earlier.saptami.filter(item =>
+    item.start > earlier.sunrise && item.end <= later.arunodaya
+  );
+  if (earlier.shashthiAtSunrise &&
+      earlier.shashthiRemainingAtSunriseMs > 0 &&
+      earlier.shashthiRemainingAtSunriseMs <= 24 * 60000 &&
+      earlyEndingSaptami.length === 1) {
+    return {
+      status: "date-selected-needs-source-approval",
+      ruleId: "ratha-saptami-review",
+      selectedDate: earlier.date, finalDate: earlier.date,
+      selectionBasis: "dharmasindhu-shashthi-yukta-saptami-kshaya-before-next-arunodaya",
+      evaluations,
+      warnings: [
+        "special-shashthi-yukta-saptami-kshaya-exception-applied",
+        "one-ghati-or-so-shashthi-at-sunrise-and-saptami-kshaya-before-next-arunodaya-confirmed",
+        "primary-source-and-publication-approval-still-required"
+      ],
+      autoApproved: false
+    };
+  }
+  return fail("manual-review", [
+    "saptami-does-not-cover-either-local-arunodaya",
+    "dharmasindhu-one-ghati-shashthi-yukta-kshaya-exception-not-unambiguously-satisfied"
+  ], evaluations);
+}
+
 export function resolveNagPanchamiCandidates(candidateDays) {
   const fail = (status, warnings, evidence = []) => ({
     status, ruleId: "nag-panchami-special-review", evaluations: evidence,

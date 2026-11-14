@@ -680,3 +680,71 @@ test("Nag Panchami refuses to guess when later Panchami is shorter than two muhu
   assert.equal(result.selectedDate, null);
   assert.equal(result.autoApproved, false);
 });
+
+
+const rathaDay = (date, sunrise, tithis) => ({
+  date, masa: "माघ", paksha: "शुक्ल पक्ष", sunrise, tithis
+});
+
+test("Ratha Saptami selects the first day when Saptami covers both Arunodayas", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(6, "2030-02-13T22:00:00.000Z", "2030-02-14T03:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(6, "2030-02-13T22:00:00.000Z", "2030-02-15T03:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-02-14");
+  assert.equal(result.selectionBasis, "dharmasindhu-arunodaya-vyapti-on-two-days-first-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami selects the unique local Arunodaya day", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T01:00:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-15T00:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-15T00:00:00.000Z", "शुक्ल पक्ष"),
+      interval(7, "2030-02-15T00:00:00.000Z", "2030-02-16T02:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.selectedDate, "2030-02-15");
+  assert.equal(result.selectionBasis, "magha-shukla-saptami-at-local-arunodaya");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami applies the Dharmasindhu Shashthi-yukta Kshaya exception", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T00:50:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T00:50:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(7, "2030-02-14T22:00:00.000Z", "2030-02-15T03:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-02-14");
+  assert.equal(result.selectionBasis, "dharmasindhu-shashthi-yukta-saptami-kshaya-before-next-arunodaya");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami refuses the Kshaya exception when Shashthi exceeds one ghati", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T01:00:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(7, "2030-02-14T22:00:00.000Z", "2030-02-16T02:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
