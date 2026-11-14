@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { locateVisibilityTransition, findAnnualVisibilityTransitions } from "../research/agastya-physical-visibility-audit.mjs";
+import { locateVisibilityTransition, findAnnualVisibilityTransitions, localCivilDayStartUtc } from "../research/agastya-physical-visibility-audit.mjs";
 
 test("refines appearance and disappearance transitions to one second",()=>{
   const start=new Date("2026-09-07T00:00:00Z");
@@ -41,4 +41,9 @@ test("rejects invalid transition endpoints",()=>{
     after:{instant:"2026-09-07T00:10:00Z",visible:true},
     sampleAt:()=>({visible:true}),transition:"appearance"
   }),/appearance requires/);
+});
+
+test("starts the observer day at local IST midnight, not UTC midnight",()=>{
+  const start=localCivilDayStartUtc("2026-09-07T00:00:00.000Z");
+  assert.equal(start.toISOString(),"2026-09-06T18:30:00.000Z");
 });
