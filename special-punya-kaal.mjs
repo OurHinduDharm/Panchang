@@ -97,6 +97,10 @@ function isShubha(item) {
   return index === 22;
 }
 
+function toIso(value) {
+  return new Date(value).toISOString();
+}
+
 function localDate(value, timezoneOffsetMinutes = 330) {
   return new Date(value + timezoneOffsetMinutes * 60000).toISOString().slice(0, 10);
 }
