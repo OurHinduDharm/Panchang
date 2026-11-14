@@ -128,7 +128,7 @@ try {
   };
   const outputPath = resolve(process.env.OUTPUT_PATH || "artifacts/multi-city-guru-shukra-2021-2023.json");
   mkdirSync(dirname(outputPath), { recursive: true });
-  writeFileSync(outputPath, JSON.stringify(summary, null, 2) + "\\n");
+  writeFileSync(outputPath, JSON.stringify(summary, null, 2) + "\n");
   console.log(JSON.stringify({
     outputPath,
     attemptedPages: summary.attemptedPages,
