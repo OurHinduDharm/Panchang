@@ -456,7 +456,7 @@ test("2030 Bhadrapada Shukla Dwadashi rites retain distinct source-based dates",
   assert.equal(dates[1].source,"नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38");
   assert.equal(dates[2].ritualTime,"8 सितंबर रात्रि-संध्या");
   assert.equal(dates[3].followingMorningActionDate,"2030-09-09");
-  assert.equal(dates[0].jayantiRuleConflict.result.includes("मध्याह्न में श्रवण नक्षत्र उपस्थित नहीं"),true);
+  assert.equal(dates[0].jayantiRuleConflict.result.includes("मध्याह्न के बाद"),true);
   assert.equal(record.status,"needs-review");
   assert.equal(record.selectedDate,null);
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
