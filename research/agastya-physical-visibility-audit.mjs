@@ -32,8 +32,14 @@ function localClock(instant) {
   const shifted=new Date(instant.getTime()+TIME_ZONE_OFFSET_MINUTES*60_000);
   return shifted.toISOString().slice(11,16);
 }
+export function localCivilDayStartUtc(date,offsetMinutes=TIME_ZONE_OFFSET_MINUTES) {
+  const value=dateOf(date);
+  const shifted=new Date(value.getTime()+offsetMinutes*60_000);
+  const localMidnightUtc=Date.UTC(shifted.getUTCFullYear(),shifted.getUTCMonth(),shifted.getUTCDate());
+  return new Date(localMidnightUtc-offsetMinutes*60_000);
+}
 function utcDay(date) {
-  return new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate()));
+  return localCivilDayStartUtc(date);
 }
 
 export function locateVisibilityTransition({before,after,sampleAt,transition,precisionSeconds=1}) {
