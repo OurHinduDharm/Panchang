@@ -31,7 +31,26 @@ if (PROFILE_ARG < 0 || !process.argv[PROFILE_ARG + 1]) {
   throw new Error("--profiles city-observer-profiles.json is required");
 }
 const profiles = JSON.parse(fs.readFileSync(process.argv[PROFILE_ARG + 1], "utf8")).profiles;
-const reference = JSON.parse(fs.readFileSync(SOURCE, "utf8"));
+const baseReference = JSON.parse(fs.readFileSync(SOURCE, "utf8"));
+const supplementalPath = path.join(ROOT, "research/data/multi-city-guru-shukra-history-2021-2023.json");
+const supplemental = JSON.parse(fs.readFileSync(supplementalPath, "utf8"));
+if (supplemental.identityAndBoundaryVerifiedPages !== 24 ||
+    supplemental.verifiedWindows !== 28 ||
+    supplemental.windows.length !== 28 ||
+    supplemental.publicationEligible !== false) {
+  throw new Error("Supplemental 2021-2023 city capture failed its fixed provenance gate");
+}
+const reference = {
+  ...baseReference,
+  windows: [...baseReference.windows, ...supplemental.windows]
+};
+const sourceKeys = new Set();
+for (const row of reference.windows) {
+  const key = [row.sourceCityId, row.planet, row.boundaries.astaStart.normalizedUtcInstant,
+    row.boundaries.astaEnd.normalizedUtcInstant].join("|");
+  if (sourceKeys.has(key)) throw new Error("Duplicate city/planet source window: " + key);
+  sourceKeys.add(key);
+}
 const PLANETS = ["Jupiter", "Venus"];
 const PITHORAGARH = Object.freeze({
   latitude: 29.5828, longitude: 80.2182, height: 1650,
@@ -285,7 +304,7 @@ for (const profile of profiles) {
     },
     sourceWindows: rows.length,
     sourceBoundaries: observations.length,
-    trainingYears: profile.geonameId === "1259503" ? "available 2021-2025" : "2024-2025",
+    trainingYears: "available 2021-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
     leaveOneYearOutThresholdAudit: leaveOneYearOut,
@@ -312,9 +331,9 @@ for (const profile of profiles) {
 const report = {
   schemaVersion: 2,
   model: "same-city-conjunction-paired-rise-set-sun-depression-threshold-backtest-v3",
-  sourceDataset: "data/drik-planetary-reference-2024-2027.json",
+  sourceDataset: ["data/drik-planetary-reference-2024-2027.json", "research/data/multi-city-guru-shukra-history-2021-2023.json"],
   observerProfiles: "city-observer-profiles.json",
-  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years through 2025; source records with unresolved/mismatched conjunction branches are excluded; whole-year leave-one-out threshold stability is reported separately",
+  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years 2021-2025; source records with unresolved/mismatched conjunction branches are excluded; whole-year leave-one-out threshold stability is reported separately",
   holdoutPolicy: "2026-2027; no holdout threshold tuning; candidates are generated across the fixed horizon series and paired to conjunctions using branch and side only; reference timestamps are used only after selection to measure error",
   cities: cityReports,
   publicationEligible: false,
