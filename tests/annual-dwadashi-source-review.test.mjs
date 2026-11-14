@@ -291,5 +291,6 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(matsya.localPanchangObservation.sunriseDayStart, first.sunrise);
   assert.equal(matsya.localPanchangObservation.sunriseDayEnd, following.sunrise);
   assert.equal(record.displayNames.includes("रूप-व्रत"), true);
+  assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
   assert.equal(record.status, "needs-review", "neither observance is automatically approved");
 });
