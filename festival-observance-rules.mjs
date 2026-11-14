@@ -810,6 +810,8 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
       date, sunrise, arunodaya,
       saptamiAtArunodaya: activeAt(saptami, arunodaya),
       shashthiAtSunrise: activeAt(shashthi, sunrise),
+      shashthiRemainingAtSunriseMs: activeAt(shashthi, sunrise)
+        ? activeAt(shashthi, sunrise).end.getTime() - sunrise.getTime() : 0,
       saptami,
       saptamiIntervals: saptami.map(item => ({ start: item.start.toISOString(), end: item.end.toISOString() }))
     };
@@ -828,6 +830,7 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
     sunrise: day.sunrise.toISOString(),
     saptamiAtArunodaya: Boolean(day.saptamiAtArunodaya),
     shashthiAtSunrise: Boolean(day.shashthiAtSunrise),
+    shashthiRemainingAtSunriseMs: day.shashthiRemainingAtSunriseMs,
     saptamiIntervals: day.saptamiIntervals
   }));
   const arunodayaDays = info.filter(day => day.saptamiAtArunodaya);
@@ -853,7 +856,10 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
   const earlyEndingSaptami = earlier.saptami.filter(item =>
     item.start > earlier.sunrise && item.end <= later.arunodaya
   );
-  if (earlier.shashthiAtSunrise && earlyEndingSaptami.length === 1) {
+  if (earlier.shashthiAtSunrise &&
+      earlier.shashthiRemainingAtSunriseMs > 0 &&
+      earlier.shashthiRemainingAtSunriseMs <= 24 * 60000 &&
+      earlyEndingSaptami.length === 1) {
     return {
       status: "date-selected-needs-source-approval",
       ruleId: "ratha-saptami-review",
@@ -862,7 +868,7 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
       evaluations,
       warnings: [
         "special-shashthi-yukta-saptami-kshaya-exception-applied",
-        "exact-ghati-boundary-and-local-ritual-approval-required",
+        "one-ghati-or-so-shashthi-at-sunrise-and-saptami-kshaya-before-next-arunodaya-confirmed",
         "primary-source-and-publication-approval-still-required"
       ],
       autoApproved: false
@@ -870,7 +876,7 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
   }
   return fail("manual-review", [
     "saptami-does-not-cover-either-local-arunodaya",
-    "dharmasindhu-shashthi-yukta-kshaya-exception-not-unambiguously-satisfied"
+    "dharmasindhu-one-ghati-shashthi-yukta-kshaya-exception-not-unambiguously-satisfied"
   ], evaluations);
 }
 
