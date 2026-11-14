@@ -389,6 +389,120 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
   return found;
 }
 
+
+/**
+ * Detect the general Shravana Yoga Dwadashi in either paksha.
+ * This is deliberately separate from Mahadwadashi and from the
+ * Bhadrapada Shukla Vishnushrinkhala fast-date resolver: it records only
+ * local Dwadashi–Shravana overlap within each sunrise-to-next-sunrise day.
+ */
+function findGeneralDwadashiYogaObservations(dailyPanchang, rule) {
+  if (!rule || typeof rule !== "object") return [];
+  const minimumOverlapMs = Number.isFinite(Number(rule.minimumOverlapMinutes))
+    ? Math.max(0, Number(rule.minimumOverlapMinutes)) * 60_000
+    : 48 * 60_000;
+  const byDate = new Map(
+    dailyPanchang.filter(day => day && day.date).map(day => [day.date, day])
+  );
+  const ordered = dailyPanchang.filter(day => day && day.date && day.sunrise)
+    .slice().sort((a,b) => dateSort(a.date,b.date));
+  const found = [];
+
+  for (const day of ordered) {
+    const masa = normalizeMonth(day.masa);
+    const paksha = normalizePaksha(day.paksha);
+    if (!masa.month || !paksha) continue;
+    const nextDate = nextCalendarDate(day.date);
+    const nextDay = nextDate ? byDate.get(nextDate) : null;
+    const dayStart = Date.parse(day.sunrise || "");
+    const dayEnd = Date.parse(nextDay?.sunrise || "");
+    if (!Number.isFinite(dayStart) || !Number.isFinite(dayEnd) || dayEnd <= dayStart) continue;
+
+    const dwadashis = (Array.isArray(day.tithiIntervals) ? day.tithiIntervals : [])
+      .map(row => ({
+        start: Date.parse(row?.startTime || ""),
+        end: Date.parse(row?.endTime || ""),
+        paksha: normalizePaksha(row?.paksha || day.paksha),
+        tithi: normalizeTithi(row?.tithi)
+      }))
+      .filter(row => Number.isFinite(row.start) && Number.isFinite(row.end) &&
+        row.end > row.start && row.paksha === paksha && row.tithi === "द्वादशी")
+      .map(row => ({
+        start: Math.max(row.start, dayStart),
+        end: Math.min(row.end, dayEnd)
+      }))
+      .filter(row => row.end > row.start)
+      .sort((a,b) => a.start-b.start);
+
+    if (!dwadashis.length) continue;
+
+    const shravanas = (Array.isArray(day.nakshatraIntervals) ? day.nakshatraIntervals : [])
+      .filter(row => normalizeNakshatra(row) === "श्रवण")
+      .map(row => ({
+        start: Date.parse(row?.startTime || ""),
+        end: Date.parse(row?.endTime || "")
+      }))
+      .filter(row => Number.isFinite(row.start) && Number.isFinite(row.end) && row.end > row.start)
+      .map(row => ({
+        start: Math.max(row.start, dayStart),
+        end: Math.min(row.end, dayEnd)
+      }))
+      .filter(row => row.end > row.start)
+      .sort((a,b) => a.start-b.start);
+
+    const segments = [];
+    for (const tithi of dwadashis) for (const nakshatra of shravanas) {
+      const start = Math.max(tithi.start, nakshatra.start);
+      const end = Math.min(tithi.end, nakshatra.end);
+      if (end > start) segments.push({start,end});
+    }
+    segments.sort((a,b) => a.start-b.start);
+    const merged = [];
+    for (const item of segments) {
+      const last = merged[merged.length-1];
+      if (last && item.start <= last.end) {
+        if (item.end > last.end) last.end = item.end;
+      } else {
+        merged.push({start:item.start,end:item.end});
+      }
+    }
+    const overlapMs = merged.reduce((sum,item) => sum + item.end-item.start,0);
+    const meetsOneMuhurta = overlapMs >= minimumOverlapMs;
+    found.push({
+      id: rule.id || "shravana-yoga-dwadashi",
+      name: rule.name || "श्रवण योग द्वादशी",
+      source: rule.source || "धर्मसिंधु; Drik Panchang cross-check",
+      sourceUrl: rule.sourceUrl || null,
+      month: masa.month,
+      paksha,
+      adhika: masa.adhika,
+      observanceDate: day.date,
+      vrataDayStart: new Date(dayStart).toISOString(),
+      vrataDayEnd: new Date(dayEnd).toISOString(),
+      dwadashiIntervals: dwadashis.map(item => ({
+        start:new Date(item.start).toISOString(),
+        end:new Date(item.end).toISOString()
+      })),
+      shravanaIntervals: shravanas.map(item => ({
+        start:new Date(item.start).toISOString(),
+        end:new Date(item.end).toISOString()
+      })),
+      overlapIntervals: merged.map(item => ({
+        start:new Date(item.start).toISOString(),
+        end:new Date(item.end).toISOString()
+      })),
+      overlapMs,
+      overlapMinutes: overlapMs/60_000,
+      minimumOverlapMs,
+      meetsOneMuhurta,
+      status: meetsOneMuhurta ? "candidate-needs-manual-review" : "not-qualified",
+      dateSelection: "evidence-only-no-fast-date-selected",
+      autoApproved: false
+    });
+  }
+  return found;
+}
+
 function unique(values) {
   const seen = new Set();
   return values.filter(value => {
@@ -412,6 +526,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const pakshavardhiniCandidates = findPakshavardhiniObservations(dailyPanchang);
   const nakshatraMahadwadashiCandidates = findDwadashiNakshatraObservations(
     dailyPanchang, rules?.mahaDwadashi?.sourceVariants
+  );
+  const generalDwadashiYogaCandidates = findGeneralDwadashiYogaObservations(
+    dailyPanchang, rules?.generalDwadashiYogas?.shravana
   );
 
   // Process observations chronologically so separate lunar occurrences of
@@ -729,7 +846,8 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     locationSelection: "स्थान-विशिष्ट सूर्योदय",
     tithiDates,
     dateSelection: "सूर्योदय-द्वादशी केवल संभावित तारीख़ें देती है; व्रत-विशेष के नियम से चयन और स्वीकृति आवश्यक है",
-    tithis
+    tithis,
+    dwadashiYogas: generalDwadashiYogaCandidates
   };
 }
 
@@ -864,6 +982,7 @@ export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) 
     },
     tithis: dwadashi.tithis,
     tithiDates: dwadashi.tithiDates,
+    dwadashiYogas: dwadashi.dwadashiYogas,
     chaturmas
   };
 }

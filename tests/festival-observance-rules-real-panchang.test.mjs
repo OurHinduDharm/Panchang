@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { buildDwadashiCalendar } from "../dwadashi-calendar.mjs";
 import panchangPackage from "@ishubhamx/panchangam-js";
 import { evaluateObservanceRule, evaluateShravanaDwadashiYoga, resolveObservanceCandidates } from "../festival-observance-rules.mjs";
 
@@ -331,4 +333,84 @@ test("real Pithoragarh Nag Panchami candidates run through the Dharmasindhu reso
   } else {
     assert.equal(result.finalDate, null);
   }
+});
+
+
+test("real Pithoragarh 2030 Shravana Yoga Dwadashi is recorded separately from Mahadwadashi and fast-date decisions", async () => {
+  const tithiNames = [
+    "प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पञ्चमी","षष्ठी","सप्तमी",
+    "अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा"
+  ];
+  const iso = value => new Date(value).toISOString();
+  const indexOf = row => Number(row.index ?? row.number ?? row.value);
+  const pakshaOf = index => index >= 15 ? "कृष्ण पक्ष" : "शुक्ल पक्ष";
+  const tithiOf = index => tithiNames[index % 15];
+  const reviewDay = date => {
+    const current = panchang(date);
+    const sunriseMs = new Date(current.sunrise).getTime();
+    const noonMs = localNoon(date).getTime();
+    const rawTithis = Array.isArray(current.tithis) ? current.tithis : [];
+    const at = instant => rawTithis.find(row => {
+      const start = new Date(row.startTime).getTime();
+      const end = new Date(row.endTime).getTime();
+      return Number.isFinite(start) && Number.isFinite(end) && start <= instant && end > instant;
+    });
+    const sunriseRow = at(sunriseMs);
+    const noonRow = at(noonMs);
+    const toTithi = row => {
+      if (!row) return null;
+      const index = indexOf(row);
+      return {
+        tithi:tithiOf(index), paksha:pakshaOf(index), masa:masa(current),
+        tithiStartTime:iso(row.startTime), tithiEndTime:iso(row.endTime)
+      };
+    };
+    const tithiIntervals = rawTithis.map(row => {
+      const index = indexOf(row);
+      return {
+        tithi:tithiOf(index), paksha:pakshaOf(index),
+        startTime:iso(row.startTime), endTime:iso(row.endTime)
+      };
+    });
+    const nakshatraIntervals = (current.nakshatras || []).map(row => ({
+      index:Number(row.index), name:row.name ?? null,
+      startTime:iso(row.startTime), endTime:iso(row.endTime)
+    }));
+    const midday = toTithi(noonRow);
+    const sunriseTithi = toTithi(sunriseRow);
+    return {
+      date, masa:masa(current), paksha:midday?.paksha ?? sunriseTithi?.paksha ?? "",
+      tithi:midday?.tithi ?? "", noonTithi:midday?.tithi ?? "",
+      sunrise:iso(current.sunrise), sunset:iso(current.sunset),
+      sunriseTithi, tithiStartTime:midday?.tithiStartTime ?? null,
+      tithiEndTime:midday?.tithiEndTime ?? null,
+      noonTithiStartTime:midday?.tithiStartTime ?? null,
+      noonTithiEndTime:midday?.tithiEndTime ?? null,
+      tithiIntervals, nakshatraIntervals
+    };
+  };
+  const rules = JSON.parse(await readFile(
+    new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"
+  ));
+  const marchFirst = reviewDay("2030-03-01");
+  const marchSecond = reviewDay("2030-03-02");
+  const first = buildDwadashiCalendar([marchFirst,marchSecond],rules)
+    .dwadashiYogas.find(item=>item.observanceDate==="2030-03-01");
+  assert.ok(first,"1 March local Dwadashi must be tested against Shravana");
+  assert.equal(first.month,"फाल्गुन");
+  assert.equal(first.paksha,"कृष्ण");
+  assert.equal(first.overlapMs,3027762);
+  assert.equal(first.meetsOneMuhurta,true);
+  assert.equal(first.status,"candidate-needs-manual-review");
+  assert.equal(first.autoApproved,false);
+  assert.equal(first.dateSelection,"evidence-only-no-fast-date-selected");
+
+  const march29 = reviewDay("2030-03-29");
+  const march30 = reviewDay("2030-03-30");
+  const later = buildDwadashiCalendar([march29,march30],rules)
+    .dwadashiYogas.find(item=>item.observanceDate==="2030-03-29");
+  assert.ok(later,"29 March evening Dwadashi must retain its negative source-label check");
+  assert.equal(later.overlapMs,0);
+  assert.equal(later.meetsOneMuhurta,false);
+  assert.equal(later.status,"not-qualified");
 });
