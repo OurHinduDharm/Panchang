@@ -69,7 +69,7 @@ export function findGeometricHorizonCrossing({astronomy,observer,instant,directi
   const start=new Date(reference.getTime()-searchHours*3_600_000);
   const end=new Date(reference.getTime()+searchHours*3_600_000);
   const altitudeAt=time=>getCanopusHorizontalPosition({
-    astronomy,observer,instant:time,refraction:"none"
+    astronomy,observer,instant:time,refraction:null
   }).altitudeDeg;
   let beforeTime=start,beforeAltitude=altitudeAt(beforeTime);
   let bracket=null;
@@ -255,11 +255,11 @@ export function buildAgastyaPhysicalVisibilityAudit({
         sourceStatus:source.source?.status??"historical-source-audit",
         physicalVisibilityAtSourceRise:atTraditionalRise.visible,
         physicalSampleAtSourceRise:atTraditionalRise,
-        geometricAltitudeAtSourceRiseDeg:getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant,refraction:"none"}).altitudeDeg,
+        geometricAltitudeAtSourceRiseDeg:getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant,refraction:null}).altitudeDeg,
         geometricRiseCrossing,
         physicalVisibilityAtSourceSet:atTraditionalSet?.visible??null,
         physicalSampleAtSourceSet:atTraditionalSet,
-        geometricAltitudeAtSourceSetDeg:source.taraSetDate&&source.taraSet?getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant:parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),refraction:"none"}).altitudeDeg:null,
+        geometricAltitudeAtSourceSetDeg:source.taraSetDate&&source.taraSet?getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant:parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),refraction:null}).altitudeDeg:null,
         geometricSetCrossing
       };
     }
