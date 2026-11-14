@@ -43,7 +43,8 @@ test("2030 catalog keeps distinct same-date observances on separate cards", () =
     ["2030-02-24|फाल्गुन कृष्ण सप्तमी / अष्टमी", new Set(["भानु सप्तमी", "शबरी जयंती", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-03-26|चैत्र कृष्ण अष्टमी", new Set(["शीतला अष्टमी / बसोड़ा", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-09-19|आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी", "महालक्ष्मी व्रत समापन", "अष्टमी श्राद्ध"])],
-    ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])]
+    ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])],
+    ["2030-05-14|वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -128,6 +129,17 @@ test("2030 same-tithi festival observances preserve distinct cards where require
   assert.ok(has("2030-05-11", /मासिक दुर्गाष्टमी.*सीता नवमी.*वगलामुखी/));
   assert.equal(has("2030-05-11", /^सीता नवमी$/), undefined);
   assert.ok(has("2030-05-13", /मोहिनी एकादशी.*सिद्धिलक्ष्मी जयंती/));
+  const madhavaDwadashi = has("2030-05-14", /^माधव-द्वादशी व्रत$/);
+  const parashuramaDwadashi = has("2030-05-14", /^परशुराम-द्वादशी$/);
+  assert.ok(madhavaDwadashi);
+  assert.ok(parashuramaDwadashi);
+  assert.notEqual(madhavaDwadashi, parashuramaDwadashi);
+  assert.equal(madhavaDwadashi.hinduTithi, "वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)");
+  assert.equal(parashuramaDwadashi.hinduTithi, "वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)");
+  assert.equal(madhavaDwadashi.muhurtaRule, undefined);
+  assert.equal(parashuramaDwadashi.muhurtaRule, undefined);
+  assert.equal(parashuramaDwadashi.followingMorningActionDate, "2030-05-15");
+  assert.equal(has("2030-05-14", /माधव-द्वादशी.*परशुराम-द्वादशी/), undefined);
   assert.ok(has("2030-05-17", /वैशाख पूर्णिमा.*बुद्ध पूर्णिमा.*कूर्म अवतार जयंती.*चण्डिका जयंती/));
   assert.ok(has("2030-05-30", /मासिक शिवरात्रि/)?.hinduTithi.includes("त्रयोदशी / चतुर्दशी"));
   assert.ok(has("2030-05-31", /वट सावित्री व्रत.*शनि जयंती.*ज्येष्ठ अमावस्या.*दर्श अमावस्या/));
@@ -352,7 +364,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 296);
+  assert.equal(events.length, 298);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
