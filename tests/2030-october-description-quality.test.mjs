@@ -35,7 +35,9 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.equal((karwa.description.match(/चंद्रमा को अर्घ्य/g) || []).length, 1);
   const ahoi = find(events, /अहोई अष्टमी/);
   assert.match(ahoi.description, /तारों को अर्घ्य/);
-  assert.match(ahoi.description, /राधाकुण्ड स्नान/);
+  const radhaKunda = find(events, /^राधाकुण्ड स्नान$/);
+  assert.match(radhaKunda.description, /राधाकुण्ड स्नान/);
+  assert.match(radhaKunda.description, /अहोई अष्टमी/);
 
   const govats = find(events, /गोवत्स द्वादशी/);
   assert.match(govats.articleUrl || "", /About-Govats-Dwadashi-vrat/);
