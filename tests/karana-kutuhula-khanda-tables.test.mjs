@@ -30,7 +30,7 @@ test("source constants are kept explicit and separate from modern disk-contact m
     bhogyaCorrectionDivisor: 13,
     shuddhaKhandaLimit: 480,
     sthitiDivisorHindiTranslation: 220,
-    alternativeSthitiSubtrahend: 48,
+    alternativeSthitiSubtrahend: 480,
     alternativeSthitiMultiplier: 9
   });
 });
