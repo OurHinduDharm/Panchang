@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { locateVisibilityTransition, findAnnualVisibilityTransitions, localCivilDayStartUtc } from "../research/agastya-physical-visibility-audit.mjs";
+import { locateVisibilityTransition, findAnnualVisibilityTransitions, localCivilDayStartUtc, findGeometricHorizonCrossing } from "../research/agastya-physical-visibility-audit.mjs";
 
 test("refines appearance and disappearance transitions to one second",()=>{
   const start=new Date("2026-09-07T00:00:00Z");
@@ -46,4 +46,20 @@ test("rejects invalid transition endpoints",()=>{
 test("starts the observer day at local IST midnight, not UTC midnight",()=>{
   const start=localCivilDayStartUtc("2026-09-07T00:00:00.000Z");
   assert.equal(start.toISOString(),"2026-09-06T18:30:00.000Z");
+});
+
+test("refines a Canopus geometric horizon crossing near the supplied source time",()=>{
+  const crossing=new Date("2026-09-07T00:00:00.000Z");
+  const astronomy={
+    VectorFromSphere(_sphere,date){return {t:date};},
+    Rotation_EQJ_HOR(){return {};},
+    RotateVector(_rotation,vector){return vector;},
+    HorizonFromVector(vector){return {lat:(vector.t.getTime()-crossing.getTime())/60000,lon:180};}
+  };
+  const result=findGeometricHorizonCrossing({
+    astronomy,observer:{latitude:29,longitude:80,height:1000},
+    instant:"2026-09-07T00:01:00.000Z",direction:"rise",searchHours:0.1,stepSeconds:30
+  });
+  assert.ok(Math.abs(Date.parse(result.instant)-crossing.getTime())<=1000);
+  assert.ok(Math.abs(result.errorMinutes+1)<0.02);
 });
