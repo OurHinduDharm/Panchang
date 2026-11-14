@@ -123,10 +123,16 @@ function scanTwilightWindow({start,end,period,observer,visibilityOptions,stepSec
     const p=points.at(-1);
     last={instant:p.instant,localDate:localDate(new Date(p.instant)),localTime:localClock(new Date(p.instant)),transition:"still-visible-at-window-end"};
   }
+  const withMargins=points.filter(point=>Number.isFinite(point.visibilityMargin));
+  const bestVisibilitySample=withMargins.sort((a,b)=>b.visibilityMargin-a.visibilityMargin)[0]??null;
+  const peakAltitudeSample=points.reduce((best,point)=>
+    !best||point.altitudeDeg>best.altitudeDeg?point:best,null);
   return {
     visible:visiblePoints.length>0,
     first,last,samples:points.length,
-    maxVisibilityMargin:visiblePoints.reduce((max,p)=>p.visibilityMargin===null?max:Math.max(max,p.visibilityMargin),-Infinity)
+    maxVisibilityMargin:bestVisibilitySample?.visibilityMargin??null,
+    bestVisibilitySample,
+    peakAltitudeSample
   };
 }
 
@@ -147,10 +153,14 @@ function dailyTwilight(date,observer,visibilityOptions) {
     morningFirstVisible:morning.first,
     morningSamples:morning.samples,
     morningMaxVisibilityMargin:morning.maxVisibilityMargin??null,
+    morningBestVisibilitySample:morning.bestVisibilitySample??null,
+    morningPeakAltitudeSample:morning.peakAltitudeSample??null,
     eveningVisible:evening.visible,
     eveningLastVisible:evening.last,
     eveningSamples:evening.samples,
-    eveningMaxVisibilityMargin:evening.maxVisibilityMargin??null
+    eveningMaxVisibilityMargin:evening.maxVisibilityMargin??null,
+    eveningBestVisibilitySample:evening.bestVisibilitySample??null,
+    eveningPeakAltitudeSample:evening.peakAltitudeSample??null
   };
 }
 
@@ -181,13 +191,17 @@ export function buildAgastyaPhysicalVisibilityAudit({
     if(source?.taraRise) {
       const instant=parseLocalDateTime(source.arghyaDate+"T"+source.taraRise);
       const atTraditionalRise=sample(instant,observer,visibilityOptions);
+      let atTraditionalSet=null;
+      if(source.taraSetDate&&source.taraSet) {
+        atTraditionalSet=sample(parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),observer,visibilityOptions);
+      }
       traditionalComparison={
-        eventDefinition:"Drik traditional Agastya Tara Udaya / Arghya source time",
-        sourceDate:source.arghyaDate,
-        sourceTime:source.taraRise,
+        eventDefinition:"Drik traditional Agastya Tara Udaya / Tara Asta and Arghya source times",
         sourceStatus:source.source?.status??"historical-source-audit",
-        physicalVisibilityAtSourceTime:atTraditionalRise.visible,
-        physicalSample:atTraditionalRise
+        physicalVisibilityAtSourceRise:atTraditionalRise.visible,
+        physicalSampleAtSourceRise:atTraditionalRise,
+        physicalVisibilityAtSourceSet:atTraditionalSet?.visible??null,
+        physicalSampleAtSourceSet:atTraditionalSet
       };
     }
     annual.push({
@@ -234,7 +248,7 @@ if(process.argv[1]&&import.meta.url===new URL("file://"+process.argv[1]).href) {
     endYear:Number(arg("--end-year","2030")),
     arghyaData:JSON.parse(fs.readFileSync(dataPath,"utf8"))
   });
-  fs.writeFileSync(output,JSON.stringify(result,null,2)+"\\n");
+  fs.writeFileSync(output,JSON.stringify(result,null,2)+"\n");
   console.log(JSON.stringify(result.annual.map(row=>({
     year:row.year,
     heliacalRise:row.physicalHeliacalRising?.date??null,
