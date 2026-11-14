@@ -35,6 +35,7 @@ jobs:
           node --experimental-default-type=module --check festival-widget.js
           node --check dwadashi-calendar.mjs
           node --check special-punya-kaal.mjs
+          node --check mahapata-root-solver.mjs
           node --check scripts/generate-special-punya-kaal-review.mjs
           node --experimental-default-type=module --check festival-muhurta.js
           sed -n '/^<script type="module">$/,/^<\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
