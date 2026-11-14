@@ -1,0 +1,915 @@
+{
+  "schemaVersion": 1,
+  "title": "TKS Pithoragarh Asta-Udaya 14-November reference snapshots",
+  "provenance": {
+    "source": "User-supplied TKS Asta · udaya page outputs transcribed in ChatGPT conversation",
+    "snapshotYears": [
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
+    ],
+    "referenceDatePolicy": "14 November of each selected year; this is a state snapshot, not a daily scan or complete annual event listing",
+    "referenceClockNote": "Around 06:32 local time; exact time recorded per snapshot",
+    "placeLabel": "पिथौरागढ़ (29.58°N)",
+    "elevationMeters": 1650,
+    "timezone": "Asia/Kolkata",
+    "longitude": "not visible in supplied TKS output; do not assume project longitude was entered",
+    "methods": {
+      "classical": "Shastriya · SS Ch.9",
+      "photometric": "Scientific (photometric)"
+    },
+    "tksMethodNote": "Classical and photometric outputs are distinct event models and must not be merged.",
+    "precision": "Photometric Venus/Jupiter timestamps are preserved to the second as displayed; Agastya photometric output is date-only.",
+    "limitations": [
+      "The TKS full settings panel was not captured, including longitude, sun basis, ayanamsha, position basis, temperature and pressure.",
+      "TKS displayed latitude is rounded to 29.58°N; source coordinate exactness is not established.",
+      "Repeated future events across adjacent 14-Nov snapshots are expected; the deduplicated ledger identifies identical event type and timestamp.",
+      "Absence of an event from a snapshot does not prove that no event occurred; each snapshot reports only the previous/current/next events exposed by the interface."
+    ]
+  },
+  "snapshots": [
+    {
+      "year": 2023,
+      "referenceDate": "2023-11-14",
+      "referenceTimeLocal": "06:32:08",
+      "venus": {
+        "state": "Udaya",
+        "K": 34.242,
+        "C": 10,
+        "fromSun": 45.2,
+        "classical": {
+          "udayaBegan": "2023-08-19T11:17:53+05:30",
+          "astaNext": "2024-04-06T02:32:29+05:30",
+          "udayaNext": "2024-07-04T00:14:56+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2024-04-23T05:19:22+05:30"
+          ],
+          [
+            "udaya",
+            "2024-06-29T19:29:28+05:30"
+          ],
+          [
+            "asta",
+            "2025-12-06T06:33:52+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 169.289,
+        "C": 11,
+        "fromSun": 167.2,
+        "classical": {
+          "udayaBegan": "2023-05-02T08:01:17+05:30",
+          "astaNext": "2024-04-30T03:29:52+05:30",
+          "udayaNext": "2024-06-03T22:36:31+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2024-05-07T19:21:40+05:30"
+          ],
+          [
+            "udaya",
+            "2024-06-03T04:35:39+05:30"
+          ],
+          [
+            "asta",
+            "2025-06-12T19:41:36+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 116.7,
+        "C": 13,
+        "fromSun": 116.7,
+        "classical": {
+          "astaNextDate": "2024-05-16",
+          "udayaNextDate": "2024-09-14"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2024-04-11"
+          ],
+          [
+            "udaya",
+            "2024-09-18"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2024,
+      "referenceDate": "2024-11-14",
+      "referenceTimeLocal": "06:32:45",
+      "venus": {
+        "state": "Udaya",
+        "K": 38.295,
+        "C": 10,
+        "fromSun": 40.6,
+        "classical": {
+          "udayaBegan": "2024-07-04T00:14:56+05:30",
+          "astaNext": "2025-03-18T02:12:21+05:30",
+          "udayaNext": "2025-03-23T03:21:23+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2025-12-06T06:33:52+05:30"
+          ],
+          [
+            "udaya",
+            "2026-02-06T18:06:19+05:30"
+          ],
+          [
+            "asta",
+            "2026-10-08T18:21:37+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 153.923,
+        "C": 11,
+        "fromSun": 152.9,
+        "classical": {
+          "udayaBegan": "2024-06-03T22:36:31+05:30",
+          "astaNext": "2025-06-09T14:04:45+05:30",
+          "udayaNext": "2025-07-08T02:35:12+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2025-06-12T19:41:36+05:30"
+          ],
+          [
+            "udaya",
+            "2025-07-07T04:41:01+05:30"
+          ],
+          [
+            "asta",
+            "2026-07-16T19:40:04+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 117.5,
+        "C": 13,
+        "fromSun": 117.5,
+        "classical": {
+          "astaNextDate": "2025-05-16",
+          "udayaNextDate": "2025-09-15"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2025-04-11"
+          ],
+          [
+            "udaya",
+            "2025-09-18"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2025,
+      "referenceDate": "2025-11-14",
+      "referenceTimeLocal": "06:32:34",
+      "venus": {
+        "state": "Udaya",
+        "K": 10.82,
+        "C": 10,
+        "fromSun": 13,
+        "classical": {
+          "udayaBegan": "2025-03-23T03:21:23+05:30",
+          "astaNext": "2025-11-18T08:27:44+05:30",
+          "udayaNext": "2026-02-12T18:21:26+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2025-12-06T06:33:52+05:30"
+          ],
+          [
+            "udaya",
+            "2026-02-06T18:06:19+05:30"
+          ],
+          [
+            "asta",
+            "2026-10-08T18:21:37+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 114.579,
+        "C": 11,
+        "fromSun": 116.8,
+        "classical": {
+          "udayaBegan": "2025-07-08T02:35:12+05:30",
+          "astaNext": "2026-07-17T08:40:36+05:30",
+          "udayaNext": "2026-08-11T03:41:00+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2026-07-16T19:40:04+05:30"
+          ],
+          [
+            "udaya",
+            "2026-08-10T04:59:26+05:30"
+          ],
+          [
+            "asta",
+            "2027-08-16T19:19:38+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 117.2,
+        "C": 13,
+        "fromSun": 117.2,
+        "classical": {
+          "astaNextDate": "2026-05-16",
+          "udayaNextDate": "2026-08-23"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2026-04-11"
+          ],
+          [
+            "udaya",
+            "2026-09-19"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2026,
+      "referenceDate": "2026-11-14",
+      "referenceTimeLocal": "06:32:22",
+      "venus": {
+        "state": "Udaya",
+        "K": 22.365,
+        "C": 10,
+        "fromSun": 28.8,
+        "classical": {
+          "udayaBegan": "2026-10-31T12:06:04+05:30",
+          "astaNext": "2027-07-12T05:29:24+05:30",
+          "udayaNext": "2027-09-08T01:25:33+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2027-07-22T05:07:04+05:30"
+          ],
+          [
+            "udaya",
+            "2027-09-08T18:38:12+05:30"
+          ],
+          [
+            "asta",
+            "2028-05-28T19:30:00+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 78.55,
+        "C": 11,
+        "fromSun": 86,
+        "classical": {
+          "udayaBegan": "2026-08-11T03:41:00+05:30",
+          "astaNext": "2027-08-20T00:48:09+05:30",
+          "udayaNext": "2027-09-12T23:14:25+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2027-08-16T19:19:38+05:30"
+          ],
+          [
+            "udaya",
+            "2027-09-12T05:16:23+05:30"
+          ],
+          [
+            "asta",
+            "2028-09-16T18:40:42+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 116.9,
+        "C": 13,
+        "fromSun": 116.9,
+        "classical": {
+          "astaNextDate": "2027-05-17",
+          "udayaNextDate": "2027-08-23"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2027-04-12"
+          ],
+          [
+            "udaya",
+            "2027-09-19"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2027,
+      "referenceDate": "2027-11-14",
+      "referenceTimeLocal": "06:32:10",
+      "venus": {
+        "state": "Udaya",
+        "K": 22.323,
+        "C": 10,
+        "fromSun": 24.5,
+        "classical": {
+          "udayaBegan": "2027-09-30T19:43:04+05:30",
+          "astaNext": "2028-05-28T02:24:51+05:30",
+          "udayaNext": "2028-06-06T22:51:36+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2028-05-28T19:30:00+05:30"
+          ],
+          [
+            "udaya",
+            "2028-06-08T04:35:26+05:30"
+          ],
+          [
+            "asta",
+            "2029-02-07T06:39:30+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 47.37,
+        "C": 11,
+        "fromSun": 59,
+        "classical": {
+          "udayaBegan": "2027-09-12T23:14:25+05:30",
+          "astaNext": "2028-09-16T15:21:07+05:30",
+          "udayaNext": "2028-10-20T18:16:27+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2028-09-16T18:40:42+05:30"
+          ],
+          [
+            "udaya",
+            "2028-10-11T05:36:18+05:30"
+          ],
+          [
+            "asta",
+            "2029-10-18T18:02:12+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 116.7,
+        "C": 13,
+        "fromSun": 116.7,
+        "classical": {
+          "astaNextDate": "2028-05-16",
+          "udayaNextDate": "2028-09-14"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2028-04-11"
+          ],
+          [
+            "udaya",
+            "2028-09-18"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2028,
+      "referenceDate": "2028-11-14",
+      "referenceTimeLocal": "06:32:47",
+      "venus": {
+        "state": "Udaya",
+        "K": 24.321,
+        "C": 10,
+        "fromSun": 30.8,
+        "classical": {
+          "udayaBegan": "2028-06-06T22:51:36+05:30",
+          "astaNext": "2029-02-14T03:48:03+05:30",
+          "udayaNext": "2029-05-09T17:06:18+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2029-02-07T06:39:30+05:30"
+          ],
+          [
+            "udaya",
+            "2029-04-16T18:51:21+05:30"
+          ],
+          [
+            "asta",
+            "2030-01-02T17:55:26+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Udaya",
+        "K": 27.129,
+        "C": 11,
+        "fromSun": 35,
+        "classical": {
+          "udayaBegan": "2028-10-20T18:16:27+05:30",
+          "astaNext": "2029-10-13T04:32:50+05:30",
+          "udayaNext": "2029-11-17T03:10:04+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2029-10-18T18:02:12+05:30"
+          ],
+          [
+            "udaya",
+            "2029-11-10T05:57:04+05:30"
+          ],
+          [
+            "asta",
+            "2030-11-19T17:39:58+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 117.4,
+        "C": 13,
+        "fromSun": 117.4,
+        "classical": {
+          "astaNextDate": "2029-05-16",
+          "udayaNextDate": "2029-09-15"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2029-04-11"
+          ],
+          [
+            "udaya",
+            "2029-09-18"
+          ]
+        ]
+      }
+    },
+    {
+      "year": 2029,
+      "referenceDate": "2029-11-14",
+      "referenceTimeLocal": "06:32:35",
+      "venus": {
+        "state": "Udaya",
+        "K": 42.925,
+        "C": 10,
+        "fromSun": 45.5,
+        "classical": {
+          "udayaBegan": "2029-05-09T17:06:18+05:30",
+          "astaNext": "2030-01-03T12:46:09+05:30",
+          "udayaNext": "2030-01-09T00:11:58+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2030-01-02T17:55:26+05:30"
+          ],
+          [
+            "udaya",
+            "2030-01-09T06:37:40+05:30"
+          ],
+          [
+            "asta",
+            "2030-09-29T05:46:33+05:30"
+          ]
+        ]
+      },
+      "jupiter": {
+        "state": "Asta",
+        "K": 9.163,
+        "C": 11,
+        "fromSun": 11,
+        "classical": {
+          "astaBegan": "2029-10-13T04:32:50+05:30",
+          "udayaNext": "2029-11-17T03:10:04+05:30",
+          "astaNext": "2030-11-15T19:25:46+05:30"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2030-11-19T17:39:58+05:30"
+          ],
+          [
+            "udaya",
+            "2030-12-12T06:17:04+05:30"
+          ],
+          [
+            "asta",
+            "2031-12-23T17:39:34+05:30"
+          ]
+        ]
+      },
+      "agastya": {
+        "K": 117.2,
+        "C": 13,
+        "fromSun": 117.2,
+        "classical": {
+          "astaNextDate": "2030-05-16",
+          "udayaNextDate": "2030-08-23"
+        },
+        "photometric": [
+          [
+            "asta",
+            "2030-04-11"
+          ],
+          [
+            "udaya",
+            "2030-09-19"
+          ]
+        ]
+      }
+    }
+  ],
+  "deduplicatedPhotometricEvents": [
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2024-04-11",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2024-04-23T05:19:22+05:30",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2024-05-07T19:21:40+05:30",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2024-06-03T04:35:39+05:30",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2024-06-29T19:29:28+05:30",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2024-09-18",
+      "observedInSnapshots": [
+        2023
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2025-04-11",
+      "observedInSnapshots": [
+        2024
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2025-06-12T19:41:36+05:30",
+      "observedInSnapshots": [
+        2023,
+        2024
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2025-07-07T04:41:01+05:30",
+      "observedInSnapshots": [
+        2024
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2025-09-18",
+      "observedInSnapshots": [
+        2024
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2025-12-06T06:33:52+05:30",
+      "observedInSnapshots": [
+        2023,
+        2024,
+        2025
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2026-02-06T18:06:19+05:30",
+      "observedInSnapshots": [
+        2024,
+        2025
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2026-04-11",
+      "observedInSnapshots": [
+        2025
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2026-07-16T19:40:04+05:30",
+      "observedInSnapshots": [
+        2024,
+        2025
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2026-08-10T04:59:26+05:30",
+      "observedInSnapshots": [
+        2025
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2026-09-19",
+      "observedInSnapshots": [
+        2025
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2026-10-08T18:21:37+05:30",
+      "observedInSnapshots": [
+        2024,
+        2025
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2027-04-12",
+      "observedInSnapshots": [
+        2026
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2027-07-22T05:07:04+05:30",
+      "observedInSnapshots": [
+        2026
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2027-08-16T19:19:38+05:30",
+      "observedInSnapshots": [
+        2025,
+        2026
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2027-09-08T18:38:12+05:30",
+      "observedInSnapshots": [
+        2026
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2027-09-12T05:16:23+05:30",
+      "observedInSnapshots": [
+        2026
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2027-09-19",
+      "observedInSnapshots": [
+        2026
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2028-04-11",
+      "observedInSnapshots": [
+        2027
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2028-05-28T19:30:00+05:30",
+      "observedInSnapshots": [
+        2026,
+        2027
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2028-06-08T04:35:26+05:30",
+      "observedInSnapshots": [
+        2027
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2028-09-16T18:40:42+05:30",
+      "observedInSnapshots": [
+        2026,
+        2027
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2028-09-18",
+      "observedInSnapshots": [
+        2027
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2028-10-11T05:36:18+05:30",
+      "observedInSnapshots": [
+        2027
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2029-02-07T06:39:30+05:30",
+      "observedInSnapshots": [
+        2027,
+        2028
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2029-04-11",
+      "observedInSnapshots": [
+        2028
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2029-04-16T18:51:21+05:30",
+      "observedInSnapshots": [
+        2028
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2029-09-18",
+      "observedInSnapshots": [
+        2028
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2029-10-18T18:02:12+05:30",
+      "observedInSnapshots": [
+        2027,
+        2028
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2029-11-10T05:57:04+05:30",
+      "observedInSnapshots": [
+        2028
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2030-01-02T17:55:26+05:30",
+      "observedInSnapshots": [
+        2028,
+        2029
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "udaya",
+      "localDateTime": "2030-01-09T06:37:40+05:30",
+      "observedInSnapshots": [
+        2029
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "asta",
+      "localDateTime": "2030-04-11",
+      "observedInSnapshots": [
+        2029
+      ]
+    },
+    {
+      "planet": "agastya",
+      "type": "udaya",
+      "localDateTime": "2030-09-19",
+      "observedInSnapshots": [
+        2029
+      ]
+    },
+    {
+      "planet": "venus",
+      "type": "asta",
+      "localDateTime": "2030-09-29T05:46:33+05:30",
+      "observedInSnapshots": [
+        2029
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2030-11-19T17:39:58+05:30",
+      "observedInSnapshots": [
+        2028,
+        2029
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "udaya",
+      "localDateTime": "2030-12-12T06:17:04+05:30",
+      "observedInSnapshots": [
+        2029
+      ]
+    },
+    {
+      "planet": "jupiter",
+      "type": "asta",
+      "localDateTime": "2031-12-23T17:39:34+05:30",
+      "observedInSnapshots": [
+        2029
+      ]
+    }
+  ],
+  "publicationEligible": false,
+  "status": "research-only-user-transcribed-source"
+}
