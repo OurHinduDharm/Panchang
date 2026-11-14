@@ -37,7 +37,7 @@
       "location": "Pithoragarh",
       "timezone": "Asia/Kolkata",
       "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha",
-      "reviewNote": "Independent tithi-end timings differ materially; keep research-only."
+      "reviewNote": "Overlap end matches independent Drik daily tithi-end to the displayed minute; public observance label/window differs and the Smarta classification remains under review."
     },
     {
       "date": "2027-04-04",
@@ -87,7 +87,7 @@
     "2028 overlap agrees to the minute with an independent published computation, but sunrise-based observance date remains unsettled because tithi ends close to sunrise.",
     "2030 overlap agrees with independent tithi/nakshatra timings (31 March 00:42–19:49 IST).",
     "2029 no-candidate result is independently supported: Krishna Trayodashi begins after Shatabhisha ends.",
-    "2026 timing discrepancy remains: project engine ends near 09:23 IST while Drik's daily tithi end is near 08:04 IST; one source labels the weekday-Tuesday event Maha Varuni. Do not approve until reconciled.",
+    "2026 overlap end now independently matches Drik's displayed 09:23 tithi-end to the minute (New Delhi daily page and an Ujjain Drik Panchanga copy); the previously recorded 08:04 discrepancy is not reproduced and is treated as stale/misread. A public article still labels the Tuesday observance Maha Varuni and gives a sunrise-to-07:51 window, conflicting with the selected Smarta Saturday-only Mahavaruni rule. Keep research-only pending source-profile and Pithoragarh page review.",
     "No Mahavaruni or Mahamahavaruni label was assigned in this first scan under the selected Smarta Saturday rule."
   ],
   "sourceProfile": "smarta-kalanirnaya-sindhu",
