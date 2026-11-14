@@ -153,7 +153,7 @@ The searchable text of the 1991 scan gives useful candidate constants. These are
 
 | Body | Karaṇakutūhala śīghra-kendra event markers in the commentary | Kalāṃśa, direct | Kalāṃśa, retrograde |
 |---|---|---:|---:|
-| Guru | The separate Guru section gives its own event construction; do not borrow Venus markers. | 11° | 10° |
+| Guru | OCR commentary gives eastern rising near 14° and western setting near 346° of the relevant śīghra-kendra; exact reading/role needs page-image confirmation. | 11° | 10° |
 | Shukra | Western rise 24°; western set 177°; eastern rise 183°; eastern set 336°. | 9° | 8° |
 | Agastya | Dedicated verse 15; not part of the planetary śīghra-kendra procedure. | — | — |
 
