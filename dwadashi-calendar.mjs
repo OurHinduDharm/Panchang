@@ -62,7 +62,7 @@ function findDwadashiIntervalOnLocalDate(dailyPanchang, date, month, paksha, adh
 }
 
 function nextCalendarDate(date) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date || ""))) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return null;
   const value = new Date(date + "T00:00:00Z");
   if (!Number.isFinite(value.getTime())) return null;
   value.setUTCDate(value.getUTCDate() + 1);
