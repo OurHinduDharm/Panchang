@@ -199,7 +199,6 @@ function findPakshavardhiniObservations(dailyPanchang) {
     }).sort((a,b)=>dateSort(a.date,b.date))[0];
     if (!precedingDwadashi) continue;
 
-    const id = boundaryTithi === "पूर्णिमा" ? "pakshavardhini-shukla" : "pakshavardhini-krishna";
     found.push({
       id:"mahadwadashi-smarta-pakshavardhini",
       name:"पक्षवर्द्धिनी महाद्वादशी",
