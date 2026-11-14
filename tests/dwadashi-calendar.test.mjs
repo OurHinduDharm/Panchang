@@ -591,19 +591,52 @@ test("annual review drafts do not report non-occurring Adhika Jyeshtha as missin
 });
 
 
+
+test("a dated Drik special observance keeps its own sunrise-day evidence without overriding the primary vrata date", () => {
+  const first = sunriseDay("2030-12-21","पौष","कृष्ण","एकादशी");
+  const following = sunriseDay("2030-12-22","पौष","कृष्ण","द्वादशी");
+  following.tithiStartTime = "2030-12-21T07:03:11.523Z";
+  following.tithiEndTime = "2030-12-22T04:11:50.353Z";
+  const sourceRules = {
+    unifiedTithiIndex: {tithis:[{
+      month:"पौष",paksha:"कृष्ण",
+      displayNames:["रूप-व्रत"],
+      observances:[{id:"rupa",name:"रूप-व्रत",source:"नारद पुराण, पूर्वार्ध, अध्याय 121"}]
+    }]},
+    drikSpecialObservances:[{
+      year:2030,month:"पौष",paksha:"कृष्ण",adhika:false,
+      observanceDate:"2030-12-21",dateRole:"special-observance-date",
+      labels:["कृष्ण मत्स्य द्वादशी"]
+    }]
+  };
+  const result=buildDwadashiCalendar([first,following],sourceRules);
+  const record=result.tithis.find(item=>item.id==="pausha-krishna");
+  assert.equal(record.selectedDate,"2030-12-22");
+  assert.equal(record.referenceDate,null);
+  assert.equal(record.displayNames[0],"रूप-व्रत");
+  assert.equal(record.drikSpecialObservances[0].observanceDate,"2030-12-21");
+  assert.equal(record.drikSpecialObservances[0].localPanchangObservation.date,"2030-12-21");
+  assert.equal(record.drikSpecialObservances[0].localPanchangObservation.source,"local-panchang-sunrise-to-next-sunrise");
+  assert.equal(record.status,"needs-review");
+});
+
 test("2030 annual review keeps the two Pausha Krishna Dwadashi occurrences separate", async () => {
   const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
   const records = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
   assert.deepEqual(records.map(item => item.id), ["pausha-krishna", "pausha-krishna-occurrence-2"]);
   assert.deepEqual(records.map(item => item.candidateDates), [["2030-01-01"], ["2030-12-22"]]);
   assert.equal(records[0].selectedDate, "2030-01-01");
-  assert.equal(records[1].referenceDate, "2030-12-21");
-  assert.equal(records[1].selectedDate, "2030-12-21");
-  assert.equal(records[1].dateSelection, "source-reference-date-tithi-overlap-review-required");
+  assert.equal(records[1].referenceDate, null);
+  assert.equal(records[1].selectedDate, "2030-12-22");
+  assert.equal(records[1].dateSelection, "single-observation-candidate-review-required");
+  assert.deepEqual(records[1].displayNames, ["रूप-व्रत"]);
+  assert.deepEqual(records[1].observances.map(item => item.id), ["rupa"]);
   assert.deepEqual(records[1].drikLabels, ["कृष्ण मत्स्य द्वादशी"]);
   assert.deepEqual(records[1].crossReferences.map(ref => ref.name), ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(records[1].sourceReferenceObservation.sunriseDayStart, "2030-12-21T01:30:03.181Z");
-  assert.equal(records[1].sourceReferenceObservation.sunriseDayEnd, "2030-12-22T01:30:33.432Z");
+  assert.equal(records[1].drikSpecialObservances[0].observanceDate, "2030-12-21");
+  assert.equal(records[1].drikSpecialObservances[0].localPanchangObservation.sunriseDayStart, "2030-12-21T01:30:03.181Z");
+  assert.equal(records[1].drikSpecialObservances[0].localPanchangObservation.sunriseDayEnd, "2030-12-22T01:30:33.432Z");
+  assert.equal(records[1].sourceReferenceObservation, null);
   assert.ok(records.every(item => item.status === "needs-review"));
 });
 
