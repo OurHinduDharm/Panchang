@@ -305,7 +305,8 @@ for (const profile of profiles) {
       elevationResolutionMeters: profile.elevationResolutionMeters
     },
     sourceWindows: rows.length,
-    sourceBoundaries: observations.length,\n    sourceObservations: observations,
+    sourceBoundaries: observations.length,
+    sourceObservations: observations,
     trainingYears: "available 2021-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
