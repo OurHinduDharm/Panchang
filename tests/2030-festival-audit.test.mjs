@@ -197,7 +197,10 @@ test("2030 same-tithi festival observances preserve distinct cards where require
   assert.equal(has("2030-09-08", /^परिवर्तिनी \/ पार्श्व एकादशी \(स्मार्त\)$/)?.muhurtaRule, "ekadashi-parana");
   assert.equal(has("2030-09-08", /^वामन जयंती$/)?.muhurtaRule, undefined);
   assert.equal(has("2030-09-08", /^कल्कि द्वादशी$/)?.muhurtaRule, undefined);
-  assert.equal(has("2030-09-09", /सोम प्रदोष/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(has("2030-09-09", /^भुवनेश्वरी महाविद्या जयंती$/)?.hinduTithi, "भाद्रपद शुक्ल द्वादशी");
+  assert.equal(has("2030-09-09", /^भुवनेश्वरी महाविद्या जयंती$/)?.muhurtaRule, undefined);
+  assert.equal(has("2030-09-09", /^सोम प्रदोष व्रत$/)?.hinduTithi, "भाद्रपद शुक्ल त्रयोदशी");
+  assert.equal(has("2030-09-09", /^सोम प्रदोष व्रत$/)?.muhurtaRule, "pradosh-kala");
   assert.equal(has("2030-09-15", /विघ्नराज संकष्टी/)?.muhurtaRule, "sankashti-chaturthi-moonrise");
   assert.ok(has("2030-09-16", /महा भरणी श्राद्ध/));
   assert.equal(has("2030-09-17", /कन्या संक्रांति/)?.muhurtaRule, "sankranti-punya-kala");
@@ -292,7 +295,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 23);
   assert.equal(months[2].events.length, 23);
-  assert.equal(months[8].events.length, 31);
+  assert.equal(months[8].events.length, 32);
   assert.equal(oct.length, 33);
   assert.equal(nov.length, 26);
   assert.equal(dec.length, 23);
@@ -337,7 +340,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 291);
+  assert.equal(events.length, 292);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
