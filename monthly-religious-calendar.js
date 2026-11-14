@@ -2,6 +2,14 @@
 // This module intentionally contains no candidate-generation or astronomical logic.
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const ISO_INSTANT_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/;
+const ALLOWED_TYPES = new Set([
+  "vyatipata-mahapat",
+  "vaidhriti-mahapat",
+  "varuni",
+  "mahavaruni",
+  "mahamahavaruni",
+  "mahodaya"
+]);
 
 function validDate(value) {
   if (typeof value !== "string" || !DATE_RE.test(value)) return false;
@@ -14,7 +22,8 @@ function validInstant(value) {
 }
 
 function isPublicApprovedRecord(record) {
-  if (!record || record.status !== "approved" || !validDate(record.date)) return false;\n  if (!ALLOWED_TYPES.has(record.type)) return false;
+  if (!record || record.status !== "approved" || !validDate(record.date)) return false;
+  if (!ALLOWED_TYPES.has(record.type)) return false;
   if (typeof record.id !== "string" || !record.id.trim()) return false;
   if (typeof record.label !== "string" || !record.label.trim()) return false;
   if (!validInstant(record.start) || !validInstant(record.end)) return false;
