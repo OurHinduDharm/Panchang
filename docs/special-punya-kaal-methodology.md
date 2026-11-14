@@ -174,3 +174,24 @@ Do not calculate Mahapata by scanning every apparent declination-band overlap in
 - tropical sum 360°/0° → Vaidhriti mean pāta; true declinations equal on opposite sides of the equator.
 
 The research script now implements this sequence, searches ±3 days for the nearest true crossing, preserves additional crossings for review, and finds the disk-overlap start/end around the selected true pāta. This matches the methodological distinction described in the 2026–2028 independent calculation notes. The script is still a modern comparison, not the final classical-table implementation.
+
+
+## Mahapata 2026–2030 comparison-model scan — internal only
+
+The mean-pāta → nearest true-pāta → disk-overlap model generated the following research-only windows by local overlap year:
+
+| Year | Windows found | Review items |
+|---|---:|---:|
+| 2026 | 28 | 0 |
+| 2027 | 29 | 0 |
+| 2028 | 29 | 0 |
+| 2029 | 28 | 0 |
+| 2030 | 25 | 4 mean pātās without a true declination crossing within ±3 days |
+
+Cross-check status:
+- 2026: the model matches the Drik windows within a few minutes for the shared dates. Two additional windows (19 March and 25 December) need source reconciliation; do not silently omit or publish them.
+- 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
+- 2029: one Vaidhriti overlap spans approximately 19 December 02:40 to 21 December 07:46 IST and contains two true declination crossings. This is an unusual extended window and requires independent confirmation before publication.
+- 2030: four mean pātās (16 June, 29 June, 12 December, 24 December) have no true crossing within the ±3-day search. They are review items, not public events.
+
+Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. The comparison model remains research-only until the 2026 extra windows, 2029 extended overlap, 2030 no-crossings and the exact *Karaṇa-kutūhala* contact corrections are reviewed.
