@@ -21,6 +21,16 @@ test("monthly section uses the selected year/month from its navigation URL", () 
   assert.match(monthly, /window\.location\.hash==="#special-punya-kaal"/);
 });
 
+test("monthly special section uses the approved practice-focused title", () => {
+  assert.match(monthly, /विशेष साधना काल एवं पुण्यकाल/);
+  assert.doesNotMatch(monthly, /विशेष पुण्यकाल एवं धार्मिक साधना/);
+});
+
+test("only Mahapat cards show the classical bath, japa, homa and donation guidance", () => {
+  assert.match(monthly, /इस पातकाल में स्नान, जप, होम एवं दान करने का शास्त्रीय निर्देश मिलता है।/);
+  assert.match(monthly, /className="special-kaal-description"/);
+});
+
 test("only Mahapat records receive the samskara caution", () => {
   assert.match(monthly, /item\.type==="vyatipata-mahapat"\|\|item\.type==="vaidhriti-mahapat"/);
   assert.match(daily, /item\.type==="vyatipata-mahapat"\|\|item\.type==="vaidhriti-mahapat"/);
