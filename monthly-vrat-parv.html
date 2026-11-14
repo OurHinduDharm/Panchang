@@ -931,12 +931,18 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       var location=getLocalLocation();
       if(!data||data.status!=="approved"||!sameObserver(data.observer,location))return;
+      var allowedTypes=["vyatipata-mahapat","vaidhriti-mahapat","varuni","mahavaruni","mahamahavaruni","mahodaya"];
+      var monthPrefix=String(year)+"-"+String(month).padStart(2,"0")+"-";
       var approved=(Array.isArray(data.events)?data.events:[]).filter(function(item){
-        return item&&item.status==="approved"&&typeof item.id==="string"&&typeof item.label==="string"&&
-          typeof item.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(item.date)&&
-          typeof item.start==="string"&&typeof item.end==="string"&&
-          Number.isFinite(Date.parse(item.start))&&Number.isFinite(Date.parse(item.end))&&
-          Date.parse(item.start)<Date.parse(item.end);
+        if(!item||item.status!=="approved"||allowedTypes.indexOf(item.type)<0||
+           typeof item.id!=="string"||typeof item.label!=="string"||
+           typeof item.date!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(item.date)||!item.date.startsWith(monthPrefix))return false;
+        var date=new Date(item.date+"T00:00:00.000Z");
+        var instantPattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/;
+        return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===item.date&&
+          typeof item.start==="string"&&instantPattern.test(item.start)&&
+          typeof item.end==="string"&&instantPattern.test(item.end)&&
+          Number.isFinite(Date.parse(item.start))&&Number.isFinite(Date.parse(item.end))&&Date.parse(item.start)<Date.parse(item.end);
       }).sort(function(a,b){return a.start.localeCompare(b.start);});
       if(!approved.length)return;
       approved.forEach(function(item){
