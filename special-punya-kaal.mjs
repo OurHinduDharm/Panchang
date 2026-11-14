@@ -51,10 +51,13 @@ function isTrayodashi(item) {
 }
 
 function isKrishna(item, day) {
+  const rawIndex = item?.index ?? item?.tithi;
+  if (rawIndex !== null && rawIndex !== undefined && rawIndex !== "") {
+    const index = Number(rawIndex);
+    if (Number.isInteger(index)) return index >= 15;
+  }
   const value = textOf(item?.paksha ?? day?.paksha);
-  if (KRISHNA_NAMES.has(value)) return true;
-  const index = Number(item?.index ?? item?.tithi);
-  return Number.isInteger(index) && index >= 15;
+  return KRISHNA_NAMES.has(value);
 }
 
 function isChaitra(day) {
