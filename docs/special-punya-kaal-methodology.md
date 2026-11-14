@@ -140,9 +140,9 @@ Pithoragarh / Asia-Kolkata, Purnimanta, pinned Panchangam engine; all intervals 
 | 31 Mar 2030 | 00:42:52–19:49:26 | वारुणी candidate |
 | 2029 | no conjunction found | no candidate |
 
-The 2027 overlap agrees to the minute with an independent published computation (04:27–16:32 IST). The 2028 overlap also agrees to the minute (23 March 11:22 to 24 March 05:33 IST), but that source explicitly leaves the sunrise-based observance date unsettled because the tithi ends only minutes before the next sunrise. These matches validate the interval intersection, not the complete source tradition or public observance date.
+The 2027 overlap agrees to the minute with an independent published computation (04:27–16:32 IST). The 2028 overlap also agrees to the minute (23 March 11:22 to 24 March 05:33 IST), but that source explicitly leaves the sunrise-based observance date unsettled because the tithi ends only minutes before the next sunrise. The 2030 overlap agrees with independent tithi/nakshatra timings (31 March 00:42–19:49 IST). For 2029, independent tithi/nakshatra timings show Krishna Trayodashi begins after Shatabhisha ends, supporting the no-candidate result. These matches validate the interval intersection, not the complete source tradition or public observance date.
 
-A 2026 public article calls the event “Maha Varuni” even though 17 March 2026 is Tuesday, while the chosen Smarta profile reserves Mahavaruni for the Saturday conjunction. This is a nomenclature/source-profile conflict; do not silently upgrade the 2026 candidate. The 2030 candidate and the 2029 absence still require independent date-wise cross-check. Keep all rows research-only until those checks are complete.
+A 2026 public article calls the event “Maha Varuni” even though 17 March 2026 is Tuesday, while the chosen Smarta profile reserves Mahavaruni for the Saturday conjunction. This is a nomenclature/source-profile conflict; do not silently upgrade the 2026 candidate. The exact 2026 end-time also differs between the project engine and Drik's published tithi-end, so the time needs reconciliation. Keep all rows research-only until that discrepancy and the 2028 observance date are resolved.
 
 
 ## Mahapata rule interpretation and modern comparison
