@@ -421,3 +421,25 @@ test("2030 general Shravana Yoga Dwadashi annual evidence stays review-only and 
   assert.equal(record("2030-10-07").overlapMs,0);
   assert.equal(record("2030-10-07").meetsOneMuhurta,false);
 });
+
+
+test("2030 Krishna Punarvasu Jayanti source conflict follows the Smarta-first policy", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="bhadrapada-krishna");
+  const decision=record.jayantiMahadwadashiSourceDecision;
+  assert.ok(decision);
+  assert.equal(decision.localObservation.date,"2030-08-25");
+  assert.equal(decision.localObservation.paksha,"कृष्ण");
+  assert.equal(decision.localObservation.nakshatra,"पुनर्वसु");
+  assert.equal(decision.localObservation.coversFullDaylight,true);
+  assert.deepEqual(decision.sourceProfiles.map(x=>x.id),["naradaPurana","nirnayaSindhu","drikPanchang"]);
+  assert.equal(decision.sourceProfiles[0].localMatch,false);
+  assert.equal(decision.sourceProfiles[1].localMatch,false);
+  assert.equal(decision.sourceProfiles[2].localMatch,true);
+  assert.equal(decision.publicCardDecision,"no-additional-jayanti-card");
+  assert.equal(decision.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
