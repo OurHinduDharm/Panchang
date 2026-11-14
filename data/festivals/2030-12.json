@@ -23,9 +23,19 @@
     {
       "date": "2030-12-02",
       "dateLabel": "2 दिसंबर",
-      "title": "मासिक दुर्गाष्टमी / बाबा नीब करौरी जयंती",
-      "description": "मार्गशीर्ष शुक्ल अष्टमी को मासिक दुर्गाष्टमी के साथ बाबा नीब करौरी महाराज के प्राकट्य दिवस का स्मरण किया जाता है।",
-      "category": "जयंती एवं व्रत",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा का पूजन, दुर्गा सप्तशती पाठ, मंत्र-जप और सामर्थ्य के अनुसार दान करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी"
+    },
+    {
+      "date": "2030-12-02",
+      "dateLabel": "2 दिसंबर",
+      "title": "बाबा नीब करौरी जयंती",
+      "description": "बाबा नीब करौरी महाराज के प्राकट्य दिवस पर उनका स्मरण, भजन, सेवा और अन्नदान करें।",
+      "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी",
@@ -75,18 +85,38 @@
     {
       "date": "2030-12-09",
       "dateLabel": "9 दिसंबर",
-      "title": "दत्तात्रेय जयंती / मार्गशीर्ष पूर्णिमा / त्रिपुरभैरवी महाविद्या जयंती / अन्नपूर्णा जयंती",
-      "description": "मार्गशीर्ष पूर्णिमा पर भगवान दत्तात्रेय की जयंती मनाई जाती है। इस दिन भगवान दत्तात्रेय का पूजन, गुरु-स्मरण, जप, दान और पूर्णिमा-स्नान की परंपरा है। त्रिपुरभैरवी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">त्रिपुरभैरवी महाविद्या</a> अन्नपूर्णा जयंती पर माँ अन्नपूर्णा की पूजा, अन्नदान और भोजन-सेवा का विशेष महत्त्व है।",
+      "title": "दत्तात्रेय जयंती / मार्गशीर्ष पूर्णिमा",
+      "description": "मार्गशीर्ष पूर्णिमा पर भगवान दत्तात्रेय की जयंती मनाई जाती है। भगवान दत्तात्रेय का पूजन, गुरु-स्मरण, जप, दान और पूर्णिमा-स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती</a>",
       "category": "जयंती एवं पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
-      "articleLabel": "श्रीदत्तात्रेय जयंती",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
-      "secondaryArticleLabel": "त्रिपुरभैरवी महाविद्या"
+      "articleLabel": "श्रीदत्तात्रेय जयंती"
+    },
+    {
+      "date": "2030-12-09",
+      "dateLabel": "9 दिसंबर",
+      "title": "त्रिपुरभैरवी महाविद्या जयंती",
+      "description": "त्रिपुरभैरवी महाविद्या जयंती पर देवी त्रिपुरभैरवी की स्तोत्रात्मक उपासना, मंत्र-जप और ध्यान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">त्रिपुरभैरवी महाविद्या</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "articleLabel": "त्रिपुरभैरवी महाविद्या",
+      "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
+    },
+    {
+      "date": "2030-12-09",
+      "dateLabel": "9 दिसंबर",
+      "title": "अन्नपूर्णा जयंती",
+      "description": "अन्नपूर्णा जयंती पर माँ अन्नपूर्णा का पूजन, अन्नदान और भोजन-सेवा का विशेष महत्त्व है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
     },
     {
       "date": "2030-12-13",
@@ -114,14 +144,22 @@
     {
       "date": "2030-12-17",
       "dateLabel": "17 दिसंबर",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> मासिक कृष्ण जन्माष्टमी की रात्रि-उपासना निशीथकाल में की जाती है।",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-12-17",
+      "dateLabel": "17 दिसंबर",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी में निशीथकालीन उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष कृष्ण सप्तमी (अष्टमी व्याप्ति)",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "muhurtaRule": "janmashtami-nishita"
     },
     {
