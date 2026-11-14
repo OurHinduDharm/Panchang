@@ -29,7 +29,7 @@ jobs:
       - name: Syntax check
         run: node --check special-punya-kaal.mjs && node --check mahapata-root-solver.mjs && node --check scripts/generate-special-punya-kaal-review.mjs
       - name: Run special yoga rule tests
-        run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs
+        run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs tests/mahapata-root-solver.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
       - name: Upload review-only candidate data
