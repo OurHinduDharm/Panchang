@@ -203,6 +203,7 @@ test("2030 same-tithi festival observances preserve distinct cards where require
   assert.ok(has("2030-08-22", /दही हांडी/));
   assert.ok(has("2030-08-24", /अजा एकादशी/)?.muhurtaRule === "ekadashi-parana");
   assert.ok(has("2030-08-25", /बछबारस/));
+  assert.equal(has("2030-08-25", /जयन्ती महाद्वादशी|जयन्ती द्वादशी/), undefined);
   const krishnaDamodara=has("2030-08-25", /कृष्ण दामोदर द्वादशी/);
   assert.ok(krishnaDamodara);
   assert.equal(krishnaDamodara.hinduTithi,"भाद्रपद कृष्ण द्वादशी");
