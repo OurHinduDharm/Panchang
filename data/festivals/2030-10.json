@@ -202,14 +202,42 @@
     {
       "date": "2030-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी / अहोई अष्टमी / राधाकुण्ड स्नान",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इसी दिन मासिक कृष्ण जन्माष्टमी की निशीथकालीन उपासना, अहोई माता का संतान-सुख हेतु पूजन और तारों को अर्घ्य देने की परंपरा है। ब्रज में अहोई अष्टमी पर राधाकुण्ड स्नान का विशेष महत्व माना जाता है।",
+      "title": "अहोई अष्टमी",
+      "description": "अहोई अष्टमी पर संतान-सुख और कल्याण की कामना से अहोई माता का पूजन करें तथा सायंकाल तारों को अर्घ्य अर्पित करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "राधाकुण्ड स्नान",
+      "description": "अहोई अष्टमी के अवसर पर ब्रज में राधाकुण्ड स्नान का विशेष महत्त्व माना जाता है। श्रद्धालु राधाकुण्ड में स्नान और पूजन करते हैं।",
+      "category": "स्नान",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी में निशीथकालीन उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "muhurtaRule": "janmashtami-nishita"
     },
     {
