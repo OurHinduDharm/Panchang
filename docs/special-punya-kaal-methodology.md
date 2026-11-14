@@ -195,3 +195,21 @@ Cross-check status:
 - 2030: four mean pātās (16 June, 29 June, 12 December, 24 December) have no true crossing within the ±3-day search. They are review items, not public events.
 
 Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. The comparison model remains research-only until the 2026 extra windows, 2029 extended overlap, 2030 no-crossings and the exact *Karaṇa-kutūhala* contact corrections are reviewed.
+
+
+## महोदय — प्राथमिक शोध-प्रोफाइल
+
+महोदय को “अर्धोदय के चार अंगों में से कोई एक कम हो तो महोदय” मानकर auto-calculate नहीं करना है। निर्णयसिन्धु के उपलब्ध पाठ में यह सामान्य “किञ्चिदून महोदय” व्याख्या निर्मूल बताई गई है।
+
+अलग, स्पष्ट रूप से गणना योग्य प्रोफाइल मराठी विश्वकोश के पर्व-निर्णय में दिया है:
+- पौष या माघ अमावस्या,
+- सोमवार (सोमवती अमावस्या),
+- श्रवण नक्षत्र,
+- व्यतीपात नित्ययोग,
+- संयोग दिन में होना चाहिए।
+
+इसे **महोदय योग** का research profile माना जाएगा। अमावस्या, श्रवण और व्यतीपात के वास्तविक intervals का intersection निकालकर उसे सोमवार के स्थानीय सूर्योदय–सूर्यास्त के भीतर सीमित करना होगा। पिथौरागढ़ के Purnimanta मास-नाम का ही उपयोग होगा।
+
+**अर्धोदय** अलग संयोग है: पौष/माघ अमावस्या + रविवार + श्रवण + व्यतीपात; स्कन्दपुराण के सेतुखण्ड में मकरस्थ सूर्य और दिन के उदय से संबंधित शर्तें भी आती हैं। इसे महोदय में merge नहीं करना। अभी इस PR में अर्धोदय का annual calculation scope में नहीं है।
+
+महोदय profile को public approval देने से पहले निर्णयसिन्धु, हेमाद्रि/मदनरत्न और स्कन्दपुराण के पाठ का पुनः मिलान आवश्यक है। अभी केवल research candidates।
