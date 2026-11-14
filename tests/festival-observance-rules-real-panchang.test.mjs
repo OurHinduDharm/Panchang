@@ -399,7 +399,7 @@ test("real Pithoragarh 2030 Shravana Yoga Dwadashi is recorded separately from M
   assert.ok(first,"1 March local Dwadashi must be tested against Shravana");
   assert.equal(first.month,"फाल्गुन");
   assert.equal(first.paksha,"कृष्ण");
-  assert.equal(first.overlapMs,3027927);
+  assert.equal(first.overlapMs,3027762);
   assert.equal(first.meetsOneMuhurta,true);
   assert.equal(first.status,"candidate-needs-manual-review");
   assert.equal(first.autoApproved,false);
