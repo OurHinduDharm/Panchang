@@ -128,11 +128,39 @@
       "date": "2030-09-08",
       "dateLabel": "8 सितंबर",
       "title": "कल्कि द्वादशी",
-      "description": "कल्कि द्वादशी पर भगवान विष्णु के कल्कि अवतार का स्मरण, पूजन और श्रद्धापूर्वक व्रत करें।",
+      "description": "भाद्रपद शुक्ल द्वादशी पर संकल्पपूर्वक भगवान कल्कि के अंगों का मंत्रों से पूजन करें। कलश पर स्थापित सुवर्ण कल्कि-प्रतिमा अगले प्रातः वेदज्ञ ब्राह्मण को दान करने का विधान है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति"
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "sourceName": "वराह पुराण, अध्याय 48, श्लोक 1–5 — कल्कि-द्वादशी व्रत",
+      "sourceUrl": "https://vedapath.app/en/varaha-purana/48",
+      "followingMorningActionDate": "2030-09-09"
+    },
+    {
+      "date": "2030-09-08",
+      "dateLabel": "8 सितंबर",
+      "title": "दामोदर-द्वादशी व्रत",
+      "description": "भाद्रपद शुक्ल द्वादशी पर भगवान दामोदर का पूजन करें। बारह ब्राह्मणों को भोजन कराकर सुपूजित जल-कलश, सुपारी, मिष्ठान्न और यथाशक्ति स्वर्ण-दक्षिणा देने का विधान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38",
+      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html"
+    },
+    {
+      "date": "2030-09-08",
+      "dateLabel": "8 सितंबर",
+      "title": "नीराजन-व्रत",
+      "description": "भाद्रपद शुक्ल द्वादशी की रात्रि में भगवान हरि का मंत्र, दीप और हवन से पूजन कर रजत-दीप से नीराजन करें। इसके बाद लक्ष्मी तथा अन्य देवशक्तियों का क्रमशः नीराजन करने का विधान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 39–43",
+      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+      "ritualTime": "रात्रि-संध्या"
     },
     {
       "date": "2030-09-09",
