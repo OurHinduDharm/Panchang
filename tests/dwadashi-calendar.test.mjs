@@ -660,6 +660,6 @@ test("Trisparsha is not inferred when the following sunrise is missing or the ti
   const wrongSequence = buildDwadashiCalendar([first, notTrisparshaNext], sourceRules);
   const wrongRecord = wrongSequence.tithis.find(item => item.id === "vaishakha-shukla");
   assert.deepEqual(wrongRecord.specialTithiYogas, []);
-  assert.equal(wrongRecord.dateSelection, "single-observation-candidate-review-required");
+  assert.equal(wrongRecord.dateSelection, "requires-vrata-specific-rule");
 });
 
