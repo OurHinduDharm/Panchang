@@ -37,3 +37,23 @@ test("selects the exact tithi interval overlapping the festival's local date", (
 test("formats a cross-date interval endpoint with its date", () => {
   assert.match(formatTithiPoint("2026-11-02T03:30:00+05:30", "2026-11-01"), /2 नव॰/);
 });
+
+
+test("merges sunrise-clipped pieces so the true tithi transition has no false gap", () => {
+  const days = [
+    { tithis: [
+      { index: 21, startTime: "2030-12-16T16:58:00+05:30", endTime: "2030-12-17T06:57:00+05:30" },
+      { index: 22, startTime: "2030-12-17T17:31:00+05:30", endTime: "2030-12-18T06:58:00+05:30" }
+    ] },
+    { tithis: [
+      { index: 21, startTime: "2030-12-17T06:57:00+05:30", endTime: "2030-12-17T17:31:00+05:30" },
+      { index: 22, startTime: "2030-12-18T06:58:00+05:30", endTime: "2030-12-18T17:21:00+05:30" }
+    ] }
+  ];
+  const saptami = findTithiInterval(days, { name: "सप्तमी", index: 21 }, "2030-12-17");
+  const ashtami = findTithiInterval(days, { name: "अष्टमी", index: 22 }, "2030-12-17");
+  assert.equal(saptami.start.toISOString(), "2030-12-16T11:28:00.000Z");
+  assert.equal(saptami.end.toISOString(), "2030-12-17T12:01:00.000Z");
+  assert.equal(ashtami.start.toISOString(), "2030-12-17T12:01:00.000Z");
+  assert.equal(ashtami.end.toISOString(), "2030-12-18T11:51:00.000Z");
+});
