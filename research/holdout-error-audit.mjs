@@ -22,20 +22,63 @@ function dayNumber(dateKey) {
 export function auditHoldoutRecord(record, offsetMinutes = 330) {
   const sourceInstant = record.sourceUtcInstant;
   const predictedInstant = record.prediction?.instant;
-  if (!sourceInstant || !predictedInstant ||
-      !Number.isFinite(Date.parse(sourceInstant)) ||
-      !Number.isFinite(Date.parse(predictedInstant))) {
+  const sourceMs = Date.parse(sourceInstant);
+  const predictedMs = Date.parse(predictedInstant);
+  const hasSource = Boolean(sourceInstant) && Number.isFinite(sourceMs);
+  const hasPrediction = Boolean(predictedInstant) && Number.isFinite(predictedMs);
+  const training = record.training;
+  const threshold = training?.thresholdDepressionDeg;
+  const sourceDepression = record.sunDepressionDeg;
+  const hasThresholdResidual = Number.isFinite(threshold) && Number.isFinite(sourceDepression);
+  const thresholdResidualDeg = hasThresholdResidual ? sourceDepression - threshold : null;
+  const thresholdRangeAvailable = Number.isFinite(training?.trainingMinDeg) &&
+    Number.isFinite(training?.trainingMaxDeg);
+  const sourceWithinTrainingRange = hasThresholdResidual && thresholdRangeAvailable
+    ? sourceDepression >= training.trainingMinDeg && sourceDepression <= training.trainingMaxDeg
+    : null;
+  const bracket = record.prediction?.bracket;
+  const bracketTimes = Array.isArray(bracket) ? bracket.map(Date.parse) : [];
+  const thresholdBracketContainsSource = hasSource && bracketTimes.length === 2 &&
+    bracketTimes.every(Number.isFinite) &&
+    sourceMs >= Math.min(...bracketTimes) && sourceMs <= Math.max(...bracketTimes);
+  const branchExpected = record.expectedHorizonEventType ?? null;
+  const branchObserved = record.horizonEventType ?? null;
+  const sourceBranchMatches = branchExpected && branchObserved
+    ? branchExpected === branchObserved
+    : null;
+  const predictionBranchMatches = branchExpected && record.prediction?.type
+    ? branchExpected === record.prediction.type
+    : null;
+
+  const diagnostics = {
+    conjunctionKind: record.conjunctionKind ?? null,
+    conjunctionInstant: record.conjunctionInstant ?? null,
+    expectedHorizonEventType: branchExpected,
+    observedHorizonEventType: branchObserved,
+    sourceBranchMatchesConjunction: sourceBranchMatches,
+    predictionBranchMatchesConjunction: predictionBranchMatches,
+    sourceSunDepressionDeg: Number.isFinite(sourceDepression) ? sourceDepression : null,
+    trainedThresholdDepressionDeg: Number.isFinite(threshold) ? threshold : null,
+    sourceMinusThresholdDeg: Number.isFinite(thresholdResidualDeg)
+      ? Number(thresholdResidualDeg.toFixed(4)) : null,
+    sourceWithinTrainingDepressionRange: sourceWithinTrainingRange,
+    thresholdTrainingSampleCount: training?.sampleCount ?? 0,
+    thresholdBracketContainsSourceInstant: thresholdBracketContainsSource
+  };
+
+  if (!hasSource || !hasPrediction) {
     return {
       ...record,
       audit: {
+        ...diagnostics,
         resolved: false,
-        status: "unresolved-no-valid-prediction",
+        status: record.status || "unresolved-no-valid-prediction",
         publicationEligible: false
       }
     };
   }
 
-  const signedTimeErrorMinutes = (Date.parse(predictedInstant) - Date.parse(sourceInstant)) / 60_000;
+  const signedTimeErrorMinutes = (predictedMs - sourceMs) / 60_000;
   const sourceLocalDate = localDateKey(sourceInstant, offsetMinutes);
   const predictedLocalDate = localDateKey(predictedInstant, offsetMinutes);
   const dateErrorDays = dayNumber(predictedLocalDate) - dayNumber(sourceLocalDate);
@@ -49,6 +92,7 @@ export function auditHoldoutRecord(record, offsetMinutes = 330) {
   return {
     ...record,
     audit: {
+      ...diagnostics,
       resolved: true,
       sourceLocalDate,
       predictedLocalDate,
