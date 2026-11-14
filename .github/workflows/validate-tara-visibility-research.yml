@@ -12,6 +12,7 @@ on:
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/city-observer-profiles.mjs"
+      - "data/city-observer-profiles-2026-11-14.json"
       - "research/multi-city-planetary-backtest.mjs"
       - "research/holdout-error-audit.mjs"
       - "tests/holdout-error-audit.test.mjs"
@@ -70,7 +71,7 @@ jobs:
           node --test tests/agastya-canopus-position.test.mjs
           node --test tests/holdout-error-audit.test.mjs
       - name: Resolve five city-centre observer coordinates and DEM elevations
-        run: node research/city-observer-profiles.mjs --output city-observer-profiles.json
+        run: node research/city-observer-profiles.mjs --snapshot data/city-observer-profiles-2026-11-14.json --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
         run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
       - name: Back-test Guru/Shukra independently for each city
