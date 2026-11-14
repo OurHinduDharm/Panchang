@@ -126,7 +126,6 @@ function sample(instant,observer,visibilityOptions) {
     instant:result.instant,
     visible:result.visibility.visible===true,
     altitudeDeg:result.altitudeDeg,
-    geometricAltitudeDeg:getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant,refraction:"none"}).altitudeDeg,
     azimuthDeg:result.azimuthDeg,
     sunAltitudeDeg:result.sunAltitudeDeg,
     sunAzimuthDeg:result.sunAzimuthDeg,
@@ -256,9 +255,11 @@ export function buildAgastyaPhysicalVisibilityAudit({
         sourceStatus:source.source?.status??"historical-source-audit",
         physicalVisibilityAtSourceRise:atTraditionalRise.visible,
         physicalSampleAtSourceRise:atTraditionalRise,
+        geometricAltitudeAtSourceRiseDeg:getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant,refraction:"none"}).altitudeDeg,
         geometricRiseCrossing,
         physicalVisibilityAtSourceSet:atTraditionalSet?.visible??null,
         physicalSampleAtSourceSet:atTraditionalSet,
+        geometricAltitudeAtSourceSetDeg:source.taraSetDate&&source.taraSet?getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant:parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),refraction:"none"}).altitudeDeg:null,
         geometricSetCrossing
       };
     }
