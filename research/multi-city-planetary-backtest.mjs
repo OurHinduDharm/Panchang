@@ -169,6 +169,7 @@ for (const profile of profiles) {
     }
   }
 
+  const leaveOneYearOut = leaveOneYearOutThresholdAudit(observations);
   const holdout = [];
   const pairingDiagnostics = {};
   for (const planet of PLANETS) {
@@ -286,6 +287,7 @@ for (const profile of profiles) {
     trainingYears: profile.geonameId === "1259503" ? "available 2021-2025" : "2024-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
+    leaveOneYearOutThresholdAudit: leaveOneYearOut,
     pairingDiagnostics,
     holdoutSummary: {
       records: holdout.length,
@@ -311,7 +313,7 @@ const report = {
   model: "same-city-conjunction-paired-rise-set-sun-depression-threshold-backtest-v3",
   sourceDataset: "data/drik-planetary-reference-2024-2027.json",
   observerProfiles: "city-observer-profiles.json",
-  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years through 2025; source records with unresolved/mismatched conjunction branches are excluded",
+  trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years through 2025; source records with unresolved/mismatched conjunction branches are excluded; whole-year leave-one-out threshold stability is reported separately",
   holdoutPolicy: "2026-2027; no holdout threshold tuning; candidates are generated across the fixed horizon series and paired to conjunctions using branch and side only; reference timestamps are used only after selection to measure error",
   cities: cityReports,
   publicationEligible: false,
