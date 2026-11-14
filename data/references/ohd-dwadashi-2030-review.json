@@ -67,15 +67,24 @@
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
-      "selectedDate": "2030-03-30",
-      "dateSelection": "single-observation-candidate-review-required",
+      "selectedDate": "2030-03-29",
+      "dateSelection": "source-reference-date-tithi-overlap-review-required",
       "displayNames": [
         "कृष्ण-नृसिंह द्वादशी"
       ],
       "observances": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "sourceReferenceObservation": {
+        "date": "2030-03-29",
+        "intervalStart": "2030-03-29T19:04:51.604Z",
+        "intervalEnd": "2030-03-30T19:12:52.860Z",
+        "sunriseDayStart": "2030-03-29T00:33:00.459Z",
+        "sunriseDayEnd": "2030-03-30T00:31:49.178Z",
+        "basis": "daily-tithi-interval",
+        "source": "local-panchang-sunrise-to-next-sunrise"
+      }
     },
     {
       "id": "chaitra-shukla",
