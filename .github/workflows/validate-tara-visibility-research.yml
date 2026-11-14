@@ -22,6 +22,7 @@ on:
       - "research/azimuth-conditioned-threshold-audit.mjs"
       - "research/conjunction-age-threshold-audit.mjs"
       - "research/conjunction-age-event-time-audit.mjs"
+      - "scripts/validate-conjunction-age-event-time-report.mjs"
       - "tests/threshold-crossvalidation.test.mjs"
       - "tests/azimuth-conditioned-threshold-audit.test.mjs"
       - "tests/conjunction-age-threshold-audit.test.mjs"
@@ -114,6 +115,8 @@ jobs:
         run: node research/conjunction-age-threshold-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-threshold-audit.json
       - name: Audit conjunction-age implicit event-time candidates
         run: node research/conjunction-age-event-time-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-event-time-audit.json
+      - name: Assert Pithoragarh and five-city Venus 2027 holdouts
+        run: node scripts/validate-conjunction-age-event-time-report.mjs --input conjunction-age-event-time-audit.json
       - name: Audit exact local-date and clock-time holdout errors
         run: node research/holdout-error-audit.mjs --input multi-city-planetary-backtest.json --output multi-city-planetary-error-audit.json
       - name: Upload city-profile and research-only back-test reports
