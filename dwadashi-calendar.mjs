@@ -186,7 +186,8 @@ const MAHADWADASHI_NAMES = {
   jaya:"जया महाद्वादशी",
   vijaya:"विजया महाद्वादशी",
   jayanti:"जयन्ती महाद्वादशी",
-  aparajita:"अपराजिता महाद्वादशी"
+  aparajita:"अपराजिता महाद्वादशी",
+  papanashini:"पापनाशिनी महाद्वादशी"
 };
 
 function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
@@ -205,12 +206,12 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
         const criterionText = String(criterion || "");
         if (!/द्वादशी/.test(criterionText)) continue;
         const requiredPaksha = normalizePaksha(criterionText);
-        if (!requiredPaksha || requiredPaksha !== dayPaksha) continue;
+        if (!dayPaksha || (requiredPaksha && requiredPaksha !== dayPaksha)) continue;
         const requiredNakshatra = normalizeNakshatra(criterionText.split("+").pop());
         if (!requiredNakshatra) continue;
         for (const tithi of day.tithiIntervals) {
           if (normalizeTithi(tithi.tithi) !== "द्वादशी" ||
-              normalizePaksha(tithi.paksha) !== requiredPaksha) continue;
+              normalizePaksha(tithi.paksha) !== dayPaksha) continue;
           const tithiStart = Date.parse(tithi.startTime || "");
           const tithiEnd = Date.parse(tithi.endTime || "");
           if (!Number.isFinite(tithiStart) || !Number.isFinite(tithiEnd) || tithiEnd <= tithiStart) continue;
@@ -232,7 +233,7 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
               source:variant.source || variant.id,
               sourceUrl:variant.sourceUrl || null,
               month:masa.month,
-              paksha:requiredPaksha,
+              paksha:dayPaksha,
               adhika:masa.adhika,
               observanceDate:day.date,
               nakshatra:requiredNakshatra,
