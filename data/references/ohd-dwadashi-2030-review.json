@@ -1886,7 +1886,25 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "local-48-minute-overlap-confirmed-source-review-pending",
+          "localDwadashiShravanaOverlapMs": 3027927,
+          "localAssessment": {
+            "ruleId": "shravana-yoga-dwadashi",
+            "result": "qualifying-candidate",
+            "overlapMs": 3027927,
+            "overlapMinutes": 50.46545,
+            "thresholdMs": 2880000,
+            "dwadashiIntervalIST": {
+              "start": "2030-02-28T14:05:08.714+05:30",
+              "end": "2030-03-01T13:05:25.632+05:30"
+            },
+            "shravanaOverlapIST": {
+              "start": "2030-03-01T12:14:57.705+05:30",
+              "end": "2030-03-01T13:05:25.632+05:30"
+            },
+            "sourceLabelDisposition": "locally-supported-cross-reference;keep-with-the-same-krishna-bhishma-dwadashi-card",
+            "evidence": "स्थानीय इंजन में द्वादशी सूर्योदय पर उपस्थित थी और 1 मार्च को 12:14:57.705 से 13:05:25.632 IST तक श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का संयोग बना। यह एक मुहूर्त (48 मिनट) से अधिक है। Drik का समय भी लगभग 12:14 से 13:04 बताता है।"
+          }
         }
       ],
       "selectedDate": "2030-03-01",
@@ -1897,7 +1915,38 @@
       "observances": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "shravanaYogaDecision": {
+        "status": "qualifying-candidate-needs-manual-source-review",
+        "selectedDate": "2030-03-01",
+        "overlapMs": 3027927,
+        "thresholdMs": 2880000,
+        "relatedNamedObservance": "कृष्ण भीष्म द्वादशी",
+        "publicCardDisposition": "same-card-no-duplicate-shravana-yoga-card",
+        "autoApproved": false
+      },
+      "observanceDateReviews": [
+        {
+          "observanceId": "krishna-bhishma",
+          "name": "कृष्ण भीष्म द्वादशी",
+          "selectedDate": "2030-03-01",
+          "decisionStatus": "local-tithi-and-shravana-overlap-candidate",
+          "source": "Drik Panchang — Krishna Bhishma Dwadashi and Shravana Yoga Dwadashi",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/bhishma/krishna-bhishma-dwadashi-date-time.html?year=2030",
+          "localTithiIntervalIST": {
+            "start": "2030-02-28T14:05:08.714+05:30",
+            "end": "2030-03-01T13:05:25.632+05:30"
+          },
+          "localShravanaOverlapIST": {
+            "start": "2030-03-01T12:14:57.705+05:30",
+            "end": "2030-03-01T13:05:25.632+05:30"
+          },
+          "overlapMs": 3027927,
+          "autoApproved": false,
+          "note": "यह स्थानीय एक-मुहूर्त श्रवण-संयोग का स्रोत-समीक्षा उम्मीदवार है; अलग श्रवण योग कार्ड नहीं बनेगा।"
+        }
+      ],
+      "sourceDateDecisionNote": "1 मार्च 2030 को फाल्गुन कृष्ण द्वादशी सूर्योदय पर उपस्थित है और श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का स्थानीय संयोग बनता है। अतः Drik का श्रवण योग द्वादशी cross-reference स्थानीय 48-मिनट नियम से मेल खाता है; इसे कृष्ण भीष्म द्वादशी के साथ एक ही कार्ड में रखा जाए, अलग डुप्लिकेट नहीं। शुक्र प्रदोष अलग त्रयोदशी-व्रत और अलग कार्ड है।"
     },
     {
       "id": "phalguna-shukla",
