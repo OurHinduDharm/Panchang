@@ -66,6 +66,22 @@ export function extractDwadashiDay(panchang, date, instant = null) {
       })
     : null;
   const noonTithi = interval ? normalizeEngineTithi(interval.index ?? interval.name) : Array.isArray(panchang.tithis) ? "" : normalizeEngineTithi(panchang.tithi);
+  const tithiIntervals = Array.isArray(panchang.tithis)
+    ? panchang.tithis.filter(Boolean).map(item => ({
+        tithi:normalizeEngineTithi(item.index ?? item.name),
+        paksha:normalizeEnginePaksha(null, item.index ?? item.name),
+        startTime:iso(item.startTime),
+        endTime:iso(item.endTime)
+      })).filter(item => item.startTime && item.endTime)
+    : [];
+  const nakshatraIntervals = Array.isArray(panchang.nakshatras)
+    ? panchang.nakshatras.filter(Boolean).map(item => ({
+        index:item.index,
+        name:NAKSHATRA_HINDI[Number(item.index)] || String(item.name || ""),
+        startTime:iso(item.startTime),
+        endTime:iso(item.endTime)
+      })).filter(item => item.startTime && item.endTime)
+    : [];
   return {
     date,
     tithi: normalizeEngineTithi(panchang.tithi),
@@ -76,7 +92,10 @@ export function extractDwadashiDay(panchang, date, instant = null) {
     tithiEndTime: iso(panchang.tithiEndTime),
     noonTithiStartTime: iso(interval?.startTime),
     noonTithiEndTime: iso(interval?.endTime),
-    sunrise: iso(panchang.sunrise)
+    sunrise: iso(panchang.sunrise),
+    sunset: iso(panchang.sunset),
+    tithiIntervals,
+    nakshatraIntervals
   };
 }
 
