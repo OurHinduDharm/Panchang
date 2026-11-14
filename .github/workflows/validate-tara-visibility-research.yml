@@ -12,6 +12,7 @@ on:
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/city-observer-profiles.mjs"
+      - "research/multi-city-planetary-backtest.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
       - "data/agastya-arghya-pithoragarh.json"
@@ -27,6 +28,7 @@ on:
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/city-observer-profiles.mjs"
+      - "research/multi-city-planetary-backtest.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "tests/planetary-conjunction-association.test.mjs"
       - "research/pithoragarh-horizon-thresholds-2021-2025.json"
@@ -66,6 +68,8 @@ jobs:
         run: node research/city-observer-profiles.mjs --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
         run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
+      - name: Back-test Guru/Shukra independently for each city
+        run: node research/multi-city-planetary-backtest.mjs --profiles city-observer-profiles.json --output multi-city-planetary-backtest.json
       - name: Upload city-profile and research-only back-test reports
         uses: actions/upload-artifact@v4
         with:
@@ -73,6 +77,7 @@ jobs:
           path: |
             city-observer-profiles.json
             planetary-city-backtest.json
+            multi-city-planetary-backtest.json
           if-no-files-found: error
       - name: Smoke-test the real Astronomy Engine adapter
         run: |
