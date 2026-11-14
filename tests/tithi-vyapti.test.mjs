@@ -57,3 +57,31 @@ test("merges sunrise-clipped pieces so the true tithi transition has no false ga
   assert.equal(ashtami.start.toISOString(), "2030-12-17T12:01:00.000Z");
   assert.equal(ashtami.end.toISOString(), "2030-12-18T11:51:00.000Z");
 });
+
+
+test("every tithi-name vyapti label in the 2026–2030 calendar can be parsed", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const folder = join(process.cwd(), "data", "festivals");
+  const years = [2026, 2027, 2028, 2029, 2030];
+  const tithiNames = [
+    "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी", "सप्तमी",
+    "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी",
+    "पूर्णिमा", "अमावस्या"
+  ];
+  const failures = [];
+  for (const year of years) {
+    for (let month = 1; month <= 12; month++) {
+      const file = join(folder, year + "-" + String(month).padStart(2, "0") + ".json");
+      const data = JSON.parse(readFileSync(file, "utf8"));
+      for (const event of data.events || []) {
+        const text = String(event.hinduTithi || "");
+        const match = text.match(/\(([^()]*)\)/);
+        if (!match || !/व्याप्ति/.test(match[1])) continue;
+        if (!tithiNames.some(name => match[1].includes(name))) continue;
+        if (!parseTithiVyapti(event)) failures.push([event.date, event.title, text]);
+      }
+    }
+  }
+  assert.deepEqual(failures, []);
+});
