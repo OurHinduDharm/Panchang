@@ -3,8 +3,21 @@ import assert from "node:assert/strict";
 import {
   findPlanetConjunctions,
   associateCandidatesWithConjunctions,
-  pairCandidatesAroundConjunctions
+  pairCandidatesAroundConjunctions,
+  expectedBoundaryEventType
 } from "../research/planetary-conjunction-association.mjs";
+
+test("exposes one tested expected rise/set branch for each conjunction family", () => {
+  assert.equal(expectedBoundaryEventType("Jupiter", "conjunction", "astaStart"), "set");
+  assert.equal(expectedBoundaryEventType("Jupiter", "conjunction", "astaEnd"), "rise");
+  assert.equal(expectedBoundaryEventType("Venus", "inferior-conjunction", "astaStart"), "set");
+  assert.equal(expectedBoundaryEventType("Venus", "inferior-conjunction", "astaEnd"), "rise");
+  assert.equal(expectedBoundaryEventType("Venus", "superior-conjunction", "astaStart"), "rise");
+  assert.equal(expectedBoundaryEventType("Venus", "superior-conjunction", "astaEnd"), "set");
+  assert.equal(expectedBoundaryEventType("Venus", "unknown", "astaStart"), null);
+  assert.throws(() => expectedBoundaryEventType("Mars", "conjunction", "astaStart"), /Jupiter or Venus/);
+  assert.throws(() => expectedBoundaryEventType("Jupiter", "conjunction", "start"), /astaStart or astaEnd/);
+});
 
 test("uses documented conjunction targets for Jupiter and Venus", () => {
   const calls = [];
