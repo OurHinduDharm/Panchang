@@ -596,6 +596,14 @@ test("2030 annual review keeps the two Pausha Krishna Dwadashi occurrences separ
   const records = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
   assert.deepEqual(records.map(item => item.id), ["pausha-krishna", "pausha-krishna-occurrence-2"]);
   assert.deepEqual(records.map(item => item.candidateDates), [["2030-01-01"], ["2030-12-22"]]);
+  assert.equal(records[0].selectedDate, "2030-01-01");
+  assert.equal(records[1].referenceDate, "2030-12-21");
+  assert.equal(records[1].selectedDate, "2030-12-21");
+  assert.equal(records[1].dateSelection, "source-reference-date-tithi-overlap-review-required");
+  assert.deepEqual(records[1].drikLabels, ["कृष्ण मत्स्य द्वादशी"]);
+  assert.deepEqual(records[1].crossReferences.map(ref => ref.name), ["कृष्ण मत्स्य द्वादशी"]);
+  assert.equal(records[1].sourceReferenceObservation.sunriseDayStart, "2030-12-21T01:30:03.181Z");
+  assert.equal(records[1].sourceReferenceObservation.sunriseDayEnd, "2030-12-22T01:30:33.432Z");
   assert.ok(records.every(item => item.status === "needs-review"));
 });
 
