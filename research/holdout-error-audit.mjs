@@ -129,7 +129,7 @@ export function auditReport(report) {
         within1Hour: count("within-1-hour"),
         sameLocalDateButTimeMismatch: count("same-local-date-time-mismatch"),
         localDateMismatch: count("local-date-mismatch"),
-        unresolved: count("unresolved-no-valid-prediction"),
+        unresolved: holdout.filter(record => !record.audit.resolved).length,
         meanAbsoluteTimeErrorMinutes: mean(absErrors),
         maxAbsoluteTimeErrorMinutes: absErrors.length ? Math.max(...absErrors) : null,
         meanAbsoluteLocalDateErrorDays: mean(dateErrors),
