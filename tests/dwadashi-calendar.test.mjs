@@ -656,6 +656,7 @@ test("Trisparsha is not inferred when the following sunrise is missing or the ti
   const notTrisparshaNext = sunriseDay("2030-05-15", "वैशाख", "शुक्ल", "द्वादशी");
   notTrisparshaNext.sunrise = "2030-05-15T00:00:00.000Z";
   notTrisparshaNext.sunriseTithi.tithiStartTime = "2030-05-14T22:02:44.790Z";
+  notTrisparshaNext.noonTithi = "त्रयोदशी";
   const wrongSequence = buildDwadashiCalendar([first, notTrisparshaNext], sourceRules);
   const wrongRecord = wrongSequence.tithis.find(item => item.id === "vaishakha-shukla");
   assert.deepEqual(wrongRecord.specialTithiYogas, []);
