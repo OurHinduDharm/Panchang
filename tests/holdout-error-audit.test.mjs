@@ -39,7 +39,7 @@ test("audit report flags low training sample counts and never approves publicati
 
 test("audits threshold residual and conjunction branch independently of date error", () => {
   const record = auditHoldoutRecord({
-    sourceUtcInstant: "2026-08-11T23:32:50.000Z",
+    sourceUtcInstant: "2026-08-11T23:32:40.000Z",
     expectedHorizonEventType: "rise",
     horizonEventType: "rise",
     conjunctionKind: "conjunction",
