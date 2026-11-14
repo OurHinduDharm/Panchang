@@ -82,6 +82,18 @@ test("engine zero-based indexes identify Shatabhisha and Shubha even without nam
   assert.ok(results.some(item => item.labels[0] === "महामहावारुणी योग"));
 });
 
+test("known one-minute scanner gap is closed at the exact previous transition", () => {
+  const candidate = day({
+    nakshatras: [
+      { index: 22, startTime: "2028-03-17T00:00:00Z", endTime: "2028-03-17T04:00:00Z" },
+      { index: 23, startTime: "2028-03-17T04:01:00Z", endTime: "2028-03-17T12:00:00Z" }
+    ]
+  });
+  const results = buildVaruniCandidates([candidate]);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].startTime, "2028-03-17T04:00:00.000Z");
+});
+
 test("invalid or absent intervals are safely omitted", () => {
   assert.deepEqual(buildVaruniCandidates([day({ sunrise: null })]), []);
   assert.equal(SPECIAL_PUNYA_KAAL_POLICY.sankranti, "reuse-existing-display-and-calculation; never-duplicate");
