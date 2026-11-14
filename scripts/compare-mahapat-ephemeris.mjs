@@ -7,13 +7,14 @@
  * lunar disks overlap. This is a numerical comparison model, not yet the
  * approved Karana-Kutuhala shara-khanda implementation.
  */
-import {
+import Astronomy from "astronomy-engine";
+const {
   Body,
   GeoVector,
   Rotation_EQJ_EQD,
   Rotation_EQJ_ECT,
   RotateVector
-} from "astronomy-engine";
+} = Astronomy;
 import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
 
 const AU_KM = 149597870.7;
