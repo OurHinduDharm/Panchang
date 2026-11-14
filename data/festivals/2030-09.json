@@ -100,19 +100,39 @@
     {
       "date": "2030-09-08",
       "dateLabel": "8 सितंबर",
-      "title": "परिवर्तिनी / पार्श्व एकादशी (स्मार्त) / वामन जयंती / कल्कि द्वादशी",
-      "description": "परिवर्तिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान करें। इसी दिन वामन जयंती तथा कल्कि द्वादशी भी हैं। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर समाप्ति के बाद करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "परिवर्तिनी / पार्श्व एकादशी (स्मार्त)",
+      "description": "परिवर्तिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान करें। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर समाप्ति के बाद करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
-      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
+    },
+    {
+      "date": "2030-09-08",
+      "dateLabel": "8 सितंबर",
+      "title": "वामन जयंती",
+      "description": "भाद्रपद शुक्ल पक्ष में भगवान विष्णु के वामन अवतार की जयंती पर वामन भगवान का पूजन, मंत्र-जप और दान करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति"
+    },
+    {
+      "date": "2030-09-08",
+      "dateLabel": "8 सितंबर",
+      "title": "कल्कि द्वादशी",
+      "description": "कल्कि द्वादशी पर भगवान विष्णु के कल्कि अवतार का स्मरण, पूजन और श्रद्धापूर्वक व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति"
     },
     {
       "date": "2030-09-09",
