@@ -53,22 +53,19 @@ for (const year of YEARS) {
   const end = `${year + 1}-01-01`;
   for (let date = start; date < end; date = addDays(date, 1)) {
     const current = panchang(date);
-    const next = panchang(addDays(date, 1));
-    calls += 2;
+    calls += 1;
     const record = {
       date,
       masa: monthName(current.masa ?? current.month),
       paksha: current.paksha,
       sunrise: iso(current.sunrise),
-      nextSunrise: iso(next.sunrise),
       tithis: intervals(current.tithis),
       nakshatras: intervals(current.nakshatras),
       yogas: intervals(current.yogas)
     };
-    if (!record.sunrise || !record.nextSunrise || !record.tithis.length || !record.nakshatras.length || !record.yogas.length) {
+    if (!record.sunrise || !record.tithis.length || !record.nakshatras.length || !record.yogas.length) {
       diagnostics.push({ date, missing: [
         !record.sunrise ? "sunrise" : null,
-        !record.nextSunrise ? "nextSunrise" : null,
         !record.tithis.length ? "tithis" : null,
         !record.nakshatras.length ? "nakshatras" : null,
         !record.yogas.length ? "yogas" : null
