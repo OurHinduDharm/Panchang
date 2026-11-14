@@ -82,6 +82,45 @@ test("engine zero-based indexes identify Shatabhisha and Shubha even without nam
   assert.ok(results.some(item => item.labels[0] === "महामहावारुणी योग"));
 });
 
+test("a conjunction crossing midnight is assigned to its actual local start date, not the previous sunrise date", () => {
+  const days = [
+    day({
+      date: "2027-04-03",
+      sunrise: "2027-04-03T00:30:00Z",
+      nextSunrise: "2027-04-04T00:26:00Z",
+      tithis: [{ index: 27, startTime: "2027-04-03T22:57:00Z", endTime: "2027-04-04T00:26:00Z" }],
+      nakshatras: [{ index: 23, startTime: "2027-04-03T09:11:00Z", endTime: "2027-04-04T00:26:00Z" }],
+      yogas: []
+    }),
+    day({
+      date: "2027-04-04",
+      sunrise: "2027-04-04T00:26:00Z",
+      nextSunrise: "2027-04-05T00:25:00Z",
+      tithis: [{ index: 27, startTime: "2027-04-04T00:26:00Z", endTime: "2027-04-04T23:53:00Z" }],
+      nakshatras: [{ index: 23, startTime: "2027-04-04T00:26:00Z", endTime: "2027-04-04T11:02:00Z" }],
+      yogas: []
+    })
+  ];
+  const results = buildVaruniCandidates(days);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].date, "2027-04-04");
+  assert.equal(results[0].startTime, "2027-04-03T22:57:00.000Z");
+  assert.equal(results[0].endTime, "2027-04-04T11:02:00.000Z");
+  assert.deepEqual(results[0].labels, ["वारुणी योग"]);
+});
+
+test("a conjunction beginning Friday but continuing into Saturday gets its Saturday upgrade", () => {
+  const friday = day({
+    date: "2028-03-17",
+    tithis: [{ index: 27, startTime: "2028-03-17T17:00:00Z", endTime: "2028-03-18T01:00:00Z" }],
+    nakshatras: [{ index: 23, startTime: "2028-03-17T17:00:00Z", endTime: "2028-03-18T01:00:00Z" }],
+    yogas: []
+  });
+  const results = buildVaruniCandidates([friday]);
+  assert.ok(results.some(item => item.labels[0] === "वारुणी योग" && item.date === "2028-03-17"));
+  assert.ok(results.some(item => item.labels[0] === "महावारुणी योग" && item.date === "2028-03-18"));
+});
+
 test("known one-minute scanner gap is closed at the exact previous transition", () => {
   const candidate = day({
     nakshatras: [
