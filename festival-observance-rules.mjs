@@ -796,9 +796,9 @@ export function resolveRathaSaptamiCandidates(candidateDays) {
   const info = days.map(day => {
     const date = String(day?.date ?? "");
     const sunrise = asDate(day?.sunrise);
-    const masa = String(day?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
     const paksha = String(day?.paksha ?? "").trim();
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || !sunrise ||
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !sunrise ||
         masa !== "माघ" || !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
         !Array.isArray(day?.tithis) || !day.tithis.length) return null;
     const arunodaya = new Date(sunrise.getTime() - 96 * 60000);
