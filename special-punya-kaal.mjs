@@ -113,6 +113,19 @@ export function buildVaruniCandidates(days, options = {}) {
   }
 
   const candidates = [];
+  const addCandidate = (day, interval, label) => {
+    candidates.push({
+      date: day.date,
+      labels: [label],
+      startTime: toIso(interval.start),
+      endTime: toIso(interval.end),
+      status: "research-candidate",
+      location: "Pithoragarh",
+      timezone: "Asia/Kolkata",
+      ruleProfile: tradition
+    });
+  };
+
   for (const day of days) {
     if (!day?.date || !isChaitra(day)) continue;
     const sunrise = validTime(day.sunrise);
@@ -124,7 +137,6 @@ export function buildVaruniCandidates(days, options = {}) {
     const tithis = (day.tithis || []).filter(isTrayodashi).filter(item => isKrishna(item, day));
     const nakshatras = (day.nakshatras || []).filter(isShatabhisha);
     const yogas = (day.yogas || []).filter(isShubha);
-    const intersections = [];
 
     for (const tithi of tithis) {
       const tithiInterval = intervalOf(tithi);
@@ -135,37 +147,24 @@ export function buildVaruniCandidates(days, options = {}) {
         const base = intersect(tithiInterval, nakshatraInterval, { start: sunrise, end: nextSunrise });
         if (!base) continue;
 
-        intersections.push({
-          date: day.date,
-          start: base.start,
-          end: base.end,
-          weekday,
-          shubha: yogas.some(yoga => {
+        addCandidate(day, base, "वारुणी योग");
+        if (weekday === 6) {
+          addCandidate(day, base, "महावारुणी योग");
+          for (const yoga of yogas) {
             const yogaInterval = intervalOf(yoga);
-            return yogaInterval && intersect(base, yogaInterval);
-          })
-        });
+            if (!yogaInterval) continue;
+            const mahavaruni = intersect(base, yogaInterval);
+            if (mahavaruni) addCandidate(day, mahavaruni, "महामहावारुणी योग");
+          }
+        }
       }
-    }
-
-    for (const item of mergeIntervals(intersections)) {
-      const labels = ["वारुणी योग"];
-      if (item.weekday === 6) labels.push("महावारुणी योग");
-      if (item.weekday === 6 && item.shubha) labels.push("महामहावारुणी योग");
-      candidates.push({
-        date: item.date,
-        labels,
-        startTime: toIso(item.start),
-        endTime: toIso(item.end),
-        status: "research-candidate",
-        location: "Pithoragarh",
-        timezone: "Asia/Kolkata",
-        ruleProfile: tradition
-      });
     }
   }
 
-  return candidates.sort((a, b) => a.startTime.localeCompare(b.startTime));
+  return candidates.sort((a, b) =>
+    a.startTime.localeCompare(b.startTime) ||
+    a.labels[0].localeCompare(b.labels[0], "hi")
+  );
 }
 
 export const SPECIAL_PUNYA_KAAL_POLICY = Object.freeze({
