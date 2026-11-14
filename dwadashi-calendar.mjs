@@ -154,6 +154,105 @@ function findSmartaTrisparshaObservations(dailyPanchang, rule) {
   return found;
 }
 
+const NAKSHATRA_NAMES = [
+  "अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशीर्ष","आर्द्रा","पुनर्वसु","पुष्य",
+  "आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाती",
+  "विशाखा","अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण",
+  "धनिष्ठा","शतभिषा","पूर्वाभाद्रपदा","उत्तराभाद्रपदा","रेवती"
+];
+const NAKSHATRA_ENGLISH = [
+  "ashwini","bharani","krittika","rohini","mrigashira","ardra","punarvasu","pushya",
+  "ashlesha","magha","purva phalguni","uttara phalguni","hasta","chitra","swati",
+  "vishakha","anuradha","jyeshtha","mula","purva ashadha","uttara ashadha","shravana",
+  "dhanishta","shatabhisha","purva bhadrapada","uttara bhadrapada","revati"
+];
+
+function normalizeNakshatra(value) {
+  if (value && typeof value === "object") {
+    const index = Number(value.index);
+    if (Number.isInteger(index) && index >= 0 && index < NAKSHATRA_NAMES.length) {
+      return NAKSHATRA_NAMES[index];
+    }
+    value = value.name ?? value.label ?? value.value ?? "";
+  }
+  const text = String(value || "").normalize("NFC").trim().toLocaleLowerCase("hi");
+  const hindi = NAKSHATRA_NAMES.find(name => text.includes(name));
+  if (hindi) return hindi;
+  const englishIndex = NAKSHATRA_ENGLISH.findIndex(name => text.includes(name));
+  return englishIndex >= 0 ? NAKSHATRA_NAMES[englishIndex] : "";
+}
+
+const MAHADWADASHI_NAMES = {
+  jaya:"जया महाद्वादशी",
+  vijaya:"विजया महाद्वादशी",
+  jayanti:"जयन्ती महाद्वादशी",
+  aparajita:"अपराजिता महाद्वादशी"
+};
+
+function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
+  if (!Array.isArray(sourceVariants)) return [];
+  const found = [];
+  const seen = new Set();
+  for (const day of dailyPanchang) {
+    if (!day || !day.date || !Array.isArray(day.tithiIntervals) ||
+        !Array.isArray(day.nakshatraIntervals)) continue;
+    const masa = normalizeMonth(day.masa);
+    const dayPaksha = normalizePaksha(day.paksha);
+    for (const variant of sourceVariants) {
+      if (!variant || !variant.id || !variant.criteria || typeof variant.criteria !== "object") continue;
+      for (const [ruleId, criterion] of Object.entries(variant.criteria)) {
+        if (!MAHADWADASHI_NAMES[ruleId]) continue;
+        const criterionText = String(criterion || "");
+        if (!/द्वादशी/.test(criterionText)) continue;
+        const requiredPaksha = normalizePaksha(criterionText);
+        if (!requiredPaksha || requiredPaksha !== dayPaksha) continue;
+        const requiredNakshatra = normalizeNakshatra(criterionText.split("+").pop());
+        if (!requiredNakshatra) continue;
+        for (const tithi of day.tithiIntervals) {
+          if (normalizeTithi(tithi.tithi) !== "द्वादशी" ||
+              normalizePaksha(tithi.paksha) !== requiredPaksha) continue;
+          const tithiStart = Date.parse(tithi.startTime || "");
+          const tithiEnd = Date.parse(tithi.endTime || "");
+          if (!Number.isFinite(tithiStart) || !Number.isFinite(tithiEnd) || tithiEnd <= tithiStart) continue;
+          for (const nakshatra of day.nakshatraIntervals) {
+            if (normalizeNakshatra(nakshatra) !== requiredNakshatra) continue;
+            const nakshatraStart = Date.parse(nakshatra.startTime || "");
+            const nakshatraEnd = Date.parse(nakshatra.endTime || "");
+            if (!Number.isFinite(nakshatraStart) || !Number.isFinite(nakshatraEnd) || nakshatraEnd <= nakshatraStart) continue;
+            const start = Math.max(tithiStart, nakshatraStart);
+            const end = Math.min(tithiEnd, nakshatraEnd);
+            if (end <= start) continue;
+            const key = [variant.id, ruleId, day.date, start, end].join("|");
+            if (seen.has(key)) continue;
+            seen.add(key);
+            found.push({
+              id:"mahadwadashi-" + variant.id + "-" + ruleId,
+              name:MAHADWADASHI_NAMES[ruleId],
+              sourceProfile:variant.id,
+              source:variant.source || variant.id,
+              sourceUrl:variant.sourceUrl || null,
+              month:masa.month,
+              paksha:requiredPaksha,
+              observanceDate:day.date,
+              nakshatra:requiredNakshatra,
+              tithiStartTime:new Date(tithiStart).toISOString(),
+              tithiEndTime:new Date(tithiEnd).toISOString(),
+              nakshatraStartTime:new Date(nakshatraStart).toISOString(),
+              nakshatraEndTime:new Date(nakshatraEnd).toISOString(),
+              overlapStartTime:new Date(start).toISOString(),
+              overlapEndTime:new Date(end).toISOString(),
+              overlapMinutes:(end-start)/60000,
+              meetsOneMuhurta:end-start >= 48*60000,
+              status:"candidate-needs-manual-review"
+            });
+          }
+        }
+      }
+    }
+  }
+  return found;
+}
+
 function unique(values) {
   const seen = new Set();
   return values.filter(value => {
@@ -173,6 +272,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const groups = new Map();
   const groupBuckets = new Map();
   const trisparshaCandidates = findSmartaTrisparshaObservations(dailyPanchang, rules?.mahaDwadashi?.trisparshaSmarta);
+  const nakshatraMahadwadashiCandidates = findDwadashiNakshatraObservations(
+    dailyPanchang, rules?.mahaDwadashi?.sourceVariants
+  );
 
   // Process observations chronologically so separate lunar occurrences of
   // the same masa/paksha never collapse into one annual record.
@@ -361,7 +463,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const specialTithiYogas = trisparshaCandidates.filter(item =>
       item.month === group.month && item.paksha === group.paksha &&
       !!item.adhika === !!group.adhika && group.noonDates.includes(item.observanceDate)
-    );
+    ).concat(nakshatraMahadwadashiCandidates.filter(item =>
+      item.month === group.month && item.paksha === group.paksha &&
+      candidateDates.includes(item.observanceDate)
+    ));
     const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries.find(item => item.referenceDate)?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
       ? findDwadashiIntervalOnSunriseDay(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
