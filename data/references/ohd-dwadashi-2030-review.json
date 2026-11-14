@@ -1203,7 +1203,7 @@
           "observanceId": "vamana",
           "name": "वामन-द्वादशी व्रत",
           "selectedDate": "2030-09-08",
-          "decisionStatus": "date-selected-for-purana-dwadashi-vrata",
+          "decisionStatus": "purana-vamana-dwadashi-vrata-date-confirmed-jayanti-rule-not-met",
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 23b–24",
           "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर भगवान वामन की पूजा, बारह ब्राह्मणों को पायस-भोजन और स्वर्ण-दक्षिणा का विधान।",
           "localTithiIntervalIST": {
@@ -1211,16 +1211,17 @@
             "end": "2030-09-09T06:32:49.720+05:30"
           },
           "localDayDecision": "8 सितंबर को द्वादशी सूर्योदय के बाद 08:21:59 IST से शुरू होकर मध्याह्न, दिन और रात्रि में रहती है। 9 सितंबर के सूर्योदय पर केवल लगभग 41 मिनट 53 सेकंड शेष रहते हैं; इसलिए द्वादशी-दिवस का वामन-व्रत 8 सितंबर के दिन-व्याप्ति पर रखा गया।",
-          "existingPublicCard": "वामन जयंती",
-          "publicCardDisposition": "same-Vamana-observance-day; no-duplicate-Vamana-Dwadashi-card",
+          "existingPublicCard": "वामन-द्वादशी व्रत",
+          "publicCardDisposition": "rename-existing-vamana-jayanti-card-to-purana-vamana-dwadashi;do-not-claim-jayanti",
           "jayantiRuleConflict": {
             "source": "धर्मसिंधु सार — भाद्रपद मास, वामन-जयंती निर्णय",
             "sourceUrl": "https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=7",
             "criterion": "द्वादशी और श्रवण नक्षत्र का मध्याह्न में संयोग",
             "localShravanaStarts": "2030-09-08T19:59:00.797+05:30",
-            "result": "मध्याह्न में श्रवण नक्षत्र उपस्थित नहीं; वामन-द्वादशी व्रत की तिथि 8 सितंबर चुनी गई है, पर जयंती-विशिष्ट नक्षत्र-मत का स्रोत-अनुमोदन अलग लंबित है।",
+            "result": "स्थानीय श्रवण नक्षत्र 8 सितंबर 19:58 IST पर आरम्भ होता है, मध्याह्न के बाद। इसलिए धर्मसिन्धु का वामन-जयंती लक्षण (द्वादशी + श्रवण at Madhyahna) पूरा नहीं होता। नारद पुराण का अलग वामन-द्वादशी पूजन-व्रत 8 सितंबर के द्वादशी-दिवस पर रखा गया है; सार्वजनिक नाम वामन-द्वादशी व्रत होगा, जयंती नहीं।",
             "drikCrossCheck": "Drik Panchang 2030 Vamana Jayanti page lists 8 September but shows Shravana beginning at 19:58, after madhyahna.",
-            "drikUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030"
+            "drikUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030",
+            "publicDecision": "no-vamana-jayanti-label"
           },
           "autoApproved": false
         },
@@ -1271,7 +1272,7 @@
           "autoApproved": false
         }
       ],
-      "sourceDateDecisionNote": "वामन, दामोदर, नीराजन और कल्कि के भाद्रपद शुक्ल द्वादशी-विधान के लिए 8 सितंबर 2030 चुना गया है: उस दिन द्वादशी मध्याह्न और रात्रि में विद्यमान है; 9 सितंबर सूर्योदय पर केवल 41 मिनट 53 सेकंड शेष हैं। विष्णुशृंखला/श्रवण-योग के विशेष व्रत-निर्णय को इन पुराणोक्त व्रतों का एकमात्र आधार नहीं बनाया गया। वामन-जयंती का मध्याह्न-श्रवण नक्षत्र मत अलग स्रोत-समीक्षा के अधीन है।"
+      "sourceDateDecisionNote": "8 सितंबर को नारद पुराणोक्त वामन-द्वादशी व्रत रखा गया है। धर्मसिन्धु का वामन-जयंती हेतु मध्याह्न-द्वादशी + श्रवण नक्षत्र संयोग स्थानीय रूप से नहीं बनता, क्योंकि श्रवण 19:58 IST के बाद शुरू होता है। इसलिए कार्ड का नाम वामन-द्वादशी व्रत है, वामन जयंती नहीं।"
     },
     {
       "id": "ashwin-krishna",
