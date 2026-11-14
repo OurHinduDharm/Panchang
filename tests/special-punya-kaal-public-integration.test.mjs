@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const monthly = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
 const daily = await readFile(new URL("../app.js", import.meta.url), "utf8");
+const schema = JSON.parse(await readFile(new URL("../data/special-punya-kaal/schema.json", import.meta.url), "utf8"));
 
 test("monthly special punya-kaal section stays hidden unless approved monthly data exists", () => {
   assert.match(monthly, /id="special-punya-kaal"[^>]*hidden/);
@@ -37,4 +38,13 @@ test("daily Panchang shows actual event times only on the event date", () => {
   assert.match(daily, /const todays=events\.filter\(item=>item\.date===dateString\)/);
   assert.match(daily, /specialPunyaKaalTime\(item\.start\)/);
   assert.match(daily, /specialPunyaKaalTime\(item\.end\)/);
+});
+
+test("public data schema permits only reviewed special punya-kaal types, never Sankranti", () => {
+  assert.equal(schema.properties.status.const, "approved");
+  assert.deepEqual(schema.properties.events.items.properties.type.enum, [
+    "vyatipata-mahapat", "vaidhriti-mahapat", "varuni", "mahavaruni", "mahamahavaruni", "mahodaya"
+  ]);
+  assert.equal(schema.properties.events.items.properties.status.const, "approved");
+  assert.match(schema.properties.events.items.properties.start.pattern, /Z\|\[\+\-\]/);
 });
