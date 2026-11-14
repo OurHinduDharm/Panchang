@@ -213,3 +213,8 @@ Automated reference regression tests now pin representative 2026, 2027 and 2028 
 **अर्धोदय** अलग संयोग है: पौष/माघ अमावस्या + रविवार + श्रवण + व्यतीपात; स्कन्दपुराण के सेतुखण्ड में मकरस्थ सूर्य और दिन के उदय से संबंधित शर्तें भी आती हैं। इसे महोदय में merge नहीं करना। अभी इस PR में अर्धोदय का annual calculation scope में नहीं है।
 
 महोदय profile को public approval देने से पहले निर्णयसिन्धु, हेमाद्रि/मदनरत्न और स्कन्दपुराण के पाठ का पुनः मिलान आवश्यक है। अभी केवल research candidates।
+
+
+## Mahodaya first annual scan
+
+The Pithoragarh/Purnimanta scan covered all 1,826 days in 2026–2030 with no missing sunrise, sunset, tithi, nakshatra or yoga intervals. Under the specific Somavati profile (Pausha/Magha Amavasya + Monday + Shravana + Vyatipata, all overlapping in daylight), it found **zero** candidates in these five years. Therefore the Mahodaya section must remain hidden for this range; do not manufacture an entry from the rejected “one factor missing” interpretation. The rule engine and synthetic boundary tests are present so future years can be scanned consistently.
