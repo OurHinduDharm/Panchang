@@ -220,8 +220,18 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
             const nakshatraStart = Date.parse(nakshatra.startTime || "");
             const nakshatraEnd = Date.parse(nakshatra.endTime || "");
             if (!Number.isFinite(nakshatraStart) || !Number.isFinite(nakshatraEnd) || nakshatraEnd <= nakshatraStart) continue;
-            const start = Math.max(tithiStart, nakshatraStart);
-            const end = Math.min(tithiEnd, nakshatraEnd);
+            const sunrise = Date.parse(day.sunrise || "");
+            const sunset = Date.parse(day.sunset || "");
+            const coversFullDaylight = Number.isFinite(sunrise) && Number.isFinite(sunset) &&
+              sunset > sunrise && tithiStart <= sunrise && tithiEnd >= sunset &&
+              nakshatraStart <= sunrise && nakshatraEnd >= sunset;
+            if (variant.timing === "sunrise-to-sunset" && !coversFullDaylight) continue;
+            const start = variant.timing === "sunrise-to-sunset"
+              ? Math.max(tithiStart, nakshatraStart, sunrise)
+              : Math.max(tithiStart, nakshatraStart);
+            const end = variant.timing === "sunrise-to-sunset"
+              ? Math.min(tithiEnd, nakshatraEnd, sunset)
+              : Math.min(tithiEnd, nakshatraEnd);
             if (end <= start) continue;
             const key = [variant.id, ruleId, day.date, start, end].join("|");
             if (seen.has(key)) continue;
@@ -245,6 +255,7 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
               overlapEndTime:new Date(end).toISOString(),
               overlapMinutes:(end-start)/60000,
               meetsOneMuhurta:end-start >= 48*60000,
+              coversFullDaylight,
               status:"candidate-needs-manual-review"
             });
           }
