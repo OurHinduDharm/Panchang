@@ -37,6 +37,23 @@ function intervalOf(item) {
   return start !== null && end !== null && end > start ? { start, end } : null;
 }
 
+function normalizeTransitionIntervals(items) {
+  if (!Array.isArray(items)) return [];
+  const normalized = items.map(item => item ? { ...item } : item);
+  for (let i = 1; i < normalized.length; i++) {
+    const previous = normalized[i - 1];
+    const current = normalized[i];
+    if (!previous || !current) continue;
+    const previousEnd = validTime(previous.endTime ?? previous.end);
+    const currentStart = validTime(current.startTime ?? current.start);
+    if (previousEnd !== null && currentStart !== null && currentStart - previousEnd === 60000) {
+      if ("startTime" in current || !("start" in current)) current.startTime = new Date(previousEnd);
+      else current.start = new Date(previousEnd);
+    }
+  }
+  return normalized;
+}
+
 function intersect(...intervals) {
   const start = Math.max(...intervals.map(item => item.start));
   const end = Math.min(...intervals.map(item => item.end));
@@ -129,9 +146,9 @@ export function buildVaruniCandidates(days, options = {}) {
     const weekday = localWeekday(day.date);
     if (weekday === null) continue;
 
-    const tithis = (day.tithis || []).filter(isTrayodashi).filter(item => isKrishna(item, day));
-    const nakshatras = (day.nakshatras || []).filter(isShatabhisha);
-    const yogas = (day.yogas || []).filter(isShubha);
+    const tithis = normalizeTransitionIntervals(day.tithis).filter(isTrayodashi).filter(item => isKrishna(item, day));
+    const nakshatras = normalizeTransitionIntervals(day.nakshatras).filter(isShatabhisha);
+    const yogas = normalizeTransitionIntervals(day.yogas).filter(isShubha);
 
     for (const tithi of tithis) {
       const tithiInterval = intervalOf(tithi);
