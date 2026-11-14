@@ -19,6 +19,7 @@
   "tithis": [
     {
       "id": "chaitra-krishna",
+      "occurrence": 1,
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -48,47 +49,6 @@
         "2030-03-30"
       ],
       "referenceDate": "2030-03-29",
-      "drikLabels": [
-        "एकादशी श्रवण योग द्वादशी"
-      ],
-      "drik2026Labels": [],
-      "drikSpecialObservances": [
-        {
-          "year": 2030,
-          "month": "चैत्र",
-          "paksha": "कृष्ण",
-          "adhika": false,
-          "referenceDate": "2030-03-29",
-          "labels": [
-            "एकादशी श्रवण योग द्वादशी"
-          ],
-          "source": "Drik Panchang",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "not-supported-by-local-dwadashi-shravana-overlap",
-          "localDwadashiShravanaOverlapMs": 0,
-          "localAssessment": {
-            "ruleId": "shravana-yoga-dwadashi",
-            "result": "not-qualified",
-            "overlapMs": 0,
-            "thresholdMs": 2880000,
-            "dwadashiIntervalIST": {
-              "start": "2030-03-30T00:34:51.604+05:30",
-              "end": "2030-03-31T00:42:52.860+05:30"
-            },
-            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
-            "evidence": "स्थानीय इंजन में द्वादशी 30 मार्च 00:34 IST पर शुरू होती है; उपलब्ध Drik Haldwani दैनिक पंचांग में श्रवण 29 मार्च लगभग 18:06 IST पर समाप्त हो चुका है। अतः दोनों का overlap शून्य है।"
-          }
-        }
-      ],
-      "selectedDate": "2030-03-29",
-      "dateSelection": "source-reference-date-tithi-overlap-review-required",
-      "displayNames": [
-        "कृष्ण-नृसिंह द्वादशी"
-      ],
-      "observances": [],
-      "conditionalObservances": [],
-      "crossReferences": [],
-      "status": "needs-review",
       "sourceReferenceObservation": {
         "date": "2030-03-29",
         "intervalStart": "2030-03-29T19:04:51.604Z",
@@ -98,55 +58,52 @@
         "basis": "daily-tithi-interval",
         "source": "local-panchang-sunrise-to-next-sunrise"
       },
-      "shravanaLabelDecision": {
-        "status": "rejected-as-local-yoga",
-        "ruleId": "shravana-yoga-dwadashi",
-        "sourceLabel": "एकादशी श्रवण योग द्वादशी",
-        "localDwadashiShravanaOverlapMs": 0,
-        "minimumRequiredOverlapMs": 2880000,
-        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
-        "preserveNamedDwadashi": true,
-        "publicDateChanged": false,
-        "namedDwadashiDateReview": "कृष्ण-नृसिंह द्वादशी का 29 मार्च स्रोत-दिन और 30 मार्च सूर्योदय-दिन अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
-      },
-      "observanceDateReviews": [
+      "drikLabels": [
+        "एकादशी श्रवण योग द्वादशी"
+      ],
+      "drik2026Labels": [],
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
         {
-          "observanceId": "krishna-narasimha",
-          "name": "कृष्ण नृसिंह द्वादशी",
-          "sourceReferenceDate": "2030-03-29",
-          "selectedDate": "2030-03-30",
-          "decisionStatus": "local-sunrise-dwadashi-day-confirmed-source-review-pending",
-          "source": "Drik Panchang 2030 Dwadashi list; PanchangTime Krishna Narasimha Dwadashi 2026–2030",
-          "sourceCrossCheck": {
-            "drikReferenceDate": "2030-03-29",
-            "drikTithiStart": "2030-03-30T00:34:00+05:30",
-            "drikTithiEnd": "2030-03-31T00:42:00+05:30",
-            "panchangTimeDate": "2030-03-30",
-            "panchangTimeRule": "पापमोचनी एकादशी पर पूर्व-दिन उपवास; अगले दिन चैत्र कृष्ण द्वादशी पर नृसिंह-पूजन; यह पारण-दिन भी है।"
+          "year": 2030,
+          "month": "चैत्र",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "labels": [
+            "एकादशी श्रवण योग द्वादशी"
+          ],
+          "observanceDate": "2030-03-29",
+          "dateRole": "special-observance-date",
+          "note": "Drik की संदर्भ-तिथि 29 मार्च है। पिथौरागढ़ में द्वादशी 30 मार्च को मध्यरात्रि के बाद आरम्भ होकर 29 मार्च के सूर्योदय से 30 मार्च के अगले सूर्योदय तक के पंचांग-दिन में आती है; इसे स्थानीय sunrise-to-next-sunrise interval से cross-check करें। यह केवल source candidate है, स्वतः स्वीकृति नहीं।",
+          "referenceDate": "2030-03-29",
+          "localPanchangObservation": {
+            "date": "2030-03-29",
+            "intervalStart": "2030-03-29T19:04:51.604Z",
+            "intervalEnd": "2030-03-30T19:12:52.860Z",
+            "sunriseDayStart": "2030-03-29T00:33:00.459Z",
+            "sunriseDayEnd": "2030-03-30T00:31:49.178Z",
+            "basis": "daily-tithi-interval",
+            "source": "local-panchang-sunrise-to-next-sunrise"
           },
-          "localTithiIntervalIST": {
-            "start": "2030-03-30T00:34:51.604+05:30",
-            "end": "2030-03-31T00:42:52.860+05:30"
-          },
-          "localDayEvidence": {
-            "date": "2030-03-30",
-            "sunrise": "2030-03-30T06:01:49.178+05:30",
-            "sunriseTithi": "द्वादशी",
-            "noonTithi": "द्वादशी",
-            "followingSunriseDate": "2030-03-31",
-            "followingSunriseTithi": "त्रयोदशी"
-          },
-          "vrataDate": "2030-03-29",
-          "observanceAndParanaDate": "2030-03-30",
-          "localDayDecision": "29 मार्च के सूर्योदय पर एकादशी है। द्वादशी 30 मार्च 00:34:51 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न दोनों पर उपस्थित रहती है; 31 मार्च के सूर्योदय से पहले समाप्त हो जाती है। इसलिए नृसिंह-पूजन/द्वादशी-दिवस 30 मार्च है, जबकि पूर्व-दिन पापमोचनी एकादशी-व्रत 29 मार्च और उसका पारण 30 मार्च है।",
-          "publicCardDisposition": "separate-30-march-krishna-narasimha-dwadashi-card",
-          "autoApproved": false
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
-      "sourceDateDecisionNote": "Drik की annual list में कृष्ण नृसिंह द्वादशी का source-reference 29 मार्च है, पर वास्तविक स्थानीय द्वादशी 30 मार्च 00:34 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न में उपस्थित रहती है। PanchangTime भी 2030 के लिए 30 मार्च को नृसिंह-द्वादशी/पारण-दिन रखता है। इसलिए सार्वजनिक द्वादशी-दिन 30 मार्च है; 29 मार्च पापमोचनी एकादशी-व्रत-दिन है।"
+      "selectedDate": "2030-03-29",
+      "dateSelection": "source-reference-date-tithi-overlap-review-required",
+      "displayNames": [
+        "कृष्ण-नृसिंह द्वादशी"
+      ],
+      "observances": [],
+      "specialTithiYogas": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
     },
     {
       "id": "chaitra-shukla",
+      "occurrence": 1,
       "month": "चैत्र",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -176,8 +133,10 @@
         "2030-04-15"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-04-15",
       "dateSelection": "single-observation-candidate-review-required",
@@ -212,12 +171,14 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "vaishakha-krishna",
+      "occurrence": 1,
       "month": "वैशाख",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -247,8 +208,10 @@
         "2030-04-29"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-04-29",
       "dateSelection": "single-observation-candidate-review-required",
@@ -256,6 +219,7 @@
         "कृष्ण-वामन द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
@@ -365,56 +329,11 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review",
-      "observanceDateReviews": [
-        {
-          "observanceId": "madhava",
-          "name": "माधव-द्वादशी व्रत",
-          "selectedDate": "2030-05-14",
-          "decisionStatus": "date-confirmed-for-this-observance",
-          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 15–16",
-          "sourceBasis": "वैशाख शुक्ल द्वादशी पर उपवास, माधव-पूजन तथा मधुर पक्वान्न और जल-कुम्भ दान का स्पष्ट विधान।",
-          "localTithiInterval": {
-            "start": "2030-05-14T00:52:43.949Z",
-            "end": "2030-05-14T22:02:44.790Z"
-          },
-          "localTithiIntervalIST": {
-            "start": "2030-05-14T06:22:43.949+05:30",
-            "end": "2030-05-15T03:32:44.790+05:30"
-          },
-          "localDayDecision": "14 मई के सूर्योदय-दिन में द्वादशी 06:22 IST से उपस्थित होकर दिनभर और रात्रि तक रहती है; अगले सूर्योदय 15 मई पर त्रयोदशी है। स्मार्त त्रिस्पर्शा नियम के अनुसार एकादशी और द्वादशी एक ही दिन में आने पर उसी दिन संयुक्त उपवास का विधान लागू होता है।",
-          "secondaryRuleSource": "धर्मसिंधु एवं निर्णयसिंधु — त्रिस्पर्शा महाद्वादशी",
-          "secondaryRuleSourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
-          "dateDecisionScope": "observance-date-only",
-          "autoApproved": false
-        },
-        {
-          "observanceId": "parashurama",
-          "name": "परशुराम-द्वादशी",
-          "selectedDate": "2030-05-14",
-          "decisionStatus": "date-confirmed-for-this-observance",
-          "source": "वराह पुराण, अध्याय 44, जामदग्न्य-द्वादशी व्रत, श्लोक 1–7 एवं 16–17",
-          "sourceBasis": "वैशाख शुक्ल द्वादशी पर संकल्प, जामदग्न्य रूप में विष्णु/परशुराम की पूजा और रात्रि-जागरण; प्रतिमा का दान अगले दिन प्रातः।",
-          "localTithiInterval": {
-            "start": "2030-05-14T00:52:43.949Z",
-            "end": "2030-05-14T22:02:44.790Z"
-          },
-          "localTithiIntervalIST": {
-            "start": "2030-05-14T06:22:43.949+05:30",
-            "end": "2030-05-15T03:32:44.790+05:30"
-          },
-          "localDayDecision": "द्वादशी 14 मई को स्थानीय सूर्योदय के बाद आरम्भ होकर अगले सूर्योदय से पहले समाप्त होती है; इसलिए संकल्प, पूजा और जागरण का व्रत-दिन 14 मई है। ग्रंथानुसार प्रतिमा-दान अगले दिन प्रातः किया जाता है।",
-          "followingMorningActionDate": "2030-05-15",
-          "sourceCrossCheck": "Drik Panchang की 2030 द्वादशी सूची 14 मई को परशुराम द्वादशी और त्रिस्पर्शा महाद्वादशी दोनों दिखाती है।",
-          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
-          "dateDecisionScope": "observance-date-only",
-          "autoApproved": false
-        }
-      ],
-      "observanceDateDecisionNote": "माधव-द्वादशी और परशुराम-द्वादशी के 14 मई 2030 दिन-निर्णय अलग-अलग स्रोत-विधान और स्थानीय त्रिस्पर्शा क्रम से जाँचे गए हैं। यह केवल इन दो observances की तारीख़ की समीक्षा है; वैशाख शुक्ल द्वादशी occurrence तथा अन्य सभी वार्षिक द्वादशी रिकॉर्ड का needs-review/sourceReview status यथावत है।"
+      "status": "needs-review"
     },
     {
       "id": "jyeshtha-krishna",
+      "occurrence": 1,
       "month": "ज्येष्ठ",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -444,10 +363,12 @@
         "2030-05-28"
       ],
       "referenceDate": "2030-05-28",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "वंजुली महाद्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -460,52 +381,23 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "not-supported-by-two-consecutive-sunrise-dwadashi-rule",
-          "localAssessment": {
-            "ruleId": "mahadwadashi-smarta-vanjuli",
-            "ruleSource": "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check",
-            "requiredCondition": "द्वादशी एक ही तिथि के रूप में लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो; व्रत पहले द्वादशी-सूर्योदय वाले दिन।",
-            "firstSunrise": {
-              "date": "2030-05-28",
-              "tithi": "द्वादशी",
-              "time": "2030-05-28T05:11:06.304+05:30"
-            },
-            "secondSunrise": {
-              "date": "2030-05-29",
-              "tithi": "त्रयोदशी"
-            },
-            "dwadashiIntervalIST": {
-              "start": "2030-05-28T02:05:28.583+05:30",
-              "end": "2030-05-29T04:15:19.812+05:30"
-            },
-            "result": "not-qualified",
-            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-select-vanjuli-fast-date",
-            "decision": "28 मई के सूर्योदय पर द्वादशी है, पर तिथि 29 मई 04:15:19 IST पर समाप्त हो जाती है, अगले स्थानीय सूर्योदय से पहले। इसलिए लगातार दो सूर्योदयों पर द्वादशी नहीं है और वंजुली महाद्वादशी का स्थानीय लक्षण नहीं बनता। कृष्ण परशुराम द्वादशी अलग नामित द्वादशी के रूप में बनी रहती है।"
-          }
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-05-28",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण परशुराम द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review",
-      "mahadwadashiSourceDecision": {
-        "id": "mahadwadashi-smarta-vanjuli",
-        "sourceLabel": "वंजुली महाद्वादशी",
-        "status": "not-qualified-under-local-smarta-rule",
-        "selectedLocalDate": null,
-        "autoApproved": false,
-        "preserveNamedDwadashi": true,
-        "publicDateChanged": false,
-        "decision": "28 मई के सूर्योदय पर द्वादशी है, पर तिथि 29 मई 04:15:19 IST पर समाप्त हो जाती है, अगले स्थानीय सूर्योदय से पहले। इसलिए लगातार दो सूर्योदयों पर द्वादशी नहीं है और वंजुली महाद्वादशी का स्थानीय लक्षण नहीं बनता। कृष्ण परशुराम द्वादशी अलग नामित द्वादशी के रूप में बनी रहती है।"
-      }
+      "status": "needs-review"
     },
     {
       "id": "jyeshtha-shukla",
+      "occurrence": 1,
       "month": "ज्येष्ठ",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -527,8 +419,10 @@
         "2030-06-13"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-06-13",
       "dateSelection": "single-observation-candidate-review-required",
@@ -556,6 +450,7 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [
         {
           "id": "pakshavardhini",
@@ -569,6 +464,7 @@
     },
     {
       "id": "ashadha-krishna",
+      "occurrence": 1,
       "month": "आषाढ़",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -598,8 +494,10 @@
         "2030-06-27"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-06-27",
       "dateSelection": "single-observation-candidate-review-required",
@@ -607,6 +505,7 @@
         "कृष्ण रामलक्ष्मण द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [
         {
           "id": "trishprisha",
@@ -620,6 +519,7 @@
     },
     {
       "id": "ashadha-shukla",
+      "occurrence": 1,
       "month": "आषाढ़",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -649,8 +549,10 @@
         "2030-07-12"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-07-12",
       "dateSelection": "single-observation-candidate-review-required",
@@ -676,12 +578,14 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "shravana-krishna",
+      "occurrence": 1,
       "month": "श्रावण",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -718,10 +622,12 @@
         "2030-07-27"
       ],
       "referenceDate": "2030-07-26",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "कृष्ण वासुदेव द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -732,25 +638,11 @@
           "labels": [
             "कृष्ण वासुदेव द्वादशी"
           ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
           "source": "Drik Panchang",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
-          "status": "local-tithi-interval-confirmed-source-date-review-pending",
-          "localTithiIntervalIST": {
-            "start": "2030-07-26T10:02:32.993+05:30",
-            "end": "2030-07-27T12:21:52.929+05:30"
-          },
-          "localAssessment": {
-            "result": "named-vrata-date-cross-check-match",
-            "vrataDate": "2030-07-26",
-            "paranaDate": "2030-07-27",
-            "tithiAtNoonOnVrataDate": true,
-            "tithiAtNextSunrise": true,
-            "localNextSunrise": "2030-07-27T05:26:16.658+05:30",
-            "sourceReference": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
-            "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
-            "evidence": "स्थानीय द्वादशी 26 जुलाई 10:02:32.993 IST पर शुरू होकर 27 जुलाई 12:21:52.929 IST तक रहती है। 26 जुलाई को मध्याह्न में द्वादशी उपस्थित है और 27 जुलाई के सूर्योदय पर भी द्वादशी है। Drik इस नामित व्रत की तारीख़ 26 जुलाई और अगले दिन पारण बताता है।",
-            "sourceLabelDisposition": "retain-26-july-vrata-date;27-july-is-parana-day-only"
-          }
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-07-26",
@@ -759,31 +651,14 @@
         "कृष्ण-वासुदेव द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review",
-      "observanceDateReviews": [
-        {
-          "observanceId": "krishna-vasudeva",
-          "name": "कृष्ण वासुदेव द्वादशी",
-          "selectedDate": "2030-07-26",
-          "decisionStatus": "named-vrata-date-cross-check-match",
-          "source": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
-          "localTithiIntervalIST": {
-            "start": "2030-07-26T10:02:32.993+05:30",
-            "end": "2030-07-27T12:21:52.929+05:30"
-          },
-          "paranaDate": "2030-07-27",
-          "nextSunrise": "2030-07-27T05:26:16.658+05:30",
-          "autoApproved": false,
-          "note": "Drik नामित व्रत के लिए 26 जुलाई को उपवास और 27 जुलाई को पारण-दिन बताता है। स्थानीय द्वादशी अंतराल दोनों से मेल खाता है। सार्वजनिक पारण समय अलग स्थानीय गणना के बिना नहीं जोड़ा जाएगा।"
-        }
-      ],
-      "sourceDateDecisionNote": "कृष्ण वासुदेव द्वादशी का नामित व्रत-दिन 26 जुलाई रखा गया है; स्थानीय द्वादशी 26 जुलाई 10:02 IST से 27 जुलाई 12:21 IST तक है। 27 जुलाई केवल पारण-दिन है। केवल 27 जुलाई के सूर्योदय पर द्वादशी होने के कारण व्रत-दिन को अगले दिन नहीं खिसकाया जाएगा।"
+      "status": "needs-review"
     },
     {
       "id": "shravana-shukla",
+      "occurrence": 1,
       "month": "श्रावण",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -813,8 +688,10 @@
         "2030-08-10"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-08-10",
       "dateSelection": "single-observation-candidate-review-required",
@@ -840,6 +717,7 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [
         {
           "id": "vanjuli",
@@ -853,6 +731,7 @@
     },
     {
       "id": "bhadrapada-krishna",
+      "occurrence": 1,
       "month": "भाद्रपद",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -882,10 +761,12 @@
         "2030-08-25"
       ],
       "referenceDate": "2030-08-25",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "उन्मीलिनी महाद्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -898,109 +779,46 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "not-supported-by-arunodaya-dashami-overlap-or-two-sunrise-ekadashi-rule",
-          "localAssessment": {
-            "ruleId": "mahadwadashi-smarta-unmilini",
-            "ruleSources": [
-              "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 98–99",
-              "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check"
-            ],
-            "requiredConditions": [
-              "नारद पुराण: अरुणोदय में दशमी से विद्ध एकादशी; उस दिन का व्रत छोड़कर अगले द्वादशी-दिन व्रत।",
-              "धर्मसिन्धु/Drik cross-check: विस्तृत एकादशी लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो।"
-            ],
-            "sunriseSequence": [
-              {
-                "date": "2030-08-24",
-                "tithi": "एकादशी"
-              },
-              {
-                "date": "2030-08-25",
-                "tithi": "द्वादशी"
-              }
-            ],
-            "precedingDashamiEndReference": "2030-08-24T00:56:00+05:30",
-            "arunodayaReference": {
-              "date": "2030-08-24",
-              "approximately": "04:06 IST (Pithoragarh; 96 minutes before local sunrise)"
-            },
-            "ekadashiEndIST": "2030-08-25T02:54:00+05:30",
-            "nextSunriseDate": "2030-08-25",
-            "result": "not-qualified",
-            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-select-unmilini-fast-date",
-            "evidence": "Drik 23 अगस्त दैनिक पंचांग में दशमी 24 अगस्त 00:56 IST तक है; 24 अगस्त अरुणोदय इससे बहुत बाद है। Drik 24 अगस्त दैनिक पंचांग में एकादशी 25 अगस्त 02:54 IST तक दी है, जो 25 अगस्त स्थानीय सूर्योदय से पहले समाप्त होती है। अतः अरुणोदय-दशमी overlap नहीं और एकादशी दो लगातार सूर्योदयों तक नहीं रहती।",
-            "decision": "25 अगस्त को द्वादशी और पुनर्वसु का स्थानीय संयोग बना, पर वह उन्मीलिनी नहीं है। जयन्ती के स्रोत-भेद का निर्णय अलग दर्ज है; कृष्ण दामोदर द्वादशी और बछबारस अपने-अपने कार्डों पर बनी रहती हैं।"
-          }
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-08-25",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण-दामोदर द्वादशी"
       ],
       "observances": [],
-      "conditionalObservances": [],
-      "crossReferences": [],
-      "status": "needs-review",
-      "jayantiMahadwadashiSourceDecision": {
-        "ruleId": "jayanti-mahadwadashi-source-profile-conflict",
-        "localObservation": {
-          "date": "2030-08-25",
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-drikPanchang-jayanti",
+          "name": "जयन्ती महाद्वादशी",
+          "sourceProfile": "drikPanchang",
+          "source": "Drik Panchang — महाद्वादशी के नक्षत्र-संयोग",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/mahadwadashi.html?lang=hi",
           "month": "भाद्रपद",
           "paksha": "कृष्ण",
-          "tithi": "द्वादशी",
-          "sunrise": "2030-08-25T05:42:57.366+05:30",
-          "sunset": "2030-08-25T18:39:08.010+05:30",
-          "nextSunrise": "2030-08-26T05:43:30.124+05:30",
+          "adhika": false,
+          "observanceDate": "2030-08-25",
           "nakshatra": "पुनर्वसु",
-          "nakshatraStart": "2030-08-25T05:42:57.366+05:30",
-          "nakshatraEnd": "2030-08-26T05:43:30.124+05:30",
-          "dwadashiStart": "2030-08-24T21:24:33.403Z",
-          "dwadashiEnd": "2030-08-25T22:47:31.584Z",
-          "coversFullDaylight": true
-        },
-        "sourceProfiles": [
-          {
-            "id": "naradaPurana",
-            "criteria": "शुक्ल द्वादशी + रोहिणी",
-            "localMatch": false,
-            "reason": "स्थानीय घटना कृष्ण पक्ष में है और नक्षत्र पुनर्वसु है।",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 109–111"
-          },
-          {
-            "id": "nirnayaSindhu",
-            "criteria": "शुक्ल द्वादशी + पुनर्वसु",
-            "localMatch": false,
-            "reason": "पुनर्वसु का संयोग है, लेकिन स्थानीय द्वादशी कृष्ण पक्ष में है; स्रोत-लक्षण शुक्ल पक्ष का है।",
-            "source": "निर्णय-सिन्धु, पृष्ठ 48 (नारद पुराण पाठांतर)"
-          },
-          {
-            "id": "drikPanchang",
-            "criteria": "द्वादशी + पुनर्वसु, दोनों पक्ष",
-            "localMatch": true,
-            "reason": "Drik Panchang दोनों पक्षों को सूचीबद्ध करता है, क्योंकि विभिन्न ग्रंथों में मतभेद हैं।",
-            "source": "Drik Panchang — Jayanti Mahadwadashi",
-            "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/jayanti-mahadwadashi.html?lang=en"
-          }
-        ],
-        "decision": "परियोजना की स्मार्त-प्राथमिकता के अनुसार कृष्ण पक्ष का 25 अगस्त संयोग जयन्ती महाद्वादशी के सार्वजनिक कार्ड के लिए स्वीकार नहीं किया जाएगा। Drik का दोनों-पक्षीय परिणाम केवल आंतरिक cross-reference रहेगा।",
-        "publicCardDecision": "no-additional-jayanti-card",
-        "autoApproved": false,
-        "reviewScope": "source-profile-conflict-only"
-      },
-      "mahadwadashiSourceDecision": {
-        "id": "mahadwadashi-smarta-unmilini",
-        "sourceLabel": "उन्मीलिनी महाद्वादशी",
-        "status": "not-qualified-under-local-smarta-rule",
-        "selectedLocalDate": null,
-        "autoApproved": false,
-        "preserveNamedDwadashi": true,
-        "publicDateChanged": false,
-        "decision": "25 अगस्त को द्वादशी और पुनर्वसु का स्थानीय संयोग बना, पर वह उन्मीलिनी नहीं है। जयन्ती के स्रोत-भेद का निर्णय अलग दर्ज है; कृष्ण दामोदर द्वादशी और बछबारस अपने-अपने कार्डों पर बनी रहती हैं।"
-      }
+          "tithiStartTime": "2030-08-25T00:12:57.366Z",
+          "tithiEndTime": "2030-08-25T22:47:31.584Z",
+          "nakshatraStartTime": "2030-08-25T00:12:57.366Z",
+          "nakshatraEndTime": "2030-08-26T00:13:30.124Z",
+          "overlapStartTime": "2030-08-25T00:12:57.366Z",
+          "overlapEndTime": "2030-08-25T13:09:08.010Z",
+          "overlapMinutes": 776.1774,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": true,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
     },
     {
       "id": "bhadrapada-shukla",
+      "occurrence": 1,
       "month": "भाद्रपद",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1031,10 +849,12 @@
         "2030-09-09"
       ],
       "referenceDate": "2030-09-09",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -1050,8 +870,8 @@
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "selectedDate": "2030-09-09",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "वामन-द्वादशी व्रत",
         "दामोदर-द्वादशी व्रत",
@@ -1092,6 +912,52 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-naradaPurana-vijaya",
+          "name": "विजया महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "भाद्रपद",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-09-08",
+          "nakshatra": "श्रवण",
+          "tithiStartTime": "2030-09-08T02:51:59.465Z",
+          "tithiEndTime": "2030-09-09T00:20:55.762Z",
+          "nakshatraStartTime": "2030-09-08T14:29:00.791Z",
+          "nakshatraEndTime": "2030-09-09T00:20:55.762Z",
+          "overlapStartTime": "2030-09-08T14:29:00.791Z",
+          "overlapEndTime": "2030-09-09T00:20:55.762Z",
+          "overlapMinutes": 591.9161833333334,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        },
+        {
+          "id": "mahadwadashi-naradaPurana-vijaya",
+          "name": "विजया महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "भाद्रपद",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-09-09",
+          "nakshatra": "श्रवण",
+          "tithiStartTime": "2030-09-09T00:20:55.762Z",
+          "tithiEndTime": "2030-09-09T01:02:49.707Z",
+          "nakshatraStartTime": "2030-09-09T00:20:55.762Z",
+          "nakshatraEndTime": "2030-09-09T13:30:51.934Z",
+          "overlapStartTime": "2030-09-09T00:20:55.762Z",
+          "overlapEndTime": "2030-09-09T01:02:49.707Z",
+          "overlapMinutes": 41.89908333333333,
+          "meetsOneMuhurta": false,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1101,181 +967,11 @@
           "status": "date-condition-required"
         }
       ],
-      "status": "needs-review",
-      "ruleEvidence": {
-        "ruleId": "shravana-yoga-dwadashi-review",
-        "status": "shravana-yoga-date-selected-on-earlier-vrata-day-source-approval-pending",
-        "criteria": [
-          "स्थानीय व्रत-दिन का आरम्भ सूर्योदय और समाप्ति अगले सूर्योदय से निर्धारित करना",
-          "द्वादशी और श्रवण नक्षत्र का वास्तविक interval overlap दोनों लगातार सूर्योदय-दिनों में निकालना",
-          "एक मुहूर्त (48 मिनट) या अधिक संयोग को योग-साक्ष्य मानना; प्रथम रात्रि-प्रहर तक संयोग स्वीकार करने वाले धर्मसिंधु मत को अलग जाँचना",
-          "पहले दिन सूर्योदय पर एकादशी, दिन में द्वादशी-आरम्भ और अगले सूर्योदय तक द्वादशी की निरन्तरता जाँचना",
-          "यदि अगले दिन सूर्योदय पर द्वादशी और श्रवण साथ हों तथा द्वादशी दो घटिका (48 मिनट) से अधिक न बचे, तो विष्णुशृंखला योग के कारण पहले दिन का व्रत चुनना",
-          "श्रवण योग का चयन वामन, दामोदर, नीराजन और कल्कि के स्वतंत्र पूजन/व्रत-दिनों को स्वतः approve या merge नहीं करता"
-        ],
-        "localCandidates": {
-          "dateWithNoonDwadashi": "2030-09-08",
-          "dateWithSunriseDwadashi": "2030-09-09",
-          "tithiIntervalFromEngine": "2030-09-08T02:51:59.472Z/2030-09-09T01:02:49.720Z",
-          "nakshatraIntervals": [
-            {
-              "name": "श्रवण",
-              "index": 21,
-              "start": "2030-09-08T14:29:00.797Z",
-              "end": "2030-09-09T13:30:51.947Z"
-            }
-          ],
-          "vrataDayBoundary": "local-sunrise-to-following-sunrise",
-          "shravanaYoga": {
-            "status": "date-selected-needs-source-approval",
-            "selectedFastDate": "2030-09-08",
-            "selectionRule": "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana",
-            "qualifyingDates": [
-              "2030-09-08"
-            ],
-            "days": [
-              {
-                "date": "2030-09-08",
-                "sunrise": "2030-09-08T00:20:24.921Z",
-                "sunset": "2030-09-08T12:52:52.114Z",
-                "nextSunrise": "2030-09-09T00:20:56.105Z",
-                "ekadashiAtSunrise": true,
-                "dwadashiStartsAfterSunrise": true,
-                "dwadashiShravanaOverlap": {
-                  "start": "2030-09-08T14:29:00.797Z",
-                  "end": "2030-09-09T00:20:56.105Z",
-                  "durationMs": 35515308,
-                  "meetsOneMuhurta": true
-                },
-                "firstNightPraharaEnd": "2030-09-08T15:44:53.112Z",
-                "firstDayOrPraharaOverlapMs": 4552315,
-                "firstDayOrPraharaOverlapDuration": "1h 15m 52.315s"
-              },
-              {
-                "date": "2030-09-09",
-                "sunrise": "2030-09-09T00:20:56.105Z",
-                "sunset": "2030-09-09T12:51:39.237Z",
-                "nextSunrise": "2030-09-10T00:21:27.237Z",
-                "dwadashiAtSunrise": true,
-                "dwadashiRemainingAfterSunriseMs": 2513615,
-                "shravanaDwadashiOverlap": {
-                  "start": "2030-09-09T00:20:56.105Z",
-                  "end": "2030-09-09T01:02:49.720Z",
-                  "durationMs": 2513615,
-                  "meetsOneMuhurta": false
-                },
-                "remainingDwadashiUnderTwoGhatis": true
-              }
-            ],
-            "finalDate": "2030-09-08",
-            "autoApproved": false,
-            "publicationStatus": "source-approval-pending"
-          },
-          "selectedFastDate": null,
-          "note": "केवल श्रवण योग द्वादशी का निर्णय निकला है; इस वार्षिक रिकॉर्ड के अन्य नामित व्रत स्वतंत्र समीक्षा में हैं।"
-        },
-        "sources": [
-          {
-            "name": "धर्मसिंधु — श्रवणद्वादशीव्रत, विष्णुशृंखला योग और प्रथम प्रहर मत",
-            "url": "https://www.transliteral.org/pages/z80503221524/view",
-            "use": "भाद्रपद शुक्ल द्वादशी में एकादशी-स्पर्श, अगले सूर्योदय तक द्वादशी, दोनों दिनों में श्रवण योग और अगले दिन दो घटिका से कम द्वादशी होने पर पूर्वदिन-व्रत का विशेष निर्णय; प्रथम प्रहर तक रात्रि-योग स्वीकार करने वाला मत"
-          },
-          {
-            "name": "पद्म पुराण, उत्तरखण्ड, अध्याय 69",
-            "url": "https://www.wisdomlib.org/hinduism/book/the-padma-purana/d/doc365631.html",
-            "use": "भाद्रपद शुक्ल द्वादशी का श्रवण-नक्षत्र के साथ व्रत-योग"
-          },
-          {
-            "name": "Drik Panchang — Shravana Yoga Dwadashi",
-            "url": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
-            "use": "48 मिनट द्वादशी-श्रवण संयोग की secondary timing cross-check; स्मार्त तारीख़ निर्णय का अकेला आधार नहीं"
-          },
-          {
-            "name": "नारद पुराण, पूर्वार्ध, अध्याय 121",
-            "url": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
-            "use": "वामन, दामोदर और नीराजन के पृथक व्रत-विधान; इन्हें श्रवण-योग दिन से स्वतः एक नहीं मानना"
-          }
-        ],
-        "decisionPolicy": "विष्णुशृंखला/श्रवण योग का विशेष उपवास-दिन 8 सितंबर चुना गया है; यह निर्णय वामन, दामोदर, नीराजन और कल्कि के पृथक पुराणोक्त व्रतों की तारीख़ स्वतः तय नहीं करता। उन चारों के दिन-निर्णय observanceDateReviews में अलग दर्ज हैं। वामन-जयंती के मध्याह्न-श्रवण नक्षत्र मत का स्रोत-अनुमोदन अभी अलग लंबित है।"
-      },
-      "observanceDateReviews": [
-        {
-          "observanceId": "vamana",
-          "name": "वामन-द्वादशी व्रत",
-          "selectedDate": "2030-09-08",
-          "decisionStatus": "purana-vamana-dwadashi-vrata-date-confirmed-jayanti-rule-not-met",
-          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 23b–24",
-          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर भगवान वामन की पूजा, बारह ब्राह्मणों को पायस-भोजन और स्वर्ण-दक्षिणा का विधान।",
-          "localTithiIntervalIST": {
-            "start": "2030-09-08T08:21:59.472+05:30",
-            "end": "2030-09-09T06:32:49.720+05:30"
-          },
-          "localDayDecision": "8 सितंबर को द्वादशी सूर्योदय के बाद 08:21:59 IST से शुरू होकर मध्याह्न, दिन और रात्रि में रहती है। 9 सितंबर के सूर्योदय पर केवल लगभग 41 मिनट 53 सेकंड शेष रहते हैं; इसलिए द्वादशी-दिवस का वामन-व्रत 8 सितंबर के दिन-व्याप्ति पर रखा गया।",
-          "existingPublicCard": "वामन-द्वादशी व्रत",
-          "publicCardDisposition": "rename-existing-vamana-jayanti-card-to-purana-vamana-dwadashi;do-not-claim-jayanti",
-          "jayantiRuleConflict": {
-            "source": "धर्मसिंधु सार — भाद्रपद मास, वामन-जयंती निर्णय",
-            "sourceUrl": "https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=7",
-            "criterion": "द्वादशी और श्रवण नक्षत्र का मध्याह्न में संयोग",
-            "localShravanaStarts": "2030-09-08T19:59:00.797+05:30",
-            "result": "स्थानीय श्रवण नक्षत्र 8 सितंबर 19:58 IST पर आरम्भ होता है, मध्याह्न के बाद। इसलिए धर्मसिन्धु का वामन-जयंती लक्षण (द्वादशी + श्रवण at Madhyahna) पूरा नहीं होता। नारद पुराण का अलग वामन-द्वादशी पूजन-व्रत 8 सितंबर के द्वादशी-दिवस पर रखा गया है; सार्वजनिक नाम वामन-द्वादशी व्रत होगा, जयंती नहीं।",
-            "drikCrossCheck": "Drik Panchang 2030 Vamana Jayanti page lists 8 September but shows Shravana beginning at 19:58, after madhyahna.",
-            "drikUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030",
-            "publicDecision": "no-vamana-jayanti-label"
-          },
-          "autoApproved": false
-        },
-        {
-          "observanceId": "damodara",
-          "name": "दामोदर-द्वादशी व्रत",
-          "selectedDate": "2030-09-08",
-          "decisionStatus": "date-confirmed-for-this-observance",
-          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38",
-          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर दामोदर-पूजन, बारह ब्राह्मणों को भोजन तथा जल-कलश, सुपारी, मिष्ठान्न और स्वर्ण-दक्षिणा का विधान।",
-          "localTithiIntervalIST": {
-            "start": "2030-09-08T08:21:59.472+05:30",
-            "end": "2030-09-09T06:32:49.720+05:30"
-          },
-          "localDayDecision": "द्वादशी 8 सितंबर को मध्याह्न और दिन के मुख्य भाग में उपस्थित है। 9 सितंबर को सूर्योदय के बाद 48 मिनट से कम समय तक ही रहती है; अतः दामोदर-द्वादशी का पूजन-दिन 8 सितंबर रखा गया।",
-          "autoApproved": false
-        },
-        {
-          "observanceId": "niranjana",
-          "name": "नीराजन-व्रत",
-          "selectedDate": "2030-09-08",
-          "decisionStatus": "date-confirmed-for-this-observance",
-          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 39–43",
-          "sourceBasis": "उसी भाद्रपद शुक्ल द्वादशी के दिन रात्रि-संध्या में भगवान हरि, लक्ष्मी और अन्य देवशक्तियों का नीराजन; रजत-दीप, मंत्र और हवन का विधान।",
-          "localTithiIntervalIST": {
-            "start": "2030-09-08T08:21:59.472+05:30",
-            "end": "2030-09-09T06:32:49.720+05:30"
-          },
-          "ritualTime": "8 सितंबर रात्रि-संध्या",
-          "localDayDecision": "8 सितंबर की रात्रि-संध्या में द्वादशी तिथि बनी रहती है; अगले दिन 9 सितंबर को 06:32:49 IST पर तिथि समाप्त हो जाती है, अतः नीराजन-व्रत 8 सितंबर की रात्रि में ही होगा।",
-          "autoApproved": false
-        },
-        {
-          "observanceId": "kalki",
-          "name": "कल्कि-द्वादशी व्रत",
-          "selectedDate": "2030-09-08",
-          "decisionStatus": "date-confirmed-for-this-observance",
-          "source": "वराह पुराण, अध्याय 48, श्लोक 1–5 — कल्कि-द्वादशी व्रत",
-          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर संकल्पपूर्वक भगवान कल्कि के अंगों का पूजन, सुवर्ण-प्रतिमा की स्थापना और अगले प्रातः वेदज्ञ ब्राह्मण को दान का विधान।",
-          "localTithiIntervalIST": {
-            "start": "2030-09-08T08:21:59.472+05:30",
-            "end": "2030-09-09T06:32:49.720+05:30"
-          },
-          "localDayDecision": "8 सितंबर को द्वादशी मध्याह्न में उपस्थित है। 9 सितंबर सूर्योदय के बाद द्वादशी केवल 41 मिनट 53 सेकंड शेष रहती है, इसलिए द्वादशी-दिन का कल्कि-व्रत 8 सितंबर को रखा गया; प्रतिमा-दान 9 सितंबर प्रातः।",
-          "followingMorningActionDate": "2030-09-09",
-          "sourceCrossCheck": "Drik Panchang की 2030 सूची 8 सितंबर को कल्कि द्वादशी देती है और तिथि-अन्त 9 सितंबर 06:32 IST दिखाती है।",
-          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
-          "autoApproved": false
-        }
-      ],
-      "sourceDateDecisionNote": "8 सितंबर को नारद पुराणोक्त वामन-द्वादशी व्रत रखा गया है। धर्मसिन्धु का वामन-जयंती हेतु मध्याह्न-द्वादशी + श्रवण नक्षत्र संयोग स्थानीय रूप से नहीं बनता, क्योंकि श्रवण 19:58 IST के बाद शुरू होता है। इसलिए कार्ड का नाम वामन-द्वादशी व्रत है, वामन जयंती नहीं।"
+      "status": "needs-review"
     },
     {
       "id": "ashwin-krishna",
+      "occurrence": 1,
       "month": "आश्विन",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1305,8 +1001,10 @@
         "2030-09-24"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-09-24",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1314,12 +1012,14 @@
         "कृष्ण-कल्कि द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "ashwin-shukla",
+      "occurrence": 1,
       "month": "आश्विन",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1349,10 +1049,20 @@
         "2030-10-08"
       ],
       "referenceDate": "2030-10-07",
+      "sourceReferenceObservation": {
+        "date": "2030-10-07",
+        "intervalStart": "2030-10-07T11:01:39.907Z",
+        "intervalEnd": "2030-10-08T10:20:29.356Z",
+        "sunriseDayStart": "2030-10-07T00:36:00.914Z",
+        "sunriseDayEnd": "2030-10-08T00:36:36.100Z",
+        "basis": "daily-tithi-interval",
+        "source": "local-panchang-sunrise-to-next-sunrise"
+      },
       "drikLabels": [
         "एकादशी श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -1363,22 +1073,18 @@
           "labels": [
             "एकादशी श्रवण योग द्वादशी"
           ],
+          "localPanchangObservation": {
+            "date": "2030-10-07",
+            "intervalStart": "2030-10-07T11:01:39.907Z",
+            "intervalEnd": "2030-10-08T10:20:29.356Z",
+            "sunriseDayStart": "2030-10-07T00:36:00.914Z",
+            "sunriseDayEnd": "2030-10-08T00:36:36.100Z",
+            "basis": "daily-tithi-interval",
+            "source": "local-panchang-sunrise-to-next-sunrise"
+          },
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "not-supported-by-local-dwadashi-shravana-overlap",
-          "localDwadashiShravanaOverlapMs": 0,
-          "localAssessment": {
-            "ruleId": "shravana-yoga-dwadashi",
-            "result": "not-qualified",
-            "overlapMs": 0,
-            "thresholdMs": 2880000,
-            "dwadashiIntervalIST": {
-              "start": "2030-10-07T16:31:39.907+05:30",
-              "end": "2030-10-08T15:50:29.356+05:30"
-            },
-            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
-            "evidence": "स्थानीय इंजन में द्वादशी 7 अक्टूबर 16:31 IST पर शुरू होती है; Drik Roorkee दैनिक पंचांग में धनिष्ठा 8 अक्टूबर 00:59 तक और उसके बाद शतभिषा है, श्रवण नहीं। अतः दोनों का overlap शून्य है।"
-          }
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-10-07",
@@ -1405,58 +1111,14 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review",
-      "sourceReferenceObservation": {
-        "date": "2030-10-07",
-        "intervalStart": "2030-10-07T11:01:39.907Z",
-        "intervalEnd": "2030-10-08T10:20:29.356Z",
-        "sunriseDayStart": "2030-10-07T00:36:00.914Z",
-        "sunriseDayEnd": "2030-10-08T00:36:36.100Z",
-        "basis": "daily-tithi-interval",
-        "source": "local-panchang-sunrise-to-next-sunrise"
-      },
-      "shravanaLabelDecision": {
-        "status": "rejected-as-local-yoga",
-        "ruleId": "shravana-yoga-dwadashi",
-        "sourceLabel": "एकादशी श्रवण योग द्वादशी",
-        "localDwadashiShravanaOverlapMs": 0,
-        "minimumRequiredOverlapMs": 2880000,
-        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
-        "preserveNamedDwadashi": true,
-        "publicDateChanged": false,
-        "namedDwadashiDateReview": "पद्मनाभ-द्वादशी का 7 अक्टूबर स्रोत-दिन और 8 अक्टूबर सूर्योदय candidate अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
-      },
-      "observanceDateReviews": [
-        {
-          "observanceId": "padmanabha-narada",
-          "name": "पद्मनाभ द्वादशी व्रत",
-          "selectedDate": "2030-10-07",
-          "decisionStatus": "tithi-entry-evening-overnight-vrata-date-confirmed-for-source-review",
-          "source": "नारद पुराण, अध्याय 17, श्लोक 74–78; अध्याय 121, श्लोक 25–27a",
-          "localTithiIntervalIST": {
-            "start": "2030-10-07T16:31:39.907+05:30",
-            "end": "2030-10-08T15:50:29.356+05:30"
-          },
-          "vrataSequence": {
-            "startDate": "2030-10-07",
-            "tithiBegins": "2030-10-07T16:31:39.907+05:30",
-            "eveningRitual": "द्वादशी आरम्भ के बाद पद्मनाभ-अभिषेक, पूजन और हवन",
-            "night": "रात्रि-जागरण",
-            "continuationDate": "2030-10-08",
-            "morningRitual": "पुनः पूजा और मधु तथा दक्षिणा दान"
-          },
-          "localDayDecision": "7 अक्टूबर को स्थानीय द्वादशी 16:31:39 IST पर आरम्भ होती है और संध्या/रात्रि-विधान के लिए उपस्थित रहती है। नारद पुराण अध्याय 17 में पद्मनाभ-व्रत के लिए अभिषेक, हवन, रात्रि-जागरण और अगली सुबह पुनः पूजा/मधु-दान का क्रम है। इसलिए 7 अक्टूबर व्रत-आरम्भ दिन और 8 अक्टूबर अगली सुबह का अनुष्ठान-दिन है; केवल 8 अक्टूबर सूर्योदय पर द्वादशी होने के कारण मुख्य व्रत को 8 अक्टूबर पर स्थानांतरित नहीं किया गया।",
-          "shravanaYogaStatus": "not-qualified-local-overlap-zero",
-          "sourceCrossReference": "Drik की वार्षिक सूची 7 अक्टूबर बताती है; उसका अतिरिक्त 'एकादशी श्रवण योग द्वादशी' लेबल स्थानीय श्रवण-योग से समर्थित नहीं है और तारीख़-चयन में उपयोग नहीं किया गया।",
-          "autoApproved": false
-        }
-      ],
-      "sourceDateDecisionNote": "पद्मनाभ-व्रत का मुख्य आरम्भ 7 अक्टूबर 2030 को द्वादशी 16:31 IST पर प्रवेश करने के बाद है; नारद पुराण का व्रत रात्रि-जागरण और 8 अक्टूबर की अगली सुबह पुनः पूजा/मधु-दान तक चलता है। 8 अक्टूबर सूर्योदय पर द्वादशी होने को अलग व्रत-तिथि न मानें। 'एकादशी श्रवण योग द्वादशी' का स्थानीय संयोग शून्य है; यह केवल स्रोत-संदर्भ है।"
+      "status": "needs-review"
     },
     {
       "id": "kartika-krishna",
+      "occurrence": 1,
       "month": "कार्तिक",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1487,11 +1149,13 @@
         "2030-10-24"
       ],
       "referenceDate": "2030-10-23",
+      "sourceReferenceObservation": null,
       "drikLabels": [
-        "गोवत्स द्वादशी",
-        "कृष्ण पद्मनाभ द्वादशी"
+        "कृष्ण पद्मनाभ द्वादशी",
+        "गोवत्स द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -1500,11 +1164,13 @@
           "adhika": false,
           "referenceDate": "2030-10-23",
           "labels": [
-            "गोवत्स द्वादशी",
-            "कृष्ण पद्मनाभ द्वादशी"
+            "कृष्ण पद्मनाभ द्वादशी",
+            "गोवत्स द्वादशी"
           ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
           "source": "Drik Panchang",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
@@ -1524,12 +1190,14 @@
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "kartika-shukla",
+      "occurrence": 1,
       "month": "कार्तिक",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1559,8 +1227,10 @@
         "2030-11-06"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-11-06",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1577,6 +1247,7 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1596,6 +1267,7 @@
     },
     {
       "id": "margashirsha-krishna",
+      "occurrence": 1,
       "month": "मार्गशीर्ष",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1625,13 +1297,16 @@
         "2030-11-22"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-11-22",
       "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1645,6 +1320,7 @@
     },
     {
       "id": "margashirsha-shukla",
+      "occurrence": 1,
       "month": "मार्गशीर्ष",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1674,8 +1350,10 @@
         "2030-12-06"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-12-06",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1702,12 +1380,14 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "pausha-krishna",
+      "occurrence": 1,
       "month": "पौष",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1737,8 +1417,10 @@
         "2030-01-01"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-01-01",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1755,20 +1437,21 @@
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
           "name": "कृष्ण मत्स्य द्वादशी",
           "source": "Drik Panchang",
-          "relation": "Drik की 1 जनवरी सूची-प्रविष्टि; इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
+          "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
           "status": "cross-reference"
         }
       ],
-      "status": "needs-review",
-      "occurrence": 1
+      "status": "needs-review"
     },
     {
       "id": "pausha-krishna-occurrence-2",
+      "occurrence": 2,
       "month": "पौष",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1790,26 +1473,25 @@
         "2030-12-22"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "कृष्ण मत्स्य द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
           "month": "पौष",
           "paksha": "कृष्ण",
           "adhika": false,
-          "observanceDate": "2030-12-21",
-          "dateRole": "special-observance-date",
           "labels": [
             "कृष्ण मत्स्य द्वादशी"
           ],
           "sourcePage": "dwadashi-dates",
           "note": "Drik की 2030 सूची में कृष्ण मत्स्य द्वादशी 21 दिसंबर को है। पिथौरागढ़ में द्वादशी 21 दिसंबर 12:33 IST पर आरम्भ होकर 22 दिसंबर 09:41 IST तक चलती है; यह 21 दिसंबर सूर्योदय से 22 दिसंबर अगले सूर्योदय तक के पंचांग-दिन में आती है। यह रूप-व्रत का पर्याय नहीं है और पूरे पौष कृष्ण रिकॉर्ड की तारीख़ नहीं बदलती। स्थानीय पंचांग-व्याप्ति अलग से दर्ज की जाती है।",
-          "source": "Drik Panchang",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review",
+          "observanceDate": "2030-12-21",
+          "dateRole": "special-observance-date",
           "localPanchangObservation": {
             "date": "2030-12-21",
             "intervalStart": "2030-12-21T07:03:11.523Z",
@@ -1818,7 +1500,10 @@
             "sunriseDayEnd": "2030-12-22T01:30:33.432Z",
             "basis": "daily-tithi-interval",
             "source": "local-panchang-sunrise-to-next-sunrise"
-          }
+          },
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-12-22",
@@ -1836,6 +1521,7 @@
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1845,12 +1531,11 @@
           "status": "cross-reference"
         }
       ],
-      "status": "needs-review",
-      "occurrence": 2,
-      "sourceReferenceObservation": null
+      "status": "needs-review"
     },
     {
       "id": "pausha-shukla",
+      "occurrence": 1,
       "month": "पौष",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1880,11 +1565,13 @@
         "2030-01-16"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-01-16",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "trisparsha-mahadwadashi-candidate-review-required",
       "displayNames": [
         "सुजन्न-द्वादशी",
         "कूर्म-द्वादशी"
@@ -1907,12 +1594,37 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-naradaPurana-jayanti",
+          "name": "जयन्ती महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "पौष",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-01-16",
+          "nakshatra": "रोहिणी",
+          "tithiStartTime": "2030-01-16T01:35:09.971Z",
+          "tithiEndTime": "2030-01-16T13:03:49.990Z",
+          "nakshatraStartTime": "2030-01-16T01:35:09.971Z",
+          "nakshatraEndTime": "2030-01-16T07:27:57.878Z",
+          "overlapStartTime": "2030-01-16T01:35:09.971Z",
+          "overlapEndTime": "2030-01-16T07:27:57.878Z",
+          "overlapMinutes": 352.79845,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "magha-krishna",
+      "occurrence": 1,
       "month": "माघ",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1942,8 +1654,10 @@
         "2030-01-30"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-01-30",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1951,12 +1665,14 @@
         "कृष्ण-कूर्म द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "magha-shukla",
+      "occurrence": 1,
       "month": "माघ",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1986,11 +1702,13 @@
         "2030-02-15"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-02-15",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "trisparsha-mahadwadashi-candidate-review-required",
       "displayNames": [
         "वराह-द्वादशी",
         "भीष्म द्वादशी"
@@ -2005,12 +1723,37 @@
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-nirnayaSindhu-jayanti",
+          "name": "जयन्ती महाद्वादशी",
+          "sourceProfile": "nirnayaSindhu",
+          "source": "निर्णय-सिन्धु (उद्धृत पाठांतर)",
+          "sourceUrl": null,
+          "month": "माघ",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-02-15",
+          "nakshatra": "पुनर्वसु",
+          "tithiStartTime": "2030-02-15T01:19:06.023Z",
+          "tithiEndTime": "2030-02-15T08:08:47.821Z",
+          "nakshatraStartTime": "2030-02-15T01:19:06.023Z",
+          "nakshatraEndTime": "2030-02-15T21:02:40.273Z",
+          "overlapStartTime": "2030-02-15T01:19:06.023Z",
+          "overlapEndTime": "2030-02-15T08:08:47.821Z",
+          "overlapMinutes": 409.69663333333335,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "phalguna-krishna",
+      "occurrence": 1,
       "month": "फाल्गुन",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -2040,10 +1783,12 @@
         "2030-03-01"
       ],
       "referenceDate": "2030-03-01",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2030,
@@ -2056,70 +1801,23 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "local-48-minute-overlap-confirmed-source-review-pending",
-          "localDwadashiShravanaOverlapMs": 3027927,
-          "localAssessment": {
-            "ruleId": "shravana-yoga-dwadashi",
-            "result": "qualifying-candidate",
-            "overlapMs": 3027927,
-            "overlapMinutes": 50.46545,
-            "thresholdMs": 2880000,
-            "dwadashiIntervalIST": {
-              "start": "2030-02-28T14:05:08.714+05:30",
-              "end": "2030-03-01T13:05:25.632+05:30"
-            },
-            "shravanaOverlapIST": {
-              "start": "2030-03-01T12:14:57.705+05:30",
-              "end": "2030-03-01T13:05:25.632+05:30"
-            },
-            "sourceLabelDisposition": "locally-supported-cross-reference;keep-with-the-same-krishna-bhishma-dwadashi-card",
-            "evidence": "स्थानीय इंजन में द्वादशी सूर्योदय पर उपस्थित थी और 1 मार्च को 12:14:57.705 से 13:05:25.632 IST तक श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का संयोग बना। यह एक मुहूर्त (48 मिनट) से अधिक है। Drik का समय भी लगभग 12:14 से 13:04 बताता है।"
-          }
+          "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
       "selectedDate": "2030-03-01",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण-भीष्म द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review",
-      "shravanaYogaDecision": {
-        "status": "qualifying-candidate-needs-manual-source-review",
-        "selectedDate": "2030-03-01",
-        "overlapMs": 3027927,
-        "thresholdMs": 2880000,
-        "relatedNamedObservance": "कृष्ण भीष्म द्वादशी",
-        "publicCardDisposition": "same-card-no-duplicate-shravana-yoga-card",
-        "autoApproved": false
-      },
-      "observanceDateReviews": [
-        {
-          "observanceId": "krishna-bhishma",
-          "name": "कृष्ण भीष्म द्वादशी",
-          "selectedDate": "2030-03-01",
-          "decisionStatus": "local-tithi-and-shravana-overlap-candidate",
-          "source": "Drik Panchang — Krishna Bhishma Dwadashi and Shravana Yoga Dwadashi",
-          "sourceUrl": "https://www.drikpanchang.com/dwadashi/bhishma/krishna-bhishma-dwadashi-date-time.html?year=2030",
-          "localTithiIntervalIST": {
-            "start": "2030-02-28T14:05:08.714+05:30",
-            "end": "2030-03-01T13:05:25.632+05:30"
-          },
-          "localShravanaOverlapIST": {
-            "start": "2030-03-01T12:14:57.705+05:30",
-            "end": "2030-03-01T13:05:25.632+05:30"
-          },
-          "overlapMs": 3027927,
-          "autoApproved": false,
-          "note": "यह स्थानीय एक-मुहूर्त श्रवण-संयोग का स्रोत-समीक्षा उम्मीदवार है; अलग श्रवण योग कार्ड नहीं बनेगा।"
-        }
-      ],
-      "sourceDateDecisionNote": "1 मार्च 2030 को फाल्गुन कृष्ण द्वादशी सूर्योदय पर उपस्थित है और श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का स्थानीय संयोग बनता है। अतः Drik का श्रवण योग द्वादशी cross-reference स्थानीय 48-मिनट नियम से मेल खाता है; इसे कृष्ण भीष्म द्वादशी के साथ एक ही कार्ड में रखा जाए, अलग डुप्लिकेट नहीं। शुक्र प्रदोष अलग त्रयोदशी-व्रत और अलग कार्ड है।"
+      "status": "needs-review"
     },
     {
       "id": "phalguna-shukla",
+      "occurrence": 1,
       "month": "फाल्गुन",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -2149,11 +1847,13 @@
         "2030-03-16"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2030-03-16",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "trisparsha-mahadwadashi-candidate-review-required",
       "displayNames": [
         "श्रीहरि-द्वादशी व्रत",
         "नृसिंह-द्वादशी"
@@ -2174,6 +1874,52 @@
           "shortDetail": "हिरण्यकशिपु-वध करने वाले नृसिंह की पूजा और नृसिंह-प्रतिमा के दान का विधान है।",
           "sourceProfile": "varahaPurana",
           "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-naradaPurana-aparajita",
+          "name": "अपराजिता महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "फाल्गुन",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-03-16",
+          "nakshatra": "पुष्य",
+          "tithiStartTime": "2030-03-16T00:48:29.779Z",
+          "tithiEndTime": "2030-03-17T00:06:35.830Z",
+          "nakshatraStartTime": "2030-03-16T00:48:29.779Z",
+          "nakshatraEndTime": "2030-03-16T07:05:42.547Z",
+          "overlapStartTime": "2030-03-16T00:48:29.779Z",
+          "overlapEndTime": "2030-03-16T07:05:42.547Z",
+          "overlapMinutes": 377.2128,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        },
+        {
+          "id": "mahadwadashi-nirnayaSindhu-jaya",
+          "name": "जया महाद्वादशी",
+          "sourceProfile": "nirnayaSindhu",
+          "source": "निर्णय-सिन्धु (उद्धृत पाठांतर)",
+          "sourceUrl": null,
+          "month": "फाल्गुन",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-03-16",
+          "nakshatra": "पुष्य",
+          "tithiStartTime": "2030-03-16T00:48:29.779Z",
+          "tithiEndTime": "2030-03-17T00:06:35.830Z",
+          "nakshatraStartTime": "2030-03-16T00:48:29.779Z",
+          "nakshatraEndTime": "2030-03-16T07:05:42.547Z",
+          "overlapStartTime": "2030-03-16T00:48:29.779Z",
+          "overlapEndTime": "2030-03-16T07:05:42.547Z",
+          "overlapMinutes": 377.2128,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
         }
       ],
       "conditionalObservances": [],
@@ -2803,10 +2549,1343 @@
       "noonObservations": []
     }
   ],
+  "dwadashiYogas": [
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-01-01",
+      "vrataDayStart": "2030-01-01T01:34:25.180Z",
+      "vrataDayEnd": "2030-01-02T01:34:39.508Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-01-01T01:34:25.180Z",
+          "end": "2030-01-01T10:54:31.477Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-01-15",
+      "vrataDayStart": "2030-01-15T01:35:18.599Z",
+      "vrataDayEnd": "2030-01-16T01:35:09.971Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-01-15T11:01:33.887Z",
+          "end": "2030-01-16T01:35:09.971Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-01-16",
+      "vrataDayStart": "2030-01-16T01:35:09.971Z",
+      "vrataDayEnd": "2030-01-17T01:34:59.684Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-01-16T01:35:09.971Z",
+          "end": "2030-01-16T13:03:49.990Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-01-29",
+      "vrataDayStart": "2030-01-29T01:30:51.206Z",
+      "vrataDayEnd": "2030-01-30T01:30:20.542Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-01-29T22:58:31.858Z",
+          "end": "2030-01-30T01:30:20.542Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-01-30",
+      "vrataDayStart": "2030-01-30T01:30:20.542Z",
+      "vrataDayEnd": "2030-01-31T01:29:48.425Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-01-30T01:30:20.542Z",
+          "end": "2030-01-30T20:56:45.318Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-02-14",
+      "vrataDayStart": "2030-02-14T01:19:57.398Z",
+      "vrataDayEnd": "2030-02-15T01:19:06.023Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-02-14T07:20:41.577Z",
+          "end": "2030-02-15T01:19:06.023Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-02-15",
+      "vrataDayStart": "2030-02-15T01:19:06.023Z",
+      "vrataDayEnd": "2030-02-16T01:18:13.575Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-02-15T01:19:06.023Z",
+          "end": "2030-02-15T08:08:47.821Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-02-28",
+      "vrataDayStart": "2030-02-28T01:06:31.671Z",
+      "vrataDayEnd": "2030-03-01T01:05:28.051Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-02-28T08:36:08.778Z",
+          "end": "2030-03-01T01:05:28.051Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-03-01",
+      "vrataDayStart": "2030-03-01T01:05:28.051Z",
+      "vrataDayEnd": "2030-03-02T01:04:23.775Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-03-01T01:05:28.051Z",
+          "end": "2030-03-01T07:35:25.632Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2030-03-01T06:44:57.705Z",
+          "end": "2030-03-02T01:04:23.775Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2030-03-01T06:44:57.705Z",
+          "end": "2030-03-01T07:35:25.632Z"
+        }
+      ],
+      "overlapMs": 3027927,
+      "overlapMinutes": 50.46545,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-03-15",
+      "vrataDayStart": "2030-03-15T00:49:40.430Z",
+      "vrataDayEnd": "2030-03-16T00:48:29.779Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-03-16T00:48:12.937Z",
+          "end": "2030-03-16T00:48:29.779Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-03-16",
+      "vrataDayStart": "2030-03-16T00:48:29.779Z",
+      "vrataDayEnd": "2030-03-17T00:47:18.886Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-03-16T00:48:29.779Z",
+          "end": "2030-03-17T00:06:35.830Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-03-29",
+      "vrataDayStart": "2030-03-29T00:33:00.459Z",
+      "vrataDayEnd": "2030-03-30T00:31:49.178Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-03-29T19:05:51.584Z",
+          "end": "2030-03-30T00:31:49.178Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2030-03-29T00:33:00.459Z",
+          "end": "2030-03-29T12:36:12.114Z"
+        }
+      ],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-03-30",
+      "vrataDayStart": "2030-03-30T00:31:49.178Z",
+      "vrataDayEnd": "2030-03-31T00:30:38.066Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-03-30T00:31:49.178Z",
+          "end": "2030-03-30T19:12:52.860Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-04-14",
+      "vrataDayStart": "2030-04-14T00:14:34.188Z",
+      "vrataDayEnd": "2030-04-15T00:13:28.625Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-04-14T14:33:37.602Z",
+          "end": "2030-04-15T00:13:28.625Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-04-15",
+      "vrataDayStart": "2030-04-15T00:13:28.625Z",
+      "vrataDayEnd": "2030-04-16T00:12:23.646Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-04-15T00:13:28.625Z",
+          "end": "2030-04-15T12:34:12.166Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-04-28",
+      "vrataDayStart": "2030-04-28T00:00:19.747Z",
+      "vrataDayEnd": "2030-04-28T23:59:24.896Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-04-28T06:58:33.742Z",
+          "end": "2030-04-28T23:59:24.896Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-04-29",
+      "vrataDayStart": "2030-04-28T23:59:24.896Z",
+      "vrataDayEnd": "2030-04-29T23:58:31.002Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-04-28T23:59:24.896Z",
+          "end": "2030-04-29T08:12:42.392Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-05-14",
+      "vrataDayStart": "2030-05-13T23:47:47.689Z",
+      "vrataDayEnd": "2030-05-14T23:47:10.428Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-05-14T00:52:43.949Z",
+          "end": "2030-05-14T22:02:44.790Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-05-27",
+      "vrataDayStart": "2030-05-26T23:41:26.049Z",
+      "vrataDayEnd": "2030-05-27T23:41:06.304Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-05-27T20:36:28.443Z",
+          "end": "2030-05-27T23:41:06.304Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-05-28",
+      "vrataDayStart": "2030-05-27T23:41:06.304Z",
+      "vrataDayEnd": "2030-05-28T23:40:47.970Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-05-27T23:41:06.304Z",
+          "end": "2030-05-28T22:45:19.812Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-06-12",
+      "vrataDayStart": "2030-06-11T23:38:57.048Z",
+      "vrataDayEnd": "2030-06-12T23:38:59.212Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-06-12T08:37:03.188Z",
+          "end": "2030-06-12T23:38:59.212Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-06-13",
+      "vrataDayStart": "2030-06-12T23:38:59.212Z",
+      "vrataDayEnd": "2030-06-13T23:39:02.665Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-06-12T23:38:59.212Z",
+          "end": "2030-06-13T05:26:24.450Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-06-26",
+      "vrataDayStart": "2030-06-25T23:41:19.033Z",
+      "vrataDayEnd": "2030-06-26T23:41:37.699Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-06-26T11:58:54.393Z",
+          "end": "2030-06-26T23:41:37.699Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-06-27",
+      "vrataDayStart": "2030-06-26T23:41:37.699Z",
+      "vrataDayEnd": "2030-06-27T23:41:57.365Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-06-26T23:41:37.699Z",
+          "end": "2030-06-27T14:33:27.103Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-07-11",
+      "vrataDayStart": "2030-07-10T23:47:28.518Z",
+      "vrataDayEnd": "2030-07-11T23:47:58.620Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-07-11T14:48:45.325Z",
+          "end": "2030-07-11T23:47:58.620Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-07-12",
+      "vrataDayStart": "2030-07-11T23:47:58.620Z",
+      "vrataDayEnd": "2030-07-12T23:48:29.229Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-07-11T23:47:58.620Z",
+          "end": "2030-07-12T11:43:43.352Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-07-26",
+      "vrataDayStart": "2030-07-25T23:55:41.611Z",
+      "vrataDayEnd": "2030-07-26T23:56:16.658Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-07-26T04:33:32.939Z",
+          "end": "2030-07-26T23:56:16.658Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-07-27",
+      "vrataDayStart": "2030-07-26T23:56:16.658Z",
+      "vrataDayEnd": "2030-07-27T23:56:51.832Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-07-26T23:56:16.658Z",
+          "end": "2030-07-27T06:51:52.929Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-08-09",
+      "vrataDayStart": "2030-08-09T00:03:55.356Z",
+      "vrataDayEnd": "2030-08-10T00:04:30.216Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-08-09T20:31:29.800Z",
+          "end": "2030-08-10T00:04:30.216Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-08-10",
+      "vrataDayStart": "2030-08-10T00:04:30.216Z",
+      "vrataDayEnd": "2030-08-11T00:05:04.952Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-08-10T00:04:30.216Z",
+          "end": "2030-08-10T17:54:16.354Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-08-24",
+      "vrataDayStart": "2030-08-24T00:12:24.476Z",
+      "vrataDayEnd": "2030-08-25T00:12:57.366Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-08-24T21:25:33.528Z",
+          "end": "2030-08-25T00:12:57.366Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-08-25",
+      "vrataDayStart": "2030-08-25T00:12:57.366Z",
+      "vrataDayEnd": "2030-08-26T00:13:30.124Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-08-25T00:12:57.366Z",
+          "end": "2030-08-25T22:47:31.584Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-09-08",
+      "vrataDayStart": "2030-09-08T00:20:24.585Z",
+      "vrataDayEnd": "2030-09-09T00:20:55.762Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-09-08T02:51:59.465Z",
+          "end": "2030-09-09T00:20:55.762Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2030-09-08T14:29:00.791Z",
+          "end": "2030-09-09T00:20:55.762Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2030-09-08T14:29:00.791Z",
+          "end": "2030-09-09T00:20:55.762Z"
+        }
+      ],
+      "overlapMs": 35514971,
+      "overlapMinutes": 591.9161833333334,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-09-09",
+      "vrataDayStart": "2030-09-09T00:20:55.762Z",
+      "vrataDayEnd": "2030-09-10T00:21:26.889Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-09-09T00:20:55.762Z",
+          "end": "2030-09-09T01:02:49.707Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2030-09-09T00:20:55.762Z",
+          "end": "2030-09-09T13:30:51.934Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2030-09-09T00:20:55.762Z",
+          "end": "2030-09-09T01:02:49.707Z"
+        }
+      ],
+      "overlapMs": 2513945,
+      "overlapMinutes": 41.89908333333333,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-09-23",
+      "vrataDayStart": "2030-09-23T00:28:14.066Z",
+      "vrataDayEnd": "2030-09-24T00:28:46.109Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-09-23T13:41:52.396Z",
+          "end": "2030-09-24T00:28:46.109Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-09-24",
+      "vrataDayStart": "2030-09-24T00:28:46.109Z",
+      "vrataDayEnd": "2030-09-25T00:29:18.316Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-09-24T00:28:46.109Z",
+          "end": "2030-09-24T13:45:02.462Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-10-07",
+      "vrataDayStart": "2030-10-07T00:36:00.914Z",
+      "vrataDayEnd": "2030-10-08T00:36:36.100Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-10-07T11:02:40.042Z",
+          "end": "2030-10-08T00:36:36.100Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-10-08",
+      "vrataDayStart": "2030-10-08T00:36:36.100Z",
+      "vrataDayEnd": "2030-10-09T00:37:11.592Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-10-08T00:36:36.100Z",
+          "end": "2030-10-08T10:20:29.356Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-10-23",
+      "vrataDayStart": "2030-10-23T00:46:07.650Z",
+      "vrataDayEnd": "2030-10-24T00:46:49.074Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-10-23T04:50:58.965Z",
+          "end": "2030-10-24T00:46:49.074Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-10-24",
+      "vrataDayStart": "2030-10-24T00:46:49.074Z",
+      "vrataDayEnd": "2030-10-25T00:47:30.927Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-10-24T00:46:49.074Z",
+          "end": "2030-10-24T03:36:04.395Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-11-05",
+      "vrataDayStart": "2030-11-05T00:55:37.631Z",
+      "vrataDayEnd": "2030-11-06T00:56:24.019Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-11-05T22:14:56.812Z",
+          "end": "2030-11-06T00:56:24.019Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-11-06",
+      "vrataDayStart": "2030-11-06T00:56:24.019Z",
+      "vrataDayEnd": "2030-11-07T00:57:10.718Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-11-06T00:56:24.019Z",
+          "end": "2030-11-06T22:52:50.718Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-11-21",
+      "vrataDayStart": "2030-11-21T01:08:28.919Z",
+      "vrataDayEnd": "2030-11-22T01:09:18.246Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-11-21T18:41:04.114Z",
+          "end": "2030-11-22T01:09:18.246Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-11-22",
+      "vrataDayStart": "2030-11-22T01:09:18.246Z",
+      "vrataDayEnd": "2030-11-23T01:10:07.532Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-11-22T01:09:18.246Z",
+          "end": "2030-11-22T16:25:24.437Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-12-05",
+      "vrataDayStart": "2030-12-05T01:19:40.779Z",
+      "vrataDayEnd": "2030-12-06T01:20:25.737Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-12-05T13:15:42.334Z",
+          "end": "2030-12-06T01:20:25.737Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2030-12-06",
+      "vrataDayStart": "2030-12-06T01:20:25.737Z",
+      "vrataDayEnd": "2030-12-07T01:21:10.068Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-12-06T01:20:25.737Z",
+          "end": "2030-12-06T15:10:11.435Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-12-21",
+      "vrataDayStart": "2030-12-21T01:30:03.181Z",
+      "vrataDayEnd": "2030-12-22T01:30:33.432Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-12-21T07:04:11.486Z",
+          "end": "2030-12-22T01:30:33.432Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2030-12-22",
+      "vrataDayStart": "2030-12-22T01:30:33.432Z",
+      "vrataDayEnd": "2030-12-23T01:31:02.431Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2030-12-22T01:30:33.432Z",
+          "end": "2030-12-22T04:11:50.353Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    }
+  ],
   "chaturmas": {
     "schemaVersion": 1,
     "year": 2030,
-    "status": "approved",
+    "status": "needs-review",
     "selectionMethod": "udayavyapini-smarta-first-sunrise-with-kartik-ekadashi-vrata-rule",
     "rulesArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
     "location": {
@@ -2956,14 +4035,12 @@
         "id": "dal",
         "title": "दालों का त्याग",
         "startDate": "2030-10-08",
-        "endDate": "2030-11-06",
+        "endDate": "2030-11-05",
         "startTithi": "आश्विन शुक्ल द्वादशी",
         "endTithi": "कार्तिक शुक्ल एकादशी",
         "detail": "आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।"
       }
-    ],
-    "completionTithi": "कार्तिक शुक्ल द्वादशी",
-    "completionDetail": "त्यागी गई दालों का दान करके चातुर्मास्य व्रत पूर्ण करें।"
+    ]
   },
   "sourceReview": {
     "status": "pending-manual-cross-check",
@@ -3034,479 +4111,6 @@
       "targetYearDays": 365,
       "precedingYearBufferDays": 0,
       "followingYearBufferDays": 31
-    },
-    "chaturmasBoundaryCrossChecks": [
-      {
-        "boundary": "start",
-        "date": "2030-07-11",
-        "tithi": "आषाढ़ शुक्ल एकादशी",
-        "rule": "उदयव्यापिनी स्मार्त एकादशी",
-        "source": "Drik Panchang — Devshayani Ekadashi / Ekadashi Dates",
-        "url": "https://www.drikpanchang.com/ekadashis/devshayani/devshayani-ekadashi-date-time.html?lang=en&year=2030"
-      },
-      {
-        "boundary": "shak-end",
-        "date": "2030-08-10",
-        "tithi": "श्रावण शुक्ल द्वादशी",
-        "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "Drik Panchang — Dwadashi Dates",
-        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
-      },
-      {
-        "boundary": "dahi-end",
-        "date": "2030-09-09",
-        "tithi": "भाद्रपद शुक्ल द्वादशी",
-        "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "Drik Panchang — Dwadashi Dates",
-        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
-      },
-      {
-        "boundary": "doodh-end",
-        "date": "2030-10-08",
-        "tithi": "आश्विन शुक्ल द्वादशी",
-        "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "Drik Panchang — Dwadashi Dates",
-        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
-      },
-      {
-        "boundary": "end",
-        "date": "2030-11-05",
-        "tithi": "कार्तिक शुक्ल एकादशी",
-        "rule": "स्मार्त देवोत्थानी एकादशी",
-        "source": "Drik Panchang — Hindu Calendar / Ekadashi Dates",
-        "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
-      },
-      {
-        "boundary": "completion",
-        "date": "2030-11-06",
-        "tithi": "कार्तिक शुक्ल द्वादशी",
-        "rule": "द्वादशी उदयव्याप्ति पर चातुर्मास समापन",
-        "source": "Drik Panchang — Dwadashi Dates",
-        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
-      }
-    ],
-    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।"
-  },
-  "generalDwadashiYogaReview": {
-    "ruleId": "shravana-yoga-dwadashi",
-    "name": "श्रवण योग द्वादशी",
-    "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
-    "criterion": "स्थानीय द्वादशी और श्रवण नक्षत्र का उसी सूर्योदय-दिन से अगले सूर्योदय तक कम-से-कम एक मुहूर्त (48 मिनट) संयोग; शुक्ल एवं कृष्ण दोनों पक्ष",
-    "calculation": {
-      "engine": "@ishubhamx/panchangam-js@3.0.0",
-      "location": "Pithoragarh",
-      "timezone": "Asia/Kolkata",
-      "dayBoundary": "local-sunrise-to-next-local-sunrise",
-      "minimumOverlapMs": 2880000,
-      "observedVrataDays": 48
-    },
-    "observations": [
-      {
-        "observanceDate": "2030-01-01",
-        "month": "पौष",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-01-15",
-        "month": "पौष",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-01-16",
-        "month": "पौष",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-01-29",
-        "month": "माघ",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-01-30",
-        "month": "माघ",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-02-14",
-        "month": "माघ",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-02-15",
-        "month": "माघ",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-02-28",
-        "month": "फाल्गुन",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-03-01",
-        "month": "फाल्गुन",
-        "paksha": "कृष्ण",
-        "overlapMs": 3027927,
-        "meetsOneMuhurta": true,
-        "overlapIntervals": [
-          {
-            "start": "2030-03-01T06:44:57.705Z",
-            "end": "2030-03-01T07:35:25.632Z"
-          }
-        ]
-      },
-      {
-        "observanceDate": "2030-03-15",
-        "month": "फाल्गुन",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-03-16",
-        "month": "फाल्गुन",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-03-29",
-        "month": "चैत्र",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-03-30",
-        "month": "चैत्र",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-04-14",
-        "month": "चैत्र",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-04-15",
-        "month": "चैत्र",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-04-28",
-        "month": "वैशाख",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-04-29",
-        "month": "वैशाख",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-05-14",
-        "month": "वैशाख",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-05-27",
-        "month": "ज्येष्ठ",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-05-28",
-        "month": "ज्येष्ठ",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-06-12",
-        "month": "ज्येष्ठ",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-06-13",
-        "month": "ज्येष्ठ",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-06-26",
-        "month": "आषाढ़",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-06-27",
-        "month": "आषाढ़",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-07-11",
-        "month": "आषाढ़",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-07-12",
-        "month": "आषाढ़",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-07-26",
-        "month": "श्रावण",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-07-27",
-        "month": "श्रावण",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-08-09",
-        "month": "श्रावण",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-08-10",
-        "month": "श्रावण",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-08-24",
-        "month": "भाद्रपद",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-08-25",
-        "month": "भाद्रपद",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-09-08",
-        "month": "भाद्रपद",
-        "paksha": "शुक्ल",
-        "overlapMs": 35514971,
-        "meetsOneMuhurta": true,
-        "overlapIntervals": [
-          {
-            "start": "2030-09-08T14:29:00.791Z",
-            "end": "2030-09-09T00:20:55.762Z"
-          }
-        ]
-      },
-      {
-        "observanceDate": "2030-09-09",
-        "month": "भाद्रपद",
-        "paksha": "शुक्ल",
-        "overlapMs": 2513945,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": [
-          {
-            "start": "2030-09-09T00:20:55.762Z",
-            "end": "2030-09-09T01:02:49.707Z"
-          }
-        ]
-      },
-      {
-        "observanceDate": "2030-09-23",
-        "month": "आश्विन",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-09-24",
-        "month": "आश्विन",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-10-07",
-        "month": "आश्विन",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-10-08",
-        "month": "आश्विन",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-10-23",
-        "month": "कार्तिक",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-10-24",
-        "month": "कार्तिक",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-11-05",
-        "month": "कार्तिक",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-11-06",
-        "month": "कार्तिक",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-11-21",
-        "month": "मार्गशीर्ष",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-11-22",
-        "month": "मार्गशीर्ष",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-12-05",
-        "month": "मार्गशीर्ष",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-12-06",
-        "month": "मार्गशीर्ष",
-        "paksha": "शुक्ल",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-12-21",
-        "month": "पौष",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      },
-      {
-        "observanceDate": "2030-12-22",
-        "month": "पौष",
-        "paksha": "कृष्ण",
-        "overlapMs": 0,
-        "meetsOneMuhurta": false,
-        "overlapIntervals": []
-      }
-    ],
-    "qualifyingCandidates": [
-      "2030-03-01",
-      "2030-09-08"
-    ],
-    "decisionPolicy": "योग-साक्ष्य मात्र; उपवास-दिन/पारण का चयन नहीं। सभी परिणाम source/manual Smarta review तक approval-विहीन रहेंगे।",
-    "status": "candidate-evidence-only",
-    "autoApproved": false
+    }
   }
 }
