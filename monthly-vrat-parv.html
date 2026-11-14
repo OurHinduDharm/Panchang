@@ -817,7 +817,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
-      eventsEl.appendChild(empty);return;
+      eventsEl.appendChild(empty);
+      loadSpecialPunyaKaal(year,month);
+      return;
     }
     list.forEach(function(item){
       var card=document.createElement("article");card.className="event";
