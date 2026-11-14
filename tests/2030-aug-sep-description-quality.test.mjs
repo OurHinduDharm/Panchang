@@ -29,7 +29,8 @@ test("2030 August and September festival descriptions are specific", async () =>
   assert.equal(janmashtami.date, "2030-08-20");
   assert.match(janmashtami.description, /निशीथ काल/);
   assert.match(janmashtami.articleUrl || "", /About-Shree-Krishna-Janmaashtami/);
-  assert.match(janmashtami.secondaryArticleUrl || "", /About-Mahavidya-MahaKali/);
+  const adyakali = find(august.events, /आद्याकाली महाविद्या जयंती/);
+  assert.match(adyakali.articleUrl || "", /About-Mahavidya-MahaKali/);
   assert.match(find(august.events, /हरतालिका तीज/).description, /शिव और माता पार्वती/);
 
   assert.match(find(september.events, /ऋषि पंचमी/).description, /सप्तऋषियों/);

@@ -92,19 +92,29 @@
     {
       "date": "2030-08-09",
       "dateLabel": "9 अगस्त",
-      "title": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी (स्मार्त)",
-      "description": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
-      "category": "व्रत एवं एकादशी",
+      "title": "वरलक्ष्मी व्रत",
+      "description": "वरलक्ष्मी व्रत पर देवी महालक्ष्मी का पूजन, कलश-स्थापन, व्रत तथा सौभाग्य और समृद्धि की कामना से पूजा-अर्चना करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल एकादशी"
+    },
+    {
+      "date": "2030-08-09",
+      "dateLabel": "9 अगस्त",
+      "title": "श्रावण पुत्रदा एकादशी (स्मार्त)",
+      "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल एकादशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
       "date": "2030-08-11",
@@ -183,19 +193,49 @@
     {
       "date": "2030-08-20",
       "dateLabel": "20 अगस्त",
-      "title": "मासिक कालाष्टमी / श्रीकृष्ण जन्माष्टमी (स्मार्त) / आद्याकाली एवं विंध्यवासिनी जयंती",
-      "description": "कृष्ण पक्ष की अष्टमी निशीथ काल में व्याप्त होने से स्मार्त नियम के अनुसार श्रीकृष्ण जन्माष्टमी का व्रत 20 अगस्त को है। इसी तिथि पर मासिक कालाष्टमी, आद्याकाली महाविद्या जयंती और विंध्यवासिनी जयंती भी हैं। रात्रि के निशीथ काल में भगवान श्रीकृष्ण का जन्मोत्सव तथा भगवान भैरव और देवी की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a> <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">काली महाविद्या</a> <a href=\"https://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "श्रीकृष्ण जन्माष्टमी (स्मार्त)",
+      "description": "कृष्ण पक्ष की अष्टमी निशीथ काल में व्याप्त होने से स्मार्त नियम के अनुसार श्रीकृष्ण जन्माष्टमी का व्रत 20 अगस्त को है। निशीथ काल में भगवान श्रीकृष्ण का जन्मोत्सव, पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)",
+      "muhurtaRule": "janmashtami-nishita",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
       "articleLabel": "श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख",
-      "muhurtaRule": "janmashtami-nishita",
-      "sourceName": "Drik Panchang — Krishna Janmashtami tithi and Dasha Mahavidya calendar",
-      "sourceUrl": "https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?year=2030",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html",
-      "secondaryArticleLabel": "काली महाविद्या"
+      "sourceName": "Drik Panchang — Krishna Janmashtami tithi",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?year=2030"
+    },
+    {
+      "date": "2030-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)"
+    },
+    {
+      "date": "2030-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "आद्याकाली महाविद्या जयंती",
+      "description": "आद्याकाली महाविद्या जयंती पर माँ महाकाली की स्तोत्र, मंत्र-जप और श्रद्धापूर्वक उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">काली महाविद्या</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html",
+      "articleLabel": "काली महाविद्या"
+    },
+    {
+      "date": "2030-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "विंध्यवासिनी जयंती",
+      "description": "विंध्यवासिनी जयंती पर माँ विंध्यवासिनी का पूजन, स्तुति और मंत्र-जप करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)"
     },
     {
       "date": "2030-08-22",

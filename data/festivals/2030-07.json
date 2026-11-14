@@ -265,17 +265,33 @@
     {
       "date": "2030-07-22",
       "dateLabel": "22 जुलाई",
-      "title": "प्रथम श्रावण सोमवार / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "श्रावण के प्रथम सोमवार पर भगवान शिव का अभिषेक, बिल्वपत्र अर्पण और शिवमंत्र-जप करें। कृष्ण अष्टमी की रात्रि में मासिक कालाष्टमी पर भगवान भैरव का पूजन तथा मासिक कृष्ण जन्माष्टमी पर श्रीकृष्ण का स्मरण, पूजन और नाम-जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "प्रथम श्रावण सोमवार",
+      "description": "श्रावण मास के प्रथम सोमवार पर भगवान शिव का अभिषेक, बिल्वपत्र अर्पण और शिवमंत्र-जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अष्टमी"
+    },
+    {
+      "date": "2030-07-22",
+      "dateLabel": "22 जुलाई",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अष्टमी"
+    },
+    {
+      "date": "2030-07-22",
+      "dateLabel": "22 जुलाई",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी के निशीथ काल में श्रीकृष्ण की उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण अष्टमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "muhurtaRule": "janmashtami-nishita",
-      "sourceName": "Drik Panchang — जुलाई 2030 पर्व सूची",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030"
+      "muhurtaRule": "janmashtami-nishita"
     },
     {
       "date": "2030-07-23",

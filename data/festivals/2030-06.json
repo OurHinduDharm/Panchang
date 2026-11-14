@@ -195,14 +195,23 @@
     {
       "date": "2030-06-22",
       "dateLabel": "22 जून",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "रात्रिव्यापिनी अष्टमी पर मासिक कालाष्टमी तथा मासिक कृष्ण जन्माष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें; भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन भी करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति"
+    },
+    {
+      "date": "2030-06-22",
+      "dateLabel": "22 जून",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी के निशीथ काल में श्रीकृष्ण की उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "muhurtaRule": "janmashtami-nishita"
     },
     {
       "date": "2030-06-26",
