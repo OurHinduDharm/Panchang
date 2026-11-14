@@ -21,10 +21,23 @@
         2026,
         2027
       ],
-      "boundaryCount": 9,
-      "matchedBoundaries": 9,
-      "maximumClockDifferenceSeconds": 58.2,
-      "validationWorkflow": "https://github.com/OurHinduDharm/Panchang/actions/runs/43380320868"
+      "boundaryCount": 8,
+      "bracketFound": 8,
+      "selectedHorizonClockWithin15Minutes": 7,
+      "selectedHorizonClockWithin1Day": 7,
+      "knownUnresolvedFailure": {
+        "planet": "Venus",
+        "boundary": "astaEnd",
+        "year": 2027,
+        "predictedLocalDateTime": "2027-09-11T18:46:00+05:30",
+        "sourceLocalDateTime": "2027-09-09T18:48:00+05:30",
+        "differenceMinutes": 2878,
+        "status": "unresolved-do-not-tune-on-holdout"
+      },
+      "diagnosticScope": "Empirical Sun-depression threshold candidate selection using actual local planet horizon clocks; not Schaefer visibility-model accuracy.",
+      "auditArtifactRun": 43419709714,
+      "supersedesPreviousSummary": true,
+      "publicationEligible": false
     },
     "independentComparison": {
       "provider": "Panchang Guru",
@@ -41,7 +54,13 @@
       ]
     },
     "generatedAt": "2026-11-13T06:40:42Z",
-    "publicDisplay": "Date and local time only"
+    "publicDisplay": "Date and local time only",
+    "publicationStatus": "research-only-not-approved-for-publication",
+    "publicationBlockers": [
+      "Venus 2027 AstaEnd holdout remains approximately 47 hours 58 minutes late",
+      "2028-2030 candidate windows lack independent same-city time references",
+      "city-label-only source records are not exact-coordinate observer validation"
+    ]
   },
   "windows": [
     {

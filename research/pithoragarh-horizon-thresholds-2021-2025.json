@@ -1,0 +1,55 @@
+{
+  "calibrationId": "pithoragarh-guru-shukra-horizon-thresholds-2021-2025-v1",
+  "location": {
+    "name": "पिथौरागढ़, उत्तराखंड, भारत",
+    "latitude": 29.5828,
+    "longitude": 80.2182,
+    "elevationMeters": 1650,
+    "timeZone": "Asia/Kolkata"
+  },
+  "trainingYears": [2021, 2022, 2023, 2024, 2025],
+  "source": "data/drik-planetary-reference-2024-2027.json",
+  "method": "Median Sun depression at directly captured local planet rise/set events; grouped by planet, boundary and rise/set direction.",
+  "thresholdsDeg": {
+    "Jupiter": {
+      "astaStart": {
+        "set": 7.503080300494219
+      },
+      "astaEnd": {
+        "rise": 9.328052992820218
+      }
+    },
+    "Venus": {
+      "astaStart": {
+        "rise": 5.765064136989324,
+        "set": 5.12890393160545
+      },
+      "astaEnd": {
+        "rise": 6.644951294875611,
+        "set": 5.888701241869903
+      }
+    }
+  },
+  "sampleCounts": {
+    "Jupiter": {
+      "astaStart": { "set": 5 },
+      "astaEnd": { "rise": 5 }
+    },
+    "Venus": {
+      "astaStart": { "rise": 4, "set": 3 },
+      "astaEnd": { "rise": 3, "set": 4 }
+    }
+  },
+  "holdoutSummary": {
+    "years": [2026, 2027],
+    "boundaries": 8,
+    "within15Minutes": 7,
+    "within1Day": 7,
+    "within3Days": 8,
+    "unresolved": [
+      "Venus 2027 AstaEnd differs by approximately two days"
+    ]
+  },
+  "publicationEligible": false,
+  "warning": "Research-only calibration for this Pithoragarh observer profile. Do not reuse for other cities or publish without resolving the holdout mismatch and independent review."
+}

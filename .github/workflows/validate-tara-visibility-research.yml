@@ -1,0 +1,141 @@
+name: Validate Tara visibility research adapters
+
+on:
+  push:
+    branches: [feature/city-aware-tara-location-profiles]
+    paths:
+      - "planetary-city-heliacal-engine.mjs"
+      - "planetary-heliacal-ephemeris.mjs"
+      - "planetary-city-horizon-threshold.mjs"
+      - "tests/planetary-city-heliacal-engine.test.mjs"
+      - "tests/planetary-heliacal-ephemeris.test.mjs"
+      - "tests/planetary-city-horizon-threshold.test.mjs"
+      - "research/planetary-city-backtest.mjs"
+      - "research/city-observer-profiles.mjs"
+      - "data/city-observer-profiles-2026-11-14.json"
+      - "data/pac-heliacal-reference-central-station-2026-2027.json"
+      - "tests/pac-heliacal-reference.test.mjs"
+      - "research/multi-city-planetary-backtest.mjs"
+      - "research/data/multi-city-guru-shukra-history-2021-2023.json"
+      - "research/holdout-error-audit.mjs"
+      - "research/threshold-crossvalidation.mjs"
+      - "research/azimuth-conditioned-threshold-audit.mjs"
+      - "research/conjunction-age-threshold-audit.mjs"
+      - "research/conjunction-age-event-time-audit.mjs"
+      - "scripts/validate-conjunction-age-event-time-report.mjs"
+      - "tests/threshold-crossvalidation.test.mjs"
+      - "tests/azimuth-conditioned-threshold-audit.test.mjs"
+      - "tests/conjunction-age-threshold-audit.test.mjs"
+      - "tests/conjunction-age-event-time-audit.test.mjs"
+      - "tests/holdout-error-audit.test.mjs"
+      - "research/planetary-conjunction-association.mjs"
+      - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
+      - "agastya-canopus-position.mjs"
+      - "data/agastya-arghya-pithoragarh.json"
+      - "research/agastya-physical-visibility-audit.mjs"
+      - "tests/agastya-physical-visibility-audit.test.mjs"
+      - "tests/planetary-conjunction-association.test.mjs"
+      - ".github/workflows/validate-tara-visibility-research.yml"
+  pull_request:
+    branches: [fix/agastya-public-source-gating]
+    paths:
+      - "planetary-heliacal-visibility.mjs"
+      - "planetary-heliacal-ephemeris.mjs"
+      - "planetary-city-heliacal-engine.mjs"
+      - "planetary-city-horizon-threshold.mjs"
+      - "tests/planetary-city-horizon-threshold.test.mjs"
+      - "research/planetary-city-backtest.mjs"
+      - "research/city-observer-profiles.mjs"
+      - "research/multi-city-planetary-backtest.mjs"
+      - "data/pac-heliacal-reference-central-station-2026-2027.json"
+      - "tests/pac-heliacal-reference.test.mjs"
+      - "research/holdout-error-audit.mjs"
+      - "research/threshold-crossvalidation.mjs"
+      - "research/azimuth-conditioned-threshold-audit.mjs"
+      - "tests/threshold-crossvalidation.test.mjs"
+      - "tests/azimuth-conditioned-threshold-audit.test.mjs"
+      - "tests/holdout-error-audit.test.mjs"
+      - "research/planetary-conjunction-association.mjs"
+      - "tests/planetary-conjunction-association.test.mjs"
+      - "research/pithoragarh-horizon-thresholds-2021-2025.json"
+      - "data/drik-planetary-reference-2024-2027.json"
+      - "planetary-city-location.mjs"
+      - "agastya-canopus-position.mjs"
+      - "tests/planetary-heliacal-visibility.test.mjs"
+      - "tests/planetary-heliacal-ephemeris.test.mjs"
+      - "tests/planetary-city-heliacal-engine.test.mjs"
+      - "tests/planetary-city-location.test.mjs"
+      - "tests/agastya-canopus-position.test.mjs"
+      - "research/agastya-physical-visibility-audit.mjs"
+      - "tests/agastya-physical-visibility-audit.test.mjs"
+      - ".github/workflows/validate-tara-visibility-research.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  research-adapter-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned free astronomy engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Run visibility, city-profile and Agastya tests
+        run: |
+          node --test tests/planetary-heliacal-visibility.test.mjs
+          node --test tests/planetary-heliacal-ephemeris.test.mjs
+          node --test tests/planetary-city-heliacal-engine.test.mjs
+          node --test tests/planetary-city-horizon-threshold.test.mjs
+          node --test tests/planetary-conjunction-association.test.mjs
+          node --test tests/planetary-city-location.test.mjs
+          node --test tests/agastya-canopus-position.test.mjs
+          node --test tests/agastya-physical-visibility-audit.test.mjs
+          node --test tests/holdout-error-audit.test.mjs
+          node --test tests/pac-heliacal-reference.test.mjs
+          node --test tests/threshold-crossvalidation.test.mjs
+          node --test tests/azimuth-conditioned-threshold-audit.test.mjs
+          node --test tests/conjunction-age-threshold-audit.test.mjs
+          node --test tests/conjunction-age-event-time-audit.test.mjs
+      - name: Resolve five city-centre observer coordinates and DEM elevations
+        run: node research/city-observer-profiles.mjs --snapshot data/city-observer-profiles-2026-11-14.json --output city-observer-profiles.json
+      - name: Back-test city model against Pithoragarh Guru/Shukra records
+        run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
+      - name: Audit azimuth-conditioned twilight threshold hypothesis
+        run: node research/azimuth-conditioned-threshold-audit.mjs --input planetary-city-backtest.json --output azimuth-conditioned-threshold-audit.json
+      - name: Back-test Guru/Shukra independently for each city
+        run: node research/multi-city-planetary-backtest.mjs --profiles city-observer-profiles.json --output multi-city-planetary-backtest.json
+      - name: Audit per-city azimuth-conditioned threshold hypothesis
+        run: node research/azimuth-conditioned-threshold-audit.mjs --input multi-city-planetary-backtest.json --output azimuth-conditioned-threshold-multicity-audit.json
+      - name: Run physical Canopus visibility audit separately from traditional Arghya
+        run: node research/agastya-physical-visibility-audit.mjs --start-year 2024 --end-year 2030 --output agastya-physical-visibility-audit.json
+      - name: Audit conjunction-age-conditioned threshold hypothesis
+        run: node research/conjunction-age-threshold-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-threshold-audit.json
+      - name: Audit conjunction-age implicit event-time candidates
+        run: node research/conjunction-age-event-time-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-event-time-audit.json
+      - name: Assert Pithoragarh and five-city Venus 2027 holdouts
+        run: node scripts/validate-conjunction-age-event-time-report.mjs --input conjunction-age-event-time-audit.json
+      - name: Audit exact local-date and clock-time holdout errors
+        run: node research/holdout-error-audit.mjs --input multi-city-planetary-backtest.json --output multi-city-planetary-error-audit.json
+      - name: Upload city-profile and research-only back-test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: city-wise-guru-shukra-observer-backtest
+          path: |
+            city-observer-profiles.json
+            data/pac-heliacal-reference-central-station-2026-2027.json
+            planetary-city-backtest.json
+            azimuth-conditioned-threshold-audit.json
+            azimuth-conditioned-threshold-multicity-audit.json
+            conjunction-age-threshold-audit.json
+            conjunction-age-event-time-audit.json
+            agastya-physical-visibility-audit.json
+            research/data/multi-city-guru-shukra-history-2021-2023.json
+            multi-city-planetary-backtest.json
+            multi-city-planetary-error-audit.json
+          if-no-files-found: error
+      - name: Smoke-test the real Astronomy Engine adapter
+        run: |
+          node --input-type=module -e 'import * as A from "astronomy-engine"; import {getCanopusHorizontalPosition} from "./agastya-canopus-position.mjs"; const p=getCanopusHorizontalPosition({astronomy:A,observer:new A.Observer(29.5828,80.2182,1650),instant:"2028-09-01T00:00:00Z"}); if(!Number.isFinite(p.altitudeDeg)||!Number.isFinite(p.azimuthDeg)) throw new Error(JSON.stringify(p)); console.log(JSON.stringify(p));'

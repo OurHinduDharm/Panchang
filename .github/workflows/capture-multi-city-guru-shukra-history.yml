@@ -1,0 +1,84 @@
+name: Capture multi-city Guru-Shukra historical references
+
+on:
+  push:
+    branches: [feature/city-aware-tara-location-profiles]
+    paths:
+      - "scripts/capture-multi-city-guru-shukra-history.mjs"
+      - "scripts/capture-pithoragarh-guru-shukra-history.mjs"
+      - "scripts/annual-tara-source-normalizer.mjs"
+      - ".github/workflows/capture-multi-city-guru-shukra-history.yml"
+  pull_request:
+    branches: [fix/agastya-public-source-gating]
+    paths:
+      - "scripts/capture-multi-city-guru-shukra-history.mjs"
+      - "scripts/annual-tara-source-normalizer.mjs"
+      - ".github/workflows/capture-multi-city-guru-shukra-history.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-normalizer-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test shared Drik source normalizer
+        run: node --test tests/annual-tara-source-normalizer.test.mjs
+      - name: Check multi-city capture script syntax
+        run: node --check scripts/capture-multi-city-guru-shukra-history.mjs
+      - name: Check Pithoragarh historical capture script syntax
+        run: node --check scripts/capture-pithoragarh-guru-shukra-history.mjs
+
+  capture-historical-city-references:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture 2021-2023 Guru/Shukra pages for four cities
+        env:
+          OUTPUT_PATH: artifacts/multi-city-guru-shukra-2021-2023.json
+        run: node scripts/capture-multi-city-guru-shukra-history.mjs
+      - name: Upload quarantined and verified source captures for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: multi-city-guru-shukra-history-2021-2023
+          path: artifacts/multi-city-guru-shukra-2021-2023.json
+          if-no-files-found: error
+          retention-days: 30
+
+  capture-pithoragarh-history:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture Pithoragarh 2016-2020 Guru/Shukra pages
+        env:
+          OUTPUT_PATH: artifacts/pithoragarh-guru-shukra-history-2016-2020.json
+        run: node scripts/capture-pithoragarh-guru-shukra-history.mjs
+      - name: Upload Pithoragarh historical source captures for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-guru-shukra-history-2016-2020
+          path: artifacts/pithoragarh-guru-shukra-history-2016-2020.json
+          if-no-files-found: error
+          retention-days: 30
