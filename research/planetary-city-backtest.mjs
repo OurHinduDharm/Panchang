@@ -147,9 +147,16 @@ for (const planet of ["Jupiter", "Venus"]) {
           row.sourceYear <= 2025 && row.nearestHorizonEvent?.type === eventType)
         .map(row => row.sourceGeometry.sunDepressionDeg);
       if (values.length) {
+        const sortedValues = values.slice().sort((a, b) => a - b);
+        const center = median(values);
+        const deviations = values.map(value => Math.abs(value - center));
         trainingThresholds[planet + ":" + boundary + ":" + eventType] = {
           sampleCount: values.length,
-          thresholdDepressionDeg: median(values)
+          thresholdDepressionDeg: center,
+          observedMinDeg: Number(Math.min(...values).toFixed(6)),
+          observedMaxDeg: Number(Math.max(...values).toFixed(6)),
+          medianAbsoluteDeviationDeg: Number(median(deviations).toFixed(6)),
+          trainingSampleDepressionsDeg: sortedValues.map(value => Number(value.toFixed(6)))
         };
       }
     }
@@ -171,17 +178,24 @@ const thresholdPredictions = results
   .filter(row => row.sourceYear >= 2026)
   .map(row => {
     const prefix = row.planet + ":" + row.boundary + ":";
-    const candidates = Object.entries(trainingThresholds)
-      .filter(([key]) => key.startsWith(prefix))
-      .flatMap(([key, value]) => findHorizonTwilightThresholdCrossings({
-        horizonSeries: holdoutHorizonSeries[row.planet],
-        thresholdDepressionDeg: value.thresholdDepressionDeg,
-        eventType: key.slice(prefix.length)
-      }).map(candidate => ({
-        ...candidate,
-        trainingThresholdDepressionDeg: value.thresholdDepressionDeg,
-        trainingSampleCount: value.sampleCount
-      })));
+    const sourceEventType = row.nearestHorizonEvent?.type ?? null;
+    const matchingTraining = sourceEventType
+      ? trainingThresholds[prefix + sourceEventType] ?? null
+      : null;
+    const candidates = matchingTraining
+      ? findHorizonTwilightThresholdCrossings({
+          horizonSeries: holdoutHorizonSeries[row.planet],
+          thresholdDepressionDeg: matchingTraining.thresholdDepressionDeg,
+          eventType: sourceEventType
+        }).map(candidate => ({
+          ...candidate,
+          trainingThresholdDepressionDeg: matchingTraining.thresholdDepressionDeg,
+          trainingSampleCount: matchingTraining.sampleCount,
+          trainingObservedMinDeg: matchingTraining.observedMinDeg,
+          trainingObservedMaxDeg: matchingTraining.observedMaxDeg,
+          trainingMedianAbsoluteDeviationDeg: matchingTraining.medianAbsoluteDeviationDeg
+        }))
+      : [];
     const referenceMs = Date.parse(row.sourceUtcInstant);
     const nearest = candidates
       .map(candidate => ({
@@ -189,11 +203,18 @@ const thresholdPredictions = results
         errorMinutes: (Date.parse(candidate.instant) - referenceMs) / 60_000
       }))
       .sort((a, b) => Math.abs(a.errorMinutes) - Math.abs(b.errorMinutes))[0] || null;
+    const sourceDepressionDeg = row.sourceGeometry.sunDepressionDeg;
     return {
       sourceWindowId: row.sourceWindowId,
       planet: row.planet,
       sourceYear: row.sourceYear,
       boundary: row.boundary,
+      sourceHorizonEventType: sourceEventType,
+      sourceDepressionDeg,
+      sourceThresholdResidualDeg: matchingTraining && Number.isFinite(sourceDepressionDeg)
+        ? Number((sourceDepressionDeg - matchingTraining.thresholdDepressionDeg).toFixed(6))
+        : null,
+      matchingTrainingThreshold: matchingTraining,
       nearestThresholdPrediction: nearest,
       within15Minutes: nearest ? Math.abs(nearest.errorMinutes) <= 15 : false,
       within1Hour: nearest ? Math.abs(nearest.errorMinutes) <= 60 : false,
