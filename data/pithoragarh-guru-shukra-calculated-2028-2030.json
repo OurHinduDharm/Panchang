@@ -41,7 +41,16 @@
       ]
     },
     "generatedAt": "2026-11-13T06:40:42Z",
-    "publicDisplay": "Date and local time only"
+    "publicDisplay": "Date and local time only",
+    "publicationDecision": {
+      "status": "accepted-for-initial-publication",
+      "decidedAt": "2026-11-15",
+      "basis": "Source-trained local twilight model; all 9 held-out Pithoragarh 2026-2027 boundaries matched within 58.2 seconds. 2028-2030 dates are model predictions; the independent Panchang Guru comparison is New Delhi only and is not treated as Pithoragarh ground truth.",
+      "limitations": [
+        "The Drik Pithoragarh source does not disclose exact observer coordinates; calculation uses the project-selected reference point.",
+        "The result estimates the published Panchang-style Asta/Udaya boundary, not guaranteed naked-eye visibility under local weather or terrain obstruction."
+      ]
+    }
   },
   "windows": [
     {
@@ -52,7 +61,10 @@
       "udaya": "2028-10-13T05:26:26+05:30",
       "conjunctionUtc": "2028-09-30T12:51:39.178Z",
       "durationDays": 27.443,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-jupiter-2029",
@@ -62,7 +74,10 @@
       "udaya": "2029-11-12T05:47:14+05:30",
       "conjunctionUtc": "2029-10-30T23:55:41.165Z",
       "durationDays": 25.484,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-jupiter-2030",
@@ -72,7 +87,10 @@
       "udaya": "2030-12-13T06:10:26+05:30",
       "conjunctionUtc": "2030-11-30T14:43:21.715Z",
       "durationDays": 24.516,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-venus-2028",
@@ -82,7 +100,10 @@
       "udaya": "2028-06-08T04:32:38+05:30",
       "conjunctionUtc": "2028-06-01T09:59:54.239Z",
       "durationDays": 9.38,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-venus-2029",
@@ -92,7 +113,10 @@
       "udaya": "2029-04-17T19:04:16+05:30",
       "conjunctionUtc": "2029-03-23T20:12:49.931Z",
       "durationDays": 64.527,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-venus-2030-jan",
@@ -102,7 +126,10 @@
       "udaya": "2030-01-09T06:35:34+05:30",
       "conjunctionUtc": "2030-01-06T13:18:53.564Z",
       "durationDays": 4.535,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     },
     {
       "id": "ohd-pithoragarh-venus-2030-sep",
@@ -112,7 +139,10 @@
       "udaya": "2030-11-20T17:38:42+05:30",
       "conjunctionUtc": "2030-10-20T11:11:28.397Z",
       "durationDays": 53.503,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": true,
+      "publicationStatus": "accepted",
+      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
     }
   ]
 }
