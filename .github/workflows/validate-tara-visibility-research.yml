@@ -11,6 +11,7 @@ on:
       - "tests/planetary-heliacal-ephemeris.test.mjs"
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
+      - "research/city-observer-profiles.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
       - "data/agastya-arghya-pithoragarh.json"
@@ -60,13 +61,17 @@ jobs:
           node --test tests/planetary-conjunction-association.test.mjs
           node --test tests/planetary-city-location.test.mjs
           node --test tests/agastya-canopus-position.test.mjs
+      - name: Resolve five city-centre observer coordinates and DEM elevations
+        run: node research/city-observer-profiles.mjs --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
         run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
-      - name: Upload research-only back-test report
+      - name: Upload city-profile and research-only back-test reports
         uses: actions/upload-artifact@v4
         with:
-          name: pithoragarh-guru-shukra-city-backtest
-          path: planetary-city-backtest.json
+          name: city-wise-guru-shukra-observer-backtest
+          path: |
+            city-observer-profiles.json
+            planetary-city-backtest.json
           if-no-files-found: error
       - name: Smoke-test the real Astronomy Engine adapter
         run: |
