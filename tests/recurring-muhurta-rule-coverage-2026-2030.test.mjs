@@ -60,3 +60,21 @@ test("Dhanteras and Chhath muhurta rules never leak onto unrelated cards", () =>
   });
   assert.deepEqual(misplaced, []);
 });
+
+test("Janmashtami Nishita rule belongs only to Krishna Janmashtami cards", () => {
+  const misplaced = events
+    .filter(event => rulesOf(event).includes("janmashtami-nishita"))
+    .filter(event => !/कृष्ण जन्माष्टमी/.test(String(event.title || "")))
+    .map(event => [event.date, event.title, "janmashtami-nishita"]);
+  assert.deepEqual(misplaced, []);
+
+});
+
+test("explicit Kalashtami Pradosh rules never belong to unrelated cards", () => {
+  const misplaced = events
+    .filter(event => rulesOf(event).includes("kalashtami-pradosh"))
+    .filter(event => !/कालाष्टमी|कालभैरव/.test(String(event.title || "")))
+    .map(event => [event.date, event.title, "kalashtami-pradosh"]);
+  assert.deepEqual(misplaced, []);
+});
+
