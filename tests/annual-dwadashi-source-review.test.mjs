@@ -333,12 +333,13 @@ test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by sour
   const result = buildDwadashiCalendar(days,rules);
   const jayantiRecord = result.tithis.find(item=>item.id==="bhadrapada-krishna");
   const jayanti = jayantiRecord.specialTithiYogas.find(item=>
-    item.sourceProfile==="nirnayaSindhu" && item.id.endsWith("-jayanti")
+    item.sourceProfile==="drikPanchang" && item.id.endsWith("-jayanti")
   );
-  assert.ok(jayanti,"25 August must be checked against the Nirnaya Sindhu Punarvasu-Jayanti variant");
+  assert.ok(jayanti,"25 August Krishna Dwadashi must be checked against Drik's both-paksha Punarvasu-Jayanti rule");
   assert.equal(jayanti.nakshatra,"पुनर्वसु");
   assert.ok(jayanti.overlapMinutes>=48);
   assert.equal(jayanti.meetsOneMuhurta,true);
+  assert.equal(jayanti.coversFullDaylight,true);
   assert.equal(jayantiRecord.status,"needs-review");
 
   const vijayaRecord = result.tithis.find(item=>item.id==="bhadrapada-shukla");
@@ -349,6 +350,10 @@ test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by sour
   assert.equal(vijaya.nakshatra,"श्रवण");
   assert.ok(vijaya.overlapMinutes>=48);
   assert.equal(vijaya.meetsOneMuhurta,true);
+  assert.equal(vijaya.coversFullDaylight,false);
+  assert.equal(vijayaRecord.specialTithiYogas.some(item=>
+    item.sourceProfile==="drikPanchang" && item.id.endsWith("-vijaya")
+  ),false,"Shravana begins after sunset on 8 September, so it is not a Drik sunrise-to-sunset Vijayā candidate");
   assert.equal(vijayaRecord.status,"needs-review");
 });
 
