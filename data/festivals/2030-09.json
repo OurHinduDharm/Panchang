@@ -137,16 +137,26 @@
     {
       "date": "2030-09-09",
       "dateLabel": "9 सितंबर",
-      "title": "सोम प्रदोष व्रत / भुवनेश्वरी महाविद्या जयंती",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है। भुवनेश्वरी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a>",
-      "category": "व्रत",
+      "title": "भुवनेश्वरी महाविद्या जयंती",
+      "description": "भुवनेश्वरी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना, मंत्र-जप और ध्यान करें। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a>",
+      "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
+      "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html",
       "articleLabel": "भुवनेश्वरी महाविद्या",
       "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
+    },
+    {
+      "date": "2030-09-09",
+      "dateLabel": "9 सितंबर",
+      "title": "सोम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। सोमवार को पड़ने वाले प्रदोष व्रत में शिवपूजन, दीपदान और मंत्र-जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल त्रयोदशी",
       "muhurtaRule": "pradosh-kala"
     },
     {
