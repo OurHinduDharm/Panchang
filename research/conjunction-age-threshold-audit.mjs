@@ -164,7 +164,7 @@ const outputIndex=process.argv.indexOf("--output");
 if (inputIndex>=0&&process.argv[inputIndex+1]) {
   const result=auditConjunctionAgeThresholds(JSON.parse(fs.readFileSync(process.argv[inputIndex+1],"utf8")));
   if (outputIndex>=0&&process.argv[outputIndex+1]) {
-    fs.writeFileSync(process.argv[outputIndex+1],JSON.stringify(result,null,2)+"\\n");
+    fs.writeFileSync(process.argv[outputIndex+1],JSON.stringify(result,null,2)+"\n");
   }
   console.log(JSON.stringify(result.summary,null,2));
 }
