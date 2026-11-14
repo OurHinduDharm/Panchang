@@ -245,7 +245,7 @@ test("2030 only Pithoragarh-visible solar and partial lunar eclipses are listed"
   const solar = has("2030-06-01", /आंशिक सूर्यग्रहण/);
   assert.equal(solar.hinduTithi, "ज्येष्ठ अमावस्या");
   assert.match(solar.description, /1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा/);
-  assert.doesNotMatch(solar.description, /\\d{1,2}:\\d{2}/,
+  assert.doesNotMatch(solar.description, /\d{1,2}:\d{2}/,
     "Do not publish local solar-eclipse contacts while the Pithoragarh timing source remains unresolved");
   assert.match(solar.sourceName || "", /NASA 2030 eclipse catalog/);
   const lunar = has("2030-06-15", /आंशिक चंद्रग्रहण/);
