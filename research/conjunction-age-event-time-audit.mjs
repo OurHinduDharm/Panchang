@@ -35,8 +35,11 @@ function candidateForConjunction({events,conjunctionInstant,boundary,eventType,f
   const crossings=[];
   for(let i=1;i<series.length;i++) {
     const a=series[i-1],b=series[i];
-    if(a.residual===0) {
+    const epsilon=1e-9;
+    if(Math.abs(a.residual)<=epsilon) {
       crossings.push({a,b,fraction:0,selected:a});
+    } else if(Math.abs(b.residual)<=epsilon) {
+      crossings.push({a,b,fraction:1,selected:b});
     } else if(a.residual*b.residual<0) {
       const fraction=-a.residual/(b.residual-a.residual);
       crossings.push({a,b,fraction,selected:fraction<=0.5?a:b});
