@@ -514,3 +514,36 @@ test("2030 Krishna Bhishma Dwadashi locally meets the Shravana overlap threshold
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 May 28 Vanjuli and August 25 Unmilini labels fail their local Smarta tithi rules", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const vanjuli=review.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const unmilini=review.tithis.find(item=>item.id==="bhadrapada-krishna");
+  const v=vanjuli.drikSpecialObservances.find(item=>item.labels.includes("वंजुली महाद्वादशी"));
+  const u=unmilini.drikSpecialObservances.find(item=>item.labels.includes("उन्मीलिनी महाद्वादशी"));
+  assert.equal(v.status,"not-supported-by-two-consecutive-sunrise-dwadashi-rule");
+  assert.equal(v.localAssessment.result,"not-qualified");
+  assert.equal(v.localAssessment.firstSunrise.tithi,"द्वादशी");
+  assert.equal(v.localAssessment.secondSunrise.tithi,"त्रयोदशी");
+  assert.equal(v.localAssessment.dwadashiIntervalIST.end,"2030-05-29T04:15:19.812+05:30");
+  assert.equal(vanjuliRecordSelectedDate(vanjuli),"2030-05-28");
+  assert.equal(vanjuli.mahadwadashiSourceDecision.autoApproved,false);
+
+  assert.equal(u.status,"not-supported-by-arunodaya-dashami-overlap-or-two-sunrise-ekadashi-rule");
+  assert.equal(u.localAssessment.result,"not-qualified");
+  assert.deepEqual(u.localAssessment.sunriseSequence.map(item=>item.tithi),["एकादशी","द्वादशी"]);
+  assert.equal(u.localAssessment.precedingDashamiEndReference,"2030-08-24T00:56:00+05:30");
+  assert.equal(u.localAssessment.ekadashiEndIST,"2030-08-25T02:54:00+05:30");
+  assert.equal(unmilini.mahadwadashiSourceDecision.autoApproved,false);
+  assert.equal(unmilini.jayantiMahadwadashiSourceDecision.publicCardDecision,"no-additional-jayanti-card");
+  assert.equal(vanjuli.status,"needs-review");
+  assert.equal(unmilini.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
+
+function vanjuliRecordSelectedDate(record) {
+  return record.selectedDate;
+}

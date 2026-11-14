@@ -425,7 +425,28 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "not-supported-by-two-consecutive-sunrise-dwadashi-rule",
+          "localAssessment": {
+            "ruleId": "mahadwadashi-smarta-vanjuli",
+            "ruleSource": "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check",
+            "requiredCondition": "द्वादशी एक ही तिथि के रूप में लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो; व्रत पहले द्वादशी-सूर्योदय वाले दिन।",
+            "firstSunrise": {
+              "date": "2030-05-28",
+              "tithi": "द्वादशी",
+              "time": "2030-05-28T05:11:06.304+05:30"
+            },
+            "secondSunrise": {
+              "date": "2030-05-29",
+              "tithi": "त्रयोदशी"
+            },
+            "dwadashiIntervalIST": {
+              "start": "2030-05-28T02:05:28.583+05:30",
+              "end": "2030-05-29T04:15:19.812+05:30"
+            },
+            "result": "not-qualified",
+            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-select-vanjuli-fast-date",
+            "decision": "28 मई के सूर्योदय पर द्वादशी है, पर तिथि 29 मई 04:15:19 IST पर समाप्त हो जाती है, अगले स्थानीय सूर्योदय से पहले। इसलिए लगातार दो सूर्योदयों पर द्वादशी नहीं है और वंजुली महाद्वादशी का स्थानीय लक्षण नहीं बनता। कृष्ण परशुराम द्वादशी अलग नामित द्वादशी के रूप में बनी रहती है।"
+          }
         }
       ],
       "selectedDate": "2030-05-28",
@@ -436,7 +457,17 @@
       "observances": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "mahadwadashiSourceDecision": {
+        "id": "mahadwadashi-smarta-vanjuli",
+        "sourceLabel": "वंजुली महाद्वादशी",
+        "status": "not-qualified-under-local-smarta-rule",
+        "selectedLocalDate": null,
+        "autoApproved": false,
+        "preserveNamedDwadashi": true,
+        "publicDateChanged": false,
+        "decision": "28 मई के सूर्योदय पर द्वादशी है, पर तिथि 29 मई 04:15:19 IST पर समाप्त हो जाती है, अगले स्थानीय सूर्योदय से पहले। इसलिए लगातार दो सूर्योदयों पर द्वादशी नहीं है और वंजुली महाद्वादशी का स्थानीय लक्षण नहीं बनता। कृष्ण परशुराम द्वादशी अलग नामित द्वादशी के रूप में बनी रहती है।"
+      }
     },
     {
       "id": "jyeshtha-shukla",
@@ -797,7 +828,39 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "not-supported-by-arunodaya-dashami-overlap-or-two-sunrise-ekadashi-rule",
+          "localAssessment": {
+            "ruleId": "mahadwadashi-smarta-unmilini",
+            "ruleSources": [
+              "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 98–99",
+              "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check"
+            ],
+            "requiredConditions": [
+              "नारद पुराण: अरुणोदय में दशमी से विद्ध एकादशी; उस दिन का व्रत छोड़कर अगले द्वादशी-दिन व्रत।",
+              "धर्मसिन्धु/Drik cross-check: विस्तृत एकादशी लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो।"
+            ],
+            "sunriseSequence": [
+              {
+                "date": "2030-08-24",
+                "tithi": "एकादशी"
+              },
+              {
+                "date": "2030-08-25",
+                "tithi": "द्वादशी"
+              }
+            ],
+            "precedingDashamiEndReference": "2030-08-24T00:56:00+05:30",
+            "arunodayaReference": {
+              "date": "2030-08-24",
+              "approximately": "04:06 IST (Pithoragarh; 96 minutes before local sunrise)"
+            },
+            "ekadashiEndIST": "2030-08-25T02:54:00+05:30",
+            "nextSunriseDate": "2030-08-25",
+            "result": "not-qualified",
+            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-select-unmilini-fast-date",
+            "evidence": "Drik 23 अगस्त दैनिक पंचांग में दशमी 24 अगस्त 00:56 IST तक है; 24 अगस्त अरुणोदय इससे बहुत बाद है। Drik 24 अगस्त दैनिक पंचांग में एकादशी 25 अगस्त 02:54 IST तक दी है, जो 25 अगस्त स्थानीय सूर्योदय से पहले समाप्त होती है। अतः अरुणोदय-दशमी overlap नहीं और एकादशी दो लगातार सूर्योदयों तक नहीं रहती।",
+            "decision": "25 अगस्त को द्वादशी और पुनर्वसु का स्थानीय संयोग बना, पर वह उन्मीलिनी नहीं है। जयन्ती के स्रोत-भेद का निर्णय अलग दर्ज है; कृष्ण दामोदर द्वादशी और बछबारस अपने-अपने कार्डों पर बनी रहती हैं।"
+          }
         }
       ],
       "selectedDate": "2030-08-25",
@@ -854,6 +917,16 @@
         "publicCardDecision": "no-additional-jayanti-card",
         "autoApproved": false,
         "reviewScope": "source-profile-conflict-only"
+      },
+      "mahadwadashiSourceDecision": {
+        "id": "mahadwadashi-smarta-unmilini",
+        "sourceLabel": "उन्मीलिनी महाद्वादशी",
+        "status": "not-qualified-under-local-smarta-rule",
+        "selectedLocalDate": null,
+        "autoApproved": false,
+        "preserveNamedDwadashi": true,
+        "publicDateChanged": false,
+        "decision": "25 अगस्त को द्वादशी और पुनर्वसु का स्थानीय संयोग बना, पर वह उन्मीलिनी नहीं है। जयन्ती के स्रोत-भेद का निर्णय अलग दर्ज है; कृष्ण दामोदर द्वादशी और बछबारस अपने-अपने कार्डों पर बनी रहती हैं।"
       }
     },
     {
