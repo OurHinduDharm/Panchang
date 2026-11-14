@@ -347,6 +347,18 @@
         "note": "इस पाठांतर में नक्षत्र-नामों का निर्धारण नारद पुराण से भिन्न है; इसे उसी कार्ड पर स्रोत-भेद के रूप में दिखाएँ।"
       },
       {
+        "id": "drikPanchang",
+        "source": "Drik Panchang — महाद्वादशी के नक्षत्र-संयोग",
+        "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/mahadwadashi.html?lang=hi",
+        "criteria": {
+          "jaya": "द्वादशी + पुष्य",
+          "vijaya": "द्वादशी + श्रवण",
+          "jayanti": "द्वादशी + पुनर्वसु",
+          "papanashini": "द्वादशी + रोहिणी"
+        },
+        "note": "Drik के विवरण में नक्षत्र-संयोग दोनों पक्षों में सूचीबद्ध है; वास्तविक तिथि और नक्षत्र का स्थानीय सूर्योदय–सूर्यास्त overlap अलग जाँचा जाए।"
+      },
+      {
         "id": "smartaDharmaSindhu",
         "source": "धर्मसिंधु एवं निर्णयसिंधु",
         "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
