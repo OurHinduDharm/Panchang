@@ -11,11 +11,11 @@
  * configured textual tradition and month convention are approved.
  */
 
-const DAY_MS = 86400000;
 const CHAITRA_NAMES = new Set(["चैत्र", "Chaitra"]);
 const TRAYODASHI_NAMES = new Set(["त्रयोदशी", "Trayodashi"]);
 const KRISHNA_NAMES = new Set(["कृष्ण", "कृष्ण पक्ष", "Krishna"]);
 const SHATABHISHA_NAMES = new Set(["शतभिषा", "शतभिषक्", "Shatabhisha", "Shatabhishak"]);
+const SHATABHISHA_INDEX = 23;
 const SHUBHA_NAMES = new Set(["शुभ", "Shubha"]);
 
 function validTime(value) {
@@ -67,15 +67,17 @@ function isChaitra(day) {
 
 function isShatabhisha(item) {
   const name = textOf(item?.name ?? item?.nakshatra);
-  return SHATABHISHA_NAMES.has(name);
+  if (SHATABHISHA_NAMES.has(name)) return true;
+  const index = Number(item?.index ?? item?.nakshatra);
+  return Number.isInteger(index) && index === SHATABHISHA_INDEX;
 }
 
 function isShubha(item) {
   const name = textOf(item?.name ?? item?.yoga);
   if (SHUBHA_NAMES.has(name)) return true;
   const index = Number(item?.index ?? item?.yoga);
-  // 1-based nitya-yoga index 23 is Shubha in the standard 27-yoga sequence.
-  return index === 23;
+  // panchangam-js uses zero-based indexes: Shubha is index 22.
+  return index === 22;
 }
 
 function localWeekday(isoDate) {
@@ -86,17 +88,6 @@ function localWeekday(isoDate) {
 
 function toIso(value) {
   return new Date(value).toISOString();
-}
-
-function mergeIntervals(items) {
-  const sorted = items.slice().sort((a, b) => a.start - b.start);
-  const merged = [];
-  for (const item of sorted) {
-    const previous = merged[merged.length - 1];
-    if (previous && item.start <= previous.end) previous.end = Math.max(previous.end, item.end);
-    else merged.push({ ...item });
-  }
-  return merged;
 }
 
 /**
