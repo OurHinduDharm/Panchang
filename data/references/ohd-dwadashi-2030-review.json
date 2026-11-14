@@ -784,7 +784,53 @@
       "observances": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "jayantiMahadwadashiSourceDecision": {
+        "ruleId": "jayanti-mahadwadashi-source-profile-conflict",
+        "localObservation": {
+          "date": "2030-08-25",
+          "month": "भाद्रपद",
+          "paksha": "कृष्ण",
+          "tithi": "द्वादशी",
+          "sunrise": "2030-08-25T05:42:57.366+05:30",
+          "sunset": "2030-08-25T18:39:08.010+05:30",
+          "nextSunrise": "2030-08-26T05:43:30.124+05:30",
+          "nakshatra": "पुनर्वसु",
+          "nakshatraStart": "2030-08-25T05:42:57.366+05:30",
+          "nakshatraEnd": "2030-08-26T05:43:30.124+05:30",
+          "dwadashiStart": "2030-08-24T21:24:33.403Z",
+          "dwadashiEnd": "2030-08-25T22:47:31.584Z",
+          "coversFullDaylight": true
+        },
+        "sourceProfiles": [
+          {
+            "id": "naradaPurana",
+            "criteria": "शुक्ल द्वादशी + रोहिणी",
+            "localMatch": false,
+            "reason": "स्थानीय घटना कृष्ण पक्ष में है और नक्षत्र पुनर्वसु है।",
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 109–111"
+          },
+          {
+            "id": "nirnayaSindhu",
+            "criteria": "शुक्ल द्वादशी + पुनर्वसु",
+            "localMatch": false,
+            "reason": "पुनर्वसु का संयोग है, लेकिन स्थानीय द्वादशी कृष्ण पक्ष में है; स्रोत-लक्षण शुक्ल पक्ष का है।",
+            "source": "निर्णय-सिन्धु, पृष्ठ 48 (नारद पुराण पाठांतर)"
+          },
+          {
+            "id": "drikPanchang",
+            "criteria": "द्वादशी + पुनर्वसु, दोनों पक्ष",
+            "localMatch": true,
+            "reason": "Drik Panchang दोनों पक्षों को सूचीबद्ध करता है, क्योंकि विभिन्न ग्रंथों में मतभेद हैं।",
+            "source": "Drik Panchang — Jayanti Mahadwadashi",
+            "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/jayanti-mahadwadashi.html?lang=en"
+          }
+        ],
+        "decision": "परियोजना की स्मार्त-प्राथमिकता के अनुसार कृष्ण पक्ष का 25 अगस्त संयोग जयन्ती महाद्वादशी के सार्वजनिक कार्ड के लिए स्वीकार नहीं किया जाएगा। Drik का दोनों-पक्षीय परिणाम केवल आंतरिक cross-reference रहेगा।",
+        "publicCardDecision": "no-additional-jayanti-card",
+        "autoApproved": false,
+        "reviewScope": "source-profile-conflict-only"
+      }
     },
     {
       "id": "bhadrapada-shukla",
