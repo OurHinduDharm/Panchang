@@ -176,16 +176,36 @@
     {
       "date": "2030-11-18",
       "dateLabel": "18 नवंबर",
-      "title": "कालभैरव जयंती / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "मार्गशीर्ष कृष्ण अष्टमी को कालभैरवाष्टमी मनाई जाती है। मान्यता है कि इसी तिथि पर भगवान शिव के कालभैरव स्वरूप का प्राकट्य हुआ था। मध्याह्नकाल में प्राकट्य-स्मरण के साथ भगवान कालभैरव का विशेष पूजन करें; व्रत और रात्रि-उपासना के लिए रात्रिव्यापिनी अष्टमी का विचार करें। भैरव-मंत्र-जप और रात्रि-उपासना, दीपदान तथा रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "कालभैरव जयंती",
+      "description": "मार्गशीर्ष कृष्ण अष्टमी को कालभैरवाष्टमी मनाई जाती है। इसी तिथि पर भगवान शिव के कालभैरव स्वरूप का प्राकट्य हुआ था। मध्याह्नकाल में प्राकट्य-स्मरण के साथ भगवान कालभैरव का विशेष पूजन करें; व्रत और रात्रि-उपासना के लिए रात्रिव्यापिनी अष्टमी का विचार करें। भैरव-मंत्र-जप, दीपदान और रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
+    },
+    {
+      "date": "2030-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी में निशीथकालीन उपासना का विशेष महत्व है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
       "muhurtaRule": "janmashtami-nishita"
     },
     {
