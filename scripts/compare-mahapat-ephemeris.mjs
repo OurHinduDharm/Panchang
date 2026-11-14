@@ -7,7 +7,7 @@
  * lunar disks overlap. This is a numerical comparison model, not yet the
  * approved Karana-Kutuhala shara-khanda implementation.
  */
-import Astronomy from "astronomy-engine";
+import * as Astronomy from "astronomy-engine/esm/astronomy.js";
 const {
   Body,
   GeoVector,
