@@ -21,7 +21,8 @@
     "dayCount": 1826,
     "panchangCalls": 1826,
     "diagnostics": [],
-    "candidateCount": 4
+    "candidateCount": 4,
+    "sunsetAvailable": true
   },
   "ruleProfile": "chaitra-krishna-trayodashi-shatabhisha",
   "candidates": [
@@ -89,5 +90,7 @@
     "2026 timing discrepancy remains: project engine ends near 09:23 IST while Drik's daily tithi end is near 08:04 IST; one source labels the weekday-Tuesday event Maha Varuni. Do not approve until reconciled.",
     "No Mahavaruni or Mahamahavaruni label was assigned in this first scan under the selected Smarta Saturday rule."
   ],
-  "sourceProfile": "smarta-kalanirnaya-sindhu"
+  "sourceProfile": "smarta-kalanirnaya-sindhu",
+  "mahodayaCandidateCount": 0,
+  "mahodayaCandidates": []
 }
