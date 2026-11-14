@@ -21,10 +21,11 @@ const AU_KM = 149597870.7;
 const SUN_RADIUS_AU = 695700 / AU_KM;
 const MOON_RADIUS_AU = 1737.4 / AU_KM;
 const HOUR_MS = 3600000;
+const IST_OFFSET_MS = 330 * 60000;
 const YEARS = [2026, 2027, 2028, 2029, 2030];
 const cache = new Map();
 
-function normDegrees(value) {
+function toIST(value) {\n  return new Date(value + IST_OFFSET_MS).toISOString().replace("Z", "+05:30");\n}\n\nfunction normDegrees(value) {
   return ((value % 360) + 360) % 360;
 }
 function vectorLength(v) {
@@ -101,6 +102,8 @@ for (let i = 0; i + 1 < roots.length; i++) {
     type: classification.type,
     startTime: new Date(a).toISOString(),
     endTime: new Date(b).toISOString(),
+    startTimeIST: toIST(a),
+    endTimeIST: toIST(b),
     midpoint: new Date(mid).toISOString(),
     longitudeSum: classification.longitudeSum,
     midpointDeclinationDifferenceDegrees: Number(classification.declinationDifference.toFixed(8)),
