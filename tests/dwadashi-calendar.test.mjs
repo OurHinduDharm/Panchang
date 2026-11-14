@@ -848,3 +848,56 @@ test("consecutive sunrise Mahadwadashi rules do not accept different tithis or a
   assert.deepEqual(record.specialTithiYogas,[]);
 });
 
+test("Pakshavardhini follows two consecutive local Purnima sunrises and attaches to preceding Shukla Dwadashi", () => {
+  const dwadashi=sunriseDay("2030-05-01","वैशाख","शुक्ल","द्वादशी");
+  const first=sunriseDay("2030-05-03","वैशाख","शुक्ल","पूर्णिमा");
+  const second=sunriseDay("2030-05-04","वैशाख","शुक्ल","पूर्णिमा");
+  const start="2030-05-02T20:00:00.000Z", end="2030-05-04T02:00:00.000Z";
+  for(const day of [first,second]) {
+    day.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"वैशाख",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="vaishakha-shukla");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-pakshavardhini");
+  assert.ok(candidate);
+  assert.equal(candidate.fortnightTithi,"पूर्णिमा");
+  assert.equal(candidate.observanceDate,"2030-05-01");
+  assert.equal(candidate.firstBoundarySunriseDate,"2030-05-03");
+  assert.equal(candidate.secondBoundarySunriseDate,"2030-05-04");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("Pakshavardhini also detects two consecutive local Amavasya sunrises in Krishna Paksha", () => {
+  const dwadashi=sunriseDay("2030-06-01","ज्येष्ठ","कृष्ण","द्वादशी");
+  const first=sunriseDay("2030-06-03","ज्येष्ठ","कृष्ण","अमावस्या");
+  const second=sunriseDay("2030-06-04","ज्येष्ठ","कृष्ण","अमावस्या");
+  const start="2030-06-02T20:00:00.000Z", end="2030-06-04T02:00:00.000Z";
+  for(const day of [first,second]) {
+    day.sunriseTithi={tithi:"अमावस्या",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-pakshavardhini");
+  assert.ok(candidate);
+  assert.equal(candidate.fortnightTithi,"अमावस्या");
+  assert.equal(candidate.paksha,"कृष्ण");
+  assert.equal(candidate.observanceDate,"2030-06-01");
+});
+
+test("Pakshavardhini is not inferred from a single sunrise or a boundary ending before the second sunrise", () => {
+  const dwadashi=sunriseDay("2030-05-01","वैशाख","शुक्ल","द्वादशी");
+  const first=sunriseDay("2030-05-03","वैशाख","शुक्ल","पूर्णिमा");
+  const second=sunriseDay("2030-05-04","वैशाख","शुक्ल","पूर्णिमा");
+  first.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:"2030-05-02T20:00:00.000Z",tithiEndTime:"2030-05-04T00:00:00.000Z"};
+  second.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:"2030-05-04T00:00:00.000Z",tithiEndTime:"2030-05-05T00:00:00.000Z"};
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"वैशाख",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="vaishakha-shukla");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+
