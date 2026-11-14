@@ -798,3 +798,51 @@ test("Narasimha Jayanti selects the later day when only its Pradosha is covered"
   assert.equal(result.autoApproved, false);
 });
 
+
+const parashuramaDay = (date, sunset, nextSunrise, tithis) => ({
+  date, masa: "वैशाख", paksha: "शुक्ल पक्ष", sunset, nextSunrise, tithis
+});
+
+test("Parashurama Jayanti takes the later day when Tritiya touches both Pradoshas", () => {
+  const tritiya = interval(2, "2030-05-08T13:00:00.000Z", "2030-05-09T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-09");
+  assert.equal(result.selectionBasis, "dharmasindhu-two-day-pradosha-vyapti-later-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti takes the earlier day when only the first Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-08T13:00:00.000Z", "2030-05-08T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti still takes the earlier day when only the second Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-09T13:00:00.000Z", "2030-05-09T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti takes the earlier day when neither Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-08T14:30:00.000Z", "2030-05-09T11:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
+  assert.equal(result.autoApproved, false);
+});
+
