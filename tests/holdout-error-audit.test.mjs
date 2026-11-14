@@ -17,7 +17,7 @@ test("audit separates same-local-date clock error from date mismatch", () => {
 
   const clockOnly = auditHoldoutRecord({
     sourceUtcInstant: "2026-08-11T23:33:00.000Z",
-    prediction: { instant: "2026-08-11T23:50:00.000Z" }
+    prediction: { instant: "2026-08-12T01:03:00.000Z" }
   });
   assert.equal(clockOnly.audit.dateErrorDays, 0);
   assert.equal(clockOnly.audit.status, "same-local-date-time-mismatch");
