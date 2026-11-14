@@ -199,10 +199,15 @@ for (const profile of profiles) {
 
     // Pair each candidate window using conjunction family, side and expected
     // horizon direction. Reference timestamps are not involved in selection.
+    const holdoutConjunctions = (conjunctionsByPlanet.get(planet) || []).filter(event => {
+      const instant = Date.parse(event.instant);
+      return instant >= Date.parse("2026-01-01T00:00:00.000Z") &&
+        instant < Date.parse("2028-01-01T00:00:00.000Z");
+    });
     const paired = pairCandidatesAroundConjunctions({
       planet,
       candidates: rawCandidates,
-      conjunctions: conjunctionsByPlanet.get(planet) || [],
+      conjunctions: holdoutConjunctions,
       maxDistanceDays: 90
     });
     pairingDiagnostics[planet] = {
@@ -289,7 +294,8 @@ for (const profile of profiles) {
       within1Hour: holdout.filter(item => item.within1Hour).length,
       within1Day: holdout.filter(item => item.within1Day).length,
       within3Days: holdout.filter(item => item.within3Days).length,
-      unresolved: holdout.filter(item => item.status !== "within-one-day").length,
+      unresolved: holdout.filter(item => !item.prediction).length,
+      mismatchReviewRequired: holdout.filter(item => item.prediction && !item.within1Hour).length,
       conjunctionUnresolved: holdout.filter(item => !item.conjunctionInstant).length,
       sourceBranchMismatches: holdout.filter(item =>
         item.conjunctionInstant && !item.branchMatchesConjunction
