@@ -748,3 +748,53 @@ test("Ratha Saptami refuses the Kshaya exception when Shashthi exceeds one ghati
   assert.equal(result.autoApproved, false);
 });
 
+
+const narasimhaDay = (date, sunset, nextSunrise, tithis) => ({
+  date, masa: "वैशाख", paksha: "शुक्ल पक्ष", sunset, nextSunrise, tithis
+});
+
+test("Narasimha Jayanti selects the unique day with Pradosh Chaturdashi", () => {
+  const chaturdashi = interval(13, "2030-05-01T13:00:00.000Z", "2030-05-01T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-05-01");
+  assert.equal(result.selectionBasis, "unique-pradosh-vyapini-chaturdashi");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti selects the later day when both Pradoshas have Chaturdashi", () => {
+  const chaturdashi = interval(13, "2030-05-01T13:00:00.000Z", "2030-05-02T14:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "dharmasindhu-both-pradoshas-later-day-to-avoid-trayodashi-contact");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti uses the second day when neither Pradosha is Chaturdashi-vyapini", () => {
+  const chaturdashi = interval(13, "2030-05-01T14:30:00.000Z", "2030-05-02T11:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "dharmasindhu-no-pradosh-vyapti-second-day-to-avoid-trayodashi-contact");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti selects the later day when only its Pradosha is covered", () => {
+  const chaturdashi = interval(13, "2030-05-02T13:00:00.000Z", "2030-05-02T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "unique-pradosh-vyapini-chaturdashi");
+  assert.equal(result.autoApproved, false);
+});
+
