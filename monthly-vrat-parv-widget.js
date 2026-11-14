@@ -629,7 +629,7 @@
         }
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
+            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|मुख्य धनतेरस पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
             if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
               var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
