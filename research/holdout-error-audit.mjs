@@ -135,6 +135,22 @@ export function auditReport(report) {
         meanAbsoluteLocalDateErrorDays: mean(dateErrors),
         lowTrainingSampleRecords: holdout.filter(record =>
           (record.training?.sampleCount ?? 0) < 4
+        ).length,
+        conjunctionUnresolved: holdout.filter(record => !record.conjunctionInstant).length,
+        sourceBranchMismatches: holdout.filter(record =>
+          record.audit.sourceBranchMatchesConjunction === false
+        ).length,
+        predictionBranchMismatches: holdout.filter(record =>
+          record.audit.predictionBranchMatchesConjunction === false
+        ).length,
+        sourceWithinTrainingDepressionRange: holdout.filter(record =>
+          record.audit.sourceWithinTrainingDepressionRange === true
+        ).length,
+        sourceOutsideTrainingDepressionRange: holdout.filter(record =>
+          record.audit.sourceWithinTrainingDepressionRange === false
+        ).length,
+        thresholdBracketContainsSourceInstant: holdout.filter(record =>
+          record.audit.thresholdBracketContainsSourceInstant === true
         ).length
       }
     };
