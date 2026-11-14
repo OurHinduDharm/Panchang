@@ -64,7 +64,20 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "not-supported-by-local-dwadashi-shravana-overlap",
+          "localDwadashiShravanaOverlapMs": 0,
+          "localAssessment": {
+            "ruleId": "shravana-yoga-dwadashi",
+            "result": "not-qualified",
+            "overlapMs": 0,
+            "thresholdMs": 2880000,
+            "dwanashiIntervalIST": {
+              "start": "2030-03-30T00:34:51.604+05:30",
+              "end": "2030-03-31T00:42:52.860+05:30"
+            },
+            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
+            "evidence": "स्थानीय इंजन में द्वादशी 30 मार्च 00:34 IST पर शुरू होती है; उपलब्ध Drik Haldwani दैनिक पंचांग में श्रवण 29 मार्च लगभग 18:06 IST पर समाप्त हो चुका है। अतः दोनों का overlap शून्य है।"
+          }
         }
       ],
       "selectedDate": "2030-03-29",
@@ -84,6 +97,17 @@
         "sunriseDayEnd": "2030-03-30T00:31:49.178Z",
         "basis": "daily-tithi-interval",
         "source": "local-panchang-sunrise-to-next-sunrise"
+      },
+      "shravanaLabelDecision": {
+        "status": "rejected-as-local-yoga",
+        "ruleId": "shravana-yoga-dwadashi",
+        "sourceLabel": "एकादशी श्रवण योग द्वादशी",
+        "localDwadashiShravanaOverlapMs": 0,
+        "minimumRequiredOverlapMs": 2880000,
+        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
+        "preserveNamedDwadashi": true,
+        "publicDateChanged": false,
+        "namedDwadashiDateReview": "कृष्ण-नृसिंह द्वादशी का 29 मार्च स्रोत-दिन और 30 मार्च सूर्योदय-दिन अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
       }
     },
     {
@@ -1197,7 +1221,20 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "not-supported-by-local-dwadashi-shravana-overlap",
+          "localDwadashiShravanaOverlapMs": 0,
+          "localAssessment": {
+            "ruleId": "shravana-yoga-dwadashi",
+            "result": "not-qualified",
+            "overlapMs": 0,
+            "thresholdMs": 2880000,
+            "dwanashiIntervalIST": {
+              "start": "2030-10-07T16:31:39.907+05:30",
+              "end": "2030-10-08T15:50:29.356+05:30"
+            },
+            "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
+            "evidence": "स्थानीय इंजन में द्वादशी 7 अक्टूबर 16:31 IST पर शुरू होती है; Drik Roorkee दैनिक पंचांग में धनिष्ठा 8 अक्टूबर 00:59 तक और उसके बाद शतभिषा है, श्रवण नहीं। अतः दोनों का overlap शून्य है।"
+          }
         }
       ],
       "selectedDate": "2030-10-07",
@@ -1235,6 +1272,17 @@
         "sunriseDayEnd": "2030-10-08T00:36:36.100Z",
         "basis": "daily-tithi-interval",
         "source": "local-panchang-sunrise-to-next-sunrise"
+      },
+      "shravanaLabelDecision": {
+        "status": "rejected-as-local-yoga",
+        "ruleId": "shravana-yoga-dwadashi",
+        "sourceLabel": "एकादशी श्रवण योग द्वादशी",
+        "localDwadashiShravanaOverlapMs": 0,
+        "minimumRequiredOverlapMs": 2880000,
+        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
+        "preserveNamedDwadashi": true,
+        "publicDateChanged": false,
+        "namedDwadashiDateReview": "पद्मनाभ-द्वादशी का 7 अक्टूबर स्रोत-दिन और 8 अक्टूबर सूर्योदय candidate अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
       }
     },
     {
