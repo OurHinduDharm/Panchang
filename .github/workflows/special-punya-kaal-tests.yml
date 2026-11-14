@@ -4,8 +4,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
+      - "app.js"
+      - "monthly-vrat-parv.html"
       - "monthly-religious-calendar.js"
       - "tests/monthly-religious-calendar.test.mjs"
+      - "tests/special-punya-kaal-public-integration.test.mjs"
       - "docs/monthly-religious-calendar-architecture.md"
       - "special-punya-kaal.mjs"
       - "mahapata-root-solver.mjs"
@@ -35,13 +38,16 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0 astronomy-engine@2.1.19
       - name: Syntax check
         run: |
+          node --experimental-default-type=module --check app.js
           node --check monthly-religious-calendar.js
+          sed -n '/^<script type="module">$/,/^<\\/script>$/p' monthly-vrat-parv.html | sed '1d;$d' > /tmp/monthly-vrat-parv.mjs
+          node --check /tmp/monthly-vrat-parv.mjs
           node --check special-punya-kaal.mjs
           node --check mahapata-root-solver.mjs
           node --check scripts/generate-special-punya-kaal-review.mjs
           node --check scripts/compare-mahapat-ephemeris.mjs
       - name: Run monthly religious calendar and special punya-kaal tests
-        run: node --experimental-default-type=module --test tests/monthly-religious-calendar.test.mjs tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs
+        run: node --experimental-default-type=module --test tests/monthly-religious-calendar.test.mjs tests/special-punya-kaal-public-integration.test.mjs tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
       - name: Run Mahapata geocentric contact comparison (research-only)
