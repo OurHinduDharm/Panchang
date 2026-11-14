@@ -134,7 +134,7 @@ test("known one-minute scanner gap is closed at the exact previous transition", 
 });
 
 test("invalid or absent intervals are safely omitted", () => {
-  assert.deepEqual(buildVaruniCandidates([day({ sunrise: null })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 27, startTime: null, endTime: null }] })]), []);
   assert.equal(SPECIAL_PUNYA_KAAL_POLICY.sankranti, "reuse-existing-display-and-calculation; never-duplicate");
   assert.equal(SPECIAL_PUNYA_KAAL_POLICY.mahapata, "blocked-pending-reviewed-contact-definition");
 });
