@@ -45,6 +45,37 @@ function intervals(...days) {
     });
 }
 
+test("real Pithoragarh Panchang resolves 2027 Vaishakha Shukla Narasimha Jayanti Pradosha", () => {
+  const dates = ["2027-05-17", "2027-05-18"];
+  const contexts = dates.map(date => {
+    const previous = panchang(previousIsoDate(date));
+    const current = panchang(date);
+    const next = panchang(nextIsoDate(date));
+    return {
+      date,
+      masa: masa(current),
+      paksha: "शुक्ल पक्ष",
+      sunset: current.sunset,
+      nextSunrise: next.sunrise,
+      tithis: intervals(previous, current, next)
+    };
+  });
+  const result = resolveObservanceCandidates("narasimha-jayanti-smarta-review", contexts);
+  assert.equal(result.autoApproved, false);
+  assert.ok(
+    ["date-selected-needs-source-approval", "insufficient-data"].includes(result.status),
+    "real local intervals must either yield a source-review candidate or report incomplete data"
+  );
+  if (result.status === "date-selected-needs-source-approval") {
+    assert.ok(dates.includes(result.selectedDate));
+    assert.ok([
+      "unique-pradosh-vyapini-chaturdashi",
+      "dharmasindhu-both-pradoshas-later-day-to-avoid-trayodashi-contact",
+      "dharmasindhu-no-pradosh-vyapti-second-day-to-avoid-trayodashi-contact"
+    ].includes(result.selectionBasis));
+  }
+});
+
 test("real Pithoragarh Panchang resolves 2027 Magha Shukla Ratha Saptami Arunodaya", () => {
   const dates = ["2027-02-12", "2027-02-13"];
   const contexts = dates.map(date => {
