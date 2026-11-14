@@ -17,7 +17,11 @@ import {
   scanPlanetHorizonEvents,
   findHorizonTwilightThresholdCrossings
 } from "../planetary-city-horizon-threshold.mjs";
-import { findPlanetConjunctions, expectedBoundaryEventType } from "./planetary-conjunction-association.mjs";
+import {
+  findPlanetConjunctions,
+  expectedBoundaryEventType,
+  pairCandidatesAroundConjunctions
+} from "./planetary-conjunction-association.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
@@ -77,24 +81,6 @@ function expectedEventType(planet, conjunctionKind, boundary) {
   return expectedBoundaryEventType(planet, conjunctionKind, boundary);
 }
 
-function nearestCrossingOnConjunctionSide(
-  crossings, eventType, referenceMs, boundary, conjunctionInstant
-) {
-  const conjunctionMs = Date.parse(conjunctionInstant);
-  if (!Number.isFinite(conjunctionMs)) return null;
-  return crossings.filter(item => {
-    const instant = Date.parse(item.instant);
-    if (item.type !== eventType || !Number.isFinite(instant)) return false;
-    const daysFromConjunction = (instant - conjunctionMs) / 86_400_000;
-    return boundary === "astaStart"
-      ? daysFromConjunction < 0 && Math.abs(daysFromConjunction) <= 90
-      : daysFromConjunction > 0 && Math.abs(daysFromConjunction) <= 90;
-  }).map(item => ({
-    ...item,
-    daysFromConjunction: Number(((Date.parse(item.instant) - conjunctionMs) / 86_400_000).toFixed(3)),
-    errorMinutes: (Date.parse(item.instant) - referenceMs) / 60_000
-  })).sort((a, b) => Math.abs(a.errorMinutes) - Math.abs(b.errorMinutes))[0] || null;
-}
 
 const profileById = new Map(profiles.map(profile => [profile.geonameId, profile]));
 const cityReports = [];
@@ -184,31 +170,83 @@ for (const profile of profiles) {
   }
 
   const holdout = [];
+  const pairingDiagnostics = {};
   for (const planet of PLANETS) {
     const horizonSeries = scanPlanetHorizonEvents({
       astronomy: Astronomy, planet, observer,
       start: "2026-01-01T00:00:00.000Z",
       end: "2028-01-01T00:00:00.000Z"
     });
-    for (const item of observations.filter(row => row.planet === planet && row.sourceYear >= 2026)) {
-      const eventType = item.expectedHorizonEventType;
-      const key = item.planet + ":" + item.boundary + ":" + eventType;
+
+    // Generate every threshold crossing without consulting any reference date.
+    const rawCandidates = [];
+    for (const boundary of ["astaStart", "astaEnd"]) {
+      for (const eventType of ["rise", "set"]) {
+        const model = training[planet + ":" + boundary + ":" + eventType];
+        if (!model) continue;
+        const crossings = findHorizonTwilightThresholdCrossings({
+          horizonSeries,
+          thresholdDepressionDeg: model.thresholdDepressionDeg,
+          eventType
+        });
+        rawCandidates.push(...crossings.map(crossing => ({
+          ...crossing,
+          boundary,
+          eventType
+        })));
+      }
+    }
+
+    // Pair each candidate window using conjunction family, side and expected
+    // horizon direction. Reference timestamps are not involved in selection.
+    const paired = pairCandidatesAroundConjunctions({
+      planet,
+      candidates: rawCandidates,
+      conjunctions: conjunctionsByPlanet.get(planet) || [],
+      maxDistanceDays: 90
+    });
+    pairingDiagnostics[planet] = {
+      rawThresholdCandidates: rawCandidates.length,
+      pairedConjunctionWindows: paired.windows.length,
+      rejectedConjunctions: paired.rejectedConjunctions.length
+    };
+
+    for (const item of observations.filter(row =>
+      row.planet === planet && row.sourceYear >= 2026
+    )) {
+      const key = item.planet + ":" + item.boundary + ":" + item.expectedHorizonEventType;
       const model = item.branchMatchesConjunction ? training[key] : null;
-      const crossings = model ? findHorizonTwilightThresholdCrossings({
-        horizonSeries,
-        thresholdDepressionDeg: model.thresholdDepressionDeg,
-        eventType
-      }) : [];
-      const predicted = model && item.conjunctionInstant
-        ? nearestCrossingOnConjunctionSide(
-            crossings, eventType, Date.parse(item.sourceUtcInstant),
-            item.boundary, item.conjunctionInstant
+      const pairedWindow = item.conjunctionInstant
+        ? paired.windows.find(window =>
+            window.conjunctionInstant === item.conjunctionInstant &&
+            window.conjunctionKind === item.conjunctionKind
           )
         : null;
+      const predictedInstant = pairedWindow
+        ? (item.boundary === "astaStart" ? pairedWindow.astaStart : pairedWindow.udaya)
+        : null;
+      const predictedCandidate = predictedInstant
+        ? rawCandidates.find(candidate =>
+            candidate.boundary === item.boundary && candidate.instant === predictedInstant
+          )
+        : null;
+      const predicted = predictedInstant ? {
+        ...(predictedCandidate || {}),
+        type: item.boundary === "astaStart"
+          ? pairedWindow.astaStartEventType : pairedWindow.udayaEventType,
+        instant: predictedInstant,
+        conjunctionKind: pairedWindow.conjunctionKind,
+        conjunctionInstant: pairedWindow.conjunctionInstant,
+        daysFromConjunction: item.boundary === "astaStart"
+          ? -pairedWindow.daysBeforeConjunction : pairedWindow.daysAfterConjunction,
+        errorMinutes: (Date.parse(predictedInstant) - Date.parse(item.sourceUtcInstant)) / 60_000
+      } : null;
       holdout.push({
         ...item,
         training: model || null,
         prediction: predicted,
+        predictionSelection: "conjunction-paired-without-reference-date-lookahead",
+        pairedWindowFound: Boolean(pairedWindow),
         within15Minutes: predicted ? Math.abs(predicted.errorMinutes) <= 15 : false,
         within1Hour: predicted ? Math.abs(predicted.errorMinutes) <= 60 : false,
         within1Day: predicted ? Math.abs(predicted.errorMinutes) <= 1440 : false,
@@ -216,8 +254,9 @@ for (const profile of profiles) {
         status: !item.conjunctionInstant ? "no-unique-conjunction-in-source-window"
           : !item.branchMatchesConjunction ? "source-horizon-branch-does-not-match-conjunction"
           : !model ? "insufficient-same-city-training-samples"
-          : !predicted ? "no-conjunction-side-event-within-90-days"
-          : Math.abs(predicted.errorMinutes) <= 1440 ? "within-one-day"
+          : !pairedWindow ? "no-complete-conjunction-paired-window"
+          : predicted && Math.abs(predicted.errorMinutes) <= 15 ? "within-15-minutes"
+          : predicted && Math.abs(predicted.errorMinutes) <= 60 ? "within-1-hour"
           : "holdout-mismatch-review-required"
       });
     }
@@ -242,6 +281,7 @@ for (const profile of profiles) {
     trainingYears: profile.geonameId === "1259503" ? "available 2021-2025" : "2024-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
+    pairingDiagnostics,
     holdoutSummary: {
       records: holdout.length,
       predictions: holdout.filter(item => item.prediction).length,
@@ -262,14 +302,14 @@ for (const profile of profiles) {
 
 const report = {
   schemaVersion: 2,
-  model: "same-city-conjunction-branch-gated-rise-set-sun-depression-threshold-backtest-v2",
+  model: "same-city-conjunction-paired-rise-set-sun-depression-threshold-backtest-v3",
   sourceDataset: "data/drik-planetary-reference-2024-2027.json",
   observerProfiles: "city-observer-profiles.json",
   trainingPolicy: "same city + same planet + same boundary + conjunction-specific expected rise/set branch; years through 2025; source records with unresolved/mismatched conjunction branches are excluded",
-  holdoutPolicy: "2026-2027; no holdout threshold tuning; predictions constrained to the correct side of the specific source-window conjunction (within 90 days)",
+  holdoutPolicy: "2026-2027; no holdout threshold tuning; candidates are generated across the fixed horizon series and paired to conjunctions using branch and side only; reference timestamps are used only after selection to measure error",
   cities: cityReports,
   publicationEligible: false,
-  interpretation: "This report tests independent city-centre observer profiles against city-labelled Drik references. Every source window must contain exactly one computed conjunction; expected rise/set direction is derived from planet and conjunction family. Training excludes source boundaries whose nearest physical horizon event conflicts with that branch; predictions are constrained to the correct side of the same conjunction. Drik does not disclose exact observer coordinates/elevation. Pithoragarh retains the project's fixed 1650 m observer. Results are research-only and must not be pooled across cities or published as verified times."
+  interpretation: "This report tests independent city-centre observer profiles against city-labelled Drik references. Every source window must contain exactly one computed conjunction; expected rise/set direction is derived from planet and conjunction family. Training excludes source boundaries whose nearest physical horizon event conflicts with that branch. Predictions are generated from the fixed 2026-2028 horizon series and paired to conjunctions by correct boundary, horizon direction and before/after side; source reference timestamps are not used to select candidates, preventing nearest-reference look-ahead leakage. Drik does not disclose exact observer coordinates/elevation. Pithoragarh retains the project's fixed 1650 m observer. Results are research-only and must not be pooled across cities or published as verified times."
 };
 const outputIndex = process.argv.indexOf("--output");
 if (outputIndex >= 0 && process.argv[outputIndex + 1]) {
