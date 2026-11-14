@@ -15,7 +15,7 @@ function median(values) {
 }
 
 function conjunctionAgeDays(row) {
-  const source = Date.parse(row.sourceUtcInstant);
+  const source = Date.parse(row.horizonEventInstant ?? row.sourceUtcInstant);
   const conjunction = Date.parse(row.conjunctionInstant);
   if (!Number.isFinite(source) || !Number.isFinite(conjunction)) return null;
   return (source-conjunction)/86_400_000;
