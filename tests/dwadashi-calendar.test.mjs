@@ -611,3 +611,54 @@ test("2030 Vaishakha Shukla Dwadashi keeps Madhava and Jamadagnyadvadashi as dis
   assert.deepEqual(record.observances.map(item => item.id), ["madhava", "parashurama"]);
 });
 
+test("Smarta Trisparsha Mahadwadashi is detected only across consecutive local sunrises", async () => {
+  const sourceRules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const first = sunriseDay("2030-05-14", "वैशाख", "शुक्ल", "एकादशी");
+  first.sunrise = "2030-05-14T00:00:00.000Z";
+  first.sunriseTithi.tithiEndTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithi = "द्वादशी";
+  first.noonTithiStartTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithiEndTime = "2030-05-14T22:02:44.790Z";
+
+  const following = sunriseDay("2030-05-15", "वैशाख", "शुक्ल", "त्रयोदशी");
+  following.sunrise = "2030-05-15T00:00:00.000Z";
+  following.sunriseTithi.tithiStartTime = "2030-05-14T22:02:44.790Z";
+
+  const result = buildDwadashiCalendar([first, following], sourceRules);
+  const record = result.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(record.candidateDates, ["2030-05-14"]);
+  assert.equal(record.selectedDate, "2030-05-14");
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required");
+  assert.equal(record.status, "needs-review");
+  assert.deepEqual(record.drikLabels, ["त्रिस्पर्शा महाद्वादशी", "परशुराम द्वादशी"]);
+  assert.equal(record.specialTithiYogas.length, 1);
+  assert.equal(record.specialTithiYogas[0].id, "trisparsha");
+  assert.equal(record.specialTithiYogas[0].tradition, "smarta");
+  assert.deepEqual(record.specialTithiYogas[0].tithiSequence, ["एकादशी", "द्वादशी", "त्रयोदशी"]);
+  assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
+  assert.equal(record.observances.some(item => item.id === "parashurama"), true);
+});
+
+test("Trisparsha is not inferred when the following sunrise is missing or the tithi sequence differs", async () => {
+  const sourceRules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const first = sunriseDay("2030-05-14", "वैशाख", "शुक्ल", "एकादशी");
+  first.sunrise = "2030-05-14T00:00:00.000Z";
+  first.sunriseTithi.tithiEndTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithi = "द्वादशी";
+  first.noonTithiStartTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithiEndTime = "2030-05-14T22:02:44.790Z";
+
+  const missingNextSunrise = buildDwadashiCalendar([first], sourceRules);
+  const missingRecord = missingNextSunrise.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(missingRecord.specialTithiYogas, []);
+  assert.equal(missingRecord.dateSelection, "single-observation-candidate-review-required");
+
+  const notTrisparshaNext = sunriseDay("2030-05-15", "वैशाख", "शुक्ल", "द्वादशी");
+  notTrisparshaNext.sunrise = "2030-05-15T00:00:00.000Z";
+  notTrisparshaNext.sunriseTithi.tithiStartTime = "2030-05-14T22:02:44.790Z";
+  const wrongSequence = buildDwadashiCalendar([first, notTrisparshaNext], sourceRules);
+  const wrongRecord = wrongSequence.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(wrongRecord.specialTithiYogas, []);
+  assert.equal(wrongRecord.dateSelection, "single-observation-candidate-review-required");
+});
+
