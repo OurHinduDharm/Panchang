@@ -9,10 +9,9 @@
  */
 import { createRequire } from "node:module";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 const require = createRequire(import.meta.url);
 const astronomyEntry = require.resolve("astronomy-engine");
-const Astronomy = await import(pathToFileURL(path.join(path.dirname(astronomyEntry), "esm/astronomy.js")).href);
+const Astronomy = require(path.join(path.dirname(astronomyEntry), "astronomy.min.js"));
 const {
   Body,
   GeoVector,
