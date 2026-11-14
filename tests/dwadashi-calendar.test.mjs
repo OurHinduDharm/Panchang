@@ -795,3 +795,56 @@ test("Mahadwadashi nakshatra rules require the source-defined paksha and real in
   assert.deepEqual(record.specialTithiYogas,[]);
 });
 
+test("Unmilini is selected on the second of two consecutive Ekadashi sunrises", () => {
+  const start="2030-08-23T20:00:00.000Z", end="2030-08-25T02:00:00.000Z";
+  const first=sunriseDay("2030-08-24","भाद्रपद","शुक्ल","एकादशी");
+  const second=sunriseDay("2030-08-25","भाद्रपद","शुक्ल","एकादशी");
+  for (const day of [first,second]) {
+    day.sunriseTithi={tithi:"एकादशी",paksha:"शुक्ल पक्ष",masa:"भाद्रपद",tithiStartTime:start,tithiEndTime:end};
+  }
+  second.noonTithi="द्वादशी";
+  second.noonTithiStartTime="2030-08-25T01:00:00.000Z";
+  second.noonTithiEndTime="2030-08-26T02:00:00.000Z";
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-unmilini");
+  assert.ok(candidate);
+  assert.equal(candidate.observanceDate,"2030-08-25");
+  assert.equal(candidate.firstSunriseDate,"2030-08-24");
+  assert.equal(candidate.secondSunriseDate,"2030-08-25");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("Vanjuli is selected on the first of two consecutive Dwadashi sunrises", () => {
+  const start="2030-05-27T22:00:00.000Z", end="2030-05-29T01:00:00.000Z";
+  const first=sunriseDay("2030-05-28","ज्येष्ठ","कृष्ण","द्वादशी");
+  const second=sunriseDay("2030-05-29","ज्येष्ठ","कृष्ण","द्वादशी");
+  for (const day of [first,second]) {
+    day.sunriseTithi={tithi:"द्वादशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-vanjuli");
+  assert.ok(candidate);
+  assert.equal(candidate.observanceDate,"2030-05-28");
+  assert.equal(candidate.firstSunriseDate,"2030-05-28");
+  assert.equal(candidate.secondSunriseDate,"2030-05-29");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("consecutive sunrise Mahadwadashi rules do not accept different tithis or a boundary ending before the second sunrise", () => {
+  const first=sunriseDay("2030-05-28","ज्येष्ठ","कृष्ण","द्वादशी");
+  const second=sunriseDay("2030-05-29","ज्येष्ठ","कृष्ण","त्रयोदशी");
+  first.sunriseTithi={tithi:"द्वादशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:"2030-05-27T22:00:00.000Z",tithiEndTime:"2030-05-29T00:00:00.000Z"};
+  second.sunriseTithi={tithi:"त्रयोदशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:"2030-05-29T00:00:00.000Z",tithiEndTime:"2030-05-30T00:00:00.000Z"};
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+

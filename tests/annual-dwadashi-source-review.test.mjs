@@ -357,3 +357,36 @@ test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by sour
   assert.equal(vijayaRecord.status,"needs-review");
 });
 
+test("real Pithoragarh 2030 August and May cases do not inherit false Unmilini or Vanjuli labels", async () => {
+  const { getPanchangam, Observer } = panchangPackage;
+  const location=new Observer(29.5828,80.2182,1650);
+  const options={timezoneOffset:330,calendarType:"purnimanta"};
+  const makeDay=isoDate=>{
+    const instant=new Date(isoDate+"T06:30:00.000Z");
+    const raw=getPanchangam(instant,location,options);
+    const day=extractDwadashiDay(raw,isoDate,instant);
+    assert.ok(day.sunrise,isoDate+" local sunrise");
+    const sunriseInstant=new Date(day.sunrise);
+    const sunriseRaw=getPanchangam(sunriseInstant,location,options);
+    const sunriseDay=extractDwadashiDay(sunriseRaw,isoDate,sunriseInstant);
+    day.sunriseTithi={
+      tithi:sunriseDay.tithi,paksha:sunriseDay.paksha,masa:sunriseDay.masa,
+      tithiStartTime:sunriseDay.tithiStartTime,tithiEndTime:sunriseDay.tithiEndTime
+    };
+    return day;
+  };
+  const days=["2030-05-28","2030-05-29","2030-08-24","2030-08-25"].map(makeDay);
+  const rules=JSON.parse(await (await import("node:fs/promises")).readFile(
+    new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"
+  ));
+  const result=buildDwadashiCalendar(days,rules);
+  const jyeshtha=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const bhadrapada=result.tithis.find(item=>item.id==="bhadrapada-krishna");
+  assert.ok(jyeshtha);
+  assert.ok(bhadrapada);
+  assert.equal(jyeshtha.specialTithiYogas.some(item=>item.id==="mahadwadashi-smarta-vanjuli"),false,
+    "28 May Dwadashi ends before the following local sunrise");
+  assert.equal(bhadrapada.specialTithiYogas.some(item=>item.id==="mahadwadashi-smarta-unmilini"),false,
+    "24/25 August do not have Ekadashi at both consecutive local sunrises");
+});
+

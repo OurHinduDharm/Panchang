@@ -154,6 +154,61 @@ function findSmartaTrisparshaObservations(dailyPanchang, rule) {
   return found;
 }
 
+function findConsecutiveSunriseMahadwadashiObservations(dailyPanchang) {
+  const ordered = dailyPanchang.filter(day => day && day.date && day.sunrise && day.sunriseTithi)
+    .slice().sort((a,b) => dateSort(a.date,b.date));
+  const found = [];
+  for (let index=0; index<ordered.length-1; index+=1) {
+    const first = ordered[index];
+    const second = ordered[index+1];
+    if (nextCalendarDate(first.date) !== second.date) continue;
+    const firstTithi = normalizeTithi(first.sunriseTithi.tithi);
+    const secondTithi = normalizeTithi(second.sunriseTithi.tithi);
+    if (firstTithi !== secondTithi || !["एकादशी","द्वादशी"].includes(firstTithi)) continue;
+    const firstMasa = normalizeMonth(first.sunriseTithi.masa || first.masa);
+    const secondMasa = normalizeMonth(second.sunriseTithi.masa || second.masa);
+    const firstPaksha = normalizePaksha(first.sunriseTithi.paksha || first.paksha);
+    const secondPaksha = normalizePaksha(second.sunriseTithi.paksha || second.paksha);
+    if (!firstMasa.month || firstMasa.month !== secondMasa.month ||
+        firstMasa.adhika !== secondMasa.adhika || firstPaksha !== secondPaksha) continue;
+    const firstSunrise = Date.parse(first.sunrise);
+    const secondSunrise = Date.parse(second.sunrise);
+    const firstStart = Date.parse(first.sunriseTithi.tithiStartTime || "");
+    const firstEnd = Date.parse(first.sunriseTithi.tithiEndTime || "");
+    const secondStart = Date.parse(second.sunriseTithi.tithiStartTime || "");
+    const secondEnd = Date.parse(second.sunriseTithi.tithiEndTime || "");
+    if (![firstSunrise,secondSunrise,firstStart,firstEnd,secondStart,secondEnd].every(Number.isFinite)) continue;
+    const intervalStart = Math.max(firstStart,secondStart);
+    const intervalEnd = Math.min(firstEnd,secondEnd);
+    if (!(intervalStart <= firstSunrise && intervalEnd > secondSunrise)) continue;
+
+    const isEkadashi = firstTithi === "एकादशी";
+    const id = isEkadashi ? "unmilini" : "vanjuli";
+    found.push({
+      id:"mahadwadashi-smarta-" + id,
+      name:isEkadashi ? "उन्मीलिनी महाद्वादशी" : "वंजुली महाद्वादशी",
+      sourceProfile:"smartaDharmaSindhu",
+      source:"धर्मसिंधु एवं निर्णयसिंधु; Drik Panchang cross-check",
+      sourceUrl:isEkadashi
+        ? "https://www.drikpanchang.com/dwadashi/mahadwadashi/unmilini-mahadwadashi.html"
+        : "https://www.drikpanchang.com/dwadashi/mahadwadashi/vanjuli-mahadwadashi.html",
+      month:firstMasa.month,
+      paksha:firstPaksha,
+      adhika:firstMasa.adhika,
+      tithi:firstTithi,
+      firstSunriseDate:first.date,
+      secondSunriseDate:second.date,
+      observanceDate:isEkadashi ? second.date : first.date,
+      firstSunriseTime:new Date(firstSunrise).toISOString(),
+      secondSunriseTime:new Date(secondSunrise).toISOString(),
+      tithiStartTime:new Date(intervalStart).toISOString(),
+      tithiEndTime:new Date(intervalEnd).toISOString(),
+      status:"candidate-needs-manual-review"
+    });
+  }
+  return found;
+}
+
 const NAKSHATRA_NAMES = [
   "अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशीर्ष","आर्द्रा","पुनर्वसु","पुष्य",
   "आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाती",
@@ -285,6 +340,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const groups = new Map();
   const groupBuckets = new Map();
   const trisparshaCandidates = findSmartaTrisparshaObservations(dailyPanchang, rules?.mahaDwadashi?.trisparshaSmarta);
+  const consecutiveSunriseMahadwadashiCandidates = findConsecutiveSunriseMahadwadashiObservations(dailyPanchang);
   const nakshatraMahadwadashiCandidates = findDwadashiNakshatraObservations(
     dailyPanchang, rules?.mahaDwadashi?.sourceVariants
   );
@@ -476,7 +532,11 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const specialTithiYogas = trisparshaCandidates.filter(item =>
       item.month === group.month && item.paksha === group.paksha &&
       !!item.adhika === !!group.adhika && group.noonDates.includes(item.observanceDate)
-    ).concat(nakshatraMahadwadashiCandidates.filter(item =>
+    ).concat(consecutiveSunriseMahadwadashiCandidates.filter(item =>
+      item.month === group.month && item.paksha === group.paksha &&
+      !!item.adhika === !!group.adhika &&
+      candidateDates.some(date => Math.abs(Date.parse(date+"T00:00:00Z")-Date.parse(item.observanceDate+"T00:00:00Z")) <= 86400000)
+    )).concat(nakshatraMahadwadashiCandidates.filter(item =>
       item.month === group.month && item.paksha === group.paksha &&
       !!item.adhika === !!group.adhika && candidateDates.includes(item.observanceDate)
     ));
