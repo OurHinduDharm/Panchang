@@ -125,8 +125,12 @@ export function auditReport(report) {
       strictErrorSummary: {
         records: holdout.length,
         resolved: resolved.length,
-        within15Minutes: count("within-15-minutes"),
-        within1Hour: count("within-1-hour"),
+        within15Minutes: resolved.filter(record =>
+          record.audit.absoluteTimeErrorMinutes <= 15
+        ).length,
+        within1Hour: resolved.filter(record =>
+          record.audit.absoluteTimeErrorMinutes <= 60
+        ).length,
         sameLocalDateButTimeMismatch: count("same-local-date-time-mismatch"),
         localDateMismatch: count("local-date-mismatch"),
         unresolved: holdout.filter(record => !record.audit.resolved).length,
