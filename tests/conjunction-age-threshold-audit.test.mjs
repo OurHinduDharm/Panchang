@@ -25,3 +25,28 @@ test("conjunction-age audit excludes branch mismatches and keeps city groups sep
   assert.equal(report.summary.holdoutBoundaries,2);
   assert.equal(report.publicationEligible,false);
 });
+
+test("uses the actual horizon event instant rather than the rounded source timestamp",()=>{
+  const conjunction="2021-01-01T00:00:00.000Z";
+  const rows=[20,21,22,23].map((age,index)=>({
+    sourceWindowId:"rounded-"+age,sourceYear:2021+index,
+    sourceUtcInstant:new Date(Date.parse(conjunction)+(age+0.5)*86400000).toISOString(),
+    horizonEventInstant:new Date(Date.parse(conjunction)+age*86400000).toISOString(),
+    conjunctionInstant:conjunction,planet:"Venus",boundary:"astaEnd",
+    horizonEventType:"set",branchMatchesConjunction:true,
+    sunDepressionDeg:6-age*0.01
+  }));
+  rows.push({
+    sourceWindowId:"holdout",sourceYear:2027,
+    sourceUtcInstant:new Date(Date.parse("2027-01-01T00:00:00Z")+30*86400000).toISOString(),
+    horizonEventInstant:new Date(Date.parse("2027-01-01T00:00:00Z")+28*86400000).toISOString(),
+    conjunctionInstant:"2027-01-01T00:00:00.000Z",
+    planet:"Venus",boundary:"astaEnd",horizonEventType:"set",
+    branchMatchesConjunction:true,sunDepressionDeg:5.72
+  });
+  const result=auditConjunctionAgeThresholds({cities:[{
+    city:"Pithoragarh",sourceObservations:rows
+  }]});
+  const group=result.groups[0];
+  assert.equal(group.holdout[0].conjunctionAgeDays,28);
+});
