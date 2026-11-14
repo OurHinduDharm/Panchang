@@ -1,0 +1,52 @@
+name: Recover Pithoragarh Agastya historical source pages
+
+on:
+  push:
+    branches: [audit/agastya-traditional-source-provenance]
+    paths:
+      - "scripts/capture-pithoragarh-agastya-history.mjs"
+      - ".github/workflows/recover-pithoragarh-agastya-history.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/capture-pithoragarh-agastya-history.mjs"
+      - ".github/workflows/recover-pithoragarh-agastya-history.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check source recovery script syntax
+        run: node --check scripts/capture-pithoragarh-agastya-history.mjs
+
+  recover-raw-source-pages:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture original Pithoragarh Agastya pages for 2024-2027
+        env:
+          OUTPUT_PATH: artifacts/pithoragarh-agastya-2024-2027-source-recovery.json
+        run: node scripts/capture-pithoragarh-agastya-history.mjs
+      - name: Upload raw captures for manual provenance review
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-agastya-2024-2027-source-recovery
+          path: artifacts/pithoragarh-agastya-2024-2027-source-recovery.json
+          if-no-files-found: error
+          retention-days: 30
