@@ -592,3 +592,25 @@ test("2030 Padmanabha Dwadashi uses the evening tithi-entry and overnight vrata 
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Krishna Narasimha Dwadashi is dated on the local sunrise Dwadashi day", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="chaitra-krishna");
+  const decision=record.observanceDateReviews.find(item=>item.observanceId==="krishna-narasimha");
+  assert.ok(decision);
+  assert.equal(decision.sourceReferenceDate,"2030-03-29");
+  assert.equal(decision.selectedDate,"2030-03-30");
+  assert.equal(decision.localDayEvidence.sunriseTithi,"द्वादशी");
+  assert.equal(decision.localDayEvidence.noonTithi,"द्वादशी");
+  assert.equal(decision.localDayEvidence.followingSunriseTithi,"त्रयोदशी");
+  assert.equal(decision.localTithiIntervalIST.start,"2030-03-30T00:34:51.604+05:30");
+  assert.equal(decision.localTithiIntervalIST.end,"2030-03-31T00:42:52.860+05:30");
+  assert.equal(decision.vrataDate,"2030-03-29");
+  assert.equal(decision.observanceAndParanaDate,"2030-03-30");
+  assert.equal(decision.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
