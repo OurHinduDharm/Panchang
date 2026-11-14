@@ -1,0 +1,54 @@
+name: Special punya-kaal rule tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "special-punya-kaal.mjs"
+      - "mahapata-root-solver.mjs"
+      - "tests/special-punya-kaal.test.mjs"
+      - "tests/mahapata-root-solver.test.mjs"
+      - "scripts/generate-special-punya-kaal-review.mjs"
+      - "scripts/compare-mahapat-ephemeris.mjs"
+      - ".github/workflows/special-punya-kaal-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interval-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned astronomy and Panchang engines
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0 astronomy-engine@2.1.19
+      - name: Syntax check
+        run: |
+          node --check special-punya-kaal.mjs
+          node --check mahapata-root-solver.mjs
+          node --check scripts/generate-special-punya-kaal-review.mjs
+          node --check scripts/compare-mahapat-ephemeris.mjs
+      - name: Run special punya-kaal and Mahapata root tests
+        run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs tests/mahapata-root-solver.test.mjs
+      - name: Generate 2026–2030 Pithoragarh research candidates
+        run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
+      - name: Run Mahapata geocentric contact comparison (research-only)
+        run: node --experimental-default-type=module scripts/compare-mahapat-ephemeris.mjs > data/reviews/mahapata-geocentric-comparison-2026-2030.json
+      - name: Upload Mahapata comparison data
+        uses: actions/upload-artifact@v4
+        with:
+          name: mahapata-geocentric-comparison-2026-2030
+          path: data/reviews/mahapata-geocentric-comparison-2026-2030.json
+          if-no-files-found: error
+      - name: Upload Varuni review-only candidate data
+        uses: actions/upload-artifact@v4
+        with:
+          name: special-punya-kaal-2026-2030-review-only
+          path: data/reviews/special-punya-kaal-2026-2030-candidates.json
+          if-no-files-found: error
