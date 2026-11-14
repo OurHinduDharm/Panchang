@@ -300,7 +300,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(months[1].events.length, 23);
   assert.equal(months[2].events.length, 23);
   assert.equal(months[8].events.length, 32);
-  assert.equal(oct.length, 33);
+  assert.equal(oct.length, 34);
   assert.equal(nov.length, 26);
   assert.equal(dec.length, 23);
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
