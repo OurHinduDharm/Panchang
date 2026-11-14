@@ -54,8 +54,9 @@ export function fitLinearThreshold(samples) {
   });
 }
 
-function geometryOf(record) {
-  const geometry = record?.sourceGeometry;
+function geometryOf(record, city = "Pithoragarh") {
+  if (record?.branchMatchesConjunction === false) return null;
+  const geometry = record?.sourceGeometry ?? record;
   if (!geometry) return null;
   const delta = signedAzimuthDifference(
     geometry.planetAzimuthDeg,
@@ -63,24 +64,28 @@ function geometryOf(record) {
   );
   const depression = Number.isFinite(geometry.sunDepressionDeg)
     ? geometry.sunDepressionDeg
-    : Number.isFinite(geometry.sunAltitudeDeg) ? -geometry.sunAltitudeDeg : null;
+    : Number.isFinite(geometry.sunAltitudeDeg) ? -geometry.sunAltitudeDeg
+      : Number.isFinite(record.sunDepressionDeg) ? record.sunDepressionDeg : null;
   if (delta === null || !Number.isFinite(depression)) return null;
   return {
+    city: record.city ?? city,
     sourceWindowId: record.sourceWindowId,
     sourceYear: record.sourceYear,
     planet: record.planet,
     boundary: record.boundary,
-    horizonEventType: record.nearestHorizonEvent?.type ?? null,
+    horizonEventType: record.nearestHorizonEvent?.type ??
+      record.horizonEventType ?? record.expectedHorizonEventType ?? null,
+    branchMatchesConjunction: record.branchMatchesConjunction ?? null,
     sunDepressionDeg: depression,
     signedAzimuthDifferenceDeg: delta,
     azimuthSeparationDeg: Math.abs(delta),
-    apparentMagnitude: geometry.apparentMagnitude ?? null,
-    planetAltitudeDeg: geometry.planetAltitudeDeg ?? null
+    apparentMagnitude: geometry.apparentMagnitude ?? record.apparentMagnitude ?? null,
+    planetAltitudeDeg: geometry.planetAltitudeDeg ?? record.planetAltitudeDeg ?? null
   };
 }
 
 function groupKey(row) {
-  return [row.planet, row.boundary, row.horizonEventType].join(":");
+  return [row.city, row.planet, row.boundary, row.horizonEventType].join(":");
 }
 
 function summarizeGroup(key, rows, trainingEndYear, minTrainingSamples) {
@@ -154,15 +159,24 @@ export function auditAzimuthConditionedThresholds(report, {
   trainingEndYear = 2025,
   minTrainingSamples = 4
 } = {}) {
-  if (!report || !Array.isArray(report.results)) {
-    throw new TypeError("A planetary city back-test report with results[] is required");
+  if (!report || (!Array.isArray(report.results) && !Array.isArray(report.cities))) {
+    throw new TypeError("A planetary city back-test report is required");
   }
+  const records = Array.isArray(report.results)
+    ? report.results.map(record => ({ record, city: report.observer?.name ?? "Pithoragarh" }))
+    : report.cities.flatMap(city =>
+        (city.sourceObservations ?? []).map(record => ({
+          record,
+          city: city.city ?? "unknown-city"
+        }))
+      );
   const groups = new Map();
-  for (const record of report.results) {
+  for (const item of records) {
+    const record = item.record;
     if (!Number.isInteger(record.sourceYear) ||
         !["Jupiter", "Venus"].includes(record.planet) ||
         !["astaStart", "astaEnd"].includes(record.boundary)) continue;
-    const row = geometryOf(record);
+    const row = geometryOf(record, item.city);
     if (!row || !["rise", "set"].includes(row.horizonEventType)) continue;
     const key = groupKey(row);
     if (!groups.has(key)) groups.set(key, []);
@@ -177,13 +191,13 @@ export function auditAzimuthConditionedThresholds(report, {
     schemaVersion: 1,
     model: "azimuth-conditioned-sun-depression-linear-diagnostic-v1",
     sourceReportModel: report.model ?? null,
-    observer: report.observer ?? null,
+    observer: report.observer ?? null,\n    inputShape: Array.isArray(report.results) ? "single-city-source-results" : "multi-city-source-observations",
     trainingPolicy: `Source years <= ${trainingEndYear}; whole target year excluded in each leave-one-year-out fit.`,
-    feature: "absolute signed local azimuth difference between planet and Sun at the captured local planet rise/set event",
+    feature: "absolute signed local azimuth difference between planet and Sun at the captured local planet rise/set event; each city is isolated",
     comparison: "same-branch fixed median versus a simple linear azimuth-conditioned threshold; source geometry only",
     groups: audits,
     publicationEligible: false,
-    interpretation: "This is a small-sample diagnostic only. It does not predict an Asta/Udaya timestamp, alter the existing threshold engine, establish a physical visibility law, or approve any public data. A lower leave-one-year-out error in a small sample is a hypothesis requiring independent years and cities."
+    interpretation: "This is a small-sample, per-city diagnostic only. It does not predict an Asta/Udaya timestamp, alter the existing threshold engine, establish a physical visibility law, or approve any public data. A lower leave-one-year-out error in a small sample is a hypothesis requiring independent years and cities."
   });
 }
 
