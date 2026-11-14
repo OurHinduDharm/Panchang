@@ -294,3 +294,61 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
   assert.equal(record.status, "needs-review", "neither observance is automatically approved");
 });
+
+test("Dwadashi extraction preserves all tithi and nakshatra intervals for local yoga checks", () => {
+  const result = extractDwadashiDay({
+    tithi:11, paksha:"Shukla", masa:{name:"Bhadrapada"},
+    sunrise:"2030-08-25T00:12:57.366Z", sunset:"2030-08-25T12:57:00.000Z",
+    tithis:[{index:11,name:"Dwadashi",startTime:new Date("2030-08-24T15:54:33.403Z"),endTime:new Date("2030-08-25T17:17:31.584Z")}],
+    nakshatras:[{index:6,name:"Punarvasu",startTime:new Date("2030-08-25T00:00:00.000Z"),endTime:new Date("2030-08-25T23:54:00.000Z")}]
+  },"2030-08-25",new Date("2030-08-25T06:30:00.000Z"));
+  assert.equal(result.tithiIntervals[0].tithi,"द्वादशी");
+  assert.equal(result.tithiIntervals[0].paksha,"शुक्ल पक्ष");
+  assert.equal(result.nakshatraIntervals[0].name,"पुनर्वसु");
+  assert.equal(result.sunset,"2030-08-25T12:57:00.000Z");
+});
+
+test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by source profile", async () => {
+  const { getPanchangam, Observer } = panchangPackage;
+  const location = new Observer(29.5828,80.2182,1650);
+  const options = {timezoneOffset:330,calendarType:"purnimanta"};
+  const makeDay = isoDate => {
+    const instant = new Date(isoDate + "T06:30:00.000Z");
+    const raw = getPanchangam(instant,location,options);
+    const day = extractDwadashiDay(raw,isoDate,instant);
+    assert.ok(day.sunrise,isoDate + " local sunrise");
+    const sunriseInstant = new Date(day.sunrise);
+    const sunriseRaw = getPanchangam(sunriseInstant,location,options);
+    const sunriseDay = extractDwadashiDay(sunriseRaw,isoDate,sunriseInstant);
+    day.sunriseTithi = {
+      tithi:sunriseDay.tithi, paksha:sunriseDay.paksha, masa:sunriseDay.masa,
+      tithiStartTime:sunriseDay.tithiStartTime, tithiEndTime:sunriseDay.tithiEndTime
+    };
+    return day;
+  };
+  const days = [makeDay("2030-08-25"),makeDay("2030-09-08")];
+  const rules = JSON.parse(await (await import("node:fs/promises")).readFile(
+    new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"
+  ));
+  const result = buildDwadashiCalendar(days,rules);
+  const jayantiRecord = result.tithis.find(item=>item.id==="bhadrapada-krishna");
+  const jayanti = jayantiRecord.specialTithiYogas.find(item=>
+    item.sourceProfile==="nirnayaSindhu" && item.id.endsWith("-jayanti")
+  );
+  assert.ok(jayanti,"25 August must be checked against the Nirnaya Sindhu Punarvasu-Jayanti variant");
+  assert.equal(jayanti.nakshatra,"पुनर्वसु");
+  assert.ok(jayanti.overlapMinutes>=48);
+  assert.equal(jayanti.meetsOneMuhurta,true);
+  assert.equal(jayantiRecord.status,"needs-review");
+
+  const vijayaRecord = result.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const vijaya = vijayaRecord.specialTithiYogas.find(item=>
+    item.sourceProfile==="naradaPurana" && item.id.endsWith("-vijaya")
+  );
+  assert.ok(vijaya,"8 September must be checked against the Narada Purana Shravana-Vijaya variant");
+  assert.equal(vijaya.nakshatra,"श्रवण");
+  assert.ok(vijaya.overlapMinutes>=48);
+  assert.equal(vijaya.meetsOneMuhurta,true);
+  assert.equal(vijayaRecord.status,"needs-review");
+});
+
