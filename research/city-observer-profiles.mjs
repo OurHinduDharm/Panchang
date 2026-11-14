@@ -106,24 +106,64 @@ async function main() {
   if (missing.length) throw new Error("Expected city IDs missing from Drik source data: " +
     missing.map(city => city.geonameId).join(", "));
 
-  const profiles = [];
-  for (const city of EXPECTED_CITIES) {
-    profiles.push(await resolveCity(city));
-    // Respect Nominatim's public-service usage policy: at most one request/second.
-    await sleep(1100);
-  }
+  const snapshotIndex = process.argv.indexOf("--snapshot");
+  let report;
+  if (snapshotIndex >= 0) {
+    const snapshotPath = process.argv[snapshotIndex + 1];
+    if (!snapshotPath) throw new Error("--snapshot requires a JSON file path");
+    report = JSON.parse(fs.readFileSync(snapshotPath, "utf8"));
+    if (report.schemaVersion !== 1 || report.publicationEligible !== false ||
+        !Array.isArray(report.profiles)) {
+      throw new Error("Invalid or publication-eligible city observer snapshot");
+    }
+    const byId = new Map(report.profiles.map(profile => [profile.geonameId, profile]));
+    if (byId.size !== EXPECTED_CITIES.length ||
+        EXPECTED_CITIES.some(city => !byId.has(city.geonameId))) {
+      throw new Error("Snapshot must contain exactly the five expected city profiles");
+    }
+    for (const target of EXPECTED_CITIES) {
+      const profile = byId.get(target.geonameId);
+      if (profile.city !== target.city || profile.state !== target.state ||
+          profile.country !== "India" ||
+          !Number.isFinite(profile.latitude) || profile.latitude < 6 || profile.latitude > 38 ||
+          !Number.isFinite(profile.longitude) || profile.longitude < 68 || profile.longitude > 98 ||
+          !Number.isFinite(profile.elevationMeters) || profile.elevationMeters < -500 ||
+          profile.elevationMeters > 9000 ||
+          profile.elevationExact !== false ||
+          profile.elevationResolutionMeters !== 90 ||
+          !String(profile.coordinateSource || "").includes("OpenStreetMap") ||
+          !String(profile.elevationSource || "").includes("Copernicus DEM")) {
+        throw new Error("Invalid provenance, location or elevation metadata for " + target.city);
+      }
+    }
+    report = {
+      ...report,
+      snapshotMode: true,
+      snapshotPath,
+      interpretation: String(report.interpretation || "") +
+        " CI used the pinned, versioned snapshot; refresh it deliberately rather than querying public geocoding/elevation services on every commit."
+    };
+  } else {
+    const profiles = [];
+    for (const city of EXPECTED_CITIES) {
+      profiles.push(await resolveCity(city));
+      // Respect Nominatim's public-service usage policy: at most one request/second.
+      await sleep(1100);
+    }
 
-  const report = {
-    schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
-    sourceReference: "data/drik-planetary-reference-2024-2027.json",
-    coordinateProvider: "OpenStreetMap Nominatim",
-    elevationProvider: "Open-Meteo Elevation API / Copernicus DEM",
-    elevationResolutionMeters: 90,
-    profiles,
-    publicationEligible: false,
-    interpretation: "City-centre coordinates and DEM elevations are inputs for separate city-wise research back-tests. They do not establish Drik's undisclosed observer coordinates, surveyed elevation, local skyline, or publication-grade visibility times."
-  };
+    report = {
+      schemaVersion: 1,
+      generatedAt: new Date().toISOString(),
+      sourceReference: "data/drik-planetary-reference-2024-2027.json",
+      coordinateProvider: "OpenStreetMap Nominatim",
+      elevationProvider: "Open-Meteo Elevation API / Copernicus DEM",
+      elevationResolutionMeters: 90,
+      profiles,
+      publicationEligible: false,
+      snapshotMode: false,
+      interpretation: "City-centre coordinates and DEM elevations are inputs for separate city-wise research back-tests. They do not establish Drik's undisclosed observer coordinates, surveyed elevation, local skyline, or publication-grade visibility times."
+    };
+  }
 
   const outputIndex = process.argv.indexOf("--output");
   if (outputIndex >= 0 && process.argv[outputIndex + 1]) {
@@ -131,7 +171,6 @@ async function main() {
   }
   console.log(JSON.stringify(report, null, 2));
 }
-
 main().catch(error => {
   console.error(error);
   process.exitCode = 1;
