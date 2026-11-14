@@ -741,3 +741,57 @@ test("Trisparsha is not inferred when the following sunrise is missing or the ti
   assert.equal(wrongRecord.dateSelection, "requires-vrata-specific-rule");
 });
 
+test("source-specific Mahadwadashi nakshatra overlaps are calculated without auto-approval", () => {
+  const day = sunriseDay("2030-08-25","भाद्रपद","शुक्ल","द्वादशी");
+  day.sunrise = "2030-08-25T00:12:57.366Z";
+  day.sunset = "2030-08-25T12:57:00.000Z";
+  day.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"शुक्ल पक्ष",
+    startTime:"2030-08-24T15:54:33.403Z", endTime:"2030-08-25T17:17:31.584Z"
+  }];
+  day.nakshatraIntervals = [{
+    index:6, name:"पुनर्वसु",
+    startTime:"2030-08-25T00:00:00.000Z", endTime:"2030-08-25T23:54:00.000Z"
+  }];
+  const sourceRules = {
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"शुक्ल",displayNames:[],observances:[]}]},
+    mahaDwadashi:{sourceVariants:[{
+      id:"nirnayaSindhu", source:"निर्णय-सिन्धु",
+      criteria:{jayanti:"शुक्ल द्वादशी + पुनर्वसु"}
+    }]}
+  };
+  const result = buildDwadashiCalendar([day],sourceRules);
+  const record = result.tithis.find(item => item.id === "bhadrapada-shukla");
+  const candidate = record.specialTithiYogas.find(item =>
+    item.sourceProfile === "nirnayaSindhu" && item.id.endsWith("-jayanti")
+  );
+  assert.ok(candidate);
+  assert.equal(candidate.nakshatra,"पुनर्वसु");
+  assert.ok(candidate.overlapMinutes > 48);
+  assert.equal(candidate.meetsOneMuhurta,true);
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+  assert.equal(record.status,"needs-review");
+});
+
+test("Mahadwadashi nakshatra rules require the source-defined paksha and real interval overlap", () => {
+  const day = sunriseDay("2030-08-25","भाद्रपद","कृष्ण","द्वादशी");
+  day.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2030-08-25T00:00:00.000Z", endTime:"2030-08-25T12:00:00.000Z"
+  }];
+  day.nakshatraIntervals = [{
+    index:6, name:"पुनर्वसु",
+    startTime:"2030-08-25T13:00:00.000Z", endTime:"2030-08-25T23:00:00.000Z"
+  }];
+  const sourceRules = {
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"कृष्ण",displayNames:[],observances:[]}]},
+    mahaDwadashi:{sourceVariants:[{
+      id:"nirnayaSindhu", source:"निर्णय-सिन्धु",
+      criteria:{jayanti:"शुक्ल द्वादशी + पुनर्वसु"}
+    }]}
+  };
+  const result = buildDwadashiCalendar([day],sourceRules);
+  const record = result.tithis.find(item => item.id === "bhadrapada-krishna");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+
