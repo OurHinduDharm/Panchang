@@ -699,7 +699,23 @@
           ],
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
-          "status": "source-cross-reference-needs-local-rule-review"
+          "status": "local-tithi-interval-confirmed-source-date-review-pending",
+          "localTithiIntervalIST": {
+            "start": "2030-07-26T10:02:32.993+05:30",
+            "end": "2030-07-27T12:21:52.929+05:30"
+          },
+          "localAssessment": {
+            "result": "named-vrata-date-cross-check-match",
+            "vrataDate": "2030-07-26",
+            "paranaDate": "2030-07-27",
+            "tithiAtNoonOnVrataDate": true,
+            "tithiAtNextSunrise": true,
+            "localNextSunrise": "2030-07-27T05:26:16.658+05:30",
+            "sourceReference": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
+            "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
+            "evidence": "स्थानीय द्वादशी 26 जुलाई 10:02:32.993 IST पर शुरू होकर 27 जुलाई 12:21:52.929 IST तक रहती है। 26 जुलाई को मध्याह्न में द्वादशी उपस्थित है और 27 जुलाई के सूर्योदय पर भी द्वादशी है। Drik इस नामित व्रत की तारीख़ 26 जुलाई और अगले दिन पारण बताता है।",
+            "sourceLabelDisposition": "retain-26-july-vrata-date;27-july-is-parana-day-only"
+          }
         }
       ],
       "selectedDate": "2030-07-26",
@@ -710,7 +726,26 @@
       "observances": [],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "krishna-vasudeva",
+          "name": "कृष्ण वासुदेव द्वादशी",
+          "selectedDate": "2030-07-26",
+          "decisionStatus": "named-vrata-date-cross-check-match",
+          "source": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
+          "localTithiIntervalIST": {
+            "start": "2030-07-26T10:02:32.993+05:30",
+            "end": "2030-07-27T12:21:52.929+05:30"
+          },
+          "paranaDate": "2030-07-27",
+          "nextSunrise": "2030-07-27T05:26:16.658+05:30",
+          "autoApproved": false,
+          "note": "Drik नामित व्रत के लिए 26 जुलाई को उपवास और 27 जुलाई को पारण-दिन बताता है। स्थानीय द्वादशी अंतराल दोनों से मेल खाता है। सार्वजनिक पारण समय अलग स्थानीय गणना के बिना नहीं जोड़ा जाएगा।"
+        }
+      ],
+      "sourceDateDecisionNote": "कृष्ण वासुदेव द्वादशी का नामित व्रत-दिन 26 जुलाई रखा गया है; स्थानीय द्वादशी 26 जुलाई 10:02 IST से 27 जुलाई 12:21 IST तक है। 27 जुलाई केवल पारण-दिन है। केवल 27 जुलाई के सूर्योदय पर द्वादशी होने के कारण व्रत-दिन को अगले दिन नहीं खिसकाया जाएगा।"
     },
     {
       "id": "shravana-shukla",
