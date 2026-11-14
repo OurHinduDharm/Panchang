@@ -809,21 +809,31 @@ const rules = {
 
     const pradoshMinutes = Math.round((nextSunrise.getTime() - sunset.getTime()) / 5 / 60000);
     const pradoshEnd = new Date(sunset.getTime() + pradoshMinutes * 60000);
-    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
+    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "मुख्य धनतेरस पूजन — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
     const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
       /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
       validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
     );
+    let fixed = null;
     if (pradosh && fixedLagna) {
-      const fixed = interval(
+      fixed = interval(
         laterDate(pradosh.start, validDate(fixedLagna.start)),
         earlierDate(pradosh.end, validDate(fixedLagna.end)),
-        "प्राथमिक पूजा विकल्प — वृषभ स्थिर लग्न",
+        "मुख्य धनतेरस पूजन — वृषभ स्थिर लग्न",
         "त्रयोदशी, प्रदोष और उपलब्ध वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
       );
-      if (fixed) windows.push(fixed);
     }
-    if (pradosh) windows.push(pradosh);
+    if (fixed) {
+      windows.push(fixed);
+      windows.push({
+        ...pradosh,
+        label: "वैकल्पिक धनतेरस पूजा — प्रदोष काल",
+        note: "वृषभ स्थिर लग्न के मुख्य समय के अतिरिक्त प्रदोष में त्रयोदशी-व्याप्ति का वैकल्पिक समय।"
+      });
+    } else if (pradosh) {
+      // जब वृषभ स्थिर लग्न का साझा समय उपलब्ध न हो, प्रदोष ही मुख्य पूजन विकल्प है।
+      windows.push(pradosh);
+    }
 
     if (!windows.length) {
       return {

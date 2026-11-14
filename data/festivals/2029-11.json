@@ -51,10 +51,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
-      "muhurtaRules": [
-        "dhanteras-muhurta",
-        "pradosh-kala"
-      ]
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-11-04",
@@ -188,8 +185,7 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक शुक्ल षष्ठी",
-      "muhurtaRule": "chhath-arghya"
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी"
     },
     {
       "date": "2029-11-13",

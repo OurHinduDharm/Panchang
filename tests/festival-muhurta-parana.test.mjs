@@ -404,11 +404,11 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   assert.ok(Math.abs(shopping[4].start.getTime() - date("2026-11-07T00:04:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[7].start.getTime() - date("2026-11-07T07:59:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[7].end.getTime() - date("2026-11-07T09:21:00+05:30").getTime()) < 60_000);
-  const puja = result.windows.find(w => /वृषभ स्थिर लग्न/.test(w.label));
+  const puja = result.windows.find(w => /मुख्य धनतेरस पूजन — वृषभ स्थिर लग्न/.test(w.label));
   assert.ok(puja);
   assert.equal(puja.start.toISOString(), date("2026-11-06T18:02:00+05:30").toISOString());
   assert.equal(puja.end.toISOString(), date("2026-11-06T19:57:00+05:30").toISOString());
-  assert.ok(result.windows.some(w => /धनतेरस पूजा/.test(w.label)));
+  assert.ok(result.windows.some(w => /वैकल्पिक धनतेरस पूजा — प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.every(w => w.end > w.start));
 });
 

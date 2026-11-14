@@ -26,6 +26,7 @@ test("2030 monthly festival files have approved records dated within their month
 test("2030 catalog keeps distinct same-date observances on separate cards", () => {
   const seen = new Map();
   const allowedSameDate = new Map([
+    ["2030-10-24|कार्तिक कृष्ण त्रयोदशी", new Set(["धनतेरस / धन्वन्तरि जयंती / यमदीपदान", "गुरु प्रदोष व्रत"])],
     ["2030-10-25|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])],
     ["2030-10-26|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती", "काली पूजा"])],
     ["2030-06-22|आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
@@ -247,7 +248,6 @@ test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing 
 test("2030 every Pradosh observance has its correct local muhurta rule", () => {
   const allowed = new Set([
     "pradosh-kala",
-    "dhanteras-muhurta",
     "dev-deepawali-pradosh"
   ]);
   for (const event of events.filter(event => /प्रदोष/.test(event.title || ""))) {
@@ -300,7 +300,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(months[1].events.length, 23);
   assert.equal(months[2].events.length, 23);
   assert.equal(months[8].events.length, 32);
-  assert.equal(oct.length, 34);
+  assert.equal(oct.length, 35);
   assert.equal(nov.length, 26);
   assert.equal(dec.length, 23);
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
@@ -347,10 +347,13 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 294);
+  assert.equal(events.length, 295);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(at(oct, "2030-10-24", /^गुरु प्रदोष व्रत$/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(at(oct, "2030-10-24", /धनतेरस/)?.muhurtaRule, "dhanteras-muhurta");
+  assert.equal(at(oct, "2030-10-24", /धनतेरस/)?.muhurtaRules, undefined);
   assert.equal(at(nov, "2030-11-07", /गुरु प्रदोष/)?.muhurtaRule, "pradosh-kala");
   assert.equal(at(nov, "2030-11-23", /शनि प्रदोष/)?.muhurtaRule, "pradosh-kala");
   assert.equal(at(dec, "2030-12-07", /शनि प्रदोष/)?.muhurtaRule, "pradosh-kala");
