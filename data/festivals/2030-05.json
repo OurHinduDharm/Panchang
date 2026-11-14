@@ -119,6 +119,35 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-05-14",
+      "dateLabel": "14 मई",
+      "title": "माधव-द्वादशी व्रत",
+      "description": "वैशाख शुक्ल द्वादशी पर उपवास, इन्द्रिय-संयम और भगवान माधव का पूजन करें। मधुर पका अन्न एवं जल-कलश दान का विधान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)",
+      "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 15–16",
+      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+      "secondarySourceName": "धर्मसिंधु एवं निर्णयसिंधु — त्रिस्पर्शा महाद्वादशी का स्थानीय तिथि-निर्णय",
+      "secondarySourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi"
+    },
+    {
+      "date": "2030-05-14",
+      "dateLabel": "14 मई",
+      "title": "परशुराम-द्वादशी",
+      "description": "जामदग्न्य-व्रत में वैशाख शुक्ल द्वादशी पर संकल्प, भगवान परशुराम की पूजा और रात्रि-जागरण किया जाता है। प्रतिमा का दान अगले दिन प्रातः किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)",
+      "sourceName": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+      "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044",
+      "secondarySourceName": "Drik Panchang — 2030 द्वादशी सूची",
+      "secondarySourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
+      "followingMorningActionDate": "2030-05-15"
+    },
+    {
       "date": "2030-05-15",
       "dateLabel": "15 मई",
       "title": "बुध प्रदोष व्रत",

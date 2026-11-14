@@ -306,7 +306,53 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "madhava",
+          "name": "माधव-द्वादशी व्रत",
+          "selectedDate": "2030-05-14",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 15–16",
+          "sourceBasis": "वैशाख शुक्ल द्वादशी पर उपवास, माधव-पूजन तथा मधुर पक्वान्न और जल-कुम्भ दान का स्पष्ट विधान।",
+          "localTithiInterval": {
+            "start": "2030-05-14T00:52:43.949Z",
+            "end": "2030-05-14T22:02:44.790Z"
+          },
+          "localTithiIntervalIST": {
+            "start": "2030-05-14T06:22:43.949+05:30",
+            "end": "2030-05-15T03:32:44.790+05:30"
+          },
+          "localDayDecision": "14 मई के सूर्योदय-दिन में द्वादशी 06:22 IST से उपस्थित होकर दिनभर और रात्रि तक रहती है; अगले सूर्योदय 15 मई पर त्रयोदशी है। स्मार्त त्रिस्पर्शा नियम के अनुसार एकादशी और द्वादशी एक ही दिन में आने पर उसी दिन संयुक्त उपवास का विधान लागू होता है।",
+          "secondaryRuleSource": "धर्मसिंधु एवं निर्णयसिंधु — त्रिस्पर्शा महाद्वादशी",
+          "secondaryRuleSourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false
+        },
+        {
+          "observanceId": "parashurama",
+          "name": "परशुराम-द्वादशी",
+          "selectedDate": "2030-05-14",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 44, जामदग्न्य-द्वादशी व्रत, श्लोक 1–7 एवं 16–17",
+          "sourceBasis": "वैशाख शुक्ल द्वादशी पर संकल्प, जामदग्न्य रूप में विष्णु/परशुराम की पूजा और रात्रि-जागरण; प्रतिमा का दान अगले दिन प्रातः।",
+          "localTithiInterval": {
+            "start": "2030-05-14T00:52:43.949Z",
+            "end": "2030-05-14T22:02:44.790Z"
+          },
+          "localTithiIntervalIST": {
+            "start": "2030-05-14T06:22:43.949+05:30",
+            "end": "2030-05-15T03:32:44.790+05:30"
+          },
+          "localDayDecision": "द्वादशी 14 मई को स्थानीय सूर्योदय के बाद आरम्भ होकर अगले सूर्योदय से पहले समाप्त होती है; इसलिए संकल्प, पूजा और जागरण का व्रत-दिन 14 मई है। ग्रंथानुसार प्रतिमा-दान अगले दिन प्रातः किया जाता है।",
+          "followingMorningActionDate": "2030-05-15",
+          "sourceCrossCheck": "Drik Panchang की 2030 द्वादशी सूची 14 मई को परशुराम द्वादशी और त्रिस्पर्शा महाद्वादशी दोनों दिखाती है।",
+          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false
+        }
+      ],
+      "observanceDateDecisionNote": "माधव-द्वादशी और परशुराम-द्वादशी के 14 मई 2030 दिन-निर्णय अलग-अलग स्रोत-विधान और स्थानीय त्रिस्पर्शा क्रम से जाँचे गए हैं। यह केवल इन दो observances की तारीख़ की समीक्षा है; वैशाख शुक्ल द्वादशी occurrence तथा अन्य सभी वार्षिक द्वादशी रिकॉर्ड का needs-review/sourceReview status यथावत है।"
     },
     {
       "id": "jyeshtha-krishna",
