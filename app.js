@@ -4845,10 +4845,19 @@ function updateSankalpText(){
    ========================================================= */
 let specialPunyaKaalMonthRequest=0;
 const specialPunyaKaalMonthCache=new Map();
+const allowedSpecialPunyaKaalTypes=new Set(["vyatipata-mahapat","vaidhriti-mahapat","varuni","mahavaruni","mahamahavaruni","mahodaya"]);
+function validSpecialPunyaKaalDate(value){
+  if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+  const date=new Date(value+"T00:00:00.000Z");
+  return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;
+}
+function validSpecialPunyaKaalInstant(value){
+  return typeof value==="string"&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/.test(value)&&Number.isFinite(Date.parse(value));
+}
 function validApprovedSpecialPunyaKaal(item){
-  return item&&item.status==="approved"&&typeof item.id==="string"&&typeof item.label==="string"&&
-    /^\d{4}-\d{2}-\d{2}$/.test(item.date||"")&&typeof item.start==="string"&&typeof item.end==="string"&&
-    Number.isFinite(Date.parse(item.start))&&Number.isFinite(Date.parse(item.end))&&Date.parse(item.start)<Date.parse(item.end);
+  return item&&item.status==="approved"&&allowedSpecialPunyaKaalTypes.has(item.type)&&
+    typeof item.id==="string"&&typeof item.label==="string"&&validSpecialPunyaKaalDate(item.date)&&
+    validSpecialPunyaKaalInstant(item.start)&&validSpecialPunyaKaalInstant(item.end)&&Date.parse(item.start)<Date.parse(item.end);
 }
 function sameSpecialPunyaKaalObserver(observer,location){
   return !!observer&&!!location&&Math.abs(Number(observer.lat)-Number(location.lat))<0.0001&&
