@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "imd-pac-rashtriya-panchang-heliacal-2026-2027",
+  "title": "Rashtriya Panchang Saka Era 1948 / Kali Era 5126-27 (2026-2027 A.D.)",
+  "publisher": "Positional Astronomy Centre, India Meteorological Department, Ministry of Earth Sciences, Government of India",
+  "sourceUrls": {
+    "heliacalTable": "https://packolkata.imd.gov.in/panchang/en/helical",
+    "visibilityTable": "https://packolkata.imd.gov.in/panchang/en/visibility",
+    "timeAndStationExplanation": "https://packolkata.imd.gov.in/panchang/en/explanation",
+    "preface": "https://packolkata.imd.gov.in/panchang/en/preface"
+  },
+  "observer": {
+    "label": "Central Station of India",
+    "latitudeDeg": 23.1833333333,
+    "longitudeDeg": 82.5,
+    "elevationMeters": null,
+    "coordinateSource": "IMD Rashtriya Panchang explanation",
+    "scope": "national central reference station, not a city observer profile"
+  },
+  "timeConvention": {
+    "timezone": "Asia/Kolkata",
+    "rawClockPreserved": true,
+    "dayBasis": "sunrise-based adopted Central Station day",
+    "extendedHoursRule": "The official explanation states that phenomena occurring after midnight and before the next sunrise may be printed as 24h, 25h, etc.; for example 25h means 1 AM of the following Gregorian date.",
+    "warning": "Do not convert printed clock values to UTC or compare exact instants until the sunrise-based date convention has been interpreted for that event."
+  },
+  "heliacalEvents": [
+    {
+      "planet": "Jupiter",
+      "event": "heliacal-setting",
+      "direction": "west",
+      "sourcePrintedGregorianDate": "2026-07-15",
+      "sourcePrintedClock": "11:10",
+      "sourcePrintedTimezone": "IST",
+      "sourcePage": "heliacalTable",
+      "note": "Preserved exactly as published; central-station reference only."
+    },
+    {
+      "planet": "Jupiter",
+      "event": "heliacal-rising",
+      "direction": "east",
+      "sourcePrintedGregorianDate": "2026-08-10",
+      "sourcePrintedClock": "07:53",
+      "sourcePrintedTimezone": "IST",
+      "sourcePage": "heliacalTable",
+      "note": "Preserved exactly as published; central-station reference only."
+    },
+    {
+      "planet": "Venus",
+      "event": "heliacal-setting",
+      "direction": "west",
+      "sourcePrintedGregorianDate": "2026-10-13",
+      "sourcePrintedClock": "24:18",
+      "sourcePrintedTimezone": "IST",
+      "sourcePage": "heliacalTable",
+      "extendedHourNotation": true,
+      "note": "Do not silently rewrite the date to 14 October; retain the source sunrise-day label and 24:18 notation."
+    },
+    {
+      "planet": "Venus",
+      "event": "heliacal-rising",
+      "direction": "east",
+      "sourcePrintedGregorianDate": "2026-10-28",
+      "sourcePrintedClock": "07:36",
+      "sourcePrintedTimezone": "IST",
+      "sourcePage": "heliacalTable",
+      "note": "Preserved exactly as published; central-station reference only."
+    }
+  ],
+  "publishedVisibilityIntervals": [
+    {
+      "planet": "Jupiter",
+      "from": null,
+      "to": "2026-07-15",
+      "sky": "western-evening",
+      "description": "In the evening sky and sets before midnight."
+    },
+    {
+      "planet": "Jupiter",
+      "from": "2026-07-16",
+      "to": "2026-08-09",
+      "sky": "not-visible",
+      "description": "Not visible."
+    },
+    {
+      "planet": "Jupiter",
+      "from": "2026-08-10",
+      "to": "2026-11-12",
+      "sky": "eastern-morning",
+      "description": "Rises after midnight and is visible till morning twilight."
+    },
+    {
+      "planet": "Venus",
+      "from": null,
+      "to": "2026-10-12",
+      "sky": "western-evening",
+      "description": "Western sky, evening after sunset."
+    },
+    {
+      "planet": "Venus",
+      "from": "2026-10-29",
+      "to": null,
+      "sky": "eastern-morning",
+      "description": "Eastern sky, till beginning of morning twilight."
+    }
+  ],
+  "comparisonPolicy": {
+    "canValidateEventOrderAndBroadVisibilitySeason": true,
+    "canValidateExactCitySpecificClockTime": false,
+    "canCalibrateCityThresholds": false,
+    "reason": "PAC publishes these heliacal events for its Central Station. Its observer is not New Delhi, Mumbai, Ujjain, Varanasi or the fixed Pithoragarh observer. The published clock notation also follows a sunrise-based day convention. Treat this as an independent national reference, not city-specific ground truth.",
+    "publicationEligible": false
+  },
+  "sourceStatus": "official-government-publication-transcribed",
+  "transcriptionCheckedAt": "2026-11-14",
+  "publicationEligible": false
+}
