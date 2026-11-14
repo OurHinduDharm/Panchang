@@ -1,13 +1,13 @@
 # Karana-kutuhala Udaya/Asta: formula extraction and validation plan
 
 Status: research specification; **not a production calculation engine**.
-Updated: 2026-11-15
+Updated: 2026-11-15 (source scan located; OCR transcription pending)
 
 ## Objective
 
 Extract the graha-udaya/asta and Agastya-udaya/asta procedures attributed to *Karaṇakutūhala* from a verifiable edition, translate each rule into explicit arithmetic, and test it independently against the project's existing references.
 
-This document deliberately does not invent Sanskrit readings, verse numbers, constants, or intermediate rules. The Sarvakosh catalogue page is an edition-discovery lead; the actual page images/text and edition metadata must be captured before a verse is marked verified.
+This document deliberately does not invent unverified Sanskrit readings, constants, or intermediate rules. A full 1991 Krishnadas Academy scan has now been located; image-verified transcription and worked-example reproduction remain required.
 
 ## Existing project evidence to reuse
 
@@ -123,3 +123,42 @@ Treat the dedicated Agastya rule as its own algorithm. Establish from the text w
 The Sarvakosh catalogue URL alone does not expose the page images/text to this workflow. Therefore the exact Karaṇakutūhala verse readings and numerical steps have **not** yet been independently verified here. Do not label the classical formulas complete and do not publish timestamps from a guessed transcription.
 
 Next source artifact needed: clear page images or a downloadable scan of the relevant Karaṇakutūhala graha-udaya/asta section and the dedicated Agastya verse, including commentary and worked examples. Once present, populate the extraction table, derive equations, add executable tests, and only then implement the classical calculation module.
+
+
+## Source scan located — formula extraction can now proceed
+
+A complete scan has now been located and opened:
+
+- *Karaṇakutūhala* of Bhāskarācārya, edited by Dr. Satyendra Mishra, Krishnadas Academy, Varanasi, first edition 1991.
+- Includes Sumatiharṣa's *Gaṇakakumudakaumudī*, Sudhākara Dvivedī's *Vāsanāvibhūṣaṇa*, and the *Śivamatī* Hindi translation.
+- Public scan: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
+- Printed chapter 6 is Udayāsta-adhikāra. Its contents identify separate sections for Guru, Shukra, motion/retrogression, Bhīma/Guru/Shani timing, Mercury/Venus, elapsed/future days, kalāṃśa and pāta, special procedures, and Agastya.
+- The scan's extracted text places the relevant planetary procedure at chapter 6, verses 11–14 (printed book pages around 63–66); the Agastya rule is verse 15 (around printed page 66). Verify every OCR reading against the page image before implementation.
+
+### Verified Hindi-commentary procedure: planetary verses 11–13
+
+The commentary describes the following sequence:
+
+1. Select the event direction from the relevant śīghra-kendra and shift the planet by three rāśis: subtract for the eastern case, add for the western case.
+2. Derive the corresponding declination (krānti); combine it with the observer's terrestrial latitude according to sign/direction to obtain natāṃśa.
+3. Obtain unnataṃśa as 90° minus natāṃśa, then calculate both sine quantities.
+4. Derive the planet's śara from the planet's corrected position/pāta and use the prescribed sine ratio to calculate dṛkkarma.
+5. Apply the sign of dṛkkarma according to event direction and whether śara and natāṃśa are in the same or opposite direction; this yields the dṛk-corrected planet.
+6. Compare the corrected planet with the contemporaneous true Sun through the prescribed lagna construction to obtain the desired kalāṃśa/time quantity.
+7. Compare calculated and prescribed kalāṃśa; convert the difference to days using the Sun/planet true-motion difference, or their sum for retrograde motion, with the text's east/west and elapsed/future sign rules.
+
+Do not reduce this sequence to a fixed geocentric elongation threshold. The worked example in the commentary must be transcribed and reproduced before the code is considered verified.
+
+### Agastya verse 15
+
+The commentary gives a separate latitude-dependent solar-longitude rule. Its OCR is dense and includes worked values; do not code from OCR alone. Transcribe the exact Sanskrit verse and Sumatiharṣa commentary from the page image, resolve the meaning and units of the latitude term (including the stated halving/multiplication/division), and reproduce the commentary's worked example. This is a dedicated Agastya rule, not the Guru/Shukra planetary algorithm.
+
+### Important comparison with Sūrya Siddhānta / TKS
+
+TKS's published Udaya-Asta beta page explicitly identifies its primary classical model as Sūrya Siddhānta chapter 9's lagnāntara-asu method, with visibility condition K = lagnāntara-asu / 60 > C. It separately exposes arcus-visionis and Schaefer physical-visibility models. Thus Karaṇakutūhala is a valuable independent classical comparator, but it is not automatically more likely to reproduce TKS, whose declared primary model is already Sūrya-Siddhānta-based.
+
+The commentary's kalāṃśa list appears to differ from the TKS/Sūrya-Siddhānta list for several planets and motion cases (notably Venus and Mercury); parse the complete Sanskrit and direction/retrograde rules before producing a machine-readable comparison. Never compare only a planet-wide number without its event direction and motion state.
+
+### Corrected source blocker
+
+The blocker is no longer absence of a scan. The scan is available at the URL above. The remaining blocker is careful image-verified transcription and interpretation of the relevant verse/commentary, including unit/sign conventions and worked examples. Until those checks pass, all Karaṇakutūhala calculations remain research-only.
