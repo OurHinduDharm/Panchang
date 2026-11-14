@@ -254,6 +254,6 @@ if(process.argv[1]&&import.meta.url===new URL("file://"+process.argv[1]).href) {
     heliacalRise:row.physicalHeliacalRising?.date??null,
     heliacalSet:row.physicalHeliacalSetting?.date??null,
     traditionalArghya:row.traditionalDrikArghya?.date??null,
-    physicalVisibleAtTraditionalRise:row.traditionalDrikArghya?.comparison?.physicalVisibilityAtSourceTime??null
+    physicalVisibleAtTraditionalRise:row.traditionalDrikArghya?.comparison?.physicalVisibilityAtSourceRise??null
   })),null,2));
 }
