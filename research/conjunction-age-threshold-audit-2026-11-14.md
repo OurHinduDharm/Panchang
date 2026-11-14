@@ -1,60 +1,82 @@
-# Conjunction-age threshold diagnostic — 14 November 2026
+# Conjunction-age threshold and event-time audit — 14 November 2026
 
-## Decision
+## Important correction: train at the actual horizon event instant
 
-A new research-only diagnostic tests whether the elapsed time from the associated Sun–planet conjunction to a Drik-published Asta boundary explains the observed local Sun-depression threshold.
+The earlier diagnostic sampled Sun depression at Drik's minute-rounded source timestamp. That is not the same instant as the computed local planet rise/set event. A source timestamp can differ from the actual horizon crossing by tens of seconds; near the horizon, that can materially change the Sun-depression angle.
 
-**Do not replace the current per-city median calibration with this model.** It improves one difficult Pithoragarh Venus boundary in the 2027 holdout, but it does not generalize across the five cities. No production engine, public annual dataset, or Panchang UI was changed.
+The back-test now records both instants:
+- `sourceUtcInstant`: Drik-published minute-rounded time, retained for signed clock-time error.
+- `horizonEventInstant`: actual Astronomy Engine local rise/set crossing.
+- Calibration Sun depression, planet altitude/azimuth and Sun azimuth are sampled at the actual horizon-event instant.
+- Conjunction age is also measured to the actual horizon-event instant.
 
-## Method
+This aligns training geometry with the daily event series used to generate candidate times. The previous source-instant threshold figures are superseded.
 
-- Source observations are grouped independently by city, planet, Asta boundary, and actual local planet horizon event (rise or set).
-- Rows are included only when the local rise/set branch matches the associated conjunction.
-- Feature: elapsed days from the computed planet–Sun conjunction instant to the captured Drik boundary.
-- Candidate: a simple linear regression of source Sun depression against conjunction age.
-- Baseline: fixed median Sun-depression threshold from the same city/planet/boundary/rise-set training rows.
-- Training years are 2021–2025. Leave-one-year-out excludes all rows from the target year. Holdout years are 2026–2027.
-- The metric is threshold residual in degrees. It is not a predicted date/time error. The audit intentionally does not generate event timestamps.
+## Threshold-only model: still not a universal replacement
 
-## Pithoragarh Venus 2027 AstaEnd — important signal
+A linear relationship between Sun depression and elapsed days from conjunction is tested separately for each city, planet, boundary and local rise/set branch.
 
-For the Pithoragarh:Venus:astaEnd:set group, four training samples are available (2021, 2022, 2024 and 2025).
-
-| Metric | Conjunction-age linear fit | Fixed median |
+| Five-city threshold metric | Conjunction-age model | Fixed median |
 |---|---:|---:|
-| Leave-one-year-out MAE | 0.12245° | 0.14541° |
-| 2027 predicted threshold | 5.77281° | 5.88870° |
-| 2027 observed threshold | 5.74071° | 5.74071° |
-| 2027 absolute residual | 0.03210° | 0.14799° |
-
-The observed source boundary is 28.566 days after the associated conjunction. The conjunction-age fit is materially closer to the 2027 source threshold than either the fixed median (0.148° residual) or the previously tested azimuth-only linear fit (0.117° residual).
-
-This is the strongest current hypothesis for the two-day Pithoragarh Venus AstaEnd date error. It is still only one independent holdout boundary in a four-sample training group. It has **not** yet been translated into a candidate event timestamp or independently confirmed with a second same-city source year.
-
-## Five-city generalization check
-
-| Measure | Conjunction-age model | Fixed median |
-|---|---:|---:|
-| Groups with LOO evaluation | 20 | 20 |
-| Groups where model improved | 5 | — |
-| Groups where median was better or tied | 15 | — |
-| Mean per-group LOO MAE | 0.18266° | 0.14681° |
+| Groups with leave-one-year-out evaluation | 20 | 20 |
+| Groups where conjunction-age model improved | 3 | — |
+| Groups where median was better or tied | 17 | — |
+| Mean per-group LOO MAE | 0.17519° | 0.13586° |
 | Holdout boundaries evaluated | 30 | 30 |
-| Holdout boundaries with lower residual | 11 | 19 |
-| Holdout residual MAE | 0.26509° | 0.18860° |
+| Holdout boundaries with lower threshold residual | 13 | 17 |
+| Holdout threshold-residual MAE | 0.23891° | 0.16462° |
 
-The conjunction-age feature is not a universal replacement. Its aggregate five-city holdout MAE is worse than the median. Do not pool cities or apply this feature across other planet/boundary branches.
+**Decision:** do not replace the per-city median threshold globally. The conjunction-age threshold has worse aggregate cross-city error.
 
-## Comparison with prior azimuth diagnostic
+For Pithoragarh Venus AstaEnd:set, the fitted threshold residual at the 2027 holdout is 0.06947° versus 0.12581° for the fixed median. The four-sample training group's LOO MAE is 0.15839° versus 0.15131° for the median. The threshold residual alone is therefore not a full validation result.
 
-The azimuth-conditioned model also failed the aggregate five-city gate (holdout MAE 0.28968° versus median 0.18860°). For the one Pithoragarh Venus AstaEnd holdout, its residual was 0.11705°. Conjunction age reduces that one-group residual to 0.03210°, but both are diagnostics only.
+## Separate implicit event-time experiment: strong Venus 2027 result
 
-## Next acceptance gate
+A second diagnostic solves the implicit condition:
 
-1. Re-run the conjunction-age fit from the pinned astronomy engine and source capture in CI; preserve the exact conjunction instant and source timestamp.
-2. Generate a candidate timestamp only as a separate experiment, using the local daily set-event series and the predicted threshold; do not use the source date as a selection hint.
-3. Evaluate the candidate against the 2027 holdout without changing the fit. Record local date error and signed/absolute clock-time error independently.
-4. Obtain another lawful same-city Pithoragarh Venus AstaEnd:set year before considering a production-specific rule.
-5. Keep the fixed median and current published data unchanged until the independent holdout gate passes.
+`SunDepression(event) = fittedThreshold(daysFromConjunction(event))`
 
-**Publication eligibility: false.** The diagnostic is committed for reproducibility, not production use.
+It evaluates the complete 2026–2027 local horizon-event series. For each conjunction it selects the last crossing before conjunction for AstaStart or the first crossing after conjunction for AstaEnd. It does not use the Drik source date/time to select a candidate; the source timestamp is consulted only after selection to measure error.
+
+### Pithoragarh Venus 2027
+
+| Boundary | Drik source | Candidate | Signed time error |
+|---|---|---|---:|
+| AstaStart | 21 Jul 2027, 04:54 | 21 Jul 2027, 04:54 | +0.11 min |
+| AstaEnd | 9 Sep 2027, 18:48 | 9 Sep 2027, 18:47 | −0.47 min |
+
+This resolves the previously reported two-day Pithoragarh Venus AstaEnd mismatch in the research holdout. Both Venus boundaries in 2027 now match the source date and clock time to within half a minute.
+
+### Venus 2027 AstaEnd across five cities
+
+| City | Drik source time | Candidate time | Signed error |
+|---|---:|---:|---:|
+| New Delhi | 9 Sep, 19:00 | 9 Sep, 18:59 | −0.43 min |
+| Mumbai | 5 Sep, 19:14 | 5 Sep, 19:14 | +0.35 min |
+| Ujjain | 6 Sep, 19:04 | 6 Sep, 19:04 | +0.28 min |
+| Varanasi | 7 Sep, 18:36 | 7 Sep, 18:36 | +0.04 min |
+| Pithoragarh | 9 Sep, 18:48 | 9 Sep, 18:47 | −0.47 min |
+
+All five city-labelled Venus 2027 AstaEnd holdouts have the correct local date and a clock-time error below 30 seconds.
+
+## Limits that remain
+
+The implicit model is not a universal pass. Across all 40 city holdout records:
+- 30 candidates were resolved; 10 had no candidate.
+- 18 of the 30 resolved records were within 15 minutes.
+- 12 resolved records had a one-day local-date mismatch.
+- The Pithoragarh Jupiter AstaStart 2026 and 2027 candidates are still one day later than the Drik source dates, although their clock times are within about five minutes.
+- Pithoragarh Venus 2026 AstaStart/AstaEnd still have no accepted conjunction-age crossing.
+- The Venus 2027 AstaStart candidate matched in New Delhi, Mumbai and Pithoragarh, but was one day off in Ujjain and Varanasi.
+
+The excellent Venus 2027 AstaEnd result is branch-specific evidence, not permission to apply the model to Guru, all Venus windows, all years, or all cities.
+
+## Acceptance gate
+
+1. Keep this implicit event-time model research-only.
+2. Add more independent same-city years for Pithoragarh Venus AstaEnd and test other conjunction cycles.
+3. Investigate Jupiter AstaStart date selection separately; do not force the Venus result onto Guru.
+4. Re-run exact-date and signed-clock-time holdouts after every change.
+5. Require review of source definitions and independent validation before any public annual dataset or Panchang UI uses this model.
+
+**Publication eligibility: false.** No production calculation, public annual data or Panchang UI was changed.
