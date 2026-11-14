@@ -719,8 +719,8 @@ test("Ratha Saptami selects the unique local Arunodaya day", () => {
 test("Ratha Saptami applies the Dharmasindhu Shashthi-yukta Kshaya exception", () => {
   const result = resolveObservanceCandidates("ratha-saptami-review", [
     rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
-      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T04:30:00.000Z", "शुक्ल पक्ष"),
-      interval(6, "2030-02-14T04:30:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T00:50:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T00:50:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
     ]),
     rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
       interval(7, "2030-02-14T22:00:00.000Z", "2030-02-15T03:00:00.000Z", "शुक्ल पक्ष")
@@ -732,14 +732,14 @@ test("Ratha Saptami applies the Dharmasindhu Shashthi-yukta Kshaya exception", (
   assert.equal(result.autoApproved, false);
 });
 
-test("Ratha Saptami refuses an unproven Shashthi-yukta exception", () => {
+test("Ratha Saptami refuses the Kshaya exception when Shashthi exceeds one ghati", () => {
   const result = resolveObservanceCandidates("ratha-saptami-review", [
     rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
-      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T04:30:00.000Z", "शुक्ल पक्ष"),
-      interval(6, "2030-02-14T04:30:00.000Z", "2030-02-15T01:00:00.000Z", "शुक्ल पक्ष")
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T01:00:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
     ]),
     rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
-      interval(6, "2030-02-14T04:30:00.000Z", "2030-02-15T01:00:00.000Z", "शुक्ल पक्ष")
+      interval(7, "2030-02-14T22:00:00.000Z", "2030-02-16T02:00:00.000Z", "शुक्ल पक्ष")
     ])
   ]);
   assert.equal(result.status, "manual-review");
