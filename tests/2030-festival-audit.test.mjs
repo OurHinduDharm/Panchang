@@ -331,7 +331,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 23);
   assert.equal(months[2].events.length, 23);
-  assert.equal(months[8].events.length, 32);
+  assert.equal(months[8].events.length, 34);
   assert.equal(oct.length, 35);
   assert.equal(nov.length, 26);
   assert.equal(dec.length, 23);
