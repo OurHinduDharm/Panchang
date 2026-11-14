@@ -156,3 +156,12 @@ The Drik Kranti-Samya page independently confirms that:
 - its published windows are local-time display values.
 
 The new `scripts/compare-mahapat-ephemeris.mjs` computes a research-only geocentric apparent declination-band overlap using the Astronomy Engine vectors and apparent solar/lunar semidiameters. It is a numerical comparison model, not yet the accepted classical engine. Its output is archived separately and must be compared against the Karana-Kutuhala shara-khanda method and the Drik 2026–2030 windows. Do not expose its output publicly or use it as final times until the classical contact definition is reconciled.
+
+
+### Numerical comparison: separate the two ayana relations
+
+The research comparison now keeps the two contact functions separate rather than classifying every disk-band overlap by longitude sum:
+- **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+- **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+
+The numerical interval is the time when the relevant absolute relation is within the combined apparent disk semidiameters. This is only a modern comparison model; the final event window must be reconciled with the *Karaṇa-kutūhala* shara-khaṇḍa and sparsha/moksha corrections. The longitude-sum shortcut was removed because it was not a sound classifier for these contact windows.
