@@ -81,7 +81,7 @@ test("2029–2030 Drik special Dwadashi labels use the exact source dates and na
   const { dirname, resolve } = await import("node:path");
   const rules = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/dwadashi-vrata-rules.json"), "utf8"));
   const specials = rules.drikSpecialObservances;
-  const find = (year, date) => specials.find(x => x.year === year && x.referenceDate === date);
+  const find = (year, date) => specials.find(x => x.year === year && (x.referenceDate === date || x.observanceDate === date));
   assert.deepEqual(find(2026,"2026-03-15")?.labels, ["विष्णुशृंखला योग द्वादशी"]);
   assert.equal(find(2026,"2026-06-26")?.sourcePage, "smarta-ekadashi");
   assert.equal(find(2026,"2026-07-11")?.sourcePage, "smarta-ekadashi");
@@ -92,7 +92,8 @@ test("2029–2030 Drik special Dwadashi labels use the exact source dates and na
   assert.deepEqual(find(2030,"2030-09-09")?.labels, ["श्रवण योग द्वादशी"]);
   assert.deepEqual(find(2030,"2030-03-29")?.labels, ["एकादशी श्रवण योग द्वादशी"]);
   assert.deepEqual(find(2030,"2030-12-21")?.labels, ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(find(2030,"2030-05-14"), undefined);
+  assert.equal(find(2030,"2030-05-14")?.dateRole, "special-observance-date");
+  assert.equal(find(2030,"2030-05-14")?.referenceDate, undefined);
 });
 
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
@@ -280,10 +281,16 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(first.noonTithi, "एकादशी", "21 December noon must still carry Ekadashi: " + evidence);
   assert.equal(following.sunriseTithi.tithi, "द्वादशी", "22 December sunrise must carry Dwadashi: " + evidence);
   assert.deepEqual(record.candidateDates, ["2030-12-22"]);
-  assert.equal(record.referenceDate, "2030-12-21");
-  assert.equal(record.selectedDate, "2030-12-21");
-  assert.equal(record.dateSelection, "source-reference-date-tithi-overlap-review-required");
-  assert.equal(record.sourceReferenceObservation.sunriseDayStart, first.sunrise);
-  assert.equal(record.sourceReferenceObservation.sunriseDayEnd, following.sunrise);
-  assert.equal(record.status, "needs-review", "source date is a candidate, not approval");
+  assert.equal(record.referenceDate, null);
+  assert.equal(record.selectedDate, "2030-12-22");
+  assert.equal(record.dateSelection, "single-observation-candidate-review-required");
+  assert.equal(record.sourceReferenceObservation, null);
+  const matsya = record.drikSpecialObservances.find(item => item.labels?.includes("कृष्ण मत्स्य द्वादशी"));
+  assert.ok(matsya, "Krishna Matsya must remain as its own dated source reference: " + evidence);
+  assert.equal(matsya.observanceDate, "2030-12-21");
+  assert.equal(matsya.localPanchangObservation.sunriseDayStart, first.sunrise);
+  assert.equal(matsya.localPanchangObservation.sunriseDayEnd, following.sunrise);
+  assert.equal(record.displayNames.includes("रूप-व्रत"), true);
+  assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
+  assert.equal(record.status, "needs-review", "neither observance is automatically approved");
 });

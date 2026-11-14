@@ -1406,9 +1406,37 @@
         "2030-12-22"
       ],
       "referenceDate": null,
-      "drikLabels": [],
+      "drikLabels": [
+        "कृष्ण मत्स्य द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
+      "drikSpecialObservances": [
+        {
+          "year": 2030,
+          "month": "पौष",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "observanceDate": "2030-12-21",
+          "dateRole": "special-observance-date",
+          "labels": [
+            "कृष्ण मत्स्य द्वादशी"
+          ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik की 2030 सूची में कृष्ण मत्स्य द्वादशी 21 दिसंबर को है। पिथौरागढ़ में द्वादशी 21 दिसंबर 12:33 IST पर आरम्भ होकर 22 दिसंबर 09:41 IST तक चलती है; यह 21 दिसंबर सूर्योदय से 22 दिसंबर अगले सूर्योदय तक के पंचांग-दिन में आती है। यह रूप-व्रत का पर्याय नहीं है और पूरे पौष कृष्ण रिकॉर्ड की तारीख़ नहीं बदलती। स्थानीय पंचांग-व्याप्ति अलग से दर्ज की जाती है।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review",
+          "localPanchangObservation": {
+            "date": "2030-12-21",
+            "intervalStart": "2030-12-21T07:03:11.523Z",
+            "intervalEnd": "2030-12-22T04:11:50.353Z",
+            "sunriseDayStart": "2030-12-21T01:30:03.181Z",
+            "sunriseDayEnd": "2030-12-22T01:30:33.432Z",
+            "basis": "daily-tithi-interval",
+            "source": "local-panchang-sunrise-to-next-sunrise"
+          }
+        }
+      ],
       "selectedDate": "2030-12-22",
       "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
@@ -1429,12 +1457,13 @@
         {
           "name": "कृष्ण मत्स्य द्वादशी",
           "source": "Drik Panchang",
-          "relation": "Drik सूची में तिथि 21 दिसंबर से आरम्भ; स्थानीय सूर्योदय-द्वादशी 22 दिसंबर। इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
+          "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
           "status": "cross-reference"
         }
       ],
       "status": "needs-review",
-      "occurrence": 2
+      "occurrence": 2,
+      "sourceReferenceObservation": null
     },
     {
       "id": "pausha-shukla",
