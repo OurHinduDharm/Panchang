@@ -80,6 +80,7 @@
 
 ## प्रारंभिक शोध संदर्भ (केवल आंतरिक)
 
+- भास्कराचार्य, *करणकुतूहलम्*, कृष्णदास संस्कृत सीरीज 129 (1991), डॉ. सत्येन्द्र मिश्र सम्पादित, पाताधिकार 9 एवं हिन्दी भावानुवाद: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
 - Drik Panchang, क्रान्तिसाम्य दोष / महापात: https://www.drikpanchang.com/astrology/mahapata/kranti-samya-dosha.html
 - उत्तराखण्ड मुक्त विश्वविद्यालय, MAJY-504, भास्कराचार्य का क्रान्ति-साम्य पात वर्णन: https://uou.ac.in/sites/default/files/slm/MAJY-504.pdf
 - वारुणी/महावारुणी/महामहावारुणी के स्कन्दपुराण-आधारित पाठ का शब्दकोशीय उद्धरण: https://upasanayoga.org/VacD-Pages/VacD-354_v%C4%81t-v%C4%81r.htm
