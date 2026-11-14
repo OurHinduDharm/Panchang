@@ -21,9 +21,11 @@ on:
       - "research/threshold-crossvalidation.mjs"
       - "research/azimuth-conditioned-threshold-audit.mjs"
       - "research/conjunction-age-threshold-audit.mjs"
+      - "research/conjunction-age-event-time-audit.mjs"
       - "tests/threshold-crossvalidation.test.mjs"
       - "tests/azimuth-conditioned-threshold-audit.test.mjs"
       - "tests/conjunction-age-threshold-audit.test.mjs"
+      - "tests/conjunction-age-event-time-audit.test.mjs"
       - "tests/holdout-error-audit.test.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
@@ -95,6 +97,7 @@ jobs:
           node --test tests/threshold-crossvalidation.test.mjs
           node --test tests/azimuth-conditioned-threshold-audit.test.mjs
           node --test tests/conjunction-age-threshold-audit.test.mjs
+          node --test tests/conjunction-age-event-time-audit.test.mjs
       - name: Resolve five city-centre observer coordinates and DEM elevations
         run: node research/city-observer-profiles.mjs --snapshot data/city-observer-profiles-2026-11-14.json --output city-observer-profiles.json
       - name: Back-test city model against Pithoragarh Guru/Shukra records
@@ -109,6 +112,8 @@ jobs:
         run: node research/agastya-physical-visibility-audit.mjs --start-year 2024 --end-year 2030 --output agastya-physical-visibility-audit.json
       - name: Audit conjunction-age-conditioned threshold hypothesis
         run: node research/conjunction-age-threshold-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-threshold-audit.json
+      - name: Audit conjunction-age implicit event-time candidates
+        run: node research/conjunction-age-event-time-audit.mjs --input multi-city-planetary-backtest.json --output conjunction-age-event-time-audit.json
       - name: Audit exact local-date and clock-time holdout errors
         run: node research/holdout-error-audit.mjs --input multi-city-planetary-backtest.json --output multi-city-planetary-error-audit.json
       - name: Upload city-profile and research-only back-test reports
@@ -122,6 +127,7 @@ jobs:
             azimuth-conditioned-threshold-audit.json
             azimuth-conditioned-threshold-multicity-audit.json
             conjunction-age-threshold-audit.json
+            conjunction-age-event-time-audit.json
             agastya-physical-visibility-audit.json
             research/data/multi-city-guru-shukra-history-2021-2023.json
             multi-city-planetary-backtest.json
