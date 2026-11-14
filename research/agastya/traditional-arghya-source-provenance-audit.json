@@ -196,6 +196,36 @@
       "provider": "Drik Panchang",
       "use": "context-only",
       "reason": "Different city; cannot validate Pithoragarh."
+    },
+    {
+      "year": 2028,
+      "place": "New Delhi",
+      "event": "Agastya Arghya",
+      "date": "2028-09-04",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2028",
+      "use": "context-only",
+      "reason": "Different city and same provider; cannot validate Pithoragarh or count as independent confirmation."
+    },
+    {
+      "year": 2029,
+      "place": "New Delhi",
+      "event": "Agastya Arghya",
+      "date": "2029-09-04",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2029",
+      "use": "context-only",
+      "reason": "Different city and same provider; cannot validate Pithoragarh or count as independent confirmation."
+    },
+    {
+      "year": 2030,
+      "place": "New Delhi",
+      "event": "Agastya Arghya",
+      "date": "2030-09-04",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2030",
+      "use": "context-only",
+      "reason": "Different city and same provider; cannot validate Pithoragarh or count as independent confirmation."
     }
   ],
   "independentLiterature": [
@@ -212,6 +242,7 @@
     "Recover raw same-year Pithoragarh/nearby Uttarakhand traditional Agastya Arghya captures for 2024–2027; do not reconstruct provenance from current JSON values.",
     "Find at least one independent same-event, same-region calendar reference for 2028–2030.",
     "If exact Pithoragarh coordinates are unavailable in source providers, retain city-label-only status and disclose the limitation internally.",
-    "Do not merge Agastya traditional Arghya dates with Canopus naked-eye heliacal first visibility or the planetary Guru/Shukra model."
+    "Do not merge Agastya traditional Arghya dates with Canopus naked-eye heliacal first visibility or the planetary Guru/Shukra model.",
+    "Retain New Delhi 2028-2030 Agastya Arghya calendar dates as same-provider/different-city context only; they do not confirm the Pithoragarh rows."
   ]
 }
