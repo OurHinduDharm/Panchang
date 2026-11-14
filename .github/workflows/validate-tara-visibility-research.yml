@@ -16,6 +16,7 @@ on:
       - "data/pac-heliacal-reference-central-station-2026-2027.json"
       - "tests/pac-heliacal-reference.test.mjs"
       - "research/multi-city-planetary-backtest.mjs"
+      - "research/data/multi-city-guru-shukra-history-2021-2023.json"
       - "research/holdout-error-audit.mjs"
       - "research/threshold-crossvalidation.mjs"
       - "tests/threshold-crossvalidation.test.mjs"
@@ -96,6 +97,7 @@ jobs:
             city-observer-profiles.json
             data/pac-heliacal-reference-central-station-2026-2027.json
             planetary-city-backtest.json
+            research/data/multi-city-guru-shukra-history-2021-2023.json
             multi-city-planetary-backtest.json
             multi-city-planetary-error-audit.json
           if-no-files-found: error
