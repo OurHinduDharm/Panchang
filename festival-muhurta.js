@@ -683,6 +683,42 @@ const rules = {
     };
   },
 
+  "govatsa-dwadashi-pradosh-kala"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const dwadashi = collectNamedIntervals(context.tithis, item => {
+      const index = tithiIndex(item);
+      return index === 11 || index === 26 || /dwadashi|द्वादशी/.test(normalizedName(item));
+    });
+    const label = "गोवत्स द्वादशी — प्रदोषकाल";
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !dwadashi.length) {
+      return {
+        label,
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और द्वादशी की वास्तविक अवधि उपलब्ध नहीं है; गोवत्स पूजा-समय का अनुमान नहीं दिखाया गया।"
+      };
+    }
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const window = windowWithin(
+      sunset, pradoshEnd, dwadashi,
+      label,
+      "स्थानीय सूर्यास्त के बाद रात्रिमान के प्रथम पाँचवें भाग और कार्तिक कृष्ण द्वादशी की संयुक्त व्याप्ति।"
+    );
+    if (!window) {
+      return {
+        label,
+        status: "unavailable",
+        message: "स्थानीय प्रदोषकाल में द्वादशी की व्याप्ति नहीं मिली; गोवत्स पूजा-समय अनुमानित नहीं किया गया।"
+      };
+    }
+    return {
+      label,
+      status: "calculated",
+      windows: [window],
+      note: "गाय और बछड़े का पूजन द्वादशी-व्याप्त प्रदोषकाल में करें।"
+    };
+  },
+
   "dhanteras-muhurta"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
