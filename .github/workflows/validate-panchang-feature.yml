@@ -57,6 +57,8 @@ jobs:
           if-no-files-found: error
       - name: Run Mahapata geocentric contact comparison (research-only)
         run: node --experimental-default-type=module scripts/compare-mahapat-ephemeris.mjs > data/reviews/mahapata-geocentric-comparison-2026-2030.json
+      - name: Check Mahapata windows against pinned independent references
+        run: node --experimental-default-type=module --test tests/mahapata-reference-check.test.mjs
       - name: Upload Mahapata comparison data
         uses: actions/upload-artifact@v4
         with:
