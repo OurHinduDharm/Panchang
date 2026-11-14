@@ -60,7 +60,7 @@ test("a Shubha yoga outside the conjunction does not create Mahamahavaruni", () 
 
 test("wrong paksha, month, tithi or nakshatra does not create a candidate", () => {
   assert.deepEqual(buildVaruniCandidates([day({ masa: "Vaishakha" })]), []);
-  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 12, name: "Trayodashi", paksha: "Shukla", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 12, name: "Trayodashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
   assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 26, name: "Dwadashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
   assert.deepEqual(buildVaruniCandidates([day({ nakshatras: [{ index: 23, name: "Dhanishtha", startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }] })]), []);
 });
