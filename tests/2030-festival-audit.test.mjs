@@ -44,7 +44,7 @@ test("2030 catalog keeps distinct same-date observances on separate cards", () =
     ["2030-03-26|चैत्र कृष्ण अष्टमी", new Set(["शीतला अष्टमी / बसोड़ा", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-09-19|आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी", "महालक्ष्मी व्रत समापन", "अष्टमी श्राद्ध"])],
     ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])],
-    ["2030-05-14|वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])]
+    ["2030-05-14|वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -134,8 +134,8 @@ test("2030 same-tithi festival observances preserve distinct cards where require
   assert.ok(madhavaDwadashi);
   assert.ok(parashuramaDwadashi);
   assert.notEqual(madhavaDwadashi, parashuramaDwadashi);
-  assert.equal(madhavaDwadashi.hinduTithi, "वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)");
-  assert.equal(parashuramaDwadashi.hinduTithi, "वैशाख शुक्ल एकादशी / द्वादशी व्याप्ति (त्रिस्पर्शा)");
+  assert.equal(madhavaDwadashi.hinduTithi, "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)");
+  assert.equal(parashuramaDwadashi.hinduTithi, "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)");
   assert.equal(madhavaDwadashi.muhurtaRule, undefined);
   assert.equal(parashuramaDwadashi.muhurtaRule, undefined);
   assert.equal(parashuramaDwadashi.followingMorningActionDate, "2030-05-15");
