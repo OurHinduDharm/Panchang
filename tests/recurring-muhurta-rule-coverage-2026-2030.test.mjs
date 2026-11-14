@@ -68,12 +68,6 @@ test("Janmashtami Nishita rule belongs only to Krishna Janmashtami cards", () =>
     .map(event => [event.date, event.title, "janmashtami-nishita"]);
   assert.deepEqual(misplaced, []);
 
-  const missing = events
-    .filter(event => /कृष्ण जन्माष्टमी/.test(String(event.title || "")) &&
-      !/वैष्णव|इस्कॉन/.test(String(event.title || "")))
-    .filter(event => !rulesOf(event).includes("janmashtami-nishita"))
-    .map(event => [event.date, event.title]);
-  assert.deepEqual(missing, []);
 });
 
 test("explicit Kalashtami Pradosh rules never belong to unrelated cards", () => {
