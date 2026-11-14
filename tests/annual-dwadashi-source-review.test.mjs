@@ -461,3 +461,34 @@ test("2030 Bhadrapada Shukla Dwadashi rites retain distinct source-based dates",
   assert.equal(record.selectedDate,null);
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Chaitra Krishna and Ashwin Shukla reject unsupported Drik Ekadashi-Shravana labels", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const chaitra=review.tithis.find(item=>item.id==="chaitra-krishna");
+  const ashwin=review.tithis.find(item=>item.id==="ashwin-shukla");
+  for (const [record,date] of [[chaitra,"2030-03-29"],[ashwin,"2030-10-07"]]) {
+    const source=record.drikSpecialObservances.find(item=>item.referenceDate===date);
+    assert.ok(source);
+    assert.equal(source.status,"not-supported-by-local-dwadashi-shravana-overlap");
+    assert.equal(source.localDwadashiShravanaOverlapMs,0);
+    assert.equal(source.localAssessment.result,"not-qualified");
+    assert.equal(source.localAssessment.overlapMs,0);
+    assert.equal(source.localAssessment.thresholdMs,48*60*1000);
+    assert.equal(
+      source.localAssessment.sourceLabelDisposition,
+      "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection"
+    );
+    assert.equal(record.shravanaLabelDecision.status,"rejected-as-local-yoga");
+    assert.equal(record.shravanaLabelDecision.preserveNamedDwadashi,true);
+    assert.equal(record.shravanaLabelDecision.publicDateChanged,false);
+    assert.equal(record.status,"needs-review");
+  }
+  assert.equal(chaitra.selectedDate,"2030-03-29");
+  assert.deepEqual(chaitra.candidateDates,["2030-03-30"]);
+  assert.equal(ashwin.selectedDate,"2030-10-07");
+  assert.deepEqual(ashwin.candidateDates,["2030-10-08"]);
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
