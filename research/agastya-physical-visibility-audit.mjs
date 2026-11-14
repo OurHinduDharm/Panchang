@@ -6,7 +6,7 @@
  */
 import fs from "node:fs";
 import * as Astronomy from "astronomy-engine";
-import { getCanopusVisibilitySample } from "../agastya-canopus-position.mjs";
+import { getCanopusHorizontalPosition, getCanopusVisibilitySample } from "../agastya-canopus-position.mjs";
 
 const OBSERVER_PROFILE = Object.freeze({
   latitude:29.5828, longitude:80.2182, height:1650,
@@ -63,6 +63,46 @@ export function locateVisibilityTransition({before,after,sampleAt,transition,pre
   return Object.freeze({instant:instant.toISOString(),localDate:localDate(instant),localTime:localClock(instant),transition,precisionSeconds});
 }
 
+export function findGeometricHorizonCrossing({astronomy,observer,instant,direction,searchHours=2,stepSeconds=120,precisionSeconds=1}) {
+  if(!["rise","set"].includes(direction)) throw new RangeError("direction must be rise or set");
+  const reference=dateOf(instant);
+  const start=new Date(reference.getTime()-searchHours*3_600_000);
+  const end=new Date(reference.getTime()+searchHours*3_600_000);
+  const altitudeAt=time=>getCanopusHorizontalPosition({
+    astronomy,observer,instant:time,refraction:"none"
+  }).altitudeDeg;
+  let beforeTime=start,beforeAltitude=altitudeAt(beforeTime);
+  let bracket=null;
+  for(let ms=start.getTime()+stepSeconds*1000;ms<=end.getTime();ms+=stepSeconds*1000) {
+    const afterTime=new Date(Math.min(ms,end.getTime()));
+    const afterAltitude=altitudeAt(afterTime);
+    const crossed=direction==="rise"
+      ? beforeAltitude<=0&&afterAltitude>=0
+      : beforeAltitude>=0&&afterAltitude<=0;
+    if(crossed) {
+      const error=Math.abs((beforeTime.getTime()+afterTime.getTime())/2-reference.getTime());
+      if(!bracket||error<bracket.error) bracket={lo:beforeTime,hi:afterTime,loAltitude:beforeAltitude,hiAltitude:afterAltitude,error};
+    }
+    beforeTime=afterTime;beforeAltitude=afterAltitude;
+    if(afterTime.getTime()===end.getTime()) break;
+  }
+  if(!bracket) return null;
+  let lo=bracket.lo,hi=bracket.hi,loAlt=bracket.loAltitude,hiAlt=bracket.hiAltitude;
+  while(hi.getTime()-lo.getTime()>precisionSeconds*1000) {
+    const mid=new Date((lo.getTime()+hi.getTime())/2);
+    const midAlt=altitudeAt(mid);
+    const beforeSide=direction==="rise"?midAlt<0:midAlt>0;
+    if(beforeSide){lo=mid;loAlt=midAlt;}else{hi=mid;hiAlt=midAlt;}
+  }
+  const crossing=new Date((lo.getTime()+hi.getTime())/2);
+  return Object.freeze({
+    direction,instant:crossing.toISOString(),localDate:localDate(crossing),localTime:localClock(crossing),
+    errorMinutes:(crossing.getTime()-reference.getTime())/60_000,
+    geometricAltitudeBeforeDeg:loAlt,geometricAltitudeAfterDeg:hiAlt,
+    precisionSeconds
+  });
+}
+
 export function findAnnualVisibilityTransitions(dailyRows) {
   const rows=[...dailyRows].sort((a,b)=>a.date.localeCompare(b.date));
   const morningRises=[],eveningSets=[];
@@ -86,6 +126,7 @@ function sample(instant,observer,visibilityOptions) {
     instant:result.instant,
     visible:result.visibility.visible===true,
     altitudeDeg:result.altitudeDeg,
+    geometricAltitudeDeg:getCanopusHorizontalPosition({astronomy:Astronomy,observer,instant,refraction:"none"}).altitudeDeg,
     azimuthDeg:result.azimuthDeg,
     sunAltitudeDeg:result.sunAltitudeDeg,
     sunAzimuthDeg:result.sunAzimuthDeg,
@@ -201,13 +242,24 @@ export function buildAgastyaPhysicalVisibilityAudit({
       if(source.taraSetDate&&source.taraSet) {
         atTraditionalSet=sample(parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),observer,visibilityOptions);
       }
+      const geometricRiseCrossing=findGeometricHorizonCrossing({
+        astronomy:Astronomy,observer,instant, direction:"rise"
+      });
+      const geometricSetCrossing=source.taraSetDate&&source.taraSet
+        ?findGeometricHorizonCrossing({
+            astronomy:Astronomy,observer,
+            instant:parseLocalDateTime(source.taraSetDate+"T"+source.taraSet),
+            direction:"set"
+          }):null;
       traditionalComparison={
         eventDefinition:"Drik traditional Agastya Tara Udaya / Tara Asta and Arghya source times",
         sourceStatus:source.source?.status??"historical-source-audit",
         physicalVisibilityAtSourceRise:atTraditionalRise.visible,
         physicalSampleAtSourceRise:atTraditionalRise,
+        geometricRiseCrossing,
         physicalVisibilityAtSourceSet:atTraditionalSet?.visible??null,
-        physicalSampleAtSourceSet:atTraditionalSet
+        physicalSampleAtSourceSet:atTraditionalSet,
+        geometricSetCrossing
       };
     }
     annual.push({
