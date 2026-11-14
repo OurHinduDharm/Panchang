@@ -91,10 +91,10 @@
 
 ## Implementation checkpoint
 
-- `special-punya-kaal.mjs` now contains an interval-based Varuni-family candidate primitive. It intersects Trayodashi, Shatabhisha and the local sunrise-to-next-sunrise Hindu day.
-- Mahavaruni and Mahamahavaruni are emitted as separate time intervals. Mahamahavaruni is restricted to the exact overlap with Shubha nitya-yoga; it must not inherit the full Varuni interval.
+- `special-punya-kaal.mjs` now joins same-index tithi/nakshatra/yoga fragments split at successive sunrises, then calculates the full exact Trayodashi–Shatabhisha overlap. It no longer labels a pre-sunrise fragment with the previous day's weekday.
+- Mahavaruni is assigned only when the true conjunction overlaps local Saturday; its date is that Saturday. Mahamahavaruni is the exact intersection of the conjunction, Shubha nitya-yoga, and the Saturday civil-day interval.
 - These records are `research-candidate` only. The primitive is not yet an approved annual calendar generator.
-- Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, and missing sunrise. Latest dedicated GitHub Actions run passed.
+- Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, one-minute scanner gaps, cross-sunrise joining, and weekday assignment.
 - The primary source profile is explicitly Chaitra Krishna Trayodashi in the project's Purnimanta calendar; no automatic Amanta/Purnimanta month remapping is permitted.
 - Mahapata and Mahodaya remain unimplemented. No public page or approved public event dataset has been added.
 - `scripts/generate-special-punya-kaal-review.mjs` now scans every local day from 2026–2030 using the pinned Panchangam engine and writes a research-only JSON candidate file. The existing PR validation workflow runs this generator and uploads its output as an artifact for manual review.
@@ -121,3 +121,8 @@ The Panchangam engine uses zero-based indices: Shatabhisha = 23 and Shubha nitya
 *सूर्यसिद्धान्त*, पाताधिकार में वैधृति और व्यतीपात की पहचान के लिए क्रान्ति-साम्य के साथ सूर्य-चन्द्र की अयन/राशि-संबंधी शर्तें भी दी गई हैं। अतः दोनों प्रकारों का वर्गीकरण केवल एक root के sign से नहीं होगा।
 
 इस PR में `mahapata-root-solver.mjs` केवल सामान्य bracketed numerical root utility है। यह अभी महापात की खगोलीय परिभाषा नहीं लगाता और कोई तारीख/समय नहीं बनाता। Source-approved signed boundary function तैयार होने के बाद ही इसका उपयोग होगा।
+
+
+## Cross-sunrise candidate audit
+
+The first full-year run revealed that the Panchang engine splits intervals at sunrise. Treating each split as a separate event incorrectly assigned a pre-dawn Sunday fragment to the preceding Saturday. The candidate builder now joins adjacent same-index intervals across sunrise boundaries before intersecting tithi and nakshatra. It derives the Varuni civil date from the actual local overlap start and applies Saturday upgrades only to the actual Saturday portion. This correction is covered by a 2027-04-04 fixture matching the independently published 04:27–16:32 IST conjunction window.
