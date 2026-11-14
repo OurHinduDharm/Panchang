@@ -45,6 +45,36 @@ function intervals(...days) {
     });
 }
 
+test("real Pithoragarh Panchang resolves 2027 Magha Shukla Ratha Saptami Arunodaya", () => {
+  const dates = ["2027-02-12", "2027-02-13"];
+  const contexts = dates.map(date => {
+    const previous = panchang(previousIsoDate(date));
+    const current = panchang(date);
+    const next = panchang(nextIsoDate(date));
+    return {
+      date,
+      masa: masa(current),
+      paksha: "शुक्ल पक्ष",
+      sunrise: current.sunrise,
+      tithis: intervals(previous, current, next)
+    };
+  });
+  const result = resolveObservanceCandidates("ratha-saptami-review", contexts);
+  assert.ok(
+    ["date-selected-needs-source-approval", "manual-review"].includes(result.status),
+    "real local intervals must yield an explicit source-review or manual-review state"
+  );
+  assert.equal(result.autoApproved, false);
+  if (result.status === "date-selected-needs-source-approval") {
+    assert.ok(dates.includes(result.selectedDate));
+    assert.ok([
+      "dharmasindhu-arunodaya-vyapti-on-two-days-first-day",
+      "magha-shukla-saptami-at-local-arunodaya",
+      "dharmasindhu-shashthi-yukta-saptami-kshaya-before-next-arunodaya"
+    ].includes(result.selectionBasis));
+  }
+});
+
 test("real Pithoragarh Panchang confirms the Pradosh profile for a 2026 date", () => {
   const date = "2026-11-06", current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("pradosh-trayodashi", {
