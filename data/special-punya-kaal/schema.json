@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ourhindudharm.github.io/Panchang/data/special-punya-kaal/schema.json",
+  "title": "OurHinduDharm monthly special punya-kaal data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "year",
+    "month",
+    "observer",
+    "events",
+    "generatedAt",
+    "ruleProfile"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "status": {
+      "const": "approved"
+    },
+    "year": {
+      "type": "integer",
+      "minimum": 2026,
+      "maximum": 2030
+    },
+    "month": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "observer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lat",
+        "lon",
+        "elevation",
+        "timezoneOffset"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "elevation": {
+          "type": "number"
+        },
+        "timezoneOffset": {
+          "const": 330
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "label",
+          "date",
+          "start",
+          "end",
+          "status",
+          "ruleProfile"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "vyatipata-mahapat",
+              "vaidhriti-mahapat",
+              "varuni",
+              "mahavaruni",
+              "mahamahavaruni",
+              "mahodaya"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}$"
+          },
+          "start": {
+            "type": "string",
+            "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}(?:\\\\.\\\\d{1,3})?(?:Z|[+-]\\\\d{2}:\\\\d{2})$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}(?:\\\\.\\\\d{1,3})?(?:Z|[+-]\\\\d{2}:\\\\d{2})$"
+          },
+          "status": {
+            "const": "approved"
+          },
+          "startLabel": {
+            "type": "string"
+          },
+          "endLabel": {
+            "type": "string"
+          },
+          "ruleProfile": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ruleProfile": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
