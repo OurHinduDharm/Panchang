@@ -572,3 +572,23 @@ test("2030 Krishna Vasudeva Dwadashi retains 26 July vrata date with 27 July par
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Padmanabha Dwadashi uses the evening tithi-entry and overnight vrata sequence", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="ashwin-shukla");
+  const decision=record.observanceDateReviews.find(item=>item.observanceId==="padmanabha-narada");
+  assert.ok(decision);
+  assert.equal(decision.selectedDate,"2030-10-07");
+  assert.equal(decision.localTithiIntervalIST.start,"2030-10-07T16:31:39.907+05:30");
+  assert.equal(decision.localTithiIntervalIST.end,"2030-10-08T15:50:29.356+05:30");
+  assert.equal(decision.vrataSequence.startDate,"2030-10-07");
+  assert.equal(decision.vrataSequence.continuationDate,"2030-10-08");
+  assert.equal(decision.vrataSequence.night,"रात्रि-जागरण");
+  assert.equal(decision.shravanaYogaStatus,"not-qualified-local-overlap-zero");
+  assert.equal(decision.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});

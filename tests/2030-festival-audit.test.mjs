@@ -342,12 +342,19 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(months[1].events.length, 23);
   assert.equal(months[2].events.length, 24);
   assert.equal(months[8].events.length, 34);
-  assert.equal(oct.length, 35);
+  assert.equal(oct.length, 36);
   assert.equal(nov.length, 26);
   assert.equal(dec.length, 23);
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
   assert.ok(at(oct, "2030-10-05", /दक्ष सावर्णि मन्वादि तिथि/));
-  assert.ok(at(oct, "2030-10-07", /पद्मनाभ द्वादशी.*काशी भरत मिलाप/));
+  const padmanabha=at(oct, "2030-10-07", /^पद्मनाभ द्वादशी$/);
+  const bharatMilap=at(oct, "2030-10-07", /^काशी भरत मिलाप$/);
+  assert.ok(padmanabha);
+  assert.ok(bharatMilap);
+  assert.equal(padmanabha.hinduTithi,"आश्विन शुक्ल द्वादशी");
+  assert.equal(padmanabha.followingMorningActionDate,"2030-10-08");
+  assert.equal(padmanabha.muhurtaRule,undefined);
+  assert.equal(bharatMilap.hinduTithi,undefined);
   assert.ok(at(oct, "2030-10-19", /^अहोई अष्टमी$/));
   assert.ok(at(oct, "2030-10-19", /^राधाकुण्ड स्नान$/));
   assert.equal(at(oct, "2030-10-19", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
@@ -389,7 +396,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 301);
+  assert.equal(events.length, 302);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
