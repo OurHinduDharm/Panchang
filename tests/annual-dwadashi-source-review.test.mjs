@@ -456,7 +456,7 @@ test("2030 Bhadrapada Shukla Dwadashi rites retain distinct source-based dates",
   assert.equal(dates[1].source,"नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38");
   assert.equal(dates[2].ritualTime,"8 सितंबर रात्रि-संध्या");
   assert.equal(dates[3].followingMorningActionDate,"2030-09-09");
-  assert.equal(dates[0].jayantiRuleConflict.result.includes("मध्याह्न में श्रवण नक्षत्र उपस्थित नहीं"),true);
+  assert.equal(dates[0].jayantiRuleConflict.result.includes("मध्याह्न के बाद"),true);
   assert.equal(record.status,"needs-review");
   assert.equal(record.selectedDate,null);
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
@@ -611,6 +611,22 @@ test("2030 Krishna Narasimha Dwadashi is dated on the local sunrise Dwadashi day
   assert.equal(decision.vrataDate,"2030-03-29");
   assert.equal(decision.observanceAndParanaDate,"2030-03-30");
   assert.equal(decision.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
+
+
+test("2030 Vamana Dwadashi is not mislabeled Vamana Jayanti when Madhyahna Shravana is absent", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const vamana=record.observanceDateReviews.find(item=>item.observanceId==="vamana");
+  assert.equal(vamana.selectedDate,"2030-09-08");
+  assert.equal(vamana.name,"वामन-द्वादशी व्रत");
+  assert.equal(vamana.jayantiRuleConflict.publicDecision,"no-vamana-jayanti-label");
+  assert.match(vamana.jayantiRuleConflict.result,/मध्याह्न के बाद/);
+  assert.equal(vamana.autoApproved,false);
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
