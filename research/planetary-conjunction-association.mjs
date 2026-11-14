@@ -105,11 +105,11 @@ export function associateCandidatesWithConjunctions({ candidates, conjunctions, 
  */
 const EXPECTED_BRANCH = Object.freeze({
   Jupiter: Object.freeze({
-    conjunction: Object.freeze({ astaStart: "set", astaEnd: "rise" })
+    conjunction: Object.freeze({ start: "set", end: "rise", astaStart: "set", astaEnd: "rise" })
   }),
   Venus: Object.freeze({
-    "inferior-conjunction": Object.freeze({ astaStart: "set", astaEnd: "rise" }),
-    "superior-conjunction": Object.freeze({ astaStart: "rise", astaEnd: "set" })
+    "inferior-conjunction": Object.freeze({ start: "set", end: "rise", astaStart: "set", astaEnd: "rise" }),
+    "superior-conjunction": Object.freeze({ start: "rise", end: "set", astaStart: "rise", astaEnd: "set" })
   })
 });
 
