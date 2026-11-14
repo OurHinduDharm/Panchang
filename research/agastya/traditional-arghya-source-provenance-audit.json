@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-14",
+  "purpose": "Internal provenance and acceptance audit for the traditional Pithoragarh Agastya Arghya annual series. This file does not change public dates or UI.",
+  "location": {
+    "name": "Pithoragarh",
+    "region": "Uttarakhand",
+    "country": "India",
+    "timeZone": "Asia/Kolkata",
+    "projectObserver": {
+      "latitude": 29.5828,
+      "longitude": 80.2182,
+      "elevationMeters": 1650
+    }
+  },
+  "eventDefinition": "traditional-agastya-arghya",
+  "policy": {
+    "keepTraditionalArghyaSeparateFromModernHeliacalFirstVisibility": true,
+    "doNotAverageDifferentCities": true,
+    "doNotTreatSameProviderDifferentCityAsIndependentConfirmation": true,
+    "doNotInferMissingSourceCapturesFromLockedTestValues": true,
+    "consensusRequiresSameEventAndComparableLocation": true,
+    "publicDataChanged": false
+  },
+  "records": [
+    {
+      "year": 2024,
+      "arghyaDate": "2024-09-07",
+      "taraRise": "04:41",
+      "arghyaEnd": "05:50",
+      "taraSetDate": "2024-04-14",
+      "taraSet": "19:46",
+      "evidenceStatus": "legacy-unverified",
+      "sourceCapture": null,
+      "consensusEligible": false,
+      "reason": "The production row exists and tests lock its values, but no per-year raw source capture or provenance object is present in the repository."
+    },
+    {
+      "year": 2025,
+      "arghyaDate": "2025-09-07",
+      "taraRise": "04:43",
+      "arghyaEnd": "05:50",
+      "taraSetDate": "2025-04-15",
+      "taraSet": "19:44",
+      "evidenceStatus": "legacy-unverified",
+      "sourceCapture": null,
+      "consensusEligible": false,
+      "reason": "The production row exists and tests lock its values, but no per-year raw source capture or provenance object is present in the repository."
+    },
+    {
+      "year": 2026,
+      "arghyaDate": "2026-09-07",
+      "taraRise": "04:44",
+      "arghyaEnd": "05:49",
+      "taraSetDate": "2026-04-15",
+      "taraSet": "19:44",
+      "evidenceStatus": "legacy-unverified",
+      "sourceCapture": null,
+      "consensusEligible": false,
+      "reason": "The production row exists and tests lock its values, but no per-year raw source capture or provenance object is present in the repository."
+    },
+    {
+      "year": 2027,
+      "arghyaDate": "2027-09-07",
+      "taraRise": "04:45",
+      "arghyaEnd": "05:49",
+      "taraSetDate": "2027-04-15",
+      "taraSet": "19:45",
+      "evidenceStatus": "legacy-unverified",
+      "sourceCapture": null,
+      "consensusEligible": false,
+      "reason": "The production row exists and tests lock its values, but no per-year raw source capture or provenance object is present in the repository."
+    },
+    {
+      "year": 2028,
+      "arghyaDate": "2028-09-07",
+      "taraRise": "04:41",
+      "arghyaEnd": "05:50",
+      "taraSetDate": "2028-04-14",
+      "taraSet": "19:46",
+      "evidenceStatus": "captured-single-source",
+      "sourceCapture": {
+        "provider": "Drik Panchang",
+        "eventLabel": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2028&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-13T05:57:11.748Z",
+        "locationLabel": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "rawArghyaDate": "अगस्त्य अर्घ्य बृहस्पतिवार, सितम्बर 7, 2028 को",
+        "rawTaraRise": "सितम्बर 06 को 28:41+",
+        "rawArghyaEnd": "05:50",
+        "normalization": "Previous Gregorian date + 24+ hour clock converted to next-day local time; original raw text retained."
+      },
+      "consensusEligible": false,
+      "reason": "One captured provider only; named-city label does not establish the exact project observer coordinates/elevation and no independent same-event same-region confirmation is attached."
+    },
+    {
+      "year": 2029,
+      "arghyaDate": "2029-09-07",
+      "taraRise": "04:43",
+      "arghyaEnd": "05:50",
+      "taraSetDate": "2029-04-15",
+      "taraSet": "19:44",
+      "evidenceStatus": "captured-single-source",
+      "sourceCapture": {
+        "provider": "Drik Panchang",
+        "eventLabel": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2029&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-13T05:57:14.553Z",
+        "locationLabel": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "rawArghyaDate": "अगस्त्य अर्घ्य शुक्रवार, सितम्बर 7, 2029 को",
+        "rawTaraRise": "सितम्बर 06 को 28:43+",
+        "rawArghyaEnd": "05:50",
+        "normalization": "Previous Gregorian date + 24+ hour clock converted to next-day local time; original raw text retained."
+      },
+      "consensusEligible": false,
+      "reason": "One captured provider only; named-city label does not establish the exact project observer coordinates/elevation and no independent same-event same-region confirmation is attached."
+    },
+    {
+      "year": 2030,
+      "arghyaDate": "2030-09-07",
+      "taraRise": "04:44",
+      "arghyaEnd": "05:49",
+      "taraSetDate": "2030-04-15",
+      "taraSet": "19:44",
+      "evidenceStatus": "captured-single-source",
+      "sourceCapture": {
+        "provider": "Drik Panchang",
+        "eventLabel": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2030&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-13T05:57:15.902Z",
+        "locationLabel": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "rawArghyaDate": "अगस्त्य अर्घ्य शनिवार, सितम्बर 7, 2030 को",
+        "rawTaraRise": "सितम्बर 06 को 28:44+",
+        "rawArghyaEnd": "05:49",
+        "normalization": "Previous Gregorian date + 24+ hour clock converted to next-day local time; original raw text retained."
+      },
+      "consensusEligible": false,
+      "reason": "One captured provider only; named-city label does not establish the exact project observer coordinates/elevation and no independent same-event same-region confirmation is attached."
+    }
+  ],
+  "nonComparableReferences": [
+    {
+      "year": 2024,
+      "place": "New Delhi",
+      "event": "Agastya Arghya",
+      "date": "2024-09-04",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=99990003&year=2024",
+      "use": "context-only",
+      "reason": "Different city; cannot validate Pithoragarh."
+    },
+    {
+      "year": 2026,
+      "place": "Moradabad",
+      "event": "Agastya Arghya",
+      "date": "2026-09-05",
+      "taraRiseRaw": "28:50+ on Sep 04",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?lang=en&year=2026",
+      "use": "context-only",
+      "reason": "Different city; cannot validate Pithoragarh."
+    },
+    {
+      "year": 2027,
+      "place": "New Delhi",
+      "event": "Agastya Arghya",
+      "date": "2027-09-04",
+      "taraRise": "04:59",
+      "provider": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?time-format=24hour&year=2027",
+      "use": "context-only",
+      "reason": "Different city; cannot validate Pithoragarh."
+    },
+    {
+      "year": 2027,
+      "place": "Pathankot",
+      "event": "Agastya Arghya",
+      "date": "2027-09-17",
+      "taraRiseRaw": "28:55+ on Sep 16",
+      "provider": "Drik Panchang",
+      "use": "context-only",
+      "reason": "Different city; same provider; cannot validate Pithoragarh."
+    },
+    {
+      "year": 2027,
+      "place": "Perundurai",
+      "event": "Agastya Arghya",
+      "date": "2027-07-29",
+      "taraRiseRaw": "29:20+ on Jul 28",
+      "provider": "Drik Panchang",
+      "use": "context-only",
+      "reason": "Different city; cannot validate Pithoragarh."
+    }
+  ],
+  "independentLiterature": [
+    {
+      "year": 2016,
+      "title": "On the Visibility of Agastya (Canopus) in India",
+      "journal": "Indian Journal of History of Science 51(3), 511–520",
+      "doi": "10.16943/ijhs/2016/v51i3/48851",
+      "url": "https://cahc.jainuniversity.ac.in/assets/ijhs/Vol51_2016_3_Art06.pdf",
+      "relevance": "Explains location dependence and distinguishes early-morning first visibility from evening last visibility; useful for event definitions, not a same-year Pithoragarh Arghya source."
+    }
+  ],
+  "nextActions": [
+    "Recover raw same-year Pithoragarh/nearby Uttarakhand traditional Agastya Arghya captures for 2024–2027; do not reconstruct provenance from current JSON values.",
+    "Find at least one independent same-event, same-region calendar reference for 2028–2030.",
+    "If exact Pithoragarh coordinates are unavailable in source providers, retain city-label-only status and disclose the limitation internally.",
+    "Do not merge Agastya traditional Arghya dates with Canopus naked-eye heliacal first visibility or the planetary Guru/Shukra model."
+  ]
+}
