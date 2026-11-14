@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import panchangPackage from "@ishubhamx/panchangam-js";
+import { buildDwadashiCalendar } from "../dwadashi-calendar.mjs";
 import { normalizeEngineTithi, normalizeEnginePaksha, normalizeEngineMasa, extractDwadashiDay, extractAnnualPanchangDay, buildSourceReviewMetadata } from "../scripts/generate-annual-dwadashi-review.mjs";
 
 test("normalizes engine tithi indices to Hindi tithi names", () => {
@@ -116,4 +118,45 @@ test("Smarta Ekadashi Parana source model documents Hari Vasara, local day divis
   assert.equal(model.timeDivisions.pratahkal, "स्थानीय सूर्योदय से दिनमान के 1/5 भाग तक");
   assert.ok(model.sourceReview.some(x => x.reference === "पृष्ठ 70–71"));
   assert.equal(model.approvalPolicy.includes("approve नहीं करता"), true);
+});
+
+
+test("real Pithoragarh 2030 Vaishakha Shukla Trisparsha is recognized across consecutive sunrises", async () => {
+  const { getPanchangam, Observer } = panchangPackage;
+  const location = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset:330, calendarType:"purnimanta" };
+  const makeDay = isoDate => {
+    const instant = new Date(isoDate + "T06:30:00.000Z");
+    const raw = getPanchangam(instant, location, options);
+    const day = extractDwadashiDay(raw, isoDate, instant);
+    assert.ok(day.sunrise, isoDate + " must have a local sunrise");
+    const sunriseInstant = new Date(day.sunrise);
+    const sunriseRaw = getPanchangam(sunriseInstant, location, options);
+    const sunriseDay = extractDwadashiDay(sunriseRaw, isoDate, sunriseInstant);
+    day.sunriseTithi = {
+      tithi:sunriseDay.tithi,
+      paksha:sunriseDay.paksha,
+      masa:sunriseDay.masa,
+      tithiStartTime:sunriseDay.tithiStartTime,
+      tithiEndTime:sunriseDay.tithiEndTime
+    };
+    return day;
+  };
+  const first = makeDay("2030-05-14");
+  const following = makeDay("2030-05-15");
+  const rules = JSON.parse(await (await import("node:fs/promises")).readFile(
+    new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"
+  ));
+  const result = buildDwadashiCalendar([first, following], rules);
+  const record = result.tithis.find(item => item.id === "vaishakha-shukla");
+  const evidence = JSON.stringify({first, following, record}, null, 2);
+  assert.ok(record, "Vaishakha Shukla record must exist");
+  assert.equal(first.sunriseTithi.tithi, "एकादशी", "14 May sunrise must carry Ekadashi: " + evidence);
+  assert.equal(first.noonTithi, "द्वादशी", "14 May noon must carry Dwadashi: " + evidence);
+  assert.equal(following.sunriseTithi.tithi, "त्रयोदशी", "15 May sunrise must carry Trayodashi: " + evidence);
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required", "the local three-tithi sequence must be recognized: " + evidence);
+  assert.equal(record.specialTithiYogas.length, 1, "one Smarta Trisparsha candidate must be attached: " + evidence);
+  assert.equal(record.specialTithiYogas[0].tradition, "smarta");
+  assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
+  assert.equal(record.status, "needs-review", "recognition must never auto-approve");
 });
