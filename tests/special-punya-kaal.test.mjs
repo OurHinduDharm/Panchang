@@ -50,8 +50,8 @@ test("a Shubha yoga outside the conjunction does not create Mahamahavaruni", () 
     sunrise: "2028-03-18T00:30:00.000Z",
     nextSunrise: "2028-03-19T00:30:00.000Z",
     tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-18T02:00:00.000Z", endTime: "2028-03-18T10:00:00.000Z" }],
-    nakshatras: [{ index: 24, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
-    yogas: [{ index: 23, name: "Shubha", startTime: "2028-03-18T11:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }]
+    nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
+    yogas: [{ index: 22, name: "Shubha", startTime: "2028-03-18T11:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }]
   });
   const results = buildVaruniCandidates([saturday]);
   assert.ok(results.some(item => item.labels[0] === "महावारुणी योग"));
