@@ -422,11 +422,11 @@ function findGeneralDwadashiYogaObservations(dailyPanchang, rule) {
       .map(row => ({
         start: Date.parse(row?.startTime || ""),
         end: Date.parse(row?.endTime || ""),
-        paksha: normalizePaksha(row?.paksha || day.paksha)
+        paksha: normalizePaksha(row?.paksha || day.paksha),
+        tithi: normalizeTithi(row?.tithi)
       }))
-      .filter((row,index) => Number.isFinite(row.start) && Number.isFinite(row.end) &&
-        row.end > row.start && row.paksha === paksha &&
-        normalizeTithi(day.tithiIntervals[index]?.tithi) === "द्वादशी")
+      .filter(row => Number.isFinite(row.start) && Number.isFinite(row.end) &&
+        row.end > row.start && row.paksha === paksha && row.tithi === "द्वादशी")
       .map(row => ({
         start: Math.max(row.start, dayStart),
         end: Math.min(row.end, dayEnd)
