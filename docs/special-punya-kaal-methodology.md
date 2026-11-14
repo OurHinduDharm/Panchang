@@ -164,4 +164,13 @@ The research comparison now keeps the two contact functions separate rather than
 - **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 - **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 
-The numerical interval is the time when the relevant absolute relation is within the combined apparent disk semidiameters. This is only a modern comparison model; the final event window must be reconciled with the *Karaṇa-kutūhala* shara-khaṇḍa and sparsha/moksha corrections. The longitude-sum shortcut was removed because it was not a sound classifier for these contact windows.
+The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for the nearest **true pāta** where the appropriate declinations agree. Vyatipata uses same-side declinations; Vaidhriti uses opposite-side declinations. The sparsha/moksha interval is then the interval around that selected true pāta during which the relevant declination difference is smaller than the sum of the apparent disk radii. This is a modern comparison model; the final event window must still be reconciled with the *Karaṇa-kutūhala* shara-khaṇḍa and sparsha/moksha corrections.
+
+
+## Mean pāta vs true pāta — calculation boundary
+
+Do not calculate Mahapata by scanning every apparent declination-band overlap in isolation. That creates unrelated near-overlap intervals. The classical definition first identifies a mean pāta from the tropical longitude sum, then finds the nearby true equal-declination instant:
+- tropical sum 180° → Vyatipata mean pāta; true declinations equal on the same side of the equator;
+- tropical sum 360°/0° → Vaidhriti mean pāta; true declinations equal on opposite sides of the equator.
+
+The research script now implements this sequence, searches ±3 days for the nearest true crossing, preserves additional crossings for review, and finds the disk-overlap start/end around the selected true pāta. This matches the methodological distinction described in the 2026–2028 independent calculation notes. The script is still a modern comparison, not the final classical-table implementation.
