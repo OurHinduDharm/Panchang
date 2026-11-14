@@ -396,7 +396,7 @@ function findDwadashiNakshatraObservations(dailyPanchang, sourceVariants) {
  * Bhadrapada Shukla Vishnushrinkhala fast-date resolver: it records only
  * local Dwadashi–Shravana overlap within each sunrise-to-next-sunrise day.
  */
-function findGeneralDwadashiYogaObservations(dailyPanchang, rule) {
+function findGeneralDwadashiYogaObservations(dailyPanchang, rule, targetYearPrefix) {
   if (!rule || typeof rule !== "object") return [];
   const minimumOverlapMs = Number.isFinite(Number(rule.minimumOverlapMinutes))
     ? Math.max(0, Number(rule.minimumOverlapMinutes)) * 60_000
@@ -409,6 +409,7 @@ function findGeneralDwadashiYogaObservations(dailyPanchang, rule) {
   const found = [];
 
   for (const day of ordered) {
+    if (targetYearPrefix && !String(day.date).startsWith(targetYearPrefix)) continue;
     const masa = normalizeMonth(day.masa);
     const paksha = normalizePaksha(day.paksha);
     if (!masa.month || !paksha) continue;
@@ -528,7 +529,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     dailyPanchang, rules?.mahaDwadashi?.sourceVariants
   );
   const generalDwadashiYogaCandidates = findGeneralDwadashiYogaObservations(
-    dailyPanchang, rules?.generalDwadashiYogas?.shravana
+    dailyPanchang, rules?.generalDwadashiYogas?.shravana, targetYearPrefix
   );
 
   // Process observations chronologically so separate lunar occurrences of
