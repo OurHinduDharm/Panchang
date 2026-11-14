@@ -2653,5 +2653,427 @@
       }
     ],
     "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।"
+  },
+  "generalDwadashiYogaReview": {
+    "ruleId": "shravana-yoga-dwadashi",
+    "name": "श्रवण योग द्वादशी",
+    "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+    "criterion": "स्थानीय द्वादशी और श्रवण नक्षत्र का उसी सूर्योदय-दिन से अगले सूर्योदय तक कम-से-कम एक मुहूर्त (48 मिनट) संयोग; शुक्ल एवं कृष्ण दोनों पक्ष",
+    "calculation": {
+      "engine": "@ishubhamx/panchangam-js@3.0.0",
+      "location": "Pithoragarh",
+      "timezone": "Asia/Kolkata",
+      "dayBoundary": "local-sunrise-to-next-local-sunrise",
+      "minimumOverlapMs": 2880000,
+      "observedVrataDays": 48
+    },
+    "observations": [
+      {
+        "observanceDate": "2030-01-01",
+        "month": "पौष",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-01-15",
+        "month": "पौष",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-01-16",
+        "month": "पौष",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-01-29",
+        "month": "माघ",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-01-30",
+        "month": "माघ",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-02-14",
+        "month": "माघ",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-02-15",
+        "month": "माघ",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-02-28",
+        "month": "फाल्गुन",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-03-01",
+        "month": "फाल्गुन",
+        "paksha": "कृष्ण",
+        "overlapMs": 3027927,
+        "meetsOneMuhurta": true,
+        "overlapIntervals": [
+          {
+            "start": "2030-03-01T06:44:57.705Z",
+            "end": "2030-03-01T07:35:25.632Z"
+          }
+        ]
+      },
+      {
+        "observanceDate": "2030-03-15",
+        "month": "फाल्गुन",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-03-16",
+        "month": "फाल्गुन",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-03-29",
+        "month": "चैत्र",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-03-30",
+        "month": "चैत्र",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-04-14",
+        "month": "चैत्र",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-04-15",
+        "month": "चैत्र",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-04-28",
+        "month": "वैशाख",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-04-29",
+        "month": "वैशाख",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-05-14",
+        "month": "वैशाख",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-05-27",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-05-28",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-06-12",
+        "month": "ज्येष्ठ",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-06-13",
+        "month": "ज्येष्ठ",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-06-26",
+        "month": "आषाढ़",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-06-27",
+        "month": "आषाढ़",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-07-11",
+        "month": "आषाढ़",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-07-12",
+        "month": "आषाढ़",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-07-26",
+        "month": "श्रावण",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-07-27",
+        "month": "श्रावण",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-08-09",
+        "month": "श्रावण",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-08-10",
+        "month": "श्रावण",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-08-24",
+        "month": "भाद्रपद",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-08-25",
+        "month": "भाद्रपद",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-09-08",
+        "month": "भाद्रपद",
+        "paksha": "शुक्ल",
+        "overlapMs": 35514971,
+        "meetsOneMuhurta": true,
+        "overlapIntervals": [
+          {
+            "start": "2030-09-08T14:29:00.791Z",
+            "end": "2030-09-09T00:20:55.762Z"
+          }
+        ]
+      },
+      {
+        "observanceDate": "2030-09-09",
+        "month": "भाद्रपद",
+        "paksha": "शुक्ल",
+        "overlapMs": 2513945,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": [
+          {
+            "start": "2030-09-09T00:20:55.762Z",
+            "end": "2030-09-09T01:02:49.707Z"
+          }
+        ]
+      },
+      {
+        "observanceDate": "2030-09-23",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-09-24",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-10-07",
+        "month": "आश्विन",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-10-08",
+        "month": "आश्विन",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-10-23",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-10-24",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-11-05",
+        "month": "कार्तिक",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-11-06",
+        "month": "कार्तिक",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-11-21",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-11-22",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-12-05",
+        "month": "मार्गशीर्ष",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-12-06",
+        "month": "मार्गशीर्ष",
+        "paksha": "शुक्ल",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-12-21",
+        "month": "पौष",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      },
+      {
+        "observanceDate": "2030-12-22",
+        "month": "पौष",
+        "paksha": "कृष्ण",
+        "overlapMs": 0,
+        "meetsOneMuhurta": false,
+        "overlapIntervals": []
+      }
+    ],
+    "qualifyingCandidates": [
+      "2030-03-01",
+      "2030-09-08"
+    ],
+    "decisionPolicy": "योग-साक्ष्य मात्र; उपवास-दिन/पारण का चयन नहीं। सभी परिणाम source/manual Smarta review तक approval-विहीन रहेंगे।",
+    "status": "candidate-evidence-only",
+    "autoApproved": false
   }
 }
