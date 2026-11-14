@@ -21,6 +21,7 @@ const {
   Body,
   GeoVector,
   Rotation_EQJ_EQD,
+  Rotation_EQJ_ECT,
   RotateVector
 } = Astronomy;
 
@@ -41,6 +42,9 @@ function vectorLength(v) {
 function vectorDeclination(v) {
   return Math.atan2(v.z, Math.hypot(v.x, v.y)) * 180 / Math.PI;
 }
+function vectorLongitude(v) {
+  return ((Math.atan2(v.y, v.x) * 180 / Math.PI) % 360 + 360) % 360;
+}
 function positions(timeMs) {
   const cached = cache.get(timeMs);
   if (cached) return cached;
@@ -48,8 +52,11 @@ function positions(timeMs) {
   const sun = GeoVector(Body.Sun, date, true);
   const moon = GeoVector(Body.Moon, date, true);
   const eqdRotation = Rotation_EQJ_EQD(date);
+  const eclipticRotation = Rotation_EQJ_ECT(date);
   const sunEqd = RotateVector(eqdRotation, sun);
   const moonEqd = RotateVector(eqdRotation, moon);
+  const sunEcliptic = RotateVector(eclipticRotation, sun);
+  const moonEcliptic = RotateVector(eclipticRotation, moon);
   const sunDistance = vectorLength(sun);
   const moonDistance = vectorLength(moon);
   const sunDec = vectorDeclination(sunEqd);
@@ -64,6 +71,10 @@ function positions(timeMs) {
     moonDeclination: moonDec,
     declinationDifference,
     declinationSum,
+    sunLongitude: vectorLongitude(sunEcliptic),
+    moonLongitude: vectorLongitude(moonEcliptic),
+    longitudeSum: ((vectorLongitude(sunEcliptic) + vectorLongitude(moonEcliptic)) % 360 + 360) % 360,
+    longitudeDifference: Math.abs(((vectorLongitude(moonEcliptic) - vectorLongitude(sunEcliptic) + 540) % 360) - 180),
     semidiameterSum,
     vaidhritiClearance: Math.abs(declinationDifference) - semidiameterSum,
     vyatipataClearance: Math.abs(declinationSum) - semidiameterSum
@@ -95,6 +106,10 @@ for (const relation of relations) {
     const mid = (a + b) / 2;
     const sample = positions(mid);
     if (sample[relation.key] >= 0) continue;
+    const before = positions(mid - HOUR_MS);
+    const after = positions(mid + HOUR_MS);
+    const sunDeclinationRate = (after.sunDeclination - before.sunDeclination) / 2;
+    const moonDeclinationRate = (after.moonDeclination - before.moonDeclination) / 2;
     const year = new Date(mid).getUTCFullYear();
     if (!YEARS.includes(year)) continue;
     events.push({
@@ -107,6 +122,11 @@ for (const relation of relations) {
       midpoint: new Date(mid).toISOString(),
       midpointSunDeclinationDegrees: Number(sample.sunDeclination.toFixed(8)),
       midpointMoonDeclinationDegrees: Number(sample.moonDeclination.toFixed(8)),
+      midpointSunDeclinationRateDegreesPerHour: Number(sunDeclinationRate.toFixed(8)),
+      midpointMoonDeclinationRateDegreesPerHour: Number(moonDeclinationRate.toFixed(8)),
+      midpointSunLongitudeDegrees: Number(sample.sunLongitude.toFixed(6)),
+      midpointMoonLongitudeDegrees: Number(sample.moonLongitude.toFixed(6)),
+      midpointLongitudeSumDegrees: Number(sample.longitudeSum.toFixed(6)),
       midpointRelationResidualDegrees: Number(sample[relation.residualKey].toFixed(8)),
       midpointContactClearanceDegrees: Number(sample[relation.key].toFixed(8)),
       apparentSemidiameterSumDegrees: Number(sample.semidiameterSum.toFixed(8)),
