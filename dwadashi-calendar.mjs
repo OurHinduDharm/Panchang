@@ -460,7 +460,7 @@ function findGeneralDwadashiYogaObservations(dailyPanchang, rule) {
     const merged = [];
     for (const item of segments) {
       const last = merged[merged.length-1];
-      if (last && item.start <= last.end + 1_000) {
+      if (last && item.start <= last.end) {
         if (item.end > last.end) last.end = item.end;
       } else {
         merged.push({start:item.start,end:item.end});
