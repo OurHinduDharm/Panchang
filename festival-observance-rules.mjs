@@ -816,7 +816,7 @@ export function resolveNarasimhaJayantiCandidates(candidateDays) {
     const chaturdashi = day.tithis.map((row, index) => ({
       row, interval: asInterval(row), index
     })).filter(item => item.interval && item.interval.index === 13 &&
-      (!item.row?.paksha || ["शुक्ल", "शुक्ल पक्ष"].includes(String(item.row.paksha)));
+      (!item.row?.paksha || ["शुक्ल", "शुक्ल पक्ष"].includes(String(item.row.paksha))));
     const covered = chaturdashi.map(item => overlap(item.interval, pradosh)).filter(Boolean);
     const coverageMs = covered.reduce((sum, item) => sum + item.end.getTime() - item.start.getTime(), 0);
     return {
