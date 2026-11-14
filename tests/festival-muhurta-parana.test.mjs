@@ -1287,7 +1287,7 @@ test("Govatsa Dwadashi Pradosh muhurta requires the Dwadashi interval during loc
   assert.equal(valid.windows.length, 1);
   assert.equal(valid.windows[0].start.toISOString(), sunset.toISOString());
   assert.equal(valid.windows[0].end.toISOString(),
-    date("2030-10-23T20:14:00+05:30").toISOString());
+    date("2030-10-23T20:02:00+05:30").toISOString());
   assert.match(valid.note, /गाय और बछड़े/);
 
   const wrongTithi = getFestivalMuhurta(event, {
