@@ -329,14 +329,18 @@ export function scanDrikSolarAltitudeTransitions({
       const fraction = Math.max(0, Math.min(1,
         (crossing.threshold - before.sunAltitudeDeg) / delta
       ));
-      const bodyEventUtcMs = before.bodyEventUtcMs +
+      const interpolatedUtcMs = before.bodyEventUtcMs +
         fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
+      // The event is the target's horizon crossing on the first date that
+      // satisfies the threshold; do not interpolate across a branch flip.
+      const bodyEventUtcMs = after.bodyEventUtcMs;
       events.push({
         body, branch, event: crossing.event,
         thresholdSunAltitudeDeg: crossing.threshold,
         beforeSunAltitudeDeg: before.sunAltitudeDeg,
         afterSunAltitudeDeg: after.sunAltitudeDeg,
         fraction,
+        interpolatedUtcMilliseconds: Math.round(interpolatedUtcMs),
         utcMilliseconds: Math.round(bodyEventUtcMs),
         utc: new Date(bodyEventUtcMs).toISOString()
       });
