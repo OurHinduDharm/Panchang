@@ -30,7 +30,7 @@ function eventClass(observation) {
     if (/उदय/.test(label)) return "Agastya-Udaya";
     if (/अस्त/.test(label)) return "Agastya-Asta";
   }
-  if (observation.sourceId === "ganesh-martand") {
+  if (observation.sourceId === "ganesh-martand" || observation.sourceId === "tara-prasad") {
     if (label === "अस्त") return "Asta";
     if (label === "उदय") return "Udaya";
   }
@@ -42,15 +42,15 @@ function eventInstant(observation) {
   const parsed = parsePrintedClock(observation.date, observation.timeRaw, observation.timeQualifierRaw);
   return parsed.valid ? parsed.instantUtcMs : null;
 }
-function buildSourceAgreement(observations) {
-  const gm = observations.filter(item => item.sourceId === "ganesh-martand");
-  const drik = observations.filter(item => item.sourceId === "drikpanchang-almora");
+function pairSourceSets(observations, leftSourceId, rightSourceId) {
+  const left = observations.filter(item => item.sourceId === leftSourceId);
+  const right = observations.filter(item => item.sourceId === rightSourceId);
   const used = new Set();
   const pairs = [];
-  for (const printed of gm) {
+  for (const printed of left) {
     const kind = eventClass(printed);
     if (!kind) continue;
-    const candidates = drik.filter(item =>
+    const candidates = right.filter(item =>
       !used.has(item.id) &&
       item.planet === printed.planet &&
       eventClass(item) === kind
@@ -67,18 +67,27 @@ function buildSourceAgreement(observations) {
     pairs.push({
       planet: printed.planet,
       event: kind,
-      ganeshDate: printed.date,
-      drikDate: match.item.date,
+      leftSource: leftSourceId,
+      rightSource: rightSourceId,
+      leftDate: printed.date,
+      rightDate: match.item.date,
       calendarDateDifferenceDays: (Date.parse(match.item.date) - Date.parse(printed.date)) / 86_400_000,
-      ganeshClockRaw: printed.timeRaw ?? null,
-      drikClockRaw: match.item.timeRaw ?? null,
+      leftClockRaw: printed.timeRaw ?? null,
+      rightClockRaw: match.item.timeRaw ?? null,
       absoluteInstantDifferenceMinutes: match.a !== null && match.b !== null
         ? Math.abs(match.b - match.a) / 60_000 : null
     });
   }
   return pairs;
 }
-\nconst rows = [];
+function buildSourceAgreement(observations) {
+  return {
+    primaryGaneshVsDrikAlmora: pairSourceSets(observations, "ganesh-martand", "drikpanchang-almora"),
+    secondaryTaraPrasadVsDrikRamnagar: pairSourceSets(observations, "tara-prasad", "drikpanchang-ramnagar")
+  };
+}
+
+const rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
