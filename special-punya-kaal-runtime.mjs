@@ -110,7 +110,7 @@ export async function calculateSpecialPunyaKaalMonth({
   const firstDate = isoDate(year, month, 1);
   const monthEnd = isoDate(year, month + 1, 1);
   const scanStart = shiftDate(firstDate, -1);
-  const scanEnd = shiftDate(monthEnd, 1);
+  const scanEnd = monthEnd;
   const days = [];
   const diagnostics = [];
   let panchangCalls = 0;
