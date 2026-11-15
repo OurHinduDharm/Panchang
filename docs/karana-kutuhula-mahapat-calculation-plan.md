@@ -19,6 +19,23 @@ The 1991 source's own worked example must control over a modern paraphrase. Do n
 7. **Verse 10:** apply the stated exception that reverses the ordinary past/future decision in the specified krānti/śara remainder case.
 8. **Verse 11 / half-duration:** Sumatiharsa explicitly calls the quotient a time in ghaṭi etc. The formula is 2203 divided by the aśuddha-khaṇḍa; this is the half-duration on either side of the corrected middle. Keep this separate from the alternative verse 14 method.
 
+## Independently checked 1902 printed commentary: verses 5–9
+
+The Jain Quantum searchable transcription of the 1902 Venkatesvara Press edition exposes the pātādhikāra commentary around printed pp. 132–139 (book pages 134–143 in the scan). This is a second edition cross-check, not a replacement for the 1991 working edition.
+
+- Printed p. 132 / scan page 136: the commentary explicitly numbers the 24 signed positions in four six-position blocks: six forward positive, six reverse negative, six forward positive, six reverse negative. It then divides the sāyana Moon and sapāta Moon longitudes separately by 15°.
+- Same example: sāyana Moon 4;29;5;21 = 149°;5;21 gives quotient 9 and remainder 14;5;21; sapāta Moon 6;11;53;30 = 191°;53;30 gives quotient 12 and remainder 11;53;30. Thus the 10th krānti position is -299 and the 13th śara position is +70.
+- Printed pp. 134–135 / scan pages 138–139: verses 5–7 direct the past/future arrangement of elapsed/coming khanda positions. The side with the smaller angular remainder gets its bhogya khanda placed singly; the other side's positions are placed in two positions. The commentary explicitly applies the 13th-part correction to the bhogya krānti-khaṇḍa first, then applies śara-khaṇḍa corrections. Same-sign values are added and opposite-sign values subtracted; the commentary further distinguishes same/different celestial hemispheres.
+- Printed pp. 135–136 / scan pages 139–140: verse 8 constructs multipliers from the smaller arc-remainder, the difference between the two arc-remainders, and (where applicable) the fourth/sixth khanda positions. These multipliers are applied to the khanda values; the source then subtracts the portions that can be cleared from 15 × lunar śara, divides the remaining amount by the uncorrected/ashuddha khanda, and adds the resulting fractional part to the sum of the cleared khanda contributions.
+- Verse 9 converts the resulting arc amount to time by multiplying by 60 and dividing by the Moon's motion. The earlier past/future classification determines whether this interval is subtracted from or added to the reference epoch.
+- Printed pp. 142–143 / scan pages 146–147 give a second worked example and explicitly check the middle by comparing solar krānti with lunar krānti corrected by śara.
+
+Implementation status after this cross-check:
+- Verse 4 dual-longitude extraction is implemented.
+- Source-explicit 1-based signed-table lookup is implemented.
+- Source-explicit smaller-remainder bhogya-side selection is implemented.
+- The actual two/three-position past/future layout, hemisphere-aware sign corrections, verse 8 multiplier arithmetic, and verse 9 time conversion are still NOT implemented. Do not imply that the current helper functions complete verses 5–9.
+
 ## Newly verified worked-example checkpoints (1991 edition, printed pp. 192–193)
 
 The p.192 worked example starts from the stated epoch/date and gives these intermediate items in the OCR/transcription: sāyana Moon longitude `23;5;12;1` (sexagesimal rāśi/degree/minute/second notation in the printed layout), quotient 15 → krānti khanda index 15 with bhogya khanda 2 and remainder `10;12;15;19`; sapāta Moon longitude `3;50;58;29`, quotient 15 → śara khanda index 3 with two elapsed khanda and third bhogya, base śara-khaṇḍa 70, remainder `5;58;29`. The text then combines the signed krānti/śara contributions according to the past-pāta case. OCR digits in several later intermediate rows are compressed and must be checked against the page image before being used as exact numeric fixtures. The p.193 continuation reports the middle and tests equality of Sun's krānti with Moon's krānti corrected by śara. Use the qualitative sequence and clear checkpoint fields now; do not hard-code ambiguous OCR numerals.
