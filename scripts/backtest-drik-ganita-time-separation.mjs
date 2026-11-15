@@ -1,5 +1,6 @@
 import fs from "node:fs";
-import { Observer, SearchAltitude, DefineStar } from "astronomy-engine";
+import * as Astronomy from "astronomy-engine";
+const { Observer, SearchAltitude, DefineStar } = Astronomy.default || Astronomy;
 import {
   calibrateObservation,
   parsePrintedClock,
