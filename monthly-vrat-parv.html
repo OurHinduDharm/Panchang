@@ -915,6 +915,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var specialPunyaKaalMonthCache=new Map();
   var specialPunyaKaalObserver=null;
   var approvedSpecialPunyaKaalProfiles=new Set(["chaitra-krishna-trayodashi-shatabhisha"]);
+  var approvedSpecialPunyaKaalDates=new Set(["2026-03-17","2027-04-04","2028-03-23","2030-03-31"]);
   var approvedSpecialPunyaKaalLabels=new Set(["वारुणी योग","महावारुणी योग","महामहावारुणी योग"]);
   function formatSpecialPunyaKaalDateTime(value){
     var date=new Date(value);
@@ -970,6 +971,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(data.calculationStatus!=="complete"||!sameObserver(location,getLocalLocation()))return;
       var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(function(item){
         return item&&approvedSpecialPunyaKaalProfiles.has(item.ruleProfile)&&
+          approvedSpecialPunyaKaalDates.has(item.date)&&
           approvedSpecialPunyaKaalLabels.has(item.labels&&item.labels[0])&&
           typeof item.startTime==="string"&&typeof item.endTime==="string"&&
           Number.isFinite(Date.parse(item.startTime))&&Number.isFinite(Date.parse(item.endTime))&&
