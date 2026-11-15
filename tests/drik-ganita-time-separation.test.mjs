@@ -216,7 +216,7 @@ test("Jupiter solar-altitude scanner restricts Asta to setting and Udaya to risi
   assert.deepEqual(rising.events.map(event => event.event), ["Udaya"]);
 });
 
-test("solar-altitude transition reports the first target rise/set event after threshold crossing", () => {
+test("solar-altitude transition interpolates between target rise/set events", () => {
   const start = Date.UTC(2026, 0, 1);
   const alts = [-5, -6, -7, -6, -5];
   const result = scanDrikSolarAltitudeTransitions({
@@ -230,9 +230,9 @@ test("solar-altitude transition reports the first target rise/set event after th
     astaSunAltitudeDeg: -6.5, udayaSunAltitudeDeg: -6.5
   });
   assert.equal(result.events[0].event, "Udaya");
-  assert.equal(result.events[0].utcMilliseconds, start + 2 * 86_400_000 + 6 * 60 * 60_000);
+  assert.equal(result.events[0].utcMilliseconds, start + 1.5 * 86_400_000 + 6 * 60 * 60_000);
   assert.equal(result.events[1].event, "Asta");
-  assert.equal(result.events[1].utcMilliseconds, start + 3 * 86_400_000 + 6 * 60 * 60_000);
+  assert.equal(result.events[1].utcMilliseconds, start + 2.5 * 86_400_000 + 6 * 60 * 60_000);
 });
 
 test("time separation compares Sun event with the requested target body event", async () => {
