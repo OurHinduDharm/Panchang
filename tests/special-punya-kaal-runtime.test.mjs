@@ -60,3 +60,23 @@ test("scanner validates year and month", async () => {
     year: 2028, month: 13, observer: {}, getPanchangam: fakePanchang
   }), /valid year and month/);
 });
+
+
+test("scanner fails closed when any scanned Panchang day lacks required intervals", async () => {
+  const result = await calculateSpecialPunyaKaalMonth({
+    year: 2028,
+    month: 2,
+    observer: { id: "test-observer" },
+    getPanchangam: async date => {
+      const record = fakePanchang(date);
+      if (date.toISOString().startsWith("2028-02-15")) {
+        record.nakshatras = [];
+      }
+      return record;
+    }
+  });
+  assert.equal(result.calculationStatus, "incomplete");
+  assert.deepEqual(result.candidates, []);
+  assert.equal(result.diagnostics.length, 1);
+  assert.deepEqual(result.diagnostics[0].missing, ["nakshatras"]);
+});
