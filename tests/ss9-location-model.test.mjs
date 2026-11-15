@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   evaluateSs9Visibility, evaluateSs9VisibilityFromEquatorial, eclipticToEquatorial,
-  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition
+  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition, scanSs9Transitions
 } from "../research/ss9-location-model.mjs";
 
 test("ecliptic to equatorial conversion returns finite coordinates", () => {
@@ -105,4 +105,26 @@ test("transition solver accepts direct apparent-equatorial provider samples", ()
   assert.equal(result.event, "Udaya");
   assert.equal(result.direction, "west");
   assert.ok(Math.abs(result.utcMilliseconds - crossing) <= 1_000);
+});
+
+test("interval scanner finds and refines one apparent-equatorial state transition", () => {
+  const crossing = Date.UTC(2026, 0, 1, 12);
+  const sampleAt = ms => ({
+    sunEquatorial: { rightAscensionDeg: 100, declinationDeg: 20 },
+    objectEquatorial: {
+      rightAscensionDeg: ms < crossing ? 100 : 112,
+      declinationDeg: 20
+    },
+    elongationDeg: 12
+  });
+  const events = scanSs9Transitions({
+    body: "Jupiter", latitudeDeg: 0,
+    startUtcMs: crossing - 3_600_000,
+    endUtcMs: crossing + 3_600_000,
+    sampleAt, stepHours: 6, toleranceMs: 1_000
+  });
+  assert.equal(events.length, 1);
+  assert.equal(events[0].event, "Udaya");
+  assert.equal(events[0].direction, "west");
+  assert.ok(Math.abs(events[0].utcMilliseconds - crossing) <= 1_000);
 });
