@@ -1,0 +1,32 @@
+name: Printed Panchang local-horizon audit
+
+on:
+  push:
+    branches:
+      - research/panchang-printed-guru-shukra-agastya-2019-2026
+
+permissions:
+  contents: read
+
+jobs:
+  local-horizon-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install MIT-licensed Astronomy Engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Compare printed IST times with local geometric crossings
+        env:
+          OUTPUT_PATH: artifacts/printed-panchang-local-horizon-audit.json
+        run: node scripts/audit-printed-panchang-local-horizon.mjs
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: printed-panchang-local-horizon-audit
+          path: artifacts/printed-panchang-local-horizon-audit.json
+          if-no-files-found: error
+          retention-days: 30
