@@ -102,6 +102,66 @@ export function evaluateSs9Visibility({
 }
 
 /**
+ * Evaluate a sample from either apparent ecliptic coordinates or apparent
+ * equatorial-of-date coordinates. All inputs must use one consistent frame.
+ */
+function evaluateSample({ body, latitudeDeg, limitDeg }, sample) {
+  if (sample.sunEquatorial && sample.objectEquatorial) {
+    return evaluateSs9VisibilityFromEquatorial({
+      body,
+      sunEquatorial: sample.sunEquatorial,
+      objectEquatorial: sample.objectEquatorial,
+      latitudeDeg,
+      limitDeg,
+      elongationDeg: sample.elongationDeg ?? null
+    });
+  }
+  return evaluateSs9Visibility({
+    body, sun: sample.sun, object: sample.object, latitudeDeg,
+    obliquityDeg: sample.obliquityDeg, limitDeg
+  });
+}
+
+/**
+ * Scan a UTC interval, bracket every sampled state change, and refine each
+ * transition. A 6-hour default step is intended for slow Guru/Shukra/Agastya
+ * cycles; callers should reduce it for faster-changing targets.
+ */
+export function scanSs9Transitions({
+  body, latitudeDeg, limitDeg, startUtcMs, endUtcMs, sampleAt,
+  stepHours = 6, toleranceMs = 60_000, maxIterations = 64
+}) {
+  if (typeof sampleAt !== "function") throw new TypeError("sampleAt must be a function");
+  if (!Number.isFinite(startUtcMs) || !Number.isFinite(endUtcMs) || endUtcMs <= startUtcMs) {
+    throw new RangeError("a positive UTC interval is required");
+  }
+  if (!Number.isFinite(stepHours) || stepHours <= 0 || stepHours > 24) {
+    throw new RangeError("stepHours must be greater than 0 and at most 24");
+  }
+  const options = { body, latitudeDeg, limitDeg, sampleAt, toleranceMs, maxIterations };
+  const stepMs = stepHours * 3_600_000;
+  const transitions = [];
+  let leftMs = startUtcMs;
+  let left = evaluateSample(options, sampleAt(leftMs));
+
+  while (leftMs < endUtcMs) {
+    const rightMs = Math.min(endUtcMs, leftMs + stepMs);
+    const right = evaluateSample(options, sampleAt(rightMs));
+    if (left.available && right.available && left.visible !== right.visible) {
+      const transition = refineSs9Transition({
+        ...options,
+        startUtcMs: leftMs,
+        endUtcMs: rightMs
+      });
+      if (transition) transitions.push(transition);
+    }
+    leftMs = rightMs;
+    left = right;
+  }
+  return transitions;
+}
+
+/**
  * Refine one already-bracketed state transition. sampleAt(utcMilliseconds)
  * returns {sun, object, obliquityDeg}; all positions must share one frame.
  */
@@ -114,23 +174,10 @@ export function refineSs9Transition({
     throw new RangeError("a positive UTC bracket is required");
   }
   if (!Number.isFinite(toleranceMs) || toleranceMs <= 0) throw new RangeError("toleranceMs must be positive");
-  const evaluate = instant => {
-    const sample = sampleAt(instant);
-    if (sample.sunEquatorial && sample.objectEquatorial) {
-      return evaluateSs9VisibilityFromEquatorial({
-        body,
-        sunEquatorial: sample.sunEquatorial,
-        objectEquatorial: sample.objectEquatorial,
-        latitudeDeg,
-        limitDeg,
-        elongationDeg: sample.elongationDeg ?? null
-      });
-    }
-    return evaluateSs9Visibility({
-      body, sun: sample.sun, object: sample.object, latitudeDeg,
-      obliquityDeg: sample.obliquityDeg, limitDeg
-    });
-  };
+  const evaluate = instant => evaluateSample(
+    { body, latitudeDeg, limitDeg },
+    sampleAt(instant)
+  );
   let leftMs = startUtcMs;
   let rightMs = endUtcMs;
   let left = evaluate(leftMs);
