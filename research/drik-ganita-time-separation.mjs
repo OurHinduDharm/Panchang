@@ -258,6 +258,93 @@ export function scanDrikTimeSeparationTransitions({
   return { samples, events };
 }
 
+
+/**
+ * Measures the Sun's topocentric apparent altitude at the target's local
+ * apparent rise/set event. This is the location-conditioned Drik benchmark
+ * coordinate used for the next model stage.
+ */
+export function measureSunAltitudeAtTargetRiseSet({
+  SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
+}) {
+  const bodyEventUtcMs = findLocalRiseSetEvent({
+    SearchRiseSet, body, observer, direction: branch, localDayStartUtc
+  });
+  if (bodyEventUtcMs === null) {
+    return { available: false, reason: "target-rise-set-not-found", body, branch };
+  }
+  const date = new Date(bodyEventUtcMs);
+  const sunEquator = Equator("Sun", date, observer, true, true);
+  const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
+  return {
+    available: true,
+    body,
+    branch,
+    bodyEventUtcMs,
+    sunAltitudeDeg: sunHorizon.altitude
+  };
+}
+
+/**
+ * Finds Asta/Udaya when the Sun's apparent altitude at the target's horizon
+ * crossing passes the calibrated body/event/branch threshold.
+ */
+export function scanDrikSolarAltitudeTransitions({
+  SearchRiseSet, Equator, Horizon, body, observer, branch,
+  startLocalDayUtc, days, astaSunAltitudeDeg, udayaSunAltitudeDeg
+}) {
+  if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
+  if (![astaSunAltitudeDeg, udayaSunAltitudeDeg].every(Number.isFinite)) {
+    throw new RangeError("Asta and Udaya solar-altitude thresholds are required");
+  }
+  const samples = [];
+  for (let index = 0; index < days; index++) {
+    const localDayStartUtc = startLocalDayUtc + index * 86_400_000;
+    samples.push({
+      dayStartUtc: localDayStartUtc,
+      ...measureSunAltitudeAtTargetRiseSet({
+        SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
+      })
+    });
+  }
+  const events = [];
+  for (let index = 1; index < samples.length; index++) {
+    const before = samples[index - 1], after = samples[index];
+    if (!before.available || !after.available) continue;
+    const delta = after.sunAltitudeDeg - before.sunAltitudeDeg;
+    if (delta === 0) continue;
+    const crossings = [];
+    if (before.sunAltitudeDeg < astaSunAltitudeDeg &&
+        after.sunAltitudeDeg >= astaSunAltitudeDeg) {
+      crossings.push({ event: "Asta", threshold: astaSunAltitudeDeg });
+    }
+    if (before.sunAltitudeDeg > udayaSunAltitudeDeg &&
+        after.sunAltitudeDeg <= udayaSunAltitudeDeg) {
+      crossings.push({ event: "Udaya", threshold: udayaSunAltitudeDeg });
+    }
+    for (const crossing of crossings) {
+      if ((body === "Jupiter" || body === "Star1") &&
+          !((crossing.event === "Asta" && branch === "set") ||
+            (crossing.event === "Udaya" && branch === "rise"))) continue;
+      const fraction = Math.max(0, Math.min(1,
+        (crossing.threshold - before.sunAltitudeDeg) / delta
+      ));
+      const bodyEventUtcMs = before.bodyEventUtcMs +
+        fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
+      events.push({
+        body, branch, event: crossing.event,
+        thresholdSunAltitudeDeg: crossing.threshold,
+        beforeSunAltitudeDeg: before.sunAltitudeDeg,
+        afterSunAltitudeDeg: after.sunAltitudeDeg,
+        fraction,
+        utcMilliseconds: Math.round(bodyEventUtcMs),
+        utc: new Date(bodyEventUtcMs).toISOString()
+      });
+    }
+  }
+  return { samples, events };
+}
+
 export function median(values) {
   const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
   if (!sorted.length) return null;
