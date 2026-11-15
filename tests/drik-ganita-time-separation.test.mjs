@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   parsePrintedClock,
+  MINUTES_PER_TIME_DEGREE,
   resolveDrikHorizonBranch,
   sourceObservationToReference,
   measureDrikTimeSeparation,
@@ -63,7 +64,7 @@ test("time separation converts four minutes to one kala-degree", () => {
   });
   assert.equal(result.available, true);
   assert.equal(result.gapMinutes, 40);
-  assert.equal(result.timeDegrees, 10);
+  assert.ok(Math.abs(result.timeDegrees - 40 / MINUTES_PER_TIME_DEGREE) < 1e-10);
 });
 
 test("calibration reports source-time residual against body horizon crossing", () => {
@@ -82,7 +83,7 @@ test("calibration reports source-time residual against body horizon crossing", (
   });
   assert.equal(result.available, true);
   assert.equal(result.bodyEventResidualMinutes, 0);
-  assert.equal(result.calibratedTimeDegrees, 1.75);
+  assert.ok(Math.abs(result.calibratedTimeDegrees - 7 / MINUTES_PER_TIME_DEGREE) < 1e-10);
 });
 
 test("calibration summary uses median thresholds and residuals", () => {
@@ -103,7 +104,7 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
     startLocalDayUtc: start, days: gaps.length, astaThresholdTimeDegrees: 9, udayaThresholdTimeDegrees: 11,
     SearchAltitude: (body, observer, direction, dateStart) => {
       const index = Math.round((dateStart.getTime() - start) / 86_400_000);
-      const offsetMinutes = body === "Sun" ? 300 : 300 + gaps[index] * 4;
+      const offsetMinutes = body === "Sun" ? 300 : 300 + gaps[index] * MINUTES_PER_TIME_DEGREE;
       return { date: new Date(dateStart.getTime() + offsetMinutes * 60_000) };
     }
   });
