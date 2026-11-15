@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   evaluateSs9Visibility, evaluateSs9VisibilityFromEquatorial, eclipticToEquatorial,
-  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition, scanSs9Transitions
+  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition,
+  resolveSs9EventProfile, scanSs9Transitions
 } from "../research/ss9-location-model.mjs";
 
 test("ecliptic to equatorial conversion returns finite coordinates", () => {
@@ -151,4 +152,25 @@ test("setting branch identifies an Asta transition separately from rising Udaya"
   assert.equal(events[0].event, "Asta");
   assert.equal(events[0].branch, "setting");
   assert.equal(events[0].direction, "east");
+});
+
+test("Venus SS9.7 selects 8 or 10 degrees by event horizon direction", () => {
+  assert.deepEqual(
+    (({ branch, limitDeg }) => ({ branch, limitDeg }))(resolveSs9EventProfile("Venus", "Asta", "west")),
+    { branch: "setting", limitDeg: 8 }
+  );
+  assert.deepEqual(
+    (({ branch, limitDeg }) => ({ branch, limitDeg }))(resolveSs9EventProfile("Venus", "Udaya", "east")),
+    { branch: "rising", limitDeg: 8 }
+  );
+  assert.deepEqual(
+    (({ branch, limitDeg }) => ({ branch, limitDeg }))(resolveSs9EventProfile("Venus", "Asta", "east")),
+    { branch: "rising", limitDeg: 10 }
+  );
+  assert.deepEqual(
+    (({ branch, limitDeg }) => ({ branch, limitDeg }))(resolveSs9EventProfile("Venus", "Udaya", "west")),
+    { branch: "setting", limitDeg: 10 }
+  );
+  assert.equal(resolveSs9EventProfile("Jupiter", "Asta", "west").limitDeg, 11);
+  assert.equal(resolveSs9EventProfile("Jupiter", "Udaya", "east").limitDeg, 11);
 });
