@@ -213,3 +213,56 @@ The second example contains an internal chain that sharply narrows the likely OC
 This makes the OCR-extracted quotient `3;28;25` highly likely to be a misread of `3;28;51`, because only the latter reproduces the next printed intermediate `208;51`. Likewise, the OCR-extracted later interval `0;15;13` may be a misread of `0;15;06`; the latter follows the displayed quotient and lunar motion and still rounds to the printed midpoint 12;49 ghaṭi when added to the epoch. This is an internally consistent reconstruction, **not yet a verified visual transcription**. Preserve both the raw OCR and this derived candidate separately until the original scan is checked.
 
 The first worked example independently checks the same conversion structure: 832;15 ÷ 392 = 2;7;23; multiplying by 60 gives 127;23, and dividing by 741;50 gives approximately 0;10;18. This supports the operation sequence in verse 9.
+
+## User-verified full transcription and exact arithmetic audit (15 Nov 2026)
+
+The user spent substantial time proofreading and supplied the complete Sanskrit transcription of the 1902 worked examples on printed pp. 141–143. Treat the following as direct user readings of the printed copy, not merely OCR guesses. Do not ask the user to reread already supplied material.
+
+### Second worked example: Śaka 1543, printed pp. 141–143
+
+User-verified inputs:
+- Sāyana Moon: **235;21;51** (degrees; minutes; seconds), quotient 15, remainder **10;21;51**, bhogya krānti-khaṇḍa **+236**.
+- Sapāta Moon: **350;58;29**, quotient 23, remainder **5;58;29**, bhogya śara-khaṇḍa **−70**.
+- Lunar śara: **42;44**, direction **yāmyaḥ**.
+- Commentary says the śara remainder is smaller; the śara bhogya is singly placed, while krānti/śara elapsed khandas are arranged in the prescribed doubled positions.
+- The 1/13 correction and the gola-aware sign rules are explicitly described. The commentary says same-sign values are added and unlike-sign values differenced, with the hemisphere determining the orientation.
+- Printed p.142 values directly checked by the user: residual śara **641;0**, an aśuddha sphuṭa-khaṇḍa **184;9**, quotient **3;28;25**, product after ×60 **208;51**, lunar motion **829;35**, first printed time **0;1;15**, and later reference-time difference **0;15;13**. Corrected middle **12;49**.
+- Verse-11 duration values: coefficient **2203**, denominator **184;9**, sthiti **11;57**; midpoint **12;49**; sparśa **0;52**, mokṣa **24;46**. These are confirmed by the source's own printed sequence.
+
+### Exact base-60 arithmetic audit (independent calculation)
+
+Use positional sexagesimal arithmetic, not decimal concatenation:
+- 641;0 ÷ 184;9 = 3;28;51;05…
+- Truncating to two fractional sexagesimal places gives 3;28;51, not the user-confirmed printed 3;28;25.
+- 3;28;51 × 60 = 208;51 at the printed two-place precision, matching the next printed value.
+- 3;28;25 × 60 = 208;25, which does not match the printed 208;51.
+- 208;51 ÷ 829;35 = 0;15;06;18… in ordinary base-60 day/ghaṭi/pala-style conversion, not either of the two user-confirmed printed time strings 0;1;15 and 0;15;13.
+- The separate printed values 0;1;15 and 0;15;13 must remain separate source readings. Do not silently equate them or replace either with the computed 0;15;06.
+- Therefore the quotient 3;28;25 is a mathematically demonstrated inconsistency with both its own divisor/dividend and its following ×60 line. 3;28;51 is the uniquely supported arithmetic reconstruction for that quotient, but whether the cause is a compositor error, a copying error, or a source-text issue remains unproven.
+- The discrepancy in the time conversion is a second, independent unresolved issue. The earlier notes that treated 0;1;15 as an OCR misreading must be superseded: the user has now checked the printed copy and confirms it reads 0;1;15; the later 0;15;13 is also present in the printed passage.
+
+### Independent check of the first verse-8/9 worked trace (printed p.136)
+
+The 1902 commentary says the svāṃśaghna khanda products do not clear any portion of the lunar-śara amount in this example, so the residual remains **832;15**. It gives aśuddha sphuṭa-khaṇḍa **392**, quotient **0;27;23**, lunar motion **741;50**, and interval **0;10;18**.
+
+Independent sexagesimal division:
+- 832;15 ÷ 392 = 2;7;23;06…
+- 2;7;23 × 60 = 127;23 at the printed precision.
+- 127;23 ÷ 741;50 = 0;10;18;10…, matching the printed 0;10;18 after truncation.
+
+This first trace validates the general divide → ×60 → divide-by-lunar-motion operation. It does not resolve the second example's two printed time strings.
+
+### Verse-11 duration check for the Śaka 1543 example
+
+- 2203 ÷ 184;9 = 11;57;47… ghaṭi/pala, giving the printed 11;57 when truncated to whole pala.
+- 12;49 − 11;57 = 0;52; 12;49 + 11;57 = 24;46.
+- Thus the printed sparśa and mokṣa values are internally consistent with the midpoint and sthiti.
+
+### Research classification
+
+1. **Directly verified source reading:** all the user's listed numbers above, including both printed time strings.
+2. **Mathematically demonstrated correction:** quotient 3;28;25 should be 3;28;51 if the printed dividend 641;0 and divisor 184;9 are retained.
+3. **Unresolved source/math discrepancy:** the printed first time 0;1;15 and later time difference 0;15;13 do not follow directly from the displayed quotient chain under ordinary base-60 arithmetic. Keep both verbatim pending a reconstruction of the intervening epoch/time relation and original column units.
+4. **Not established:** whether any discrepancy originated in the author's calculation, a manuscript copy, or the printing house.
+
+No production solver code is authorized by this audit alone. Next, reconstruct the full verse-8 multiplier/clearing sequence from both worked examples, then reconcile the two distinct time values and the epoch relation before implementing verse 9.
