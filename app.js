@@ -4873,13 +4873,20 @@ async function appendSpecialPunyaKaalMonthLink(dateString){
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const key=year+"-"+String(month).padStart(2,"0");
   try{
-    let data=specialPunyaKaalMonthCache.get(key);
-    if(!data){
+    let data;
+    if(specialPunyaKaalMonthCache.has(key)){
+      data=specialPunyaKaalMonthCache.get(key);
+    }else{
       const response=await fetch("./data/special-punya-kaal/"+key+".json",{cache:"no-cache"});
-      if(!response.ok)throw new Error("No approved special punya-kaal data for month");
+      if(!response.ok){
+        // A missing month is a stable negative result; avoid repeating a 404 on every date change.
+        if(response.status===404)specialPunyaKaalMonthCache.set(key,null);
+        throw new Error("No approved special punya-kaal data for month");
+      }
       data=await response.json();
       specialPunyaKaalMonthCache.set(key,data);
     }
+    if(!data)return;
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
     if(!data||data.status!=="approved"||!sameSpecialPunyaKaalObserver(data.observer,selectedLocation))return;
     const events=(Array.isArray(data.events)?data.events:[]).filter(validApprovedSpecialPunyaKaal)
