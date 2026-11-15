@@ -48,6 +48,9 @@ export function obliqueAscensionDegrees({ rightAscensionDeg, declinationDeg }, l
 }
 
 function resolveLimit(body, limitDeg) {
+  if (body === "Venus" && ![8, 10].includes(limitDeg)) {
+    throw new RangeError("Venus requires the explicit SS Ch.9 8° or 10° branch");
+  }
   if (Number.isFinite(limitDeg) && limitDeg > 0 && limitDeg < 90) return limitDeg;
   if (Object.hasOwn(SS9_LIMITS_DEG, body)) return SS9_LIMITS_DEG[body];
   throw new RangeError("explicit SS Ch.9 limitDeg is required for " + body);
@@ -58,29 +61,44 @@ function resolveLimit(body, limitDeg) {
  * so K is numerically the absolute difference of the two oblique ascensions.
  * Visibility follows the strict Ch.9 condition K > C.
  */
-export function evaluateSs9Visibility({
-  body, sun, object, latitudeDeg, obliquityDeg, limitDeg
+export function evaluateSs9VisibilityFromEquatorial({
+  body, sunEquatorial, objectEquatorial, latitudeDeg, limitDeg, elongationDeg = null
 }) {
-  if (!sun || !object) throw new TypeError("sun and object apparent coordinates are required");
+  if (!sunEquatorial || !objectEquatorial) {
+    throw new TypeError("sun and object apparent equatorial coordinates are required");
+  }
   const C = resolveLimit(body, limitDeg);
-  const sunEq = eclipticToEquatorial(sun, obliquityDeg);
-  const objectEq = eclipticToEquatorial(object, obliquityDeg);
-  const sunOA = obliqueAscensionDegrees(sunEq, latitudeDeg);
-  const objectOA = obliqueAscensionDegrees(objectEq, latitudeDeg);
+  const sunOA = obliqueAscensionDegrees(sunEquatorial, latitudeDeg);
+  const objectOA = obliqueAscensionDegrees(objectEquatorial, latitudeDeg);
   if (sunOA === null || objectOA === null) {
     return { available: false, reason: "circumpolar-coordinate", body, limitDeg: C, K: null, visible: null };
   }
   const signedK = signedAngleDifference(objectOA, sunOA);
-  const elongationDeg = signedAngleDifference(object.longitudeDeg, sun.longitudeDeg);
   return {
     available: true, body, latitudeDeg, limitDeg: C,
     sunObliqueAscensionDeg: sunOA,
     objectObliqueAscensionDeg: objectOA,
     lagnantaraPrana: Math.abs(signedK) * 60,
     K: Math.abs(signedK), signedK, elongationDeg,
-    appearance: elongationDeg > 0 ? "evening" : "morning",
+    appearance: Number.isFinite(elongationDeg)
+      ? (elongationDeg > 0 ? "evening" : "morning")
+      : null,
     visible: Math.abs(signedK) > C
   };
+}
+
+export function evaluateSs9Visibility({
+  body, sun, object, latitudeDeg, obliquityDeg, limitDeg
+}) {
+  if (!sun || !object) throw new TypeError("sun and object apparent coordinates are required");
+  return evaluateSs9VisibilityFromEquatorial({
+    body,
+    sunEquatorial: eclipticToEquatorial(sun, obliquityDeg),
+    objectEquatorial: eclipticToEquatorial(object, obliquityDeg),
+    latitudeDeg,
+    limitDeg,
+    elongationDeg: signedAngleDifference(object.longitudeDeg, sun.longitudeDeg)
+  });
 }
 
 /**
