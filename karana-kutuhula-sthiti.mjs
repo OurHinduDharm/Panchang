@@ -26,7 +26,9 @@ function toGhatiPala(decimalGhati) {
   if (!Number.isFinite(decimalGhati) || decimalGhati < 0) {
     throw new RangeError("duration must be a non-negative finite value");
   }
-  const totalPala = Math.round(decimalGhati * 60 * 1e6) / 1e6;
+  // The worked examples report whole pala; retain the traditional
+  // sexagesimal quotient remainder by truncating sub-pala fractions.
+  const totalPala = Math.floor(decimalGhati * 60 + 1e-9);
   const ghati = Math.floor(totalPala / 60);
   const pala = totalPala - ghati * 60;
   return Object.freeze({
