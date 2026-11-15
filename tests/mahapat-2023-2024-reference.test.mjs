@@ -8,7 +8,7 @@ const reference = JSON.parse(await readFile(
 ));
 
 test("Tara Prasad Divya Panchang 2023-24 reference is preserved as raw printed data", () => {
-  assert.equal(reference.status, "reference-only-not-yet-normalized");
+  assert.equal(reference.status, "reference-data-normalized-user-confirmed");
   assert.equal(reference.observer.latitude, 29.5);
   assert.equal(reference.observer.longitude, 79.1333333333);
   assert.equal(reference.timezoneOffsetMinutes, 330);
@@ -26,7 +26,7 @@ test("Tara Prasad Divya Panchang 2023-24 reference is preserved as raw printed d
   ));
 });
 
-test("printed time strings above 24 hours remain unparsed pending notation confirmation", () => {
+test("confirmed extended-hour notation rolls into the following IST civil date", () => {
   const extended = reference.events.filter(event =>
     Number(event.touchTimePrinted?.slice(0, 2)) >= 24 ||
     Number(event.releaseTimePrinted?.slice(0, 2)) >= 24
