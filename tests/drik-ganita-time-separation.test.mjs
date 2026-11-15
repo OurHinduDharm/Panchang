@@ -110,3 +110,24 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
   assert.deepEqual(result.events.map(event => event.event), ["Asta", "Udaya"]);
   assert.ok(result.events.every(event => event.thresholdTimeDegrees === 9));
 });
+
+test("Drik Venus records without a printed direction resolve from the computed event clock", () => {
+  const start = Date.parse("2026-10-12T00:00:00+05:30");
+  const observation = {
+    id: "drik-venus-no-direction", sourceId: "drikpanchang-almora",
+    planet: "शुक्र", event: "अस्त प्रारम्भ", date: "2026-10-12", timeRaw: "18:07"
+  };
+  const result = calibrateObservation({
+    observation, observer: {}, localDayStartUtc: start,
+    SearchAltitude: (body, observer, direction, dateStart) => {
+      const offset = direction === -1
+        ? (body === "Sun" ? 18 * 60 : 18 * 60 + 7)
+        : (body === "Sun" ? 6 * 60 : 6 * 60 + 5);
+      return { date: new Date(dateStart.getTime() + offset * 60_000) };
+    }
+  });
+  assert.equal(result.available, true);
+  assert.equal(result.branch, "set");
+  assert.equal(result.inferredBranch, true);
+  assert.equal(result.bodyEventResidualMinutes, 0);
+});
