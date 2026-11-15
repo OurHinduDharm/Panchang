@@ -1,6 +1,6 @@
 # विशेष साधना काल एवं पुण्यकाल — गणना शोध नोट
 
-स्थिति: प्रारंभिक शोध; अभी कोई नया समय सार्वजनिक प्रकाशन के लिए स्वीकृत नहीं है।
+स्थिति: स्मार्त नियम के अनुसार 2026–2030 के चार वारुणी संयोग सार्वजनिक प्रदर्शन हेतु स्वीकृत हैं; महापात और महोदय अभी शोध/सत्यापनाधीन हैं।
 
 ## उत्पाद संरचना
 
@@ -98,7 +98,7 @@
 - These records are `research-candidate` only. The primitive is not yet an approved annual calendar generator.
 - Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, one-minute scanner gaps, cross-sunrise joining, and weekday assignment.
 - The primary source profile is explicitly Chaitra Krishna Trayodashi in the project's Purnimanta calendar; no automatic Amanta/Purnimanta month remapping is permitted.
-- Mahapata and Mahodaya remain unimplemented. No public page or approved public event dataset has been added.
+- Mahapata and Mahodaya remain unimplemented. Public UI now calculates and displays only the four explicitly approved Varuni-family dates through the lazy runtime integration.
 - `scripts/generate-special-punya-kaal-review.mjs` now scans every local day from 2026–2030 using the pinned Panchangam engine and writes a research-only JSON candidate file. The existing PR validation workflow runs this generator and uploads its output as an artifact for manual review.
 
 
