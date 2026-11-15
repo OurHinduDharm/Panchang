@@ -102,7 +102,7 @@ for (const observation of dataset.observations) {
 const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
-  method: "geometric-horizon time-separation; one time-degree = one mean sidereal day / 360",
+  method: "local apparent rise/set time-separation; one time-degree = one mean sidereal day / 360",
   horizon: "standard apparent rise/set events; no photometric or naked-eye brightness model",
   benchmarkCounts: {
     observations: dataset.observations.length,
