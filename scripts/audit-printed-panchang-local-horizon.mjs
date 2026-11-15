@@ -100,8 +100,14 @@ const rows = source.observations.map(record => {
   const planetHorizon = Astronomy.Horizon(
     parsed.utc, observer, planetEquator.ra, planetEquator.dec, null
   );
+  const planetHorizonNormalRefraction = Astronomy.Horizon(
+    parsed.utc, observer, planetEquator.ra, planetEquator.dec, "normal"
+  );
   const sunHorizon = Astronomy.Horizon(
     parsed.utc, observer, sunEquator.ra, sunEquator.dec, null
+  );
+  const sunHorizonNormalRefraction = Astronomy.Horizon(
+    parsed.utc, observer, sunEquator.ra, sunEquator.dec, "normal"
   );
   const sunPlanetSeparationDeg = Astronomy.AngleFromSun(
     Astronomy.Body[planetName], parsed.utc
@@ -140,7 +146,10 @@ const rows = source.observations.map(record => {
     parsedIST: parsed.localDate + " " + parsed.localTime,
     skyGeometryAtPrintedInstant: {
       planetGeometricAltitudeDeg: Number(planetHorizon.altitude.toFixed(4)),
+      planetApparentAltitudeNormalRefractionDeg: Number(planetHorizonNormalRefraction.altitude.toFixed(4)),
+      planetRefractionCorrectionDeg: Number((planetHorizonNormalRefraction.altitude - planetHorizon.altitude).toFixed(4)),
       sunGeometricAltitudeDeg: Number(sunHorizon.altitude.toFixed(4)),
+      sunApparentAltitudeNormalRefractionDeg: Number(sunHorizonNormalRefraction.altitude.toFixed(4)),
       sunPlanetAngularSeparationDeg: Number(sunPlanetSeparationDeg.toFixed(4))
     },
     geometricCrossingDiagnostics: crossingDiagnostics,
@@ -174,7 +183,9 @@ const groupedSkyGeometryDiagnostics = [...new Set(comparable.map(row =>
     event,
     records: group.length,
     sunAltitudeDeg: range("sunGeometricAltitudeDeg"),
-    planetAltitudeDeg: range("planetGeometricAltitudeDeg"),
+    planetAltitudeGeometricDeg: range("planetGeometricAltitudeDeg"),
+    planetAltitudeApparentNormalRefractionDeg: range("planetApparentAltitudeNormalRefractionDeg"),
+    planetRefractionCorrectionDeg: range("planetRefractionCorrectionDeg"),
     sunPlanetSeparationDeg: range("sunPlanetAngularSeparationDeg")
   };
 });
@@ -183,7 +194,7 @@ const output = {
   generatedAtUtc: new Date().toISOString(),
   source: "research/printed-panchang-guru-shukra-agastya-2019-2026.json",
   engine: { name: "astronomy-engine", version: "2.1.19", license: "MIT" },
-  method: "For each printed IST hour-minute, compute both local topocentric geometric rise and set crossings at the stated Panchang center coordinates; report their time differences independently without assigning either crossing to the Panchang event. Almora/Ramnagar elevation is not stated in the source and is provisionally set to 0 m; results are diagnostic only.",
+  method: "For each printed IST hour-minute, compute both local topocentric geometric rise and set crossings at the stated Panchang center coordinates; report their time differences independently without assigning either crossing to the Panchang event. Also calculate horizontal altitude with refraction disabled and with Astronomy Engine's normal refraction model. SearchRiseSet itself applies a standard 34-arcminute near-horizon refraction correction. Almora/Ramnagar elevation is not stated in the source and is provisionally set to 0 m; results are diagnostic only.",
   summary: {
     totalRecords: rows.length,
     comparableRecords: comparable.length,
