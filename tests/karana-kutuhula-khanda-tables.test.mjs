@@ -6,7 +6,8 @@ import {
   KRANTI_KHANDA_24,
   SHARA_KHANDA_24,
   MAHAPATA_SOURCE_CONSTANTS,
-  expandSignedKhandas
+  expandSignedKhandas,
+  extractMahapataLongitudeKhandas
 } from "../karana-kutuhula-khanda-tables.mjs";
 
 test("Karaṇa-kutūhala base kranti and shara tables match the source Sanskrit commentaries", () => {
@@ -61,4 +62,21 @@ test("source constants are kept explicit and separate from modern disk-contact m
 test("khanda expansion rejects malformed source tables", () => {
   assert.throws(() => expandSignedKhandas([1, 2]), /six khanda/);
   assert.throws(() => expandSignedKhandas([1, 2, 3, 4, 5, 0]), /positive finite/);
+});
+
+test("verse 4 extracts both longitude khanda quotients without treating remainders as time", () => {
+  const result = extractMahapataLongitudeKhandas({
+    sayanaMoon: { sign: 11, degree: 5, minute: 12, second: 1 },
+    sapataMoon: { sign: 3, degree: 50, minute: 58, second: 29 }
+  });
+  assert.equal(result.sayanaMoon.khandaIndex, 23);
+  assert.deepEqual(result.sayanaMoon.remainder, {
+    degree: 5, minute: 12, second: 1
+  });
+  assert.equal(result.sapataMoon.khandaIndex, 7);
+  assert.deepEqual(result.sapataMoon.remainder, {
+    degree: 5, minute: 58, second: 29
+  });
+  assert.equal(result.unit, "15-degree-khanda-with-angular-remainder");
+  assert.equal(result.status, "research-only");
 });
