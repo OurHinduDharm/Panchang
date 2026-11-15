@@ -17,14 +17,14 @@ Tara Prasad is a secondary independent cross-check. TKS Surya-Siddhanta and phot
 
 Use a modern apparent ephemeris and the exact observer coordinates. For a given civil day and horizon branch:
 
-1. Find the Sun's geometric-centre horizon crossing.
-2. Find the planet's geometric-centre crossing on the same horizon branch.
+1. Find the Sun's standard apparent rise/set event for the selected horizon branch.
+2. Find the planet's corresponding apparent rise/set event at the same observer.
 3. Calculate the absolute time separation in minutes.
 4. Convert the time gap to degrees of Earth rotation using one mean sidereal day divided by 360. This is a general time-unit conversion, not a Surya-Siddhanta formula.
 5. Compare that value with a body/event/branch threshold calibrated from accepted Drik and Ganesh Martand observations.
 6. Detect downward threshold crossings as Asta and upward crossings as Udaya. The interpolated event instant is based on the planet's horizon-crossing time.
 
-The model uses SearchAltitude with altitude=0 for both Sun and target. This is a geometric horizon calculation with no atmospheric refraction, brightness, extinction, sky-background or naked-eye visibility model. It is not the Surya-Siddhanta Ch.9 K/C formula.
+The model uses Astronomy Engine's standard local rise/set event calculation for both Sun and target. This includes the library's conventional apparent horizon treatment; it does not calculate first/last naked-eye heliacal visibility, brightness, atmospheric extinction or sky background. It is not the Surya-Siddhanta Ch.9 K/C formula.
 
 The eastern/western horizon branch is selected from the source's printed direction. For Jupiter, where direction is absent in the source, Asta uses setting and Udaya uses rising. Venus direction is never guessed when missing.
 
