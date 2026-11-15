@@ -34,13 +34,14 @@ The eastern/western horizon branch is selected from the source's printed directi
 - Ambiguous AM/PM records are excluded instead of guessed.
 - Each observation is checked against the target body's computed geometric horizon event.
 - Threshold fitting uses only records whose source event time is within 15 minutes of the computed body horizon event; all residuals remain in the report.
-- Drik Almora/Ramnagar coordinates are approximate proxies because the exact coordinates selected on the Drik page were not captured. Ganesh Martand's printed Almora centre and Tara Prasad's Ramnagar centre are separately preserved.
+- Drik Almora/Ramnagar coordinates are approximate proxies because the exact coordinates selected on the Drik page were not captured. Ganesh Martand's printed Almora centre and Tara Prasad's Ramnagar centre are separately preserved. Elevation is set to 0 m in this first calibration run because the printed calculation-centre metadata did not supply a confirmed elevation; do not treat this as a final hill-station horizon correction.
 - Agastya uses a provisional Canopus J2000 position. A pinned astrometric catalogue/proper-motion source is required before production use.
 
 ## Data and runtime strategy
 
 - Raw user-transcribed printed observations remain in research/drik-ganita-asta-udaya-benchmarks-2019-2027.json.
 - The direct Drik five-city dataset remains separately available in data/drik-planetary-reference-2024-2027.json.
+- The first calibration set is India-only and uses IST (+05:30); general IANA timezone resolution must be supplied from the selected location before expanding outside India.
 - Research calibration runs in CI, not during the daily Panchang calculation.
 - Once the model is accepted, annual events should be precomputed into compact JSON chunks. The public Panchang should only load the relevant city/year chunk lazily; it must not scan years of ephemeris events on every date change.
 
