@@ -173,3 +173,18 @@ Source transcription: Jain Quantum, page 140 (printed p. 136), https://jainqq.or
 ### Remaining precision gate
 
 The prose now fixes the operations, but the exact chronological list of khanda positions and the sexagesimal column/unit interpretation of the verse-9 worked conversion still need a full line-by-line numerical reproduction. In particular, do not assume the 0;1;15 output is a civil-clock format or convert it into minutes without reconciling the printed columns. Do not write a public event solver yet. The next code change should only follow after both worked examples reproduce the intermediate multiplier products, cleared-khanda count, residual quotient, and corrected middle.
+
+
+## Both printed examples now lock the 24-position indexing (15 Nov 2026)
+
+The source's table orientation is no longer merely an inferred expansion. Printed p.132 explicitly states the four consecutive blocks: six in krama order with positive sign, six in reverse order with negative sign, six again in krama order with positive sign, and six in reverse order with negative sign. Printed p.133 then checks the first example against the table: 10th krānti position = −299 and 13th śara position = +70. Printed p.141 checks the second example: 16th krānti position = +236 and 24th śara position = −70. Thus the existing 24-position expansion and 1-based indexing agree with both independent worked examples. Sources: https://jainqq.org/explore/034533/136 and https://jainqq.org/explore/034533/137 and https://jainqq.org/explore/034533/145.
+
+A new regression test now fixes the second example's 16th/24th positions, its two angular remainders (10;21;51 and 5;58;29), the smaller-śara selection, and the 3-krānti/2-śara middle-khanda count. This complements the first example's existing 10th/13th fixture.
+
+### Important distinction preserved
+
+The printed source establishes the khanda table order and the past/future choice of which elapsed/coming positions are arranged. It does not justify collapsing the sign work into a simple signed-table lookup: the commentary separately applies the 1/13 bhogya-krānti correction and then the gola-aware krānti/śara sign rules. Those steps remain separate and are not yet encoded as a public solver.
+
+### Verse 9 time unit remains blocked
+
+The 1902 text prints the second example's quotient 3;28;25, its multiplication by 60 as 208;51, lunar motion 829;35, and result 0;1;15 (page 146). The arithmetic quotient 208;51 ÷ 829;35, interpreted as ordinary sexagesimal arc-minute quantities, does not by itself explain the printed 0;1;15 notation. Therefore the numerical sequence is preserved verbatim, but its final time unit is not guessed or converted into modern clock minutes. A page-image/column-heading check and reconciliation with the first example are still required before verse 9 is coded.
