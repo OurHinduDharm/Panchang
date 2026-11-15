@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import * as Astronomy from "astronomy-engine";
-const { Observer, SearchAltitude, DefineStar } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, DefineStar } = Astronomy.default || Astronomy;
 import {
   calibrateObservation,
   parsePrintedClock,
@@ -103,7 +103,7 @@ const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
   method: "geometric-horizon time-separation; one time-degree = one mean sidereal day / 360",
-  horizon: "geometric centre at altitude 0 degrees; no refraction or photometric visibility",
+  horizon: "standard apparent rise/set events; no photometric or naked-eye brightness model",
   benchmarkCounts: {
     observations: dataset.observations.length,
     evaluated: rows.length,
