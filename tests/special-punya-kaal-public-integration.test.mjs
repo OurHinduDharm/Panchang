@@ -6,13 +6,15 @@ const monthly = await readFile(new URL("../monthly-vrat-parv.html", import.meta.
 const daily = await readFile(new URL("../app.js", import.meta.url), "utf8");
 const schema = JSON.parse(await readFile(new URL("../data/special-punya-kaal/schema.json", import.meta.url), "utf8"));
 
-test("monthly special punya-kaal section stays hidden unless approved monthly data exists", () => {
+test("monthly special punya-kaal section calculates lazily and stays hidden without approved candidates", () => {
   assert.match(monthly, /id="special-punya-kaal"[^>]*hidden/);
-  assert.match(monthly, /data\/special-punya-kaal\//);
-  assert.match(monthly, /data\.status!=="approved"/);
-  assert.match(monthly, /item\.status!=="approved"/);
-  assert.match(monthly, /sameObserver\(data\.observer,location\)/);
+  assert.match(monthly, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
+  assert.match(monthly, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
+  assert.match(monthly, /IntersectionObserver/);
+  assert.match(monthly, /data\.calculationStatus!=="complete"\)return/);
   assert.match(monthly, /if\(!approved\.length\)return/);
+  assert.match(monthly, /approvedSpecialPunyaKaalProfiles/);
+  assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
 });
 
 test("monthly section uses the selected year/month from its navigation URL", () => {
@@ -44,14 +46,16 @@ test("daily Panchang shows a month link only after an approved event matches its
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
   assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);
   assert.doesNotMatch(daily, /विशेष पुण्यकाल एवं धार्मिक साधना/);
-  assert.match(daily, /specialPunyaKaalMonthCache\.has\(key\)/);
-  assert.match(daily, /response\.status===404\)specialPunyaKaalMonthCache\.set\(key,null\)/);
+  assert.match(daily, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
+  assert.match(daily, /IntersectionObserver/);
+  assert.match(daily, /approvedSpecialPunyaKaalProfiles/);
+  assert.doesNotMatch(daily, /data\/special-punya-kaal\//);
 });
 
 test("daily Panchang shows actual event times only on the event date", () => {
   assert.match(daily, /const todays=events\.filter\(item=>item\.date===dateString\)/);
-  assert.match(daily, /specialPunyaKaalTime\(item\.start\)/);
-  assert.match(daily, /specialPunyaKaalTime\(item\.end\)/);
+  assert.match(daily, /specialPunyaKaalDateTime\(item\.startTime\)/);
+  assert.match(daily, /specialPunyaKaalDateTime\(item\.endTime\)/);
 });
 
 test("public data schema permits only reviewed special punya-kaal types, never Sankranti", () => {
