@@ -340,7 +340,7 @@ export function scanDrikSolarAltitudeTransitions({
         beforeSunAltitudeDeg: before.sunAltitudeDeg,
         afterSunAltitudeDeg: after.sunAltitudeDeg,
         fraction,
-        interpolatedUtcMilliseconds: Math.round(interpolatedUtcMs),
+        interpolatedUtcMilliseconds: Math.round(bodyEventUtcMs),
         utcMilliseconds: Math.round(bodyEventUtcMs),
         utc: new Date(bodyEventUtcMs).toISOString()
       });
