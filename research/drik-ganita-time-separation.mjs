@@ -160,11 +160,12 @@ export function calibrateObservation({
   if (!ref.usableForCalibration) {
     return { ...ref, available: false, reason: "source-record-not-calibratable" };
   }
+  const eventDayStartUtc = localDayStartUtc + ref.clock.dayRollover * 86_400_000;
   const sunEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body: "Sun", observer, direction: ref.branch, localDayStartUtc
+    SearchAltitude, body: "Sun", observer, direction: ref.branch, localDayStartUtc: eventDayStartUtc
   });
   const bodyEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body: ref.body, observer, direction: ref.branch, localDayStartUtc
+    SearchAltitude, body: ref.body, observer, direction: ref.branch, localDayStartUtc: eventDayStartUtc
   });
   if (sunEventUtcMs === null || bodyEventUtcMs === null) {
     return { ...ref, available: false, reason: "horizon-event-not-found" };
@@ -183,6 +184,57 @@ export function calibrateObservation({
   };
 }
 
+
+/**
+ * Scan one geometric-horizon branch for threshold transitions.
+ * A downward crossing is Asta; an upward crossing is Udaya.
+ * The reported instant is interpolated from the body's horizon-event times.
+ */
+export function scanDrikTimeSeparationTransitions({
+  SearchAltitude, body, observer, branch, startLocalDayUtc,
+  days, thresholdTimeDegrees
+}) {
+  if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
+  if (!Number.isFinite(thresholdTimeDegrees) || thresholdTimeDegrees <= 0) {
+    throw new RangeError("thresholdTimeDegrees must be positive");
+  }
+  const samples = [];
+  for (let index = 0; index < days; index++) {
+    const localDayStartUtc = startLocalDayUtc + index * 86_400_000;
+    const sample = measureDrikTimeSeparation({
+      SearchAltitude, body, observer, branch, localDayStartUtc
+    });
+    samples.push({ dayStartUtc: localDayStartUtc, ...sample });
+  }
+  const events = [];
+  for (let index = 1; index < samples.length; index++) {
+    const before = samples[index - 1];
+    const after = samples[index];
+    if (!before.available || !after.available) continue;
+    const delta = after.timeDegrees - before.timeDegrees;
+    const wasAbove = before.timeDegrees >= thresholdTimeDegrees;
+    const isAbove = after.timeDegrees >= thresholdTimeDegrees;
+    if (wasAbove === isAbove || delta === 0) continue;
+    const fraction = Math.max(0, Math.min(1,
+      (thresholdTimeDegrees - before.timeDegrees) / delta
+    ));
+    const bodyEventUtcMs = before.bodyEventUtcMs +
+      fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
+    events.push({
+      body,
+      branch,
+      event: wasAbove ? "Asta" : "Udaya",
+      thresholdTimeDegrees,
+      beforeTimeDegrees: before.timeDegrees,
+      afterTimeDegrees: after.timeDegrees,
+      fraction,
+      utcMilliseconds: Math.round(bodyEventUtcMs),
+      utc: new Date(bodyEventUtcMs).toISOString()
+    });
+  }
+  return { samples, events };
+}
+
 export function median(values) {
   const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
   if (!sorted.length) return null;
@@ -199,18 +251,20 @@ export function summarizeCalibration(rows) {
     groups.get(key).push(row);
   }
   return [...groups.entries()].map(([key, items]) => {
-    const gaps = items.map(item => item.calibratedTimeDegrees);
     const residuals = items.map(item => item.bodyEventResidualMinutes);
-    const centre = median(gaps);
+    const trusted = items.filter(item => item.bodyEventResidualMinutes <= 15);
+    const gaps = trusted.map(item => item.calibratedTimeDegrees);
     return {
       key,
       body: items[0].body,
       branch: items[0].branch,
       samples: items.length,
-      medianThresholdDegrees: centre,
+      thresholdFitSamples: trusted.length,
+      medianThresholdDegrees: median(gaps),
       medianBodyEventResidualMinutes: median(residuals),
       maxBodyEventResidualMinutes: Math.max(...residuals),
-      sourceIds: items.map(item => item.id)
+      sourceIds: trusted.map(item => item.id),
+      excludedSourceIds: items.filter(item => item.bodyEventResidualMinutes > 15).map(item => item.id)
     };
   });
 }
