@@ -188,3 +188,18 @@ The printed source establishes the khanda table order and the past/future choice
 ### Verse 9 time unit remains blocked
 
 The 1902 text prints the second example's quotient 3;28;25, its multiplication by 60 as 208;51, lunar motion 829;35, and result 0;1;15 (page 146). The arithmetic quotient 208;51 ÷ 829;35, interpreted as ordinary sexagesimal arc-minute quantities, does not by itself explain the printed 0;1;15 notation. Therefore the numerical sequence is preserved verbatim, but its final time unit is not guessed or converted into modern clock minutes. A page-image/column-heading check and reconciliation with the first example are still required before verse 9 is coded.
+
+## Verse 9: time-unit interpretation narrowed by the worked example (15 Nov 2026)
+
+A useful correction to the OCR-based reading is now established. On printed p.142, the text first gives the derived interval in a damaged/OCR-ambiguous form after “दिनादि”, but a few words later explicitly repeats the same interval as **0;15;13**: “अत्र कालात् ० । १५ । १३ एभिर्गतः पातः”. The same page then adds this to the epoch time and obtains the pāta midpoint at 12;49 ghaṭi after sunrise. Thus the intended interval is a day–ghaṭi–pala style quantity, not a civil clock time; the OCR sequence “० । १ । १५” must not be trusted. Source: https://jainqq.org/explore/034533/146.
+
+The first worked example independently supports the day/ghaṭi/pala interpretation. Its printed arithmetic is 832;15 ÷ 392 = 2;7;23 (the OCR can misread the first field), then ×60 ÷ 741;50 = 0;10;18. Interpreting the last result as 0 days, 10 ghaṭi, 18 pala is consistent with the subsequent day-fraction conversion. The printed p.136 passage should therefore be transcribed with care rather than copying the OCR string blindly. Source: https://jainqq.org/explore/034533/140.
+
+### Remaining arithmetic discrepancy—do not code yet
+
+The second example's extracted numbers still do not reproduce each other under straightforward base-60 arithmetic:
+- 641;0 ÷ 184;9 gives approximately 3;28;51, not the printed 3;28;25.
+- Using the printed 3;28;25, then ×60 ÷ 829;35 gives approximately 0;15;04, not the later explicitly repeated 0;15;13.
+- Using the direct quotient from 641;0 ÷ 184;9 gives approximately 0;15;06 after ×60 ÷ 829;35.
+
+This is now a clearly isolated transcription/column-reading issue, not an unknown unit issue alone. The second example's source image/column layout must be inspected before changing any formula. Preserve the printed values as source transcription, and do not silently “correct” any one value to force agreement.
