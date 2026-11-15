@@ -22,7 +22,7 @@ const profiles = {
 const IST_OFFSET_MINUTES = 330;
 
 function parsePrintedClock(dateText, raw) {
-  if (typeof raw !== "string" || !/^\\d{1,2}\\.\\d{2}$/.test(raw)) return null;
+  if (typeof raw !== "string" || !/^\d{1,2}\.\d{2}$/.test(raw)) return null;
   const [hour, minute] = raw.split(".").map(Number);
   if (minute > 59 || hour > 47) return null;
   const rolloverDays = Math.floor(hour / 24);
