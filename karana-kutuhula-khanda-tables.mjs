@@ -178,6 +178,13 @@ export function selectMahapataBhogyaKhandas({ kranti, shara }) {
       placement: bhogyaSide === "shara" ? "single-bhogya" : "two-position"
     }),
     bhogyaSide,
+    // Sumatiharsa, printed p.134: the smaller-arc side has two
+    // middle khandas; the larger-arc side has three. This records
+    // the count only; direction/order is deliberately handled later.
+    middleKhandaCounts: Object.freeze({
+      kranti: bhogyaSide === "kranti" ? 2 : 3,
+      shara: bhogyaSide === "shara" ? 2 : 3
+    }),
     status: "research-only"
   });
 }
