@@ -922,7 +922,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
   function sameObserver(a,b){
     if(!a||!b)return false;
-    return Math.abs(Number(a.lat)-Number(b.lat))<0.0001&&Math.abs(Number(a.lon)-Number(b.lon))<0.0001;
+    return Math.abs(Number(a.lat)-Number(b.lat))<0.0001&&Math.abs(Number(a.lon)-Number(b.lon))<0.0001&&Math.abs(Number(a.elevation)-Number(b.elevation))<1;
   }
   function getSpecialPunyaKaalEngine(){
     if(!specialPunyaKaalEnginePromise){
