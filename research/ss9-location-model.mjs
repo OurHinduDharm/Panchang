@@ -124,7 +124,7 @@ function evaluateSample({ body, latitudeDeg, limitDeg, branch = "rising" }, samp
   }
   return evaluateSs9Visibility({
     body, sun: sample.sun, object: sample.object, latitudeDeg,
-    obliquityDeg: sample.obliquityDeg, limitDeg
+    obliquityDeg: sample.obliquityDeg, limitDeg, branch
   });
 }
 
@@ -210,7 +210,7 @@ export function refineSs9Transition({
     ? null
     : (appearance === "evening" ? "west" : "east");
   return {
-    body, event, direction,
+    body, event, direction, branch,
     utcMilliseconds: transitionMs,
     accuracyMilliseconds: rightMs - leftMs,
     latitudeDeg, limitDeg: at.limitDeg, K: at.K,
