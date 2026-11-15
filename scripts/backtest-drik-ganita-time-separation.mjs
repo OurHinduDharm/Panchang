@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import * as Astronomy from "astronomy-engine";
-const { Observer, SearchRiseSet, DefineStar } = Astronomy.default || Astronomy;
 import {
   calibrateObservation,
   parsePrintedClock,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
+
+const { Observer, SearchRiseSet, DefineStar } = Astronomy.default || Astronomy;
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
