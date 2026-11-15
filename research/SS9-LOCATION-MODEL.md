@@ -21,10 +21,11 @@
 
 - गुरु: 11°; अगस्त्य: 13°।
 - शुक्र के लिए SS Ch.9 में 8°/10° की दो शाखाएँ हैं। कॉलर को limitDeg स्पष्ट देना होगा; कोड चुपचाप हर जगह 10° नहीं मानेगा।
-- यह मॉड्यूल ephemeris positions नहीं निकालता। अगले चरण में समान frame/time-scale वाला प्रमाणित apparent-place provider जोड़ना होगा।
+- MIT लाइसेंस वाले Astronomy Engine 2.1.19 के लिए apparent-place adapter भी जोड़ा गया है। यह geocentric apparent vector को J2000 equator से true equator of date में बदलता है। शुक्र/गुरु के लिए यही adapter नमूने देता है। अगस्त्य के लिए Canopus (HIP 30438) के SIMBAD J2000 coordinates, proper motion और parallax का आधार लिया गया है; Astronomy Engine का DefineStar proper motion सीधे नहीं लेता, इसलिए adapter उसे रैखिक रूप से समायोजित करता है। यह अभी cross-validation योग्य अनुमान है, अंतिम star ephemeris नहीं।
 - शास्त्रीय K/C संक्रमण को naked-eye photometric visibility न कहें।
 - अगस्त्य के date-only स्रोत को exact time में न बदलें।
 
 ## परीक्षण
 
 node --test tests/ss9-location-model.test.mjs
+\n\n## दिशा\n\nTransition refinement event को Asta/Udaya और पूर्व/पश्चिम दिशा में वर्गीकृत करता है। दिशा signed apparent ecliptic elongation और morning/evening अवस्था से आती है; इसे horizon altitude crossing के साथ बाद में स्वतंत्र रूप से cross-check करना होगा।\n
