@@ -914,9 +914,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var specialPunyaKaalEnginePromise=null;
   var specialPunyaKaalMonthCache=new Map();
   var specialPunyaKaalObserver=null;
-  var approvedSpecialPunyaKaalProfiles=new Set(["chaitra-krishna-trayodashi-shatabhisha"]);
-  var approvedSpecialPunyaKaalDates=new Set(["2026-03-17","2027-04-04","2028-03-23","2030-03-31"]);
-  var approvedSpecialPunyaKaalLabels=new Set(["वारुणी योग","महावारुणी योग","महामहावारुणी योग"]);
+  var specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
   function formatSpecialPunyaKaalDateTime(value){
     var date=new Date(value);
     if(Number.isNaN(date.getTime()))return "";
@@ -930,9 +928,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(!specialPunyaKaalEnginePromise){
       specialPunyaKaalEnginePromise=Promise.all([
         import("./special-punya-kaal-runtime.mjs"),
+        specialPunyaKaalApprovalPromise,
         import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0")
       ]).then(function(modules){
-        return {runtime:modules[0],panchang:modules[1]};
+        return {runtime:modules[0],approval:modules[1],panchang:modules[2]};
       }).catch(function(error){
         specialPunyaKaalEnginePromise=null;
         throw error;
@@ -969,14 +968,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var data=await calculation;
       if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       if(data.calculationStatus!=="complete"||!sameObserver(location,getLocalLocation()))return;
-      var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(function(item){
-        return item&&approvedSpecialPunyaKaalProfiles.has(item.ruleProfile)&&
-          approvedSpecialPunyaKaalDates.has(item.date)&&
-          approvedSpecialPunyaKaalLabels.has(item.labels&&item.labels[0])&&
-          typeof item.startTime==="string"&&typeof item.endTime==="string"&&
-          Number.isFinite(Date.parse(item.startTime))&&Number.isFinite(Date.parse(item.endTime))&&
-          Date.parse(item.startTime)<Date.parse(item.endTime);
-      }).sort(function(a,b){return a.startTime.localeCompare(b.startTime);});
+      var engine=await getSpecialPunyaKaalEngine();
+      var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(engine.approval.isApprovedSpecialPunyaKaalCandidate)
+        .sort(function(a,b){return a.startTime.localeCompare(b.startTime);});
       if(!approved.length)return;
       approved.forEach(function(item){
         var card=document.createElement("article");card.className="special-kaal-card";
