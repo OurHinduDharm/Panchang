@@ -18,5 +18,18 @@ jobs:
           node-version: 22
       - name: Install pinned MIT Astronomy Engine
         run: npm install --no-save astronomy-engine@2.1.19
+      - name: Check SS9 benchmark script syntax
+        run: node --check scripts/backtest-ss9-tks-benchmarks.mjs
       - name: Run SS9 geometry and apparent-place tests
         run: node --test tests/ss9-location-model.test.mjs tests/ss9-astronomy-engine-provider.test.mjs
+      - name: Back-test Almora 2018-2027 and Ramnagar 2023 against supplied TKS observations
+        run: |
+          mkdir -p /tmp/ss9-backtest
+          node scripts/backtest-ss9-tks-benchmarks.mjs > /tmp/ss9-backtest/report.json
+          node -e "const r=require('/tmp/ss9-backtest/report.json'); for (const [k,v] of Object.entries(r.almora.bodies)) console.log('Almora',k,'model events',v.modelEvents.length,'source matches',v.sourceComparisons.length); for (const [k,v] of Object.entries(r.ramnagar2023.bodies)) console.log('Ramnagar 2023',k,'model events',v.modelEvents.length,'source matches',v.sourceComparisons.length);"
+      - name: Upload SS9 benchmark back-test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ss9-location-benchmark-report
+          path: /tmp/ss9-backtest/report.json
+          if-no-files-found: error
