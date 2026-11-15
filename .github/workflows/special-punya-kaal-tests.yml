@@ -19,7 +19,9 @@ on:
       - "tests/special-punya-kaal-public-approval.test.mjs"
       - "mahapata-root-solver.mjs"
       - "karana-kutuhula-khanda-tables.mjs"
+      - "karana-kutuhula-sthiti.mjs"
       - "tests/karana-kutuhula-khanda-tables.test.mjs"
+      - "tests/karana-kutuhula-sthiti.test.mjs"
       - "tests/special-punya-kaal.test.mjs"
       - "tests/mahodaya.test.mjs"
       - "tests/mahapata-root-solver.test.mjs"
@@ -55,6 +57,7 @@ jobs:
           node --check special-punya-kaal-public-approval.mjs
           node --check mahapata-root-solver.mjs
           node --check karana-kutuhula-khanda-tables.mjs
+          node --check karana-kutuhula-sthiti.mjs
           node --check scripts/generate-special-punya-kaal-review.mjs
           node --check scripts/compare-mahapat-ephemeris.mjs
       - name: Run monthly religious calendar and special punya-kaal tests
