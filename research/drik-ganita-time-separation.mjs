@@ -232,6 +232,9 @@ export function scanDrikTimeSeparationTransitions({
     }
     for (const crossing of crossings) {
       if (delta === 0) continue;
+      if ((body === "Jupiter" || body === "Star1") &&
+          !((crossing.event === "Asta" && branch === "set") ||
+            (crossing.event === "Udaya" && branch === "rise"))) continue;
       const fraction = Math.max(0, Math.min(1,
         (crossing.thresholdTimeDegrees - before.timeDegrees) / delta
       ));
