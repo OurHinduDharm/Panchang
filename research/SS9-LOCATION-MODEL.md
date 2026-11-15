@@ -9,7 +9,7 @@
 3. पर्यवेक्षक के भौगोलिक अक्षांश पर oblique ascension निकालें:
    OA = RA − asin(tan(latitude) × tan(declination)).
 4. lagnāntara-prāṇa = |OA_body − OA_sun| × 60; K = lagnāntara-prāṇa / 60.
-5. SS Ch.9 की शर्त K > C लागू करें और पहले से bracket किए गए transition को इच्छित समय-सटीकता तक refine करें।
+5. SS Ch.9 की शर्त K > C लागू करें; interval scanner 6-घंटे के नमूनों में state changes खोजता है और bracketed transition को इच्छित समय-सटीकता तक refine करता है।
 
 ## स्थान का प्रभाव
 
