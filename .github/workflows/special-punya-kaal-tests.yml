@@ -10,6 +10,8 @@ on:
       - "tests/monthly-religious-calendar.test.mjs"
       - "tests/special-punya-kaal-public-integration.test.mjs"
       - "docs/monthly-religious-calendar-architecture.md"
+      - "docs/karana-kutuhula-mahapat-calculation-plan.md"
+      - "data/reviews/mahapat-2023-2024-reference.json"
       - "docs/karanakutuhalam-1902-pata-crosscheck.md"
       - "data/special-punya-kaal/**"
       - "special-punya-kaal.mjs"
