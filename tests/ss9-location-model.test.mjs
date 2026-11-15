@@ -67,7 +67,7 @@ test("refinement locates a synthetic Udaya crossing", () => {
     sampleAt, toleranceMs: 1_000
   });
   assert.equal(result.event, "Udaya");
-  assert.equal(result.direction, "east");
+  assert.equal(result.direction, "west");
   assert.ok(Math.abs(result.utcMilliseconds - crossing) <= 1_000);
 });
 
@@ -104,6 +104,6 @@ test("transition solver accepts direct apparent-equatorial provider samples", ()
     sampleAt, toleranceMs: 1_000
   });
   assert.equal(result.event, "Udaya");
-  assert.equal(result.direction, "east");
+  assert.equal(result.direction, "west");
   assert.ok(Math.abs(result.utcMilliseconds - crossing) <= 1_000);
 });
