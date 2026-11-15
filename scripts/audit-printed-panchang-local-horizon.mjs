@@ -98,9 +98,13 @@ const rows = source.observations.map(record => {
     direction: item.key,
     result: searchCrossing(planetName, item.value, parsed.utc, observer)
   })).filter(item => item.result);
-  const nearest = [...crossings].sort((a, b) =>
-    Math.abs(a.result.differenceMinutes) - Math.abs(b.result.differenceMinutes)
-  )[0] ?? null;
+  const crossingDiagnostics = crossings.map(item => ({
+    direction: item.direction,
+    result: item.result,
+    absoluteDifferenceMinutes: item.result
+      ? Number(Math.abs(item.result.differenceMinutes).toFixed(2))
+      : null
+  }));
   return {
     id: record.id,
     sourceId: record.sourceId,
@@ -119,33 +123,38 @@ const rows = source.observations.map(record => {
     sourceDate: record.date,
     sourceTimeRaw: record.timeRaw,
     parsedIST: parsed.localDate + " " + parsed.localTime,
-    nearestGeometricCrossing: nearest,
-    allCrossings: crossings,
-    interpretation: "clock-time geometry diagnostic only; not validation of Panchang Asta/Udaya date-selection or source direction semantics"
+    geometricCrossingDiagnostics: crossingDiagnostics,
+    interpretation: "Both local geometric rise and set are reported independently. Neither is selected as the Panchang event because the source's heliacal visibility/date-selection rule and direction semantics are not established."
   };
 });
 
-const comparable = rows.filter(row => row.nearestGeometricCrossing);
+const comparable = rows.filter(row => row.geometricCrossingDiagnostics?.some(item => item.result));
 const output = {
   schemaVersion: "1.0.0",
   generatedAtUtc: new Date().toISOString(),
   source: "research/printed-panchang-guru-shukra-agastya-2019-2026.json",
   engine: { name: "astronomy-engine", version: "2.1.19", license: "MIT" },
-  method: "For each printed IST hour-minute, compute the nearest local topocentric geometric rise/set crossing at the stated Panchang center coordinates. Almora/Ramnagar elevation is not stated in the source and is provisionally set to 0 m; results are diagnostic only.",
+  method: "For each printed IST hour-minute, compute both local topocentric geometric rise and set crossings at the stated Panchang center coordinates; report their time differences independently without assigning either crossing to the Panchang event. Almora/Ramnagar elevation is not stated in the source and is provisionally set to 0 m; results are diagnostic only.",
   summary: {
     totalRecords: rows.length,
     comparableRecords: comparable.length,
     recordsWithoutUsableTime: rows.length - comparable.length,
-    within15Minutes: comparable.filter(row => Math.abs(row.nearestGeometricCrossing.result.differenceMinutes) <= 15).length,
-    within60Minutes: comparable.filter(row => Math.abs(row.nearestGeometricCrossing.result.differenceMinutes) <= 60).length,
-    medianAbsoluteDifferenceMinutes: comparable.length
-      ? Number([...comparable].map(row => Math.abs(row.nearestGeometricCrossing.result.differenceMinutes))
+    recordsWithAnyCrossingWithin15Minutes: comparable.filter(row =>
+      row.geometricCrossingDiagnostics.some(item => item.absoluteDifferenceMinutes !== null && item.absoluteDifferenceMinutes <= 15)
+    ).length,
+    recordsWithAnyCrossingWithin60Minutes: comparable.filter(row =>
+      row.geometricCrossingDiagnostics.some(item => item.absoluteDifferenceMinutes !== null && item.absoluteDifferenceMinutes <= 60)
+    ).length,
+    medianMinimumAbsoluteCrossingDifferenceMinutes: comparable.length
+      ? Number([...comparable].map(row => Math.min(...row.geometricCrossingDiagnostics
+          .filter(item => item.absoluteDifferenceMinutes !== null)
+          .map(item => item.absoluteDifferenceMinutes)))
         .sort((a,b)=>a-b)[Math.floor(comparable.length/2)].toFixed(2))
       : null
   },
   rows,
   limitations: [
-    "This checks only whether the printed clock time is near a local geometric horizon crossing; it does not establish the Panchang's Asta/Udaya visibility rule.",
+    "This reports differences from both local geometric rise and set; it does not establish which, if either, corresponds to the Panchang's Asta/Udaya event or visibility rule.",
     "The source's पूर्व/पश्चिम labels are retained verbatim and are not interpreted as rise/set direction.",
     "The Panchang gives no observer elevation; 0 m is a documented provisional assumption and may shift horizon times.",
     "The source provides geographic and geocentric latitudes; geographic latitude is used for the observer's local horizon calculation.",
