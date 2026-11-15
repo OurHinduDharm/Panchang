@@ -102,7 +102,7 @@ for (const observation of dataset.observations) {
 const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
-  method: "geometric-horizon time-separation; 1 kala-degree = 4 minutes",
+  method: "geometric-horizon time-separation; one time-degree = one mean sidereal day / 360",
   horizon: "geometric centre at altitude 0 degrees; no refraction or photometric visibility",
   benchmarkCounts: {
     observations: dataset.observations.length,
