@@ -903,3 +903,57 @@ The previous entry described the 1991 extract as if it supported product OCR aro
 ### Next research action
 
 The next useful task is not to guess punctuation from these concatenated strings. It is to obtain the rendered page image of printed p.192 from a source that can serve the PDF at a manageable page range, or use a second digitized copy. Until then, preserve the 1902 human-checked readings and the 1991 OCR strings separately. No numerical emendation or solver implementation is approved.
+
+
+## 2026-11-16: 1991 Sanskrit commentary gives the mathematical rationale for the 15/13 and 1/13 correction
+
+The full searchable PDF text has now been opened around printed pp.104–109 and pp.192–193. This provides an important distinction between the two commentaries in the 1991 edition.
+
+### A. Sumatiharṣa: operational rule
+
+At printed p.105 (PDF text lines 2736–2738), Sumatiharṣa explains the future-pāta arrangement:
+- for a future pāta, subtract the elapsed remainders from 15 to obtain the two chāpāṃśas;
+- begin with the bhogya khanda on both the krānti and śara sides;
+- place the required two/three khanda positions separately, with the bhogya khanda of the side having the smaller chāpāṃśa kept single and the other corresponding positions doubled;
+- the passage explicitly says “स्वल्पशरे खण्डकं ह्रस्वं महच्छेषे त्रयः एव मध्यमाः भवन्ति” in the small-śara case; the surrounding wording and OCR are not sufficiently clean to claim a fully symmetrical count rule for the small-krānti case without checking the page image.
+- it then says that the bhogya and following krānti-khandas are first corrected by the thirteenth part, after which the śara-khandas are applied; sign/gola determines same-sign addition or unlike-sign difference.
+
+The p.192 worked example's own prose (printed p.192, PDF lines 2809–2810) explicitly states that the krānti bhogya khanda is 236, that the 1/13 correction is made to the krānti-khanda series, and that the śara correction follows. This independently ties the correction to the **khanda table values**, not to the angular chāpāṃśa remainder.
+
+### B. Sudhākara Dvivedī: why the factor 15/13 appears
+
+At printed p.108 (PDF lines 2757–2758), Sudhākara gives a geometric/proportional rationale. The text says that, after correcting the Moon's mean krānti-khandas by the śara-khandas, the resulting clear krānti-khandas are used to form the Sun's krānti-khanda differences. For the solar krānti calculation, the Moon's motion is considered until it amounts to 15 parts; the commentary explicitly writes the ratio **15/13**. It then explains by proportion: if 15 parts correspond to the bhogya khanda, what corresponds to 13 parts? The resulting bhogya krānti-khanda is described as one-thirteenth part, and the subsequent krānti-khandas are corrected correspondingly.
+
+This is the strongest textual explanation found so far for the 13-based correction. It establishes that 13 is not an arbitrary numerical patch and that the 1/13 operation is tied to the construction of the solar/relative krānti-khanda series from the Moon's 15-part progression.
+
+### C. What remains unresolved
+
+- The commentary's ratio supports the **scale and conceptual origin** of the correction, but the exact integer/sexagesimal implementation in the Śaka 1290 worked example still needs a clean page-image reading.
+- Do not infer that 236/13 is simply rounded to 17. The arithmetic gives 18;9;13… in sexagesimal notation, while the example's first displayed sphuṭa khanda OCR is punctuation-damaged. The actual order may involve applying a signed correction to a khanda sequence and then combining with śara, not rounding the quotient independently.
+- The 1991 p.192 OCR for the bhogya khanda itself appears as “२३९” in one digit string, but the same line's explanatory prose clearly includes “क्रान्तिभोगखण्डस्य २३६”. Preserve both as separate OCR/reading observations; the explanatory 236 is much stronger contextual evidence, but still record the printed image before declaring a diplomatic transcription.
+- The text's statement about two/three middle khanda positions is not yet enough to generalize all count combinations. Keep the previously flagged ambiguity about the small-krānti branch open.
+
+### D. Newly recovered 1991 example structure (not normalized)
+
+The 1991 p.192 passage (PDF lines 2809–2810) gives this sequence in prose:
+1. identify the case as future pāta;
+2. derive krānti and śara bhogya positions from the two longitudes divided by 15;
+3. identify krānti bhogya khanda 236 and śara bhogya khanda 56;
+4. determine chāpāṃśas and apply the smaller-krānti arrangement;
+5. correct the krānti-khanda series using the 1/13 bhogya correction;
+6. apply śara-khanda corrections with sign/gola rules;
+7. work through the khanda products, residual and quotient to obtain a khanda-angle;
+8. add the angle contributions to 10;26;47 and convert to 0;51;50 of time.
+
+The OCR digits in the product columns remain unnormalized and differ from the 1902 witness. This is a procedural cross-check, not permission to overwrite the 1902 readings.
+
+### Sources
+
+- 1991 edition, Sumatiharṣa operational commentary, printed p.105: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
+- 1991 edition, Sudhākara rationale, printed p.108: same PDF, commentary following verse 10.
+- 1991 edition, Śaka 1543 worked example, printed pp.192–193: same PDF.
+- Opened text ranges: PDF lines 2736–2738, 2757–2758, and 2809–2810.
+
+### Research decision
+
+The 1/13 rule is now **textually established as a correction to the bhogya and following krānti-khanda sequence**, with Sudhākara's 15/13 proportional rationale explaining its origin. The exact numerical realization in the Śaka 1290 example remains an open arithmetic/transcription problem. Keep all candidate values rational and signed until the printed punctuation and operation order are verified. No solver implementation is approved.
