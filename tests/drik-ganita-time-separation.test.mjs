@@ -100,7 +100,7 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
   const gaps = [12, 10, 8, 10, 12];
   const result = scanDrikTimeSeparationTransitions({
     body: "Jupiter", observer: {}, branch: "rise",
-    startLocalDayUtc: start, days: gaps.length, thresholdTimeDegrees: 9,
+    startLocalDayUtc: start, days: gaps.length, astaThresholdTimeDegrees: 9, udayaThresholdTimeDegrees: 11,
     SearchAltitude: (body, observer, direction, dateStart) => {
       const index = Math.round((dateStart.getTime() - start) / 86_400_000);
       const offsetMinutes = body === "Sun" ? 300 : 300 + gaps[index] * 4;
@@ -108,7 +108,7 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
     }
   });
   assert.deepEqual(result.events.map(event => event.event), ["Asta", "Udaya"]);
-  assert.ok(result.events.every(event => event.thresholdTimeDegrees === 9));
+  assert.deepEqual(result.events.map(event => event.thresholdTimeDegrees), [9, 11]);
 });
 
 test("Drik Venus records without a printed direction resolve from the computed event clock", () => {
