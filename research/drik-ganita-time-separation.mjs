@@ -15,9 +15,6 @@ const PLANET_BODY = Object.freeze({
   "शुक्र": "Venus",
   "बृहस्पति": "Jupiter",
   "गुरु": "Jupiter",
-  "मंगल": "Mars",
-  "बुध": "Mercury",
-  "शनि": "Saturn",
   "अगस्त्य": "Star1"
 });
 
@@ -70,7 +67,7 @@ export function resolveDrikHorizonBranch({ planet, event, direction }) {
 
   const body = PLANET_BODY[planet] || planet;
   if (/^अस्त(?: प्रारम्भ| क्षण)?$/.test(event || "") || event === "Asta") {
-    if (body === "Jupiter" || body === "Mars" || body === "Saturn" || body === "Star1") return "set";
+    if (body === "Jupiter" || body === "Star1") return "set";
   }
   if (event === "उदय" || event === "अस्त समाप्त" || event === "अगस्त्योदय" || event === "Udaya") {
     if (body === "Jupiter" || body === "Mars" || body === "Saturn" || body === "Star1") return "rise";
