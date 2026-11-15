@@ -18,6 +18,13 @@ const PLANET_BODY = Object.freeze({
   "अगस्त्य": "Star1"
 });
 
+function normalizeEventType(event) {
+  const label = String(event || "");
+  if (event === "Udaya" || label === "अस्त समाप्त" || /उदय/.test(label)) return "Udaya";
+  if (event === "Asta" || /अस्त/.test(label)) return "Asta";
+  return null;
+}
+
 function parseIsoDate(value) {
   const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return null;
@@ -66,9 +73,9 @@ export function resolveDrikHorizonBranch({ planet, event, direction }) {
   if (normalizedDirection === "पश्चिम" || normalizedDirection === "west") return "set";
 
   const body = PLANET_BODY[planet] || planet;
-  const eventText = String(event || "");
-  const isUdaya = event === "Udaya" || eventText === "अस्त समाप्त" || /उदय/.test(eventText);
-  const isAsta = !isUdaya && (event === "Asta" || /अस्त/.test(eventText));
+  const eventType = normalizeEventType(event);
+  const isUdaya = eventType === "Udaya";
+  const isAsta = eventType === "Asta";
   if (isAsta && (body === "Jupiter" || body === "Star1")) return "set";
   if (isUdaya && (body === "Jupiter" || body === "Star1")) return "rise";
   return null;
@@ -88,6 +95,7 @@ export function sourceObservationToReference(observation) {
     planet: observation.planet,
     body,
     event: observation.event,
+    eventType: normalizeEventType(observation.event),
     branch,
     direction: observation.direction || null,
     clock,
@@ -194,11 +202,12 @@ export function calibrateObservation({
  */
 export function scanDrikTimeSeparationTransitions({
   SearchAltitude, body, observer, branch, startLocalDayUtc,
-  days, thresholdTimeDegrees
+  days, thresholdTimeDegrees, astaThresholdTimeDegrees = thresholdTimeDegrees,
+  udayaThresholdTimeDegrees = thresholdTimeDegrees
 }) {
   if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
-  if (!Number.isFinite(thresholdTimeDegrees) || thresholdTimeDegrees <= 0) {
-    throw new RangeError("thresholdTimeDegrees must be positive");
+  if (![astaThresholdTimeDegrees, udayaThresholdTimeDegrees].every(value => Number.isFinite(value) && value > 0)) {
+    throw new RangeError("Asta and Udaya thresholds must be positive");
   }
   const samples = [];
   for (let index = 0; index < days; index++) {
@@ -214,25 +223,32 @@ export function scanDrikTimeSeparationTransitions({
     const after = samples[index];
     if (!before.available || !after.available) continue;
     const delta = after.timeDegrees - before.timeDegrees;
-    const wasAbove = before.timeDegrees >= thresholdTimeDegrees;
-    const isAbove = after.timeDegrees >= thresholdTimeDegrees;
-    if (wasAbove === isAbove || delta === 0) continue;
-    const fraction = Math.max(0, Math.min(1,
-      (thresholdTimeDegrees - before.timeDegrees) / delta
-    ));
-    const bodyEventUtcMs = before.bodyEventUtcMs +
-      fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
-    events.push({
-      body,
-      branch,
-      event: wasAbove ? "Asta" : "Udaya",
-      thresholdTimeDegrees,
-      beforeTimeDegrees: before.timeDegrees,
-      afterTimeDegrees: after.timeDegrees,
-      fraction,
-      utcMilliseconds: Math.round(bodyEventUtcMs),
-      utc: new Date(bodyEventUtcMs).toISOString()
-    });
+    const crossings = [];
+    if (before.timeDegrees > astaThresholdTimeDegrees && after.timeDegrees <= astaThresholdTimeDegrees) {
+      crossings.push({ event: "Asta", thresholdTimeDegrees: astaThresholdTimeDegrees });
+    }
+    if (before.timeDegrees < udayaThresholdTimeDegrees && after.timeDegrees >= udayaThresholdTimeDegrees) {
+      crossings.push({ event: "Udaya", thresholdTimeDegrees: udayaThresholdTimeDegrees });
+    }
+    for (const crossing of crossings) {
+      if (delta === 0) continue;
+      const fraction = Math.max(0, Math.min(1,
+        (crossing.thresholdTimeDegrees - before.timeDegrees) / delta
+      ));
+      const bodyEventUtcMs = before.bodyEventUtcMs +
+        fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
+      events.push({
+        body,
+        branch,
+        event: crossing.event,
+        thresholdTimeDegrees: crossing.thresholdTimeDegrees,
+        beforeTimeDegrees: before.timeDegrees,
+        afterTimeDegrees: after.timeDegrees,
+        fraction,
+        utcMilliseconds: Math.round(bodyEventUtcMs),
+        utc: new Date(bodyEventUtcMs).toISOString()
+      });
+    }
   }
   return { samples, events };
 }
@@ -248,7 +264,7 @@ export function summarizeCalibration(rows) {
   const groups = new Map();
   for (const row of rows) {
     if (!row.available) continue;
-    const key = [row.body, row.branch].join("|");
+    const key = [row.body, row.branch, row.eventType].join("|");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
   }
@@ -260,6 +276,7 @@ export function summarizeCalibration(rows) {
       key,
       body: items[0].body,
       branch: items[0].branch,
+      eventType: items[0].eventType,
       samples: items.length,
       thresholdFitSamples: trusted.length,
       medianThresholdDegrees: median(gaps),
