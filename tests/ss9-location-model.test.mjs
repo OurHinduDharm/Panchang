@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   evaluateSs9Visibility, evaluateSs9VisibilityFromEquatorial, eclipticToEquatorial,
-  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition,
+  geometricHorizonDipDegrees, horizonCrossingSiderealAngleDegrees,
+  obliqueAscensionDegrees, refineSs9Transition,
   resolveSs9EventProfile, scanSs9Transitions
 } from "../research/ss9-location-model.mjs";
 
@@ -173,4 +174,10 @@ test("Venus SS9.7 selects 8 or 10 degrees by event horizon direction", () => {
   );
   assert.equal(resolveSs9EventProfile("Jupiter", "Asta", "west").limitDeg, 11);
   assert.equal(resolveSs9EventProfile("Jupiter", "Udaya", "east").limitDeg, 11);
+});
+
+test("direct horizon sidereal angles reduce to RA plus or minus 90 degrees at equator", () => {
+  const eq = { rightAscensionDeg: 120, declinationDeg: 0 };
+  assert.ok(Math.abs(horizonCrossingSiderealAngleDegrees(eq, 0, "rising") - 30) < 1e-10);
+  assert.ok(Math.abs(horizonCrossingSiderealAngleDegrees(eq, 0, "setting") - 210) < 1e-10);
 });
