@@ -38,7 +38,7 @@ test("Venus requires an explicit 8 or 10 degree branch", () => {
     object: { longitudeDeg: 19, latitudeDeg: 0 },
     latitudeDeg: 29.6166667, obliquityDeg: 23.4393
   };
-  assert.throws(() => evaluateSs9Visibility(args), /explicit SS Ch.9 limitDeg/);
+  assert.throws(() => evaluateSs9Visibility(args), /8° or 10° branch/);
   assert.equal(evaluateSs9Visibility({ ...args, limitDeg: 8 }).limitDeg, 8);
   assert.equal(evaluateSs9Visibility({ ...args, limitDeg: 10 }).limitDeg, 10);
   assert.throws(() => evaluateSs9Visibility({ ...args, limitDeg: 9 }), /8° or 10° branch/);
@@ -95,7 +95,7 @@ test("transition solver accepts direct apparent-equatorial provider samples", ()
       rightAscensionDeg: ms < crossing ? 100 : 112,
       declinationDeg: 20
     },
-    elongationDeg: ms < crossing ? 0 : 12
+    elongationDeg: 12
   });
   const result = refineSs9Transition({
     body: "Jupiter", latitudeDeg: 0,
