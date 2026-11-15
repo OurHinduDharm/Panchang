@@ -2,7 +2,7 @@
  * Source transcription for Bhaskaracharya's Karaṇa-kutūhala, Pātādhikāra 9.
  *
  * Primary edition: Krishnadas Sanskrit Series 129 (1991), edited by
- * Dr. Satyendra Mishra; Hindi rendering, Pātādhikāra, pp. 184–185.
+ * Dr. Satyendra Mishra; Sumatiharsa Sanskrit commentary and 1902 independent edition.
  *
  * These are calculation tables only. They are NOT yet connected to a public
  * Mahapata event calculator. The order/sign expansion follows the Hindi
@@ -17,7 +17,7 @@ export const SHARA_KHANDA_BASE = Object.freeze([70, 65, 56, 43, 27, 9]);
  * Expand six base khanda into the 24-position table:
  * forward +, reverse -, forward +, reverse -.
  *
- * The source's Hindi rendering specifies four alternating krama/utkrama
+ * The source commentary specifies four alternating krama/utkrama
  * blocks and the + / - pattern. Keep this transcription isolated until the
  * original worked examples confirm the orientation and indexing convention.
  */
