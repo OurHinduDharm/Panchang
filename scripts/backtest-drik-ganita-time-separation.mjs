@@ -137,13 +137,13 @@ function summarizeSolarAltitudeCalibration(rows) {
   }));
 }
 
-function buildHeldOutValidation(rows) {
+function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
   const training = rows.filter(row =>
     row.available &&
     row.sourceId?.startsWith("drikpanchang") &&
     row.bodyEventResidualMinutes <= 15 &&
     row.horizonAtSourceTime &&
-    Number(row.date.slice(0, 4)) <= 2025
+    Number(row.date.slice(0, 4)) <= trainingThroughYear
   );
   const thresholdMap = new Map();
   for (const row of training) {
@@ -153,7 +153,7 @@ function buildHeldOutValidation(rows) {
   }
   const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
   const observer = new Observer(29 + 37 / 60, 79 + 40 / 60, 0);
-  const startLocalDayUtc = Date.parse("2026-01-01T00:00:00+05:30");
+  const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
   const predictions = [];
   for (const body of ["Venus", "Jupiter", "Star1"]) {
     for (const branch of ["rise", "set"]) {
@@ -162,7 +162,7 @@ function buildHeldOutValidation(rows) {
       if (astaThreshold === 91 && udayaThreshold === -91) continue;
       const scan = scanDrikSolarAltitudeTransitions({
         SearchRiseSet, Equator, Horizon, body, observer, branch,
-        startLocalDayUtc, days: 730,
+        startLocalDayUtc, days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
         astaSunAltitudeDeg: astaThreshold,
         udayaSunAltitudeDeg: udayaThreshold
       });
@@ -174,8 +174,7 @@ function buildHeldOutValidation(rows) {
     row.available &&
     row.sourceId === "drikpanchang-almora" &&
     row.bodyEventResidualMinutes <= 15 &&
-    Number(row.date.slice(0, 4)) >= 2026 &&
-    Number(row.date.slice(0, 4)) <= 2027
+    Number(row.date.slice(0, 4)) === holdoutYear
   );
   const unused = new Set(observed);
   const matches = [];
@@ -203,6 +202,8 @@ function buildHeldOutValidation(rows) {
     });
   }
   return {
+    holdoutYear,
+    trainingThroughYear,
     trainingSamples: training.length,
     thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
     predictedEvents: predictions.length,
@@ -250,7 +251,8 @@ const report = {
     rejected: rows.length - eligible.length
   },
   sourceAgreement: buildSourceAgreement(dataset.observations),
-  heldOutValidation2026to2027: buildHeldOutValidation(rows),
+  heldOutValidation2026: buildHeldOutValidation(rows, 2026, 2025),
+  heldOutValidation2027: buildHeldOutValidation(rows, 2027, 2026),
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   observations: rows,
