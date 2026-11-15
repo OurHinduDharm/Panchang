@@ -59,6 +59,9 @@ function searchCrossing(bodyName, direction, targetUtc, observer) {
 
 const rows = source.observations.map(record => {
   const profile = profiles[record.sourceId];
+  if (record.planet === "अगस्त्य") {
+    return { id: record.id, sourceId: record.sourceId, planet: record.planet, event: record.event, date: record.date, timeRaw: record.timeRaw, status: "separate-fixed-star-track", reason: "Canopus traditional date/time needs a fixed-star calculation and must not be passed to the planet rise/set API." };
+  }
   const parsed = parsePrintedClock(record.date, record.timeRaw);
   const planetName = record.planet === "शुक्र" ? "Venus"
     : record.planet === "बृहस्पति" ? "Jupiter"
@@ -74,7 +77,6 @@ const rows = source.observations.map(record => {
   const observer = new Astronomy.Observer(
     profile.latitude, profile.longitude, profile.elevationMeters
   );
-  const body = Astronomy.Body[planetName];
   const directions = record.planet === "अगस्त्य"
     ? [{ key: "rise", value: 1 }]
     : [{ key: "rise", value: 1 }, { key: "set", value: -1 }];
@@ -133,10 +135,10 @@ const output = {
     "The source's पूर्व/पश्चिम labels are retained verbatim and are not interpreted as rise/set direction.",
     "The Panchang gives no observer elevation; 0 m is a documented provisional assumption and may shift horizon times.",
     "The source provides geographic and geocentric latitudes; geographic latitude is used for the observer's local horizon calculation.",
-    "Canopus is tested as a geometric rising event only; this does not reproduce traditional Agastya Arghya/date selection."
+    "Agastya/Canopus records are deliberately routed to a separate fixed-star research track; no planetary-body API is used for them."
   ]
 };
 const outputPath = process.env.OUTPUT_PATH || "artifacts/printed-panchang-local-horizon-audit.json";
 await mkdir(outputPath.slice(0, outputPath.lastIndexOf("/")) || ".", { recursive: true });
-await writeFile(outputPath, JSON.stringify(output, null, 2) + "\\n");
+await writeFile(outputPath, JSON.stringify(output, null, 2) + "\n");
 console.log(JSON.stringify({ result: "PASS", summary: output.summary, sample: rows.slice(0, 4), outputPath }, null, 2));
