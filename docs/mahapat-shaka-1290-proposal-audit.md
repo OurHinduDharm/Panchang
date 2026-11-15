@@ -957,3 +957,39 @@ The OCR digits in the product columns remain unnormalized and differ from the 19
 ### Research decision
 
 The 1/13 rule is now **textually established as a correction to the bhogya and following krānti-khanda sequence**, with Sudhākara's 15/13 proportional rationale explaining its origin. The exact numerical realization in the Śaka 1290 example remains an open arithmetic/transcription problem. Keep all candidate values rational and signed until the printed punctuation and operation order are verified. No solver implementation is approved.
+
+
+## 2026-11-16: direct 1902 page-text recovery sharpens the first-product discrepancy
+
+The Jain Quantum page preview for original printed p.145 (web page 149) is now directly accessible as a continuous Sanskrit text, rather than relying on the earlier secondary OCR summary:
+https://jainqq.org/explore/034533/149
+
+The visible searchable transcription reads (punctuation preserved as displayed):
+> “प्रथमखण्डम् १९७ स्वल्पचापांशैः ५४ १२ गुणितम् ७७५ । ३ ... द्वितीयखण्डं ६१ चापांशाः ३ । ५४ । १२ चापांशाः ५ । ४७॥ ५७ अनयोरन्तरांशः १ । ५३ । ४५ गुणितम् ४९२।३।२७ ... विषमं तृतीयखण्डम् २७४ ... १३ । ६ । ५३ गुणितम् ३५९३ ...”
+
+This confirms that the searchable page text itself carries the first line as “197”, multiplier-like text “54 12”, and product “775;3”. It does not resolve whether punctuation or digits are missing in the underlying scan.
+
+### Exact arithmetic check
+
+Using sexagesimal multiplication:
+- 197 × 3;54;12 = 768;57;24, not 775;3.
+- 198 × 3;54;52 = 775;3;36, which truncates to 775;3.
+- 197 × 3;56;3 = 775;3 exactly at the displayed precision.
+
+These are **candidate arithmetic decompositions only**, not readings of the book. They show that the first product line cannot be validated from the current searchable transcription. Do not select 198 or 3;54;52 just because their product is close.
+
+The second and third lines remain:
+- 61 × 1;53;45 = 115;38;45, not 492;3;27.
+- 261 × 1;53;7 = 492;3;27 exactly (candidate identity only; it does not prove that the printed khanda is 261).
+- 274 × 13;6;53 = 3593;26;2, consistent with a displayed/truncated 3593.
+
+### p.135 text recovered directly
+
+The searchable original p.135 page (web page 139) reads:
+> “अपक्रमस्य ... भोग्यखण्डस्य विश्वांशकेन १३ त्रयोदशांशकेन भोग्यादीनि क्रान्तिखण्डानि पूर्व संस्कृत्य ... पुनः शरखण्डकैः संस्कृतानि ...”
+
+This supports the already recorded sequence: the thirteenth-part correction is applied first to the bhogya and following krānti-khanda series; the śara-khanda correction follows. The exact printed word immediately before “भोग्यखण्डस्य” is OCR-corrupt, so this is not a diplomatic transcription.
+
+### Research consequence
+
+The first and second sphuṭa-khanda product lines remain the critical bottleneck. The source text is not arithmetically self-verifying as currently transcribed. The next action must be a visual reading of p.145, not another algebraic fit. Keep the 1902 page text, user-verified readings, and reconstructed candidates as three separate witnesses.
