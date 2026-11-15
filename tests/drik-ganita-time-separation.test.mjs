@@ -6,6 +6,7 @@ import {
   sourceObservationToReference,
   measureDrikTimeSeparation,
   calibrateObservation,
+  scanDrikTimeSeparationTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
@@ -35,6 +36,8 @@ test("horizon branch follows the printed east/west direction", () => {
   assert.equal(resolveDrikHorizonBranch({ planet: "शुक्र", event: "उदय", direction: "पूर्व" }), "rise");
   assert.equal(resolveDrikHorizonBranch({ planet: "बृहस्पति", event: "अस्त प्रारम्भ" }), "set");
   assert.equal(resolveDrikHorizonBranch({ planet: "बृहस्पति", event: "अस्त समाप्त" }), "rise");
+  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अगस्त्य तारा उदय क्षण" }), "rise");
+  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अस्त क्षण" }), "set");
 });
 
 test("source conversion preserves raw time and selects an event branch", () => {
@@ -90,4 +93,20 @@ test("calibration summary uses median thresholds and residuals", () => {
   ]);
   assert.equal(summary[0].medianThresholdDegrees, 10);
   assert.equal(summary[0].medianBodyEventResidualMinutes, 2);
+});
+
+test("daily time-separation scanner detects downward Asta and upward Udaya", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const gaps = [12, 10, 8, 10, 12];
+  const result = scanDrikTimeSeparationTransitions({
+    body: "Jupiter", observer: {}, branch: "rise",
+    startLocalDayUtc: start, days: gaps.length, thresholdTimeDegrees: 9,
+    SearchAltitude: (body, observer, direction, dateStart) => {
+      const index = Math.round((dateStart.getTime() - start) / 86_400_000);
+      const offsetMinutes = body === "Sun" ? 300 : 300 + gaps[index] * 4;
+      return { date: new Date(dateStart.getTime() + offsetMinutes * 60_000) };
+    }
+  });
+  assert.deepEqual(result.events.map(event => event.event), ["Asta", "Udaya"]);
+  assert.ok(result.events.every(event => event.thresholdTimeDegrees === 9));
 });
