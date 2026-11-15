@@ -24,7 +24,7 @@ jobs:
           node --check scripts/backtest-drik-ganita-time-separation.mjs
       - name: Run unit tests
         run: node --test tests/drik-ganita-time-separation.test.mjs
-      # Holdout timestamps use the first target rise/set event meeting the solar-altitude threshold.
+      # Diagnostics also split source solar-altitude thresholds by apparent direct/retrograde motion.
       # Ganesh Martand remains a date cross-check until its printed clock notation is verified.
       - name: Back-test Drik and printed Panchang observations
         run: |
