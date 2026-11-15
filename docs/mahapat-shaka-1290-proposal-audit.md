@@ -451,3 +451,73 @@ https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dviv
 - Third sphuṭa-khanda **274**: its product 274 × 13;6;53 = 3593;26;2 is arithmetically verified, but its derivation from the signed source table and placement sequence is still open.
 - The user's proposed sequence 236 → 150 remains incorrect; 236 is followed by 299 in the reverse run.
 - The Gemini alternate śara values [78,70,56,37,13] are not supported by the 1991 Sanskrit table.
+
+## 2026-11-15: primary-text recheck corrects the provisional +17 interpretation
+
+A fresh line-by-line reading of the 1902 full-book transcription (printed pp.134–145) requires a correction to the previous research note and assistant summary.
+
+### 1. The Sanskrit p.145 wording does not license taking 1/13 of 3;50;52
+
+The p.145 commentary reads (OCR normalized only for spacing; preserve uncertain letters):
+“क्रान्तिभोग्यखण्डस्य २३६ विश्वांशभागेन ... क्रान्तिखण्डानि ...”
+It explicitly names the bhogya krānti-khaṇḍa as 236 and its thirteenth part. The 1991 Hindi summary's “भोग्य राशि/भोग्य राशि का तेरहवाँ भाग” is consistent with the bhogya quantity being the operand; it does not unambiguously say the angular remainder 3;50;52 is the operand.
+
+Therefore the previous section's claim that 3;50;52 ÷ 13 = 17 and then 236 − 56 + 17 = 197 is **not established**. It is a numerically neat fit, but the explicit Sanskrit points instead to the bhogya-khaṇḍa value 236. Since 236/13 = 18;9;13… in sexagesimal fractional notation, a whole-kalā correction of 18 would give 236 − 56 + 18 = 198 under that sign arrangement, not the printed 197. Preserve the one-unit discrepancy; do not present 197 as solved.
+
+This correction supersedes the prior statement that +17 from the 3;50;52 arc was strongly supported. It is now only an alternative numerical hypothesis, not the preferred textual reading.
+
+### 2. Exact verse-8 rule from the 1902 full-book text
+
+The p.136 commentary is now recovered in full. It says:
+- first multiplier: the smaller of the two chāpāṃśas;
+- for the even-position khanda(s), use the difference between the two chāpāṃśas;
+- if the fourth khanda is present, also use the sixth;
+- these multiplier/khanda products are the svāṃśa-ghna terms;
+- subtract from 15 times the lunar-śara kalā as many terms as clear;
+- divide the residual by the aśuddha sphuṭa-khaṇḍa (not the svāṃśa-ghna multiplier);
+- add the quotient to the sum of the multipliers for the cleared khandas;
+- convert the resulting angular amount to time using 60 and lunar motion.
+
+The exact source passage is at https://jainqq.org/explore/034533/140 and is visible in the full book text near the commentary immediately after verse 8.
+
+### 3. The actual 1902 Śaka 1290 passage: exact raw text values
+
+The full searchable book transcription (printed pp.144–145) gives:
+- sāyana Moon 130;5;58; quotient 8; remainder 11;5;8;
+- sapāta Moon 39;12;1; quotient 2; remainder printed 9;21;1;
+- bhogya krānti-khaṇḍa 236, negative; bhogya śara-khaṇḍa 56, positive;
+- krānti chāpāṃśa 3;50;52; śara chāpāṃśa 5;4;47;
+- first sphuṭa khanda 197; accompanying multiplier OCR string 54 12; product 775;3;
+- second sphuṭa khanda 61; chāpāṃśas 3;54;12 and 5;47;57; difference 1;53;45; product 492;3;27;
+- third odd khanda 274; difference 1;53;7; complement to 15 13;6;53; product 3593.
+
+The user's independent book-checked sāyana-Moon reading 131;5;58 remains a separate primary human transcription witness and must not be overwritten by the searchable transcription.
+
+### 4. New arithmetic cross-check exposes the remainder conflict
+
+- If total is 130;5;58, division by 15 gives quotient 8, remainder 10;5;58, not printed 11;5;8.
+- If total is user's checked 131;5;58, division by 15 gives quotient 8, remainder 11;5;58, not printed 11;5;8.
+- The printed remainder 11;5;8 would correspond to total 131;5;8, not either recorded total.
+- Sapāta 39;12;1 divided by 15 gives quotient 2 and remainder 9;12;1, not printed 9;21;1.
+
+The printed chāpāṃśas should therefore not be regenerated from any one of these inconsistent remainder readings without first resolving the page-image text.
+
+### 5. Do not conflate first multiplier, second multiplier, and source chāpāṃśa
+
+The p.145 searchable text reads first multiplier as 54 12 (punctuation/leading fields unclear), not confidently 3;54;52. It then explicitly prints the second pair 3;54;12, 5;47;57, difference 1;53;45, and third multiplier 1;53;7. Gemini's alternative multipliers make selected products fit but are not the exact printed readings.
+
+Product arithmetic:
+- 198 × 3;54;52 = 775;3;36, truncating to 775;3.
+- 261 × 1;53;7 = 492;3;27, exactly.
+- 274 × 13;6;53 = 3593;26;2, truncating to 3593.
+
+These identities show what operands would reproduce the products, but they do not prove the source intended those operands. In particular, the second khanda remains printed 61; 261 is only an unproven alternative.
+
+### Updated status
+
+- 24-position sign pattern and the next krānti table values 236 → 299 → 341: established.
+- Verse-8 multiplier/residual procedure: recovered directly from 1902 commentary.
+- First sphuṭa khanda 197: **not solved**; previous +17 claim withdrawn to hypothesis status.
+- Second sphuṭa khanda 61: **not solved**.
+- Third sphuṭa khanda 274: product checks, but its source derivation remains open.
+- Priority next: inspect the actual page images for 1902 pp.144–145 and the corresponding 1991 printed p.192; reconcile the user's checked reading with the OCR and verify the first multiplier typography before proposing any emendation.
