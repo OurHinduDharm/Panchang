@@ -22,7 +22,7 @@ jobs:
         run: |
           node --check research/drik-ganita-time-separation.mjs
           node --check scripts/backtest-drik-ganita-time-separation.mjs
-      # Regression coverage includes target-body versus Sun horizon-event separation.
+      # Regression coverage includes target-body event separation and interpolated solar-altitude crossings.
       - name: Run unit tests
         run: node --test tests/drik-ganita-time-separation.test.mjs
       # Diagnostics also split source solar-altitude thresholds by apparent direct/retrograde motion.
