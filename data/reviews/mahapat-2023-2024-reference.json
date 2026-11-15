@@ -1,6 +1,6 @@
 {
   "source": "Tara Prasad Divya Panchang, Vikram Samvat 2025 edition; user-transcribed table headed Samvat 2080 (2023–24)",
-  "status": "reference-only-not-yet-normalized",
+  "status": "reference-data-normalized-user-confirmed",
   "observer": {
     "name": "Nainital, Girija Mata Temple, Garjia, Ramnagar",
     "latitude": 29.5,
@@ -10,7 +10,7 @@
   "calculationSystem": "drik",
   "timezone": "Asia/Kolkata",
   "timezoneOffsetMinutes": 330,
-  "timeNotation": "Publisher states IST. Raw printed values are preserved. A derived ISO instant is also stored by treating HH:MM as hours/minutes after 00:00 on the printed date; thus 25:41 rolls into the next civil day. This is a transparent normalization assumption to be checked against one original printed example before final comparison.",
+  "timeNotation": "User explicitly confirms that the Panchang writes times continuously as 23:00, 24:00, 25:00 and onward. Therefore HH:MM is elapsed clock time from 00:00 on the printed date; values >=24:00 roll into the following civil date. Raw printed strings remain preserved alongside derived Asia/Kolkata ISO instants.",
   "columns": [
     "type",
     "touchDate",
