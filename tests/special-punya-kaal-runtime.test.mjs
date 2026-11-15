@@ -32,7 +32,7 @@ test("on-demand scanner calculates selected month and includes both boundary day
   assert.equal(result.scannedDays, 31);
   assert.equal(result.panchangCalls, 31);
   assert.equal(calls[0].date.toISOString(), "2028-01-31T06:30:00.000Z");
-  assert.equal(calls.at(-1).date.toISOString(), "2028-03-02T06:30:00.000Z");
+  assert.equal(calls.at(-1).date.toISOString(), "2028-03-01T06:30:00.000Z");
   assert.equal(calls[0].observer.id, "test-observer");
   assert.deepEqual(calls[0].options, { timezoneOffset: 330, calendarType: "purnimanta" });
   assert.deepEqual(result.diagnostics, []);
