@@ -21,7 +21,7 @@
 
 ## विशेष पुण्यकाल की runtime गणना
 
-- वार्षिक तारीख़ों की JSON सूची calculation source नहीं होगी। चुने हुए महीने के लिए Panchang engine से उसी observer, IST (UTC+05:30) और Purnimanta profile पर तिथि, नक्षत्र, योग, सूर्योदय और सूर्यास्त के वास्तविक intervals निकाले जाएँगे।
+- वार्षिक तारीख़ों की JSON सूची calculation source नहीं होगी। वारुणी का नियम चैत्र-कृष्ण त्रयोदशी + शतभिषा से जुड़ा है, इसलिए Gregorian मार्च–अप्रैल के बाहर scanner पहले ही रुक जाता है: उन 10 महीनों में Panchang engine/ephemeris की एक भी call नहीं होती। मार्च–अप्रैल में ही उसी observer, IST (UTC+05:30) और Purnimanta profile पर वास्तविक तिथि, नक्षत्र, योग, सूर्योदय और सूर्यास्त intervals जाँचे जाते हैं। महोदय की source profile स्वीकृत न होने से उसका मासिक scan फिलहाल नहीं चलता।
 - महीने की सीमा पर शुरू/समाप्त होने वाले conjunction छूटें नहीं, इसलिए scanner महीने के पहले दिन से एक दिन पहले और महीने के अंतिम दिन के अगले दिन तक interval inputs लेगा।
 - `special-punya-kaal-runtime.mjs` on-demand month scanner है। यह मौजूदा Panchang library को dependency injection से लेता है; अलग ephemeris या duplicate Panchang implementation नहीं जोड़ता।
 - scanner का output `research-only-not-approved` रहता है। किसी गणितीय candidate को केवल गणना के आधार पर public नहीं किया जाएगा। अलग source review, calculation verification और explicit rule-profile approval आवश्यक हैं।
@@ -64,7 +64,7 @@ research-candidate → source-reviewed → calculation-verified → approved
 
 ## Special sadhana punya-kaal runtime and loading
 
-- The selected month is calculated on demand from the pinned `@ishubhamx/panchangam-js@3.0.0` engine; pre-generated monthly JSON is not the calculation source.
+- The selected month is calculated on demand from the pinned `@ishubhamx/panchangam-js@3.0.0` engine; pre-generated monthly JSON is not the calculation source. The rare Chaitra Varuni rule is prefiltered to March–April, so the other ten Gregorian months return immediately with zero ephemeris calls. Mahodaya scanning is paused until its primary-source profile is approved.
 - Both the daily Panchang link check and monthly calendar scanner wait until their small sentinel approaches the viewport (IntersectionObserver root margin). The runtime module is imported only then.
 - Monthly results are cached in page memory by year, month, latitude, longitude and elevation. The cache is bounded; changing the observer cannot reuse another location's times.
 - The scanner checks the previous civil day and the first day of the next month so conjunctions crossing month boundaries are not truncated.
