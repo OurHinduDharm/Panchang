@@ -108,3 +108,76 @@ export function extractMahapataLongitudeKhandas({ sayanaMoon, sapataMoon }) {
     status: "research-only"
   });
 }
+
+function remainderArcSeconds(remainder) {
+  if (!remainder || typeof remainder !== "object") {
+    throw new TypeError("angular remainder is required");
+  }
+  const degree = Number(remainder.degree);
+  const minute = Number(remainder.minute ?? 0);
+  const second = Number(remainder.second ?? 0);
+  if (![degree, minute, second].every(Number.isInteger) ||
+      degree < 0 || degree >= 15 || minute < 0 || minute >= 60 ||
+      second < 0 || second >= 60) {
+    throw new RangeError("remainder must be within one 15-degree khanda");
+  }
+  return degree * 3600 + minute * 60 + second;
+}
+
+/**
+ * Read one source-table entry using the text's 1-based khanda numbering.
+ * No direction inference is made here: the caller must supply the actual
+ * khanda number derived from the longitude quotient.
+ */
+export function getSignedMahapataKhanda({ table, khandaNumber }) {
+  if (!Array.isArray(table) || table.length !== 24) {
+    throw new TypeError("a 24-position signed khanda table is required");
+  }
+  const index = Number(khandaNumber);
+  if (!Number.isInteger(index) || index < 1 || index > 24) {
+    throw new RangeError("khandaNumber must be an integer from 1 to 24");
+  }
+  const value = Number(table[index - 1]);
+  if (!Number.isFinite(value) || value === 0) {
+    throw new RangeError("selected khanda table entry must be non-zero");
+  }
+  return Object.freeze({ khandaNumber: index, signedValue: value });
+}
+
+/**
+ * Verses 5–6: the next khanda (quotient + 1, 1-based) is the bhogya
+ * khanda. The commentary places the bhogya khanda singly on whichever
+ * side (kranti or shara) has the smaller angular remainder; the other
+ * side's khanda is placed in two positions. This helper records only
+ * that source-explicit choice; it does not yet construct the past/future
+ * two/three-position layout or apply corrections.
+ */
+export function selectMahapataBhogyaKhandas({ kranti, shara }) {
+  if (!kranti || !shara ||
+      !Number.isInteger(Number(kranti.khandaIndex)) ||
+      !Number.isInteger(Number(shara.khandaIndex)) ||
+      Number(kranti.khandaIndex) < 0 || Number(kranti.khandaIndex) > 23 ||
+      Number(shara.khandaIndex) < 0 || Number(shara.khandaIndex) > 23) {
+    throw new RangeError("kranti and shara must contain valid khanda divisions");
+  }
+  const krantiRemainder = remainderArcSeconds(kranti.remainder);
+  const sharaRemainder = remainderArcSeconds(shara.remainder);
+  if (krantiRemainder === sharaRemainder) {
+    throw new RangeError("equal remainders do not determine a unique bhogya side");
+  }
+  const bhogyaSide = krantiRemainder < sharaRemainder ? "kranti" : "shara";
+  return Object.freeze({
+    kranti: Object.freeze({
+      bhogyaKhandaNumber: Number(kranti.khandaIndex) + 1,
+      remainderArcSeconds: krantiRemainder,
+      placement: bhogyaSide === "kranti" ? "single-bhogya" : "two-position"
+    }),
+    shara: Object.freeze({
+      bhogyaKhandaNumber: Number(shara.khandaIndex) + 1,
+      remainderArcSeconds: sharaRemainder,
+      placement: bhogyaSide === "shara" ? "single-bhogya" : "two-position"
+    }),
+    bhogyaSide,
+    status: "research-only"
+  });
+}
