@@ -9,7 +9,7 @@ import {
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
-const { Observer, SearchRiseSet, DefineStar, Equator, Horizon } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
@@ -108,12 +108,22 @@ function apparentAtSourceTime(body, observer, instantUtcMs) {
   const bodyEquator = Equator(body, date, observer, true, true);
   const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
   const bodyHorizon = Horizon(date, observer, bodyEquator.ra, bodyEquator.dec, "normal");
+  let motionState = "fixed-star";
+  let dailyLongitudeMotionDeg = null;
+  if (body === "Venus" || body === "Jupiter") {
+    const before = Ecliptic(GeoVector(body, new Date(instantUtcMs - 86_400_000), true)).elon;
+    const after = Ecliptic(GeoVector(body, new Date(instantUtcMs + 86_400_000), true)).elon;
+    dailyLongitudeMotionDeg = ((after - before + 540) % 360 - 180) / 2;
+    motionState = dailyLongitudeMotionDeg < 0 ? "retrograde" : "direct";
+  }
   return {
     sunAltitudeDeg: sunHorizon.altitude,
     bodyAltitudeDeg: bodyHorizon.altitude,
     sunAzimuthDeg: sunHorizon.azimuth,
     bodyAzimuthDeg: bodyHorizon.azimuth,
-    topocentricSeparationDeg: angularSeparationDegrees(sunEquator, bodyEquator)
+    topocentricSeparationDeg: angularSeparationDegrees(sunEquator, bodyEquator),
+    motionState,
+    dailyLongitudeMotionDeg
   };
 }
 
