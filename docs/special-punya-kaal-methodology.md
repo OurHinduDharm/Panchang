@@ -291,3 +291,19 @@ This is the acceptance target for the next Mahapata implementation pass. The cur
 **अगला गणितीय gate:** 1991 संस्करण के पृष्ठ 108–109 और 1902 स्कैन के पृष्ठ 141–143 में श्लोक 11 के गुणांक/इकाई तथा 5:37 उदाहरण का पूर्ण मिलान करना; फिर उसी उदाहरण के स्पर्श/मध्य/मोक्ष को scan से पढ़कर हाथ से reproduce करना। जब तक यह न हो, 24-खण्ड विस्तार, अवधि-गुणक या कोई सार्वजनिक महापात समय calculator से नहीं निकलेगा।
 
 स्रोत: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf (पाताधिकार 9, विशेषतः PDF text lines 2716–2798; मुद्रित पृष्ठ 105–109)।
+
+
+## सार्वजनिक Varuni approval checkpoint — 2026–2030
+
+The Smarta Kālanirṇaya-sindhu profile is the public rule profile for the Varuni family. The engine's exact tithi–nakshatra interval intersections have been cross-checked and explicitly date-approved for this release:
+
+| Local conjunction start date | Pithoragarh interval (IST) | Public label |
+|---|---|---|
+| 17 March 2026 | 06:22–09:23 | वारुणी योग |
+| 4 April 2027 | 04:26–16:32 | वारुणी योग |
+| 23 March 2028 | 11:22 (23 Mar) – 05:33 (24 Mar) | वारुणी योग |
+| 31 March 2030 | 00:42–19:49 | वारुणी योग |
+
+The 2026 Tuesday conjunction is deliberately **not** upgraded to Mahavaruni; that upgrade requires Saturday under the chosen Smarta profile. The 2028 interval is displayed as a continuous conjunction beginning on 23 March and ending on 24 March; no separate sunrise-observance date is asserted. The 2029 scan has no conjunction under this profile.
+
+The public code requires both the approved Smarta rule profile and one of the four explicit dates above. It does not expose future research candidates automatically. Mahavaruni/Mahamahavaruni remain available in the rule engine but no qualifying approved dates occur in this 2026–2030 release. Mahapata and Mahodaya remain hidden and are not implied to be approved by the Varuni release.
