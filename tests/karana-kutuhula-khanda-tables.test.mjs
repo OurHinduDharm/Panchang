@@ -31,6 +31,31 @@ test("six-value tables expand to 24 signed krama/utkrama positions", () => {
   assert.equal(SHARA_KHANDA_24[12], 70);
 });
 
+test("second 1902 worked example locks 16th kranti and 24th shara table positions", () => {
+  // Printed pp.141-142: quotient 15 -> 16th kranti position (+236);
+  // quotient 23 -> 24th shara position (-70).
+  assert.deepEqual(getSignedMahapataKhanda({
+    table: KRANTI_KHANDA_24, khandaNumber: 16
+  }), { khandaNumber: 16, signedValue: 236 });
+  assert.deepEqual(getSignedMahapataKhanda({
+    table: SHARA_KHANDA_24, khandaNumber: 24
+  }), { khandaNumber: 24, signedValue: -70 });
+  const selection = selectMahapataBhogyaKhandas({
+    kranti: {
+      khandaIndex: 15,
+      remainder: { degree: 10, minute: 21, second: 51 }
+    },
+    shara: {
+      khandaIndex: 23,
+      remainder: { degree: 5, minute: 58, second: 29 }
+    }
+  });
+  assert.equal(selection.bhogyaSide, "shara");
+  assert.equal(selection.kranti.bhogyaKhandaNumber, 16);
+  assert.equal(selection.shara.bhogyaKhandaNumber, 24);
+  assert.deepEqual(selection.middleKhandaCounts, { kranti: 3, shara: 2 });
+});
+
 test("verse 5 division by 15 returns khanda quotient and angular remainder", async () => {
   const { divideLongitudeIntoKhandas } = await import("../karana-kutuhula-khanda-tables.mjs");
   assert.deepEqual(divideLongitudeIntoKhandas({
