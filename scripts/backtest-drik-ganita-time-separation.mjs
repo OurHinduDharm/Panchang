@@ -112,7 +112,8 @@ function apparentAtSourceTime(body, observer, instantUtcMs) {
     topocentricSeparationDeg: angularSeparationDegrees(sunEquator, bodyEquator)
   };
 }
-\nconst rows = [];
+
+const rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
