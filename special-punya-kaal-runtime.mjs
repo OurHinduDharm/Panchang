@@ -10,8 +10,7 @@
  * approval. Public UI must filter by an independently approved rule profile.
  */
 import {
-  buildVaruniCandidates,
-  buildMahodayaCandidates
+  buildVaruniCandidates
 } from "./special-punya-kaal.mjs";
 
 const TIMEZONE_OFFSET_MINUTES = 330;
