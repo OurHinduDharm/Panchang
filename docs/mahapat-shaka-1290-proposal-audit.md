@@ -521,3 +521,55 @@ These identities show what operands would reproduce the products, but they do no
 - Second sphuṭa khanda 61: **not solved**.
 - Third sphuṭa khanda 274: product checks, but its source derivation remains open.
 - Priority next: inspect the actual page images for 1902 pp.144–145 and the corresponding 1991 printed p.192; reconcile the user's checked reading with the OCR and verify the first multiplier typography before proposing any emendation.
+
+
+## 2026-11-15: reverse-check of the printed p.145 product column
+
+A fresh arithmetic pass distinguishes the *printed sphuṭa-khaṇḍa* from the product-column operands. This is important because the product values cannot be reproduced by multiplying the printed khanda and the adjacent printed angular difference as a plain sexagesimal product.
+
+### Exact p.145 searchable transcription (preserve as raw witness)
+
+The page text reads, in sequence:
+- first sphuṭa-khaṇḍa: **197**;
+- “स्वल्पचापांशैः ५४ १२ गुणितम् ७७५।३” (the first multiplier's punctuation/field segmentation is unclear in searchable text);
+- second sphuṭa-khaṇḍa: **61**;
+- chāpāṃśas **3;54;12** and **5;47;57**;
+- their difference **1;53;45**;
+- product **492;3;27**;
+- third odd khanda **274**;
+- “अन्तरांशैः 1;53;7 तिथितः 15 शुद्धैः 13;6;53 गुणितम् 3593”.
+
+Source: https://jainqq.org/explore/034533/149
+
+### Direct arithmetic reverse-check
+
+The printed products and the obvious printed operands do not match under ordinary sexagesimal multiplication:
+- 197 × 3;54;12 = 768;57;24, not 775;3.
+- 61 × 1;53;45 = 115;38;45, not 492;3;27.
+- 274 × 13;6;53 = 3593;26;2, which truncates to the printed 3593.
+
+The third line is therefore arithmetically reproducible, while the first two require either a missing scale/column operation, a different operand segmentation, or a source/transcription error.
+
+### Candidate operand pairs that reproduce the first two products
+
+Two exact/near-exact identities are numerically notable:
+- 198 × 3;54;52 = 775;3;36 → truncates to 775;3.
+- 261 × 1;53;7 = 492;3;27 exactly.
+- 274 × 13;6;53 = 3593;26;2 → truncates to 3593.
+
+This makes **198**, **261**, **3;54;52**, and **1;53;7** useful diagnostic candidates. It does not authorize replacing the page's raw readings 197, 61, 3;54;12, or 1;53;45. The exact products alone cannot prove the candidate operands were intended.
+
+### A further structural clue, not yet a derivation
+
+With the established reverse krānti sequence after the ninth bhogya khanda 236, the next entries are 299 and 341 (both in the negative run). The Sanskrit table values remain [362, 341, 299, 236, 150, 52], and the 1991 Sanskrit śara table remains [70, 65, 56, 43, 27, 9].
+
+Simple combinations show:
+- 299 − 43 + 18 = 274.
+- 341 − 299 + 19 = 61.
+- 236 − 56 + 18 = 198.
+
+These are *numerical leads only*. The 18/19 corrections have not been derived from the verse 5–7 procedure for each respective position, and the second expression is a difference between adjacent krānti table entries rather than an established signed krānti–śara combination. Do not present these as the actual method. Their value is that they identify precisely which source rule must be checked next: whether the bhogya correction is propagated, recomputed, or differs by position, and how the doubled middle positions pair krānti and śara entries.
+
+### Revised immediate task
+
+Read the 1991 Sanskrit commentary and Hindi summary at the page-image level for the worked Śaka 1290 example, especially the product setup and the exact definition of the middle/odd sphuṭa-khaṇḍas. Then reconstruct each of the three khanda combinations from the 24-position signed tables before changing any transcription. No implementation is approved.
