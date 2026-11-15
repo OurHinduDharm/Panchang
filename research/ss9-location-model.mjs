@@ -155,7 +155,7 @@ export function refineSs9Transition({
   const appearance = at.appearance;
   const direction = appearance === null
     ? null
-    : ((appearance === "evening") === (event === "Asta") ? "west" : "east");
+    : (appearance === "evening" ? "west" : "east");
   return {
     body, event, direction,
     utcMilliseconds: transitionMs,
