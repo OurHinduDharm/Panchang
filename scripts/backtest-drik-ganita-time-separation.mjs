@@ -195,7 +195,8 @@ function buildHeldOutValidation(rows) {
     matches
   };
 }
-\nconst rows = [];
+
+const rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
@@ -231,7 +232,8 @@ const report = {
     available: eligible.length,
     rejected: rows.length - eligible.length
   },
-  sourceAgreement: buildSourceAgreement(dataset.observations),\n  heldOutValidation2026to2027: buildHeldOutValidation(rows),
+  sourceAgreement: buildSourceAgreement(dataset.observations),
+  heldOutValidation2026to2027: buildHeldOutValidation(rows),
   calibrationGroups: summarizeCalibration(eligible),
   observations: rows,
   notes: [
