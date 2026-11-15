@@ -234,3 +234,19 @@ test("solar-altitude transition reports the first target rise/set event after th
   assert.equal(result.events[1].event, "Asta");
   assert.equal(result.events[1].utcMilliseconds, start + 3 * 86_400_000 + 6 * 60 * 60_000);
 });
+
+test("time separation compares Sun event with the requested target body event", async () => {
+  const { measureDrikTimeSeparation } = await import("../research/drik-ganita-time-separation.mjs");
+  const calls = [];
+  const SearchRiseSet = (body, observer, direction, date) => {
+    calls.push(body);
+    return { date: new Date(date.getTime() + (body === "Sun" ? 6 : 7) * 60 * 60 * 1000) };
+  };
+  const result = measureDrikTimeSeparation({
+    SearchRiseSet, body: "Venus", observer: {}, branch: "rise",
+    localDayStartUtc: Date.UTC(2026, 0, 1)
+  });
+  assert.deepEqual(calls, ["Sun", "Venus"]);
+  assert.equal(result.available, true);
+  assert.equal(result.gapMinutes, 60);
+});
