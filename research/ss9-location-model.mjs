@@ -1,7 +1,9 @@
 /**
- * Research-only location-aware Surya Siddhanta Ch.9 visibility kernel.
- * Caller supplies apparent geocentric ecliptic-of-date coordinates at the
- * same instant. No ephemeris positions are fabricated in this module.
+ * Research-only baseline geometry for Surya Siddhanta Ch.9.
+ * This calculates oblique-ascension K from apparent geocentric positions but
+ * does NOT yet implement the full dṛkkarma (ayana + akṣaja) correction of
+ * vv. 1-9 or the event-time correction of vv. 10-11. It is not production SS9.
+ * Caller supplies apparent geocentric coordinates at the same instant.
  */
 const DEG = Math.PI / 180;
 const RAD = 180 / Math.PI;
