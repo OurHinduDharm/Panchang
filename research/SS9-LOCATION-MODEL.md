@@ -28,7 +28,7 @@
 
 ## दिशा
 
-Transition refinement event को Asta/Udaya और पूर्व/पश्चिम दिशा में वर्गीकृत करता है। दिशा signed apparent ecliptic elongation और morning/evening अवस्था से आती है; इसे horizon altitude crossing के साथ स्वतंत्र रूप से cross-check करना होगा।
+Transition refinement branch को भी दर्ज करता है: rising branch से Udaya और setting branch से Asta लिया जाता है। दिशा signed apparent ecliptic elongation से अलग से वर्गीकृत होती है। दिशा signed apparent ecliptic elongation और morning/evening अवस्था से आती है; इसे horizon altitude crossing के साथ स्वतंत्र रूप से cross-check करना होगा।
 
 ## TKS स्रोत संबंधी सावधानी
 
