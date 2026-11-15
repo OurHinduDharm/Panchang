@@ -133,8 +133,8 @@ function summarizeSolarAltitudeCalibration(rows) {
   const groups = new Map();
   for (const row of rows) {
     if (!row.available || !row.sourceId?.startsWith("drikpanchang") ||
-        row.bodyEventResidualMinutes > 15 || !row.horizonAtSourceTime) continue;
-    const key = [row.body, row.branch, row.eventType, row.horizonAtSourceTime.motionState].join("|");
+        row.bodyEventResidualMinutes > 15 || !row.horizonAtComputedBodyEvent) continue;
+    const key = [row.body, row.branch, row.eventType, row.horizonAtComputedBodyEvent.motionState].join("|");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
