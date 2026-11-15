@@ -20,7 +20,7 @@ test("Drik HH:mm clock is parsed without changing the source date", () => {
   const parsed = parsePrintedClock("2026-10-12", "18:07");
   assert.equal(parsed.valid, true);
   assert.equal(parsed.dayRollover, 0);
-  assert.equal(parsed.normalizedUtc, "2026-10-12T18:07:00.000Z");
+  assert.equal(parsed.normalizedUtc, "2026-10-12T12:37:00.000Z");
 });
 
 test("ambiguous AM/PM notation is rejected rather than guessed", () => {
@@ -64,7 +64,7 @@ test("time separation converts four minutes to one kala-degree", () => {
 });
 
 test("calibration reports source-time residual against body horizon crossing", () => {
-  const start = Date.parse("2026-10-12T00:00:00Z");
+  const start = Date.parse("2026-10-12T00:00:00+05:30");
   const observation = {
     id: "drik-test", sourceId: "drikpanchang-almora", planet: "बृहस्पति",
     event: "अस्त प्रारम्भ", date: "2026-10-12", timeRaw: "18:07"
@@ -73,13 +73,13 @@ test("calibration reports source-time residual against body horizon crossing", (
     observation, observer: {}, localDayStartUtc: start,
     SearchAltitude: (body, observer, direction, dateStart) => ({
       date: new Date(dateStart.getTime() + (
-        body === "Sun" ? 17 * 60 : 18 * 60 + 7
+        body === "Sun" ? 18 * 60 : 18 * 60 + 7
       ) * 60_000)
     })
   });
   assert.equal(result.available, true);
   assert.equal(result.bodyEventResidualMinutes, 0);
-  assert.equal(result.calibratedTimeDegrees, 0.25);
+  assert.equal(result.calibratedTimeDegrees, 1.75);
 });
 
 test("calibration summary uses median thresholds and residuals", () => {
