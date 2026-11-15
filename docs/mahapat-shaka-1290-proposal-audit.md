@@ -358,3 +358,61 @@ The three multiplications can be performed as Base-60 products by treating the a
 - Its claim that the full Śaka 1290 example is now completely solved.
 
 Next task: reconstruct the exact signed krānti/shara khanda positions from the source table and the verse 5–7 arrangement, using the correct source krānti values; then test whether the p.145 printed 197, 61, 274 can be reproduced without changing table values.
+
+
+## 2026-11-15: independent 1991 edition resolves the 24-position direction sequence
+
+The 1991 edition has now been opened and checked directly, including Sumatiharsa's commentary and Dr. Satyendra Mishra's Hindi procedural summary. This corrects an important error in the latest proposed reconstruction.
+
+### 1. The 24-position arrangement and the next krānti-khaṇḍa
+
+The 1991 Hindi summary (printed p.184; PDF text lines 3634–3641) states:
+- Krānti-khaṇḍas are arranged in four six-khaṇḍa groups, with signs: first six positive, second six negative, third six positive, fourth six negative.
+- Śara-khaṇḍas follow the same four-group sign pattern.
+- Each group is arranged by the prescribed krama/utkrama order.
+
+The 1902 worked example on printed p.133 (scan page 137) independently states that, after nine krānti-khaṇḍas have elapsed, the tenth khanda is 299 and negative. In the Śaka 1290 example, eight khandas have elapsed and the ninth bhogya khanda is 236 negative. Therefore the next krānti-khaṇḍa in the prescribed reverse run is **299 negative**, followed by 341 negative—not 150.
+
+This specifically corrects the recent proposed explanation that 236 is followed by 150. That proposal reverses the table sequence incorrectly. Preserve the table [362, 341, 299, 236, 150, 52] unchanged; its reverse run after the first six is [52, 150, 236, 299, 341, 362], with negative signs. Sources:
+- 1991 PDF lines 2718–2725: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+- 1991 Hindi summary lines 3634–3641: same PDF
+- 1902 printed p.133: https://jainqq.org/explore/034533/137
+
+### 2. The 1991 Hindi summary confirms the actual sign and correction workflow
+
+The 1991 Hindi summary of verses 5–7 (printed p.184; PDF lines 3642–3646) says, in substance:
+- choose past or following khandas according to whether the pāta is past or future and the relevant lunar pada;
+- use the krānti value in the direction of the sāyana Moon's ayana, and the śara value in the direction of the sapāta Moon's śara;
+- combine krānti and śara values by addition when their directions agree and subtraction when they differ;
+- then apply the thirteenth-part correction of the bhogya amount.
+
+This is a second-edition procedural witness. It supports the bhogya-based 1/13 correction but does not justify inventing a new direction rule such as “northward krānti decreasing is always positive.” Signs must be read from the 24-position arrangement and the actual ayana/śara directions.
+
+Source: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf (printed p.184; PDF text lines 3634–3646).
+
+### 3. Exact arithmetic checks on the three proposed product identities
+
+Using ordinary sexagesimal multiplication:
+- 198 × 3;54;52 = 775;3;36, which truncates to 775;3.
+- 261 × 1;53;7 = 492;3;27, exactly.
+- 274 × 13;6;53 = 3593;26;2, which truncates to 3593.
+
+These are valid arithmetic identities. They make the alternative operands 198 and 261 numerically interesting, but do not prove that the source's printed sphuṭa-khaṇḍas 197 and 61 should be emended. In particular:
+- 198 is the one-unit-near result that follows if the first corrected krānti amount is 236 + 18 and the opposing śara amount is 56.
+- 261 × 1;53;7 reproduces the second printed product, but the derivation of 261 from the actual signed khanda sequence and the printed second khanda reading 61 remains unproven.
+- The third product is fully consistent with the printed 274 and 13;6;53.
+
+The user's recent proposed route 150 → 61 is not supported, because 150 is not the next khanda after 236 in this example. Gemini's earlier use of 294 is also still rejected: the source table gives 299. A corrected reconstruction must now use the next sequence values 299 and 341, the source's actual shara table values, and the signed-position rules; no arithmetic fit alone can replace that derivation.
+
+### 4. 1991 worked example remains a noisy independent witness
+
+The 1991 PDF's Śaka 1290 example (printed p.192; PDF lines 2806–2810) has OCR strings that are concatenated and not reliably segmented. It appears to preserve the same sequence 197, 61, 274 and the later product values, but some digits conflict with the 1902 searchable transcription and the user's proofread readings. Do not use those OCR strings as a corrected edition reading until the page image is inspected.
+
+### Current disposition after this check
+
+- **Established:** 9th krānti-khaṇḍa = 236 negative; next 10th = 299 negative; next 11th = 341 negative.
+- **Established:** the 24-position sign pattern is + six, − six, + six, − six, with krama/utkrama order within the groups.
+- **Established:** directions determine whether krānti and śara contributions are added or differenced; apply the bhogya 1/13 correction in the prescribed sequence.
+- **Rejected:** 236 followed by 150 in the Śaka 1290 example.
+- **Still open:** exact shara table witness and the signed khanda-by-khanda derivation of 197, 61, 274; whether the first two printed khanda/product operands contain a transcription or printing error.
+- **No implementation:** continue research-only; do not change solver or event data.
