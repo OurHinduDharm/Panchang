@@ -111,5 +111,22 @@ test("verses 5-6 select the smaller angular remainder as the single bhogya khand
   assert.equal(selection.kranti.placement, "two-position");
   assert.equal(selection.shara.bhogyaKhandaNumber, 13);
   assert.equal(selection.shara.placement, "single-bhogya");
+  assert.deepEqual(selection.middleKhandaCounts, { kranti: 3, shara: 2 });
   assert.equal(selection.status, "research-only");
+});
+
+test("verses 5-6 use two middle khandas on the smaller-arc side and three on the larger", async () => {
+  const { selectMahapataBhogyaKhandas } = await import("../karana-kutuhula-khanda-tables.mjs");
+  const selection = selectMahapataBhogyaKhandas({
+    kranti: {
+      khandaIndex: 4,
+      remainder: { degree: 2, minute: 0, second: 0 }
+    },
+    shara: {
+      khandaIndex: 8,
+      remainder: { degree: 8, minute: 0, second: 0 }
+    }
+  });
+  assert.equal(selection.bhogyaSide, "kranti");
+  assert.deepEqual(selection.middleKhandaCounts, { kranti: 2, shara: 3 });
 });
