@@ -11,7 +11,7 @@
  */
 
 export const KRANTI_KHANDA_BASE = Object.freeze([362, 341, 299, 236, 150, 52]);
-export const SHARA_KHANDA_BASE = Object.freeze([70, 65, 54, 43, 29, 19]);
+export const SHARA_KHANDA_BASE = Object.freeze([70, 65, 56, 43, 27, 9]);
 
 /**
  * Expand six base khanda into the 24-position table:
