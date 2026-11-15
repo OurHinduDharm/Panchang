@@ -8,10 +8,10 @@ The public site will expose one calculation method only: **दृक्-गण�
 
 Primary calibration references:
 - Drik Panchang published Guru/Shukra/Agastya events.
-- Ganesh Martand Panchang (दृक्गणित), Almora.
+- Ganesh Martand Panchang (दृक्गणित), Almora, as an independent date cross-check. Its HH.MM time notation remains provisional.
 - Drik Almora/Ramnagar city references where supplied.
 
-Tara Prasad is a secondary independent cross-check. TKS Surya-Siddhanta and photometric data are excluded from model calibration. No third physical-visibility option is planned.
+Tara Prasad is a secondary independent cross-check. Drik is the primary time-calibration source; Ganesh Martand is currently a date cross-check because its raw time notation is not conclusively verified. TKS Surya-Siddhanta and photometric data are excluded from model calibration. No third physical-visibility option is planned.
 
 ## Candidate Drik-Ganita calculation
 
@@ -33,7 +33,7 @@ The eastern/western horizon branch is selected from the source's printed directi
 - Source clocks are normalized as local IST, including Ganesh Martand values above 24 hours (for example 34.07 means 10:07 on the following date).
 - Ambiguous AM/PM records are excluded instead of guessed.
 - Each observation is checked against the target body's computed geometric horizon event.
-- Threshold fitting uses only records whose source event time is within 15 minutes of the computed body horizon event; all residuals remain in the report.
+- Time-threshold fitting uses only Drik records whose source event time is within 15 minutes of the computed body's apparent rise/set event; all residuals remain in the report.\n- Ganesh Martand raw clocks are not used to fit time thresholds until the printed HH.MM notation is verified. Its dates remain an independent cross-check.
 - Drik Almora/Ramnagar coordinates are approximate proxies because the exact coordinates selected on the Drik page were not captured. Ganesh Martand's printed Almora centre and Tara Prasad's Ramnagar centre are separately preserved. Elevation is set to 0 m in this first calibration run because the printed calculation-centre metadata did not supply a confirmed elevation; do not treat this as a final hill-station horizon correction.
 - Agastya uses a provisional Canopus J2000 position. A pinned astrometric catalogue/proper-motion source is required before production use.
 
@@ -41,7 +41,7 @@ The eastern/western horizon branch is selected from the source's printed directi
 
 - Raw user-transcribed printed observations remain in research/drik-ganita-asta-udaya-benchmarks-2019-2027.json.
 - The direct Drik five-city dataset remains separately available in data/drik-planetary-reference-2024-2027.json.
-- The first calibration set is India-only and uses IST (+05:30); general IANA timezone resolution must be supplied from the selected location before expanding outside India.
+- The first calibration set is India-only and uses IST (+05:30); general IANA timezone resolution must be supplied from the selected location before expanding outside India. Drik source event clocks align with computed body rise/set events to within about one minute for accepted planetary observations; at those times the target is near the horizon while the Sun is roughly 5–9 degrees below it. Agastya is a separate fixed-star case with the Sun roughly 14–15 degrees below the horizon.
 - Research calibration runs in CI, not during the daily Panchang calculation.
 - Once the model is accepted, annual events should be precomputed into compact JSON chunks. The public Panchang should only load the relevant city/year chunk lazily; it must not scan years of ephemeris events on every date change.
 
