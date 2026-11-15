@@ -90,3 +90,21 @@ export const MAHAPATA_SOURCE_CONSTANTS = Object.freeze({
   alternativeSthitiSubtrahend: 480,
   alternativeSthitiMultiplier: 9
 });
+
+/**
+ * Verse 4: extract the 15-degree khanda quotient and angular remainder
+ * for both the sāyana Moon and sapāta Moon. This deliberately does not
+ * assign past/future direction or apply the signed 24-position tables;
+ * those decisions belong to the subsequent verses and remain separate.
+ */
+export function extractMahapataLongitudeKhandas({ sayanaMoon, sapataMoon }) {
+  if (!sayanaMoon || !sapataMoon) {
+    throw new TypeError("Both sayanaMoon and sapataMoon longitudes are required");
+  }
+  return Object.freeze({
+    sayanaMoon: divideLongitudeIntoKhandas(sayanaMoon),
+    sapataMoon: divideLongitudeIntoKhandas(sapataMoon),
+    unit: "15-degree-khanda-with-angular-remainder",
+    status: "research-only"
+  });
+}
