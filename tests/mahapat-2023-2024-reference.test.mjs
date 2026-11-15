@@ -18,6 +18,8 @@ test("Tara Prasad Divya Panchang 2023-24 reference is preserved as raw printed d
   assert.equal(reference.events[0].releaseDate, "2023-03-22");
   assert.equal(reference.events[0].releaseTimePrinted, "10:41");
   assert.equal(reference.events.at(-1).releaseTimePrinted, "24:01");
+  assert.equal(reference.events[2].touchTimeIST, "2023-04-17T01:41:00.000+05:30");
+  assert.equal(reference.events[3].touchTimeIST, "2023-04-30T04:30:00.000+05:30");
   assert.ok(reference.events.every(event =>
     ["vaidhrti", "vyatipata"].includes(event.type) &&
     typeof event.releaseTimePrinted === "string"
