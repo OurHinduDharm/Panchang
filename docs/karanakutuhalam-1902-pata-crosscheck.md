@@ -60,3 +60,21 @@ https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dviv
 
 1991 PDF: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
 विशेष पाठ-स्थान: PDF lines 2766–2770 और 2821–2857.
+
+
+## श्लोक 11/14 के स्थित्यर्ध सूत्रों का अलग executable transcription
+
+1991 संस्करण के searchable text में पाताधिकार के मुद्रित पृष्ठ 109 (PDF text lines 2766–2787) पर सुमतिहर्ष श्लोक 11 के लिए स्पष्ट निर्देश देता है: 2203 को अशुद्धखण्ड से भाग देने पर पातमध्य के दोनों ओर समान स्थिति मिलती है। पृष्ठ 114 (PDF text lines 2817–2857) पर सुधाकर द्विवेदी 2203 गुणांक की उपपत्ति और श्लोक 14 की अलग वैकल्पिक विधि समझाते हैं।
+
+इस आधार पर `karana-kutuhula-sthiti.mjs` में दो अलग research-only functions जोड़े गए हैं:
+
+1. `calculateSthitiVerse11`: अशुद्धखण्ड को स्पष्ट base-60 `{whole, part}` रूप में लेकर 2203 / अशुद्धखण्ड निकालता है।
+2. `calculateSthitiVerse14Sumatiharsa`: (480 − शर-शेष) × 9 / अंतिम खण्ड निकालकर उसका आधा स्थित्यर्ध मानता है।
+
+दोनों में base-60 घटी-पल conversion स्पष्ट है; एक घटी = 60 पल, एक घटी = 24 मिनट और एक पल = 24 सेकंड। ये functions केवल गणितीय स्थित्यर्ध देते हैं; अभी क्रान्ति/शर के 24 खण्डों से अशुद्धखण्ड और अंतिम खण्ड का पूर्ण, independently reproduced derivation नहीं करते। इसलिए इन्हें सार्वजनिक समय-गणना में जोड़ना निषिद्ध है।
+
+### Worked-example consistency check
+
+दूसरे उदाहरण में उपलब्ध पाठ का अशुद्धखण्ड 184;19 है। 2203 / (184 + 19/60) = लगभग 11.9523 घटी, अर्थात् 11 घटी 57.14 पल। उसी उदाहरण में दिया गया पातमध्य 12;49 और सीमा-समय 0;52 तथा 24;46 इस 11;57 स्थित्यर्ध के साथ समय-क्रम में मेल खाते हैं (एक-पल rounding के भीतर)। इसे **partial arithmetic consistency fixture** माना गया है, पूर्ण golden fixture नहीं: OCR में quotient की छपी हुई संख्या स्पष्ट नहीं है और मूल scan के sexagesimal अंकों का image-level transcription अभी शेष है।
+
+पहले उदाहरण में 329/392 जैसे denominator-पठन का OCR-संघर्ष अभी हल नहीं हुआ; उस उदाहरण को test fixture नहीं बनाया गया है। श्लोक 14 की विधि को भी श्लोक 11 के 2203 अनुपात के साथ कभी नहीं मिलाना है।
