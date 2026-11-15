@@ -6,7 +6,7 @@ import {
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
-const { Observer, SearchRiseSet, DefineStar } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, DefineStar, Equator, Horizon } = Astronomy.default || Astronomy;
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
@@ -88,7 +88,31 @@ function buildSourceAgreement(observations) {
   };
 }
 
-const rows = [];
+
+function angularSeparationDegrees(a, b) {
+  const raA = a.ra * 15 * Math.PI / 180;
+  const raB = b.ra * 15 * Math.PI / 180;
+  const decA = a.dec * Math.PI / 180;
+  const decB = b.dec * Math.PI / 180;
+  const cosine = Math.sin(decA) * Math.sin(decB) +
+    Math.cos(decA) * Math.cos(decB) * Math.cos(raA - raB);
+  return Math.acos(Math.max(-1, Math.min(1, cosine))) * 180 / Math.PI;
+}
+function apparentAtSourceTime(body, observer, instantUtcMs) {
+  const date = new Date(instantUtcMs);
+  const sunEquator = Equator("Sun", date, observer, true, true);
+  const bodyEquator = Equator(body, date, observer, true, true);
+  const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
+  const bodyHorizon = Horizon(date, observer, bodyEquator.ra, bodyEquator.dec, "normal");
+  return {
+    sunAltitudeDeg: sunHorizon.altitude,
+    bodyAltitudeDeg: bodyHorizon.altitude,
+    sunAzimuthDeg: sunHorizon.azimuth,
+    bodyAzimuthDeg: bodyHorizon.azimuth,
+    topocentricSeparationDeg: angularSeparationDegrees(sunEquator, bodyEquator)
+  };
+}
+\nconst rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
@@ -100,8 +124,12 @@ for (const observation of dataset.observations) {
     observer,
     localDayStartUtc
   });
+  const horizonAtSourceTime = result.clock?.valid && result.body
+    ? apparentAtSourceTime(result.body, observer, result.clock.instantUtcMs)
+    : null;
   rows.push({
     ...result,
+    horizonAtSourceTime,
     location: location.name,
     coordinateProfile: observation.sourceId.includes("drikpanchang")
       ? "approximate-source-city-coordinate"
