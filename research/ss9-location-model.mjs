@@ -36,15 +36,18 @@ export function eclipticToEquatorial({ longitudeDeg, latitudeDeg = 0 }, obliquit
   };
 }
 
-export function obliqueAscensionDegrees({ rightAscensionDeg, declinationDeg }, latitudeDeg) {
+export function obliqueAscensionDegrees({ rightAscensionDeg, declinationDeg }, latitudeDeg, branch = "rising") {
   if (!Number.isFinite(rightAscensionDeg) || !Number.isFinite(declinationDeg) ||
       !Number.isFinite(latitudeDeg) || Math.abs(latitudeDeg) > 90) {
     throw new TypeError("valid RA, declination and geographic latitude are required");
   }
   const product = Math.tan(latitudeDeg * DEG) * Math.tan(declinationDeg * DEG);
   if (Math.abs(product) > 1) return null;
+  if (branch !== "rising" && branch !== "setting") {
+    throw new RangeError("branch must be rising or setting");
+  }
   const ad = Math.asin(Math.max(-1, Math.min(1, product))) * RAD;
-  return normalizeDegrees(rightAscensionDeg - ad);
+  return normalizeDegrees(rightAscensionDeg + (branch === "setting" ? ad : -ad));
 }
 
 function resolveLimit(body, limitDeg) {
@@ -62,20 +65,21 @@ function resolveLimit(body, limitDeg) {
  * Visibility follows the strict Ch.9 condition K > C.
  */
 export function evaluateSs9VisibilityFromEquatorial({
-  body, sunEquatorial, objectEquatorial, latitudeDeg, limitDeg, elongationDeg = null
+  body, sunEquatorial, objectEquatorial, latitudeDeg, limitDeg, elongationDeg = null,
+  branch = "rising"
 }) {
   if (!sunEquatorial || !objectEquatorial) {
     throw new TypeError("sun and object apparent equatorial coordinates are required");
   }
   const C = resolveLimit(body, limitDeg);
-  const sunOA = obliqueAscensionDegrees(sunEquatorial, latitudeDeg);
-  const objectOA = obliqueAscensionDegrees(objectEquatorial, latitudeDeg);
+  const sunOA = obliqueAscensionDegrees(sunEquatorial, latitudeDeg, branch);
+  const objectOA = obliqueAscensionDegrees(objectEquatorial, latitudeDeg, branch);
   if (sunOA === null || objectOA === null) {
     return { available: false, reason: "circumpolar-coordinate", body, limitDeg: C, K: null, visible: null };
   }
   const signedK = signedAngleDifference(objectOA, sunOA);
   return {
-    available: true, body, latitudeDeg, limitDeg: C,
+    available: true, body, latitudeDeg, branch, limitDeg: C,
     sunObliqueAscensionDeg: sunOA,
     objectObliqueAscensionDeg: objectOA,
     lagnantaraPrana: Math.abs(signedK) * 60,
@@ -88,7 +92,7 @@ export function evaluateSs9VisibilityFromEquatorial({
 }
 
 export function evaluateSs9Visibility({
-  body, sun, object, latitudeDeg, obliquityDeg, limitDeg
+  body, sun, object, latitudeDeg, obliquityDeg, limitDeg, branch = "rising"
 }) {
   if (!sun || !object) throw new TypeError("sun and object apparent coordinates are required");
   return evaluateSs9VisibilityFromEquatorial({
@@ -97,7 +101,8 @@ export function evaluateSs9Visibility({
     objectEquatorial: eclipticToEquatorial(object, obliquityDeg),
     latitudeDeg,
     limitDeg,
-    elongationDeg: signedAngleDifference(object.longitudeDeg, sun.longitudeDeg)
+    elongationDeg: signedAngleDifference(object.longitudeDeg, sun.longitudeDeg),
+    branch
   });
 }
 
@@ -105,7 +110,7 @@ export function evaluateSs9Visibility({
  * Evaluate a sample from either apparent ecliptic coordinates or apparent
  * equatorial-of-date coordinates. All inputs must use one consistent frame.
  */
-function evaluateSample({ body, latitudeDeg, limitDeg }, sample) {
+function evaluateSample({ body, latitudeDeg, limitDeg, branch = "rising" }, sample) {
   if (sample.sunEquatorial && sample.objectEquatorial) {
     return evaluateSs9VisibilityFromEquatorial({
       body,
@@ -113,7 +118,8 @@ function evaluateSample({ body, latitudeDeg, limitDeg }, sample) {
       objectEquatorial: sample.objectEquatorial,
       latitudeDeg,
       limitDeg,
-      elongationDeg: sample.elongationDeg ?? null
+      elongationDeg: sample.elongationDeg ?? null,
+      branch
     });
   }
   return evaluateSs9Visibility({
@@ -129,7 +135,7 @@ function evaluateSample({ body, latitudeDeg, limitDeg }, sample) {
  */
 export function scanSs9Transitions({
   body, latitudeDeg, limitDeg, startUtcMs, endUtcMs, sampleAt,
-  stepHours = 6, toleranceMs = 60_000, maxIterations = 64
+  branch = "rising", stepHours = 6, toleranceMs = 60_000, maxIterations = 64
 }) {
   if (typeof sampleAt !== "function") throw new TypeError("sampleAt must be a function");
   if (!Number.isFinite(startUtcMs) || !Number.isFinite(endUtcMs) || endUtcMs <= startUtcMs) {
@@ -138,7 +144,7 @@ export function scanSs9Transitions({
   if (!Number.isFinite(stepHours) || stepHours <= 0 || stepHours > 24) {
     throw new RangeError("stepHours must be greater than 0 and at most 24");
   }
-  const options = { body, latitudeDeg, limitDeg, sampleAt, toleranceMs, maxIterations };
+  const options = { body, latitudeDeg, limitDeg, sampleAt, branch, toleranceMs, maxIterations };
   const stepMs = stepHours * 3_600_000;
   const transitions = [];
   let leftMs = startUtcMs;
@@ -167,7 +173,7 @@ export function scanSs9Transitions({
  */
 export function refineSs9Transition({
   body, latitudeDeg, limitDeg, startUtcMs, endUtcMs, sampleAt,
-  toleranceMs = 60_000, maxIterations = 64
+  branch = "rising", toleranceMs = 60_000, maxIterations = 64
 }) {
   if (typeof sampleAt !== "function") throw new TypeError("sampleAt must be a function");
   if (!Number.isFinite(startUtcMs) || !Number.isFinite(endUtcMs) || endUtcMs <= startUtcMs) {
@@ -175,7 +181,7 @@ export function refineSs9Transition({
   }
   if (!Number.isFinite(toleranceMs) || toleranceMs <= 0) throw new RangeError("toleranceMs must be positive");
   const evaluate = instant => evaluateSample(
-    { body, latitudeDeg, limitDeg },
+    { body, latitudeDeg, limitDeg, branch },
     sampleAt(instant)
   );
   let leftMs = startUtcMs;
