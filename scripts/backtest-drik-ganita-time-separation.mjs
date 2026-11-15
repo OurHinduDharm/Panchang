@@ -3,6 +3,8 @@ import * as Astronomy from "astronomy-engine";
 import {
   calibrateObservation,
   parsePrintedClock,
+  median,
+  scanDrikTimeSeparationTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
@@ -114,7 +116,86 @@ function apparentAtSourceTime(body, observer, instantUtcMs) {
   };
 }
 
-const rows = [];
+
+function buildHeldOutValidation(rows) {
+  const training = rows.filter(row =>
+    row.available &&
+    row.sourceId?.startsWith("drikpanchang") &&
+    row.bodyEventResidualMinutes <= 15 &&
+    Number(row.date.slice(0, 4)) <= 2025
+  );
+  const thresholdMap = new Map();
+  for (const row of training) {
+    const key = [row.body, row.branch, row.eventType].join("|");
+    if (!thresholdMap.has(key)) thresholdMap.set(key, []);
+    thresholdMap.get(key).push(row.calibratedTimeDegrees);
+  }
+  const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
+  const observer = new Observer(29 + 37 / 60, 79 + 40 / 60, 0);
+  const startLocalDayUtc = Date.parse("2026-01-01T00:00:00+05:30");
+  const predictions = [];
+  for (const body of ["Venus", "Jupiter", "Star1"]) {
+    for (const branch of ["rise", "set"]) {
+      const astaThreshold = thresholds.get([body, branch, "Asta"].join("|")) ?? 1_000_000;
+      const udayaThreshold = thresholds.get([body, branch, "Udaya"].join("|")) ?? 1_000_000;
+      if (astaThreshold === 1_000_000 && udayaThreshold === 1_000_000) continue;
+      const scan = scanDrikTimeSeparationTransitions({
+        SearchRiseSet,
+        body,
+        observer,
+        branch,
+        startLocalDayUtc,
+        days: 730,
+        astaThresholdTimeDegrees: astaThreshold,
+        udayaThresholdTimeDegrees: udayaThreshold
+      });
+      predictions.push(...scan.events);
+    }
+  }
+
+  const observed = rows.filter(row =>
+    row.available &&
+    row.sourceId === "drikpanchang-almora" &&
+    row.bodyEventResidualMinutes <= 15 &&
+    Number(row.date.slice(0, 4)) >= 2026 &&
+    Number(row.date.slice(0, 4)) <= 2027
+  );
+  const unused = new Set(observed);
+  const matches = [];
+  for (const predicted of predictions.sort((a, b) => a.utcMilliseconds - b.utcMilliseconds)) {
+    const candidates = [...unused].filter(row =>
+      row.body === predicted.body &&
+      row.branch === predicted.branch &&
+      row.eventType === predicted.event
+    ).map(row => ({
+      row,
+      differenceMinutes: (predicted.utcMilliseconds - row.clock.instantUtcMs) / 60_000
+    })).sort((a, b) => Math.abs(a.differenceMinutes) - Math.abs(b.differenceMinutes));
+    const match = candidates[0];
+    if (!match || Math.abs(match.differenceMinutes) > 10 * 24 * 60) continue;
+    unused.delete(match.row);
+    matches.push({
+      body: predicted.body,
+      event: predicted.event,
+      branch: predicted.branch,
+      predictedLocal: new Date(predicted.utcMilliseconds + 330 * 60_000).toISOString(),
+      sourceId: match.row.id,
+      sourceLocal: new Date(match.row.clock.instantUtcMs + 330 * 60_000).toISOString(),
+      dateDifferenceDays: match.differenceMinutes / 1440,
+      timeDifferenceMinutes: match.differenceMinutes
+    });
+  }
+  return {
+    trainingSamples: training.length,
+    thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdTimeDegrees: value })),
+    predictedEvents: predictions.length,
+    observedHoldoutEvents: observed.length,
+    matchedEvents: matches.length,
+    unmatchedObserved: [...unused].map(row => row.id),
+    matches
+  };
+}
+\nconst rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
@@ -150,7 +231,7 @@ const report = {
     available: eligible.length,
     rejected: rows.length - eligible.length
   },
-  sourceAgreement: buildSourceAgreement(dataset.observations),
+  sourceAgreement: buildSourceAgreement(dataset.observations),\n  heldOutValidation2026to2027: buildHeldOutValidation(rows),
   calibrationGroups: summarizeCalibration(eligible),
   observations: rows,
   notes: [
