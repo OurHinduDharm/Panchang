@@ -41,7 +41,7 @@ function toGhatiPala(decimalGhati) {
 
 /**
  * Verse 11: sthiti on either side of true pata midpoint.
- * Source example 2: aśuddha-khaṇḍa 184;19 gives approximately 11;57.
+ * Source example 2: aśuddha-khaṇḍa 184;9 gives 11;57.
  */
 export function calculateSthitiVerse11({ ashuddhaKhanda, coefficient = 2203 }) {
   const denominator = sexagesimal(ashuddhaKhanda, "ashuddhaKhanda");
