@@ -66,12 +66,11 @@ export function resolveDrikHorizonBranch({ planet, event, direction }) {
   if (normalizedDirection === "पश्चिम" || normalizedDirection === "west") return "set";
 
   const body = PLANET_BODY[planet] || planet;
-  if (/^अस्त(?: प्रारम्भ| क्षण)?$/.test(event || "") || event === "Asta") {
-    if (body === "Jupiter" || body === "Star1") return "set";
-  }
-  if (event === "उदय" || event === "अस्त समाप्त" || event === "अगस्त्योदय" || event === "Udaya") {
-    if (body === "Jupiter" || body === "Mars" || body === "Saturn" || body === "Star1") return "rise";
-  }
+  const eventText = String(event || "");
+  const isUdaya = event === "Udaya" || eventText === "अस्त समाप्त" || /उदय/.test(eventText);
+  const isAsta = !isUdaya && (event === "Asta" || /अस्त/.test(eventText));
+  if (isAsta && (body === "Jupiter" || body === "Star1")) return "set";
+  if (isUdaya && (body === "Jupiter" || body === "Star1")) return "rise";
   return null;
 }
 
