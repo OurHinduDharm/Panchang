@@ -96,7 +96,7 @@ for (const observation of dataset.observations) {
   const localDayStartUtc = Date.parse(observation.date + "T00:00:00+05:30");
   const result = calibrateObservation({
     observation,
-    SearchAltitude,
+    SearchRiseSet,
     observer,
     localDayStartUtc
   });
