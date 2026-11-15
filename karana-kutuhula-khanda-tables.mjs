@@ -43,6 +43,42 @@ export function expandSignedKhandas(base) {
   ]);
 }
 
+/**
+ * Divide a zodiac longitude into 15-degree khanda.
+ *
+ * Karaṇa-kutūhala verse 5 commentary examples:
+ *   191°53′30″ -> khanda index 12, remainder 11°53′30″
+ *   149°05′21″ -> khanda index 9, remainder 14°05′21″
+ *
+ * This is a quotient + angular remainder, NOT a time duration.
+ */
+export function divideLongitudeIntoKhandas({ sign, degree, minute = 0, second = 0 }) {
+  const parts = [sign, degree, minute, second].map(Number);
+  if (parts.some(value => !Number.isInteger(value))) {
+    throw new TypeError("longitude parts must be integers");
+  }
+  const [s, d, m, sec] = parts;
+  if (s < 0 || s > 11 || d < 0 || d > 29 || m < 0 || m > 59 || sec < 0 || sec > 59) {
+    throw new RangeError("longitude must be within 0..11 signs, 0..29 degrees, 0..59 minutes and seconds");
+  }
+  const totalArcSeconds = (((s * 30 + d) * 60 + m) * 60) + sec;
+  const khandaArcSeconds = 15 * 60 * 60;
+  const khandaIndex = Math.floor(totalArcSeconds / khandaArcSeconds);
+  let remainderArcSeconds = totalArcSeconds - khandaIndex * khandaArcSeconds;
+  const remainderDegree = Math.floor(remainderArcSeconds / 3600);
+  remainderArcSeconds -= remainderDegree * 3600;
+  const remainderMinute = Math.floor(remainderArcSeconds / 60);
+  const remainderSecond = remainderArcSeconds - remainderMinute * 60;
+  return Object.freeze({
+    khandaIndex,
+    remainder: Object.freeze({
+      degree: remainderDegree,
+      minute: remainderMinute,
+      second: remainderSecond
+    })
+  });
+}
+
 export const KRANTI_KHANDA_24 = expandSignedKhandas(KRANTI_KHANDA_BASE);
 export const SHARA_KHANDA_24 = expandSignedKhandas(SHARA_KHANDA_BASE);
 
