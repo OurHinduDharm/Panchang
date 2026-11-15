@@ -747,3 +747,51 @@ The previous note said the future-pāta odd/even placement rule had not yet been
 **Newly established:** for future pāta use future-marked khandas; Śaka 1290 future sequences are krānti [−236, −299, −341] and śara [+56, +43, +27, +9] from the respective bhogya positions; smaller krānti arc means single krānti bhogya and the larger śara side's three-position sequence.
 
 **Still open:** exact 1902 p.145 placement/pairing; 1/13 correction's operand and precision as actually used in the worked example; derivation of 197, 61, 274 and multipliers 54;12, 1;53;45, 1;53;7; product scale/units. No solver implementation.
+
+
+## 2026-11-16: close reading of the p.134–135 placement syntax
+
+A further direct read of the continuous 1902 Sanskrit commentary has recovered a more precise statement of the placement operation. This also requires a qualification to the previous section's inference about the two-versus-three middle terms.
+
+### Printed p.134 (Jain Quantum page 138): exact source wording
+
+The searchable Sanskrit text reads:
+
+> “ततः क्रान्तेः शरस्य च भोग्यखण्डमादिकृत्य वित्रीणि खण्डानि द्विधा पृथग्विन्यसेत्, यदि पातं गतलक्षणं भवति तदा गतखण्डानि एष्यलक्षणे पाते एष्यलक्षणानि खण्डानि विन्यसेत्, शरक्रान्त्योर्मध्ये यस्य चापांशाः स्वल्पास्तस्य भोग्यखण्डमेकस्थमेव स्थाप्यमन्यानि द्विधा ... स्वल्पशरे खण्डकं द्वयं महच्छरे त्रय एव मध्यमा भवन्ति।”
+
+Preserve the raw OCR string “वित्रीणि” as a transcription uncertainty; context suggests a two/three-khanda instruction, but do not silently normalize the word without checking the scan.
+
+The passage securely establishes these separate instructions:
+
+1. Begin from the bhogya khanda for both krānti and śara.
+2. Place the required two/three khanda terms separately.
+3. Choose elapsed (gata) terms for a past pāta and future (eṣya/gamya) terms for a future pāta.
+4. Of krānti and śara, the side with the smaller chāpāṃśa has its bhogya khanda placed singly; the other side's remaining terms are placed doubled.
+5. The text then gives the specific count statement: “स्वल्पशरे खण्डकं द्वयं महच्छरे त्रय एव मध्यमा भवन्ति” — two middle khandas in the smaller-śara case and three in the larger-śara case.
+
+### Printed p.135 (Jain Quantum page 139): worked placement example
+
+The next page gives a concrete past-pāta example:
+
+> “अत्र गतपातत्वाभोग्यखण्डमादीकृत्य गतखण्डानि द्विधा स्थाप्य तानि शरस्य स्वल्पचापांशत्वाच्छरस्य भोग्यखण्डमेकत्र स्थापितं शेषाणि गतखण्डानि द्विधा स्थापितानि ...”
+
+This confirms the practical meaning of the preceding rule in that example: because śara has the smaller chāpāṃśa, its bhogya khanda is single; the remaining elapsed terms are doubled. The commentary then proceeds to the 1/13 correction and the sign/gola rules.
+
+### Necessary qualification to the previous inference
+
+The previous section inferred that, because krānti is smaller in the Śaka 1290 example, krānti must have the two-position middle sequence and śara the three-position sequence. The p.134 wording does **not yet justify treating that complementary assignment as fully proved**. Its explicit “two in smaller śara / three in larger śara” sentence is phrased specifically in terms of śara, while the preceding placement rule compares both krānti and śara. We must determine whether “middle” refers to the number of terms on the śara side only, to the paired arrangement as a whole, or to a convention whose complementary krānti count is supplied elsewhere.
+
+Accordingly:
+- Keep the future-pāta source sequences unchanged: krānti [−236, −299, −341] and śara [+56, +43, +27, +9].
+- Keep the established smaller-chāpāṃśa rule: in this example krānti bhogya is single; the śara-side corresponding terms are doubled.
+- Downgrade the claim “krānti two middle positions / śara three middle positions” from established to **plausible but not yet textually demonstrated**.
+- Do not yet pair the two krānti terms and three śara terms, and do not use such a pairing to derive 197, 61, or 274.
+
+### Sources
+
+- 1902 printed p.134, verse 5–7 and commentary: https://jainqq.org/explore/034533/138
+- 1902 printed p.135, past-pāta placement example and 1/13 commentary: https://jainqq.org/explore/034533/139
+
+### Next test
+
+Read the original page image for p.134 and collate the 1991 Sanskrit commentary's corresponding sentence. Then parse the p.145 Śaka 1290 explanation word by word, especially the phrases describing the bhogya term, the doubled terms, and the “middle” terms. Only after that should the 24-position sequence be mapped to the three sphuṭa-khaṇḍas.
