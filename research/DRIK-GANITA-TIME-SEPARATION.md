@@ -21,7 +21,7 @@ Use a modern apparent ephemeris and the exact observer coordinates. For a given 
 2. Find the planet's geometric-centre crossing on the same horizon branch.
 3. Calculate the absolute time separation in minutes.
 4. Convert to a time-degree coordinate using 4 minutes = 1 degree.
-5. Compare that value with a body/branch threshold calibrated from accepted Drik and Ganesh Martand observations.
+5. Compare that value with a body/event/branch threshold calibrated from accepted Drik and Ganesh Martand observations.
 6. Detect downward threshold crossings as Asta and upward crossings as Udaya. The interpolated event instant is based on the planet's horizon-crossing time.
 
 The model uses SearchAltitude with altitude=0 for both Sun and target. This is a geometric horizon calculation with no atmospheric refraction, brightness, extinction, sky-background or naked-eye visibility model. It is not the Surya-Siddhanta Ch.9 K/C formula.
