@@ -268,7 +268,7 @@ The source structure is independently corroborated, but the three Śaka 1290 pro
 - 61 × 1;53;45 → 492;3;27
 - 274 × 13;6;53 → 3593
 
-The third pair does reproduce ordinary sexagesimal multiplication to whole-kalā truncation: 274 × 13;6;53 = 3593;25 (approximately; exact sexagesimal product should be retained in the calculation worksheet). The first two do not. Therefore the remaining issue is likely not the general idea of multiplication, but the precise operands, normalization, or column scale for the first/even-position terms. Keep all three raw source pairs unchanged while deriving that operation.
+The third pair does reproduce ordinary sexagesimal multiplication to whole-kalā truncation: 274 × 13;6;53 = 3593;26;02 (exact sexagesimal product; the printed result 3593 is consistent with truncation to whole units). The first two do not. Therefore the remaining issue is likely not the general idea of multiplication, but the precise operands, normalization, or column scale for the first/even-position terms. Keep all three raw source pairs unchanged while deriving that operation.
 
 ### Revised status
 
