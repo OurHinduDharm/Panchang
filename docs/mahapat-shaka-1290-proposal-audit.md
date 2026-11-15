@@ -278,3 +278,83 @@ The third pair does reproduce ordinary sexagesimal multiplication to whole-kalā
 - The scale/operand interpretation of the first two svāṃśa-ghna products is still unresolved.
 - The 1991 OCR number strings are a third witness only in raw form until the page image is checked.
 - No public solver or event implementation is authorized by this research result.
+
+
+## Independent audit of Gemini's proposed three-product reconstruction (2026-11-15)
+
+Gemini's three raw Base-60 multiplications are arithmetically correct **for the altered operands it selected**:
+
+- 198 × 3;54;52 = 775;3;36
+- 261 × 1;53;7 = 492;3;27
+- 274 × 13;6;53 = 3593;26;2
+
+The first product truncates to 775;3, the second matches exactly, and the third truncates to 3593. This verifies the multiplications only; it does not verify the source readings or the khanda sequence.
+
+### Source table contradicts Gemini's krānti constants
+
+Gemini uses the six krānti values [365, 341, 294, 236, 149, 55]. The 1902 printed source's table passage explicitly gives:
+**362, 341, 299, 236, 150, 52**.
+The six source values sum to 1440. The alternate Gemini sequence also sums to 1440, but that sum alone does not make it the source table. The source table must prevail unless an independent edition demonstrably prints a variant. See the 1902 searchable book text, verse 14 table passage (search result excerpt around printed p.94): https://jainqq.org/booktext/Karan_Kutuhalam/034533
+
+This is a decisive flaw in Gemini's reconstruction:
+- Its 294 is not the source's 299.
+- Its derived 317 = 294 + 23 is therefore not source-supported.
+- With source value 299 and whole-unit 1/13 correction 23, the corresponding corrected value would be 322, not 317.
+- Therefore its 261 and subsequent 274 chain cannot be accepted as proven from the source table. It must be re-derived with the correct table and actual signed khanda positions.
+
+### The 1/13 correction: correct object, but do not skip the one-unit discrepancy
+
+The 1902 commentary on printed p.145 explicitly names the bhogya krānti-khaṇḍa 236 and its 1/13 part as the correction applied to the krānti khandas. This supports applying the correction to 236, not to the angular remainder 3;50;52. The earlier hypothesis that 3;50;52 / 13 gives +17 should therefore be downgraded; it is not supported by this explicit commentary wording.
+
+Numerically:
+- 236 / 13 = 18.153846...
+- At whole-kalā truncation, the correction is +18.
+- 236 + 18 = 254.
+- 254 − 56 = 198, whereas the printed first sphuṭa khanda is 197.
+
+So Gemini's first khanda 198 is the direct arithmetic result under this interpretation, but the printed 197 remains a one-unit discrepancy. Do not label it a proven typo until the exact precision/rounding convention and signs are checked against the Sanskrit and parallel example.
+
+### Gemini's remapping of the later chāpāṃśas is not established
+
+The 1902 printed p.144 OCR witness gives:
+- sāyana Moon total as a concatenated reading around 130;5;58 (the user separately book-checked a different reading; preserve both witnesses);
+- quotient 8 and remainder 11;5;8;
+- sapāta Moon 39;12;1, quotient 2, remainder 9;21;1;
+- printed chāpāṃśas 3;50;52 and 5;4;47.
+
+The p.145 worked calculation then prints:
+- first multiplier 54;12;
+- second-khanda chāpāṃśas 3;54;12 and 5;47;57;
+- their difference 1;53;45;
+- third-khanda multiplier 1;53;7 and complement 13;6;53.
+
+Gemini substitutes:
+- 3;54;52 for the first angular amount;
+- 5;47;59 for the second;
+- 1;53;7 for their difference.
+
+These substitutions make a clean arithmetic chain from 11;5;8 and 9;12;1, but they do not reproduce the p.145 printed intermediate readings 3;54;12, 5;47;57, and 1;53;45. The p.144 OCR and p.145 calculation also conflict internally. This is evidence of a source/transcription inconsistency, not proof that all three p.145 values are printer's errors.
+
+There is an additional remainder issue: 39;12;1 − 30 = 9;12;1, not 9;21;1. The p.144 printed/searchable remainder 9;21;1 is arithmetically inconsistent and is a strong candidate for a transposition/printing/OCR error. Keep raw 9;21;1 and derived 9;12;1 separately.
+
+Likewise, the sāyana-Moon quotient/remainder must be checked against the exact book-verified total. Do not derive 11;5;8 from 131;5;58: modulo 15 that value leaves 11;5;58, not 11;5;8. The OCR total 130;5;58 would leave 10;5;58, not 11;5;8. At least one of those three figures is wrong or differently segmented.
+
+### Unit claim: numerically promising, dimensional interpretation still needs proof
+
+The three multiplications can be performed as Base-60 products by treating the angular multiplier's degrees/minutes/seconds as a sexagesimal number and reporting the result in the source's kala-based product column. But Gemini's prose explanation that the units automatically work because the initial lunar śara has already been multiplied by 15 is not yet a derivation from the commentary. The numerical identity is verified; the dimensional interpretation and why the products are comparable with the 15-fold śara budget still require explicit textual support.
+
+### Current verdict on Gemini
+
+**Accepted:**
+- Its three displayed Base-60 multiplication calculations, as arithmetic identities for its chosen operands.
+- The 1/13 correction is applied to the bhogya krānti-khaṇḍa 236, in light of the explicit p.145 commentary.
+- 39;12;1 − 30 = 9;12;1.
+
+**Rejected / not established:**
+- Its alternate krānti table [365,341,294,236,149,55]; source table is [362,341,299,236,150,52].
+- Its assertion that all six source discrepancies are thereby proven printing errors.
+- Its second khanda 261 and third khanda 274 derivation using 294.
+- Its replacement of p.145's printed chāpāṃśas/multipliers by 3;54;52, 5;47;59, and 1;53;7 without a source-level explanation.
+- Its claim that the full Śaka 1290 example is now completely solved.
+
+Next task: reconstruct the exact signed krānti/shara khanda positions from the source table and the verse 5–7 arrangement, using the correct source krānti values; then test whether the p.145 printed 197, 61, 274 can be reproduced without changing table values.
