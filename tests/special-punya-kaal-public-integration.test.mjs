@@ -41,7 +41,9 @@ test("daily Panchang shows a month link only after an approved event matches its
   assert.match(daily, /sameSpecialPunyaKaalObserver\(data\.observer,selectedLocation\)/);
   assert.match(daily, /filter\(validApprovedSpecialPunyaKaal\)/);
   assert.match(daily, /monthly-vrat-parv\.html\?year=/);
-  assert.match(daily, /विशेष पुण्यकाल देखें →/);\n  assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);\n  assert.doesNotMatch(daily, /विशेष पुण्यकाल एवं धार्मिक साधना/);\n  assert.match(daily, /specialPunyaKaalMonthCache\.has\(key\)/);\n  assert.match(daily, /response\.status===404\)specialPunyaKaalMonthCache\.set\(key,null\)/);
+  assert.match(daily, /विशेष पुण्यकाल देखें →/);
+  assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);
+  assert.doesNotMatch(daily, /विशेष पुण्यकाल एवं धार्मिक साधना/);\n  assert.match(daily, /specialPunyaKaalMonthCache\.has\(key\)/);\n  assert.match(daily, /response\.status===404\)specialPunyaKaalMonthCache\.set\(key,null\)/);
 });
 
 test("daily Panchang shows actual event times only on the event date", () => {
