@@ -633,3 +633,71 @@ Build a source-faithful 24-row table for the 1902 Śaka 1290 case with columns:
 8. resulting sphuṭa khanda.
 
 The 1991 Hindi instructions determine the selection logic; the 1902 p.132 and p.144–145 witnesses determine the primary numerical inputs. Do not calculate 197/61/274 until the row pairing and edition variants are settled. No code implementation yet.
+
+
+## 2026-11-15: source-faithful 24-position table and the Śaka 1290 bhogya positions
+
+The original 1902 p.144 page image transcription is now directly rechecked at https://jainqq.org/explore/034533/148. It explicitly says the pāta is **future (गम्य / एष्य)**, not past. This corrects any earlier working assumption that the Śaka 1290 example was a past-node case.
+
+### Raw division and bhogya positions (1902 printed p.144)
+
+- Sāyana Moon: searchable text 130;5;58; quotient 8, remainder printed 11;5;8. The user's book-checked reading remains 131;5;58; preserve both witnesses.
+- The text explicitly says eight krānti-khaṇḍas have elapsed and the **third bhogya krānti-khaṇḍa is 236, negative**.
+- Sapāta Moon: 39;12;1; quotient 2, remainder printed 9;21;1.
+- The text explicitly says two śara-khaṇḍas have elapsed and the **third bhogya śara-khaṇḍa is 56, positive**.
+- The printed chāpāṃśas are krānti 3;50;52 and śara 5;4;47. Thus the **krānti arc is the smaller arc** in the original worked example. The smaller-arc side (krānti) receives the single bhogya position; śara positions are doubled, per the 1902 p.134–135 rule.
+
+### Full 24-position signed sequences
+
+The 1902 p.132 arrangement, independently corroborated by the 1991 Hindi summary (PDF lines 3636–3638), is four six-position runs: + forward, − reverse, + forward, − reverse. The established 1902 base tables are:
+
+- Krānti: 362, 341, 299, 236, 150, 52.
+- Śara: 70, 65, 56, 43, 27, 9.
+
+| Position | Krānti signed value | Śara signed value |
+|---:|---:|---:|
+| 1 | +362 | +70 |
+| 2 | +341 | +65 |
+| 3 | +299 | +56 |
+| 4 | +236 | +43 |
+| 5 | +150 | +27 |
+| 6 | +52 | +9 |
+| 7 | −52 | −9 |
+| 8 | −150 | −27 |
+| 9 | −236 | −43 |
+| 10 | −299 | −56 |
+| 11 | −341 | −65 |
+| 12 | −362 | −70 |
+| 13 | +362 | +70 |
+| 14 | +341 | +65 |
+| 15 | +299 | +56 |
+| 16 | +236 | +43 |
+| 17 | +150 | +27 |
+| 18 | +52 | +9 |
+| 19 | −52 | −9 |
+| 20 | −150 | −27 |
+| 21 | −236 | −43 |
+| 22 | −299 | −56 |
+| 23 | −341 | −65 |
+| 24 | −362 | −70 |
+
+### Where the example sits in these sequences
+
+- Krānti: 8 completed positions; the third bhogya is the 9th table position = **−236**.
+- Śara: 2 completed positions; the third bhogya is the 3rd table position = **+56**.
+- This is not a same-index pairing: the source independently divides sāyana Moon and sapāta Moon by 15, so their bhogya positions are 9 and 3 respectively.
+- Because the krānti chāpāṃśa 3;50;52 is smaller than śara chāpāṃśa 5;4;47, the krānti bhogya is single and the relevant śara positions are doubled. Do not infer that all later terms are paired by simply reading the same row number from the two columns; the 1902 p.134–136 placement instructions govern the middle positions.
+
+### What is now established, and what remains open
+
+**Established:** the signed 24-position arrays; future-pāta status; krānti bhogya position 9 = −236; śara bhogya position 3 = +56; smaller arc = krānti; therefore krānti single / śara doubled.
+
+**Not yet derived:** the exact middle-position pairing that yields printed sphuṭa-khaṇḍas 197, 61, 274 and their multipliers. The 1902 p.145 commentary and 1991 Hindi summary must be followed for the three placed middle terms; do not assume the simple rowwise pairings in the table above.
+
+**Important source correction:** the 1991 Hindi rule at p.184 lines 3644–3646 is explicitly for a **past** pāta. The Śaka 1290 1902 example is explicitly **future**, so the past-pāta odd/even placement rule must not be applied to this case without first deriving the corresponding future-pāta rule from the original commentary.
+
+Primary source for the worked-example status and the exact elapsed/bhogya counts:
+https://jainqq.org/explore/034533/148
+
+Independent procedural witness:
+https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf (Hindi summary, printed pp.184–185).
