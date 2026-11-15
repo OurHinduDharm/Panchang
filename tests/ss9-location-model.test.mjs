@@ -19,6 +19,8 @@ test("oblique ascension changes with observer latitude", () => {
   assert.notEqual(equator, almora);
   assert.notEqual(almora, ramnagar);
   assert.ok(Math.abs(almora - ramnagar) < 0.2);
+  const setting = obliqueAscensionDegrees(eq, 29 + 37 / 60, "setting");
+  assert.notEqual(setting, almora);
 });
 
 test("SS9 K/C state is latitude-aware and uses strict K > C", () => {
@@ -127,4 +129,26 @@ test("interval scanner finds and refines one apparent-equatorial state transitio
   assert.equal(events[0].event, "Udaya");
   assert.equal(events[0].direction, "west");
   assert.ok(Math.abs(events[0].utcMilliseconds - crossing) <= 1_000);
+});
+
+test("setting branch identifies an Asta transition separately from rising Udaya", () => {
+  const crossing = Date.UTC(2026, 0, 1, 12);
+  const sampleAt = ms => ({
+    sunEquatorial: { rightAscensionDeg: 100, declinationDeg: 20 },
+    objectEquatorial: {
+      rightAscensionDeg: ms < crossing ? 112 : 100,
+      declinationDeg: 20
+    },
+    elongationDeg: -12
+  });
+  const events = scanSs9Transitions({
+    body: "Jupiter", latitudeDeg: 0, branch: "setting",
+    startUtcMs: crossing - 3_600_000,
+    endUtcMs: crossing + 3_600_000,
+    sampleAt, stepHours: 6, toleranceMs: 1_000
+  });
+  assert.equal(events.length, 1);
+  assert.equal(events[0].event, "Asta");
+  assert.equal(events[0].branch, "setting");
+  assert.equal(events[0].direction, "east");
 });
