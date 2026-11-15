@@ -55,21 +55,36 @@ function runLocation(location, sourceEvents, startUtcMs, endUtcMs) {
   const bodyResults = {};
   for (const body of Object.keys(BODY_LIMIT)) {
     const sampleAt = createSs9ApparentSampleAt(body);
-    const modelEvents = scanSs9Transitions({
+    const risingEvents = scanSs9Transitions({
       body,
       latitudeDeg: location.latitudeDecimal,
       limitDeg: BODY_LIMIT[body],
       startUtcMs,
       endUtcMs,
       sampleAt,
+      branch: "rising",
       stepHours: 6,
       toleranceMs: 30_000
-    });
+    }).filter(event => event.event === "Udaya");
+    const settingEvents = scanSs9Transitions({
+      body,
+      latitudeDeg: location.latitudeDecimal,
+      limitDeg: BODY_LIMIT[body],
+      startUtcMs,
+      endUtcMs,
+      sampleAt,
+      branch: "setting",
+      stepHours: 6,
+      toleranceMs: 30_000
+    }).filter(event => event.event === "Asta");
+    const modelEvents = [...risingEvents, ...settingEvents]
+      .sort((a, b) => a.utcMilliseconds - b.utcMilliseconds);
     const matchingSources = sourceEvents.filter(x => x.body === body);
     bodyResults[body] = {
       limitDeg: BODY_LIMIT[body],
       modelEvents: modelEvents.map(event => ({
         event: event.event,
+        branch: event.branch,
         direction: event.direction,
         utc: new Date(event.utcMilliseconds).toISOString(),
         local: localIso(event.utcMilliseconds, location.timezone),
