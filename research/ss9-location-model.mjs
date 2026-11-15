@@ -126,6 +126,22 @@ export function obliqueAscensionDegrees({ rightAscensionDeg, declinationDeg }, l
   return normalizeDegrees(rightAscensionDeg + (branch === "setting" ? ad : -ad));
 }
 
+/**
+ * Local sidereal angle at which an apparent equatorial body crosses the
+ * geometric horizon. This direct spherical solution includes its actual
+ * declination (and therefore its ecliptic latitude) rather than applying
+ * a separate tabular drikkarma correction to longitude.
+ */
+export function horizonCrossingSiderealAngleDegrees(
+  { rightAscensionDeg, declinationDeg }, latitudeDeg, branch = "rising"
+) {
+  const oa = obliqueAscensionDegrees(
+    { rightAscensionDeg, declinationDeg }, latitudeDeg, branch
+  );
+  if (oa === null) return null;
+  return normalizeDegrees(oa + (branch === "setting" ? 90 : -90));
+}
+
 function resolveLimit(body, limitDeg) {
   if (body === "Venus" && ![8, 10].includes(limitDeg)) {
     throw new RangeError("Venus requires the explicit SS Ch.9 8° or 10° branch");
@@ -150,14 +166,18 @@ export function evaluateSs9VisibilityFromEquatorial({
   const C = resolveLimit(body, limitDeg);
   const sunOA = obliqueAscensionDegrees(sunEquatorial, latitudeDeg, branch);
   const objectOA = obliqueAscensionDegrees(objectEquatorial, latitudeDeg, branch);
-  if (sunOA === null || objectOA === null) {
-    return { available: false, reason: "circumpolar-coordinate", body, limitDeg: C, K: null, visible: null };
+  const sunHorizonAngle = horizonCrossingSiderealAngleDegrees(sunEquatorial, latitudeDeg, branch);
+  const objectHorizonAngle = horizonCrossingSiderealAngleDegrees(objectEquatorial, latitudeDeg, branch);
+  if (sunOA === null || objectOA === null || sunHorizonAngle === null || objectHorizonAngle === null) {
+    return { available: false, reason: "circumpolar-coordinate", body, branch, limitDeg: C, K: null, visible: null };
   }
-  const signedK = signedAngleDifference(objectOA, sunOA);
+  const signedK = signedAngleDifference(objectHorizonAngle, sunHorizonAngle);
   return {
     available: true, body, latitudeDeg, branch, limitDeg: C,
     sunObliqueAscensionDeg: sunOA,
     objectObliqueAscensionDeg: objectOA,
+    sunHorizonSiderealAngleDeg: sunHorizonAngle,
+    objectHorizonSiderealAngleDeg: objectHorizonAngle,
     lagnantaraPrana: Math.abs(signedK) * 60,
     K: Math.abs(signedK), signedK, elongationDeg,
     appearance: Number.isFinite(elongationDeg)
