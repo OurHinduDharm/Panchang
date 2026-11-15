@@ -134,13 +134,14 @@ function summarizeSolarAltitudeCalibration(rows) {
   for (const row of rows) {
     if (!row.available || !row.sourceId?.startsWith("drikpanchang") ||
         row.bodyEventResidualMinutes > 15 || !row.horizonAtSourceTime) continue;
-    const key = [row.body, row.branch, row.eventType].join("|");
+    const key = [row.body, row.branch, row.eventType, row.horizonAtSourceTime.motionState].join("|");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row.horizonAtSourceTime.sunAltitudeDeg);
   }
   return [...groups.entries()].map(([key, values]) => ({
     key,
     samples: values.length,
+    motionState: key.split("|")[3],
     medianSunAltitudeDeg: median(values),
     minSunAltitudeDeg: Math.min(...values),
     maxSunAltitudeDeg: Math.max(...values)
