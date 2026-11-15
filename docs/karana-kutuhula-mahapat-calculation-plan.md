@@ -27,7 +27,7 @@ The 1991 source's own worked example must control over a modern paraphrase. Do n
 - Do not assume the 24-khanda table orientation solely from a prose summary; verify against the source's worked example.
 - Do not round intermediate khanda corrections. Round/truncate only where the source's worked example demonstrates.
 - The modern independent check is equality of geocentric apparent declinations at the candidate middle, using the same apparent/equinox convention. It is a validation check, not a replacement for the classical khanda algorithm.
-- The printed 2023–24 Tara Prasad Divya Panchang reference values are stored separately in `data/reviews/mahapat-2023-2024-reference.json`. Raw printed time strings are preserved exactly. Derived ISO instants currently treat HH:MM as hours/minutes after 00:00 on the printed date (so 25:41 rolls into the next day); this transparent overflow interpretation still needs one visual confirmation against the original table heading/example before final comparison.
+- The printed 2023–24 Tara Prasad Divya Panchang reference values are stored separately in `data/reviews/mahapat-2023-2024-reference.json`. Raw printed time strings are preserved exactly. The user confirmed that the Panchang intentionally writes continuous hours as 23:00, 24:00, 25:00 and onward. Therefore HH:MM is elapsed clock time from 00:00 on the printed date; 25:41 means 01:41 on the following civil date in IST. The JSON stores both the raw printed value and the derived Asia/Kolkata ISO instant.
 
 ## Immediate implementation order
 
