@@ -1070,5 +1070,12 @@
     "methodClarification": "TKS documents K = lagnāntara-asu ÷ 60, with K depending on place and planetary ecliptic latitude; classical udaya is K > C. Venus uses 8°/10° branches; Jupiter 11°; Agastya 13° in the supplied display. TKS distinguishes this Shastriya state from physical visibility estimates based on Ptolemaic arcus visionis and the Schaefer photometric model.",
     "engineBasis": "TKS documentation describes apparent ecliptic-of-date positions in its modern ephemeris pipeline for the visibility lab, while the Siddhanta path in its Panchanga is a separate Surya Siddhanta mean-to-true longitude model. Exact pipeline used for the supplied panel snapshot should be retained as TKS UI output until endpoint/engine version is pinned.",
     "citationNote": "Web documentation consulted 2026-11-16; the user-provided numeric output remains a transcription, not independently reproduced."
-  }
+  },
+  "dataQualityNotes": [
+    {
+      "id": "agastya-udaya-alternating-dates-2019-2027",
+      "severity": "high",
+      "note": "The supplied Almora Agastya SS9 Udaya dates alternate between 22 August and 14 September: 2019-08-22, 2020-09-14, 2021-09-14, 2022-09-14, 2023-08-22, 2024-09-14, 2025-09-14, 2026-09-14, 2027-08-22. A fixed-star heliacal event should not jump by about 23 days in alternating years under one consistent method and observer. Preserve the raw transcription, but do not use these dates as calibration truth until the TKS panel mode/date selection or transcription is rechecked."
+    }
+  ]
 }
