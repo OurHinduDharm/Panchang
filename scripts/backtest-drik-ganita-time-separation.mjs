@@ -5,6 +5,7 @@ import {
   parsePrintedClock,
   median,
   scanDrikTimeSeparationTransitions,
+  scanDrikSolarAltitudeTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
@@ -122,13 +123,14 @@ function buildHeldOutValidation(rows) {
     row.available &&
     row.sourceId?.startsWith("drikpanchang") &&
     row.bodyEventResidualMinutes <= 15 &&
+    row.horizonAtSourceTime &&
     Number(row.date.slice(0, 4)) <= 2025
   );
   const thresholdMap = new Map();
   for (const row of training) {
     const key = [row.body, row.branch, row.eventType].join("|");
     if (!thresholdMap.has(key)) thresholdMap.set(key, []);
-    thresholdMap.get(key).push(row.calibratedTimeDegrees);
+    thresholdMap.get(key).push(row.horizonAtSourceTime.sunAltitudeDeg);
   }
   const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
   const observer = new Observer(29 + 37 / 60, 79 + 40 / 60, 0);
@@ -136,18 +138,14 @@ function buildHeldOutValidation(rows) {
   const predictions = [];
   for (const body of ["Venus", "Jupiter", "Star1"]) {
     for (const branch of ["rise", "set"]) {
-      const astaThreshold = thresholds.get([body, branch, "Asta"].join("|")) ?? 1_000_000;
-      const udayaThreshold = thresholds.get([body, branch, "Udaya"].join("|")) ?? 1_000_000;
-      if (astaThreshold === 1_000_000 && udayaThreshold === 1_000_000) continue;
-      const scan = scanDrikTimeSeparationTransitions({
-        SearchRiseSet,
-        body,
-        observer,
-        branch,
-        startLocalDayUtc,
-        days: 730,
-        astaThresholdTimeDegrees: astaThreshold,
-        udayaThresholdTimeDegrees: udayaThreshold
+      const astaThreshold = thresholds.get([body, branch, "Asta"].join("|")) ?? 91;
+      const udayaThreshold = thresholds.get([body, branch, "Udaya"].join("|")) ?? -91;
+      if (astaThreshold === 91 && udayaThreshold === -91) continue;
+      const scan = scanDrikSolarAltitudeTransitions({
+        SearchRiseSet, Equator, Horizon, body, observer, branch,
+        startLocalDayUtc, days: 730,
+        astaSunAltitudeDeg: astaThreshold,
+        udayaSunAltitudeDeg: udayaThreshold
       });
       predictions.push(...scan.events);
     }
@@ -187,7 +185,7 @@ function buildHeldOutValidation(rows) {
   }
   return {
     trainingSamples: training.length,
-    thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdTimeDegrees: value })),
+    thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
     matchedEvents: matches.length,
