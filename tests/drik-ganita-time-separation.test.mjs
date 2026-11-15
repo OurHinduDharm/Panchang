@@ -8,6 +8,8 @@ import {
   measureDrikTimeSeparation,
   calibrateObservation,
   scanDrikTimeSeparationTransitions,
+  measureSunAltitudeAtTargetRiseSet,
+  scanDrikSolarAltitudeTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
@@ -161,4 +163,55 @@ test("calibration thresholds stay separate for Asta and Udaya", () => {
   ]);
   assert.equal(summary.length, 2);
   assert.deepEqual(summary.map(item => item.eventType).sort(), ["Asta", "Udaya"]);
+});
+
+test("Sun altitude is measured at the target's local apparent rise/set event", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const result = measureSunAltitudeAtTargetRiseSet({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: () => ({ ra: 0, dec: 0 }),
+    Horizon: date => ({ altitude: date.getUTCHours() === 6 ? -7.25 : 0 }),
+    body: "Jupiter", observer: {}, branch: "rise", localDayStartUtc: start
+  });
+  assert.equal(result.available, true);
+  assert.equal(result.sunAltitudeDeg, -7.25);
+});
+
+test("solar-altitude threshold scanner detects Udaya then Asta", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const alts = [-5, -6, -7, -6, -5];
+  const result = scanDrikSolarAltitudeTransitions({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: () => ({ ra: 0, dec: 0 }),
+    Horizon: date => {
+      const index = Math.floor((date.getTime() - start) / 86_400_000);
+      return { altitude: alts[index] };
+    },
+    body: "Venus", observer: {}, branch: "rise",
+    startLocalDayUtc: start, days: alts.length,
+    astaSunAltitudeDeg: -6.5, udayaSunAltitudeDeg: -6.5
+  });
+  assert.deepEqual(result.events.map(event => event.event), ["Udaya", "Asta"]);
+});
+
+test("Jupiter solar-altitude scanner restricts Asta to setting and Udaya to rising", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const alts = [-5, -7, -5];
+  const args = {
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: () => ({ ra: 0, dec: 0 }),
+    Horizon: date => ({ altitude: alts[Math.floor((date.getTime() - start) / 86_400_000)] }),
+    body: "Jupiter", observer: {}, startLocalDayUtc: start, days: 3,
+    astaSunAltitudeDeg: -6, udayaSunAltitudeDeg: -6
+  };
+  const setting = scanDrikSolarAltitudeTransitions({ ...args, branch: "set" });
+  const rising = scanDrikSolarAltitudeTransitions({ ...args, branch: "rise" });
+  assert.deepEqual(setting.events.map(event => event.event), ["Asta"]);
+  assert.deepEqual(rising.events.map(event => event.event), ["Udaya"]);
 });
