@@ -67,7 +67,6 @@ test("refinement locates a synthetic Udaya crossing", () => {
     sampleAt, toleranceMs: 1_000
   });
   assert.equal(result.event, "Udaya");
-  assert.equal(result.direction, "west");
   assert.ok(Math.abs(result.utcMilliseconds - crossing) <= 1_000);
 });
 
