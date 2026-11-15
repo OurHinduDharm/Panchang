@@ -1,8 +1,11 @@
 /**
  * Research-only baseline geometry for Surya Siddhanta Ch.9.
- * This calculates oblique-ascension K from apparent geocentric positions but
- * does NOT yet implement the full dṛkkarma (ayana + akṣaja) correction of
- * vv. 1-9 or the event-time correction of vv. 10-11. It is not production SS9.
+ * This calculates K from apparent geocentric RA/Dec and direct horizon-crossing
+ * sidereal angles. That is intended as a spherical-geometry equivalent of the
+ * ayana/akṣaja dṛkkarma in vv. 1-9, but has not yet been numerically validated
+ * against the traditional two-part method (including the high-latitude-star
+ * procedure). Numerical root refinement stands in for vv. 10-11 and also needs
+ * source-by-source validation. Research-only; not production SS9.
  * Caller supplies apparent geocentric coordinates at the same instant.
  */
 const DEG = Math.PI / 180;
