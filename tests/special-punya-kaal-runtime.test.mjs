@@ -80,3 +80,41 @@ test("scanner fails closed when any scanned Panchang day lacks required interval
   assert.equal(result.diagnostics.length, 1);
   assert.deepEqual(result.diagnostics[0].missing, ["nakshatras"]);
 });
+
+
+test("scanner skips months outside the Varuni date envelope without calling the Panchang engine", async () => {
+  for (const month of [1, 2, 5, 6, 7, 8, 9, 10, 11, 12]) {
+    let calls = 0;
+    const result = await calculateSpecialPunyaKaalMonth({
+      year: 2028,
+      month,
+      observer: { id: "test-observer" },
+      getPanchangam: async () => {
+        calls += 1;
+        return fakePanchang(new Date("2028-01-01T06:30:00.000Z"));
+      }
+    });
+    assert.equal(calls, 0, `month ${month} should be skipped before ephemeris work`);
+    assert.equal(result.calculationStatus, "not-applicable");
+    assert.equal(result.panchangCalls, 0);
+    assert.equal(result.scannedDays, 0);
+    assert.deepEqual(result.candidates, []);
+  }
+});
+
+test("March and April remain eligible for the rare Chaitra Varuni scan", async () => {
+  for (const month of [3, 4]) {
+    let calls = 0;
+    const result = await calculateSpecialPunyaKaalMonth({
+      year: 2028,
+      month,
+      observer: { id: "test-observer" },
+      getPanchangam: async date => {
+        calls += 1;
+        return fakePanchang(date);
+      }
+    });
+    assert.ok(calls > 0);
+    assert.equal(result.panchangCalls, calls);
+  }
+});
