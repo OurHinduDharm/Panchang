@@ -135,3 +135,23 @@ A numerical test gives a strong lead:
 This is **a strong, source-aligned hypothesis**, not yet a final rule: it depends on the original bhogya arc being 3°50′52″ and on the text's precision/truncation convention. It does, however, explain why the earlier 3°50′52″ reading must not be discarded in favour of the later 3°54′12″ line merely because that later line appears elsewhere in the calculation.
 
 Next, test the same operation against the second and third krānti-khaṇḍa corrections (the proposed 150 → 139 and 52 → 48). If their corrections are the whole-kalā parts of the corresponding 1/13 bhogya-arc terms, the pattern should reproduce without special pleading. Until that test succeeds, do not encode the correction function.
+
+
+## Follow-up source check: keep the 1/13 object unresolved
+
+A fresh direct read of the 1902 commentary has narrowed, but not settled, the grammatical object of the 1/13 correction.
+
+- Printed p.135 (Jain Quantum page 139) reads: **“अपक्रमस्य ... भोग्यखण्डस्य विश्वांशकेन १३ त्रयोदशांशकेन भोग्यादीनि क्रान्तिखण्डानि पूर्व संस्कृत्य”**. The commentary explicitly names the thirteenth part and says the bhogya and following krānti-khandas are corrected first.
+- The same page then says the śara-khandas are applied after the krānti correction, with sign and gola rules.
+- Printed p.141 (Jain Quantum page 145), in the worked example with sāyana Moon 235;21;51 and sapāta Moon 350;58;29, identifies the bhogya krānti-khanda as 236 and says the 13th-part correction is positive in that case.
+- This makes it unsafe to state that the 1/13 is definitively taken from the angular remainder 3°50′52″. That interpretation is numerically attractive because its 13th part is 17′45.5″, but the Sanskrit phrase may instead refer to the bhogya krānti-khanda itself. If 236 is the operand, 236/13 = 18;9;13;50… in sexagesimal notation, which does not explain a whole-unit correction of +17.
+- Therefore the earlier note “+17 may come from bhogya chāpāṃśa” remains a hypothesis only. Neither +17 nor +18 is approved until the user's exact Śaka 1290 line and the commentary's grammatical referent are aligned.
+
+The verse-8 commentary on printed p.136 (Jain Quantum page 140) is now directly rechecked. It specifies: (a) first multiplier = smaller chāpāṃśa; (b) difference of the two chāpāṃśas for the even-position khanda; (c) if the fourth khanda exists, also use the sixth; (d) subtract the corresponding 15-part contributions from 15 × lunar śara (in kalā) as far as they clear; (e) divide the residual by the aśuddha sphuṭa-khanda, not the multiplier-adjusted khanda; (f) add the quotient to the sum of the multipliers belonging to the cleared khandas; (g) multiply the resulting angular amount by 60 and divide by lunar motion.
+
+This confirms the structural sequence, but it still does not validate the proposed Śaka 1290 products 775;3 and 492;3;27. The actual operands, khanda order, and scale of the printed product columns must be recovered before implementation.
+
+Sources:
+- https://jainqq.org/explore/034533/139
+- https://jainqq.org/explore/034533/140
+- https://jainqq.org/explore/034533/145
