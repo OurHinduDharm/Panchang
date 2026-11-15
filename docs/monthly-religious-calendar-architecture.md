@@ -60,3 +60,14 @@ research-candidate → source-reviewed → calculation-verified → approved
 5. विशेष शुभ दिवसों का curated, rule-backed catalog और स्वतंत्र section।
 
 इस चरण में कोई अप्रमाणित पुण्यकाल/मुहूर्त सार्वजनिक नहीं किया जाएगा।
+
+
+## Special sadhana punya-kaal runtime and loading
+
+- The selected month is calculated on demand from the pinned `@ishubhamx/panchangam-js@3.0.0` engine; pre-generated monthly JSON is not the calculation source.
+- Both the daily Panchang link check and monthly calendar scanner wait until their small sentinel approaches the viewport (IntersectionObserver root margin). The runtime module is imported only then.
+- Monthly results are cached in page memory by year, month, latitude, longitude and elevation. The cache is bounded; changing the observer cannot reuse another location's times.
+- The scanner checks the previous civil day and the first day of the next month so conjunctions crossing month boundaries are not truncated.
+- Any missing sunrise/sunset/tithi/nakshatra/yoga interval in the scan marks the month incomplete and returns no public candidates. The UI remains hidden.
+- Public output is separately gated by an explicit Smarta rule-profile allowlist and explicit reviewed dates: 17 March 2026, 4 April 2027, 23 March 2028 and 31 March 2030. No date is approved merely because the engine generated a candidate.
+- At this checkpoint, only the Varuni family is enabled for public display. Mahapata remains hidden pending the classical Karaṇa-kutūhala implementation and verified worked examples; Mahodaya remains hidden pending primary-source approval.
