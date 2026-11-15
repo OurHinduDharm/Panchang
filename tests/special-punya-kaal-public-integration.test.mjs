@@ -14,6 +14,7 @@ test("monthly special punya-kaal section calculates lazily and stays hidden with
   assert.match(monthly, /data\.calculationStatus!=="complete"\)return/);
   assert.match(monthly, /if\(!approved\.length\)return/);
   assert.match(monthly, /approvedSpecialPunyaKaalProfiles/);
+  assert.match(monthly, /approvedSpecialPunyaKaalDates\.has\(item\.date\)/);
   assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
 });
 
@@ -37,6 +38,7 @@ test("Varuni-only public cards do not display Mahapat-specific instructions", ()
 test("daily Panchang calculates its month lazily and links only for the approved Smarta profile", () => {
   assert.match(daily, /resultData\.calculationStatus!=="complete"/);
   assert.match(daily, /approvedSpecialPunyaKaalProfiles\.has\(item\.ruleProfile\)/);
+  assert.match(daily, /approvedSpecialPunyaKaalDates\.has\(item\.date\)/);
   assert.match(daily, /specialPunyaKaalLabelTypes\.has\(item\.labels\?\.\[0\]\)/);
   assert.match(daily, /monthly-vrat-parv\.html\?year=/);
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
