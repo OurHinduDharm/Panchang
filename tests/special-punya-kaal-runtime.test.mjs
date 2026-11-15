@@ -19,7 +19,7 @@ test("on-demand scanner calculates selected month and includes both boundary day
   const calls = [];
   const result = await calculateSpecialPunyaKaalMonth({
     year: 2028,
-    month: 2,
+    month: 3,
     observer: { id: "test-observer" },
     getPanchangam: async (date, observer, options) => {
       calls.push({ date, observer, options });
@@ -28,11 +28,11 @@ test("on-demand scanner calculates selected month and includes both boundary day
   });
   assert.equal(result.status, "research-only-not-approved");
   assert.equal(result.year, 2028);
-  assert.equal(result.month, 2);
-  assert.equal(result.scannedDays, 31);
-  assert.equal(result.panchangCalls, 31);
-  assert.equal(calls[0].date.toISOString(), "2028-01-31T06:30:00.000Z");
-  assert.equal(calls.at(-1).date.toISOString(), "2028-03-01T06:30:00.000Z");
+  assert.equal(result.month, 3);
+  assert.equal(result.scannedDays, 33);
+  assert.equal(result.panchangCalls, 33);
+  assert.equal(calls[0].date.toISOString(), "2028-02-29T06:30:00.000Z");
+  assert.equal(calls.at(-1).date.toISOString(), "2028-04-01T06:30:00.000Z");
   assert.equal(calls[0].observer.id, "test-observer");
   assert.deepEqual(calls[0].options, { timezoneOffset: 330, calendarType: "purnimanta" });
   assert.deepEqual(result.diagnostics, []);
@@ -41,17 +41,17 @@ test("on-demand scanner calculates selected month and includes both boundary day
 
 test("scanner rejects unsupported calendar/timezone profiles rather than silently mixing rules", async () => {
   await assert.rejects(() => calculateSpecialPunyaKaalMonth({
-    year: 2028, month: 2, observer: {},
+    year: 2028, month: 3, observer: {},
     getPanchangam: fakePanchang, timezoneOffsetMinutes: 0
   }), /Only the approved IST\/Purnimanta/);
 });
 
 test("scanner requires a real Panchang function and observer", async () => {
   await assert.rejects(() => calculateSpecialPunyaKaalMonth({
-    year: 2028, month: 2, observer: {}, getPanchangam: null
+    year: 2028, month: 3, observer: {}, getPanchangam: null
   }), /getPanchangam/);
   await assert.rejects(() => calculateSpecialPunyaKaalMonth({
-    year: 2028, month: 2, getPanchangam: fakePanchang
+    year: 2028, month: 3, getPanchangam: fakePanchang
   }), /observer/);
 });
 
@@ -65,11 +65,11 @@ test("scanner validates year and month", async () => {
 test("scanner fails closed when any scanned Panchang day lacks required intervals", async () => {
   const result = await calculateSpecialPunyaKaalMonth({
     year: 2028,
-    month: 2,
+    month: 3,
     observer: { id: "test-observer" },
     getPanchangam: async date => {
       const record = fakePanchang(date);
-      if (date.toISOString().startsWith("2028-02-15")) {
+      if (date.toISOString().startsWith("2028-03-15")) {
         record.nakshatras = [];
       }
       return record;
