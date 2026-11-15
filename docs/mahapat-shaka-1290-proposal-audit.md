@@ -701,3 +701,49 @@ https://jainqq.org/explore/034533/148
 
 Independent procedural witness:
 https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf (Hindi summary, printed pp.184–185).
+
+
+## 2026-11-16: the original Sanskrit gives the future-pāta placement rule
+
+A fresh collation of 1902 printed p.134 (Jain Quantum page 138) and the 1991 Sanskrit commentary (PDF lines 2736–2738) resolves an important gap in the previous section: the future-pāta rule is stated in Sanskrit, even though the 1991 Hindi summary at p.184 only paraphrases the past-pāta branch.
+
+### Exact rule structure
+
+The 1902 verse 5–7 and Sumatiharsa commentary say:
+
+1. For a past pāta, use the elapsed (gata) khanda sequence; for a future pāta, use the future (eṣya/gamya) khanda sequence.
+2. Start from the bhogya khanda and place the relevant two/three khanda positions separately.
+3. The side with the smaller chāpāṃśa has its bhogya khanda placed singly; the other side's corresponding positions are doubled.
+4. The number of middle positions depends on which side is smaller: when śara is smaller there are two middle śara positions; when śara is larger there are three middle śara positions. By the same complementary rule, when krānti is smaller, the krānti side has the shorter two-position middle sequence and the larger śara side the three-position sequence.
+5. Preserve the signed dhan/ṛṇa labels before applying the 1/13 bhogya correction to the krānti terms; then apply the śara corrections with the gola/direction rule.
+
+Sources:
+- 1902 printed p.134–135: https://jainqq.org/explore/034533/138 and https://jainqq.org/explore/034533/139
+- 1991 Sanskrit commentary, PDF lines 2736–2738: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+- 1991 Hindi summary, lines 3644–3646, describes the past-pāta branch only: same PDF.
+
+### Consequence for Śaka 1290: candidate sequences, not yet paired products
+
+The worked example is explicitly future-pāta. Its future sequences begin from the already identified bhogya positions:
+
+- Krānti bhogya: position 9 = −236; following future positions are 10 = −299 and 11 = −341.
+- Śara bhogya: position 3 = +56; following future positions are 4 = +43, 5 = +27, and 6 = +9.
+- Since krānti chāpāṃśa is smaller (3;50;52 against 5;4;47), the krānti bhogya is single; the śara side uses the larger three-position sequence. The krānti side has the shorter two-position middle sequence.
+
+This identifies the source values that must enter the placement calculation. It does **not** yet tell us, without parsing the exact p.145 commentary grammar, which of the doubled śara terms are paired with which krānti terms in each of the three displayed sphuṭa-khaṇḍas. Do not simply pair position 9 with position 3, 10 with 4, and 11 with 5: the source says to place/double the terms according to the two/three-position rule, not to use same-index row pairing.
+
+### Independent 1991 Śaka 1290 witness
+
+The 1991 edition has a second Śaka 1290 worked example at printed pp.192–193 (PDF lines 2806–2811). It explicitly labels the example as future-pāta and repeats the same structural steps: sāyana Moon divided by 15 (quotient 8), sapāta Moon divided by 15 (quotient 2), third bhogya śara 56, future-pāta remainder-to-15 chāpāṃśas, smaller krānti arc, and the subsequent three sphuṭa-khaṇḍa/product sequence. Its OCR digits are badly concatenated and some numbers differ from the 1902 witness, so use it as an independent method witness, not as a replacement transcription.
+
+The 1991 Sanskrit worked example's extracted text around PDF line 2810 is especially valuable because it independently preserves the sequence “गम्यपातत्वात्” and the smaller-krānti placement description. The numerical OCR is not clean enough to approve an emendation.
+
+### Correction to the previous research note
+
+The previous note said the future-pāta odd/even placement rule had not yet been recovered. That was too strong. The Sanskrit commentary does give the general past/future selection rule; what remains unresolved is the exact detailed pairing/doubling of the two krānti positions and three śara positions in the Śaka 1290 worked arithmetic.
+
+### Current result
+
+**Newly established:** for future pāta use future-marked khandas; Śaka 1290 future sequences are krānti [−236, −299, −341] and śara [+56, +43, +27, +9] from the respective bhogya positions; smaller krānti arc means single krānti bhogya and the larger śara side's three-position sequence.
+
+**Still open:** exact 1902 p.145 placement/pairing; 1/13 correction's operand and precision as actually used in the worked example; derivation of 197, 61, 274 and multipliers 54;12, 1;53;45, 1;53;7; product scale/units. No solver implementation.
