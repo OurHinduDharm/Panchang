@@ -4845,67 +4845,59 @@ function updateSankalpText(){
    ========================================================= */
 let specialPunyaKaalMonthRequest=0;
 const specialPunyaKaalMonthCache=new Map();
-const allowedSpecialPunyaKaalTypes=new Set(["vyatipata-mahapat","vaidhriti-mahapat","varuni","mahavaruni","mahamahavaruni","mahodaya"]);
-function validSpecialPunyaKaalDate(value){
-  if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
-  const date=new Date(value+"T00:00:00.000Z");
-  return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;
-}
-function validSpecialPunyaKaalInstant(value){
-  return typeof value==="string"&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/.test(value)&&Number.isFinite(Date.parse(value));
-}
-function validApprovedSpecialPunyaKaal(item){
-  return item&&item.status==="approved"&&allowedSpecialPunyaKaalTypes.has(item.type)&&
-    typeof item.id==="string"&&typeof item.label==="string"&&validSpecialPunyaKaalDate(item.date)&&
-    validSpecialPunyaKaalInstant(item.start)&&validSpecialPunyaKaalInstant(item.end)&&Date.parse(item.start)<Date.parse(item.end);
-}
-function sameSpecialPunyaKaalObserver(observer,location){
-  return !!observer&&!!location&&Math.abs(Number(observer.lat)-Number(location.lat))<0.0001&&
-    Math.abs(Number(observer.lon)-Number(location.lon))<0.0001;
-}
+const approvedSpecialPunyaKaalProfiles=new Set(["chaitra-krishna-trayodashi-shatabhisha"]);
+const specialPunyaKaalLabelTypes=new Map([
+  ["वारुणी योग","varuni"],
+  ["महावारुणी योग","mahavaruni"],
+  ["महामहावारुणी योग","mahamahavaruni"]
+]);
 function specialPunyaKaalTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
-async function appendSpecialPunyaKaalMonthLink(dateString){
-  const request=++specialPunyaKaalMonthRequest;
+function specialPunyaKaalDateTime(value){
+  return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
+}
+async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
-  if(!resultGrid||!isValidIsoDate(dateString))return;
+  if(!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
-  const key=year+"-"+String(month).padStart(2,"0");
+  const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
+  const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
   try{
-    let data;
-    if(specialPunyaKaalMonthCache.has(key)){
-      data=specialPunyaKaalMonthCache.get(key);
-    }else{
-      const response=await fetch("./data/special-punya-kaal/"+key+".json",{cache:"no-cache"});
-      if(!response.ok){
-        // A missing month is a stable negative result; avoid repeating a 404 on every date change.
-        if(response.status===404)specialPunyaKaalMonthCache.set(key,null);
-        throw new Error("No approved special punya-kaal data for month");
+    let calculation=specialPunyaKaalMonthCache.get(key);
+    if(!calculation){
+      calculation=import("./special-punya-kaal-runtime.mjs").then(module=>{
+        const observer=new Observer(location.lat,location.lon,location.elevation);
+        return module.calculateSpecialPunyaKaalMonth({
+          year,month,observer,getPanchangam,
+          timezoneOffsetMinutes:330,calendarType:"purnimanta"
+        });
+      }).catch(error=>{
+        specialPunyaKaalMonthCache.delete(key);
+        throw error;
+      });
+      specialPunyaKaalMonthCache.set(key,calculation);
+      if(specialPunyaKaalMonthCache.size>12){
+        specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
       }
-      data=await response.json();
-      specialPunyaKaalMonthCache.set(key,data);
     }
-    if(!data)return;
+    const resultData=await calculation;
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
-    if(!data||data.status!=="approved"||!sameSpecialPunyaKaalObserver(data.observer,selectedLocation))return;
-    const events=(Array.isArray(data.events)?data.events:[]).filter(validApprovedSpecialPunyaKaal)
-      .sort((a,b)=>a.start.localeCompare(b.start));
+    if(resultData.calculationStatus!=="complete")return;
+    const events=resultData.candidates.filter(item=>
+      approvedSpecialPunyaKaalProfiles.has(item.ruleProfile)&&
+      specialPunyaKaalLabelTypes.has(item.labels?.[0])
+    ).sort((a,b)=>a.startTime.localeCompare(b.startTime));
     if(!events.length)return;
     const card=document.createElement("section");card.className="card full special-punya-kaal-card";
     const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
     const todays=events.filter(item=>item.date===dateString);
     todays.forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
-      const name=document.createElement("strong");name.textContent=item.label;detail.appendChild(name);
+      const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
-      detail.appendChild(document.createTextNode((item.startLabel||"स्पर्श")+" : "+specialPunyaKaalTime(item.start)+" – "+(item.endLabel||"मोक्ष")+" : "+specialPunyaKaalTime(item.end)));
+      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
       card.appendChild(detail);
-      if(item.type==="vyatipata-mahapat"||item.type==="vaidhriti-mahapat"){
-        const warning=document.createElement("div");warning.className="warning";
-        warning.textContent="महापात को विवाह, गृह प्रवेश, गृह आरंभ, उपनयन आदि मांगलिक संस्कारों का मुहूर्त न मानें।";
-        card.appendChild(warning);
-      }
     });
     const link=document.createElement("a");
     link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
@@ -4913,7 +4905,31 @@ async function appendSpecialPunyaKaalMonthLink(dateString){
     card.appendChild(link);
     resultGrid.appendChild(card);
   }catch(error){
-    // Empty, missing, malformed or unapproved data must not create a public link.
+    // Missing, incomplete or unapproved calculations must not create a public link.
+  }
+}
+function scheduleSpecialPunyaKaalMonthLink(dateString){
+  const resultGrid=result.querySelector(".grid");
+  if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
+  const request=++specialPunyaKaalMonthRequest;
+  const sentinel=document.createElement("div");
+  sentinel.className="special-punya-kaal-sentinel";
+  sentinel.style.cssText="grid-column:1/-1;height:1px";
+  resultGrid.appendChild(sentinel);
+  const run=()=>{
+    if(request!==specialPunyaKaalMonthRequest)return;
+    appendSpecialPunyaKaalMonthLink(dateString,request);
+  };
+  if("IntersectionObserver" in window){
+    const observer=new IntersectionObserver(entries=>{
+      if(entries.some(entry=>entry.isIntersecting)){
+        observer.disconnect();
+        run();
+      }
+    },{rootMargin:"450px 0px"});
+    observer.observe(sentinel);
+  }else{
+    run();
   }
 }
 
@@ -6464,7 +6480,7 @@ bhadraPartsHtml += `
 
   renderSankalpControls();
   updateSankalpText();
-  appendSpecialPunyaKaalMonthLink(dateInput.value);
+  scheduleSpecialPunyaKaalMonthLink(dateInput.value);
    window.dispatchEvent(
   new CustomEvent(
     "ohd:panchangUpdated"
