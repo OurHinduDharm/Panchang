@@ -4845,13 +4845,7 @@ function updateSankalpText(){
    ========================================================= */
 let specialPunyaKaalMonthRequest=0;
 const specialPunyaKaalMonthCache=new Map();
-const approvedSpecialPunyaKaalProfiles=new Set(["chaitra-krishna-trayodashi-shatabhisha"]);
-const approvedSpecialPunyaKaalDates=new Set(["2026-03-17","2027-04-04","2028-03-23","2030-03-31"]);
-const specialPunyaKaalLabelTypes=new Map([
-  ["वारुणी योग","varuni"],
-  ["महावारुणी योग","mahavaruni"],
-  ["महामहावारुणी योग","mahamahavaruni"]
-]);
+const specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
 function specialPunyaKaalTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
@@ -4867,7 +4861,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
   try{
     let calculation=specialPunyaKaalMonthCache.get(key);
     if(!calculation){
-      calculation=import("./special-punya-kaal-runtime.mjs").then(module=>{
+      calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
         const observer=new Observer(location.lat,location.lon,location.elevation);
         return module.calculateSpecialPunyaKaalMonth({
           year,month,observer,getPanchangam,
@@ -4882,14 +4876,11 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
         specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
       }
     }
-    const resultData=await calculation;
+    const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
     if(resultData.calculationStatus!=="complete")return;
-    const events=resultData.candidates.filter(item=>
-      approvedSpecialPunyaKaalProfiles.has(item.ruleProfile)&&
-      approvedSpecialPunyaKaalDates.has(item.date)&&
-      specialPunyaKaalLabelTypes.has(item.labels?.[0])
-    ).sort((a,b)=>a.startTime.localeCompare(b.startTime));
+    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
+      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
     if(!events.length)return;
     const card=document.createElement("section");card.className="card full special-punya-kaal-card";
     const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
