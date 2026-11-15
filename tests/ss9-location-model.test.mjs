@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  evaluateSs9Visibility, eclipticToEquatorial, geometricHorizonDipDegrees,
-  obliqueAscensionDegrees, refineSs9Transition
+  evaluateSs9Visibility, evaluateSs9VisibilityFromEquatorial, eclipticToEquatorial,
+  geometricHorizonDipDegrees, obliqueAscensionDegrees, refineSs9Transition
 } from "../research/ss9-location-model.mjs";
 
 test("ecliptic to equatorial conversion returns finite coordinates", () => {
@@ -41,6 +41,7 @@ test("Venus requires an explicit 8 or 10 degree branch", () => {
   assert.throws(() => evaluateSs9Visibility(args), /explicit SS Ch.9 limitDeg/);
   assert.equal(evaluateSs9Visibility({ ...args, limitDeg: 8 }).limitDeg, 8);
   assert.equal(evaluateSs9Visibility({ ...args, limitDeg: 10 }).limitDeg, 10);
+  assert.throws(() => evaluateSs9Visibility({ ...args, limitDeg: 9 }), /8° or 10° branch/);
 });
 
 test("Agastya uses the 13 degree stellar limit", () => {
@@ -72,4 +73,15 @@ test("refinement locates a synthetic Udaya crossing", () => {
 test("elevation changes horizon dip only, not the classical K/C input", () => {
   assert.equal(geometricHorizonDipDegrees(0), 0);
   assert.ok(geometricHorizonDipDegrees(1571) > geometricHorizonDipDegrees(272));
+});
+
+test("direct apparent equatorial coordinates can be evaluated without a frame conversion", () => {
+  const result = evaluateSs9VisibilityFromEquatorial({
+    body: "Jupiter",
+    sunEquatorial: { rightAscensionDeg: 100, declinationDeg: 20 },
+    objectEquatorial: { rightAscensionDeg: 112, declinationDeg: 22 },
+    latitudeDeg: 29.6166667
+  });
+  assert.equal(result.available, true);
+  assert.equal(result.visible, result.K > 11);
 });
