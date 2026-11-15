@@ -4846,6 +4846,7 @@ function updateSankalpText(){
 let specialPunyaKaalMonthRequest=0;
 const specialPunyaKaalMonthCache=new Map();
 const approvedSpecialPunyaKaalProfiles=new Set(["chaitra-krishna-trayodashi-shatabhisha"]);
+const approvedSpecialPunyaKaalDates=new Set(["2026-03-17","2027-04-04","2028-03-23","2030-03-31"]);
 const specialPunyaKaalLabelTypes=new Map([
   ["वारुणी योग","varuni"],
   ["महावारुणी योग","mahavaruni"],
@@ -4886,6 +4887,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     if(resultData.calculationStatus!=="complete")return;
     const events=resultData.candidates.filter(item=>
       approvedSpecialPunyaKaalProfiles.has(item.ruleProfile)&&
+      approvedSpecialPunyaKaalDates.has(item.date)&&
       specialPunyaKaalLabelTypes.has(item.labels?.[0])
     ).sort((a,b)=>a.startTime.localeCompare(b.startTime));
     if(!events.length)return;
