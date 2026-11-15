@@ -8,6 +8,80 @@ const RAD = 180 / Math.PI;
 
 export const SS9_LIMITS_DEG = Object.freeze({ Jupiter: 11, Agastya: 13 });
 
+/**
+ * Resolve the Ch.9 horizon branch and kalāṃśa for a named heliacal event.
+ * Venus 9.7: west-setting/east-rising = 8°; east-setting/west-rising = 10°.
+ * The superior planets and Agastya use west-setting Asta / east-rising Udaya.
+ */
+export function resolveSs9EventProfile(body, event, direction) {
+  if (event !== "Asta" && event !== "Udaya") {
+    throw new RangeError("event must be Asta or Udaya");
+  }
+  if (direction !== "east" && direction !== "west") {
+    throw new RangeError("direction must be east or west");
+  }
+  if (body === "Venus") {
+    const profiles = {
+      "Asta:west": { branch: "setting", limitDeg: 8 },
+      "Udaya:east": { branch: "rising", limitDeg: 8 },
+      "Asta:east": { branch: "rising", limitDeg: 10 },
+      "Udaya:west": { branch: "setting", limitDeg: 10 }
+    };
+    return { ...profiles[event + ":" + direction], body, event, direction };
+  }
+  const limitDeg = resolveLimit(body, undefined);
+  if (event === "Asta" && direction === "west") {
+    return { body, event, direction, branch: "setting", limitDeg };
+  }
+  if (event === "Udaya" && direction === "east") {
+    return { body, event, direction, branch: "rising", limitDeg };
+  }
+  throw new RangeError(body + " Ch.9 profile does not define " + event + " in the " + direction);
+}
+
+/**
+ * Find only the physically/classically valid event-direction combinations.
+ * This prevents the opposite-horizon branch from being mislabelled as the
+ * same heliacal event.
+ */
+export function scanSs9Events({
+  body, latitudeDeg, startUtcMs, endUtcMs, sampleAt,
+  stepHours = 6, toleranceMs = 60_000, maxIterations = 64
+}) {
+  const profiles = body === "Venus"
+    ? [
+        resolveSs9EventProfile("Venus", "Asta", "west"),
+        resolveSs9EventProfile("Venus", "Udaya", "east"),
+        resolveSs9EventProfile("Venus", "Asta", "east"),
+        resolveSs9EventProfile("Venus", "Udaya", "west")
+      ]
+    : [
+        resolveSs9EventProfile(body, "Asta", "west"),
+        resolveSs9EventProfile(body, "Udaya", "east")
+      ];
+  const events = [];
+  for (const profile of profiles) {
+    const found = scanSs9Transitions({
+      body,
+      latitudeDeg,
+      limitDeg: profile.limitDeg,
+      branch: profile.branch,
+      startUtcMs,
+      endUtcMs,
+      sampleAt,
+      stepHours,
+      toleranceMs,
+      maxIterations
+    });
+    for (const event of found) {
+      if (event.event === profile.event && event.direction === profile.direction) {
+        events.push({ ...event, eventProfile: profile });
+      }
+    }
+  }
+  return events.sort((a, b) => a.utcMilliseconds - b.utcMilliseconds);
+}
+
 export function normalizeDegrees(value) {
   if (!Number.isFinite(value)) throw new TypeError("angle must be finite");
   return ((value % 360) + 360) % 360;
