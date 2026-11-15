@@ -993,3 +993,46 @@ This supports the already recorded sequence: the thirteenth-part correction is a
 ### Research consequence
 
 The first and second sphuṭa-khanda product lines remain the critical bottleneck. The source text is not arithmetically self-verifying as currently transcribed. The next action must be a visual reading of p.145, not another algebraic fit. Keep the 1902 page text, user-verified readings, and reconstructed candidates as three separate witnesses.
+
+
+## 2026-11-16: original 1902 pp.132–134 clarify khanda placement and multiplier rules
+
+The original page-text previews are now directly readable:
+- printed p.132: https://jainqq.org/explore/034533/136
+- printed p.134: https://jainqq.org/explore/034533/138
+
+### p.134 placement rule
+
+The text says:
+> “शरक्रान्त्योर्मध्ये यस्य चापांशाः स्वल्पास्तस्य भोग्यखण्डमेकस्थमेव स्थाप्यमन्यानि द्विधा ... स्वल्पशरे खण्डकं द्वयं महच्छरे त्रय एव मध्यमा भवन्ति।”
+
+Meaning supported by the wording:
+- compare the krānti and śara chāpāṃśas;
+- on the side with the smaller chāpāṃśa, keep the bhogya khanda single;
+- the other corresponding khanda positions are doubled;
+- the explicit two-versus-three middle-khanda sentence is phrased specifically as “small śara” versus “large śara”. It cannot, without further grammatical/contextual evidence, be generalized as a proven two-versus-three rule for the case where **krānti** is smaller. This preserves the earlier caution.
+
+The opening verse also has the compressed expression “द्वित्रीणि विन्यस्य पृथग्दलानि”, which supports a two/three placement distinction but does not alone settle every branch.
+
+### p.132 verse 8: multiplier sequence
+
+The same original edition gives the operative multiplier rule:
+> “आयेऽल्पचापांशमितो गुणः स्याच्चापान्तरांशाः समखण्डकेषु। तिथिच्युतास्ते विषमेषु जह्यात्स्वांशनखण्डानि तिथिनवाणात्॥”
+
+The following prose explains the first multiplier as the smaller chāpāṃśa; for even-position khandas use the difference of the two chāpāṃśas; for odd-position khandas subtract the relevant contribution from 15 (the “15 minus” complement). The subsequent verse uses the residual divided by the aśuddha sphuṭa-khanda and adds the resulting quotient to the cleared-khanda angle.
+
+### Immediate arithmetic implication for the Śaka 1290 example
+
+This makes the first multiplier independently constrained: it should be the smaller chāpāṃśa, not an arbitrary multiplier reverse-engineered from the printed product. The p.145 OCR currently gives a first khanda/product line that does not reconcile under the available readings (197 × 3;54;12 = 768;57;24, whereas the printed searchable product is 775;3). Thus the discrepancy is now demonstrably between the worked-example transcription and the general rule, not something to “solve” by inventing a convenient multiplier.
+
+For the second khanda, the multiplier must be the chāpāṃśa difference (the page-145 text gives 1;53;45), yet 61 × 1;53;45 is 115;38;45, not 492;3;27. This is a second independent conflict. It strongly indicates that one or more khanda/product OCR readings or punctuation marks in the worked example are damaged; it does not identify which reading is wrong.
+
+### Research status
+
+The general algorithm is now more constrained:
+1. choose the first multiplier as the smaller chāpāṃśa;
+2. use the chāpāṃśa difference for even khanda positions;
+3. use the prescribed 15-part complement for odd khanda positions;
+4. apply the residual/quotient step only after subtracting contributions that clear the remaining lunar-śara amount.
+
+The exact p.145 khanda/product column still needs a visual transcription. Do not implement from the current OCR.
