@@ -51,7 +51,7 @@ test("source conversion preserves raw time and selects an event branch", () => {
   assert.equal(ref.usableForCalibration, true);
 });
 
-test("time separation converts four minutes to one kala-degree", () => {
+test("time separation converts minutes using one sidereal time-degree", () => {
   const start = Date.UTC(2026, 9, 12);
   const result = measureDrikTimeSeparation({
     body: "Jupiter",
