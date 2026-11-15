@@ -795,3 +795,30 @@ Accordingly:
 ### Next test
 
 Read the original page image for p.134 and collate the 1991 Sanskrit commentary's corresponding sentence. Then parse the p.145 Śaka 1290 explanation word by word, especially the phrases describing the bhogya term, the doubled terms, and the “middle” terms. Only after that should the 24-position sequence be mapped to the three sphuṭa-khaṇḍas.
+
+
+## 2026-11-16: p.135 explicitly identifies the 1/13 correction's grammatical object
+
+The original 1902 printed p.135 is now re-opened and its searchable Sanskrit text read continuously with p.134 and p.145. The key p.135 commentary reads:
+
+> “अपक्रमस्य ... भोग्यखण्डस्य विश्वांशकेन १३ त्रयोदशांशकेन भोग्यादीनि क्रान्तिखण्डानि पूर्व संस्कृत्य ... पुनः शरखण्डकैः संस्कृतानि ...”
+
+The OCR around the compound immediately before “भोग्यखण्डस्य” is imperfect, so preserve the quoted fragment as a raw searchable-text witness, not a diplomatic transcription. The operative syntax nevertheless states that the bhogya and following krānti-khandas are first corrected by a thirteenth part; the śara-khandas are then used for the next correction. It also specifies same-sign addition / unlike-sign difference, with the gola rule affecting the orientation.
+
+### What this settles
+
+- The 1/13 correction belongs to the **bhogya krānti-khanda operation** and is propagated to the bhogya and subsequent krānti-khanda terms before the śara correction.
+- This is stronger than the earlier loose hypothesis that 1/13 might be taken directly from the angular chāpāṃśa (3;50;52).
+- The p.145 worked example explicitly associates the correction with the bhogya krānti-khanda 236 and says the sign is negative in the present example; it then describes the krānti/śara signed combinations and gives first sphuṭa-khanda 197.
+- However, the exact numeric unit and precision of “one thirteenth” remain unresolved. A direct 236/13 gives 18;9;13… in sexagesimal notation, and a naïve combination 236 − 56 + 18 does not yield 197. Do not silently round 236/13 to 17 or treat the attractive identity 236 − 56 + 17 = 197 as proven.
+- The order of operations is now better established: first correct the krānti khanda series by the 1/13 bhogya correction; then apply śara khanda terms using sign/gola rules. The exact mapping from the future-pāta sequence to the three p.145 sphuṭa-khandas is still not established.
+
+### Source locations
+
+- 1902 printed p.134, placement rule: https://jainqq.org/explore/034533/138
+- 1902 printed p.135, correction and sign/gola commentary: https://jainqq.org/explore/034533/139
+- 1902 printed p.145, Śaka 1290 worked calculation: https://jainqq.org/explore/034533/149
+
+### Immediate consequence for the next calculation
+
+Do not treat the 1/13 correction as an independent angular remainder adjustment unless a parallel worked example proves that scale. Instead, reconstruct the corrected signed krānti terms from the actual bhogya khanda and subsequent future khandas, retaining the correction as a rational quantity until the book's truncation/rounding stage is identified. Only then combine the corrected krānti terms with the selected śara terms to test 197, 61, and 274.
