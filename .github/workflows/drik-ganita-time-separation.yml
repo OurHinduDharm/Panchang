@@ -24,6 +24,7 @@ jobs:
           node --check scripts/backtest-drik-ganita-time-separation.mjs
       - name: Run unit tests
         run: node --test tests/drik-ganita-time-separation.test.mjs
+      # Back-test uses the same pinned Astronomy Engine rise/set API as the browser module.
       - name: Back-test Drik and printed Panchang observations
         run: |
           mkdir -p /tmp/drik-ganita
