@@ -5,8 +5,8 @@
   "purpose": "Preserve user-transcribed paper Panchang observations as independent source benchmarks. Do not treat these as calculated results or merge them with Drik/PAC event models until notation, observer coordinates and event definitions are verified.",
   "transcriptionPolicy": {
     "preserveOriginalDateAndTime": true,
-    "timeNotation": "All supplied time strings are preserved exactly. Dot-separated values such as 34.07, 24.35 and 0.01 are NOT normalized yet.",
-    "timeInterpretationStatus": "unverified",
+    "timeNotation": "The source legend confirms planetary rise/set and Sun/Moon/planetary sign-change times are in Indian Standard Time as hour-minute (घन्टा-मिनट), while tithi/nakshatra/yoga/karana timings are separately supplied in both ghadi-pala and clock time. Values above 24 hours are retained as next-day clock notation where the date-row convention supports it; preserve the raw source string.",
+    "timeInterpretationStatus": "unit confirmed; next-day rollover convention supported by the user's quoted example, but individual >24 values should retain raw notation and be normalized only with the printed date context",
     "direction": "पूर्व/पश्चिम is preserved exactly as printed/reported; do not infer rise/set azimuth or morning/evening star semantics without the original table legend.",
     "timezone": "Indian Standard Time (Asia/Kolkata), as reported by the user.",
     "eventDefinition": "The printed labels अस्त, उदय and अगस्त्योदय are preserved. Do not equate them automatically with geometric horizon crossing, naked-eye heliacal visibility, Drik Tara Asta boundaries or Surya Siddhanta K/C events.",
@@ -336,8 +336,8 @@
     }
   ],
   "validationNotes": [
-    "These records are user-transcribed from paper Panchangs; original page images have not yet been supplied.",
-    "Do not assume dot-separated values are decimal hours. A likely hour-minute convention is not yet proven; preserve raw strings until the table's time legend or a clearly labeled example is checked.",
+    "The user supplied the Panchang's printed explanatory legend: planetary rise/set and Sun/Moon/planetary sign-change times are in IST hour-minute; tithi/nakshatra/yoga/karana are separately shown in ghadi-pala and clock time.",
+    "The legend's example uses clock values 26:31 and 28:53 for events before the following sunrise, supporting the conventional after-midnight notation for values above 24. Raw strings remain authoritative.",
     "Do not infer missing directions for Jupiter or Agastya.",
     "The two Panchang centers are not Pithoragarh. Compare only after evaluating location-specific calculations at the stated source coordinates, and keep provider coordinate uncertainty visible.",
     "Some reported labels/directions may appear counterintuitive. Preserve them verbatim rather than silently correcting."
