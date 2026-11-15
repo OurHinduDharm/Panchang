@@ -116,6 +116,16 @@ export function refineSs9Transition({
   if (!Number.isFinite(toleranceMs) || toleranceMs <= 0) throw new RangeError("toleranceMs must be positive");
   const evaluate = instant => {
     const sample = sampleAt(instant);
+    if (sample.sunEquatorial && sample.objectEquatorial) {
+      return evaluateSs9VisibilityFromEquatorial({
+        body,
+        sunEquatorial: sample.sunEquatorial,
+        objectEquatorial: sample.objectEquatorial,
+        latitudeDeg,
+        limitDeg,
+        elongationDeg: sample.elongationDeg ?? null
+      });
+    }
     return evaluateSs9Visibility({
       body, sun: sample.sun, object: sample.object, latitudeDeg,
       obliquityDeg: sample.obliquityDeg, limitDeg
