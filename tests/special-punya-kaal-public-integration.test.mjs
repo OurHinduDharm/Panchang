@@ -28,28 +28,22 @@ test("monthly special section uses the approved practice-focused title", () => {
   assert.doesNotMatch(monthly, /विशेष पुण्यकाल एवं धार्मिक साधना/);
 });
 
-test("only Mahapat cards show the classical bath, japa, homa and donation guidance", () => {
-  assert.match(monthly, /इस पातकाल में स्नान, जप, होम एवं दान करने का शास्त्रीय निर्देश मिलता है।/);
-  assert.match(monthly, /className="special-kaal-description"/);
+test("Varuni-only public cards do not display Mahapat-specific instructions", () => {
+  assert.doesNotMatch(monthly, /इस पातकाल में स्नान, जप, होम एवं दान करने का शास्त्रीय निर्देश मिलता है।/);
+  assert.doesNotMatch(monthly, /महापात को विवाह, गृह प्रवेश/);
+  assert.doesNotMatch(daily, /महापात को विवाह, गृह प्रवेश/);
 });
 
-test("only Mahapat records receive the samskara caution", () => {
-  assert.match(monthly, /item\.type==="vyatipata-mahapat"\|\|item\.type==="vaidhriti-mahapat"/);
-  assert.match(daily, /item\.type==="vyatipata-mahapat"\|\|item\.type==="vaidhriti-mahapat"/);
-});
-
-test("daily Panchang shows a month link only after an approved event matches its observer", () => {
-  assert.match(daily, /data\.status!=="approved"/);
-  assert.match(daily, /sameSpecialPunyaKaalObserver\(data\.observer,selectedLocation\)/);
-  assert.match(daily, /filter\(validApprovedSpecialPunyaKaal\)/);
+test("daily Panchang calculates its month lazily and links only for the approved Smarta profile", () => {
+  assert.match(daily, /resultData\.calculationStatus!=="complete"/);
+  assert.match(daily, /approvedSpecialPunyaKaalProfiles\.has\(item\.ruleProfile\)/);
+  assert.match(daily, /specialPunyaKaalLabelTypes\.has\(item\.labels\?\.\[0\]\)/);
   assert.match(daily, /monthly-vrat-parv\.html\?year=/);
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
   assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);
-  assert.doesNotMatch(daily, /विशेष पुण्यकाल एवं धार्मिक साधना/);
+  assert.doesNotMatch(daily, /data\/special-punya-kaal\//);
   assert.match(daily, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
   assert.match(daily, /IntersectionObserver/);
-  assert.match(daily, /approvedSpecialPunyaKaalProfiles/);
-  assert.doesNotMatch(daily, /data\/special-punya-kaal\//);
 });
 
 test("daily Panchang shows actual event times only on the event date", () => {
