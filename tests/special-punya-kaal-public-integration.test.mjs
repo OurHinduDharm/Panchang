@@ -11,7 +11,7 @@ test("monthly special punya-kaal section calculates lazily and stays hidden with
   assert.match(monthly, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
   assert.match(monthly, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
   assert.match(monthly, /IntersectionObserver/);
-  assert.match(monthly, /data\.calculationStatus!=="complete"\)return/);
+  assert.match(monthly, /data\.calculationStatus!=="complete"\|\|!sameObserver/);
   assert.match(monthly, /if\(!approved\.length\)return/);
   assert.match(monthly, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
   assert.match(monthly, /engine\.approval\.isApprovedSpecialPunyaKaalCandidate/);
@@ -40,7 +40,7 @@ test("daily Panchang calculates its month lazily and links only for the approved
   assert.match(daily, /resultData\.calculationStatus!=="complete"/);
   assert.match(daily, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
   assert.match(daily, /approval\.isApprovedSpecialPunyaKaalCandidate/);
-  assert.match(daily, /specialPunyaKaalLabelTypes\.has\(item\.labels\?\.\[0\]\)/);
+  assert.match(daily, /approval\.isApprovedSpecialPunyaKaalCandidate/);
   assert.match(daily, /monthly-vrat-parv\.html\?year=/);
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
   assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);
