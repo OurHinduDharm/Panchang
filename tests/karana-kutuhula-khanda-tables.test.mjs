@@ -68,16 +68,16 @@ test("khanda expansion rejects malformed source tables", () => {
 
 test("verse 4 extracts both longitude khanda quotients without treating remainders as time", () => {
   const result = extractMahapataLongitudeKhandas({
-    sayanaMoon: { sign: 6, degree: 11, minute: 53, second: 30 },
-    sapataMoon: { sign: 4, degree: 29, minute: 5, second: 21 }
+    sayanaMoon: { sign: 4, degree: 29, minute: 5, second: 21 },
+    sapataMoon: { sign: 6, degree: 11, minute: 53, second: 30 }
   });
-  assert.equal(result.sayanaMoon.khandaIndex, 12);
+  assert.equal(result.sayanaMoon.khandaIndex, 9);
   assert.deepEqual(result.sayanaMoon.remainder, {
-    degree: 11, minute: 53, second: 30
-  });
-  assert.equal(result.sapataMoon.khandaIndex, 9);
-  assert.deepEqual(result.sapataMoon.remainder, {
     degree: 14, minute: 5, second: 21
+  });
+  assert.equal(result.sapataMoon.khandaIndex, 12);
+  assert.deepEqual(result.sapataMoon.remainder, {
+    degree: 11, minute: 53, second: 30
   });
   assert.equal(result.unit, "15-degree-khanda-with-angular-remainder");
   assert.equal(result.status, "research-only");
