@@ -28,6 +28,25 @@ test("six-value tables expand to 24 signed krama/utkrama positions", () => {
   assert.equal(SHARA_KHANDA_24[12], 70);
 });
 
+test("verse 5 division by 15 returns khanda quotient and angular remainder", async () => {
+  const { divideLongitudeIntoKhandas } = await import("../karana-kutuhula-khanda-tables.mjs");
+  assert.deepEqual(divideLongitudeIntoKhandas({
+    sign: 6, degree: 11, minute: 53, second: 30
+  }), {
+    khandaIndex: 12,
+    remainder: { degree: 11, minute: 53, second: 30 }
+  });
+  assert.deepEqual(divideLongitudeIntoKhandas({
+    sign: 4, degree: 29, minute: 5, second: 21
+  }), {
+    khandaIndex: 9,
+    remainder: { degree: 14, minute: 5, second: 21 }
+  });
+  assert.throws(() => divideLongitudeIntoKhandas({
+    sign: 12, degree: 0, minute: 0, second: 0
+  }), /within 0\.\.11/);
+});
+
 test("source constants are kept explicit and separate from modern disk-contact model", () => {
   assert.deepEqual(MAHAPATA_SOURCE_CONSTANTS, {
     divisionsPerKhanda: 15,
