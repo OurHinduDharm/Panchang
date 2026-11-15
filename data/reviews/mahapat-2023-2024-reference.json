@@ -1,0 +1,240 @@
+{
+  "source": "Tara Prasad Divya Panchang, Vikram Samvat 2025 edition; user-transcribed table headed Samvat 2080 (2023–24)",
+  "status": "reference-only-not-yet-normalized",
+  "observer": {
+    "name": "Nainital, Girija Mata Temple, Garjia, Ramnagar",
+    "latitude": 29.5,
+    "longitude": 79.1333333333,
+    "elevationMeters": null
+  },
+  "calculationSystem": "drik",
+  "timezone": "Asia/Kolkata",
+  "timezoneOffsetMinutes": 330,
+  "timeNotation": "As printed and user-corrected. The publisher states IST, but entries above 24:00 are preserved verbatim pending confirmation of the table's hour/minute notation. Do not parse as civil clock time yet.",
+  "columns": [
+    "type",
+    "touchDate",
+    "touchTimePrinted",
+    "releaseDate",
+    "releaseTimePrinted"
+  ],
+  "events": [
+    {
+      "type": "vaidhrti",
+      "touchDate": null,
+      "touchTimePrinted": null,
+      "releaseDate": "2023-03-22",
+      "releaseTimePrinted": "10:41"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-04-04",
+      "touchTimePrinted": "13:01",
+      "releaseDate": "2023-04-04",
+      "releaseTimePrinted": "16:58"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-04-16",
+      "touchTimePrinted": "25:41",
+      "releaseDate": "2023-04-16",
+      "releaseTimePrinted": "29:17"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-04-29",
+      "touchTimePrinted": "28:30",
+      "releaseDate": "2023-04-30",
+      "releaseTimePrinted": "09:07"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-05-12",
+      "touchTimePrinted": "21:37",
+      "releaseDate": "2023-05-12",
+      "releaseTimePrinted": "26:01"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-05-25",
+      "touchTimePrinted": "24:20",
+      "releaseDate": "2023-05-26",
+      "releaseTimePrinted": "06:20"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-06-07",
+      "touchTimePrinted": "26:50",
+      "releaseDate": "2023-06-08",
+      "releaseTimePrinted": "08:31"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-06-21",
+      "touchTimePrinted": "13:29",
+      "releaseDate": "2023-06-21",
+      "releaseTimePrinted": "21:02"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-06-30",
+      "touchTimePrinted": "21:30",
+      "releaseDate": "2023-06-30",
+      "releaseTimePrinted": "26:50"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-07-12",
+      "touchTimePrinted": "29:40",
+      "releaseDate": "2023-07-13",
+      "releaseTimePrinted": "11:38"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-07-27",
+      "touchTimePrinted": "08:18",
+      "releaseDate": "2023-07-27",
+      "releaseTimePrinted": "13:15"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-08-07",
+      "touchTimePrinted": "29:30",
+      "releaseDate": "2023-08-08",
+      "releaseTimePrinted": "09:51"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-08-21",
+      "touchTimePrinted": "27:29",
+      "releaseDate": "2023-08-22",
+      "releaseTimePrinted": "07:42"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-09-02",
+      "touchTimePrinted": "27:18",
+      "releaseDate": "2023-09-03",
+      "releaseTimePrinted": "06:46"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-09-16",
+      "touchTimePrinted": "16:46",
+      "releaseDate": "2023-09-16",
+      "releaseTimePrinted": "20:42"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-09-28",
+      "touchTimePrinted": "27:33",
+      "releaseDate": "2023-09-29",
+      "releaseTimePrinted": "06:46"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-10-11",
+      "touchTimePrinted": "29:38",
+      "releaseDate": "2023-10-12",
+      "releaseTimePrinted": "09:43"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-10-24",
+      "touchTimePrinted": "26:24",
+      "releaseDate": "2023-10-24",
+      "releaseTimePrinted": "29:59"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-11-06",
+      "touchTimePrinted": "20:00",
+      "releaseDate": "2023-11-06",
+      "releaseTimePrinted": "24:45"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-11-19",
+      "touchTimePrinted": "23:23",
+      "releaseDate": "2023-11-19",
+      "releaseTimePrinted": "27:59"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-12-02",
+      "touchTimePrinted": "17:26",
+      "releaseDate": "2023-12-02",
+      "releaseTimePrinted": "23:36"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2023-12-16",
+      "touchTimePrinted": "07:53",
+      "releaseDate": "2023-12-16",
+      "releaseTimePrinted": "13:47"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2023-12-24",
+      "touchTimePrinted": "12:17",
+      "releaseDate": "2023-12-24",
+      "releaseTimePrinted": "18:45"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2024-01-07",
+      "touchTimePrinted": "18:19",
+      "releaseDate": "2024-01-07",
+      "releaseTimePrinted": "24:11"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2024-01-19",
+      "touchTimePrinted": "23:41",
+      "releaseDate": "2024-01-19",
+      "releaseTimePrinted": "28:23"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2024-02-02",
+      "touchTimePrinted": "20:21",
+      "releaseDate": "2024-02-02",
+      "releaseTimePrinted": "25:49"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2024-02-14",
+      "touchTimePrinted": "20:30",
+      "releaseDate": "2024-02-14",
+      "releaseTimePrinted": "24:14"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2024-02-28",
+      "touchTimePrinted": "10:23",
+      "releaseDate": "2024-02-28",
+      "releaseTimePrinted": "14:28"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2024-03-11",
+      "touchTimePrinted": "19:39",
+      "releaseDate": "2024-03-11",
+      "releaseTimePrinted": "22:49"
+    },
+    {
+      "type": "vyatipata",
+      "touchDate": "2024-03-24",
+      "touchTimePrinted": "21:55",
+      "releaseDate": "2024-03-24",
+      "releaseTimePrinted": "25:53"
+    },
+    {
+      "type": "vaidhrti",
+      "touchDate": "2024-04-06",
+      "touchTimePrinted": "20:46",
+      "releaseDate": "2024-04-06",
+      "releaseTimePrinted": "24:01"
+    }
+  ]
+}
