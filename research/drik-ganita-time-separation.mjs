@@ -9,7 +9,7 @@
  * browser can reuse the already-loaded Astronomy Engine instance.
  */
 
-const MINUTES_PER_KALA = 4;
+export const MINUTES_PER_TIME_DEGREE = 1436.068175 / 360; // mean sidereal day / 360
 
 const PLANET_BODY = Object.freeze({
   "शुक्र": "Venus",
@@ -126,7 +126,7 @@ export function findGeometricHorizonEvent({
 
 /**
  * The gap between the Sun's and planet's corresponding horizon crossings.
- * 1 kala-degree = 4 minutes of time, used as a calibration coordinate.
+ * 1 time-degree = 1/360 of a mean sidereal day, used as a calibration coordinate.
  */
 export function measureDrikTimeSeparation({
   SearchAltitude, body, observer, branch, localDayStartUtc
@@ -148,7 +148,7 @@ export function measureDrikTimeSeparation({
     sunEventUtcMs,
     bodyEventUtcMs,
     gapMinutes,
-    timeDegrees: gapMinutes / MINUTES_PER_KALA
+    timeDegrees: gapMinutes / MINUTES_PER_TIME_DEGREE
   };
 }
 
@@ -179,7 +179,7 @@ export function calibrateObservation({
     return {
       branch, sunEventUtcMs, bodyEventUtcMs, sourceVsBodyMinutes, sourceVsSunMinutes,
       bodyEventResidualMinutes: Math.abs(sourceVsBodyMinutes),
-      calibratedTimeDegrees: Math.abs(sourceVsSunMinutes) / MINUTES_PER_KALA
+      calibratedTimeDegrees: Math.abs(sourceVsSunMinutes) / MINUTES_PER_TIME_DEGREE
     };
   }).filter(Boolean).sort((a, b) => a.bodyEventResidualMinutes - b.bodyEventResidualMinutes);
   if (!candidates.length) {
