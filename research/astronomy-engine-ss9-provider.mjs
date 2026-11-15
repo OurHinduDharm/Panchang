@@ -49,8 +49,7 @@ function vectorFor(body, date) {
   return Astronomy.GeoVector(body, date, true);
 }
 
-function apparentEquatorialOfDate(vector, date) {
-  const rotation = Astronomy.Rotation_EQJ_EQD(date);
+function apparentEquatorialOfDate(vector, rotation) {
   const eqd = Astronomy.RotateVector(rotation, vector);
   const sphere = Astronomy.SphereFromVector(eqd);
   return {
@@ -83,12 +82,13 @@ export function createSs9ApparentSampleAt(targetName) {
 
     const sunVector = vectorFor(Astronomy.Body.Sun, date);
     const targetVector = vectorFor(targetBody, date);
+    const rotation = Astronomy.Rotation_EQJ_EQD(date);
     const sunEcliptic = Astronomy.Ecliptic(sunVector);
     const targetEcliptic = Astronomy.Ecliptic(targetVector);
 
     return {
-      sunEquatorial: apparentEquatorialOfDate(sunVector, date),
-      objectEquatorial: apparentEquatorialOfDate(targetVector, date),
+      sunEquatorial: apparentEquatorialOfDate(sunVector, rotation),
+      objectEquatorial: apparentEquatorialOfDate(targetVector, rotation),
       elongationDeg: signedAngleDifference(targetEcliptic.elon, sunEcliptic.elon),
       frame: "EQD apparent geocentric; true equator of date",
       eclipticFrame: "ECT true ecliptic of date",
