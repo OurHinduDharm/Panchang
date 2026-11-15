@@ -24,9 +24,8 @@ jobs:
           node --check scripts/backtest-drik-ganita-time-separation.mjs
       - name: Run unit tests
         run: node --test tests/drik-ganita-time-separation.test.mjs
-      # Back-test uses the same pinned Astronomy Engine rise/set API as the browser module.
-      # Rerun after fixing report syntax. Uses Drik-only accepted clocks for thresholds; Ganesh clocks remain provisional date cross-checks.
-      # Also records topocentric Sun/target altitude and separation at each printed event time.
+      # Held-out validation uses Drik-only solar-altitude thresholds trained through 2025.
+      # Ganesh Martand remains a date cross-check until its printed clock notation is verified.
       - name: Back-test Drik and printed Panchang observations
         run: |
           mkdir -p /tmp/drik-ganita
