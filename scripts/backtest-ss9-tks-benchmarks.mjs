@@ -1,13 +1,13 @@
 import { readFileSync } from "node:fs";
 import { createSs9ApparentSampleAt } from "../research/astronomy-engine-ss9-provider.mjs";
-import { scanSs9Transitions } from "../research/ss9-location-model.mjs";
+import { scanSs9Events } from "../research/ss9-location-model.mjs";
 
 const source = JSON.parse(readFileSync(
   new URL("../research/ss-ch9-classical-visibility-almora-ramnagar-2018-2027.json", import.meta.url),
   "utf8"
 ));
 
-const BODY_LIMIT = Object.freeze({ Venus: 10, Jupiter: 11, Agastya: 13 });
+const BODY_LIMIT = Object.freeze({ Venus: "8°/10° by event direction", Jupiter: 11, Agastya: 13 });
 const IST_OFFSET = "+05:30";
 const YEAR_START = Date.UTC(2018, 0, 1);
 const YEAR_END = Date.UTC(2028, 0, 1);
@@ -55,36 +55,22 @@ function runLocation(location, sourceEvents, startUtcMs, endUtcMs) {
   const bodyResults = {};
   for (const body of Object.keys(BODY_LIMIT)) {
     const sampleAt = createSs9ApparentSampleAt(body);
-    const risingEvents = scanSs9Transitions({
+    const modelEvents = scanSs9Events({
       body,
       latitudeDeg: location.latitudeDecimal,
-      limitDeg: BODY_LIMIT[body],
       startUtcMs,
       endUtcMs,
       sampleAt,
-      branch: "rising",
       stepHours: 6,
       toleranceMs: 30_000
-    }).filter(event => event.event === "Udaya");
-    const settingEvents = scanSs9Transitions({
-      body,
-      latitudeDeg: location.latitudeDecimal,
-      limitDeg: BODY_LIMIT[body],
-      startUtcMs,
-      endUtcMs,
-      sampleAt,
-      branch: "setting",
-      stepHours: 6,
-      toleranceMs: 30_000
-    }).filter(event => event.event === "Asta");
-    const modelEvents = [...risingEvents, ...settingEvents]
-      .sort((a, b) => a.utcMilliseconds - b.utcMilliseconds);
+    });
     const matchingSources = sourceEvents.filter(x => x.body === body);
     bodyResults[body] = {
       limitDeg: BODY_LIMIT[body],
       modelEvents: modelEvents.map(event => ({
         event: event.event,
         branch: event.branch,
+        limitDeg: event.limitDeg,
         direction: event.direction,
         utc: new Date(event.utcMilliseconds).toISOString(),
         local: localIso(event.utcMilliseconds, location.timezone),
@@ -129,7 +115,7 @@ const report = {
   method: "SS Ch.9 K/C from apparent geocentric equatorial-of-date positions and observer-latitude oblique ascension",
   limits: BODY_LIMIT,
   caveats: [
-    "Venus uses C=10° to match the supplied TKS Almora state snapshots; the 8° branch is not yet back-tested.",
+    "Venus uses the direction-specific SS Ch.9 v.7 thresholds: 8° for west-setting/east-rising and 10° for east-setting/west-rising.",
     "TKS dates/times are reference observations, not truth labels; model/source differences must be reviewed, not silently tuned away.",
     "Longitude and elevation do not enter the classical K/C value in this kernel; elevation is reserved for physical horizon visibility.",
     "Agastya's source observations are date-only; comparisons are therefore by local calendar date only."
