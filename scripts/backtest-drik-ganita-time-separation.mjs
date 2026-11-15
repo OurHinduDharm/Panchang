@@ -136,7 +136,7 @@ function summarizeSolarAltitudeCalibration(rows) {
         row.bodyEventResidualMinutes > 15 || !row.horizonAtSourceTime) continue;
     const key = [row.body, row.branch, row.eventType, row.horizonAtSourceTime.motionState].join("|");
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row.horizonAtSourceTime.sunAltitudeDeg);
+    groups.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
   return [...groups.entries()].map(([key, values]) => ({
     key,
@@ -153,14 +153,14 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
     row.available &&
     row.sourceId?.startsWith("drikpanchang") &&
     row.bodyEventResidualMinutes <= 15 &&
-    row.horizonAtSourceTime &&
+    row.horizonAtComputedBodyEvent &&
     Number(row.date.slice(0, 4)) <= trainingThroughYear
   );
   const thresholdMap = new Map();
   for (const row of training) {
     const key = [row.body, row.branch, row.eventType].join("|");
     if (!thresholdMap.has(key)) thresholdMap.set(key, []);
-    thresholdMap.get(key).push(row.horizonAtSourceTime.sunAltitudeDeg);
+    thresholdMap.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
   const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
   const observer = new Observer(29 + 37 / 60, 79 + 40 / 60, 0);
@@ -240,9 +240,13 @@ for (const observation of dataset.observations) {
   const horizonAtSourceTime = result.clock?.valid && result.body
     ? apparentAtSourceTime(result.body, observer, result.clock.instantUtcMs)
     : null;
+  const horizonAtComputedBodyEvent = result.available && result.body
+    ? apparentAtSourceTime(result.body, observer, result.bodyEventUtcMs)
+    : null;
   rows.push({
     ...result,
     horizonAtSourceTime,
+    horizonAtComputedBodyEvent,
     location: location.name,
     coordinateProfile: observation.sourceId.includes("drikpanchang")
       ? "approximate-source-city-coordinate"
