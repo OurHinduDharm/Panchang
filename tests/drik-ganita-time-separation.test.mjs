@@ -88,9 +88,9 @@ test("calibration reports source-time residual against body horizon crossing", (
 
 test("calibration summary uses median thresholds and residuals", () => {
   const summary = summarizeCalibration([
-    { available: true, body: "Venus", branch: "rise", calibratedTimeDegrees: 8, bodyEventResidualMinutes: 1, id: "a" },
-    { available: true, body: "Venus", branch: "rise", calibratedTimeDegrees: 10, bodyEventResidualMinutes: 3, id: "b" },
-    { available: true, body: "Venus", branch: "rise", calibratedTimeDegrees: 12, bodyEventResidualMinutes: 2, id: "c" }
+    { available: true, body: "Venus", branch: "rise", sourceId: "drikpanchang-almora", calibratedTimeDegrees: 8, bodyEventResidualMinutes: 1, id: "a" },
+    { available: true, body: "Venus", branch: "rise", sourceId: "drikpanchang-almora", calibratedTimeDegrees: 10, bodyEventResidualMinutes: 3, id: "b" },
+    { available: true, body: "Venus", branch: "rise", sourceId: "ganesh-martand", calibratedTimeDegrees: 12, bodyEventResidualMinutes: 2, id: "c" }
   ]);
   assert.equal(summary[0].medianThresholdDegrees, 10);
   assert.equal(summary[0].medianBodyEventResidualMinutes, 2);
