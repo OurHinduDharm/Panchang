@@ -34,19 +34,20 @@ Transition refinement branch को भी दर्ज करता है: ris
 
 TKS API का प्रकाशित /v1/tks/heliacal endpoint elongation-orb आधारित है और उसमें lat/lon/elevation पैरामीटर नहीं हैं। /v1/tks/ephemeris स्थान के lat/lon लेकर apparent coordinates देता है। इसलिए TKS heliacal API को location-based SS9 गणना का विकल्प नहीं माना गया है। विस्तृत निर्णय research/TKS-API-LOCATION-AUDIT.md में है।
 
-## अभी अधूरा — पूर्ण दṛkkarma
+## दṛkkarma: वर्तमान प्रत्यक्ष-ज्यामितीय तरीका और शेष सत्यापन
 
-यह kernel अभी केवल oblique-ascension baseline है; इसे पूर्ण सूर्यसिद्धान्त अध्याय 9 की गणना न समझें।
+सूर्यसिद्धान्त अध्याय 9 के श्लोक 1–9 में āyana और akṣaja dṛkkarma के दो correction बताए गए हैं; श्लोक 8–9 में अधिक ecliptic latitude वाले स्थिर तारों के लिए अलग विधि है।
 
-अध्याय 9 के श्लोक 1–9 में ग्रह के वास्तविक ecliptic point और horizon पर उसके साथ आने वाले ecliptic point के बीच dṛkkarma correction आवश्यक है। इसमें दो भाग हैं:
-- āyana dṛkkarma
-- akṣaja dṛkkarma
+इस prototype में उन दो पारंपरिक corrections को अलग-अलग पुरानी सारणी/सूत्र के रूप में लागू नहीं किया गया है। इसके स्थान पर वास्तविक apparent RA/Dec से स्थानीय geometric-horizon crossing sidereal angle सीधे निकाला जाता है:
+- Rising: LST = RA − 90° − AD.
+- Setting: LST = RA + 90° + AD.
+- AD = asin(tan(latitude) × tan(declination)).
 
-श्लोक 8–9 में बड़ी ecliptic latitude वाले स्थिर तारों के लिए अलग प्रक्रिया दी गई है। इसलिए अगस्त्य (Canopus) को ग्रहों वाले correction path में स्थायी रूप से नहीं रखना है।
+इसमें पिंड की वास्तविक declination शामिल है, इसलिए ecliptic latitude का प्रभाव सीधे आता है। यह dṛkkarma का प्रत्यक्ष spherical-geometry equivalent बनने के लिए बनाया गया है; लेकिन इसे श्लोक 9.1–9.9 की पारंपरिक āyana/akṣaja और high-latitude-star प्रक्रिया से संख्यात्मक रूप से मिलाना अभी बाकी है।
 
-इसके बाद श्लोक 10–11 में threshold से kalāṃśa-अंतर और दैनिक गति के आधार पर घटना तक के दिन/समय निकाले जाते हैं; retrograde स्थिति में गति का योग लिया जाता है। वर्तमान scanner केवल K/C baseline crossing खोजता है, यह अंतिम प्रकाशित घटना-समय नहीं है।
+श्लोक 10–11 की पारंपरिक daily-motion time correction के स्थान पर scanner K=C का numerical root खोजता है। यह भी तभी स्वीकार होगा जब TKS और स्वतंत्र पंचांग स्रोतों से event-by-event तुलना सफल हो।
 
-**बैक-टेस्ट निष्कर्ष:** वर्तमान baseline TKS benchmark dates से कई मामलों में घंटों/दिनों से लेकर अगस्त्य में लगभग 11–27 दिनों तक अलग है। इसे छिपाया या threshold बदलकर fit नहीं किया गया है। अगला वास्तविक काम dṛkkarma और verse 10–11 time correction है; उसके बिना सार्वजनिक तारीख/समय प्रकाशित नहीं करना है।
+**बैक-टेस्ट निष्कर्ष:** वर्तमान baseline TKS benchmark dates से कई मामलों में घंटों/दिनों से लेकर अगस्त्य में लगभग 11–27 दिनों तक अलग है। इसलिए direct-geometry equivalence अभी सिद्ध नहीं है। Threshold बदलकर या dates hardcode करके इस अंतर को छिपाया नहीं जाएगा। अगस्त्य के दिए हुए Udaya data में स्वयं 22 अगस्त/14 सितंबर का लगभग 23-दिवसीय alternating anomaly भी दर्ज है; उसे पहले स्रोत पर पुनः जाँचना होगा।
 
 ## परीक्षण
 
