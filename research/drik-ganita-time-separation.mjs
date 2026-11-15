@@ -91,7 +91,7 @@ export function sourceObservationToReference(observation) {
     branch,
     direction: observation.direction || null,
     clock,
-    usableForCalibration: clock.valid && Boolean(branch) && Boolean(body)
+    usableForCalibration: clock.valid && Boolean(body) && (Boolean(branch) || body === "Venus")
   };
 }
 
@@ -157,26 +157,32 @@ export function calibrateObservation({
     return { ...ref, available: false, reason: "source-record-not-calibratable" };
   }
   const eventDayStartUtc = localDayStartUtc + ref.clock.dayRollover * 86_400_000;
-  const sunEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body: "Sun", observer, direction: ref.branch, localDayStartUtc: eventDayStartUtc
-  });
-  const bodyEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body: ref.body, observer, direction: ref.branch, localDayStartUtc: eventDayStartUtc
-  });
-  if (sunEventUtcMs === null || bodyEventUtcMs === null) {
+  const branches = ref.branch === "auto" || ref.branch === null ? ["rise", "set"] : [ref.branch];
+  const candidates = branches.map(branch => {
+    const sunEventUtcMs = findGeometricHorizonEvent({
+      SearchAltitude, body: "Sun", observer, direction: branch, localDayStartUtc: eventDayStartUtc
+    });
+    const bodyEventUtcMs = findGeometricHorizonEvent({
+      SearchAltitude, body: ref.body, observer, direction: branch, localDayStartUtc: eventDayStartUtc
+    });
+    if (sunEventUtcMs === null || bodyEventUtcMs === null) return null;
+    const sourceVsBodyMinutes = (ref.clock.instantUtcMs - bodyEventUtcMs) / 60_000;
+    const sourceVsSunMinutes = (ref.clock.instantUtcMs - sunEventUtcMs) / 60_000;
+    return {
+      branch, sunEventUtcMs, bodyEventUtcMs, sourceVsBodyMinutes, sourceVsSunMinutes,
+      bodyEventResidualMinutes: Math.abs(sourceVsBodyMinutes),
+      calibratedTimeDegrees: Math.abs(sourceVsSunMinutes) / MINUTES_PER_KALA
+    };
+  }).filter(Boolean).sort((a, b) => a.bodyEventResidualMinutes - b.bodyEventResidualMinutes);
+  if (!candidates.length) {
     return { ...ref, available: false, reason: "horizon-event-not-found" };
   }
-  const sourceVsBodyMinutes = (ref.clock.instantUtcMs - bodyEventUtcMs) / 60_000;
-  const sourceVsSunMinutes = (ref.clock.instantUtcMs - sunEventUtcMs) / 60_000;
+  const best = candidates[0];
   return {
     ...ref,
-    available: true,
-    sunEventUtcMs,
-    bodyEventUtcMs,
-    sourceVsBodyMinutes,
-    sourceVsSunMinutes,
-    calibratedTimeDegrees: Math.abs(sourceVsSunMinutes) / MINUTES_PER_KALA,
-    bodyEventResidualMinutes: Math.abs(sourceVsBodyMinutes)
+    ...best,
+    inferredBranch: ref.branch === null || ref.branch === "auto",
+    available: true
   };
 }
 
