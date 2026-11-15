@@ -140,3 +140,36 @@ Source: 1902 *Karaṇakutūhalam* with Sumatiharsa commentary, Jain Quantum sear
 4. Resolve the exact sexagesimal unit for the verse 9 time conversion from the printed column headings; only then encode time conversion.
 5. Reproduce both worked middles and check equality of solar krānti and lunar krānti corrected by śara.
 6. Compare the resulting events against the user's 2023–24 printed reference table.
+
+
+## Verse 8–9: exact 1902 commentary wording and arithmetic boundary (15 Nov 2026)
+
+The full 1902 searchable page text is now available continuously at Jain Quantum, printed pp. 134–142 (scan pages 138–146). This allows the formula to be read directly rather than reconstructed from the shorter summary.
+
+### Verse 8 multiplier sequence (printed p. 136)
+
+The commentary reads:
+
+> आद्येच्छापाशांशमितो गुणः स्यादुभयोश्चापांशान्तरेण विचतुर्थे सति सम्भवे षष्ठं खण्डं गुणयेत् ... पञ्चदशायः संशोध्य शेषेण तृतीयपञ्चमखण्डं गुणयेत् ...
+
+Operationally, it states:
+1. The first multiplier is the smaller of the two chāpāṃśa remainders.
+2. The difference between the two chāpāṃśas supplies the multiplier for the even-position khanda.
+3. If the fourth-position khanda is available, multiply the sixth-position khanda as well.
+4. Subtract the specified 15-part amount; use the remainder as multiplier for the third/fifth-position khanda.
+5. These products are the svāṃśaghna khandas.
+
+Then the commentary explicitly says to clear as many of these products as possible from 15 × lunar śara (kalā), divide the remaining amount by the aśuddha sphuṭa-khaṇḍa (not by a multiplier-adjusted khanda), and add that quotient to the sum of the multipliers belonging to the cleared khandas. Finally multiply by 60 and divide by lunar motion. For a past pāta subtract this interval from the reference epoch; for a future pāta add it.
+
+Source transcription: Jain Quantum, page 140 (printed p. 136), https://jainqq.org/explore/034533/140. The verse and commentary are also reproduced in the 1991 PDF.
+
+### What is now independently confirmed
+
+- Page 139 (printed p. 135) gives the 1/13 correction and explicit sign/hemisphere handling. Same-sign krānti values combine; unlike-sign values take their difference, with the gola rule deciding the orientation. The śara corrections are then applied. Source: https://jainqq.org/explore/034533/139.
+- Page 138 (printed p. 134) gives the elapsed/future arrangement and the 2-versus-3 middle-khanda rule, including the first example's chāpāṃśas 14;5;21 and 13;53;30. Source: https://jainqq.org/explore/034533/138.
+- Page 145 (printed p. 141) independently confirms the second example's inputs: sāyana Moon quotient 15, bhogya krānti khanda 236, remainder 10;21;51; sapāta Moon quotient 23, bhogya śara khanda −70, remainder 5;58;29. It explicitly says the śara remainder is smaller and places the śara bhogya singly. Source: https://jainqq.org/explore/034533/145.
+- Page 146 (printed p. 142) gives the second example's residual 641;0, aśuddha khanda 184;9, quotient 3;28;25, ×60 result 208;51, lunar motion 829;35, and interval 0;1;15. It then checks solar and corrected lunar krānti; their difference is 0;18, accepted as negligible. The same page gives verse-11 sthiti 2203 / 184;9 = 11;57 ghaṭi, midpoint 12;49, sparśa 0;52, mokṣa 24;46. Source: https://jainqq.org/explore/034533/146.
+
+### Remaining precision gate
+
+The prose now fixes the operations, but the exact chronological list of khanda positions and the sexagesimal column/unit interpretation of the verse-9 worked conversion still need a full line-by-line numerical reproduction. In particular, do not assume the 0;1;15 output is a civil-clock format or convert it into minutes without reconciling the printed columns. Do not write a public event solver yet. The next code change should only follow after both worked examples reproduce the intermediate multiplier products, cleared-khanda count, residual quotient, and corrected middle.
