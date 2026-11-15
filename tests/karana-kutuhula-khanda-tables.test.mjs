@@ -7,7 +7,9 @@ import {
   SHARA_KHANDA_24,
   MAHAPATA_SOURCE_CONSTANTS,
   expandSignedKhandas,
-  extractMahapataLongitudeKhandas
+  extractMahapataLongitudeKhandas,
+  getSignedMahapataKhanda,
+  selectMahapataBhogyaKhandas
 } from "../karana-kutuhula-khanda-tables.mjs";
 
 test("Karaṇa-kutūhala base kranti and shara tables match the source Sanskrit commentaries", () => {
@@ -79,4 +81,35 @@ test("verse 4 extracts both longitude khanda quotients without treating remainde
   });
   assert.equal(result.unit, "15-degree-khanda-with-angular-remainder");
   assert.equal(result.status, "research-only");
+});
+
+test("verse 5 signed khanda lookup preserves 1-based source numbering", () => {
+  assert.deepEqual(getSignedMahapataKhanda({
+    table: KRANTI_KHANDA_24, khandaNumber: 10
+  }), { khandaNumber: 10, signedValue: -299 });
+  assert.deepEqual(getSignedMahapataKhanda({
+    table: SHARA_KHANDA_24, khandaNumber: 13
+  }), { khandaNumber: 13, signedValue: 70 });
+});
+
+test("verses 5-6 select the smaller angular remainder as the single bhogya khanda", () => {
+  // Printed p.132-135 example: kranti remainder 14;05;21,
+  // shara remainder 11;53;30; therefore 10th kranti and 13th
+  // shara khanda are identified, with shara as the single bhogya.
+  const selection = selectMahapataBhogyaKhandas({
+    kranti: {
+      khandaIndex: 9,
+      remainder: { degree: 14, minute: 5, second: 21 }
+    },
+    shara: {
+      khandaIndex: 12,
+      remainder: { degree: 11, minute: 53, second: 30 }
+    }
+  });
+  assert.equal(selection.bhogyaSide, "shara");
+  assert.equal(selection.kranti.bhogyaKhandaNumber, 10);
+  assert.equal(selection.kranti.placement, "two-position");
+  assert.equal(selection.shara.bhogyaKhandaNumber, 13);
+  assert.equal(selection.shara.placement, "single-bhogya");
+  assert.equal(selection.status, "research-only");
 });
