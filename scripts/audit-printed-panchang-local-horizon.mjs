@@ -35,6 +35,22 @@ const profiles = {
 };
 const IST_OFFSET_MINUTES = 330;
 
+// Canopus (Agastya), J2000 coordinates. Astronomy Engine's user-defined
+// star model applies precession/nutation but does not model stellar proper motion.
+// Keep this fixed-star approximation separate from planetary calculations.
+const AGASTYA = {
+  body: Astronomy.Body.Star1,
+  rightAscensionHoursJ2000: 6 + 23 / 60 + 57.10988 / 3600,
+  declinationDegreesJ2000: -(52 + 41 / 60 + 44.381 / 3600),
+  distanceLightYears: 310
+};
+Astronomy.DefineStar(
+  AGASTYA.body,
+  AGASTYA.rightAscensionHoursJ2000,
+  AGASTYA.declinationDegreesJ2000,
+  AGASTYA.distanceLightYears
+);
+
 function parsePrintedClock(dateText, raw) {
   if (typeof raw !== "string" || !/^\d{1,2}[.:]\d{2}$/.test(raw)) return null;
   const [hour, minute] = raw.split(/[.:]/).map(Number);
@@ -73,14 +89,12 @@ function searchCrossing(bodyName, direction, targetUtc, observer) {
 
 const rows = source.observations.map(record => {
   const profile = profiles[record.sourceId];
-  if (record.planet === "अगस्त्य") {
-    return { id: record.id, sourceId: record.sourceId, planet: record.planet, event: record.event, date: record.date, timeRaw: record.timeRaw, status: "separate-fixed-star-track", reason: "Canopus traditional date/time needs a fixed-star calculation and must not be passed to the planet rise/set API." };
-  }
   const parsed = parsePrintedClock(record.date, record.timeRaw);
+  const isAgastya = record.planet === "अगस्त्य";
   const planetName = record.planet === "शुक्र" ? "Venus"
-    : record.planet === "बृहस्पति" ? "Jupiter"
-    : record.planet === "अगस्त्य" ? "Canopus" : null;
-  if (!profile || !planetName || !parsed) {
+    : record.planet === "बृहस्पति" ? "Jupiter" : null;
+  const body = isAgastya ? AGASTYA.body : planetName ? Astronomy.Body[planetName] : null;
+  if (!profile || !body || !parsed) {
     return {
       id: record.id, sourceId: record.sourceId, planet: record.planet,
       event: record.event, date: record.date, timeRaw: record.timeRaw,
@@ -92,7 +106,7 @@ const rows = source.observations.map(record => {
     profile.latitude, profile.longitude, profile.elevationMeters
   );
   const planetEquator = Astronomy.Equator(
-    Astronomy.Body[planetName], parsed.utc, observer, true, true
+    body, parsed.utc, observer, true, true
   );
   const sunEquator = Astronomy.Equator(
     Astronomy.Body.Sun, parsed.utc, observer, true, true
@@ -109,15 +123,13 @@ const rows = source.observations.map(record => {
   const sunHorizonNormalRefraction = Astronomy.Horizon(
     parsed.utc, observer, sunEquator.ra, sunEquator.dec, "normal"
   );
-  const sunPlanetSeparationDeg = Astronomy.AngleFromSun(
-    Astronomy.Body[planetName], parsed.utc
-  );
-  const directions = record.planet === "अगस्त्य"
-    ? [{ key: "rise", value: 1 }]
-    : [{ key: "rise", value: 1 }, { key: "set", value: -1 }];
+  const sunPlanetSeparationDeg = isAgastya
+    ? null
+    : Astronomy.AngleFromSun(body, parsed.utc);
+  const directions = [{ key: "rise", value: 1 }, { key: "set", value: -1 }];
   const crossings = directions.map(item => ({
     direction: item.key,
-    result: searchCrossing(planetName, item.value, parsed.utc, observer)
+    result: searchCrossing(body, item.value, parsed.utc, observer)
   })).filter(item => item.result);
   const crossingDiagnostics = crossings.map(item => ({
     direction: item.direction,
@@ -138,7 +150,8 @@ const rows = source.observations.map(record => {
       elevationKnown: profile.elevationKnown
     },
     planet: record.planet,
-    astronomyBody: planetName,
+    astronomyBody: isAgastya ? "Canopus (user-defined fixed star)" : planetName,
+    calculationTrack: isAgastya ? "fixed-star" : "planet",
     event: record.event,
     sourceDirectionRaw: record.direction,
     sourceDate: record.date,
@@ -150,10 +163,12 @@ const rows = source.observations.map(record => {
       planetRefractionCorrectionDeg: Number((planetHorizonNormalRefraction.altitude - planetHorizon.altitude).toFixed(4)),
       sunGeometricAltitudeDeg: Number(sunHorizon.altitude.toFixed(4)),
       sunApparentAltitudeNormalRefractionDeg: Number(sunHorizonNormalRefraction.altitude.toFixed(4)),
-      sunPlanetAngularSeparationDeg: Number(sunPlanetSeparationDeg.toFixed(4))
+      sunPlanetAngularSeparationDeg: Number.isFinite(sunPlanetSeparationDeg) ? Number(sunPlanetSeparationDeg.toFixed(4)) : null
     },
     geometricCrossingDiagnostics: crossingDiagnostics,
-    interpretation: "Both local geometric rise and set are reported independently. The planet's altitude, Sun's altitude, and Sun-planet angular separation are also sampled at the printed instant. These are diagnostics only; the source's heliacal visibility/date-selection rule and direction semantics are not assumed."
+    interpretation: isAgastya
+      ? "Canopus is modeled as a separate fixed star using J2000 coordinates; stellar proper motion is not modeled. Both geometric rise and set are reported. Traditional Agastyodaya and Drik's explicitly labeled star-rise instant are not assumed to mean the same thing."
+      : "Both local geometric rise and set are reported independently. The planet's altitude, Sun's altitude, and Sun-planet angular separation are also sampled at the printed instant. These are diagnostics only; the source's heliacal visibility/date-selection rule and direction semantics are not assumed."
   };
 });
 
@@ -219,7 +234,7 @@ const output = {
     "The source's पूर्व/पश्चिम labels are retained verbatim and are not interpreted as rise/set direction.",
     "The Panchang gives no observer elevation; 0 m is a documented provisional assumption and may shift horizon times.",
     "The source provides geographic and geocentric latitudes; geographic latitude is used for the observer's local horizon calculation.",
-    "Agastya/Canopus records are deliberately routed to a separate fixed-star research track; no planetary-body API is used for them."
+    "Agastya/Canopus records use a separate user-defined fixed-star approximation (J2000 RA/Dec, no proper motion); traditional Agastyodaya is not equated with geometric horizon rise."
   ]
 };
 const outputPath = process.env.OUTPUT_PATH || "artifacts/printed-panchang-local-horizon-audit.json";
