@@ -58,7 +58,7 @@ test("time separation converts minutes using one sidereal time-degree", () => {
     observer: {},
     branch: "rise",
     localDayStartUtc: start,
-    SearchAltitude: (body, observer, direction, dateStart) => ({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
       date: new Date(dateStart.getTime() + (body === "Sun" ? 30 : 70) * 60_000)
     })
   });
@@ -75,7 +75,7 @@ test("calibration reports source-time residual against body horizon crossing", (
   };
   const result = calibrateObservation({
     observation, observer: {}, localDayStartUtc: start,
-    SearchAltitude: (body, observer, direction, dateStart) => ({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
       date: new Date(dateStart.getTime() + (
         body === "Sun" ? 18 * 60 : 18 * 60 + 7
       ) * 60_000)
@@ -102,7 +102,7 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
   const result = scanDrikTimeSeparationTransitions({
     body: "Venus", observer: {}, branch: "rise",
     startLocalDayUtc: start, days: gaps.length, astaThresholdTimeDegrees: 9, udayaThresholdTimeDegrees: 11,
-    SearchAltitude: (body, observer, direction, dateStart) => {
+    SearchRiseSet: (body, observer, direction, dateStart) => {
       const index = Math.round((dateStart.getTime() - start) / 86_400_000);
       const offsetMinutes = body === "Sun" ? 300 : 300 + gaps[index] * MINUTES_PER_TIME_DEGREE;
       return { date: new Date(dateStart.getTime() + offsetMinutes * 60_000) };
@@ -120,7 +120,7 @@ test("Drik Venus records without a printed direction resolve from the computed e
   };
   const result = calibrateObservation({
     observation, observer: {}, localDayStartUtc: start,
-    SearchAltitude: (body, observer, direction, dateStart) => {
+    SearchRiseSet: (body, observer, direction, dateStart) => {
       const offset = direction === -1
         ? (body === "Sun" ? 18 * 60 : 18 * 60 + 7)
         : (body === "Sun" ? 6 * 60 : 6 * 60 + 5);
@@ -142,11 +142,11 @@ test("Jupiter only emits Asta from setting and Udaya from rising", () => {
     return { date: new Date(dateStart.getTime() + offset * 60_000) };
   };
   const setting = scanDrikTimeSeparationTransitions({
-    SearchAltitude: mock, body: "Jupiter", observer: {}, branch: "set",
+    SearchRiseSet: mock, body: "Jupiter", observer: {}, branch: "set",
     startLocalDayUtc: start, days: 3, thresholdTimeDegrees: 10
   });
   const rising = scanDrikTimeSeparationTransitions({
-    SearchAltitude: mock, body: "Jupiter", observer: {}, branch: "rise",
+    SearchRiseSet: mock, body: "Jupiter", observer: {}, branch: "rise",
     startLocalDayUtc: start, days: 3, thresholdTimeDegrees: 10
   });
   assert.deepEqual(setting.events.map(event => event.event), ["Asta"]);
