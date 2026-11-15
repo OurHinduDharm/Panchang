@@ -19,6 +19,15 @@
 - शोधाधीन, candidate, rejected या missing data से लिंक/कार्ड कभी नहीं बनेंगे।
 - संक्रांति का पुण्यकाल मौजूदा संक्रांति कार्ड/sankranti-punya-kala में ही रहेगा; इस नए सेक्शन में संक्रांति की duplicate entry नहीं बनेगी।
 
+## विशेष पुण्यकाल की runtime गणना
+
+- वार्षिक तारीख़ों की JSON सूची calculation source नहीं होगी। चुने हुए महीने के लिए Panchang engine से उसी observer, IST (UTC+05:30) और Purnimanta profile पर तिथि, नक्षत्र, योग, सूर्योदय और सूर्यास्त के वास्तविक intervals निकाले जाएँगे।
+- महीने की सीमा पर शुरू/समाप्त होने वाले conjunction छूटें नहीं, इसलिए scanner महीने के पहले दिन से एक दिन पहले और महीने के अंतिम दिन के अगले दिन तक interval inputs लेगा।
+- `special-punya-kaal-runtime.mjs` on-demand month scanner है। यह मौजूदा Panchang library को dependency injection से लेता है; अलग ephemeris या duplicate Panchang implementation नहीं जोड़ता।
+- scanner का output `research-only-not-approved` रहता है। किसी गणितीय candidate को केवल गणना के आधार पर public नहीं किया जाएगा। अलग source review, calculation verification और explicit rule-profile approval आवश्यक हैं।
+- मासिक JSON (यदि रखा जाए) केवल approved परिणामों का वैकल्पिक cache/override होगा; उसे हर वर्ष हाथ से बनाना या उसे calculation का आधार मानना आवश्यक नहीं।
+- वर्तमान UI migration चरणबद्ध होगा: जब तक किसी rule profile को सार्वजनिक स्वीकृति नहीं मिलती, मौजूदा approved-only fail-closed व्यवहार बना रहेगा।
+
 ## विशेष पुण्यकाल data contract
 हर record में स्थिर unique id, local civil date (YYYY-MM-DD), type, सार्वजनिक हिन्दी label, start/end ISO timestamps with explicit timezone/offset, observer, calendarType (purnimanta), exact ruleProfile, status और internal review metadata हों।
 केवल approved records सार्वजनिक rendering के योग्य हैं। महापात में स्पर्श-मोक्ष की गणना तथा उसकी शास्त्रीय परिभाषा अलग-अलग सत्यापित हों। केवल खगोलीय candidate interval public approval नहीं है।
