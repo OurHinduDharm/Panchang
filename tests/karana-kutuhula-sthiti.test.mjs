@@ -9,16 +9,18 @@ import {
 
 test("Verse 11 reproduces the second Karaṇa-kutūhala worked sthiti example", () => {
   const result = calculateSthitiVerse11({
-    ashuddhaKhanda: { whole: 184, part: 19 }
+    ashuddhaKhanda: { whole: 184, part: 9 }
   });
   assert.equal(result.method, "karana-kutuhula-verse-11-sumatiharsa");
   assert.equal(result.ghati, 11);
-  assert.ok(Math.abs(result.pala - 57) < 0.2);
+  assert.equal(result.pala, 57);
   assert.equal(result.status, "research-only");
 });
 
 test("worked example converts 12;49 midpoint and 11;57 sthiti to 0;52 and 24;46", () => {
-  const sthiti = { ghati: 11, pala: 57 };
+  const sthiti = calculateSthitiVerse11({
+    ashuddhaKhanda: { whole: 184, part: 9 }
+  });
   const midpoint = ghatiPalaToSeconds({ ghati: 12, pala: 49 });
   const interval = intervalAroundMidpoint(midpoint, sthiti);
   const toGhatiPalaText = seconds => {
