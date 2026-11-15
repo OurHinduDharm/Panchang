@@ -36,6 +36,28 @@
       "timezone": "Asia/Kolkata",
       "timezoneLabel": "भा. स्टै. टा.",
       "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified."
+    },
+    {
+      "id": "drikpanchang-almora",
+      "name": "Drik Panchang",
+      "method": "Published Drik Panchang Tara Asta / Agastya Arghya data (user-transcribed)",
+      "calculationCenter": "अल्मोड़ा, उत्तराखंड, भारत",
+      "geographicLatitude": "29°37′ उत्तर (Ganesh Martand source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "geographicLongitude": "79°40′ पूर्व (Ganesh Martand source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "timezone": "Asia/Kolkata",
+      "timezoneLabel": "IST",
+      "coordinatesStatus": "User identified the Drik Panchang location as Almora; exact coordinates displayed by Drik at query time were not supplied. Do not treat Ganesh Martand coordinates as confirmed Drik coordinates."
+    },
+    {
+      "id": "drikpanchang-ramnagar",
+      "name": "Drik Panchang",
+      "method": "Published Drik Panchang Tara Asta / Agastya Arghya data (user-transcribed)",
+      "calculationCenter": "रामनगर, नैनीताल, उत्तराखंड, भारत",
+      "geographicLatitude": "29°30′ उत्तर (Tara Prasad source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "geographicLongitude": "79°08′ पूर्व (Tara Prasad source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "timezone": "Asia/Kolkata",
+      "timezoneLabel": "IST",
+      "coordinatesStatus": "User identified the Drik Panchang location as Ramnagar, Nainital; exact coordinates displayed by Drik at query time were not supplied. Do not treat Tara Prasad coordinates as confirmed Drik coordinates."
     }
   ],
   "observations": [
@@ -333,6 +355,576 @@
       "date": "2026-08-10",
       "direction": null,
       "timeRaw": "5.40"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2019-12-16",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2019-12-16",
+      "timeRaw": "17:52"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2020-01-11",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2020-01-11",
+      "timeRaw": "06:23"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2022-02-23",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2022-02-23",
+      "timeRaw": "18:40"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2022-03-28",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2022-03-28",
+      "timeRaw": "05:24"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2023-04-01",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2023-04-01",
+      "timeRaw": "19:03"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2023-05-04",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2023-05-04",
+      "timeRaw": "04:43"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2024-05-07",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2024-05-07",
+      "timeRaw": "19:28"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2024-06-06",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2024-06-06",
+      "timeRaw": "04:24"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2025-06-12",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2025-06-12",
+      "timeRaw": "19:49"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2025-07-10",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2025-07-10",
+      "timeRaw": "04:30"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2026-07-15",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2026-07-15",
+      "timeRaw": "19:51"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2026-08-12",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2026-08-12",
+      "timeRaw": "04:51"
+    },
+    {
+      "id": "drik-almora-jupiter-asta-2027-08-16",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2027-08-16",
+      "timeRaw": "19:27"
+    },
+    {
+      "id": "drik-almora-jupiter-udaya-2027-09-13",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2027-09-13",
+      "timeRaw": "05:11"
+    },
+    {
+      "id": "drik-almora-venus-asta-2019-07-23",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2019-07-23",
+      "timeRaw": "04:57"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2019-09-12",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2019-09-12",
+      "timeRaw": "18:47"
+    },
+    {
+      "id": "drik-almora-venus-asta-2020-05-31",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2020-05-31",
+      "timeRaw": "19:31"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2020-06-09",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2020-06-09",
+      "timeRaw": "04:42"
+    },
+    {
+      "id": "drik-almora-venus-asta-2021-02-14",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2021-02-14",
+      "timeRaw": "06:25"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2021-04-19",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2021-04-19",
+      "timeRaw": "19:08"
+    },
+    {
+      "id": "drik-almora-venus-asta-2022-01-06",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2022-01-06",
+      "timeRaw": "17:53"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2022-01-11",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2022-01-11",
+      "timeRaw": "06:40"
+    },
+    {
+      "id": "drik-almora-venus-asta-2022-10-01",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2022-10-01",
+      "timeRaw": "05:39"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2022-11-22",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2022-11-22",
+      "timeRaw": "17:41"
+    },
+    {
+      "id": "drik-almora-venus-asta-2023-08-03",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2023-08-03",
+      "timeRaw": "19:27"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2023-08-19",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2023-08-19",
+      "timeRaw": "05:11"
+    },
+    {
+      "id": "drik-almora-venus-asta-2024-04-24",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2024-04-24",
+      "timeRaw": "05:09"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2024-06-29",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2024-06-29",
+      "timeRaw": "19:45"
+    },
+    {
+      "id": "drik-almora-venus-asta-2025-03-20",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2025-03-20",
+      "timeRaw": "18:44"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2025-03-23",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2025-03-23",
+      "timeRaw": "05:42"
+    },
+    {
+      "id": "drik-almora-venus-asta-2025-12-11",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2025-12-11",
+      "timeRaw": "06:27"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2026-02-02",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2026-02-02",
+      "timeRaw": "18:17"
+    },
+    {
+      "id": "drik-almora-venus-asta-2026-10-12",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2026-10-12",
+      "timeRaw": "18:07"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2026-10-29",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2026-10-29",
+      "timeRaw": "05:52"
+    },
+    {
+      "id": "drik-almora-venus-asta-2027-07-21",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2027-07-21",
+      "timeRaw": "04:56"
+    },
+    {
+      "id": "drik-almora-venus-udaya-2027-09-09",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2027-09-09",
+      "timeRaw": "18:50"
+    },
+    {
+      "id": "drik-ramnagar-1",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त प्रारम्भ",
+      "date": "2023-04-01",
+      "timeRaw": "19:05"
+    },
+    {
+      "id": "drik-ramnagar-2",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "बृहस्पति",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2023-05-04",
+      "timeRaw": "04:45"
+    },
+    {
+      "id": "drik-ramnagar-3",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2023-08-03",
+      "timeRaw": "19:29"
+    },
+    {
+      "id": "drik-ramnagar-4",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त / उदय",
+      "date": "2023-08-19",
+      "timeRaw": "05:13"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2019",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2019-09-07",
+      "timeRaw": "04:47",
+      "arghyaEndTime": "05:51",
+      "arghyaStartTime": "04:47",
+      "arghyaDate": "2019-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2019",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2019-04-15",
+      "timeRaw": "19:47"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2020",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2020-09-07",
+      "timeRaw": "04:44",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:44",
+      "arghyaDate": "2020-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2020",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2020-04-14",
+      "timeRaw": "19:49"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2021",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2021-09-07",
+      "timeRaw": "04:45",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:45",
+      "arghyaDate": "2021-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2021",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2021-04-15",
+      "timeRaw": "19:46"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2022",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2022-09-07",
+      "timeRaw": "04:46",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:46",
+      "arghyaDate": "2022-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2022",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2022-04-15",
+      "timeRaw": "19:46"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2023",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2023-09-07",
+      "timeRaw": "04:47",
+      "arghyaEndTime": "05:51",
+      "arghyaStartTime": "04:47",
+      "arghyaDate": "2023-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2023",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2023-04-15",
+      "timeRaw": "19:47"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2024",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2024-09-07",
+      "timeRaw": "04:44",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:44",
+      "arghyaDate": "2024-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2024",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2024-04-14",
+      "timeRaw": "19:49"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2025",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2025-09-07",
+      "timeRaw": "04:45",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:45",
+      "arghyaDate": "2025-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2025",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2025-04-15",
+      "timeRaw": "19:46"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2026",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2026-09-07",
+      "timeRaw": "04:46",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:46",
+      "arghyaDate": "2026-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2026",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2026-04-15",
+      "timeRaw": "19:46"
+    },
+    {
+      "id": "drik-almora-agastya-udaya-2027",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2027-09-07",
+      "timeRaw": "04:47",
+      "arghyaEndTime": "05:52",
+      "arghyaStartTime": "04:47",
+      "arghyaDate": "2027-09-07"
+    },
+    {
+      "id": "drik-almora-agastya-asta-2027",
+      "sourceId": "drikpanchang-almora",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2027-04-15",
+      "timeRaw": "19:47"
+    },
+    {
+      "id": "drik-ramnagar-agastya-udaya-2023",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्य तारा उदय क्षण",
+      "date": "2023-09-07",
+      "timeRaw": "04:47",
+      "arghyaStartTime": "04:47",
+      "arghyaEndTime": "05:54",
+      "arghyaDate": "2023-09-07"
+    },
+    {
+      "id": "drik-ramnagar-agastya-asta-2023",
+      "sourceId": "drikpanchang-ramnagar",
+      "edition": "user-transcribed Drik Panchang data",
+      "planet": "अगस्त्य",
+      "event": "अस्त क्षण",
+      "date": "2023-04-16",
+      "timeRaw": "19:48"
     }
   ],
   "validationNotes": [
@@ -340,6 +932,11 @@
     "The legend's example uses clock values 26:31 and 28:53 for events before the following sunrise, supporting the conventional after-midnight notation for values above 24. Raw strings remain authoritative.",
     "Do not infer missing directions for Jupiter or Agastya.",
     "The two Panchang centers are not Pithoragarh. Compare only after evaluating location-specific calculations at the stated source coordinates, and keep provider coordinate uncertainty visible.",
-    "Some reported labels/directions may appear counterintuitive. Preserve them verbatim rather than silently correcting."
+    "Some reported labels/directions may appear counterintuitive. Preserve them verbatim rather than silently correcting.",
+    "Drik Panchang data transcribed by the user on 2026-11-15; all supplied times are preserved as local IST clock times. Reported total durations are not independently recalculated and are not stored as event times.",
+    "Drik Almora and Ramnagar exact coordinates as selected in the Drik interface were not supplied. The Ganesh Martand/Tara Prasad coordinates are location metadata only, not asserted Drik coordinates.",
+    "For Drik Jupiter/Venus intervals, 'अस्त समाप्त' is stored as the supplied end of the Asta interval; it should not be silently relabeled as independently verified heliacal rising.",
+    "Agastya Arghya date/time and the separately stated Agastya star rise/set moments are distinct observations. Preserve that distinction; do not treat Arghya start as a geometric rise instant.",
+    "The source text's weekday labels and some reported duration totals may be inconsistent with Gregorian calendar arithmetic; the ISO dates and raw clock times are stored as supplied and should be checked against source screenshots before publication."
   ]
 }
