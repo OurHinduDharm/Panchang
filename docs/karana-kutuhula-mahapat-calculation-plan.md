@@ -97,3 +97,46 @@ The independent 1902 Sumatiharsa transcription is now accessible continuously ar
 Source page references: Jain Quantum transcription of the 1902 Venkatesvara Press edition, printed pp. 134–146, especially pp. 135–137 and 142–143: https://jainqq.org/booktext/Karan_Kutuhalam/034533
 
 Implementation decision: the exact source sequence is now sufficiently clear to design the verse 8 helper API, but the sexagesimal row arithmetic and the complete past/future khanda layout must be reproduced against the two worked examples before the public solver is wired. No public Mahāpāta times are approved.
+
+
+## Verse 5–6 layout rule now encoded as a tested intermediate
+
+The 1902 Sumatiharsa commentary (printed pp. 133–135) makes the layout rule explicit:
+
+- Divide the sāyana Moon and sapāta Moon longitudes separately by 15°. The quotient identifies the elapsed khanda count; the next khanda is the bhogya khanda.
+- Read each side's signed khanda table from the corresponding quotient-derived position. The source example confirms 10th krānti = −299 and 13th śara = +70.
+- For the middle construction, the side with the smaller chāpāṃśa uses **two** middle khandas; the side with the larger chāpāṃśa uses **three**. The bhogya khanda is placed singly on the smaller-remainder side; the other khanda placements are doubled as described by the commentary.
+- The code now records the source-defined 2-versus-3 middle-khanda count in `selectMahapataBhogyaKhandas()` and tests both possible smaller-side branches. It intentionally does not yet emit a chronological past/future list or apply sign corrections: the exact ordering must be tested against both complete examples.
+
+## Worked-example arithmetic: corrected transcription checkpoints
+
+The 1902 printed p.136 example gives the following trace (OCR transcription, notation preserved):
+
+- Remaining amount: **832;15**
+- Aśuddha sphuṭa-khaṇḍa: **392**
+- Quotient: **0;27;23**
+- Lunar motion: **741;50**
+- Converted interval: **0;10;18**
+
+This replaces the earlier 1991 OCR checkpoint **63215 / 32** in the working notes. Do not use the older OCR figures as test data.
+
+The second 1902 example on printed pp.141–143 gives a clearer independent trace:
+
+- Sāyana Moon: **23;5;21;51**; quotient 15, bhogya krānti-khaṇḍa 236, remainder **10;21;51**.
+- Sapāta Moon: **3;50;58;29**; quotient 23, bhogya śara-khaṇḍa **−70**, remainder **5;58;29**.
+- Since the śara remainder is smaller, śara uses two middle khandas and krānti uses three.
+- After the signed krānti/śara corrections, the source reports residual śara **641;0**, aśuddha sphuṭa-khaṇḍa **184;9**, quotient **3;28;25**, ×60 result **208;51**, lunar motion **829;35**, and interval **0;1;15**.
+- Corrected middle: **12;49**. The source checks solar krānti against lunar krānti corrected by śara; the difference is only **0;18** (small enough for the commentary's stated acceptance).
+
+The source's sexagesimal columns and unit labels are not sufficiently explicit in this searchable transcription to safely turn the above time-conversion figures into executable numeric fixtures yet. The intermediate quotient and the two-versus-three layout can be tested independently; do not infer the output unit from the printed label alone.
+
+Source: 1902 *Karaṇakutūhalam* with Sumatiharsa commentary, Jain Quantum searchable edition, printed pp.133–143: https://jainqq.org/booktext/Karan_Kutuhalam/034533
+
+## Updated next implementation order
+
+1. Build a source-indexed placement trace for both examples, including 24-position wrap and past/future orientation; verify against the source's explicit 10th/13th and 16th/24th bhogya khanda checkpoints.
+2. Implement the hemisphere-aware krānti/śara sign corrections as exact rational arithmetic.
+3. Implement verse 8's multiplier and shara-clearing algorithm with the second example as the primary golden trace.
+4. Resolve the exact sexagesimal unit for the verse 9 time conversion from the printed column headings; only then encode time conversion.
+5. Reproduce both worked middles and check equality of solar krānti and lunar krānti corrected by śara.
+6. Compare the resulting events against the user's 2023–24 printed reference table.
