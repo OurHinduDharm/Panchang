@@ -1,56 +1,71 @@
-# Drik-Ganita Tara Asta/Udaya calculation model
+# Drik-Ganita location-based Tara Asta/Udaya model
 
 Status: research prototype; not connected to the public Panchang yet.
 
 ## Agreed product rule
 
-The public site will expose one calculation method only: **दृक्-गणितीय उदय-अस्त**.
+The public site will expose one method only: **दृक्-गणितीय उदय-अस्त**.
 
-Primary calibration references:
-- Drik Panchang published Guru/Shukra/Agastya events.
-- Ganesh Martand Panchang (दृक्गणित), Almora, as an independent date cross-check. Its HH.MM time notation remains provisional.
-- Drik Almora/Ramnagar city references where supplied.
+- Drik Panchang is the primary time-calibration source.
+- Ganesh Martand (दृक्गणित), Almora, is an independent date cross-check. Its printed HH.MM clock notation remains provisional until the original time legend is confirmed.
+- Tara Prasad is a secondary Ramnagar cross-check.
+- TKS Surya-Siddhanta and photometric values are excluded from calibration.
+- No public method selector or separate physical/photometric visibility option will be added.
 
-Tara Prasad is a secondary independent cross-check. Drik is the primary time-calibration source; Ganesh Martand is currently a date cross-check because its raw time notation is not conclusively verified. TKS Surya-Siddhanta and photometric data are excluded from model calibration. No third physical-visibility option is planned.
+## Current candidate calculation
 
-## Candidate Drik-Ganita calculation
+The Drik records indicate that the published event clock is the target body's local apparent rise/set event. At that instant, the target is near the local horizon and the Sun is below the horizon by a repeatable amount for each body/event/horizon branch.
 
-Use a modern apparent ephemeris and the exact observer coordinates. For a given civil day and horizon branch:
+For each local date and observer:
 
-1. Find the Sun's standard apparent rise/set event for the selected horizon branch.
-2. Find the planet's corresponding apparent rise/set event at the same observer.
-3. Calculate the absolute time separation in minutes.
-4. Convert the time gap to degrees of Earth rotation using one mean sidereal day divided by 360. This is a general time-unit conversion, not a Surya-Siddhanta formula.
-5. Compare that value with a body/event/branch threshold calibrated from accepted Drik and Ganesh Martand observations.
-6. Detect downward threshold crossings as Asta and upward crossings as Udaya. The interpolated event instant is based on the planet's horizon-crossing time.
+1. Use the pinned Astronomy Engine ephemeris and the observer's latitude, longitude and elevation to find the target's apparent rise or set event.
+2. At that exact event instant, calculate the Sun's topocentric apparent altitude using the same observer.
+3. Compare the Sun altitude with the calibrated threshold for that body, event (Asta/Udaya) and horizon branch.
+4. Asta is the upward crossing of the solar-altitude threshold (Sun becoming less depressed); Udaya is the downward crossing (Sun becoming more depressed).
+5. Interpolate the target's horizon-event instant between adjacent daily samples and validate it against held-out Drik event clocks.
 
-The model uses Astronomy Engine's standard local rise/set event calculation for both Sun and target. This includes the library's conventional apparent horizon treatment; it does not calculate first/last naked-eye heliacal visibility, brightness, atmospheric extinction or sky background. It is not the Surya-Siddhanta Ch.9 K/C formula.
+This is one local Drik-Ganita calculation path. It uses standard apparent rise/set and topocentric solar altitude; it does not calculate visual magnitude, sky brightness, extinction or a separate photometric/naked-eye visibility product. It does not implement Surya-Siddhanta Ch.9 K/C.
 
-The eastern/western horizon branch is selected from the source's printed direction. For Jupiter, where direction is absent in the source, Asta uses setting and Udaya uses rising. Venus direction is never guessed when missing.
+The earlier time-gap-in-degrees measurement remains in the report as a diagnostic, but it is not used for held-out predictions because its fixed threshold does not reproduce all event times consistently.
 
-## Calibration safeguards
+## Preliminary Drik calibration from 2019–2027 observations
 
-- Source clocks are normalized as local IST, including Ganesh Martand values above 24 hours (for example 34.07 means 10:07 on the following date).
-- Ambiguous AM/PM records are excluded instead of guessed.
-- Each observation is checked against the target body's computed apparent rise/set event.
-- Time-threshold fitting uses only Drik records whose source event time is within 15 minutes of the computed body's apparent rise/set event; all residuals remain in the report.\n- Ganesh Martand raw clocks are not used to fit time thresholds until the printed HH.MM notation is verified. Its dates remain an independent cross-check.
-- Drik Almora/Ramnagar coordinates are approximate proxies because the exact coordinates selected on the Drik page were not captured. Ganesh Martand's printed Almora centre and Tara Prasad's Ramnagar centre are separately preserved. Elevation is set to 0 m in this first calibration run because the printed calculation-centre metadata did not supply a confirmed elevation; do not treat this as a final hill-station horizon correction.
-- Agastya uses a provisional Canopus J2000 position. A pinned astrometric catalogue/proper-motion source is required before production use.
+Accepted Drik source events place the target near the horizon at the printed event time. Median Sun altitude by body/event/branch is:
 
-## Data and runtime strategy
+| Body | Event | Horizon branch | Median Sun altitude |
+|---|---|---|---:|
+| Venus | Asta | Rising | -5.77° |
+| Venus | Udaya | Setting | -5.83° |
+| Venus | Asta | Setting | -5.08° |
+| Venus | Udaya | Rising | -6.53° |
+| Jupiter | Asta | Setting | -7.47° |
+| Jupiter | Udaya | Rising | -9.29° |
+| Agastya / Canopus | Udaya | Rising | -14.36° |
+| Agastya / Canopus | Asta | Setting | -14.57° |
 
-- Raw user-transcribed printed observations remain in research/drik-ganita-asta-udaya-benchmarks-2019-2027.json.
-- The direct Drik five-city dataset remains separately available in data/drik-planetary-reference-2024-2027.json.
-- The first calibration set is India-only and uses IST (+05:30); general IANA timezone resolution must be supplied from the selected location before expanding outside India. Drik source event clocks align with computed body rise/set events to within about one minute for accepted planetary observations; at those times the target is near the horizon while the Sun is roughly 5–9 degrees below it. Agastya is a separate fixed-star case with the Sun roughly 14–15 degrees below the horizon.
-- Research calibration runs in CI, not during the daily Panchang calculation.
-- Once the model is accepted, annual events should be precomputed into compact JSON chunks. The public Panchang should only load the relevant city/year chunk lazily; it must not scan years of ephemeris events on every date change.
+These are candidate fitted values, not production constants. The 2026–2027 holdout test trains thresholds only through 2025.
 
-## Next acceptance gates
+## Data safeguards
 
-1. Confirm source event clocks align with the target's geometric horizon crossings.
-2. Compare fitted time-degree thresholds across Ganesh Martand and Drik for the same city/year/event.
-3. Hold out the latest years from fitting and verify prediction dates/times independently.
-4. Validate Guru and Shukra first; then pin Canopus astrometry and validate Agastya.
-5. Only after the back-test passes, build annual precomputed city data and integrate a lightweight lookup into extra-panchang.js.
+- The research file preserves 89 observations: 24 Ganesh Martand, 54 Drik Almora, 6 Drik Ramnagar and 5 Tara Prasad.
+- Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
+- Ganesh Martand HH.MM values are preserved verbatim but are not used to fit time thresholds until their clock notation is verified. Its event dates remain a separate cross-check.
+- Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
+- Drik Almora/Ramnagar coordinates are proxies because the exact coordinates selected in the Drik interface were not captured.
+- Source elevations are unconfirmed; the first benchmark pass uses 0 m. Do not treat this as a final elevation correction.
+- Agastya uses a provisional Canopus J2000 position; pin an astrometric catalogue/proper-motion source before production.
 
-No public display, Panchang calculation, or main application runtime has been changed in this branch.
+## Performance plan
+
+- All multi-year scanning and calibration run offline in CI.
+- After the held-out tests pass, precompute compact annual city/year JSON chunks.
+- The public Panchang should only load the relevant chunk lazily and display the event. It must not scan multiple years of ephemeris data on every date change.
+- No production Panchang code or public display has been changed in this branch.
+
+## Acceptance gates
+
+1. 2026–2027 held-out event dates and times match Drik within an agreed tolerance.
+2. Ganesh Martand date cross-checks remain consistent; verify its clock legend before time calibration.
+3. Almora and Ramnagar profiles do not use city fallbacks.
+4. Guru and Shukra pass before finalizing Agastya astrometry.
+5. Only one public label and one calculation path are exposed.
