@@ -4893,7 +4893,9 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     if(!events.length)return;
     const card=document.createElement("section");card.className="card full special-punya-kaal-card";
     const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
-    const todays=events.filter(item=>item.date===dateString);
+    const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
+    const selectedDayEnd=selectedDayStart+86400000;
+    const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
     todays.forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
