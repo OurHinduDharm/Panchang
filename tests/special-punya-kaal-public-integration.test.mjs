@@ -22,6 +22,7 @@ test("monthly section uses the selected year/month from its navigation URL", () 
   assert.match(monthly, /pageParams\.get\("year"\)/);
   assert.match(monthly, /pageParams\.get\("month"\)/);
   assert.match(monthly, /window\.location\.hash==="#special-punya-kaal"/);
+  assert.match(monthly, /section\.scrollIntoView\(\{block:"start",behavior:"smooth"\}\)/);
 });
 
 test("monthly special section uses the approved practice-focused title", () => {
@@ -49,7 +50,8 @@ test("daily Panchang calculates its month lazily and links only for the approved
 });
 
 test("daily Panchang shows actual event times only on the event date", () => {
-  assert.match(daily, /const todays=events\.filter\(item=>item\.date===dateString\)/);
+  assert.match(daily, /selectedDayStart=Date\.parse\(dateString\+"T00:00:00\+05:30"\)/);
+  assert.match(daily, /Date\.parse\(item\.endTime\)>selectedDayStart&&Date\.parse\(item\.startTime\)<selectedDayEnd/);
   assert.match(daily, /specialPunyaKaalDateTime\(item\.startTime\)/);
   assert.match(daily, /specialPunyaKaalDateTime\(item\.endTime\)/);
 });
