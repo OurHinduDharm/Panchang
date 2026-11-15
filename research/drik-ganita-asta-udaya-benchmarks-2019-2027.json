@@ -940,21 +940,24 @@
     "The source text's weekday labels and some reported duration totals may be inconsistent with Gregorian calendar arithmetic; the ISO dates and raw clock times are stored as supplied and should be checked against source screenshots before publication."
   ],
   "calibrationPolicy": {
-    "primarySources": [
-      "ganesh-martand",
+    "primaryTimeCalibrationSources": [
       "drikpanchang-almora",
       "drikpanchang-ramnagar"
     ],
-    "secondarySources": [
+    "primaryDateCrossCheckSources": [
+      "ganesh-martand"
+    ],
+    "secondaryCrossCheckSources": [
       "tara-prasad"
     ],
     "excludedSources": [
       "TKS Surya Siddhanta / Shastriya K/C",
       "TKS photometric"
     ],
-    "eventTimeMeaning": "Source event time is retained as transcribed. The model must verify whether it coincides with the relevant body's geometric horizon crossing before using it to calibrate a horizon-time separation threshold.",
-    "noPhysicalVisibilityModel": true,
-    "noSuryaSiddhantaKcCalibration": true
+    "ganeshMartandTimeStatus": "HH.MM IST interpretation is provisional; do not fit time thresholds until the printed time legend is verified.",
+    "drikEventClockStatus": "Use as primary time calibration after confirming target apparent rise/set event residual.",
+    "eventTimeMeaning": "Source event time is tested against the target body's local apparent rise/set event; only Drik records within the residual tolerance are eligible for time-threshold fitting.",
+    "noPublicMethodOptions": true
   },
   "dataQualityNotes": [
     {
