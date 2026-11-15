@@ -86,3 +86,24 @@ test("direct apparent equatorial coordinates can be evaluated without a frame co
   assert.equal(result.available, true);
   assert.equal(result.visible, result.K > 11);
 });
+
+test("transition solver accepts direct apparent-equatorial provider samples", () => {
+  const crossing = Date.UTC(2026, 0, 1, 12);
+  const sampleAt = ms => ({
+    sunEquatorial: { rightAscensionDeg: 100, declinationDeg: 20 },
+    objectEquatorial: {
+      rightAscensionDeg: ms < crossing ? 100 : 112,
+      declinationDeg: 20
+    },
+    elongationDeg: ms < crossing ? 0 : 12
+  });
+  const result = refineSs9Transition({
+    body: "Jupiter", latitudeDeg: 0,
+    startUtcMs: crossing - 3_600_000,
+    endUtcMs: crossing + 3_600_000,
+    sampleAt, toleranceMs: 1_000
+  });
+  assert.equal(result.event, "Udaya");
+  assert.equal(result.direction, "east");
+  assert.ok(Math.abs(result.utcMilliseconds - crossing) <= 1_000);
+});
