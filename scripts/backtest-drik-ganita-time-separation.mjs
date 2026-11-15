@@ -158,7 +158,7 @@ const report = {
     "Drik city coordinates are proxies where exact page coordinates were not captured.",
     "Source clock records with ambiguous AM/PM notation are excluded, not guessed.",
     "Ganesh Martand HH.MM clock parsing is provisional and is not used for threshold fitting; its dates are an independent cross-check until the printed time legend is verified.",
-    "Drik event clocks are the primary time-calibration observations because they align with computed local apparent rise/set events."
+    "Drik event clocks are the primary time-calibration observations because they align with computed local apparent rise/set events.",
     "Agastya uses an approximate Canopus J2000 position and needs a pinned catalogue/proper-motion source.",
     "No Surya-Siddhanta K/C formulas or physical/photometric visibility model are used."
   ]
