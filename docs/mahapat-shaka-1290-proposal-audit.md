@@ -416,3 +416,38 @@ The 1991 PDF's Śaka 1290 example (printed p.192; PDF lines 2806–2810) has OCR
 - **Rejected:** 236 followed by 150 in the Śaka 1290 example.
 - **Still open:** exact shara table witness and the signed khanda-by-khanda derivation of 197, 61, 274; whether the first two printed khanda/product operands contain a transcription or printing error.
 - **No implementation:** continue research-only; do not change solver or event data.
+
+
+## 2026-11-15: the 1991 Hindi procedure identifies the bhogya correction more precisely
+
+A further check of the 1991 edition's Hindi *Śivamatī* summary (printed p.184, PDF lines 3642–3649) clarifies the order:
+1. choose the appropriate krānti and śara khanda entries and their directions;
+2. combine the krānti and śara values by addition for one-direction agreement or subtraction for opposite directions;
+3. then apply the thirteenth part of the **bhogya amount**.
+
+This wording supports taking the 1/13 from the bhogya angular remainder (the chāpāṃśa), not mechanically dividing the table entry 236 by 13. For the 1902 p.144 printed krānti chāpāṃśa 3;50;52:
+- convert to arc-kalā: 3 × 60 + 50 + 52/60 = 230;52 (kalā; vikala);
+- divide by 13: 17;45;32 (approximately);
+- at whole-kalā truncation, the correction is +17.
+Then the first signed khanda combination is:
+236 − 56 + 17 = **197**.
+This reproduces the printed first sphuṭa-khanda exactly, provided the source's signed directions make the krānti and śara entries opposite and the 1/13 is truncated to whole kalā. It is now a strong, source-supported derivation rather than a coincidence. Keep the underlying printed values 236, 56, 3;50;52 and the derived 197 distinct in the audit.
+
+This supersedes the earlier provisional claim that the correction must be 236/13 = 18. The Sanskrit commentary's phrase naming the bhogya krānti-khanda 236 must be read together with the 1991 Hindi procedural explanation, which identifies the quantity whose thirteenth part is taken as the bhogya amount. Do not silently interpret “bhogya-khanda 236” as the numerical operand for the division.
+
+### The actual 1991 śara table is now independently recovered
+
+The 1991 PDF's Sanskrit commentary and Hindi explanation identify the six śara-khanda values as:
+**70, 65, 56, 43, 27, 9**.
+The Hindi summary prints a slightly differing secondary sequence (70, 65, 54, 43, 29, 19), so retain it as a separate editorial/translation witness, not as the Sanskrit table. The Sanskrit commentary's searchable text gives 70, 65, 56, 43, 27, 9. This agrees with the existing code table and with the 1902 worked example's 13th śara-khanda =70.
+
+Therefore the proposed alternate śara table [78, 70, 56, 37, 13] is not supported by this 1991 Sanskrit witness and must not be used to derive 61 or 274. Source: 1991 PDF lines around 1832 and Hindi summary lines 3636–3646:
+https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+
+### What is and is not solved
+
+- First sphuṭa-khanda **197**: now reproduced as 236 − 56 + 17, with the 17 coming from 1/13 of the printed bhogya arc 3;50;52, truncated to whole kalā. Strongly supported.
+- Second sphuṭa-khanda **61**: still not derived from the actual next krānti values (299, 341) and the source śara sequence (56, 43, 27), with the prescribed doubled/single placements. Do not substitute 261 merely because 261 × 1;53;7 reproduces the printed product.
+- Third sphuṭa-khanda **274**: its product 274 × 13;6;53 = 3593;26;2 is arithmetically verified, but its derivation from the signed source table and placement sequence is still open.
+- The user's proposed sequence 236 → 150 remains incorrect; 236 is followed by 299 in the reverse run.
+- The Gemini alternate śara values [78,70,56,37,13] are not supported by the 1991 Sanskrit table.
