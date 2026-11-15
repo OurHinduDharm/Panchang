@@ -46,7 +46,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 h2{font-size:19px;margin:0}
 .count{font-size:12px;color:var(--muted)}
 .events{display:grid;gap:9px}
-  .special-punya-kaal-sentinel{height:1px;scroll-margin-top:80px}\n  .special-calendar{margin:14px 0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .special-punya-kaal-sentinel{height:1px;scroll-margin-top:80px}
+  .special-calendar{margin:14px 0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
   .special-calendar[hidden]{display:none!important}
   .special-calendar details>summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:750;color:var(--ink)}
   .special-calendar details>summary::-webkit-details-marker{display:none}
@@ -255,7 +256,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   <span class="count" id="count">लोड हो रहा है…</span>
 </div>
 <section id="events" class="events" aria-live="polite"><div class="empty">पर्वों की सूची लोड हो रही है…</div></section>
-<div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>\n<section id="special-punya-kaal" class="special-calendar" aria-label="विशेष साधना काल एवं पुण्यकाल" hidden>
+<div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>
+<section id="special-punya-kaal" class="special-calendar" aria-label="विशेष साधना काल एवं पुण्यकाल" hidden>
   <details id="specialPunyaKaalDetails">
     <summary>विशेष साधना काल एवं पुण्यकाल</summary>
     <div id="specialPunyaKaalContent" class="special-calendar-content"></div>
