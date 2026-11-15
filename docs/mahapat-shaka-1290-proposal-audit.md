@@ -119,3 +119,19 @@ Do not ask the user to repeat these readings. The following checkpoints were pre
 An earlier assistant calculation log also records the operations as 54;12 × 15 → 775;3, 1;53;45 × 274 → 492;3;27, and 15° − 1;53;7 → 13;6;53. Ordinary base-60 multiplication does not reproduce the first two displayed products: 54;12 × 15 = 813;0, and 1;53;45 × 274 = 519;27;30. The third line is a subtraction/complement, not a multiplication. These are therefore **transcribed operation/result pairs whose scale or operands remain unresolved**, not arithmetic identities to encode.
 
 The model response changed the first operation into 197 × 54′12″ and the second into 61 × 1°53′45″, which is not the same as the earlier transcription log. Keep the model's restatement separate from the user's original readings. The next calculation pass must recover the exact operand sequence and the unit attached to each value from the source commentary before trying to fit products.
+
+
+## New clue: the +17 may come from the bhogya chāpāṃśa, not from 236
+
+The 1902 commentary on printed p. 135 (scan page 139) phrases the correction as applying a thirteenth part to the **apakrama / bhogya krānti portion**, before the krānti-khaṇḍas are corrected. This wording should not be paraphrased as simply “divide the table value 236 by 13” without checking the grammatical object.
+
+A numerical test gives a strong lead:
+
+- If the bhogya krānti arc is the earlier transcribed 3°50′52″, its 1/13 is 17′45.538″ (approximately 17 whole arcminutes if the khanda correction is retained at whole-kalā precision).
+- Adding those 17 whole kalā to the table value 236 gives 253, exactly the proposed first corrected khanda.
+- If instead the later arc 3°54′12″ is used, its 1/13 is 18′00.923″, which would give 254, not 253, at whole-kalā precision.
+- By contrast, 236/13 is 18;9;13… in the table-value units and does not explain +17.
+
+This is **a strong, source-aligned hypothesis**, not yet a final rule: it depends on the original bhogya arc being 3°50′52″ and on the text's precision/truncation convention. It does, however, explain why the earlier 3°50′52″ reading must not be discarded in favour of the later 3°54′12″ line merely because that later line appears elsewhere in the calculation.
+
+Next, test the same operation against the second and third krānti-khaṇḍa corrections (the proposed 150 → 139 and 52 → 48). If their corrections are the whole-kalā parts of the corresponding 1/13 bhogya-arc terms, the pattern should reproduce without special pleading. Until that test succeeds, do not encode the correction function.
