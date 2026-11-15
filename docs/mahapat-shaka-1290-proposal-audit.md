@@ -573,3 +573,63 @@ These are *numerical leads only*. The 18/19 corrections have not been derived fr
 ### Revised immediate task
 
 Read the 1991 Sanskrit commentary and Hindi summary at the page-image level for the worked Śaka 1290 example, especially the product setup and the exact definition of the middle/odd sphuṭa-khaṇḍas. Then reconstruct each of the three khanda combinations from the 24-position signed tables before changing any transcription. No implementation is approved.
+
+
+## 2026-11-15: direct 1991 edition evidence recovered (important correction)
+
+The 1991 Krishnadas Sanskrit Series 129 edition is now directly searchable as a PDF, including Sumatiharsa's Sanskrit commentary and Satyendra Mishra's Hindi explanatory section. This is a stronger witness than the earlier search-snippet-only access.
+
+### 1. Sumatiharsa's exact 24-position sign arrangement
+
+The 1991 Sanskrit commentary says the six krānti entries are arranged:
+- first six in order, positive;
+- next six in reverse order, negative;
+- next six in order, negative (the OCR around this phrase is imperfect; compare the Hindi explanation);
+- final six in reverse order, positive.
+
+However, the 1991 Hindi summary at lines 3636–3638 gives the pattern as four runs: first six positive, second six negative, third six positive, fourth six negative, for both krānti and śara. This agrees with the previously encoded 24-position pattern. Treat the Sanskrit OCR's sign words as needing page-image verification; do not silently prefer the garbled OCR over the explicit Hindi summary and the 1902 p.132 witness.
+
+Sources:
+- 1991 Sanskrit commentary, lines 2716–2719: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+- 1991 Hindi summary, lines 3634–3638.
+
+### 2. Direct Hindi statement of the signs and the 1/13 correction
+
+The 1991 Hindi summary (lines 3642–3649) states:
+- for a past node, if the sapāta Moon is in an even pada, place preceding khanda values from the bhogya remainder; if in an odd pada, place following values;
+- take the krānti number in the direction of the Moon's ayana and the śara number in the direction of the node-bearing Moon;
+- combine krānti and śara numbers by signed addition/subtraction (same direction: add; opposite direction: subtract);
+- then apply the thirteenth part of the bhogya number;
+- for the midpoint, multiply lunar śara by 15, subtract the śara-khanda products, identify cleared and uncleared terms, divide the remainder by the bhogya khanda, and add the quotient to the sum of cleared multipliers.
+
+This directly confirms that the 1/13 correction is tied to the **bhogya number**, not automatically to the angular remainder such as 3;50;52. It also shows that the sign selection is not simply inferred from "increasing/decreasing" verbal motion; use the Moon's ayana direction and node-bearing Moon's direction as the source instructs.
+
+### 3. 1991 worked examples are not a clean transcription substitute for the 1902 Śaka 1290 example
+
+The 1991 PDF's Sanskrit worked example around lines 2803–2806 contains its own numerical witnesses and some OCR corruption. It includes a worked calculation with bhogya krānti 236 and śara 70, then another example labelled around Śaka 1290 (OCR sometimes reads 1920) with different intermediate figures. These must be compared as an edition's recalculated example, not merged into the 1902 values.
+
+Notably, the 1991 p.108–109 material around lines 2803–2806 includes a calculation of the form:
+- krānti bhogya khanda 236;
+- śara bhogya khanda 56 in the subsequent example;
+- sphuṭa khanda and product column readings that differ from 1902 in places (OCR: first khanda around 191/197 and product around 775;13; later 61 and 274 appear).
+The PDF's OCR is too compressed in the digit strings to establish exact values without rendering the page image. Preserve it as a second-edition witness, not a correction.
+
+### 4. Important table-variant warning
+
+The 1991 Hindi summary at line 3335 OCRs the krānti table as **362, 349, 299, 236, 150, 52**, whereas the 1902 original's verified table is **362, 341, 299, 236, 150, 52**. This is a real edition/OCR discrepancy requiring image inspection. Do not claim 1991 independently confirms 341 until its page image is read. The 1991 Sanskrit commentary around line 1542 appears to OCR the second entry as 341, but the same PDF's Hindi summary reads 349. This is exactly why image-level collation is needed.
+
+The 1991 Hindi śara table is not reproduced in the current extracted lines with sufficient clarity; retain the previously checked Sanskrit table [70,65,56,43,27,9] only as a provisional witness until its exact page image is verified.
+
+### 5. Next concrete calculation
+
+Build a source-faithful 24-row table for the 1902 Śaka 1290 case with columns:
+1. 1-based khanda position;
+2. base table value;
+3. signed value;
+4. whether it is bhogya / first / second / third placed khanda;
+5. whether it is doubled or single;
+6. paired krānti and śara positions;
+7. 1/13 correction operand and truncation rule;
+8. resulting sphuṭa khanda.
+
+The 1991 Hindi instructions determine the selection logic; the 1902 p.132 and p.144–145 witnesses determine the primary numerical inputs. Do not calculate 197/61/274 until the row pairing and edition variants are settled. No code implementation yet.
