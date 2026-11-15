@@ -149,6 +149,35 @@ const rows = source.observations.map(record => {
 });
 
 const comparable = rows.filter(row => row.geometricCrossingDiagnostics?.some(item => item.result));
+const groupedSkyGeometryDiagnostics = [...new Set(comparable.map(row =>
+  [row.sourceId, row.planet, row.event].join("|")
+))].map(key => {
+  const [sourceId, planet, event] = key.split("|");
+  const group = comparable.filter(row =>
+    row.sourceId === sourceId && row.planet === planet && row.event === event
+  );
+  const values = field => group
+    .map(row => row.skyGeometryAtPrintedInstant?.[field])
+    .filter(value => Number.isFinite(value))
+    .sort((a, b) => a - b);
+  const range = field => {
+    const items = values(field);
+    return items.length ? {
+      min: Number(items[0].toFixed(3)),
+      median: Number(items[Math.floor(items.length / 2)].toFixed(3)),
+      max: Number(items[items.length - 1].toFixed(3))
+    } : null;
+  };
+  return {
+    sourceId,
+    planet,
+    event,
+    records: group.length,
+    sunAltitudeDeg: range("sunGeometricAltitudeDeg"),
+    planetAltitudeDeg: range("planetGeometricAltitudeDeg"),
+    sunPlanetSeparationDeg: range("sunPlanetAngularSeparationDeg")
+  };
+});
 const output = {
   schemaVersion: "1.0.0",
   generatedAtUtc: new Date().toISOString(),
@@ -172,6 +201,7 @@ const output = {
         .sort((a,b)=>a-b)[Math.floor(comparable.length/2)].toFixed(2))
       : null
   },
+  groupedSkyGeometryDiagnostics,
   rows,
   limitations: [
     "This reports both local geometric crossings and the sky geometry at the printed instant. It does not establish the Panchang's Asta/Udaya date-selection or visibility rule.",
