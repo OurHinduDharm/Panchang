@@ -266,3 +266,15 @@ This first trace validates the general divide → ×60 → divide-by-lunar-motio
 4. **Not established:** whether any discrepancy originated in the author's calculation, a manuscript copy, or the printing house.
 
 No production solver code is authorized by this audit alone. Next, reconstruct the full verse-8 multiplier/clearing sequence from both worked examples, then reconcile the two distinct time values and the epoch relation before implementing verse 9.
+
+
+## Additional verse-11 arithmetic cross-check (15 Nov 2026)
+
+The earlier first-example transcription on printed p.109 gives coefficient 2203, a printed denominator read by the user as **329**, and a quotient **5;37**. Exact arithmetic distinguishes the source reading from the value required by the quotient:
+
+- 2203 ÷ 329 = 6;41;… (not 5;37).
+- 2203 ÷ 392 = 5;37;11;… (truncates to the printed 5;37).
+- Therefore **392** is the denominator mathematically required to produce 5;37, while **329** remains the user's confirmed printed reading.
+- This is a second example of a source-text/math discrepancy. It is not permission to overwrite the transcription. Record raw reading 329, derived candidate 392, and the arithmetic proof separately; do not silently correct the source.
+
+The Śaka 1543 example independently gives 2203 ÷ 184;9 = 11;57;47…, truncating to 11;57, so the verse-11 formula itself is supported by the second example. The unresolved first-example denominator should remain quarantined from tests until another edition or manuscript confirms the intended reading.
