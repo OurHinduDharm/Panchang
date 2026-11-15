@@ -822,3 +822,42 @@ The OCR around the compound immediately before “भोग्यखण्डस
 ### Immediate consequence for the next calculation
 
 Do not treat the 1/13 correction as an independent angular remainder adjustment unless a parallel worked example proves that scale. Instead, reconstruct the corrected signed krānti terms from the actual bhogya khanda and subsequent future khandas, retaining the correction as a rational quantity until the book's truncation/rounding stage is identified. Only then combine the corrected krānti terms with the selected śara terms to test 197, 61, and 274.
+
+
+## 2026-11-16: 1991 edition's Śaka 1290 example surfaced in a fuller searchable extract
+
+A new search result exposes a longer text extract of the 1991 Krishnadas edition's printed p.192–193 than the previously available PDF open. It independently confirms the future-pāta method, but also reveals substantial numerical/typographical differences from the 1902 worked example. Do not merge the two witnesses.
+
+Source: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf (search result extract headed “पृष्ठ १९२”).
+
+### 1991 raw witness: preserve OCR without normalization
+
+The extracted 1991 passage includes:
+- future pāta (“समये पातो भविष्यतीति”);
+- sādhana Moon OCR: 131;19;48; quotient 8; remainder 11;15;48;
+- sapāta Moon OCR: 39;12;1; quotient 2; bhogya śara 56;
+- krānti chāpāṃśa OCR 3;50;52 and śara chāpāṃśa 5;47;47;
+- the same placement statement: smaller krānti chāpāṃśa, single bhogya term on that side, and doubled arrangement for the other side;
+- the same 1/13 correction associated with krānti bhogya-khaṇḍa 236;
+- OCR product/result strings around first sphuṭa khanda “1917”, multiplier “541912”, product “77513”; second khanda 61 and product “4213127”; third khanda 274 and product 3593;
+- residual OCR around 1273;19, quotient 4;31;48, khanda-angle 3;4;52, combined 10;26;47, and time 0;51;50.
+
+These concatenated strings are **not** safe normalized readings. In particular, “1917” could represent a punctuation-stripped sexagesimal number or a damaged integer; “4213127” is not enough to choose between several possible segmentations. Keep the extracted 1991 strings verbatim until the page image is inspected.
+
+### What the second edition independently supports
+
+1. It independently labels the worked case as future pāta.
+2. It repeats the smaller-krānti placement description.
+3. It explicitly associates the 1/13 operation with bhogya krānti-khaṇḍa 236 and then applies krānti/śara signed combination rules.
+4. It retains the same final angular sum 10;26;47 and final time 0;51;50 in its searchable extract.
+
+### What it does not yet support
+
+- It does not yet establish the exact three sphuṭa-khaṇḍa values or their product-column punctuation.
+- It does not prove that the 1902 values 197, 61, 274 or products 775;3 and 492;3;27 should be emended.
+- Its sāyana-Moon and chāpāṃśa readings differ from the 1902/user-verified witnesses; they must remain separate edition readings.
+- The matching final sum/time despite differing intermediate OCR is a useful cross-check of the overall procedure, not proof that all intermediate numbers are identical.
+
+### Revised next step
+
+Use the 1991 page image as a second independent transcription target. First identify the printed punctuation and column divisions in the first khanda/product line and the second product line. Then compare the actual 1991 Sanskrit commentary's explanatory syntax with the 1902 p.145 commentary. Do not use the noisy extracted digits to manufacture a numerical fit.
