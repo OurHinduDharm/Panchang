@@ -101,3 +101,21 @@ Thus the claimed 51;50 agrees with 626;47, not the written 627;47.
 ## Next research step
 
 Reconstruct the verse-8 product units and scale conversion directly from the original Sanskrit commentary and the user's already proofread transcription. Keep raw readings, normalized values, and derived arithmetic in separate fields. Do not ask the user to repeat material already supplied; request a specific reading only if a particular character or column remains genuinely ambiguous.
+
+
+## Separate record of the user's already-proofread Śaka 1290 checkpoints
+
+Do not ask the user to repeat these readings. The following checkpoints were preserved from the user's earlier proofread transcription and the prior calculation log; they are not all yet explained by the source's unit conventions:
+
+- Sāyana Moon: 131;5;58 (one earlier derived line used 131;5;48); sapāta Moon: 39;12;1.
+- Bhogya khanda readings: krānti −236; śara +56.
+- Chāpāṃśa readings in the transcription: krānti 3;50;52 and śara 5;4;47. Later calculation lines use 3;54;12 and 5;47;57; retain both layers rather than silently harmonizing them.
+- Corrected khanda checkpoints: 197, 61, 274.
+- Product/residual checkpoints: 775;3, 492;3;27, residual 1273;9.
+- Final quotient: 4;38;48; additional arc amount 3;4;52; combined amount 10;26;47.
+- The printed conversion line is recorded as 627;47; the direct conversion of 10°26′47″ is 626;47. Preserve the printed and derived values separately.
+- Final time is recorded as 51;50.
+
+An earlier assistant calculation log also records the operations as 54;12 × 15 → 775;3, 1;53;45 × 274 → 492;3;27, and 15° − 1;53;7 → 13;6;53. Ordinary base-60 multiplication does not reproduce the first two displayed products: 54;12 × 15 = 813;0, and 1;53;45 × 274 = 519;27;30. The third line is a subtraction/complement, not a multiplication. These are therefore **transcribed operation/result pairs whose scale or operands remain unresolved**, not arithmetic identities to encode.
+
+The model response changed the first operation into 197 × 54′12″ and the second into 61 × 1°53′45″, which is not the same as the earlier transcription log. Keep the model's restatement separate from the user's original readings. The next calculation pass must recover the exact operand sequence and the unit attached to each value from the source commentary before trying to fit products.
