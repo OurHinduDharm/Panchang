@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "title": "Printed Panchang Guru, Shukra and Agastya source observations",
+  "createdAt": "2026-11-15",
+  "purpose": "Preserve user-transcribed paper Panchang observations as independent source benchmarks. Do not treat these as calculated results or merge them with Drik/PAC event models until notation, observer coordinates and event definitions are verified.",
+  "transcriptionPolicy": {
+    "preserveOriginalDateAndTime": true,
+    "timeNotation": "All supplied time strings are preserved exactly. Dot-separated values such as 34.07, 24.35 and 0.01 are NOT normalized yet.",
+    "timeInterpretationStatus": "unverified",
+    "direction": "पूर्व/पश्चिम is preserved exactly as printed/reported; do not infer rise/set azimuth or morning/evening star semantics without the original table legend.",
+    "timezone": "Indian Standard Time (Asia/Kolkata), as reported by the user.",
+    "eventDefinition": "The printed labels अस्त, उदय and अगस्त्योदय are preserved. Do not equate them automatically with geometric horizon crossing, naked-eye heliacal visibility, Drik Tara Asta boundaries or Surya Siddhanta K/C events.",
+    "missingValues": "Keep null or omit; never infer."
+  },
+  "sources": [
+    {
+      "id": "ganesh-martand",
+      "name": "गणेश मार्तण्ड पंचांग",
+      "method": "दृक्गणित",
+      "calculationCenter": "अल्मोड़ा, उत्तराखंड, भारत",
+      "geographicLatitude": "29°37′ उत्तर",
+      "geographicLongitude": "79°40′ पूर्व",
+      "geocentricLatitude": "29°27′",
+      "timezone": "Asia/Kolkata",
+      "timezoneLabel": "भारतीय स्टैण्डर्ड टाइम",
+      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified."
+    },
+    {
+      "id": "tara-prasad",
+      "name": "ताराप्रसाद पंचांग",
+      "method": "दृक्गणित",
+      "calculationCenter": "रामनगर, नैनीताल, उत्तराखंड, भारत",
+      "geographicLatitude": "29°30′ उत्तर",
+      "geographicLongitude": "79°08′ पूर्व",
+      "geocentricLatitude": "29°20′",
+      "timezone": "Asia/Kolkata",
+      "timezoneLabel": "भा. स्टै. टा.",
+      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified."
+    }
+  ],
+  "observations": [
+    {
+      "id": "gm-2019-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2019-20",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2019-07-20",
+      "direction": "पूर्व",
+      "timeRaw": "34.07"
+    },
+    {
+      "id": "gm-2019-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2019-20",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2019-09-27",
+      "direction": "पश्चिम",
+      "timeRaw": "0.01"
+    },
+    {
+      "id": "gm-2019-jupiter-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2019-20",
+      "planet": "बृहस्पति",
+      "event": "अस्त",
+      "date": "2019-12-15",
+      "direction": null,
+      "timeRaw": "25.19"
+    },
+    {
+      "id": "gm-2020-jupiter-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2019-20",
+      "planet": "बृहस्पति",
+      "event": "उदय",
+      "date": "2020-01-09",
+      "direction": null,
+      "timeRaw": "0.01"
+    },
+    {
+      "id": "gm-2019-agastya-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2019-20",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्योदय",
+      "date": "2019-09-01",
+      "direction": null,
+      "timeRaw": null
+    },
+    {
+      "id": "gm-2022-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2022-23",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2022-11-25",
+      "direction": "पश्चिम",
+      "timeRaw": "6.47"
+    },
+    {
+      "id": "gm-2022-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2022-23",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2022-09-30",
+      "direction": "पूर्व",
+      "timeRaw": "17.54"
+    },
+    {
+      "id": "gm-2022-agastya-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2022-23",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्योदय",
+      "date": "2022-08-31",
+      "direction": null,
+      "timeRaw": "24.35"
+    },
+    {
+      "id": "tp-2023-venus-asta",
+      "sourceId": "tara-prasad",
+      "edition": "2023-24",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2023-08-04",
+      "direction": "पश्चिम",
+      "timeRaw": "15.00",
+      "timeQualifierRaw": "pm"
+    },
+    {
+      "id": "tp-2023-venus-udaya",
+      "sourceId": "tara-prasad",
+      "edition": "2023-24",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2023-08-18",
+      "direction": "पूर्व",
+      "timeRaw": "02.01",
+      "timeQualifierRaw": "am"
+    },
+    {
+      "id": "tp-2023-jupiter-asta",
+      "sourceId": "tara-prasad",
+      "edition": "2023-24",
+      "planet": "बृहस्पति",
+      "event": "अस्त",
+      "date": "2023-03-31",
+      "direction": "पश्चिम",
+      "timeRaw": "16.25",
+      "timeQualifierRaw": "pm"
+    },
+    {
+      "id": "tp-2023-jupiter-udaya",
+      "sourceId": "tara-prasad",
+      "edition": "2023-24",
+      "planet": "बृहस्पति",
+      "event": "उदय",
+      "date": "2023-04-29",
+      "direction": "पूर्व",
+      "timeRaw": "20.58",
+      "timeQualifierRaw": "pm"
+    },
+    {
+      "id": "tp-2023-agastya-udaya",
+      "sourceId": "tara-prasad",
+      "edition": "2023-24",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्योदय",
+      "date": "2023-09-01",
+      "direction": null,
+      "timeRaw": "12.01",
+      "timeQualifierRaw": "pm"
+    },
+    {
+      "id": "gm-2024-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2024-04-25",
+      "direction": "पूर्व",
+      "timeRaw": "5.38"
+    },
+    {
+      "id": "gm-2024-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2024-07-06",
+      "direction": "पश्चिम",
+      "timeRaw": "19.11"
+    },
+    {
+      "id": "gm-2025-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2025-03-20",
+      "direction": "पश्चिम",
+      "timeRaw": "18.19"
+    },
+    {
+      "id": "gm-2025-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2025-03-23",
+      "direction": "पूर्व",
+      "timeRaw": "06.16"
+    },
+    {
+      "id": "gm-2024-jupiter-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "बृहस्पति",
+      "event": "अस्त",
+      "date": "2024-05-06",
+      "direction": null,
+      "timeRaw": "18.47"
+    },
+    {
+      "id": "gm-2024-jupiter-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "बृहस्पति",
+      "event": "उदय",
+      "date": "2024-06-02",
+      "direction": null,
+      "timeRaw": "5.16"
+    },
+    {
+      "id": "gm-2024-agastya-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2024-25",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्योदय",
+      "date": "2024-08-31",
+      "direction": null,
+      "timeRaw": "24.58"
+    },
+    {
+      "id": "gm-2025-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2025-26",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2025-12-13",
+      "direction": "पूर्व",
+      "timeRaw": "17.19"
+    },
+    {
+      "id": "gm-2026-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2025-26",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2026-01-30",
+      "direction": "पश्चिम",
+      "timeRaw": "07.06"
+    },
+    {
+      "id": "gm-2025-jupiter-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2025-26",
+      "planet": "बृहस्पति",
+      "event": "अस्त",
+      "date": "2025-06-11",
+      "direction": null,
+      "timeRaw": "19.07"
+    },
+    {
+      "id": "gm-2025-jupiter-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2025-26",
+      "planet": "बृहस्पति",
+      "event": "उदय",
+      "date": "2025-07-05",
+      "direction": null,
+      "timeRaw": "5.29"
+    },
+    {
+      "id": "gm-2026-agastya-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2025-26",
+      "planet": "अगस्त्य",
+      "event": "अगस्त्योदय",
+      "date": "2026-09-01",
+      "direction": null,
+      "timeRaw": "13.13"
+    },
+    {
+      "id": "gm-2026-venus-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2026-27",
+      "planet": "शुक्र",
+      "event": "अस्त",
+      "date": "2026-10-12",
+      "direction": "पूर्व",
+      "timeRaw": "17.40"
+    },
+    {
+      "id": "gm-2026-venus-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2026-27",
+      "planet": "शुक्र",
+      "event": "उदय",
+      "date": "2026-10-29",
+      "direction": "पश्चिम",
+      "timeRaw": "6.26"
+    },
+    {
+      "id": "gm-2026-jupiter-asta",
+      "sourceId": "ganesh-martand",
+      "edition": "2026-27",
+      "planet": "बृहस्पति",
+      "event": "अस्त",
+      "date": "2026-07-15",
+      "direction": null,
+      "timeRaw": "19.09"
+    },
+    {
+      "id": "gm-2026-jupiter-udaya",
+      "sourceId": "ganesh-martand",
+      "edition": "2026-27",
+      "planet": "बृहस्पति",
+      "event": "उदय",
+      "date": "2026-08-10",
+      "direction": null,
+      "timeRaw": "5.40"
+    }
+  ],
+  "validationNotes": [
+    "These records are user-transcribed from paper Panchangs; original page images have not yet been supplied.",
+    "Do not assume dot-separated values are decimal hours. A likely hour-minute convention is not yet proven; preserve raw strings until the table's time legend or a clearly labeled example is checked.",
+    "Do not infer missing directions for Jupiter or Agastya.",
+    "The two Panchang centers are not Pithoragarh. Compare only after evaluating location-specific calculations at the stated source coordinates, and keep provider coordinate uncertainty visible.",
+    "Some reported labels/directions may appear counterintuitive. Preserve them verbatim rather than silently correcting."
+  ]
+}
