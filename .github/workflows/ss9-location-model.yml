@@ -19,4 +19,4 @@ jobs:
       - name: Install pinned MIT Astronomy Engine
         run: npm install --no-save astronomy-engine@2.1.19
       - name: Run SS9 geometry and apparent-place tests
-        run: node --experimental-default-type=module --test tests/ss9-location-model.test.mjs tests/ss9-astronomy-engine-provider.test.mjs
+        run: node --test tests/ss9-location-model.test.mjs tests/ss9-astronomy-engine-provider.test.mjs
