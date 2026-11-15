@@ -92,6 +92,8 @@ export function sourceObservationToReference(observation) {
   return {
     id: observation.id,
     sourceId: observation.sourceId,
+    date: observation.date,
+    timeRaw: observation.timeRaw ?? null,
     planet: observation.planet,
     body,
     event: observation.event,
