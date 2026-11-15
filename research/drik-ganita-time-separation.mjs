@@ -273,7 +273,7 @@ export function summarizeCalibration(rows) {
   }
   return [...groups.entries()].map(([key, items]) => {
     const residuals = items.map(item => item.bodyEventResidualMinutes);
-    const trusted = items.filter(item => item.bodyEventResidualMinutes <= 15);
+    const trusted = items.filter(item => item.sourceId?.startsWith("drikpanchang") && item.bodyEventResidualMinutes <= 15);
     const gaps = trusted.map(item => item.calibratedTimeDegrees);
     return {
       key,
