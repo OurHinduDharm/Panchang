@@ -110,7 +110,8 @@ const report = {
     available: eligible.length,
     rejected: rows.length - eligible.length
   },
-  sourceAgreement: buildSourceAgreement(dataset.observations),\n  calibrationGroups: summarizeCalibration(eligible),
+  sourceAgreement: buildSourceAgreement(dataset.observations),
+  calibrationGroups: summarizeCalibration(eligible),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
