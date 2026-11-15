@@ -329,11 +329,11 @@ export function scanDrikSolarAltitudeTransitions({
       const fraction = Math.max(0, Math.min(1,
         (crossing.threshold - before.sunAltitudeDeg) / delta
       ));
-      const interpolatedUtcMs = before.bodyEventUtcMs +
+      // Interpolate between consecutive target rise/set instants. Reporting
+      // the next day's event unconditionally can introduce an artificial
+      // one-day error for slowly changing fixed-star thresholds such as Agastya.
+      const bodyEventUtcMs = before.bodyEventUtcMs +
         fraction * (after.bodyEventUtcMs - before.bodyEventUtcMs);
-      // The event is the target's horizon crossing on the first date that
-      // satisfies the threshold; do not interpolate across a branch flip.
-      const bodyEventUtcMs = after.bodyEventUtcMs;
       events.push({
         body, branch, event: crossing.event,
         thresholdSunAltitudeDeg: crossing.threshold,
