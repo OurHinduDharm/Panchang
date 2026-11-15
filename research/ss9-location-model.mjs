@@ -141,12 +141,17 @@ export function refineSs9Transition({
   }
   const transitionMs = (leftMs + rightMs) / 2;
   const at = evaluate(transitionMs);
+  const event = beforeVisible ? "Asta" : "Udaya";
+  const appearance = at.appearance;
+  const direction = appearance === null
+    ? null
+    : ((appearance === "evening") === (event === "Asta") ? "west" : "east");
   return {
-    body, event: beforeVisible ? "Asta" : "Udaya",
+    body, event, direction,
     utcMilliseconds: transitionMs,
     accuracyMilliseconds: rightMs - leftMs,
     latitudeDeg, limitDeg: at.limitDeg, K: at.K,
-    elongationDeg: at.elongationDeg, appearance: at.appearance,
+    elongationDeg: at.elongationDeg, appearance,
     beforeVisible, afterVisible: !beforeVisible
   };
 }
