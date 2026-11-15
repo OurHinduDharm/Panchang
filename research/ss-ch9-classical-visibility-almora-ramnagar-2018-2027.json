@@ -10,7 +10,7 @@
     "latitudeDecimal": 29.616666666666667,
     "longitudeDecimal": 79.66666666666667,
     "elevationMeters": 1571,
-    "elevationSource": "User supplied 2026-11-16",
+    "elevationSource": "TKS interface observer profile, copied by user and supplied 2026-11-16",
     "timezone": "Asia/Kolkata",
     "timezoneLabel": "IST"
   },
@@ -997,7 +997,9 @@
     "The Venus 2024-25 snapshot spans a long interval from 2024-07-04 to 2025-11-18; retained as supplied, not interpreted as a normal single synodic cycle.",
     "The 2025-26 Venus state starts with Asta on 2025-11-18, then Udaya 2026-02-12, followed by Asta 2026-10-12.",
     "Agastya classical results are date-only in the supplied text; no time is inferred.",
-    "Ramnagar 2023 has one Shastriya SS Ch.9 sample only; it is kept separate and is not treated as Almora output."
+    "Ramnagar 2023 has one Shastriya SS Ch.9 sample only; it is kept separate and is not treated as Almora output.",
+    "Source attribution corrected 2026-11-16: the SS Ch.9 and scientific photometric values in this file came from the TKS Ephemeris interface URL recorded under provenance, not from Ganesh Martand or Tara Prasad printed Panchangs.",
+    "TKS's own documentation distinguishes Shastriya K/C status from Ptolemaic arcus-visionis and Schaefer photometric physical-visibility estimates. Keep the supplied scientific photometric column labelled as TKS model output; do not call it an observed naked-eye event."
   ],
   "ramnagar2023Sample": {
     "location": {
@@ -1007,7 +1009,8 @@
       "latitudeDecimal": 29.5,
       "longitudeDecimal": 79.13333333333334,
       "elevationMeters": 272,
-      "timezone": "Asia/Kolkata"
+      "timezone": "Asia/Kolkata",
+      "elevationSource": "TKS interface observer profile, copied by user and supplied 2026-11-16"
     },
     "events": [
       {
@@ -1053,5 +1056,19 @@
         "method": "SS9-date-only"
       }
     ]
+  },
+  "provenance": {
+    "sourceName": "TKS Ephemeris / TKS Pañcāṅga — Udaya-asta (heliacal & eclipses) panel",
+    "sourceUrl": "https://tksephemeris.com/tks-panchanga?pane=hel",
+    "relatedDocumentation": [
+      "https://tksephemeris.com/tks-ephemeris",
+      "https://tksephemeris.com/tks-planets",
+      "https://tksephemeris.com/tks-udaya-asta"
+    ],
+    "suppliedByUserOn": "2026-11-16",
+    "attribution": "The SS Ch.9 K/C values, event dates/times, scientific photometric comparison values, and Almora/Ramnagar observer coordinates/elevations in this file were copied by the user from the TKS interface and supplied in chat. They are TKS outputs, not transcriptions from Ganesh Martand or Tara Prasad printed Panchangs.",
+    "methodClarification": "TKS documents K = lagnāntara-asu ÷ 60, with K depending on place and planetary ecliptic latitude; classical udaya is K > C. Venus uses 8°/10° branches; Jupiter 11°; Agastya 13° in the supplied display. TKS distinguishes this Shastriya state from physical visibility estimates based on Ptolemaic arcus visionis and the Schaefer photometric model.",
+    "engineBasis": "TKS documentation describes apparent ecliptic-of-date positions in its modern ephemeris pipeline for the visibility lab, while the Siddhanta path in its Panchanga is a separate Surya Siddhanta mean-to-true longitude model. Exact pipeline used for the supplied panel snapshot should be retained as TKS UI output until endpoint/engine version is pinned.",
+    "citationNote": "Web documentation consulted 2026-11-16; the user-provided numeric output remains a transcription, not independently reproduced."
   }
 }
