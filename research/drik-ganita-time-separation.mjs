@@ -1,11 +1,11 @@
 /**
  * Drik-Ganita time-separation model — research prototype.
  *
- * Uses modern apparent positions and the observer's local geometric-horizon
- * crossing times. It does not implement Surya-Siddhanta Ch.9 K/C and does not
- * model naked-eye/photometric visibility.
+ * Uses modern apparent positions and observer-specific apparent rise/set
+ * times. It does not implement Surya-Siddhanta Ch.9 K/C and does not model
+ * naked-eye/photometric visibility.
  *
- * SearchAltitude is injected so the module remains easy to test and the
+ * SearchRiseSet is injected so the module remains easy to test and the
  * browser can reuse the already-loaded Astronomy Engine instance.
  */
 
@@ -104,15 +104,15 @@ export function sourceObservationToReference(observation) {
 }
 
 /**
- * Search a body's geometric centre crossing of the local horizon.
- * altitude=0 means geometric horizon: no refraction/brightness model.
+ * Find the standard apparent rise/set event at the observer's location.
+ * This is not a heliacal naked-eye brightness model.
  */
-export function findGeometricHorizonEvent({
-  SearchAltitude, body, observer, direction, localDayStartUtc
+export function findLocalRiseSetEvent({
+  SearchRiseSet, body, observer, direction, localDayStartUtc
 }) {
-  if (typeof SearchAltitude !== "function") throw new TypeError("SearchAltitude function is required");
+  if (typeof SearchRiseSet !== "function") throw new TypeError("SearchRiseSet function is required");
   if (!observer || !Number.isFinite(localDayStartUtc)) throw new TypeError("observer and local-day start are required");
-  const event = SearchAltitude(body, observer, direction === "rise" ? 1 : -1,
+  const event = SearchRiseSet(body, observer, direction === "rise" ? 1 : -1,
     new Date(localDayStartUtc), 1, 0);
   const instant = event?.date instanceof Date ? event.date.getTime()
     : event?.date ? new Date(event.date).getTime()
@@ -125,17 +125,17 @@ export function findGeometricHorizonEvent({
 }
 
 /**
- * The gap between the Sun's and planet's corresponding horizon crossings.
+ * The gap between the Sun's and planet's corresponding local rise/set events.
  * 1 time-degree = 1/360 of a mean sidereal day, used as a calibration coordinate.
  */
 export function measureDrikTimeSeparation({
-  SearchAltitude, body, observer, branch, localDayStartUtc
+  SearchRiseSet, body, observer, branch, localDayStartUtc
 }) {
-  const sunEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body: "Sun", observer, direction: branch, localDayStartUtc
+  const sunEventUtcMs = findLocalRiseSetEvent({
+    SearchRiseSet, body: "Sun", observer, direction: branch, localDayStartUtc
   });
-  const bodyEventUtcMs = findGeometricHorizonEvent({
-    SearchAltitude, body, observer, direction: branch, localDayStartUtc
+  const bodyEventUtcMs = findLocalRiseSetEvent({
+    SearchRiseSet, body, observer, direction: branch, localDayStartUtc
   });
   if (sunEventUtcMs === null || bodyEventUtcMs === null) {
     return { available: false, reason: "horizon-event-not-found", body, branch };
@@ -158,7 +158,7 @@ export function measureDrikTimeSeparation({
  * and reports both the solar gap and the body-event clock residual.
  */
 export function calibrateObservation({
-  observation, SearchAltitude, observer, localDayStartUtc
+  observation, SearchRiseSet, observer, localDayStartUtc
 }) {
   const ref = sourceObservationToReference(observation);
   if (!ref.usableForCalibration) {
@@ -167,11 +167,11 @@ export function calibrateObservation({
   const eventDayStartUtc = localDayStartUtc + ref.clock.dayRollover * 86_400_000;
   const branches = ref.branch === "auto" || ref.branch === null ? ["rise", "set"] : [ref.branch];
   const candidates = branches.map(branch => {
-    const sunEventUtcMs = findGeometricHorizonEvent({
-      SearchAltitude, body: "Sun", observer, direction: branch, localDayStartUtc: eventDayStartUtc
+    const sunEventUtcMs = findLocalRiseSetEvent({
+      SearchRiseSet, body: "Sun", observer, direction: branch, localDayStartUtc: eventDayStartUtc
     });
-    const bodyEventUtcMs = findGeometricHorizonEvent({
-      SearchAltitude, body: ref.body, observer, direction: branch, localDayStartUtc: eventDayStartUtc
+    const bodyEventUtcMs = findLocalRiseSetEvent({
+      SearchRiseSet, body: ref.body, observer, direction: branch, localDayStartUtc: eventDayStartUtc
     });
     if (sunEventUtcMs === null || bodyEventUtcMs === null) return null;
     const sourceVsBodyMinutes = (ref.clock.instantUtcMs - bodyEventUtcMs) / 60_000;
@@ -201,7 +201,7 @@ export function calibrateObservation({
  * The reported instant is interpolated from the body's horizon-event times.
  */
 export function scanDrikTimeSeparationTransitions({
-  SearchAltitude, body, observer, branch, startLocalDayUtc,
+  SearchRiseSet, body, observer, branch, startLocalDayUtc,
   days, thresholdTimeDegrees, astaThresholdTimeDegrees = thresholdTimeDegrees,
   udayaThresholdTimeDegrees = thresholdTimeDegrees
 }) {
@@ -213,7 +213,7 @@ export function scanDrikTimeSeparationTransitions({
   for (let index = 0; index < days; index++) {
     const localDayStartUtc = startLocalDayUtc + index * 86_400_000;
     const sample = measureDrikTimeSeparation({
-      SearchAltitude, body, observer, branch, localDayStartUtc
+      SearchRiseSet, body, observer, branch, localDayStartUtc
     });
     samples.push({ dayStartUtc: localDayStartUtc, ...sample });
   }
