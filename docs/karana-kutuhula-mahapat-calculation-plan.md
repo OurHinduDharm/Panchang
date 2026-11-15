@@ -278,3 +278,12 @@ The earlier first-example transcription on printed p.109 gives coefficient 2203,
 - This is a second example of a source-text/math discrepancy. It is not permission to overwrite the transcription. Record raw reading 329, derived candidate 392, and the arithmetic proof separately; do not silently correct the source.
 
 The Śaka 1543 example independently gives 2203 ÷ 184;9 = 11;57;47…, truncating to 11;57, so the verse-11 formula itself is supported by the second example. The unresolved first-example denominator should remain quarantined from tests until another edition or manuscript confirms the intended reading.
+
+
+### Epoch relation extracted from the user's confirmed p.142 readings
+
+The two printed time values are not to be conflated. The later reference-time difference gives an exact relation:
+- Corrected pāta middle: **12;49** ghaṭi after sunrise.
+- Earlier reference epoch inferred from the printed relation: **13;04;13**.
+- Difference: **13;04;13 − 12;49;00 = 0;15;13**.
+- Thus the later **0;15;13** is exactly the offset from that reference epoch to the corrected middle. This explains why it is a separate value from the preceding printed quotient-time **0;1;15**; it does not yet explain how the earlier quotient-time is derived from 208;51 / 829;35.
