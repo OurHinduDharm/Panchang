@@ -861,3 +861,45 @@ These concatenated strings are **not** safe normalized readings. In particular, 
 ### Revised next step
 
 Use the 1991 page image as a second independent transcription target. First identify the printed punctuation and column divisions in the first khanda/product line and the second product line. Then compare the actual 1991 Sanskrit commentary's explanatory syntax with the 1902 p.145 commentary. Do not use the noisy extracted digits to manufacture a numerical fit.
+
+
+## 2026-11-16: direct full-text recovery of the 1991 worked example (PDF pp.192–193)
+
+The 1991 PDF is now accessible through its correctly spelled filename:
+https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
+
+The earlier attempted URL used “Karanakutuhula” and failed; the correct filename is “Karanakutuhala”. The PDF's searchable text around its printed pp.192–193 (text lines 2806–2811) has now been opened directly. This is a materially fuller witness than the previous short search extract.
+
+### Raw OCR transcription of the 1991 p.192 worked calculation
+
+Preserve the following digit strings exactly as extracted; punctuation is absent or damaged in multiple places:
+
+- future pāta: “समये पातो भविष्यतीति”.
+- sāyana Moon: “१३११९१४८”; divided by 15, quotient “८”, remainder “१११५१४८”.
+- sapāta Moon: “१११२११२१”; quotient “२”; bhogya śara “५६”.
+- bhogya krānti khanda OCR: “२३९” (not safely distinguishable from 236 in this OCR string).
+- krānti chāpāṃśa OCR: “३१५०१५२”; śara chāpāṃśa OCR: “५१४७४७”.
+- placement description: “स्वल्पक्रान्तेः ... भोग्यस्थं ... द्विधा स्थापितं” (the connecting OCR is corrupt); the smaller-krānti / single-bhogya arrangement is independently visible.
+- first sphuṭa-khaṇḍa OCR: “१९१७”; adjacent multiplier OCR: “५४१९१२”; product OCR: “७७५१३”.
+- second sphuṭa-khaṇḍa: “६१”; chāpāṃśa OCR strings “३५४१९१२” and “५४७४७”; difference OCR “११५३१४५”; product OCR “४२१३१२७”.
+- third odd sphuṭa-khaṇḍa: “२७४”; difference OCR “११४३१७”; complement to 15 OCR “१३६१५३”; product “३५९३”.
+- residual OCR: “१२७३१९”; quotient OCR “४१३१४८४”; khanda-angle OCR “३१४१५२”; combined angle OCR “१०१२६१४७”; multiplied amount OCR “६२१७४७”; lunar motion OCR “१२५१३५”; time OCR “०१५१५०”.
+- the final check OCR gives solar krānti “८७११४८”, lunar śara “२०५१ ५७”, corrected lunar krānti “७७७१४४”, followed by the statement that the two krāntis are equal.
+
+### What this new witness actually establishes
+
+1. It confirms that the 1991 printed example is explicitly future pāta.
+2. It confirms the smaller-krānti placement description.
+3. It independently retains the overall final-angle string corresponding to 10;26;47 and the final time string corresponding to 0;51;50.
+4. It does **not** independently confirm the exact 1902 intermediate values 197, 61, 274 or products 775;3 and 492;3;27. The raw 1991 strings for the first khanda/product and second product are different or at least punctuated differently.
+5. The 1991 raw śara chāpāṃśa string is “५१४७४७”, which may segment as 5;47;47, not the 1902 5;4;47 or the later 5;47;57. This is only a candidate segmentation; do not normalize it without page-image inspection.
+6. The raw first multiplier “५४१९१२” may be 54;19;12, while the raw product “७७५१३” may be 775;13. Again, no punctuation can safely be supplied from OCR alone.
+7. The 1991 raw second product “४२१३१२७” is not the same visible digit string as the 1902 “४९२;३;२७”. Do not describe the 1991 edition as confirming the 1902 second product.
+
+### Correction to the prior research note
+
+The previous entry described the 1991 extract as if it supported product OCR around “775;13” and “4213127” only generally, without recording the full digit strings and the likely punctuation uncertainty. This section supersedes that summary. The 1991 example is an independent method witness, but its intermediate arithmetic must be treated as a separate, unnormalized edition witness.
+
+### Next research action
+
+The next useful task is not to guess punctuation from these concatenated strings. It is to obtain the rendered page image of printed p.192 from a source that can serve the PDF at a manageable page range, or use a second digitized copy. Until then, preserve the 1902 human-checked readings and the 1991 OCR strings separately. No numerical emendation or solver implementation is approved.
