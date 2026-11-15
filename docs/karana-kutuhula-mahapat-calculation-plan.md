@@ -66,3 +66,18 @@ The p.108 verse 11 worked example is also important: OCR gives `2203 / 329 = 5;3
 - 1991 edition, Pātādhikāra: printed pages 103–109; especially Sumatiharsa commentary around the khanda layout, verse 4–10, and the verse 11 worked sthiti example.
 - Searchable PDF: https://www.vpmthane.org/bhaskara900/books/Karanakutuhala_w_Sumatiharsa_%26_Dvivedi.pdf
 - Independent conceptual cross-check: *Indian Astronomy: A Source Book*, chapter 11, section on Vyatipāta and Vaidhṛta. This describes the longitude-sum approximation, declination equality, and iterative correction, but does not override Karaṇa-kutūhala's own procedure.
+
+
+## Fresh source extraction: verses 7–9 (1991 searchable PDF transcription)
+
+A fresh search of the 1991 PDF surfaced the complete Sanskrit commentary block for verses 7–9. This materially clarifies the sequence, but the OCR's compressed sexagesimal numerals still require page-image verification before becoming numeric fixtures.
+
+- Verse 7 commentary explicitly says to correct the bhogya krānti-khaṇḍa by its *viṃśāṃśa?* No: the printed/OCR phrase is **त्रयोदशांशकेन (13th part)**. Sudhākara's explanation below independently writes the proportion **15/13**. Therefore the correction is tied to the 15-degree division and the 13-part relation; do not implement it as an arbitrary blanket multiplication of every khanda by 13/15. The bhogya krānti-khaṇḍa is corrected first, then the shara-khaṇḍas are applied. Same/different sign and same/opposite hemisphere determine addition/subtraction.
+- Verse 8's commentary gives an explicit multiplier construction: use the initial desired pāta-arc amount and the difference between the two pāta-arc amounts; where possible use the sixth khanda; form the corresponding 15-part multipliers, then use the remainder to multiply the third-part khanda. The OCR wording is compact and needs line-by-line page-image reading before coding.
+- After forming those products, subtract from **15 × lunar śara (in kalā)** as many portions as can be cleared. Divide the remaining quantity by the aśuddha (uncorrected) clear khanda. Add the resulting fractional part to the sum of the already-cleared khanda contributions.
+- Verse 9 then multiplies the resulting angular amount by 60 and divides by lunar motion to obtain time. For a past pāta, subtract the interval from the reference instant at which the relevant longitude sum reaches 12 rāśis; for a future pāta, add it.
+- The searchable commentary includes a numerical trace with residual **63215**, divisor **32**, quotient shown as **0;12;7;23** (OCR), and lunar motion **47150**, giving a time quotient shown as **0;10;18** (OCR). These values are preserved as a *transcription checkpoint only*, not yet as a test: the printed sexagesimal column headings and glyphs must be checked visually.
+
+Source: 1991 *Karaṇakutūhalam*, Pātādhikāra, verses 7–9 and Sumatiharsa/Sudhākara commentaries; searchable PDF https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf (search extraction ref in research log: `turn624753search0`).
+
+**Implementation decision:** no formula code is added from OCR alone. Next required action is to inspect the actual scanned page for this commentary block, transcribe the sexagesimal column labels and worked arithmetic, then implement each operation as a named pure function with a source-numbered fixture.
