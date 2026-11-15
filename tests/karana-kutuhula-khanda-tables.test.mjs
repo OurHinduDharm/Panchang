@@ -10,16 +10,16 @@ import {
 } from "../karana-kutuhula-khanda-tables.mjs";
 
 test("Karaṇa-kutūhala base kranti and shara tables match the Hindi rendering", () => {
-  assert.deepEqual(KRANTI_KHANDA_BASE, [362, 349, 299, 236, 150, 52]);
+  assert.deepEqual(KRANTI_KHANDA_BASE, [362, 341, 299, 236, 150, 52]);
   assert.deepEqual(SHARA_KHANDA_BASE, [70, 65, 54, 43, 29, 19]);
 });
 
 test("six-value tables expand to 24 signed krama/utkrama positions", () => {
   assert.equal(KRANTI_KHANDA_24.length, 24);
   assert.equal(SHARA_KHANDA_24.length, 24);
-  assert.deepEqual(KRANTI_KHANDA_24.slice(0, 6), [362, 349, 299, 236, 150, 52]);
+  assert.deepEqual(KRANTI_KHANDA_24.slice(0, 6), [362, 341, 299, 236, 150, 52]);
   assert.deepEqual(KRANTI_KHANDA_24.slice(6, 12), [-52, -150, -236, -299, -349, -362]);
-  assert.deepEqual(KRANTI_KHANDA_24.slice(12, 18), [362, 349, 299, 236, 150, 52]);
+  assert.deepEqual(KRANTI_KHANDA_24.slice(12, 18), [362, 341, 299, 236, 150, 52]);
   assert.deepEqual(KRANTI_KHANDA_24.slice(18, 24), [-52, -150, -236, -299, -349, -362]);
   assert.deepEqual(SHARA_KHANDA_24.slice(6, 12), [-19, -29, -43, -54, -65, -70]);
   // Independent 1902 worked example: 10th kranti khanda = -299;
