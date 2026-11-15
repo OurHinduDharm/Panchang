@@ -10,7 +10,7 @@
  * of the worked examples on printed pp. 106–109.
  */
 
-export const KRANTI_KHANDA_BASE = Object.freeze([362, 349, 299, 236, 150, 52]);
+export const KRANTI_KHANDA_BASE = Object.freeze([362, 341, 299, 236, 150, 52]);
 export const SHARA_KHANDA_BASE = Object.freeze([70, 65, 54, 43, 29, 19]);
 
 /**
