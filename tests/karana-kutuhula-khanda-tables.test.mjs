@@ -22,6 +22,10 @@ test("six-value tables expand to 24 signed krama/utkrama positions", () => {
   assert.deepEqual(KRANTI_KHANDA_24.slice(12, 18), [362, 349, 299, 236, 150, 52]);
   assert.deepEqual(KRANTI_KHANDA_24.slice(18, 24), [-52, -150, -236, -299, -349, -362]);
   assert.deepEqual(SHARA_KHANDA_24.slice(6, 12), [-19, -29, -43, -54, -65, -70]);
+  // Independent 1902 worked example: 10th kranti khanda = -299;
+  // 13th shara khanda = +70.
+  assert.equal(KRANTI_KHANDA_24[9], -299);
+  assert.equal(SHARA_KHANDA_24[12], 70);
 });
 
 test("source constants are kept explicit and separate from modern disk-contact model", () => {
