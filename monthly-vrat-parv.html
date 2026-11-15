@@ -990,7 +990,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         content.appendChild(card);
       });
       section.hidden=false;
-      if(window.location.hash==="#special-punya-kaal")details.open=true;
+      if(window.location.hash==="#special-punya-kaal"){
+        details.open=true;
+        window.requestAnimationFrame(function(){section.scrollIntoView({block:"start",behavior:"smooth"});});
+      }
     }catch(error){
       if(token===specialPunyaKaalRequest)section.hidden=true;
     }
