@@ -17,6 +17,20 @@ const profiles = {
     longitude: 79 + 8 / 60,
     elevationMeters: 0,
     elevationKnown: false
+  },
+  "drikpanchang-almora": {
+    name: "Almora (Drik Panchang; coordinates provisional from matching city metadata)",
+    latitude: 29 + 37 / 60,
+    longitude: 79 + 40 / 60,
+    elevationMeters: 0,
+    elevationKnown: false
+  },
+  "drikpanchang-ramnagar": {
+    name: "Ramnagar (Drik Panchang; coordinates provisional from matching city metadata)",
+    latitude: 29 + 30 / 60,
+    longitude: 79 + 8 / 60,
+    elevationMeters: 0,
+    elevationKnown: false
   }
 };
 const IST_OFFSET_MINUTES = 330;
