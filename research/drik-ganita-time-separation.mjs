@@ -35,7 +35,7 @@ function parseIsoDate(value) {
  * Ganesh Martand uses HH.MM and can print hours > 24; Drik uses HH:mm.
  * Ambiguous AM/PM records are rejected instead of silently guessed.
  */
-export function parsePrintedClock(dateIso, raw, qualifier = null) {
+export function parsePrintedClock(dateIso, raw, qualifier = null, timezoneOffsetMinutes = 330) {
   const date = parseIsoDate(dateIso);
   const match = String(raw ?? "").trim().match(/^(\d{1,2})[.:](\d{2})$/);
   if (!date || !match) return { valid: false, reason: "invalid-date-or-clock" };
@@ -52,7 +52,8 @@ export function parsePrintedClock(dateIso, raw, qualifier = null) {
   const totalMinutes = hour * 60 + minute;
   const dayRollover = Math.floor(totalMinutes / 1440);
   const minuteOfDay = totalMinutes % 1440;
-  const instantUtcMs = Date.UTC(date.year, date.month - 1, date.day) + totalMinutes * 60_000;
+  if (!Number.isFinite(timezoneOffsetMinutes) || Math.abs(timezoneOffsetMinutes) > 14 * 60) return { valid: false, reason: "invalid-timezone-offset" };
+  const instantUtcMs = Date.UTC(date.year, date.month - 1, date.day) + totalMinutes * 60_000 - timezoneOffsetMinutes * 60_000;
   return {
     valid: true,
     instantUtcMs,
