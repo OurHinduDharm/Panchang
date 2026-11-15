@@ -152,3 +152,12 @@ test("Jupiter only emits Asta from setting and Udaya from rising", () => {
   assert.deepEqual(setting.events.map(event => event.event), ["Asta"]);
   assert.deepEqual(rising.events.map(event => event.event), ["Udaya"]);
 });
+
+test("calibration thresholds stay separate for Asta and Udaya", () => {
+  const summary = summarizeCalibration([
+    { available: true, body: "Venus", branch: "rise", eventType: "Asta", calibratedTimeDegrees: 8, bodyEventResidualMinutes: 1, id: "asta" },
+    { available: true, body: "Venus", branch: "rise", eventType: "Udaya", calibratedTimeDegrees: 10, bodyEventResidualMinutes: 1, id: "udaya" }
+  ]);
+  assert.equal(summary.length, 2);
+  assert.deepEqual(summary.map(item => item.eventType).sort(), ["Asta", "Udaya"]);
+});
