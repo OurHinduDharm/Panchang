@@ -1,0 +1,37 @@
+name: Validate Drik-Ganita Tara Asta/Udaya model
+
+on:
+  push:
+    branches:
+      - research/drik-ganita-time-separation-model
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  drik-ganita-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install pinned open-source astronomy engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Check source syntax
+        run: |
+          node --check research/drik-ganita-time-separation.mjs
+          node --check scripts/backtest-drik-ganita-time-separation.mjs
+      - name: Run unit tests
+        run: node --test tests/drik-ganita-time-separation.test.mjs
+      - name: Back-test Drik and printed Panchang observations
+        run: |
+          mkdir -p /tmp/drik-ganita
+          node scripts/backtest-drik-ganita-time-separation.mjs > /tmp/drik-ganita/report.json
+          node -e "const r=require('/tmp/drik-ganita/report.json'); console.log(JSON.stringify({counts:r.benchmarkCounts, groups:r.calibrationGroups},null,2))"
+      - name: Upload calibration report
+        uses: actions/upload-artifact@v4
+        with:
+          name: drik-ganita-time-separation-report
+          path: /tmp/drik-ganita/report.json
+          if-no-files-found: error
