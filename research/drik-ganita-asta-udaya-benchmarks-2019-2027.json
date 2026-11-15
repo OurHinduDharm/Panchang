@@ -955,5 +955,17 @@
     "eventTimeMeaning": "Source event time is retained as transcribed. The model must verify whether it coincides with the relevant body's geometric horizon crossing before using it to calibrate a horizon-time separation threshold.",
     "noPhysicalVisibilityModel": true,
     "noSuryaSiddhantaKcCalibration": true
-  }
+  },
+  "dataQualityNotes": [
+    {
+      "id": "ganesh-martand-clock-notation-not-confirmed",
+      "severity": "high",
+      "note": "Ganesh Martand raw times such as 18.19 and 34.07 are preserved verbatim. The benchmark parser currently tests HH.MM as IST with >24-hour rollover, but this notation has not been conclusively verified from the printed Panchang legend. Do not fit final time thresholds from Ganesh clock values until this notation is confirmed. Use Ganesh event dates as an independent date-level cross-check for now."
+    },
+    {
+      "id": "drik-event-clock-is-primary-time-calibration",
+      "severity": "medium",
+      "note": "The Drik Almora event clocks align with the computed target apparent rise/set event to within about one minute for accepted planetary records. They are therefore the primary time-calibration records; Ganesh Martand remains a date and independent cross-check until its time notation is verified."
+    }
+  ]
 }
