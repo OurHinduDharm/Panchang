@@ -133,16 +133,23 @@ export async function calculateSpecialPunyaKaalMonth({
     days.push(record);
   }
 
-  const inMonth = item => item.date >= firstDate && item.date < monthEnd;
-  const candidates = [
+  const monthStartInstant = Date.parse(firstDate + "T00:00:00+05:30");
+  const monthEndInstant = Date.parse(monthEnd + "T00:00:00+05:30");
+  const overlapsSelectedMonth = item =>
+    Date.parse(item.endTime) > monthStartInstant &&
+    Date.parse(item.startTime) < monthEndInstant;
+  // Missing Panchang intervals anywhere in the scan make the month incomplete.
+  // Never publish a partial candidate list that could omit an event silently.
+  const candidates = diagnostics.length ? [] : [
     ...buildVaruniCandidates(days, { timezoneOffsetMinutes }),
     ...buildMahodayaCandidates(days, { timezoneOffsetMinutes })
-  ].filter(inMonth).sort((a, b) =>
+  ].filter(overlapsSelectedMonth).sort((a, b) =>
     a.startTime.localeCompare(b.startTime) || a.date.localeCompare(b.date)
   );
 
   return {
     status: "research-only-not-approved",
+    calculationStatus: diagnostics.length ? "incomplete" : "complete",
     year,
     month,
     calendarType,
