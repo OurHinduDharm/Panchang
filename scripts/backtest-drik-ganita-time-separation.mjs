@@ -118,6 +118,25 @@ function apparentAtSourceTime(body, observer, instantUtcMs) {
 }
 
 
+
+function summarizeSolarAltitudeCalibration(rows) {
+  const groups = new Map();
+  for (const row of rows) {
+    if (!row.available || !row.sourceId?.startsWith("drikpanchang") ||
+        row.bodyEventResidualMinutes > 15 || !row.horizonAtSourceTime) continue;
+    const key = [row.body, row.branch, row.eventType].join("|");
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row.horizonAtSourceTime.sunAltitudeDeg);
+  }
+  return [...groups.entries()].map(([key, values]) => ({
+    key,
+    samples: values.length,
+    medianSunAltitudeDeg: median(values),
+    minSunAltitudeDeg: Math.min(...values),
+    maxSunAltitudeDeg: Math.max(...values)
+  }));
+}
+
 function buildHeldOutValidation(rows) {
   const training = rows.filter(row =>
     row.available &&
@@ -222,7 +241,7 @@ for (const observation of dataset.observations) {
 const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
-  method: "local apparent rise/set time-separation; one time-degree = one mean sidereal day / 360",
+  method: "local apparent rise/set event with calibrated topocentric Sun-altitude threshold",
   horizon: "standard apparent rise/set events; no photometric or naked-eye brightness model",
   benchmarkCounts: {
     observations: dataset.observations.length,
@@ -232,10 +251,12 @@ const report = {
   },
   sourceAgreement: buildSourceAgreement(dataset.observations),
   heldOutValidation2026to2027: buildHeldOutValidation(rows),
-  calibrationGroups: summarizeCalibration(eligible),
+  timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
+  solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
+    "The local time-separation degrees are retained as diagnostics only; held-out predictions use calibrated topocentric Sun altitude at the target rise/set event.",
     "Drik city coordinates are proxies where exact page coordinates were not captured.",
     "Source clock records with ambiguous AM/PM notation are excluded, not guessed.",
     "Ganesh Martand HH.MM clock parsing is provisional and is not used for threshold fitting; its dates are an independent cross-check until the printed time legend is verified.",
