@@ -33,7 +33,7 @@ test("source constants are kept explicit and separate from modern disk-contact m
     divisionsPerKhanda: 15,
     bhogyaCorrectionDivisor: 13,
     shuddhaKhandaLimit: 480,
-    sthitiDivisorHindiTranslation: 220,
+    sthitiCoefficientVerse11: 2203,
     alternativeSthitiSubtrahend: 480,
     alternativeSthitiMultiplier: 9
   });
