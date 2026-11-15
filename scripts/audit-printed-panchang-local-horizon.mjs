@@ -91,6 +91,21 @@ const rows = source.observations.map(record => {
   const observer = new Astronomy.Observer(
     profile.latitude, profile.longitude, profile.elevationMeters
   );
+  const planetEquator = Astronomy.Equator(
+    Astronomy.Body[planetName], parsed.utc, observer, true, true
+  );
+  const sunEquator = Astronomy.Equator(
+    Astronomy.Body.Sun, parsed.utc, observer, true, true
+  );
+  const planetHorizon = Astronomy.Horizon(
+    parsed.utc, observer, planetEquator.ra, planetEquator.dec, null
+  );
+  const sunHorizon = Astronomy.Horizon(
+    parsed.utc, observer, sunEquator.ra, sunEquator.dec, null
+  );
+  const sunPlanetSeparationDeg = Astronomy.AngleFromSun(
+    Astronomy.Body[planetName], parsed.utc
+  );
   const directions = record.planet === "अगस्त्य"
     ? [{ key: "rise", value: 1 }]
     : [{ key: "rise", value: 1 }, { key: "set", value: -1 }];
@@ -123,8 +138,13 @@ const rows = source.observations.map(record => {
     sourceDate: record.date,
     sourceTimeRaw: record.timeRaw,
     parsedIST: parsed.localDate + " " + parsed.localTime,
+    skyGeometryAtPrintedInstant: {
+      planetGeometricAltitudeDeg: Number(planetHorizon.altitude.toFixed(4)),
+      sunGeometricAltitudeDeg: Number(sunHorizon.altitude.toFixed(4)),
+      sunPlanetAngularSeparationDeg: Number(sunPlanetSeparationDeg.toFixed(4))
+    },
     geometricCrossingDiagnostics: crossingDiagnostics,
-    interpretation: "Both local geometric rise and set are reported independently. Neither is selected as the Panchang event because the source's heliacal visibility/date-selection rule and direction semantics are not established."
+    interpretation: "Both local geometric rise and set are reported independently. The planet's altitude, Sun's altitude, and Sun-planet angular separation are also sampled at the printed instant. These are diagnostics only; the source's heliacal visibility/date-selection rule and direction semantics are not assumed."
   };
 });
 
@@ -154,7 +174,7 @@ const output = {
   },
   rows,
   limitations: [
-    "This reports differences from both local geometric rise and set; it does not establish which, if either, corresponds to the Panchang's Asta/Udaya event or visibility rule.",
+    "This reports both local geometric crossings and the sky geometry at the printed instant. It does not establish the Panchang's Asta/Udaya date-selection or visibility rule.",
     "The source's पूर्व/पश्चिम labels are retained verbatim and are not interpreted as rise/set direction.",
     "The Panchang gives no observer elevation; 0 m is a documented provisional assumption and may shift horizon times.",
     "The source provides geographic and geocentric latitudes; geographic latitude is used for the observer's local horizon calculation.",
