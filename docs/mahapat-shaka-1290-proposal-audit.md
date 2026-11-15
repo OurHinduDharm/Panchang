@@ -226,3 +226,55 @@ Working method for all remaining reconstruction:
 6. Continue by fitting the method to the worked results, while keeping every adjustment auditable. Do not force an adjustment merely to make a desired result fit.
 
 Specific priority: retain the user's Śaka 1290 sāyana-Moon reading **131;5;58** as the book-checked reading. Keep searchable text's **130;5;58** as a conflicting OCR witness pending image-level verification. Neither value may overwrite the other in the audit.
+
+
+## Independent second edition located: Krishnadas Sanskrit Series, 1991
+
+A second published edition is now available online: *Karaṇakutūhalam* with Sumatiharsa's **Gaṇaka-kumuda-kaumudī**, Sudhākara Dvivedī's **Vāsanā-vibhūṣaṇa**, and Dr. Satyendra Mishra's Hindi **Śivamatī** translation (Krishnadas Academy, first edition 1991). This is an independent editorial witness and, importantly, contains a second Sanskrit explanation of the pāta calculation plus a Hindi procedural summary.
+
+Source PDF:
+https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+
+Useful searchable locations:
+- Printed p.107–108 / PDF text lines 2738–2764: Sumatiharsa's verse 7–9 commentary and Sudhākara's mathematical upapatti.
+- Printed p.192–193 / PDF text lines 2810–2815: Śaka 1290 worked example and final check.
+- Printed p.184–185 / PDF text lines 3642–3654: Dr. Mishra's Hindi procedural summary.
+
+### New evidence on the 1/13 correction
+
+The 1991 Hindi summary of verses 5–7 says to combine the krānti and śara numbers according to sign/gola and then apply **one thirteenth of the bhogya amount** (printed p.185, PDF lines 3642–3646). Sudhākara's Sanskrit upapatti (PDF lines 2758–2764) independently derives a 15/13 relation and explains the bhogya-khaṇḍa correction in terms of the thirteenth part.
+
+This supports the earlier numerical reconstruction for Śaka 1290:
+- Book-checked bhogya krānti chāpāṃśa: 3;50;52.
+- In arc-kalā: 230;52.
+- One thirteenth: 17;45;32 (sexagesimal kalā-vikalā form; equivalently 17 arcminutes 45.538… arcseconds).
+- At whole-kalā precision this gives 17.
+- 236 corrected by +17, then combined with the opposing śara correction 56, gives 197.
+
+This is now a **strongly supported working reconstruction**, not merely a numerical coincidence: the Hindi procedural translation explicitly identifies the bhogya amount as the operand, and Sudhākara supplies a separate theoretical derivation. Still preserve the source values and the derived +17 separately; do not overwrite the printed line.
+
+### What the 1991 edition does and does not resolve about verse 8
+
+The Sanskrit commentary (PDF lines 2746–2748) repeats the sequence: construct the svāṃśa-ghna terms using the smaller chāpāṃśa and the difference of chāpāṃśas; subtract the terms that clear from 15 times the lunar-śara kalā; divide the residual by the aśuddha sphuṭa-khaṇḍa; add the quotient to the multipliers belonging to cleared khandas; then convert the resulting angle to time.
+
+The Hindi summary (printed p.185, PDF lines 3647–3651) gives a compressed procedural description: multiply lunar śara by 15, subtract the applicable śara-khaṇḍa contributions, then use the residual and bhogya/uncleared khanda to obtain the time. It does **not** explain the numerical scale of the svāṃśa-ghna product column.
+
+The 1991 OCR extraction of the Śaka 1290 worked example (PDF lines 2810–2811) is heavily concatenated and has several readings that conflict with both the 1902 text and the user's checked transcription. Examples include a sāyana-Moon digit string १३११९१४८, a krānti bhogya-khaṇḍa string २३९, and product strings that cannot safely be segmented without the page image. Do not normalize these OCR strings into numbers or use them to overwrite either witness.
+
+### Product-scale audit remains open
+
+The source structure is independently corroborated, but the three Śaka 1290 product pairs still do not follow ordinary multiplication if interpreted as:
+- 197 × 54;12 → 775;3
+- 61 × 1;53;45 → 492;3;27
+- 274 × 13;6;53 → 3593
+
+The third pair does reproduce ordinary sexagesimal multiplication to whole-kalā truncation: 274 × 13;6;53 = 3593;25 (approximately; exact sexagesimal product should be retained in the calculation worksheet). The first two do not. Therefore the remaining issue is likely not the general idea of multiplication, but the precise operands, normalization, or column scale for the first/even-position terms. Keep all three raw source pairs unchanged while deriving that operation.
+
+### Revised status
+
+- The 1/13 correction's operand is now strongly supported as the **bhogya amount/chāpāṃśa**, not the table value 236 divided by 13.
+- The +17 whole-kalā reconstruction (3;50;52 ÷ 13) is strongly supported for the first corrected khanda, with whole-kalā truncation.
+- The Sanskrit verse-8 procedure is corroborated by a second edition and a second commentary.
+- The scale/operand interpretation of the first two svāṃśa-ghna products is still unresolved.
+- The 1991 OCR number strings are a third witness only in raw form until the page image is checked.
+- No public solver or event implementation is authorized by this research result.
