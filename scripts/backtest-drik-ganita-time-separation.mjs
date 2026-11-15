@@ -75,7 +75,8 @@ function pairSourceSets(observations, leftSourceId, rightSourceId) {
       calendarDateDifferenceDays: (Date.parse(match.item.date) - Date.parse(printed.date)) / 86_400_000,
       leftClockRaw: printed.timeRaw ?? null,
       rightClockRaw: match.item.timeRaw ?? null,
-      absoluteInstantDifferenceMinutes: match.a !== null && match.b !== null
+      clockInterpretationStatus: leftSourceId === "ganesh-martand" ? "provisional-HH.MM-IST" : "Tara-Prasad-notation-partly-ambiguous",
+      provisionalClockDifferenceMinutes: match.a !== null && match.b !== null
         ? Math.abs(match.b - match.a) / 60_000 : null
     });
   }
@@ -156,6 +157,8 @@ const report = {
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
     "Drik city coordinates are proxies where exact page coordinates were not captured.",
     "Source clock records with ambiguous AM/PM notation are excluded, not guessed.",
+    "Ganesh Martand HH.MM clock parsing is provisional and is not used for threshold fitting; its dates are an independent cross-check until the printed time legend is verified.",
+    "Drik event clocks are the primary time-calibration observations because they align with computed local apparent rise/set events."
     "Agastya uses an approximate Canopus J2000 position and needs a pinned catalogue/proper-motion source.",
     "No Surya-Siddhanta K/C formulas or physical/photometric visibility model are used."
   ]
