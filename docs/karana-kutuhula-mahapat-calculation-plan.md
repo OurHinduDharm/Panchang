@@ -203,3 +203,13 @@ The second example's extracted numbers still do not reproduce each other under s
 - Using the direct quotient from 641;0 ÷ 184;9 gives approximately 0;15;06 after ×60 ÷ 829;35.
 
 This is now a clearly isolated transcription/column-reading issue, not an unknown unit issue alone. The second example's source image/column layout must be inspected before changing any formula. Preserve the printed values as source transcription, and do not silently “correct” any one value to force agreement.
+### Internal arithmetic reconstruction of the second example (strong OCR hypothesis)
+
+The second example contains an internal chain that sharply narrows the likely OCR errors:
+- 641;0 ÷ 184;9 = 3;28;51 (sexagesimal division, to the printed precision).
+- 3;28;51 × 60 = 208;51 exactly.
+- 208;51 ÷ 829;35 = approximately 0;15;06 in day–ghaṭi–pala notation.
+
+This makes the OCR-extracted quotient `3;28;25` highly likely to be a misread of `3;28;51`, because only the latter reproduces the next printed intermediate `208;51`. Likewise, the OCR-extracted later interval `0;15;13` may be a misread of `0;15;06`; the latter follows the displayed quotient and lunar motion and still rounds to the printed midpoint 12;49 ghaṭi when added to the epoch. This is an internally consistent reconstruction, **not yet a verified visual transcription**. Preserve both the raw OCR and this derived candidate separately until the original scan is checked.
+
+The first worked example independently checks the same conversion structure: 832;15 ÷ 392 = 2;7;23; multiplying by 60 gives 127;23, and dividing by 741;50 gives approximately 0;10;18. This supports the operation sequence in verse 9.
