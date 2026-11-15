@@ -107,6 +107,26 @@ export async function calculateSpecialPunyaKaalMonth({
     throw new RangeError("Only the approved IST/Purnimanta calculation profile is supported");
   }
 
+  // Varuni is tied to Chaitra Krishna Trayodashi + Shatabhisha. Across the
+  // supported Purnimanta calendar this conjunction falls in the March–April
+  // civil-date envelope. Outside that envelope, do not load/call the ephemeris.
+  // Mahodaya is deliberately not scanned: its source profile is not approved.
+  if (month !== 3 && month !== 4) {
+    return {
+      status: "research-only-not-approved",
+      calculationStatus: "not-applicable",
+      year,
+      month,
+      calendarType,
+      timezoneOffsetMinutes,
+      panchangCalls: 0,
+      scannedDays: 0,
+      diagnostics: [],
+      candidates: [],
+      skippedReason: "no-approved-rule-profile-for-gregorian-month"
+    };
+  }
+
   const firstDate = isoDate(year, month, 1);
   const monthEnd = isoDate(year, month + 1, 1);
   const scanStart = shiftDate(firstDate, -1);
@@ -141,8 +161,7 @@ export async function calculateSpecialPunyaKaalMonth({
   // Missing Panchang intervals anywhere in the scan make the month incomplete.
   // Never publish a partial candidate list that could omit an event silently.
   const candidates = diagnostics.length ? [] : [
-    ...buildVaruniCandidates(days, { timezoneOffsetMinutes }),
-    ...buildMahodayaCandidates(days, { timezoneOffsetMinutes })
+    ...buildVaruniCandidates(days, { timezoneOffsetMinutes })
   ].filter(overlapsSelectedMonth).sort((a, b) =>
     a.startTime.localeCompare(b.startTime) || a.date.localeCompare(b.date)
   );
