@@ -215,3 +215,22 @@ test("Jupiter solar-altitude scanner restricts Asta to setting and Udaya to risi
   assert.deepEqual(setting.events.map(event => event.event), ["Asta"]);
   assert.deepEqual(rising.events.map(event => event.event), ["Udaya"]);
 });
+
+test("solar-altitude transition reports the first target rise/set event after threshold crossing", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const alts = [-5, -6, -7, -6, -5];
+  const result = scanDrikSolarAltitudeTransitions({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: () => ({ ra: 0, dec: 0 }),
+    Horizon: date => ({ altitude: alts[Math.floor((date.getTime() - start) / 86_400_000)] }),
+    body: "Venus", observer: {}, branch: "rise",
+    startLocalDayUtc: start, days: alts.length,
+    astaSunAltitudeDeg: -6.5, udayaSunAltitudeDeg: -6.5
+  });
+  assert.equal(result.events[0].event, "Udaya");
+  assert.equal(result.events[0].utcMilliseconds, start + 2 * 86_400_000 + 6 * 60 * 60_000);
+  assert.equal(result.events[1].event, "Asta");
+  assert.equal(result.events[1].utcMilliseconds, start + 3 * 86_400_000 + 6 * 60 * 60_000);
+});
