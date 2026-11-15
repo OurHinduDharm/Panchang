@@ -100,7 +100,7 @@ test("daily time-separation scanner detects downward Asta and upward Udaya", () 
   const start = Date.UTC(2026, 0, 1);
   const gaps = [12, 10, 8, 10, 12];
   const result = scanDrikTimeSeparationTransitions({
-    body: "Jupiter", observer: {}, branch: "rise",
+    body: "Venus", observer: {}, branch: "rise",
     startLocalDayUtc: start, days: gaps.length, astaThresholdTimeDegrees: 9, udayaThresholdTimeDegrees: 11,
     SearchAltitude: (body, observer, direction, dateStart) => {
       const index = Math.round((dateStart.getTime() - start) / 86_400_000);
@@ -131,4 +131,24 @@ test("Drik Venus records without a printed direction resolve from the computed e
   assert.equal(result.branch, "set");
   assert.equal(result.inferredBranch, true);
   assert.equal(result.bodyEventResidualMinutes, 0);
+});
+
+test("Jupiter only emits Asta from setting and Udaya from rising", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const gaps = [12, 8, 12];
+  const mock = (body, observer, direction, dateStart) => {
+    const index = Math.round((dateStart.getTime() - start) / 86_400_000);
+    const offset = body === "Sun" ? 300 : 300 + gaps[index] * MINUTES_PER_TIME_DEGREE;
+    return { date: new Date(dateStart.getTime() + offset * 60_000) };
+  };
+  const setting = scanDrikTimeSeparationTransitions({
+    SearchAltitude: mock, body: "Jupiter", observer: {}, branch: "set",
+    startLocalDayUtc: start, days: 3, thresholdTimeDegrees: 10
+  });
+  const rising = scanDrikTimeSeparationTransitions({
+    SearchAltitude: mock, body: "Jupiter", observer: {}, branch: "rise",
+    startLocalDayUtc: start, days: 3, thresholdTimeDegrees: 10
+  });
+  assert.deepEqual(setting.events.map(event => event.event), ["Asta"]);
+  assert.deepEqual(rising.events.map(event => event.event), ["Udaya"]);
 });
