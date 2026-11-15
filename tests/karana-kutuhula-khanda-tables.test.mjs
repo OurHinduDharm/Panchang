@@ -9,7 +9,7 @@ import {
   expandSignedKhandas
 } from "../karana-kutuhula-khanda-tables.mjs";
 
-test("Karaṇa-kutūhala base kranti and shara tables match the Hindi rendering", () => {
+test("Karaṇa-kutūhala base kranti and shara tables match the source Sanskrit commentaries", () => {
   assert.deepEqual(KRANTI_KHANDA_BASE, [362, 341, 299, 236, 150, 52]);
   assert.deepEqual(SHARA_KHANDA_BASE, [70, 65, 56, 43, 27, 9]);
 });
@@ -18,10 +18,10 @@ test("six-value tables expand to 24 signed krama/utkrama positions", () => {
   assert.equal(KRANTI_KHANDA_24.length, 24);
   assert.equal(SHARA_KHANDA_24.length, 24);
   assert.deepEqual(KRANTI_KHANDA_24.slice(0, 6), [362, 341, 299, 236, 150, 52]);
-  assert.deepEqual(KRANTI_KHANDA_24.slice(6, 12), [-52, -150, -236, -299, -349, -362]);
+  assert.deepEqual(KRANTI_KHANDA_24.slice(6, 12), [-52, -150, -236, -299, -341, -362]);
   assert.deepEqual(KRANTI_KHANDA_24.slice(12, 18), [362, 341, 299, 236, 150, 52]);
-  assert.deepEqual(KRANTI_KHANDA_24.slice(18, 24), [-52, -150, -236, -299, -349, -362]);
-  assert.deepEqual(SHARA_KHANDA_24.slice(6, 12), [-19, -29, -43, -54, -65, -70]);
+  assert.deepEqual(KRANTI_KHANDA_24.slice(18, 24), [-52, -150, -236, -299, -341, -362]);
+  assert.deepEqual(SHARA_KHANDA_24.slice(6, 12), [-9, -27, -43, -56, -65, -70]);
   // Independent 1902 worked example: 10th kranti khanda = -299;
   // 13th shara khanda = +70.
   assert.equal(KRANTI_KHANDA_24[9], -299);
