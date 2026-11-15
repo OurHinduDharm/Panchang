@@ -210,3 +210,19 @@ The displayed 775;3 and 492;3;27 are successive cleared portions of the 15-fold 
 3. Resolve the 1/13 correction's unit and rounding from the phrase that names the bhogya krānti-khanda 236.
 4. Reconstruct final krānti-sāmya: printed 871;44 vs 777;44 is not equal, so test whether the printed lunar krānti or śara correction has a reading/column error.
 5. Preserve printed 627;47 and mathematically derived 626;47 separately; only the latter converts 10;26;47 to the printed 51;50 under the stated motion.
+
+
+## User-confirmed editorial policy: preserve the book reading first
+
+The user has explicitly confirmed that the numeric readings they supplied were checked directly against the printed book, not guessed from OCR. Treat those readings as the primary human-verified transcription witness.
+
+Working method for all remaining reconstruction:
+
+1. Preserve the user's book-checked reading verbatim as **मूल-पाठ / verified print reading**.
+2. Preserve searchable OCR/transcription readings separately; never silently substitute them for the user's reading.
+3. Calculate from each reading independently and record the result as **गणितीय परीक्षण**.
+4. Where the calculation strongly indicates a different digit or value, record it as **संभावित मुद्रण-दोष / शोध-सुधार**. Do not rewrite the source reading.
+5. Treat a printer/transcription error as a working hypothesis where it explains the author's internally consistent method, but do not label it proven until the scan, grammar, parallel example, and arithmetic support it.
+6. Continue by fitting the method to the worked results, while keeping every adjustment auditable. Do not force an adjustment merely to make a desired result fit.
+
+Specific priority: retain the user's Śaka 1290 sāyana-Moon reading **131;5;58** as the book-checked reading. Keep searchable text's **130;5;58** as a conflicting OCR witness pending image-level verification. Neither value may overwrite the other in the audit.
