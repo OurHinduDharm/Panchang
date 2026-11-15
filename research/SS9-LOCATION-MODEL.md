@@ -34,6 +34,20 @@ Transition refinement branch को भी दर्ज करता है: ris
 
 TKS API का प्रकाशित /v1/tks/heliacal endpoint elongation-orb आधारित है और उसमें lat/lon/elevation पैरामीटर नहीं हैं। /v1/tks/ephemeris स्थान के lat/lon लेकर apparent coordinates देता है। इसलिए TKS heliacal API को location-based SS9 गणना का विकल्प नहीं माना गया है। विस्तृत निर्णय research/TKS-API-LOCATION-AUDIT.md में है।
 
+## अभी अधूरा — पूर्ण दṛkkarma
+
+यह kernel अभी केवल oblique-ascension baseline है; इसे पूर्ण सूर्यसिद्धान्त अध्याय 9 की गणना न समझें।
+
+अध्याय 9 के श्लोक 1–9 में ग्रह के वास्तविक ecliptic point और horizon पर उसके साथ आने वाले ecliptic point के बीच dṛkkarma correction आवश्यक है। इसमें दो भाग हैं:
+- āyana dṛkkarma
+- akṣaja dṛkkarma
+
+श्लोक 8–9 में बड़ी ecliptic latitude वाले स्थिर तारों के लिए अलग प्रक्रिया दी गई है। इसलिए अगस्त्य (Canopus) को ग्रहों वाले correction path में स्थायी रूप से नहीं रखना है।
+
+इसके बाद श्लोक 10–11 में threshold से kalāṃśa-अंतर और दैनिक गति के आधार पर घटना तक के दिन/समय निकाले जाते हैं; retrograde स्थिति में गति का योग लिया जाता है। वर्तमान scanner केवल K/C baseline crossing खोजता है, यह अंतिम प्रकाशित घटना-समय नहीं है।
+
+**बैक-टेस्ट निष्कर्ष:** वर्तमान baseline TKS benchmark dates से कई मामलों में घंटों/दिनों से लेकर अगस्त्य में लगभग 11–27 दिनों तक अलग है। इसे छिपाया या threshold बदलकर fit नहीं किया गया है। अगला वास्तविक काम dṛkkarma और verse 10–11 time correction है; उसके बिना सार्वजनिक तारीख/समय प्रकाशित नहीं करना है।
+
 ## परीक्षण
 
 ```sh
