@@ -32,7 +32,7 @@ The eastern/western horizon branch is selected from the source's printed directi
 
 - Source clocks are normalized as local IST, including Ganesh Martand values above 24 hours (for example 34.07 means 10:07 on the following date).
 - Ambiguous AM/PM records are excluded instead of guessed.
-- Each observation is checked against the target body's computed geometric horizon event.
+- Each observation is checked against the target body's computed apparent rise/set event.
 - Time-threshold fitting uses only Drik records whose source event time is within 15 minutes of the computed body's apparent rise/set event; all residuals remain in the report.\n- Ganesh Martand raw clocks are not used to fit time thresholds until the printed HH.MM notation is verified. Its dates remain an independent cross-check.
 - Drik Almora/Ramnagar coordinates are approximate proxies because the exact coordinates selected on the Drik page were not captured. Ganesh Martand's printed Almora centre and Tara Prasad's Ramnagar centre are separately preserved. Elevation is set to 0 m in this first calibration run because the printed calculation-centre metadata did not supply a confirmed elevation; do not treat this as a final hill-station horizon correction.
 - Agastya uses a provisional Canopus J2000 position. A pinned astrometric catalogue/proper-motion source is required before production use.
