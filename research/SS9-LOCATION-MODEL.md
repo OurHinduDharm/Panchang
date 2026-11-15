@@ -20,7 +20,7 @@
 ## ग्रह/तारा स्थितियाँ और सीमाएँ C
 
 - गुरु: 11°; अगस्त्य: 13°।
-- शुक्र के लिए SS Ch.9 में 8°/10° की दो शाखाएँ हैं। कॉलर को limitDeg स्पष्ट देना होगा; कोड चुपचाप हर जगह 10° नहीं मानेगा।
+- शुक्र के लिए SS Ch.9 श्लोक 9.7 के अनुसार: पश्चिम में अस्त और पूर्व में उदय = 8°; पूर्व में अस्त और पश्चिम में उदय = 10°। मॉडल event direction के अनुसार सही branch चुनता है।
 - MIT लाइसेंस वाले Astronomy Engine 2.1.19 का apparent-place adapter जोड़ा गया है। यह geocentric apparent vector को J2000 equator से true equator of date में बदलता है।
 - अगस्त्य के लिए Canopus (HIP 30438) के SIMBAD J2000 coordinates, proper motion और parallax का आधार लिया गया है। Astronomy Engine का DefineStar proper motion सीधे नहीं लेता, इसलिए adapter उसे रैखिक रूप से समायोजित करता है। यह अभी cross-validation योग्य अनुमान है, अंतिम star ephemeris नहीं।
 - शास्त्रीय K/C संक्रमण को naked-eye photometric visibility न कहें।
