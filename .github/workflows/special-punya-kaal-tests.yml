@@ -13,8 +13,10 @@ on:
       - "data/special-punya-kaal/**"
       - "special-punya-kaal.mjs"
       - "special-punya-kaal-runtime.mjs"
+      - "special-punya-kaal-public-approval.mjs"
       - "tests/special-punya-kaal-runtime.test.mjs"
       - "tests/special-punya-kaal-engine-integration.test.mjs"
+      - "tests/special-punya-kaal-public-approval.test.mjs"
       - "mahapata-root-solver.mjs"
       - "karana-kutuhula-khanda-tables.mjs"
       - "tests/karana-kutuhula-khanda-tables.test.mjs"
@@ -50,12 +52,13 @@ jobs:
           node --check /tmp/monthly-vrat-parv.mjs
           node --check special-punya-kaal.mjs
           node --check special-punya-kaal-runtime.mjs
+          node --check special-punya-kaal-public-approval.mjs
           node --check mahapata-root-solver.mjs
           node --check karana-kutuhula-khanda-tables.mjs
           node --check scripts/generate-special-punya-kaal-review.mjs
           node --check scripts/compare-mahapat-ephemeris.mjs
       - name: Run monthly religious calendar and special punya-kaal tests
-        run: node --experimental-default-type=module --test tests/monthly-religious-calendar.test.mjs tests/special-punya-kaal-public-integration.test.mjs tests/special-punya-kaal-runtime.test.mjs tests/special-punya-kaal-engine-integration.test.mjs tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs tests/karana-kutuhula-khanda-tables.test.mjs
+        run: node --experimental-default-type=module --test tests/monthly-religious-calendar.test.mjs tests/special-punya-kaal-public-integration.test.mjs tests/special-punya-kaal-runtime.test.mjs tests/special-punya-kaal-engine-integration.test.mjs tests/special-punya-kaal-public-approval.test.mjs tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs tests/karana-kutuhula-khanda-tables.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
       - name: Run Mahapata geocentric contact comparison (research-only)
