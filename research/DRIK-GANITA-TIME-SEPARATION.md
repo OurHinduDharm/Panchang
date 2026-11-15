@@ -20,7 +20,7 @@ Use a modern apparent ephemeris and the exact observer coordinates. For a given 
 1. Find the Sun's geometric-centre horizon crossing.
 2. Find the planet's geometric-centre crossing on the same horizon branch.
 3. Calculate the absolute time separation in minutes.
-4. Convert to a time-degree coordinate using 4 minutes = 1 degree.
+4. Convert the time gap to degrees of Earth rotation using one mean sidereal day divided by 360. This is a general time-unit conversion, not a Surya-Siddhanta formula.
 5. Compare that value with a body/event/branch threshold calibrated from accepted Drik and Ganesh Martand observations.
 6. Detect downward threshold crossings as Asta and upward crossings as Udaya. The interpolated event instant is based on the planet's horizon-crossing time.
 
