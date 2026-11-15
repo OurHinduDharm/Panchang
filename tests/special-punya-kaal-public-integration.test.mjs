@@ -11,6 +11,7 @@ test("monthly special punya-kaal section calculates lazily and stays hidden with
   assert.match(monthly, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
   assert.match(monthly, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
   assert.match(monthly, /IntersectionObserver/);
+  assert.match(monthly, /Number\(a\.elevation\)-Number\(b\.elevation\)/);
   assert.match(monthly, /data\.calculationStatus!=="complete"\|\|!sameObserver/);
   assert.match(monthly, /if\(!approved\.length\)return/);
   assert.match(monthly, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
