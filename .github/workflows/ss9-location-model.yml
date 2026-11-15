@@ -1,0 +1,22 @@
+name: Validate location-based SS9 model
+on:
+  pull_request:
+    branches:
+      - research/ss-ch9-almora-ramnagar-2018-2027
+  push:
+    branches:
+      - research/location-based-ss9-udaya-asta-model
+permissions:
+  contents: read
+jobs:
+  ss9-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned MIT Astronomy Engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Run SS9 geometry and apparent-place tests
+        run: node --experimental-default-type=module --test tests/ss9-location-model.test.mjs tests/ss9-astronomy-engine-provider.test.mjs
