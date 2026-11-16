@@ -1837,7 +1837,7 @@ export function getFestivalMuhurta(event, context) {
     };
   }
   try {
-    return calculate(context || {});
+    return calculate(Object.assign({}, context || {}, { event }));
   } catch (error) {
     console.warn("Festival muhurta calculation failed:", event.muhurtaRule, error);
     return {
