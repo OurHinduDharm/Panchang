@@ -1268,3 +1268,51 @@ Do not try to solve the product scale by forcing the three products to fit. Firs
 - the initial 15 × śara budget (2540;15).
 
 Then test the same dimensional interpretation against the 1991 Śaka 1920 example as a separate example. Only a single rule that explains both examples without changing their raw printed readings should be accepted.
+
+
+## 2026-11-16: audit of Gemini's proposed radius/divisor explanation
+
+A fresh direct reading of the 1902 printed p.145 searchable transcription (Jain Quantum page 149) resolves one part of Gemini's claim decisively.
+
+### A. The claim that 54;12 and 1;53;45 are adjacent-column data is contradicted by the source syntax
+
+The page text reads in sequence:
+
+- `स्फुटखण्डम् प्रथमखण्डम् १९७`
+- `स्वल्पचापांशैः ५४ १२ गुणितम् ७७५ । ३`
+- `द्वितीयखण्डं ६१`
+- two chāpāṃśas `३।५४।१२` and `५।४७।५७`
+- their difference `१।५३।४५`
+- `गुणितम् ४९२।३।२७`
+
+Thus the source explicitly associates first khanda 197 with smaller chāpāṃśa 54;12 and says “multiplied”, and associates the second khanda/chāpāṃśa difference with the second printed product. Gemini's suggestion that 54;12 and 1;53;45 are merely adjacent-column velocity/longitude data is not supported by the printed sentence sequence and should be rejected unless a page-layout image proves a different column alignment. The searchable source is https://jainqq.org/explore/034533/149 (printed p.145, page text).
+
+### B. The radius-3438 / trijyā-120 proposal is presently unsupported
+
+Gemini suggests testing a radius or tabular scaling factor, but supplies no source quotation establishing that this particular pāta-khaṇḍa multiplication uses R=3438, R=120, or an interval divisor. The 1902 p.145 prose explicitly calls the operation multiplication (`गुणितम्`), but the displayed products do not equal ordinary base-60 multiplication of the visible operands:
+- 197 × 54;12 = 10677;24, not 775;3.
+- 61 × 1;53;45 = 115;38;45, not 492;3;27.
+
+A hidden scale, specialized product convention, omitted operand, or damaged numeral/column remains possible. None is established yet. Do not import the classical trijyā 3438 or a proposed 120 merely because they are familiar constants in other trigonometric tables.
+
+### C. The 236 and 484 ratios are leads, not recovered multipliers
+
+Gemini observes:
+- 775;3 × 60 / 197 ≈ 236.056;
+- 492;3;27 × 60 / 61 ≈ 483.991.
+
+These ratios are numerically close to 236 and 484, respectively. But the proposed simple identities do not hold:
+- 197 × 236 / 60 = 774;52, not 775;3 (difference 0;11 in the output's minute-like units).
+- 61 × 484 / 60 = 492;4, not 492;3;27 (difference 0;0;33).
+
+No source line says to substitute 236 or 484 as the multipliers in these two product steps. The 236 in the commentary belongs to the bhogya krānti-khaṇḍa / thirteenth-part correction discussion; its numerical proximity to the first ratio is interesting but not proof of identity. The value 484 has not yet been located as an operand in this example. Keep both ratios in a “candidate numerical clues” ledger only.
+
+### D. Correct research direction
+
+1. Preserve the literal Sanskrit syntax and pairings: 197 ↔ 54;12 ↔ 775;3; 61 ↔ 1;53;45 ↔ 492;3;27.
+2. Determine whether `गुणितम्` is followed by a conventional sexagesimal product, a normalized tabular product, or a product using an omitted scale/unit.
+3. Search the 1902 commentary's preceding explanation of `चापांश`, `स्फुटखण्ड`, and `गुणित`; then compare the exact Sanskrit and Hindi explanations in the 1991 edition. Do not infer a trijyā or divisor without textual support.
+4. Test any candidate rule against the third step (274 × 13;6;53 → 3593) and the residual sequence, not only the first two ratios.
+5. Correct any earlier research note that described 54;12 / 1;53;45 as possibly adjacent-column quantities: the current page-text evidence directly associates them with the two product statements.
+
+Status: Gemini's general recommendation to investigate hidden scale/units is useful; its specific claim that 54;12 and 1;53;45 are not the multipliers is contradicted by the source wording. Radius 3438/120, divisor hypotheses, and 236/484 substitutions remain unproven.
