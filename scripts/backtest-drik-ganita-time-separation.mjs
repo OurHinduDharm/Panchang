@@ -4,6 +4,7 @@ import {
   calibrateObservation,
   parsePrintedClock,
   median,
+  clockOfDayDifferenceMinutes,
   scanDrikTimeSeparationTransitions,
   scanDrikSolarAltitudeTransitions,
   summarizeCalibration
@@ -205,11 +206,12 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
       body: predicted.body,
       event: predicted.event,
       branch: predicted.branch,
-      predictedLocal: new Date(predicted.utcMilliseconds + 330 * 60_000).toISOString(),
+      predictedLocal: new Date(predicted.utcMilliseconds + 330 * 60_000).toISOString().replace("Z", "+05:30"),
       sourceId: match.row.id,
-      sourceLocal: new Date(match.row.clock.instantUtcMs + 330 * 60_000).toISOString(),
+      sourceLocal: new Date(match.row.clock.instantUtcMs + 330 * 60_000).toISOString().replace("Z", "+05:30"),
       dateDifferenceDays: match.differenceMinutes / 1440,
-      timeDifferenceMinutes: match.differenceMinutes
+      absoluteInstantResidualMinutes: Math.abs(match.differenceMinutes),
+      clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, match.row.clock.instantUtcMs)
     });
   }
   const measuredMatches = matches.map(match => {
@@ -221,7 +223,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
     return { ...match, predictedDate, sourceDate, dateOffsetDays };
   });
   const dateOffsets = measuredMatches.map(match => Math.abs(match.dateOffsetDays));
-  const absoluteClockResiduals = measuredMatches.map(match => Math.abs(match.timeDifferenceMinutes));
+  const absoluteClockResiduals = measuredMatches.map(match => Math.abs(match.clockOfDayResidualMinutes));
+  const absoluteInstantResiduals = measuredMatches.map(match => match.absoluteInstantResidualMinutes);
   return {
     holdoutYear,
     trainingThroughYear,
@@ -235,9 +238,13 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
       withinOneDay: dateOffsets.filter(days => days <= 1).length,
       moreThanOneDay: dateOffsets.filter(days => days > 1).length
     },
-    clockResidualMinutes: {
+    clockOfDayResidualMinutes: {
       medianAbsolute: median(absoluteClockResiduals),
       maximumAbsolute: absoluteClockResiduals.length ? Math.max(...absoluteClockResiduals) : null
+    },
+    absoluteInstantResidualMinutes: {
+      medianAbsolute: median(absoluteInstantResiduals),
+      maximumAbsolute: absoluteInstantResiduals.length ? Math.max(...absoluteInstantResiduals) : null
     },
     unmatchedPredictions: Math.max(0, predictions.length - measuredMatches.length),
     unmatchedObserved: [...unused].map(row => row.id),
