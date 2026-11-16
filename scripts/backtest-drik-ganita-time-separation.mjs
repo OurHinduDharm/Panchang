@@ -212,6 +212,16 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
       timeDifferenceMinutes: match.differenceMinutes
     });
   }
+  const measuredMatches = matches.map(match => {
+    const predictedDate = match.predictedLocal.slice(0, 10);
+    const sourceDate = match.sourceLocal.slice(0, 10);
+    const dateOffsetDays = Math.round(
+      (Date.parse(predictedDate + "T00:00:00Z") - Date.parse(sourceDate + "T00:00:00Z")) / 86_400_000
+    );
+    return { ...match, predictedDate, sourceDate, dateOffsetDays };
+  });
+  const dateOffsets = measuredMatches.map(match => Math.abs(match.dateOffsetDays));
+  const absoluteClockResiduals = measuredMatches.map(match => Math.abs(match.timeDifferenceMinutes));
   return {
     holdoutYear,
     trainingThroughYear,
@@ -219,9 +229,19 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
     thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
-    matchedEvents: matches.length,
+    matchedEvents: measuredMatches.length,
+    dateAccuracy: {
+      exactDate: dateOffsets.filter(days => days === 0).length,
+      withinOneDay: dateOffsets.filter(days => days <= 1).length,
+      moreThanOneDay: dateOffsets.filter(days => days > 1).length
+    },
+    clockResidualMinutes: {
+      medianAbsolute: median(absoluteClockResiduals),
+      maximumAbsolute: absoluteClockResiduals.length ? Math.max(...absoluteClockResiduals) : null
+    },
+    unmatchedPredictions: Math.max(0, predictions.length - measuredMatches.length),
     unmatchedObserved: [...unused].map(row => row.id),
-    matches
+    matches: measuredMatches
   };
 }
 
@@ -267,7 +287,10 @@ const report = {
   },
   sourceAgreement: buildSourceAgreement(dataset.observations),
   heldOutValidation2026: buildHeldOutValidation(rows, 2026, 2025),
-  heldOutValidation2027: buildHeldOutValidation(rows, 2027, 2026),
+  // Fixed-origin 2027 holdout excludes all 2026 observations from training.
+  heldOutValidation2027FixedThrough2025: buildHeldOutValidation(rows, 2027, 2025),
+  // Rolling-origin 2027 holdout intentionally includes 2026 training observations.
+  heldOutValidation2027RollingThrough2026: buildHeldOutValidation(rows, 2027, 2026),
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   observations: rows,
