@@ -39,8 +39,28 @@ test("horizon branch follows the printed east/west direction", () => {
   assert.equal(resolveDrikHorizonBranch({ planet: "शुक्र", event: "उदय", direction: "पूर्व" }), "rise");
   assert.equal(resolveDrikHorizonBranch({ planet: "बृहस्पति", event: "अस्त प्रारम्भ" }), "set");
   assert.equal(resolveDrikHorizonBranch({ planet: "बृहस्पति", event: "अस्त समाप्त" }), "rise");
-  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अगस्त्य तारा उदय क्षण" }), "rise");
-  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अस्त क्षण" }), "set");
+  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अगस्त्य तारा उदय क्षण", sourceId: "drikpanchang-almora" }), "rise");
+  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अस्त क्षण", sourceId: "drikpanchang-almora" }), "set");
+  assert.equal(resolveDrikHorizonBranch({ planet: "अगस्त्य", event: "अगस्त्योदय", sourceId: "ganesh-martand" }), null);
+});
+
+test("traditional Agastya Udaya dates are excluded from geometric Canopus calibration", () => {
+  const traditional = sourceObservationToReference({
+    id: "gm-agastya", sourceId: "ganesh-martand", planet: "अगस्त्य",
+    event: "अगस्त्योदय", date: "2026-09-01", timeRaw: "13.13"
+  });
+  assert.equal(traditional.body, "Star1");
+  assert.equal(traditional.eventType, null);
+  assert.equal(traditional.branch, null);
+  assert.equal(traditional.usableForCalibration, false);
+
+  const drik = sourceObservationToReference({
+    id: "drik-agastya", sourceId: "drikpanchang-almora", planet: "अगस्त्य",
+    event: "अगस्त्य तारा उदय क्षण", date: "2026-09-07", timeRaw: "04:46"
+  });
+  assert.equal(drik.eventType, "Udaya");
+  assert.equal(drik.branch, "rise");
+  assert.equal(drik.usableForCalibration, true);
 });
 
 test("source conversion preserves raw time and selects an event branch", () => {
