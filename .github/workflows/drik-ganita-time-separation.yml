@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   drik-ganita-model:
     runs-on: ubuntu-latest
