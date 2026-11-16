@@ -67,12 +67,21 @@ export function parsePrintedClock(dateIso, raw, qualifier = null, timezoneOffset
   };
 }
 
-export function resolveDrikHorizonBranch({ planet, event, direction }) {
+export function resolveDrikHorizonBranch({ planet, event, direction, sourceId }) {
+  const body = PLANET_BODY[planet] || planet;
+  // Printed "अगस्त्योदय" in traditional Panchangs is not, by itself,
+  // a geometric Canopus rise event. Only explicit Drik star-event labels
+  // enter the geometric rise/set calibration.
+  if (body === "Star1" &&
+      !(String(sourceId || "").startsWith("drikpanchang") &&
+        (event === "अगस्त्य तारा उदय क्षण" || event === "अस्त क्षण"))) {
+    return null;
+  }
+
   const normalizedDirection = String(direction || "").trim().toLowerCase();
   if (normalizedDirection === "पूर्व" || normalizedDirection === "east") return "rise";
   if (normalizedDirection === "पश्चिम" || normalizedDirection === "west") return "set";
 
-  const body = PLANET_BODY[planet] || planet;
   const eventType = normalizeEventType(event);
   const isUdaya = eventType === "Udaya";
   const isAsta = eventType === "Asta";
@@ -87,8 +96,14 @@ export function sourceObservationToReference(observation) {
     observation.timeRaw,
     observation.timeQualifierRaw
   );
-  const branch = resolveDrikHorizonBranch(observation);
   const body = PLANET_BODY[observation.planet] || null;
+  const branch = resolveDrikHorizonBranch({ ...observation, sourceId: observation.sourceId });
+  const eventType = body === "Star1"
+    ? (observation.sourceId?.startsWith("drikpanchang") &&
+       observation.event === "अगस्त्य तारा उदय क्षण" ? "Udaya" :
+       observation.sourceId?.startsWith("drikpanchang") &&
+       observation.event === "अस्त क्षण" ? "Asta" : null)
+    : normalizeEventType(observation.event);
   return {
     id: observation.id,
     sourceId: observation.sourceId,
@@ -97,7 +112,7 @@ export function sourceObservationToReference(observation) {
     planet: observation.planet,
     body,
     event: observation.event,
-    eventType: normalizeEventType(observation.event),
+    eventType,
     branch,
     direction: observation.direction || null,
     clock,
