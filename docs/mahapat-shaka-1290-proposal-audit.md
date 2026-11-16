@@ -1220,3 +1220,51 @@ Still unresolved:
 - Exact Sanskrit/Hindi wording and number typography in verse 11 and the first worked example, pending page-image inspection.
 - The exact dimensional reduction and final algebraic factor in Sudhākara's Vāsanā for the 480/9 branch.
 - The original Śaka 1290 intermediate product discrepancies (775;3, 492;3;27, 1273;9, and 626;47 vs printed 627;47). The new 1991 material does not silently correct those readings.
+
+
+## 2026-11-16: direct comparison of 1902 Śaka 1290 with the 1991 worked examples
+
+The 1991 PDF has now been reopened at the relevant passage (PDF text lines 2800–2815). This reveals an important correction to the earlier comparison plan: the 1991 pages around printed pp.192–193 do **not** present the same Śaka 1290 worked example in the same form. They contain a Śaka 1543 example followed by a separate Śaka 1920 example. Therefore they are useful for checking the general procedure and independent numerical examples, but they cannot be treated as a second edition's line-by-line reprint of the 1902 Śaka 1290 calculation.
+
+### 1991 worked-example evidence
+
+- The Śaka 1543 example gives an aśuddha-khaṇḍa duration calculation: 2203 divided by 184;9 gives 11;15 (OCR punctuation/sexagesimal parsing should still be checked against the page image). It then places the midpoint at 12;49 and gives contact/release around it. This corroborates the 2203 numerator rule as a separate duration calculation.
+- The following Śaka 1920 example (PDF lines 2809–2815) includes its own khanda sequence and midpoint. The searchable OCR preserves raw strings such as first khanda `१९१७`, first multiplier `५४१९१२`, first product `७७५१३`, second khanda `६१`, second multiplier difference `११५३१४५`, second product `४२१३१२७`, and later residual/final-angle strings. These concatenated OCR strings are not safely punctuated; do not normalize them into sexagesimal numbers without the scanned page image.
+- The 1991 Śaka 1920 example's second product OCR appears as `४२१३१२७`, not the 1902 Śaka 1290 user's verified `४९२।३।२७`. This may reflect a genuinely different worked example, OCR digit collapse, or both. It is not evidence that the 1902 user's reading should be changed.
+- The 1991 final time/midpoint and final krānti-sāmya check are separately given on printed p.193. Keep this as an independent example dataset, not a correction to Śaka 1290.
+
+### 1902 printed p.145: exact source sequence reconfirmed
+
+The 1902 searchable transcription of printed p.145 (Jain Quantum page 149) explicitly exposes the sequence:
+- first sphuṭa-khaṇḍa 197;
+- first multiplier printed `५४ १२`;
+- first resulting amount printed `७७५ । ३`;
+- initial 15-fold lunar-śara amount `२५।४०।१५`;
+- first residual `१७६५।१२`;
+- second sphuṭa-khaṇḍa 61;
+- chāpāṃśas `३।५४।१२` and `५।४७।५७`;
+- difference `१।५३।४५`;
+- second resulting amount `४९२।३।२७`;
+- next residual `१२७३।९`;
+- third odd khanda 274, multiplier `१।५३।७`, complement `१३।६।५३`, resulting amount `३५९३`;
+- residual remains uncleared; quotient `४।३८।४८`; added khanda-angle `३।४।५२`; combined `१०।२६।४७`;
+- printed ×60 amount `६२७।४७`; lunar motion `७२५।३५`; time `०।५१।५०`.
+
+Source: https://jainqq.org/explore/034533/149
+
+### What the comparison establishes—and what it does not
+
+1. The 1902 source's first two product/result pairs are definitely part of the printed Śaka 1290 worked example, and the user has independently checked those readings against the physical book.
+2. The 1991 edition's later worked examples corroborate the broad algorithm but do not supply a directly matching Śaka 1290 calculation from which to infer the missing scale factor.
+3. The first and second 1902 printed products must not be replaced by ordinary direct multiplication results. The source itself labels the results as products, but the exact unit/normalization represented by the khanda values and multiplier columns remains to be reconstructed from the original page layout and commentary.
+4. The printed conversion `६२७।४७` remains inconsistent with `१०।२६।४७ × ६०`, whose direct sexagesimal conversion is `६२६।४७`. Since the printed time `०।५१।५०` agrees with the 626;47-derived time rather than 627;47, this is a strong internal indication of a one-unit transcription/printing error in that conversion line. Preserve the source reading and derived correction separately.
+
+### Next calculation strategy
+
+Do not try to solve the product scale by forcing the three products to fit. First establish the exact sexagesimal column convention used for:
+- khanda values (197, 61, 274);
+- multiplier/chāpāṃśa values (54;12, 1;53;45, 1;53;7);
+- product values (775;3, 492;3;27, 3593);
+- the initial 15 × śara budget (2540;15).
+
+Then test the same dimensional interpretation against the 1991 Śaka 1920 example as a separate example. Only a single rule that explains both examples without changing their raw printed readings should be accepted.
