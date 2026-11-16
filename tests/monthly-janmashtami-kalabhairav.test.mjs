@@ -27,3 +27,15 @@ test("Margashirsha Kalashtami is represented by annual Kalabhairavashtami, not a
   assert.ok(!sameDate.some(event => /मासिक कालाष्टमी/.test(event.title)));
   assert.equal(sameDate.filter(event => /कालभैरवाष्टमी|कालभैरव जयंती/.test(event.title)).length, 1);
 });
+
+test("annual Janmashtami is not duplicated as monthly Krishna Janmashtami", () => {
+  for (const [file, date] of [
+    ["2027-08.json", "2027-08-25"],
+    ["2028-08.json", "2028-08-13"]
+  ]) {
+    const data = JSON.parse(readFileSync(new URL("../data/festivals/" + file, import.meta.url), "utf8"));
+    const sameTithi = data.events.filter(event => event.date === date);
+    assert.ok(sameTithi.some(event => event.title === "मासिक कालाष्टमी"));
+    assert.ok(!sameTithi.some(event => /मासिक कृष्ण जन्माष्टमी/.test(event.title)));
+  }
+});
