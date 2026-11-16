@@ -360,7 +360,7 @@ const rules = {
   "janmashtami-nishita"(context) {
     const sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
     const eventTitle = String(context.event && context.event.title || "");
-    const labelPrefix = /मासिक\\s*कृष्ण\\s*जन्माष्टमी/.test(eventTitle)
+    const labelPrefix = /मासिक\s*कृष्ण\s*जन्माष्टमी/.test(eventTitle)
       ? "मासिक कृष्ण जन्माष्टमी"
       : "श्रीकृष्ण जन्माष्टमी";
     const label = labelPrefix + " — निशीथ पूजा मुहूर्त";
