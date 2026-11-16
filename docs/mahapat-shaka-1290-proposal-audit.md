@@ -1101,3 +1101,16 @@ It does **not** yet resolve the unit scale that turns the first two printed prod
 2. Compare the Sanskrit verses and Hindi commentary against the Google Lens text, especially verses 2, 7, 8, 11, and 14.
 3. Derive both duration methods (2203 and the 48/9 expression) dimensionally and test against the Śaka 1290 example and a second independent example.
 4. Use the krānti-sāmya criterion to recheck the printed p.146 final equality claim without altering the user's verified numbers.
+
+
+## 2026-11-16: Archive.org scan identified bibliographically
+
+The user supplied this Archive.org DjVu OCR text URL for the Karaṇakutūhalam volume:
+https://archive.org/stream/karnakutuhalabhaskaracharyaganakakumudakaumudisumatiharshavasanavibhushanasudhak_246_b/Karna%20Kutuhala%20Bhaskaracharya%20Ganaka%20Kumuda%20Kaumudi%20Sumati%20Harsha%20Vasana%20Vibhushana%20Sudhakara%20Dvivedi%20Satyendra%20Mishara%20Chowk_djvu.txt
+
+Searchable bibliographic evidence identifies the volume as *Karaṇakutūhalam of Bhāskarācārya*, with two Sanskrit commentaries: *Gaṇakakumudakaumudī* of Sumatiharṣa and *Vāsanāvibhūṣaṇa* of Sudhākara Dvivedī; edited and translated into Hindi by Dr. Satyendra Miśra; Krishnadas Sanskrit Series 129, Krishnadas Academy, Varanasi, 1991. This matches the already-used 1991 PDF edition, not a newly identified Sudhākara Mālavīya book. Google Books also records a later second edition (Caukhambā Krishnadas Academy, 2008); do not conflate that later edition with the 1991 title-page evidence.
+
+The Archive.org DjVu text endpoint could not be retrieved directly in this session, so no new OCR lines have been independently extracted from that URL yet. The previously supplied Hindi OCR transcription remains user-provided evidence. The 1991 PDF already on record remains the accessible reference witness for comparison. Bibliographic references:
+- 1991 PDF/title page: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+- Google Books bibliographic record: https://books.google.com/books/about/Kara%E1%B9%87akut%C5%ABhalam_of_Bh%C4%81skar%C4%81c%C4%81rya_w.html?id=fyOS0QEACAAJ
+- Archive.org DjVu OCR URL: above.
