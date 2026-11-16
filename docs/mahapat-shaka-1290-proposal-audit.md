@@ -1316,3 +1316,31 @@ No source line says to substitute 236 or 484 as the multipliers in these two pro
 5. Correct any earlier research note that described 54;12 / 1;53;45 as possibly adjacent-column quantities: the current page-text evidence directly associates them with the two product statements.
 
 Status: Gemini's general recommendation to investigate hidden scale/units is useful; its specific claim that 54;12 and 1;53;45 are not the multipliers is contradicted by the source wording. Radius 3438/120, divisor hypotheses, and 236/484 substitutions remain unproven.
+
+
+## 2026-11-16: 1991 commentary cross-check of the product hypothesis
+
+The accessible 1991 PDF has now been reopened at the pāta section (PDF text lines 2734–2748 and 2800–2805).
+
+### What the 1991 Sanskrit commentary independently confirms
+
+- Sumatiharṣa's explanation of verse 8 says the first multiplier is the smaller chāpāṃśa; for the next applicable even-position khanda, use the difference between the two chāpāṃśas; if the fourth khanda is present, the sixth may also be used. The corresponding products are subtracted from 15 times the lunar śara as far as they clear.
+- It then explicitly says the residual is divided by the aśuddha sphuṭa-khanda, and the quotient is added to the sum of the multipliers belonging to the cleared khandas before the time conversion.
+- Sudhākara's Vāsanā explains the 15/13 correction by proportion: if 15 parts correspond to the bhogya khanda, the solar-motion part corresponds to 13; this supports the one-thirteenth correction in the khanda construction.
+- The 1991 Śaka 1543 worked example is not a duplicate of the 1902 Śaka 1290 example. It supplies a separate worked calculation and a separate duration calculation; it must not be used to replace Śaka 1290's raw readings.
+
+Source: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf, PDF text lines 2734–2748 and 2800–2805.
+
+### Consequence for Gemini's proposal
+
+The 1991 commentary corroborates that these are genuine khanda/chāpāṃśa product operations, not merely adjacent-column velocity figures. It does not mention a trijyā of 3438 or 120 as the scaling factor for these verse-8 products. Therefore:
+- “investigate a hidden scale or unit” remains a sound research prompt;
+- “the actual multipliers are 236 and 484” is not supported by the 1991 commentary;
+- “54;12 and 1;53;45 are not the multipliers” is contradicted by the explicit 1902 p.145 syntax and by the verse-8 commentary's multiplier structure;
+- a radius-based explanation remains unproved and should not be adopted unless a primary source identifies the radius/normalization in this operation.
+
+### Further important caution
+
+The 1991 commentary's own worked example at PDF lines 2746–2748 includes a different numerical sequence: residual 632;15, aśuddha sphuṭa-khanda 392, quotient 0;27;23, then ×60 and division by lunar motion 741;50. This is useful as a second procedural test, but it is not the Śaka 1290 product sequence and does not by itself reveal the scale behind 775;3 or 492;3;27.
+
+Status: source confirms the algorithmic role of the multipliers and the successive subtraction structure; exact numerical product scaling in the 1902 Śaka 1290 example remains open.
