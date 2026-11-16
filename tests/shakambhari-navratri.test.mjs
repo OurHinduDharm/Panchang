@@ -39,8 +39,15 @@ test("Shakambhari Navratri end and Jayanti remain one existing Purnima card with
   for (const [file, date] of ends) {
     const events = month(file).events.filter(item => item.date === date && /शाकंभरी/.test(item.title || ""));
     assert.equal(events.length, 1, date + " should retain one Shakambhari Purnima/Jayanti card");
-    assert.equal(events[0].articleUrl, article);
-    assert.equal(events[0].articleLabel, linkLabel);
+    if (date === "2028-12-31") {
+      assert.equal(events[0].articleUrl, "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html");
+      assert.equal(events[0].articleLabel, "पौष मास का माहात्म्य पढ़ें");
+      assert.equal(events[0].secondaryArticleUrl, article);
+      assert.equal(events[0].secondaryArticleLabel, linkLabel);
+    } else {
+      assert.equal(events[0].articleUrl, article);
+      assert.equal(events[0].articleLabel, linkLabel);
+    }
     assert.match(events[0].description || "", /शाकंभरी नवरात्रि का समापन/);
   }
 });
