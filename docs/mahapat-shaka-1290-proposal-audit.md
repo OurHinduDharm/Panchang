@@ -1114,3 +1114,47 @@ The Archive.org DjVu text endpoint could not be retrieved directly in this sessi
 - 1991 PDF/title page: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
 - Google Books bibliographic record: https://books.google.com/books/about/Kara%E1%B9%87akut%C5%ABhalam_of_Bh%C4%81skar%C4%81c%C4%81rya_w.html?id=fyOS0QEACAAJ
 - Archive.org DjVu OCR URL: above.
+
+
+## 2026-11-16 follow-up: interpretation limits and corrected research priorities
+
+The user clarified that the Archive.org DjVu TXT URL is the same 1991 Krishnadas Sanskrit Series 129 volume whose PDF was already being used. Therefore it is not a second independent textual witness or a newly identified Sudhākara Mālavīya book. Correct any earlier wording that treated it as an independent edition or asked again for its bibliographic identity.
+
+### What is now secure across the available witnesses
+
+- The 24-position krānti and śara tables use four six-position blocks with signs +, −, +, − and forward/reverse ordering. This agrees with the verified 1902 tables and the user's supplied Hindi explanation.
+- The 15-part division of sāyana Moon and sapāta Moon yields elapsed khanda counts and remainders/bhogya amounts. Exact unit handling still needs care.
+- The pāta-midpoint procedure is a successive subtraction algorithm: start from 15 times the lunar śara, clear as many śara-khanda contributions as possible, retain the residual as an aśuddha amount, divide by the appropriate remaining/bhogya sphuṭa-khanda, then add the quotient to the cleared-khanda contribution before conversion to time by ×60 / lunar motion. This agrees with the 1902 verse 8–9 reading and the 1991 Hindi procedural explanation.
+- A 1/13 bhogya correction is genuinely part of the khanda construction. However, the exact operand, unit, order, and rounding must not be simplified to “divide the final combined value by 13”: 1902 p.135 describes correction of bhogya and following krānti-khandas before subsequent śara correction; the user-supplied Hindi explanation describes the signed krānti/śara combination and then the bhogya thirteenth-part correction. Preserve this order discrepancy as a wording/interpretation issue until the Sanskrit and commentary are aligned.
+
+### Important correction: verse 11's 2203 operation is not yet safely parsed
+
+The supplied Hindi OCR reads: “अशुद्ध शरखण्ड से २२०३ में भाग देने पर जो लब्धि हो...”. This Hindi construction may mean 2203 divided by the aśuddha śara-khaṇḍa (2203 ÷ aśuddha amount), not necessarily aśuddha amount divided by 2203. Earlier notes that described 2203 as a fixed divisor applied to the aśuddha amount were too definite. Record the literal Hindi syntax and defer operator direction until the original Sanskrit verse and the 1991 commentary are checked.
+
+Also do not assume the printed string 2203 is a decimal integer. It may encode a sexagesimal number such as 22;03 or another traditional notation. The actual printed typography and commentary must settle this before dimensional analysis.
+
+### Verses 12–14: threshold and duration branch
+
+The Hindi OCR says the śara obtained by the śara-khaṇḍa method is multiplied by 15 and compared with 480: greater than 480 means pāta not possible; less than 480 means possible. Verse 14 then uses a quantity described as “48 में घटाकर 9 से गुणाकर अन्त्य शरखण्ड से भाग” and adds/subtracts the result around pāta midpoint for release/contact. Keep this as a separate branch from verse 11 pending proof. Do not silently identify 480 with a duration limit or 48 with a decimal constant; their scale and units are unresolved.
+
+### What can be attempted now, and what cannot
+
+Can proceed:
+1. Formalize the signed khanda table and 15-part division.
+2. Formalize the midpoint's clear-subtract / residual / quotient structure, keeping each printed operand and intermediate result.
+3. Test the user's Śaka 1290 printed example against the 1902 and 1991 transcriptions without changing any printed reading.
+4. Independently investigate the 2203 and 48/9 expressions once their original Sanskrit wording and number notation are visible.
+
+Cannot yet claim:
+1. A fully validated universal pāta solver.
+2. That verse 11's operation is definitely aśuddha / 2203 or 2203 / aśuddha.
+3. That 2203 is decimal rather than sexagesimal notation.
+4. That the 48/9 expression and 2203 expression are equivalent or interchangeable.
+5. That the 1902 worked-example product discrepancies have been resolved.
+
+### Revised next actions
+
+1. Use the already-held 1991 PDF's relevant page images/text, especially pātādhikāra verses 11–15 and the associated Sanskrit commentaries, to settle operator direction and number notation.
+2. Transcribe Sanskrit, Sumatiharṣa commentary, Sudhākara Dvivedī's Vāsanā, and Hindi translation as separate columns; never merge them into one normalized paraphrase.
+3. Re-run the Śaka 1290 arithmetic with explicit sexagesimal columns and unit labels, preserving user-confirmed printed values.
+4. Only after those steps, test whether the 2203 and 48/9 rules are alternative methods, successive tests, or different kinds of pāta/position calculations.
