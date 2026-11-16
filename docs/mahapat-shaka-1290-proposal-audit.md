@@ -1049,3 +1049,15 @@ The current investigation must therefore move forward using the established text
 - Third line: sphuṭa-khaṇḍa 274; multiplier 1;53;7; complement 13;6;53; printed product 3593.
 
 The ordinary sexagesimal products do not match the first two displayed results. This is an unresolved unit/column-operation problem, not grounds to question or overwrite the user's transcription. Future work should test the exact Sanskrit commentary, the role of the 15-part lunar-śara budget, and the product-column units. No image request is currently necessary.
+
+
+## 2026-11-16: exact residual-difference check of the printed product column
+
+The p.145 sequence gives a further independent constraint that should be tested before interpreting the multiplication:
+
+- Initial 15-fold śara amount: 2540;15.
+- After the first printed amount 775;3, the stated residual is 1765;12. This subtraction is exact in base-60 notation: 2540;15 − 775;3 = 1765;12.
+- The next stated residual is 1273;9. The difference between the two stated residuals is 492;3 exactly: 1765;12 − 1273;9 = 492;3.
+- If the printed second product is read literally as 492;3;27 in a three-place sexagesimal quantity, subtracting it from 1765;12 gives 1273;8;33, not the stated 1273;9. There is therefore a 27-second (last-place) mismatch between the printed product and the stated residual, assuming the three-place interpretation.
+
+This is a new, local consistency check. It does not authorize changing the user's book-verified 492;3;27 reading. It means the product column, residual column, and their units/precision need to be interpreted together. The exact first subtraction is a useful anchor; the second line exposes a small but definite mismatch under the straightforward sexagesimal reading.
