@@ -6,7 +6,7 @@ function month(yearMonth) {
   return JSON.parse(readFileSync(new URL("../data/festivals/" + yearMonth + ".json", import.meta.url), "utf8"));
 }
 
-const article = "https://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html";
+const article = "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html";
 const linkLabel = "स्तोत्रात्मक उपासना करें।";
 
 test("Shakambhari Navratri starts are represented on Pausha Shukla Ashtami in the supported calendar years", () => {
