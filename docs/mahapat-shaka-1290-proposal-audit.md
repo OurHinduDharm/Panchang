@@ -1158,3 +1158,65 @@ Cannot yet claim:
 2. Transcribe Sanskrit, Sumatiharṣa commentary, Sudhākara Dvivedī's Vāsanā, and Hindi translation as separate columns; never merge them into one normalized paraphrase.
 3. Re-run the Śaka 1290 arithmetic with explicit sexagesimal columns and unit labels, preserving user-confirmed printed values.
 4. Only after those steps, test whether the 2203 and 48/9 rules are alternative methods, successive tests, or different kinds of pāta/position calculations.
+
+
+## 2026-11-16 major source check: 1991 pātādhikāra pp.108–114 (PDF lines 2736–2857)
+
+The 1991 PDF was successfully opened and its searchable text exposes the original Sanskrit verses, Sumatiharṣa commentary, Sudhākara Dvivedī's Vāsanā, and the Śaka 1290 and Śaka 1543 worked examples. This is the same 1991 edition already in the research record, not a second textual witness. Relevant PDF source: https://www.vpmthane.org/bhaskara900/books/Karanakutuhula_w_Sumatiharsa_%26_Dvivedi.pdf
+
+### A. 1/13 correction and midpoint algorithm confirmed directly
+
+At PDF lines 2736–2738, Sumatiharṣa explains the 1/13 correction in the krānti construction: the bhogya krānti khanda is corrected by its thirteenth part, and the bhogya and following krānti khandas are corrected before the śara-khanda correction. Sudhākara's Vāsanā at lines 2757–2758 independently derives the 15/13 relation: when 15 parts correspond to the bhogya khanda, the solar-motion portion corresponds to 13 parts. This supports 15/13 and the one-thirteenth correction, but preserve the precise operand/order stated in each commentary rather than flattening them into one generic correction.
+
+At lines 2746–2748, Sumatiharṣa explains the midpoint algorithm:
+- form the khanda multipliers;
+- subtract as many corrected khanda contributions as clear from 15 times lunar śara;
+- call the uncleared residual the aśuddha amount;
+- divide the residual by the corresponding aśuddha sphuṭa-khanda to obtain the fractional khanda contribution;
+- add that fraction to the multipliers of the cleared khandas;
+- convert the combined angular amount to time by ×60 and divide by lunar motion.
+This matches the structure already recorded from 1902 p.136 and the Śaka 1290 example.
+
+### B. Verse 11: operator direction and coefficient now settled
+
+At lines 2766–2770, Sumatiharṣa explicitly says the calculated nāḍikā amount is to be divided by the previously calculated aśuddha khanda. The worked example is printed as 2203 divided by aśuddha khanda 329, giving 5;37 (the exact operand typography/sexagesimal parsing in this first example still needs page-image inspection). The Śaka 1543 example at lines 2805–2806 gives the clearer line: 2203 divided by aśuddha khanda 184;9 gives 11;57; midpoint 12;49, so contact occurs at 0;52 and release at 24;46. This is internally consistent:
+- 12;49 − 11;57 = 0;52
+- 12;49 + 11;57 = 24;46
+
+Therefore the operator direction is conclusively **2203 ÷ aśuddha-khaṇḍa**, not the reverse. The coefficient 2203 is a numerical coefficient in the time formula, not to be read as the sexagesimal number 22;03.
+
+### C. Why 2203 is used: Sudhākara's derivation
+
+At lines 2817–2829, Sudhākara gives a theoretical derivation for the duration coefficient. The OCR/text extraction shows a formula involving aśuddha-khaṇḍa and lunar motion, then evaluates the coefficient for lunar motion 720 and 780, giving 2187 and 2215 respectively; the combined/intermediate coefficient is printed as 2201, while the Ācārya's adopted value is 2203, described as a small difference. The exact algebraic numerator in the displayed formula is OCR-garbled, so preserve the printed coefficient sequence and commentary's conclusion, but do not reconstruct the damaged numerator yet. This proves 2203 is an approximate adopted coefficient arising from a duration derivation, not an arbitrary divisor.
+
+### D. Verses 12–14: a separate all-khandas-cleared branch
+
+At lines 2772–2787:
+- Verses 12–13 describe the case where all khanda contributions can be cleared and the remaining śara amount is compared with 480.
+- If the residual is greater than 480, pāta is not possible; if it is less than 480, pāta is possible.
+- In the possible case, elapsed/future time is found from the purified khanda contributions.
+- Verse 14 gives a distinct duration procedure: subtract the relevant residual śara from 480, multiply the difference by 9, divide by the final khanda, and take half of the resulting ghaṭi amount as the situation (duration on either side of the midpoint).
+
+This is **not** the same branch as verse 11. The correct conceptual split is:
+1. An uncleared/aśuddha khanda remains: use the 2203 ÷ aśuddha-khanda duration rule (verse 11).
+2. All khanda contributions are cleared and pāta is possible under the 480 threshold: use the special 480-minus-residual, ×9, ÷ final-khanda, then half-result rule (verses 12–14).
+
+The user's Hindi OCR phrase “48” has almost certainly lost the final zero: the Sanskrit verse and both commentaries explicitly read 480. The phrase “अन्त्य शरखण्ड” should be retained as the operative final khanda until its precise definition is checked against the page image.
+
+### E. New mathematical caution
+
+Sudhākara's Vāsanā at lines 2831–2857 also derives the 480-based branch by proportion. The searchable OCR of its final algebra is not perfectly coherent at the last simplification (the printed verse/commentary and Vāsanā appear to express the same branch but the OCR's final factor is damaged). Therefore the procedural order is established, but do not hard-code a simplified closed formula until the page image and sexagesimal units are inspected.
+
+### F. Research status update
+
+Now established from the 1991 text:
+- 2203 is the numerator/coefficient divided by aśuddha khanda.
+- The 2203 rule and the 480/9 rule are separate procedural branches, not interchangeable forms.
+- 480, not 48, is the threshold in verses 12–14.
+- The 2203 rule has a second worked numerical example: 2203 ÷ 184;9 = 11;57; midpoint 12;49; contact 0;52; release 24;46.
+- The 1/13 correction, 15-part midpoint subtraction, and 60/lunar-motion time conversion are directly explained by the 1991 commentary.
+
+Still unresolved:
+- Exact Sanskrit/Hindi wording and number typography in verse 11 and the first worked example, pending page-image inspection.
+- The exact dimensional reduction and final algebraic factor in Sudhākara's Vāsanā for the 480/9 branch.
+- The original Śaka 1290 intermediate product discrepancies (775;3, 492;3;27, 1273;9, and 626;47 vs printed 627;47). The new 1991 material does not silently correct those readings.
