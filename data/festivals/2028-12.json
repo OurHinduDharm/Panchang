@@ -211,7 +211,7 @@
       "date": "2028-12-31",
       "dateLabel": "31 दिसंबर",
       "title": "पौष पूर्णिमा / शाकंभरी पूर्णिमा / शाकंभरी माता जयंती",
-      "description": "पौष शुक्ल पूर्णिमा को शाकंभरी नवरात्रि का समापन और माँ शाकंभरी की जयंती मनाई जाती है। देवी की स्तोत्रात्मक उपासना, जप और पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">स्तोत्रात्मक उपासना करें।</a>",
+      "description": "पौष शुक्ल पूर्णिमा को शाकंभरी नवरात्रि का समापन और माँ शाकंभरी की जयंती मनाई जाती है। देवी की स्तोत्रात्मक उपासना, जप और पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">स्तोत्रात्मक उपासना करें।</a> <a href=\"https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html\" target=\"_blank\" rel=\"noopener noreferrer\">पौष मास का माहात्म्य पढ़ें</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -219,8 +219,10 @@
       "timingType": "eclipse-visibility",
       "sourceName": "Drik Panchang — Shakambhari Purnima 2028",
       "sourceUrl": "https://www.drikpanchang.com/navratri/shakambari/shakambari-purnima-date-time.html?year=2028",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
-      "articleLabel": "स्तोत्रात्मक उपासना करें।"
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
+      "articleLabel": "पौष मास का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "secondaryArticleLabel": "स्तोत्रात्मक उपासना करें।"
     },
     {
       "date": "2028-12-31",
