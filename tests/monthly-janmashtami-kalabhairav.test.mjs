@@ -19,10 +19,11 @@ test("annual Shri Krishna Janmashtami keeps the annual muhurta label", () => {
   assert.equal(result.label, "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त");
 });
 
-test("2026 Kalabhairav Jayanti and monthly Krishna Janmashtami are separate cards", () => {
+test("Margashirsha Kalashtami is represented by annual Kalabhairavashtami, not a duplicate monthly Kalashtami", () => {
   const data = JSON.parse(readFileSync(new URL("../data/festivals/2026-12.json", import.meta.url), "utf8"));
   const sameDate = data.events.filter(event => event.date === "2026-12-01");
-  assert.ok(sameDate.some(event => event.title === "कालभैरव जयंती"));
-  assert.ok(sameDate.some(event => event.title === "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी"));
-  assert.ok(sameDate.every(event => !/कालभैरव जयंती.*मासिक कृष्ण जन्माष्टमी|मासिक कृष्ण जन्माष्टमी.*कालभैरव जयंती/.test(event.title)));
+  assert.ok(sameDate.some(event => event.title === "कालभैरवाष्टमी (कालभैरव जयंती)"));
+  assert.ok(sameDate.some(event => event.title === "मासिक कृष्ण जन्माष्टमी"));
+  assert.ok(!sameDate.some(event => /मासिक कालाष्टमी/.test(event.title)));
+  assert.equal(sameDate.filter(event => /कालभैरवाष्टमी|कालभैरव जयंती/.test(event.title)).length, 1);
 });
