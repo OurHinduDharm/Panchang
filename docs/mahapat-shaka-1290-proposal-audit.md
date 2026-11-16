@@ -1061,3 +1061,43 @@ The p.145 sequence gives a further independent constraint that should be tested 
 - If the printed second product is read literally as 492;3;27 in a three-place sexagesimal quantity, subtracting it from 1765;12 gives 1273;8;33, not the stated 1273;9. There is therefore a 27-second (last-place) mismatch between the printed product and the stated residual, assuming the three-place interpretation.
 
 This is a new, local consistency check. It does not authorize changing the user's book-verified 492;3;27 reading. It means the product column, residual column, and their units/precision need to be interpreted together. The exact first subtraction is a useful anchor; the second line exposes a small but definite mismatch under the straightforward sexagesimal reading.
+
+
+## 2026-11-16: Google Lens Hindi text of Sudhākara Mālavīya's Pātādhikāra (OCR witness)
+
+The user supplied a Google Lens transcription headed “पाताधिकारः-९”, described as text scanned from a book by Sudhākara Mālavīya. The transcription is useful as a secondary procedural witness, but its exact edition, printed page images, and OCR accuracy have not yet been independently checked. Preserve it as a separate OCR-derived Hindi witness, not as a diplomatic transcription of the Sanskrit verses.
+
+### Procedural content recovered from the supplied OCR
+
+1. **Pāta direction (verse 1):** compare the sāyana Sun + sāyana Moon sum with 6 or 12 rāśis. The text distinguishes future/coming pāta from past/elapsed pāta according to whether the sum is below or above the relevant target. This broadly agrees with the future-pāta classification in the 1902 and 1991 worked examples, though the precise wording should be checked against the printed Sanskrit.
+2. **Past/future and khanda placement (verses 2–7):** determine Sun, Moon, pāta and śara; determine past/future according to the stated sign-position/gola rules; arrange elapsed/coming krānti and śara khandas; combine krānti and śara values by same-sign addition or opposite-sign difference; then apply a thirteenth-part correction to the bhogya amount. This independently supports the procedural order already recovered from the 1902 and 1991 commentaries: krānti/śara signed combination, followed by a 1/13 correction before the final pāta value.
+3. **Signed 24-position tables (verse 3):** both krānti and śara six-entry base tables are expanded four times in forward/reverse order, with signs +, −, +, − across the four six-entry blocks. This matches the existing signed khanda expansion implementation and the independently verified 1902 table structure.
+4. **Elapsed khanda/remainder (verse 4):** divide sapāta Moon and sāyana Moon, expressed in the stated units, by 15; quotients give elapsed śara and krānti khanda counts, and remainders give the bhogya fractions/amounts. This is consistent with the existing 15-part division model, subject to exact unit confirmation.
+5. **Pāta midpoint (verses 8–10):** multiply lunar śara by 15; subtract successive śara-khanda contributions while they can be cleared; classify cleared terms as śuddha khandas and the uncleared remainder as aśuddha khanda; divide the residual by the bhogya/remaining sphuṭa-khanda; add the quotient to the sum of the cleared-khanda multipliers; multiply the resulting angular amount by 60 and divide by lunar motion to obtain time. This strongly corroborates the structure of the 1902 verse-8/9 algorithm and the sequence in the Śaka 1290 worked example. The exact OCR phrase “भोग्यस्खण्ड” is suspicious and may represent “भोग्यस्फुटखण्ड”; do not normalize without the printed page.
+6. **Situation duration (verse 11):** the OCR gives a divisor/coefficient of 2203 applied to the aśuddha śara-khanda, with the quotient added to and subtracted from the midpoint to obtain contact and release. This matches the existing research constant 2203 but does not independently establish the precise scale or rounding.
+7. **Alternative possibility and duration (verses 12–14):** the OCR describes a threshold using 15 × śara against 480; if it is below 480, a further expression using (48 − śara) × 9 divided by the final śara-khanda yields a time correction around the midpoint. This is a distinct formula from the 2203 rule in verse 11, and must be investigated as a separate branch/alternative method rather than merged into one formula. The phrase “अन्त्य शरखण्ड” and exact operation order need checking against the Sanskrit page.
+8. **Krānti equality (verse 15):** compares the difference of the Sun/Moon disc-sum half and the sum of their apparent semidiameters (OCR Hindi summary says “बिम्बयोगार्द्ध तथा मान योगार्द्ध”) to decide krānti-sāmya and the corresponding pāta situation. This may provide a route to independently audit the final equality check in the 1902 example, but the exact astronomical meaning and inequality need the source page.
+
+### OCR cautions
+
+Likely recognition errors include “पाप्त” for “पात”, “वियमपद” for “विषमपद”, “शर नावे” possibly “शर नापे/नावे” depending on source wording, “बशुद्ध” for “अशुद्ध”, and “भोग्यस्खण्ड” for a likely compound involving “स्फुटखण्ड”. These are candidates only; preserve the user's raw transcription as supplied.
+
+The verse 2 sign/gola table is badly broken in the OCR (the four cases are not legible enough to reconstruct safely). Do not invent the missing truth table. The word transcribed as “रेवार” in verse 7 is also uncertain; retain it raw pending page inspection.
+
+### Consequence for the ongoing Śaka 1290 audit
+
+This witness strengthens the following conclusions:
+- the 24-position signed khanda expansion is not an isolated reading;
+- the 15-part division and śuddha/aśuddha subtraction method is central to the midpoint calculation;
+- the 1/13 correction belongs in the krānti/śara khanda construction, not as an arbitrary post-hoc adjustment;
+- the 2203 rule is explicitly present in a second procedural account;
+- a separate 48-and-9 duration formula may exist and deserves an independent derivation.
+
+It does **not** yet resolve the unit scale that turns the first two printed product lines (775;3 and 492;3;27) into the residual sequence. No production solver or public calendar logic should be implemented from this OCR alone.
+
+### Required next checks
+
+1. Identify the exact Sudhākara Mālavīya book edition, publication details, and printed pages for this chapter.
+2. Compare the Sanskrit verses and Hindi commentary against the Google Lens text, especially verses 2, 7, 8, 11, and 14.
+3. Derive both duration methods (2203 and the 48/9 expression) dimensionally and test against the Śaka 1290 example and a second independent example.
+4. Use the krānti-sāmya criterion to recheck the printed p.146 final equality claim without altering the user's verified numbers.
