@@ -364,6 +364,16 @@ export function scanDrikSolarAltitudeTransitions({
   return { samples, events };
 }
 
+export function clockOfDayDifferenceMinutes(predictedUtcMs, observedUtcMs, utcOffsetMinutes = 330) {
+  const predictedLocal = new Date(predictedUtcMs + utcOffsetMinutes * 60_000);
+  const observedLocal = new Date(observedUtcMs + utcOffsetMinutes * 60_000);
+  const predictedMinute = predictedLocal.getUTCHours() * 60 + predictedLocal.getUTCMinutes() +
+    predictedLocal.getUTCSeconds() / 60;
+  const observedMinute = observedLocal.getUTCHours() * 60 + observedLocal.getUTCMinutes() +
+    observedLocal.getUTCSeconds() / 60;
+  return ((predictedMinute - observedMinute + 720 + 1440) % 1440) - 720;
+}
+
 export function median(values) {
   const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
   if (!sorted.length) return null;
