@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   parsePrintedClock,
+  clockOfDayDifferenceMinutes,
   MINUTES_PER_TIME_DEGREE,
   resolveDrikHorizonBranch,
   sourceObservationToReference,
@@ -12,6 +13,14 @@ import {
   scanDrikSolarAltitudeTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
+
+test("clock-of-day residual is independent of a one-day date offset", () => {
+  const observed = Date.parse("2027-08-16T19:27:00Z");
+  const predictedNextDay = Date.parse("2027-08-17T19:23:14Z");
+  assert.ok(Math.abs(clockOfDayDifferenceMinutes(predictedNextDay, observed) + 3.7667) < 0.01);
+  assert.equal(clockOfDayDifferenceMinutes(Date.parse("2027-08-17T00:05:00Z"), Date.parse("2027-08-16T23:55:00Z")), 10);
+  assert.equal(clockOfDayDifferenceMinutes(Date.parse("2027-08-16T23:55:00Z"), Date.parse("2027-08-17T00:05:00Z")), -10);
+});
 
 test("Ganesh Martand >24-hour clock notation rolls to the next civil date", () => {
   const parsed = parsePrintedClock("2019-07-20", "34.07");
