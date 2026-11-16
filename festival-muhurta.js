@@ -359,15 +359,20 @@ const rules = {
 
   "janmashtami-nishita"(context) {
     const sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
+    const eventTitle = String(context.event && context.event.title || "");
+    const labelPrefix = /मासिक\s*कृष्ण\s*जन्माष्टमी/.test(eventTitle)
+      ? "मासिक कृष्ण जन्माष्टमी"
+      : "श्रीकृष्ण जन्माष्टमी";
+    const label = labelPrefix + " — निशीथ पूजा मुहूर्त";
     const ashtami = collectNamedIntervals(context.tithis, item => {
       const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
       return Number(raw) === 22 || /krishna.*ashtami|कृष्ण.*अष्टमी/.test(normalizedName(item));
     });
-    if (!sunset || !nextSunrise || nextSunrise <= sunset || !ashtami.length) return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण अष्टमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !ashtami.length) return { label, status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण अष्टमी की वास्तविक अवधि उपलब्ध नहीं है।" };
     const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
-    const window = nishita && windowWithin(nishita.start, nishita.end, ashtami, "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", "स्थानीय निशीथ काल और कृष्ण अष्टमी की संयुक्त व्याप्ति।");
-    if (!window) return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "निशीथ काल में कृष्ण अष्टमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।" };
-    return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "calculated", windows: [window] };
+    const window = nishita && windowWithin(nishita.start, nishita.end, ashtami, label, "स्थानीय निशीथ काल और कृष्ण अष्टमी की संयुक्त व्याप्ति।");
+    if (!window) return { label, status: "unavailable", message: "निशीथ काल में कृष्ण अष्टमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।" };
+    return { label, status: "calculated", windows: [window] };
   },
 
   "raksha-bandhan-thread"(context) {
@@ -1832,7 +1837,7 @@ export function getFestivalMuhurta(event, context) {
     };
   }
   try {
-    return calculate(context || {});
+    return calculate(Object.assign({}, context || {}, { event }));
   } catch (error) {
     console.warn("Festival muhurta calculation failed:", event.muhurtaRule, error);
     return {

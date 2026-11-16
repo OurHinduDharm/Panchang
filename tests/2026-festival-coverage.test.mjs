@@ -493,10 +493,19 @@ test("2026 December includes verified regional observances without duplicate sam
     if (tithi) assert.equal(event.hinduTithi, tithi);
     assert.ok(event.sourceUrl, date + " source URL");
   }
+  const distinctMargashirshaObservances = data.events.filter(event =>
+    event.date === "2026-12-01" && event.hinduTithi === "मार्गशीर्ष कृष्ण अष्टमी"
+  );
+  assert.deepEqual(
+    distinctMargashirshaObservances.map(event => event.title).sort(),
+    ["कालभैरवाष्टमी (कालभैरव जयंती)", "मासिक कृष्ण जन्माष्टमी"].sort(),
+    "Kalabhairava Jayanti and monthly Krishna Janmashtami are distinct observances and retain separate cards"
+  );
   const seen = new Set();
   for (const event of data.events) {
     if (!event.hinduTithi) continue;
     const key = event.date + "|" + event.hinduTithi;
+    if (key === "2026-12-01|मार्गशीर्ष कृष्ण अष्टमी") continue;
     assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
     seen.add(key);
   }
