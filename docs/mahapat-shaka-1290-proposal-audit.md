@@ -1036,3 +1036,16 @@ The general algorithm is now more constrained:
 4. apply the residual/quotient step only after subtracting contributions that clear the remaining lunar-śara amount.
 
 The exact p.145 khanda/product column still needs a visual transcription. Do not implement from the current OCR.
+
+
+## 2026-11-16: user reconfirms the printed numerical readings; no further image request
+
+The user has explicitly stated that the numerical readings already supplied in text are exactly what appears in the printed book and that they personally checked the book carefully. Treat these as confirmed diplomatic readings from the user's direct inspection. Do not ask the user to resend p.145, a photograph, or a screenshot merely to repeat that verification.
+
+The current investigation must therefore move forward using the established text witnesses and arithmetic. The unresolved question is not whether the user read the digits correctly, but how the source's stated multiplication / product-column convention produces the printed results. Keep the following pairs verbatim:
+
+- First line: sphuṭa-khaṇḍa 197; multiplier 54;12; printed product 775;3.
+- Second line: sphuṭa-khaṇḍa 61; chāpāṃśas 3;54;12 and 5;47;57; difference 1;53;45; printed product 492;3;27.
+- Third line: sphuṭa-khaṇḍa 274; multiplier 1;53;7; complement 13;6;53; printed product 3593.
+
+The ordinary sexagesimal products do not match the first two displayed results. This is an unresolved unit/column-operation problem, not grounds to question or overwrite the user's transcription. Future work should test the exact Sanskrit commentary, the role of the 15-part lunar-śara budget, and the product-column units. No image request is currently necessary.
