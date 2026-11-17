@@ -16,6 +16,10 @@ const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
   "utf8"
 ));
+const observationIds = dataset.observations.map(item => item.id);
+if (new Set(observationIds).size !== observationIds.length) {
+  throw new Error("Benchmark observation IDs must be unique");
+}
 
 const LOCATIONS = {
   "ganesh-martand": { name: "Almora", latitude: 29 + 37 / 60, longitude: 79 + 40 / 60, elevation: 0 },
