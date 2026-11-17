@@ -461,3 +461,27 @@ test("Drik Almora and Ramnagar use provider-specific coordinates and elevations"
     LOCATION_PROFILES["tara-prasad"].latitude
   );
 });
+
+
+test("Pithoragarh Drik-default and project observers remain distinct", () => {
+  assert.deepEqual(
+    {
+      latitude: LOCATION_PROFILES["drikpanchang-pithoragarh"].latitude,
+      longitude: LOCATION_PROFILES["drikpanchang-pithoragarh"].longitude,
+      elevation: LOCATION_PROFILES["drikpanchang-pithoragarh"].elevation
+    },
+    { latitude: 29.58349, longitude: 80.20947, elevation: 1586 }
+  );
+  assert.deepEqual(
+    {
+      latitude: LOCATION_PROFILES["pithoragarh-project-target"].latitude,
+      longitude: LOCATION_PROFILES["pithoragarh-project-target"].longitude,
+      elevation: LOCATION_PROFILES["pithoragarh-project-target"].elevation
+    },
+    { latitude: 29.5828, longitude: 80.2182, elevation: 1650 }
+  );
+  assert.notEqual(
+    LOCATION_PROFILES["drikpanchang-pithoragarh"].longitude,
+    LOCATION_PROFILES["pithoragarh-project-target"].longitude
+  );
+});
