@@ -260,6 +260,13 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       sourceId: match.row.id,
       sourceLocal: new Date(sourceInstant + 330 * 60_000).toISOString().replace("Z", "+05:30"),
       dateOffsetDays: match.dateOffsetDays,
+      thresholdSunAltitudeDeg: predicted.thresholdSunAltitudeDeg,
+      beforeSunAltitudeDeg: predicted.beforeSunAltitudeDeg,
+      afterSunAltitudeDeg: predicted.afterSunAltitudeDeg,
+      sourceSunAltitudeDeg: match.row.horizonAtComputedBodyEvent?.sunAltitudeDeg ?? null,
+      sourceThresholdMarginDeg: Number.isFinite(match.row.horizonAtComputedBodyEvent?.sunAltitudeDeg)
+        ? match.row.horizonAtComputedBodyEvent.sunAltitudeDeg - predicted.thresholdSunAltitudeDeg
+        : null,
       absoluteInstantResidualMinutes: Math.abs(predicted.utcMilliseconds - sourceInstant) / 60_000,
       clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, sourceInstant)
     });
