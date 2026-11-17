@@ -69,8 +69,8 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 ## Acceptance gates
 
-1. 2026–2027 held-out event dates and times match Drik within an agreed tolerance.
-2. Ganesh Martand date cross-checks remain consistent; verify its clock legend before time calibration.
-3. Almora, Ramnagar and Pithoragarh use distinct provider-specific observer profiles; Pithoragarh Venus transfer check is not generalized to other bodies.
-4. Guru and Shukra pass before finalizing Agastya astrometry.
-5. Only one public label and one calculation path are exposed.
+1. Freeze all model profiles, then validate against a genuinely unseen year (for example 2028); do not retune thresholds on that holdout.
+2. Expand Pithoragarh's independent source set to Jupiter and Agastya, and add more Venus years before treating the six-event transfer as stable.
+3. Complete independent Ganesh Martand / Tara Prasad date cross-checks using their separate observer centres; their source elevations remain unknown.
+4. Pin a catalogue-quality Canopus position with proper motion and revalidate Agastya over held-out years.
+5. Preserve separate city observer profiles and one public method/label; never use city fallbacks.
