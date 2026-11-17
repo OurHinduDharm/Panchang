@@ -845,11 +845,12 @@ function buildPithoragarhTransferValidation(rows) {
   const trainingThroughYear = 2025;
   const trainingLocation = LOCATIONS[trainingSourceId];
   const targetLocation = LOCATIONS[targetSourceId];
-  const trainingObserver = new Observer(
-    trainingLocation.latitude, trainingLocation.longitude, trainingLocation.elevation
-  );
+  const projectLocation = LOCATIONS["pithoragarh-project-target"];
   const targetObserver = new Observer(
     targetLocation.latitude, targetLocation.longitude, targetLocation.elevation
+  );
+  const projectObserver = new Observer(
+    projectLocation.latitude, projectLocation.longitude, projectLocation.elevation
   );
   const trainingRows = rows.filter(row =>
     row.available &&
@@ -914,6 +915,29 @@ function buildPithoragarhTransferValidation(rows) {
       motionStateAt: (body, instantUtcMs) =>
         apparentAtSourceTime(body, targetObserver, instantUtcMs).motionState
     });
+    const projectScan = scanDrikSolarAltitudeTransitions({
+      SearchRiseSet, SearchAltitude, Equator, Horizon,
+      body: row.body, observer: projectObserver, branch: row.branch,
+      startLocalDayUtc, days: 7,
+      astaSunAltitudeDeg: row.eventType === "Asta" ? { [state]: threshold } : {},
+      udayaSunAltitudeDeg: row.eventType === "Udaya" ? { [state]: threshold } : {},
+      motionStateAt: (body, instantUtcMs) =>
+        apparentAtSourceTime(body, projectObserver, instantUtcMs).motionState
+    });
+    const projectCandidates = projectScan.events.map(predicted => {
+      const predictedLocal = new Date(predicted.utcMilliseconds + 330 * 60_000)
+        .toISOString().replace("Z", "+05:30");
+      const predictedDate = predictedLocal.slice(0, 10);
+      const dateOffsetDays = Math.round(
+        (Date.parse(predictedDate + "T00:00:00Z") -
+         Date.parse(row.date + "T00:00:00Z")) / 86_400_000
+      );
+      return { predicted, predictedLocal, predictedDate, dateOffsetDays };
+    }).sort((a, b) =>
+      Math.abs(a.dateOffsetDays) - Math.abs(b.dateOffsetDays) ||
+      a.predicted.utcMilliseconds - b.predicted.utcMilliseconds
+    );
+    const projectBest = projectCandidates[0] || null;
     const candidates = scan.events.map(predicted => {
       const predictedLocal = new Date(predicted.utcMilliseconds + 330 * 60_000)
         .toISOString().replace("Z", "+05:30");
@@ -944,6 +968,12 @@ function buildPithoragarhTransferValidation(rows) {
       predictedLocal: best?.predictedLocal ?? null,
       predictedDate: best?.predictedDate ?? null,
       dateOffsetDays: best?.dateOffsetDays ?? null,
+      projectObserverPredictedLocal: projectBest?.predictedLocal ?? null,
+      projectObserverPredictedDate: projectBest?.predictedDate ?? null,
+      projectObserverDateOffsetDays: projectBest?.dateOffsetDays ?? null,
+      projectObserverClockResidualMinutes: projectBest
+        ? clockOfDayDifferenceMinutes(projectBest.predicted.utcMilliseconds, row.clock.instantUtcMs)
+        : null,
       clockOfDayResidualMinutes: best
         ? clockOfDayDifferenceMinutes(best.predicted.utcMilliseconds, row.clock.instantUtcMs)
         : null,
@@ -953,6 +983,9 @@ function buildPithoragarhTransferValidation(rows) {
   const matched = results.filter(row => row.predictedDate);
   const offsets = matched.map(row => Math.abs(row.dateOffsetDays));
   const clockResiduals = matched.map(row => Math.abs(row.clockOfDayResidualMinutes));
+  const projectMatched = results.filter(row => row.projectObserverPredictedDate);
+  const projectOffsets = projectMatched.map(row => Math.abs(row.projectObserverDateOffsetDays));
+  const projectClockResiduals = projectMatched.map(row => Math.abs(row.projectObserverClockResidualMinutes));
   return {
     validationType: "cross-location transfer; thresholds trained on Almora only",
     trainingSourceId,
@@ -965,6 +998,12 @@ function buildPithoragarhTransferValidation(rows) {
       longitude: targetLocation.longitude,
       elevation: targetLocation.elevation
     },
+    projectObserver: {
+      name: projectLocation.name,
+      latitude: projectLocation.latitude,
+      longitude: projectLocation.longitude,
+      elevation: projectLocation.elevation
+    },
     targetObservations: targetRows.length,
     matchedEvents: matched.length,
     exactDate: offsets.filter(value => value === 0).length,
@@ -972,6 +1011,12 @@ function buildPithoragarhTransferValidation(rows) {
     moreThanOneDay: offsets.filter(value => value > 1).length,
     medianAbsoluteClockResidualMinutes: median(clockResiduals),
     maximumAbsoluteClockResidualMinutes: clockResiduals.length ? Math.max(...clockResiduals) : null,
+    projectObserverMatchedEvents: projectMatched.length,
+    projectObserverExactDate: projectOffsets.filter(value => value === 0).length,
+    projectObserverWithinOneDay: projectOffsets.filter(value => value <= 1).length,
+    projectObserverMedianAbsoluteClockResidualMinutes: median(projectClockResiduals),
+    projectObserverMaximumAbsoluteClockResidualMinutes: projectClockResiduals.length
+      ? Math.max(...projectClockResiduals) : null,
     missingThresholds,
     results
   };
