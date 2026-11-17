@@ -111,7 +111,7 @@ function pairSourceSets(observations, leftSourceId, rightSourceId) {
 function pithoragarhSunriseSunsetSanity() {
   const dateIso = "2026-11-17";
   const timezoneOffsetMinutes = 330;
-  const drikProfile = LOCATION_PROFILES["drikpanchagarh-pithoragarh"];
+  const drikProfile = LOCATION_PROFILES["drikpanchang-pithoragarh"];
   const targetProfile = LOCATION_PROFILES["pithoragarh-project-target"];
   const calculate = (location, direction) => {
     const observer = new Observer(location.latitude, location.longitude, location.elevation);
