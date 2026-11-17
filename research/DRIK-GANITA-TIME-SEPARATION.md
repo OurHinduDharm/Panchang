@@ -42,11 +42,13 @@ Accepted Drik source events place the target near the horizon at the printed eve
 | Jupiter | Udaya | Rising | -9.29° |
 Agastya's constant solar-altitude medians are retained only as diagnostics; its current candidate is the separate azimuth-corrected geometric-star model described above.
 
-The table above is the median of accepted calibration observations; the current planetary holdout candidate uses the 25th percentile of each body/event/branch/motion-state group. The expanding-window comparison (7-day windows around source dates) found q25 no worse than the median and better for the 2027 Jupiter Asta date: 2024 exact 2/4 vs 1/4; 2025 4/5 vs 4/5; 2026 5/5 vs 5/5; 2027 fixed-origin 3/4 vs 2/4.
+The current candidate uses the lower quartile (q25) for most planetary body/event/branch/motion-state profiles. One sparse branch, Venus Udaya on the setting horizon while direct, uses q95; this exception is kept explicit rather than pooling it with retrograde observations. Expanding-window 7-day diagnostics support q25 over the median overall: 2024 exact 2/4 vs 1/4; 2025 4/5 vs 4/5; 2026 5/5 vs 5/5; 2027 fixed-origin 3/4 vs 2/4. For 2027 rolling-origin, q25 gives 3/4 exact while the median gives 2/4 exact, but adding 2026 observations still does not improve every event clock.
 
-Full-year q25 holdout: 2026 = 6/7 exact, 7/7 within one day; 2027 fixed-origin (training through 2025) = 4/6 exact, 6/6 within one day. The 2027 rolling-origin test is worse (4/6 exact with one unmatched observation), so the candidate remains fixed-origin until more independent years are available.
+For Agastya, the candidate residual offsets are event-specific: q25 for Udaya and q90 for Asta. The expanding/fixed-origin diagnostics show Udaya q25 exact in 2023, 2024, 2025, 2026 and 2027 fixed-origin; q90 Asta is within one day in 2025 and exact in 2026 and 2027 fixed-origin. Some Asta cases in earlier years are unmatched, and each year often contributes only one observation per event. These counts are too small to call the residual offsets validated; retain the full quantile comparison in the CI artifact.
 
-These are candidate fitted values, not production constants. Venus direct and retrograde states must be fitted independently; a transition across a station is not evaluated using a blended threshold.
+The latest full-year fixed-origin candidate (thresholds trained only through 2025) gives Almora 2026 = 7/7 exact and 7/7 within one day; 2027 = 6/6 exact and 6/6 within one day. Clock residual medians/maxima are 0.53/1.87 min in 2026 and 0.82/1.83 min in 2027. The 2027 rolling-origin test (training through 2026) remains weaker at 3/6 exact and 5/6 within one day, with one unmatched Agastya Asta. Keep the fixed-origin candidate provisional and do not retune against the holdout.
+
+These are candidate fitted values, not production constants. Venus direct and retrograde states remain independent; a transition across a station is never evaluated using a blended threshold.
 
 ## Data safeguards
 
