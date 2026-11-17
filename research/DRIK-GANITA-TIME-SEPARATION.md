@@ -48,7 +48,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 - The research file preserves 89 observations: 24 Ganesh Martand, 54 Drik Almora, 6 Drik Ramnagar and 5 Tara Prasad.
 - Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
-- Ganesh Martand HH.MM values are preserved verbatim but are not used to fit time thresholds until their clock notation is verified. Its event dates remain a separate cross-check.
+- Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
 - Drik Almora/Ramnagar coordinates are proxies because the exact coordinates selected in the Drik interface were not captured.
 - Source elevations are unconfirmed; the first benchmark pass uses 0 m. Do not treat this as a final elevation correction.
