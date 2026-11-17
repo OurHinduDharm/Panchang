@@ -418,13 +418,14 @@ export function fitTheilSenLine(points) {
  */
 export function scanDrikStarAzimuthTransitions({
   SearchAltitude, Equator, Horizon, body = "Star1", observer, branch,
-  startLocalDayUtc, days, event, slope, intercept
+  startLocalDayUtc, days, event, slope, intercept, residualThresholdDeg = 0
 }) {
   if (typeof SearchAltitude !== "function" || typeof Equator !== "function" ||
       typeof Horizon !== "function") throw new TypeError("SearchAltitude, Equator and Horizon are required");
   if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
-  if (!Number.isFinite(slope) || !Number.isFinite(intercept)) {
-    throw new RangeError("finite azimuth model slope and intercept are required");
+  if (!Number.isFinite(slope) || !Number.isFinite(intercept) ||
+      !Number.isFinite(residualThresholdDeg)) {
+    throw new RangeError("finite azimuth model and residual threshold are required");
   }
   if (!((event === "Udaya" && branch === "rise") ||
         (event === "Asta" && branch === "set"))) {
@@ -465,14 +466,15 @@ export function scanDrikStarAzimuthTransitions({
     const before = samples[index - 1], after = samples[index];
     if (!before.available || !after.available) continue;
     const crossed = event === "Udaya"
-      ? before.residualDeg > 0 && after.residualDeg <= 0
-      : before.residualDeg < 0 && after.residualDeg >= 0;
+      ? before.residualDeg > residualThresholdDeg && after.residualDeg <= residualThresholdDeg
+      : before.residualDeg < residualThresholdDeg && after.residualDeg >= residualThresholdDeg;
     if (!crossed) continue;
     // The published clock is the actual geometric star event on the first
     // qualifying local date; no interpolation between daily star events.
     events.push({
       body, branch, event,
       thresholdSunAltitudeDeg: after.thresholdSunAltitudeDeg,
+      residualThresholdDeg,
       azimuthSeparationDeg: after.azimuthSeparationDeg,
       azimuthModelSlope: slope,
       azimuthModelIntercept: intercept,
