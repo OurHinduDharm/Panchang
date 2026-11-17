@@ -213,6 +213,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   }
 
   const agastyaProfiles = [];
+  const agastyaSampleWindows = [];
   for (const [event, branch] of [["Udaya", "rise"], ["Asta", "set"]]) {
     const starTraining = rows.filter(row =>
       row.available &&
@@ -245,6 +246,24 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       event, slope: fit.slope, intercept: fit.intercept
     });
     predictions.push(...scan.events);
+    const holdoutRows = rows.filter(row =>
+      row.available && row.sourceId === sourceId && row.body === "Star1" &&
+      row.branch === branch && row.eventType === event &&
+      Number(row.date.slice(0, 4)) === holdoutYear
+    );
+    const holdoutDayStarts = holdoutRows.map(row => Date.parse(row.date + "T00:00:00+05:30"));
+    agastyaSampleWindows.push({
+      key: `Star1|${branch}|${event}|fixed-star|azimuth-linear`,
+      samples: scan.samples.filter(sample => sample.available &&
+        holdoutDayStarts.some(day => Math.abs(sample.dayStartUtc - day) <= 3 * 86_400_000)
+      ).map(sample => ({
+        localDate: new Date(sample.dayStartUtc + 330 * 60_000).toISOString().slice(0, 10),
+        sunAltitudeDeg: sample.sunAltitudeDeg,
+        azimuthSeparationDeg: sample.azimuthSeparationDeg,
+        thresholdSunAltitudeDeg: sample.thresholdSunAltitudeDeg,
+        residualDeg: sample.residualDeg
+      }))
+    });
     agastyaProfiles.push({
       key: `Star1|${branch}|${event}|fixed-star|azimuth-linear`,
       slope: fit.slope,
@@ -356,6 +375,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       ...[...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
       ...agastyaProfiles
     ],
+    agastyaSampleWindows,
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
     matchedEvents: matches.length,
