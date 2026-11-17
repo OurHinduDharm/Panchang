@@ -10,6 +10,8 @@ import {
   azimuthSeparationDegrees,
   fitTheilSenLine,
   scanDrikStarAzimuthTransitions,
+  CANOPUS_ASTROMETRY,
+  propagateStarPosition,
   LOCATION_PROFILES,
   sourceObservationToReference,
   measureDrikTimeSeparation,
@@ -358,6 +360,46 @@ test("Theil-Sen fit recovers a robust straight-line threshold", () => {
   assert.ok(Math.abs(fit.slope - 2) < 1e-12);
   assert.ok(Math.abs(fit.intercept) < 1e-12);
   assert.equal(fit.samples, 5);
+});
+
+test("Canopus J2000 catalogue position propagates with measured proper motion", () => {
+  const epoch = propagateStarPosition(CANOPUS_ASTROMETRY, new Date("2000-01-01T12:00:00Z"));
+  assert.ok(Math.abs(epoch.raHours - CANOPUS_ASTROMETRY.raHours) < 1e-12);
+  assert.ok(Math.abs(epoch.decDegrees - CANOPUS_ASTROMETRY.decDegrees) < 1e-12);
+
+  const current = propagateStarPosition(CANOPUS_ASTROMETRY, new Date("2026-01-01T00:00:00Z"));
+  assert.ok(current.raHours > epoch.raHours);
+  assert.ok(current.decDegrees > epoch.decDegrees);
+  assert.ok(current.yearsFromJ2000 > 25 && current.yearsFromJ2000 < 27);
+  assert.ok(current.distanceLightYears > 309 && current.distanceLightYears < 310);
+  assert.throws(() => propagateStarPosition(CANOPUS_ASTROMETRY, "not-a-date"), /valid star catalogue/);
+});
+
+test("Agastya seasonal scanner refreshes the catalog star position for each day", () => {
+  const start = Date.UTC(2026, 8, 1);
+  const defined = [];
+  const result = scanDrikStarAzimuthTransitions({
+    SearchAltitude: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: body => ({ ra: body === "Sun" ? 0 : 1, dec: 0 }),
+    Horizon: (date, observer, ra) => ({
+      altitude: ra === 0 ? -6 : 0.5,
+      azimuth: ra === 0 ? 0 : 90
+    }),
+    observer: {}, branch: "rise", event: "Udaya",
+    startLocalDayUtc: start, days: 2, slope: 0, intercept: -6,
+    DefineStar: (...args) => defined.push(args),
+    starCoordinatesAt: date => ({
+      raHours: 6.4 + date.getUTCDate() / 1_000_000,
+      decDegrees: -52.7,
+      distanceLightYears: 309
+    })
+  });
+  assert.equal(result.samples.length, 2);
+  assert.equal(defined.length, 2);
+  assert.equal(defined[0][0], "Star1");
+  assert.notEqual(defined[0][1], defined[1][1]);
 });
 
 test("Agastya Udaya uses a downward azimuth-corrected residual crossing", () => {
