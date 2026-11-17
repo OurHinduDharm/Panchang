@@ -182,7 +182,10 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     if (!thresholdMap.has(key)) thresholdMap.set(key, []);
     thresholdMap.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
-  const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
+  const planetThresholdQuantile = 0.25;
+  const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) =>
+    [key, quantile(values, planetThresholdQuantile)]
+  ));
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
   const predictions = [];
@@ -371,6 +374,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     observer: { name: location.name, latitude: location.latitude, longitude: location.longitude, elevation: location.elevation },
     trainingThroughYear,
     trainingSamples: training.length,
+    planetThresholdQuantile,
     thresholdProfiles: [
       ...[...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
       ...agastyaProfiles
