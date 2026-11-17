@@ -485,3 +485,18 @@ test("Pithoragarh Drik-default and project observers remain distinct", () => {
     LOCATION_PROFILES["pithoragarh-project-target"].longitude
   );
 });
+
+
+test("Pithoragarh transfer observations are isolated from Almora calibration rows", () => {
+  const dataset = JSON.parse(fs.readFileSync(
+    new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
+    "utf8"
+  ));
+  const transfer = dataset.observations.filter(item =>
+    item.sourceId === "drikpanchang-pithoragarh"
+  );
+  assert.equal(transfer.length, 6);
+  assert.ok(transfer.every(item => item.planet === "शुक्र"));
+  assert.equal(new Set(transfer.map(item => item.id)).size, transfer.length);
+  assert.ok(transfer.every(item => item.edition === "user-transcribed Drik Panchang Pithoragarh data"));
+});
