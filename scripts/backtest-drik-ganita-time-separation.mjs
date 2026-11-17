@@ -839,6 +839,134 @@ function buildAgastyaSeparationDiagnostics(rows) {
 }
 
 
+function buildPithoragarhTransferValidation(rows) {
+  const trainingSourceId = "drikpanchang-almora";
+  const targetSourceId = "drikpanchang-pithoragarh";
+  const trainingThroughYear = 2025;
+  const trainingLocation = LOCATIONS[trainingSourceId];
+  const targetLocation = LOCATIONS[targetSourceId];
+  const trainingObserver = new Observer(
+    trainingLocation.latitude, trainingLocation.longitude, trainingLocation.elevation
+  );
+  const targetObserver = new Observer(
+    targetLocation.latitude, targetLocation.longitude, targetLocation.elevation
+  );
+  const trainingRows = rows.filter(row =>
+    row.available &&
+    row.sourceId === trainingSourceId &&
+    row.body !== "Star1" &&
+    row.bodyEventResidualMinutes <= 15 &&
+    row.horizonAtComputedBodyEvent &&
+    Number(row.date.slice(0, 4)) <= trainingThroughYear
+  );
+  const trainingGroups = new Map();
+  for (const row of trainingRows) {
+    const state = row.horizonAtComputedBodyEvent.motionState;
+    const key = [row.body, row.branch, row.eventType, state].join("|");
+    if (!trainingGroups.has(key)) trainingGroups.set(key, []);
+    trainingGroups.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
+  }
+  const profileQuantiles = new Map([...trainingGroups.keys()].map(key => [
+    key, key === "Venus|set|Udaya|direct" ? 0.95 : 0.25
+  ]));
+  const thresholdProfiles = new Map([...trainingGroups.entries()].map(([key, values]) => [
+    key, quantile(values, profileQuantiles.get(key))
+  ]));
+  const targetRows = rows.filter(row =>
+    row.sourceId === targetSourceId &&
+    row.body !== "Star1" &&
+    row.available &&
+    row.bodyEventResidualMinutes <= 15 &&
+    row.horizonAtComputedBodyEvent
+  );
+  const results = [];
+  const missingThresholds = [];
+  for (const row of targetRows) {
+    const state = row.horizonAtComputedBodyEvent.motionState;
+    const key = [row.body, row.branch, row.eventType, state].join("|");
+    const threshold = thresholdProfiles.get(key);
+    if (!Number.isFinite(threshold)) {
+      missingThresholds.push({
+        sourceId: row.id, body: row.body, event: row.eventType,
+        branch: row.branch, motionState: state, thresholdKey: key
+      });
+      continue;
+    }
+    const sourceDateStartUtc = Date.parse(row.date + "T00:00:00+05:30");
+    const startLocalDayUtc = sourceDateStartUtc - 3 * 86_400_000;
+    const scan = scanDrikSolarAltitudeTransitions({
+      SearchRiseSet, SearchAltitude, Equator, Horizon,
+      body: row.body, observer: targetObserver, branch: row.branch,
+      startLocalDayUtc, days: 7,
+      astaSunAltitudeDeg: row.eventType === "Asta" ? { [state]: threshold } : {},
+      udayaSunAltitudeDeg: row.eventType === "Udaya" ? { [state]: threshold } : {},
+      motionStateAt: (body, instantUtcMs) =>
+        apparentAtSourceTime(body, targetObserver, instantUtcMs).motionState
+    });
+    const candidates = scan.events.map(predicted => {
+      const predictedLocal = new Date(predicted.utcMilliseconds + 330 * 60_000)
+        .toISOString().replace("Z", "+05:30");
+      const predictedDate = predictedLocal.slice(0, 10);
+      const dateOffsetDays = Math.round(
+        (Date.parse(predictedDate + "T00:00:00Z") -
+         Date.parse(row.date + "T00:00:00Z")) / 86_400_000
+      );
+      return { predicted, predictedLocal, predictedDate, dateOffsetDays };
+    }).sort((a, b) =>
+      Math.abs(a.dateOffsetDays) - Math.abs(b.dateOffsetDays) ||
+      a.predicted.utcMilliseconds - b.predicted.utcMilliseconds
+    );
+    const best = candidates[0] || null;
+    results.push({
+      sourceId: row.id,
+      sourceDate: row.date,
+      sourceClockRaw: row.timeRaw,
+      body: row.body,
+      event: row.eventType,
+      branch: row.branch,
+      motionState: state,
+      thresholdKey: key,
+      thresholdQuantile: profileQuantiles.get(key),
+      thresholdSunAltitudeDeg: threshold,
+      sourceSunAltitudeDeg: row.horizonAtComputedBodyEvent.sunAltitudeDeg,
+      sourceThresholdMarginDeg: row.horizonAtComputedBodyEvent.sunAltitudeDeg - threshold,
+      predictedLocal: best?.predictedLocal ?? null,
+      predictedDate: best?.predictedDate ?? null,
+      dateOffsetDays: best?.dateOffsetDays ?? null,
+      clockOfDayResidualMinutes: best
+        ? clockOfDayDifferenceMinutes(best.predicted.utcMilliseconds, row.clock.instantUtcMs)
+        : null,
+      candidates: candidates.map(item => item.predictedLocal)
+    });
+  }
+  const matched = results.filter(row => row.predictedDate);
+  const offsets = matched.map(row => Math.abs(row.dateOffsetDays));
+  const clockResiduals = matched.map(row => Math.abs(row.clockOfDayResidualMinutes));
+  return {
+    validationType: "cross-location transfer; thresholds trained on Almora only",
+    trainingSourceId,
+    targetSourceId,
+    trainingThroughYear,
+    trainingSamples: trainingRows.length,
+    targetObserver: {
+      name: targetLocation.name,
+      latitude: targetLocation.latitude,
+      longitude: targetLocation.longitude,
+      elevation: targetLocation.elevation
+    },
+    targetObservations: targetRows.length,
+    matchedEvents: matched.length,
+    exactDate: offsets.filter(value => value === 0).length,
+    withinOneDay: offsets.filter(value => value <= 1).length,
+    moreThanOneDay: offsets.filter(value => value > 1).length,
+    medianAbsoluteClockResidualMinutes: median(clockResiduals),
+    maximumAbsoluteClockResidualMinutes: clockResiduals.length ? Math.max(...clockResiduals) : null,
+    missingThresholds,
+    results
+  };
+}
+
+
 const rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
@@ -893,6 +1021,7 @@ const report = {
   agastyaResidualQuantileDiagnostics: buildAgastyaResidualQuantileDiagnostics(rows),
   planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
   pithoragarhObserverSanity: pithoragarhSunriseSunsetSanity(),
+  pithoragarhCrossLocationTransfer: buildPithoragarhTransferValidation(rows),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
