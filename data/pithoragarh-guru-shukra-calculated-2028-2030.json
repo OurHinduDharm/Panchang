@@ -43,12 +43,13 @@
     "generatedAt": "2026-11-13T06:40:42Z",
     "publicDisplay": "Date and local time only",
     "publicationDecision": {
-      "status": "accepted-for-initial-publication",
-      "decidedAt": "2026-11-15",
-      "basis": "Source-trained local twilight model; all 9 held-out Pithoragarh 2026-2027 boundaries matched within 58.2 seconds. 2028-2030 dates are model predictions; the independent Panchang Guru comparison is New Delhi only and is not treated as Pithoragarh ground truth.",
+      "status": "research-candidate-not-published",
+      "decidedAt": "2026-11-17",
+      "basis": "The 2026-2027 holdout demonstrates close clock fitting for nine sampled source boundaries, but the originating diagnostic report explicitly concludes diagnostic-only and no production values generated. No separate reproducible acceptance gate currently validates the 2028-2030 future-window generator.",
       "limitations": [
         "The Drik Pithoragarh source does not disclose exact observer coordinates; calculation uses the project-selected reference point.",
-        "The result estimates the published Panchang-style Asta/Udaya boundary, not guaranteed naked-eye visibility under local weather or terrain obstruction."
+        "The result estimates a published Panchang-style Asta/Udaya boundary, not guaranteed naked-eye visibility under local weather or terrain obstruction.",
+        "The 9/9 holdout result is a small sample and does not independently validate all future conjunction windows."
       ]
     }
   },
@@ -62,9 +63,9 @@
       "conjunctionUtc": "2028-09-30T12:51:39.178Z",
       "durationDays": 27.443,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-jupiter-2029",
@@ -75,9 +76,9 @@
       "conjunctionUtc": "2029-10-30T23:55:41.165Z",
       "durationDays": 25.484,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-jupiter-2030",
@@ -88,9 +89,9 @@
       "conjunctionUtc": "2030-11-30T14:43:21.715Z",
       "durationDays": 24.516,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-venus-2028",
@@ -101,9 +102,9 @@
       "conjunctionUtc": "2028-06-01T09:59:54.239Z",
       "durationDays": 9.38,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-venus-2029",
@@ -114,9 +115,9 @@
       "conjunctionUtc": "2029-03-23T20:12:49.931Z",
       "durationDays": 64.527,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-venus-2030-jan",
@@ -127,9 +128,9 @@
       "conjunctionUtc": "2030-01-06T13:18:53.564Z",
       "durationDays": 4.535,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     },
     {
       "id": "ohd-pithoragarh-venus-2030-sep",
@@ -140,9 +141,9 @@
       "conjunctionUtc": "2030-10-20T11:11:28.397Z",
       "durationDays": 53.503,
       "status": "calculated",
-      "acceptanceEligible": true,
-      "publicationStatus": "accepted",
-      "acceptanceBasis": "Held-out validation: 9/9 Pithoragarh source boundaries in 2026-2027; maximum absolute clock difference 58.2 seconds."
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate",
+      "acceptanceBasis": "Not accepted for publication: future-window generator requires a reproducible CI acceptance gate; the source diagnostic remains diagnostic-only."
     }
   ]
 }
