@@ -513,6 +513,114 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
 }
 
 
+function buildAgastyaResidualQuantileDiagnostics(rows) {
+  const sourceId = "drikpanchang-almora";
+  const location = LOCATIONS[sourceId];
+  const observer = new Observer(location.latitude, location.longitude, location.elevation);
+  const probabilities = [0.1, 0.25, 0.5, 0.75, 0.9];
+  const scenarios = [
+    ...[2023, 2024, 2025, 2026].map(holdoutYear => ({
+      holdoutYear, trainingThroughYear: holdoutYear - 1, mode: "expanding"
+    })),
+    { holdoutYear: 2027, trainingThroughYear: 2025, mode: "fixed-origin" },
+    { holdoutYear: 2027, trainingThroughYear: 2026, mode: "rolling-origin" }
+  ];
+  const output = [];
+  for (const scenario of scenarios) {
+    for (const [event, branch] of [["Udaya", "rise"], ["Asta", "set"]]) {
+      const training = rows.filter(row =>
+        row.available &&
+        row.sourceId === sourceId &&
+        row.body === "Star1" &&
+        row.branch === branch &&
+        row.eventType === event &&
+        row.bodyEventResidualMinutes <= 15 &&
+        row.horizonAtComputedBodyEvent &&
+        Number(row.date.slice(0, 4)) <= scenario.trainingThroughYear
+      );
+      if (training.length < 3) continue;
+      const points = training.map(row => ({
+        x: azimuthSeparationDegrees(
+          row.horizonAtComputedBodyEvent.bodyAzimuthDeg,
+          row.horizonAtComputedBodyEvent.sunAzimuthDeg
+        ),
+        y: row.horizonAtComputedBodyEvent.sunAltitudeDeg,
+        id: row.id
+      }));
+      const fit = fitTheilSenLine(points);
+      if (!fit) continue;
+      const trainingResiduals = points.map(point =>
+        point.y - (fit.slope * point.x + fit.intercept)
+      );
+      const centerDayOfYear = Math.round(median(training.map(row => {
+        const d = new Date(row.date + "T00:00:00Z");
+        return Math.floor((d.getTime() - Date.UTC(d.getUTCFullYear(), 0, 0)) / 86_400_000);
+      })));
+      const observed = rows.filter(row =>
+        row.available &&
+        row.sourceId === sourceId &&
+        row.body === "Star1" &&
+        row.branch === branch &&
+        row.eventType === event &&
+        row.bodyEventResidualMinutes <= 15 &&
+        Number(row.date.slice(0, 4)) === scenario.holdoutYear
+      );
+      if (!observed.length) continue;
+      for (const probability of probabilities) {
+        const residualThresholdDeg = quantile(trainingResiduals, probability);
+        const startLocalDayUtc = Date.parse(`${scenario.holdoutYear}-01-01T00:00:00+05:30`) +
+          (centerDayOfYear - 1 - 45) * 86_400_000;
+        const scan = scanDrikStarAzimuthTransitions({
+          SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
+          startLocalDayUtc, days: 91, event,
+          slope: fit.slope, intercept: fit.intercept, residualThresholdDeg
+        });
+        for (const row of observed) {
+          const sourceDate = row.date;
+          const sourceInstant = row.clock.instantUtcMs;
+          const candidates = scan.events.map(predicted => {
+            const predictedDate = new Date(predicted.utcMilliseconds + 330 * 60_000)
+              .toISOString().slice(0, 10);
+            const dateOffsetDays = Math.round(
+              (Date.parse(predictedDate + "T00:00:00Z") -
+               Date.parse(sourceDate + "T00:00:00Z")) / 86_400_000
+            );
+            return {
+              predictedLocal: new Date(predicted.utcMilliseconds + 330 * 60_000)
+                .toISOString().replace("Z", "+05:30"),
+              predictedDate,
+              dateOffsetDays,
+              absoluteClockResidualMinutes: Math.abs(
+                clockOfDayDifferenceMinutes(predicted.utcMilliseconds, sourceInstant)
+              )
+            };
+          }).sort((a, b) => Math.abs(a.dateOffsetDays) - Math.abs(b.dateOffsetDays));
+          const best = candidates[0] || null;
+          output.push({
+            holdoutYear: scenario.holdoutYear,
+            trainingThroughYear: scenario.trainingThroughYear,
+            mode: scenario.mode,
+            event,
+            branch,
+            quantile: probability,
+            residualThresholdDeg,
+            trainingSamples: training.length,
+            sourceId: row.id,
+            sourceDate,
+            predictedDate: best?.predictedDate ?? null,
+            dateOffsetDays: best?.dateOffsetDays ?? null,
+            clockOfDayResidualMinutes: best?.absoluteClockResidualMinutes ?? null,
+            candidateCount: candidates.length,
+            candidateDates: candidates.map(item => item.predictedDate)
+          });
+        }
+      }
+    }
+  }
+  return output;
+}
+
+
 function buildAgastyaAzimuthModelDiagnostics(rows) {
   const training = rows.filter(row =>
     row.available &&
@@ -691,6 +799,7 @@ const report = {
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   agastyaSeparationDiagnostics: buildAgastyaSeparationDiagnostics(rows),
   agastyaAzimuthModelDiagnostics: buildAgastyaAzimuthModelDiagnostics(rows),
+  agastyaResidualQuantileDiagnostics: buildAgastyaResidualQuantileDiagnostics(rows),
   planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
   observations: rows,
   notes: [
