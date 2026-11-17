@@ -55,6 +55,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 - Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
 - Drik Almora and Ramnagar now use the exact provider-published observer profiles: Almora 29.59713°N, 79.65911°E, 1600 m; Ramnagar 29.3925°N, 79.1283°E, 364 m. These were taken from Drik's own location-detail pages, not substituted from the printed Panchang centres.
+- Pithoragarh has two intentionally separate profiles: Drik default city (29.58349°N, 80.20947°E, 1586 m) and project observer (29.5828°N, 80.2182°E, 1650 m). A 17 Nov 2026 sunrise/sunset sanity check compares the Drik profile with its published 06:35 / 17:13 IST. This checks the observer setup only; Pithoragarh Asta/Udaya still needs independent local source observations.
 - Ganesh Martand and Tara Prasad retain their own printed calculation-centre coordinates. Their source elevations are still unconfirmed and currently remain 0 m only as a provisional diagnostic assumption.
 - Agastya uses a provisional Canopus J2000 position; pin an astrometric catalogue/proper-motion source before production.
 
