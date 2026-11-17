@@ -130,7 +130,7 @@ function pithoragarhSunriseSunsetSanity() {
     const instant = event?.date instanceof Date ? event.date.getTime()
       : event?.date ? new Date(event.date).getTime() : NaN;
     if (!Number.isFinite(instant)) return null;
-    return Math.round(instant + timezoneOffsetMinutes * 60_000);
+    return Math.round(instant);
   };
   const drikSunrise = calculate(drikProfile, 1);
   const drikSunset = calculate(drikProfile, -1);
@@ -139,7 +139,7 @@ function pithoragarhSunriseSunsetSanity() {
   const sourceSunrise = Date.parse(`${dateIso}T06:35:00+05:30`);
   const sourceSunset = Date.parse(`${dateIso}T17:13:00+05:30`);
   const clock = instant => Number.isFinite(instant)
-    ? new Date(instant).toISOString().slice(11, 19) : null;
+    ? new Date(instant + timezoneOffsetMinutes * 60_000).toISOString().slice(11, 19) : null;
   return {
     date: dateIso,
     drikSourcePage: "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1259503",
