@@ -465,9 +465,55 @@ export function fitTheilSenLine(points) {
  * boundary is fitted separately as Sun altitude versus horizontal azimuth
  * separation at that crossing; it is not mixed with planet thresholds.
  */
+export const CANOPUS_ASTROMETRY = Object.freeze({
+  catalog: "SIMBAD / van Leeuwen 2007, 2007A&A...474..653V",
+  frame: "ICRS",
+  referenceEpoch: "J2000.0",
+  raHours: 6 + 23 / 60 + 57.10988 / 3600,
+  decDegrees: -(52 + 41 / 60 + 44.3810 / 3600),
+  properMotionRaCosDecMasPerYear: 19.93,
+  properMotionDecMasPerYear: 23.24,
+  parallaxMas: 10.55,
+  distanceLightYears: 1 / (10.55 / 1000) * 3.26156
+});
+
+/**
+ * Propagate the catalogue ICRS position using Hipparcos proper motion.
+ * Astronomy Engine's DefineStar accepts a fixed J2000 position, so callers
+ * refresh the user-defined star for each observation/scan date.
+ */
+export function propagateStarPosition(catalog, date) {
+  const instant = date instanceof Date ? date.getTime() : new Date(date).getTime();
+  const values = [
+    catalog?.raHours, catalog?.decDegrees,
+    catalog?.properMotionRaCosDecMasPerYear,
+    catalog?.properMotionDecMasPerYear, catalog?.distanceLightYears
+  ];
+  if (!Number.isFinite(instant) || values.some(value => !Number.isFinite(value)) ||
+      catalog.raHours < 0 || catalog.raHours >= 24 ||
+      catalog.decDegrees < -90 || catalog.decDegrees > 90 ||
+      catalog.distanceLightYears < 1) {
+    throw new RangeError("valid star catalogue data and date are required");
+  }
+  const j2000NoonUtc = Date.UTC(2000, 0, 1, 12);
+  const years = (instant - j2000NoonUtc) / (365.25 * 86_400_000);
+  const decRadians = catalog.decDegrees * Math.PI / 180;
+  const raDeltaDegrees = catalog.properMotionRaCosDecMasPerYear * years /
+    (3_600_000 * Math.cos(decRadians));
+  const decDeltaDegrees = catalog.properMotionDecMasPerYear * years / 3_600_000;
+  const raHours = ((catalog.raHours + raDeltaDegrees / 15) % 24 + 24) % 24;
+  return {
+    raHours,
+    decDegrees: catalog.decDegrees + decDeltaDegrees,
+    distanceLightYears: catalog.distanceLightYears,
+    yearsFromJ2000: years
+  };
+}
+
 export function scanDrikStarAzimuthTransitions({
   SearchAltitude, Equator, Horizon, body = "Star1", observer, branch,
-  startLocalDayUtc, days, event, slope, intercept, residualThresholdDeg = 0
+  startLocalDayUtc, days, event, slope, intercept, residualThresholdDeg = 0,
+  DefineStar = null, starCoordinatesAt = null
 }) {
   if (typeof SearchAltitude !== "function" || typeof Equator !== "function" ||
       typeof Horizon !== "function") throw new TypeError("SearchAltitude, Equator and Horizon are required");
@@ -483,6 +529,11 @@ export function scanDrikStarAzimuthTransitions({
   const samples = [];
   for (let index = 0; index < days; index++) {
     const dayStartUtc = startLocalDayUtc + index * 86_400_000;
+    if (body === "Star1" && typeof DefineStar === "function" &&
+        typeof starCoordinatesAt === "function") {
+      const position = starCoordinatesAt(new Date(dayStartUtc + 12 * 60 * 60_000));
+      DefineStar(body, position.raHours, position.decDegrees, position.distanceLightYears);
+    }
     const found = SearchAltitude(body, observer, branch === "rise" ? 1 : -1,
       new Date(dayStartUtc), 1, 0);
     const instant = found?.date instanceof Date ? found.date.getTime()
