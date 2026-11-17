@@ -407,3 +407,28 @@ test("Agastya Asta requires a setting branch and upward residual crossing", () =
     startLocalDayUtc: start, days: 3, slope: 0, intercept: -6
   }), /Agastya Udaya requires rise/);
 });
+
+
+test("Agastya residual threshold shifts Asta to the first event beyond calibrated residual", () => {
+  const start = Date.UTC(2027, 3, 12);
+  const residuals = [-0.02, -0.01, 0.01, 0.04];
+  const result = scanDrikStarAzimuthTransitions({
+    SearchAltitude: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 19 * 60 * 60_000)
+    }),
+    Equator: body => ({ ra: body === "Sun" ? 0 : 1, dec: 0 }),
+    Horizon: (date, observer, ra) => {
+      const index = Math.floor((date.getTime() - start) / 86_400_000);
+      return {
+        altitude: ra === 0 ? residuals[index] : 0.5,
+        azimuth: ra === 0 ? 0 : 90
+      };
+    },
+    observer: {}, branch: "set", event: "Asta",
+    startLocalDayUtc: start, days: residuals.length,
+    slope: 0, intercept: 0, residualThresholdDeg: 0.02
+  });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].utcMilliseconds, start + 3 * 86_400_000 + 19 * 60 * 60_000);
+  assert.equal(result.events[0].residualThresholdDeg, 0.02);
+});
