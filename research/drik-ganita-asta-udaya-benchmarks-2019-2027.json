@@ -984,5 +984,26 @@
       "severity": "medium",
       "note": "The Drik Almora event clocks align with the computed target apparent rise/set event to within about one minute for accepted planetary records. They are therefore the primary time-calibration records; Ganesh Martand remains a date and independent cross-check until its time notation is verified."
     }
+  ],
+  "observerProfiles": [
+    {
+      "id": "drikpanchang-pithoragarh",
+      "name": "Pithoragarh (Drik Panchang default city)",
+      "latitude": 29.58349,
+      "longitude": 80.20947,
+      "elevationMeters": 1586,
+      "profileType": "provider-reference",
+      "coordinateSourceUrl": "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1259503",
+      "notes": "Exact observer published by Drik Panchang for its default Pithoragarh city. Used for provider-page sunrise/sunset sanity comparison; not an assumed exact match for the project's target point."
+    },
+    {
+      "id": "pithoragarh-project-target",
+      "name": "Pithoragarh project observer",
+      "latitude": 29.5828,
+      "longitude": 80.2182,
+      "elevationMeters": 1650,
+      "profileType": "project-target",
+      "notes": "Separate project observer point. Must remain distinct from Drik Panchang's default city coordinates."
+    }
   ]
 }
