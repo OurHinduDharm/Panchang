@@ -50,13 +50,14 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 ## Data safeguards
 
-- The research file preserves 89 observations: 24 Ganesh Martand, 54 Drik Almora, 6 Drik Ramnagar and 5 Tara Prasad.
+- The research file preserves 95 observations: the original 89 records plus 6 separately transcribed Drik Pithoragarh Venus events. The current engine evaluates all 95; 87 are usable and 8 remain rejected/insufficient.
 - Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
 - Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
 - Drik Almora and Ramnagar now use the exact provider-published observer profiles: Almora 29.59713°N, 79.65911°E, 1600 m; Ramnagar 29.3925°N, 79.1283°E, 364 m. These were taken from Drik's own location-detail pages, not substituted from the printed Panchang centres.
-- Pithoragarh has two intentionally separate profiles: Drik default city (29.58349°N, 80.20947°E, 1586 m) and project observer (29.5828°N, 80.2182°E, 1650 m). A 17 Nov 2026 sunrise/sunset sanity check compares the Drik profile with its published 06:35 / 17:13 IST. This checks the observer setup only; Pithoragarh Asta/Udaya still needs independent local source observations.
+- Pithoragarh has two intentionally separate profiles: Drik default city (29.58349°N, 80.20947°E, 1586 m) and project observer (29.5828°N, 80.2182°E, 1650 m). On 17 Nov 2026, the engine returned 06:35:14 sunrise and 17:12:38 sunset at the Drik observer, versus provider-published 06:35 / 17:13 IST (residuals +0.25 / −0.37 min). The project observer differs from the Drik observer by only −0.02 / −0.05 min on that date. This validates the observer setup only.
 - Ganesh Martand and Tara Prasad retain their own printed calculation-centre coordinates. Their source elevations are still unconfirmed and currently remain 0 m only as a provisional diagnostic assumption.
+- A cross-location transfer test now applies thresholds trained only on Drik Almora (through 2025) to six separate Drik Pithoragarh Venus records, using Pithoragarh's own observer. Result: 5/6 exact dates, 6/6 within one day; median / maximum clock-of-day residual 0.57 / 2.42 min. No Pithoragarh event is used to fit the Almora threshold. One event (11 Dec 2025) is predicted on 12 Dec, while its clock remains within 2.42 min. This is a promising six-event Venus transfer check, not validation of Pithoragarh Jupiter, Agastya or all years.
 - Agastya uses a provisional Canopus J2000 position; pin an astrometric catalogue/proper-motion source before production.
 
 ## Performance plan
@@ -70,6 +71,6 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 1. 2026–2027 held-out event dates and times match Drik within an agreed tolerance.
 2. Ganesh Martand date cross-checks remain consistent; verify its clock legend before time calibration.
-3. Almora and Ramnagar profiles do not use city fallbacks.
+3. Almora, Ramnagar and Pithoragarh use distinct provider-specific observer profiles; Pithoragarh Venus transfer check is not generalized to other bodies.
 4. Guru and Shukra pass before finalizing Agastya astrometry.
 5. Only one public label and one calculation path are exposed.
