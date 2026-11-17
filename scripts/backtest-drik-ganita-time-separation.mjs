@@ -357,6 +357,59 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   };
 }
 
+function buildAgastyaAzimuthModelDiagnostics(rows) {
+  const training = rows.filter(row =>
+    row.available &&
+    row.sourceId === "drikpanchang-almora" &&
+    row.body === "Star1" &&
+    row.bodyEventResidualMinutes <= 15 &&
+    row.horizonAtComputedBodyEvent &&
+    Number(row.date.slice(0, 4)) <= 2025
+  );
+  const groups = new Map();
+  for (const row of training) {
+    const key = [row.branch, row.eventType].join("|");
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push({
+      x: azimuthSeparationDegrees(
+        row.horizonAtComputedBodyEvent.bodyAzimuthDeg,
+        row.horizonAtComputedBodyEvent.sunAzimuthDeg
+      ),
+      y: row.horizonAtComputedBodyEvent.sunAltitudeDeg,
+      id: row.id
+    });
+  }
+  return [...groups.entries()].map(([key, points]) => {
+    const fit = fitTheilSenLine(points);
+    const linearErrors = [], constantErrors = [], slopes = [];
+    for (let index = 0; index < points.length; index++) {
+      const holdout = points[index];
+      const subset = points.filter((_, i) => i !== index);
+      const line = fitTheilSenLine(subset);
+      if (line) {
+        linearErrors.push(Math.abs(holdout.y - (line.slope * holdout.x + line.intercept)));
+        slopes.push(line.slope);
+      }
+      constantErrors.push(Math.abs(holdout.y - median(subset.map(item => item.y))));
+    }
+    return {
+      key,
+      model: "Theil-Sen: Sun altitude = intercept + slope × horizontal azimuth separation",
+      samples: points.length,
+      slope: fit?.slope ?? null,
+      intercept: fit?.intercept ?? null,
+      leaveOneYearOutMeanAbsoluteErrorLinearDeg: linearErrors.length
+        ? linearErrors.reduce((sum, value) => sum + value, 0) / linearErrors.length : null,
+      leaveOneYearOutMeanAbsoluteErrorConstantDeg: constantErrors.length
+        ? constantErrors.reduce((sum, value) => sum + value, 0) / constantErrors.length : null,
+      leaveOneYearOutSlopeRange: slopes.length
+        ? { min: Math.min(...slopes), max: Math.max(...slopes) } : null,
+      trainingSourceIds: points.map(item => item.id)
+    };
+  });
+}
+
+
 function buildAgastyaSeparationDiagnostics(rows) {
   const training = rows.filter(row =>
     row.available &&
@@ -481,6 +534,7 @@ const report = {
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   agastyaSeparationDiagnostics: buildAgastyaSeparationDiagnostics(rows),
+  agastyaAzimuthModelDiagnostics: buildAgastyaAzimuthModelDiagnostics(rows),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
