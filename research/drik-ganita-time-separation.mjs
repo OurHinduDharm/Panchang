@@ -1,3 +1,38 @@
+
+/**
+ * Independent observer profiles for each printed source/provider.
+ * Drik profiles are the exact geographic details published by Drik Panchang.
+ * Ganesh Martand / Tara Prasad centres retain their printed coordinates;
+ * zero elevation there is provisional because their source elevations are
+ * not documented in the transcribed material.
+ */
+export const LOCATION_PROFILES = Object.freeze({
+  "ganesh-martand": Object.freeze({
+    name: "Almora (Ganesh Martand centre)",
+    latitude: 29 + 37 / 60,
+    longitude: 79 + 40 / 60,
+    elevation: 0
+  }),
+  "tara-prasad": Object.freeze({
+    name: "Ramnagar (Tara Prasad centre)",
+    latitude: 29.5,
+    longitude: 79 + 8 / 60,
+    elevation: 0
+  }),
+  "drikpanchang-almora": Object.freeze({
+    name: "Almora (Drik Panchang)",
+    latitude: 29.59713,
+    longitude: 79.65911,
+    elevation: 1600
+  }),
+  "drikpanchang-ramnagar": Object.freeze({
+    name: "Ramnagar (Drik Panchang)",
+    latitude: 29.3925,
+    longitude: 79.1283,
+    elevation: 364
+  })
+});
+
 /**
  * Drik-Ganita time-separation model — research prototype.
  *
