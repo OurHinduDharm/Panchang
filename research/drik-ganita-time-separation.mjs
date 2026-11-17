@@ -388,6 +388,101 @@ export function scanDrikSolarAltitudeTransitions({
   return { samples, events };
 }
 
+export function azimuthSeparationDegrees(azimuthA, azimuthB) {
+  if (![azimuthA, azimuthB].every(Number.isFinite)) return NaN;
+  return Math.abs(((azimuthA - azimuthB + 540) % 360) - 180);
+}
+
+export function fitTheilSenLine(points) {
+  const valid = points.filter(point =>
+    Number.isFinite(point.x) && Number.isFinite(point.y)
+  );
+  if (valid.length < 2) return null;
+  const slopes = [];
+  for (let i = 0; i < valid.length; i++) {
+    for (let j = i + 1; j < valid.length; j++) {
+      const dx = valid[j].x - valid[i].x;
+      if (Math.abs(dx) > 1e-9) slopes.push((valid[j].y - valid[i].y) / dx);
+    }
+  }
+  if (!slopes.length) return null;
+  const slope = median(slopes);
+  const intercept = median(valid.map(point => point.y - slope * point.x));
+  return { slope, intercept, samples: valid.length };
+}
+
+/**
+ * Agastya/Canopus uses a geometric 0-degree center crossing. Its Drik
+ * boundary is fitted separately as Sun altitude versus horizontal azimuth
+ * separation at that crossing; it is not mixed with planet thresholds.
+ */
+export function scanDrikStarAzimuthTransitions({
+  SearchAltitude, Equator, Horizon, body = "Star1", observer, branch,
+  startLocalDayUtc, days, event, slope, intercept
+}) {
+  if (typeof SearchAltitude !== "function" || typeof Equator !== "function" ||
+      typeof Horizon !== "function") throw new TypeError("SearchAltitude, Equator and Horizon are required");
+  if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
+  if (!Number.isFinite(slope) || !Number.isFinite(intercept)) {
+    throw new RangeError("finite azimuth model slope and intercept are required");
+  }
+  if (!((event === "Udaya" && branch === "rise") ||
+        (event === "Asta" && branch === "set"))) {
+    throw new RangeError("Agastya Udaya requires rise; Asta requires set");
+  }
+  const samples = [];
+  for (let index = 0; index < days; index++) {
+    const dayStartUtc = startLocalDayUtc + index * 86_400_000;
+    const found = SearchAltitude(body, observer, branch === "rise" ? 1 : -1,
+      new Date(dayStartUtc), 1, 0);
+    const instant = found?.date instanceof Date ? found.date.getTime()
+      : found?.date ? new Date(found.date).getTime()
+      : NaN;
+    if (!Number.isFinite(instant) || instant < dayStartUtc ||
+        instant >= dayStartUtc + 86_400_000) {
+      samples.push({ dayStartUtc, available: false });
+      continue;
+    }
+    const date = new Date(instant);
+    const sunEquator = Equator("Sun", date, observer, true, true);
+    const bodyEquator = Equator(body, date, observer, true, true);
+    const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
+    const bodyHorizon = Horizon(date, observer, bodyEquator.ra, bodyEquator.dec, "normal");
+    const azimuthSeparationDeg = azimuthSeparationDegrees(
+      bodyHorizon.azimuth, sunHorizon.azimuth
+    );
+    const thresholdSunAltitudeDeg = slope * azimuthSeparationDeg + intercept;
+    const sunAltitudeDeg = sunHorizon.altitude;
+    samples.push({
+      dayStartUtc, available: true, bodyEventUtcMs: instant,
+      sunAltitudeDeg, bodyAltitudeDeg: bodyHorizon.altitude,
+      azimuthSeparationDeg, thresholdSunAltitudeDeg,
+      residualDeg: sunAltitudeDeg - thresholdSunAltitudeDeg
+    });
+  }
+  const events = [];
+  for (let index = 1; index < samples.length; index++) {
+    const before = samples[index - 1], after = samples[index];
+    if (!before.available || !after.available) continue;
+    const crossed = event === "Udaya"
+      ? before.residualDeg > 0 && after.residualDeg <= 0
+      : before.residualDeg < 0 && after.residualDeg >= 0;
+    if (!crossed) continue;
+    // The published clock is the actual geometric star event on the first
+    // qualifying local date; no interpolation between daily star events.
+    events.push({
+      body, branch, event,
+      thresholdSunAltitudeDeg: after.thresholdSunAltitudeDeg,
+      azimuthSeparationDeg: after.azimuthSeparationDeg,
+      beforeResidualDeg: before.residualDeg,
+      afterResidualDeg: after.residualDeg,
+      utcMilliseconds: Math.round(after.bodyEventUtcMs),
+      utc: new Date(after.bodyEventUtcMs).toISOString()
+    });
+  }
+  return { samples, events };
+}
+
 export function clockOfDayDifferenceMinutes(predictedUtcMs, observedUtcMs, utcOffsetMinutes = 330) {
   const predictedLocal = new Date(predictedUtcMs + utcOffsetMinutes * 60_000);
   const observedLocal = new Date(observedUtcMs + utcOffsetMinutes * 60_000);
