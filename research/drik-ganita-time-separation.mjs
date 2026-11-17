@@ -474,6 +474,8 @@ export function scanDrikStarAzimuthTransitions({
       body, branch, event,
       thresholdSunAltitudeDeg: after.thresholdSunAltitudeDeg,
       azimuthSeparationDeg: after.azimuthSeparationDeg,
+      azimuthModelSlope: slope,
+      azimuthModelIntercept: intercept,
       beforeResidualDeg: before.residualDeg,
       afterResidualDeg: after.residualDeg,
       utcMilliseconds: Math.round(after.bodyEventUtcMs),
