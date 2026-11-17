@@ -42,22 +42,36 @@
       "name": "Drik Panchang",
       "method": "Published Drik Panchang Tara Asta / Agastya Arghya data (user-transcribed)",
       "calculationCenter": "अल्मोड़ा, उत्तराखंड, भारत",
-      "geographicLatitude": "29°37′ उत्तर (Ganesh Martand source-center coordinate used as location label; Drik interface coordinates not independently captured)",
-      "geographicLongitude": "79°40′ पूर्व (Ganesh Martand source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "geographicLatitude": "29°35′49.7″ उत्तर (29.59713)",
+      "geographicLongitude": "79°39′32.8″ पूर्व (79.65911)",
       "timezone": "Asia/Kolkata",
       "timezoneLabel": "IST",
-      "coordinatesStatus": "User identified the Drik Panchang location as Almora; exact coordinates displayed by Drik at query time were not supplied. Do not treat Ganesh Martand coordinates as confirmed Drik coordinates."
+      "coordinatesStatus": "Exact geographic details transcribed from Drik Panchang's own sun/moon rise-set page (geoname-id 1278974); elevation is the provider-published 1600 m.",
+      "elevationMeters": 1600,
+      "observerProfile": {
+        "latitude": 29.59713,
+        "longitude": 79.65911,
+        "elevationMeters": 1600
+      },
+      "coordinateSourceUrl": "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1278974"
     },
     {
       "id": "drikpanchang-ramnagar",
       "name": "Drik Panchang",
       "method": "Published Drik Panchang Tara Asta / Agastya Arghya data (user-transcribed)",
       "calculationCenter": "रामनगर, नैनीताल, उत्तराखंड, भारत",
-      "geographicLatitude": "29°30′ उत्तर (Tara Prasad source-center coordinate used as location label; Drik interface coordinates not independently captured)",
-      "geographicLongitude": "79°08′ पूर्व (Tara Prasad source-center coordinate used as location label; Drik interface coordinates not independently captured)",
+      "geographicLatitude": "29°23′33″ उत्तर (29.3925)",
+      "geographicLongitude": "79°07′41.9″ पूर्व (79.1283)",
       "timezone": "Asia/Kolkata",
       "timezoneLabel": "IST",
-      "coordinatesStatus": "User identified the Drik Panchang location as Ramnagar, Nainital; exact coordinates displayed by Drik at query time were not supplied. Do not treat Tara Prasad coordinates as confirmed Drik coordinates."
+      "coordinatesStatus": "Exact geographic details transcribed from Drik Panchang's own location details page (geoname-id 1258637); elevation is the provider-published 364 m.",
+      "elevationMeters": 364,
+      "observerProfile": {
+        "latitude": 29.3925,
+        "longitude": 79.1283,
+        "elevationMeters": 364
+      },
+      "coordinateSourceUrl": "https://www.drikpanchang.com/location/panchang-location-details.html?geoname-id=1258637"
     }
   ],
   "observations": [
