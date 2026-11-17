@@ -7,6 +7,9 @@ import {
   clockOfDayDifferenceMinutes,
   scanDrikTimeSeparationTransitions,
   scanDrikSolarAltitudeTransitions,
+  azimuthSeparationDegrees,
+  fitTheilSenLine,
+  scanDrikStarAzimuthTransitions,
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
@@ -167,6 +170,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   const training = rows.filter(row =>
     row.available &&
     row.sourceId === sourceId &&
+    row.body !== "Star1" &&
     row.bodyEventResidualMinutes <= 15 &&
     row.horizonAtComputedBodyEvent &&
     Number(row.date.slice(0, 4)) <= trainingThroughYear
@@ -182,7 +186,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
   const predictions = [];
-  for (const body of ["Venus", "Jupiter", "Star1"]) {
+  for (const body of ["Venus", "Jupiter"]) {
     for (const branch of ["rise", "set"]) {
       const states = [...new Set([...thresholds.keys()]
         .filter(key => key.startsWith([body, branch].join("|")))
@@ -206,6 +210,43 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       });
       predictions.push(...scan.events);
     }
+  }
+
+  const agastyaProfiles = [];
+  for (const [event, branch] of [["Udaya", "rise"], ["Asta", "set"]]) {
+    const starTraining = rows.filter(row =>
+      row.available &&
+      row.sourceId === sourceId &&
+      row.body === "Star1" &&
+      row.branch === branch &&
+      row.eventType === event &&
+      row.bodyEventResidualMinutes <= 15 &&
+      row.horizonAtComputedBodyEvent &&
+      Number(row.date.slice(0, 4)) <= trainingThroughYear
+    );
+    const points = starTraining.map(row => ({
+      x: azimuthSeparationDegrees(
+        row.horizonAtComputedBodyEvent.bodyAzimuthDeg,
+        row.horizonAtComputedBodyEvent.sunAzimuthDeg
+      ),
+      y: row.horizonAtComputedBodyEvent.sunAltitudeDeg
+    }));
+    const fit = fitTheilSenLine(points);
+    if (!fit) continue;
+    const scan = scanDrikStarAzimuthTransitions({
+      SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
+      startLocalDayUtc,
+      days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
+      event, slope: fit.slope, intercept: fit.intercept
+    });
+    predictions.push(...scan.events);
+    agastyaProfiles.push({
+      key: `Star1|${branch}|${event}|fixed-star|azimuth-linear`,
+      slope: fit.slope,
+      intercept: fit.intercept,
+      trainingSamples: fit.samples,
+      trainingSourceIds: starTraining.map(row => row.id)
+    });
   }
 
   const observed = rows.filter(row =>
@@ -288,7 +329,10 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     observer: { name: location.name, latitude: location.latitude, longitude: location.longitude, elevation: location.elevation },
     trainingThroughYear,
     trainingSamples: training.length,
-    thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
+    thresholdProfiles: [
+      ...[...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
+      ...agastyaProfiles
+    ],
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
     matchedEvents: matches.length,
