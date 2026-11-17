@@ -32,8 +32,15 @@ DefineStar("Star1", 6.3991969, -52.69566, 310);
 function eventClass(observation) {
   const label = String(observation.event || "");
   if (observation.planet === "अगस्त्य") {
-    if (/उदय/.test(label)) return "Agastya-Udaya";
-    if (/अस्त/.test(label)) return "Agastya-Asta";
+    // Printed Agastya Udaya/Arghya is a traditional observance marker.
+    // Only explicit Drik "तारा उदय क्षण" / "अस्त क्षण" labels are
+    // geometric Canopus events; never pair these unlike event definitions.
+    if (observation.sourceId?.startsWith("drikpanchang") &&
+        label === "अगस्त्य तारा उदय क्षण") return "Agastya-Geometric-Udaya";
+    if (observation.sourceId?.startsWith("drikpanchang") &&
+        label === "अस्त क्षण") return "Agastya-Geometric-Asta";
+    if (/अगस्त्योदय/.test(label)) return "Agastya-Traditional-Udaya";
+    return null;
   }
   if (observation.sourceId === "ganesh-martand" || observation.sourceId === "tara-prasad") {
     if (label === "अस्त") return "Asta";
