@@ -125,12 +125,18 @@ export function sourceObservationToReference(observation) {
  * This is not a heliacal naked-eye brightness model.
  */
 export function findLocalRiseSetEvent({
-  SearchRiseSet, body, observer, direction, localDayStartUtc
+  SearchRiseSet, SearchAltitude = null, body, observer, direction, localDayStartUtc
 }) {
   if (typeof SearchRiseSet !== "function") throw new TypeError("SearchRiseSet function is required");
   if (!observer || !Number.isFinite(localDayStartUtc)) throw new TypeError("observer and local-day start are required");
-  const event = SearchRiseSet(body, observer, direction === "rise" ? 1 : -1,
-    new Date(localDayStartUtc), 1, 0);
+  // Fixed stars use the unrefracted geometric center crossing at altitude 0°.
+  // Planetary rise/set records retain the standard refraction-corrected API.
+  const useGeometricStarCrossing = body === "Star1" && typeof SearchAltitude === "function";
+  const event = useGeometricStarCrossing
+    ? SearchAltitude(body, observer, direction === "rise" ? 1 : -1,
+        new Date(localDayStartUtc), 1, 0)
+    : SearchRiseSet(body, observer, direction === "rise" ? 1 : -1,
+        new Date(localDayStartUtc), 1, 0);
   const instant = event?.date instanceof Date ? event.date.getTime()
     : event?.date ? new Date(event.date).getTime()
     : event instanceof Date ? event.getTime()
@@ -146,13 +152,13 @@ export function findLocalRiseSetEvent({
  * 1 time-degree = 1/360 of a mean sidereal day, used as a calibration coordinate.
  */
 export function measureDrikTimeSeparation({
-  SearchRiseSet, body, observer, branch, localDayStartUtc
+  SearchRiseSet, SearchAltitude = null, body, observer, branch, localDayStartUtc
 }) {
   const sunEventUtcMs = findLocalRiseSetEvent({
-    SearchRiseSet, body: "Sun", observer, direction: branch, localDayStartUtc
+    SearchRiseSet, SearchAltitude, body: "Sun", observer, direction: branch, localDayStartUtc
   });
   const bodyEventUtcMs = findLocalRiseSetEvent({
-    SearchRiseSet, body, observer, direction: branch, localDayStartUtc
+    SearchRiseSet, SearchAltitude, body, observer, direction: branch, localDayStartUtc
   });
   if (sunEventUtcMs === null || bodyEventUtcMs === null) {
     return { available: false, reason: "horizon-event-not-found", body, branch };
@@ -175,7 +181,7 @@ export function measureDrikTimeSeparation({
  * and reports both the solar gap and the body-event clock residual.
  */
 export function calibrateObservation({
-  observation, SearchRiseSet, observer, localDayStartUtc
+  observation, SearchRiseSet, SearchAltitude = null, observer, localDayStartUtc
 }) {
   const ref = sourceObservationToReference(observation);
   if (!ref.usableForCalibration) {
@@ -185,10 +191,10 @@ export function calibrateObservation({
   const branches = ref.branch === "auto" || ref.branch === null ? ["rise", "set"] : [ref.branch];
   const candidates = branches.map(branch => {
     const sunEventUtcMs = findLocalRiseSetEvent({
-      SearchRiseSet, body: "Sun", observer, direction: branch, localDayStartUtc: eventDayStartUtc
+      SearchRiseSet, SearchAltitude, body: "Sun", observer, direction: branch, localDayStartUtc: eventDayStartUtc
     });
     const bodyEventUtcMs = findLocalRiseSetEvent({
-      SearchRiseSet, body: ref.body, observer, direction: branch, localDayStartUtc: eventDayStartUtc
+      SearchRiseSet, SearchAltitude, body: ref.body, observer, direction: branch, localDayStartUtc: eventDayStartUtc
     });
     if (sunEventUtcMs === null || bodyEventUtcMs === null) return null;
     const sourceVsBodyMinutes = (ref.clock.instantUtcMs - bodyEventUtcMs) / 60_000;
@@ -280,10 +286,10 @@ export function scanDrikTimeSeparationTransitions({
  * coordinate used for the next model stage.
  */
 export function measureSunAltitudeAtTargetRiseSet({
-  SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
+  SearchRiseSet, SearchAltitude = null, Equator, Horizon, body, observer, branch, localDayStartUtc
 }) {
   const bodyEventUtcMs = findLocalRiseSetEvent({
-    SearchRiseSet, body, observer, direction: branch, localDayStartUtc
+    SearchRiseSet, SearchAltitude, body, observer, direction: branch, localDayStartUtc
   });
   if (bodyEventUtcMs === null) {
     return { available: false, reason: "target-rise-set-not-found", body, branch };
@@ -313,7 +319,7 @@ function thresholdForMotion(profile, motionState) {
 }
 
 export function scanDrikSolarAltitudeTransitions({
-  SearchRiseSet, Equator, Horizon, body, observer, branch,
+  SearchRiseSet, SearchAltitude = null, Equator, Horizon, body, observer, branch,
   startLocalDayUtc, days, astaSunAltitudeDeg, udayaSunAltitudeDeg,
   motionStateAt = null
 }) {
@@ -327,7 +333,7 @@ export function scanDrikSolarAltitudeTransitions({
   for (let index = 0; index < days; index++) {
     const localDayStartUtc = startLocalDayUtc + index * 86_400_000;
     const sample = measureSunAltitudeAtTargetRiseSet({
-      SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
+      SearchRiseSet, SearchAltitude, Equator, Horizon, body, observer, branch, localDayStartUtc
     });
     samples.push({
       dayStartUtc: localDayStartUtc,
