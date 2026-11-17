@@ -10,7 +10,7 @@ import {
   summarizeCalibration
 } from "../research/drik-ganita-time-separation.mjs";
 
-const { Observer, SearchRiseSet, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
@@ -196,7 +196,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
         .map(state => [state, thresholds.get([body, branch, "Udaya", state].join("|"))]));
       if (!Object.keys(astaProfiles).length && !Object.keys(udayaProfiles).length) continue;
       const scan = scanDrikSolarAltitudeTransitions({
-        SearchRiseSet, Equator, Horizon, body, observer, branch,
+        SearchRiseSet, SearchAltitude, Equator, Horizon, body, observer, branch,
         startLocalDayUtc,
         days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
         astaSunAltitudeDeg: astaProfiles,
@@ -322,6 +322,7 @@ for (const observation of dataset.observations) {
   const result = calibrateObservation({
     observation,
     SearchRiseSet,
+    SearchAltitude,
     observer,
     localDayStartUtc
   });
