@@ -72,6 +72,24 @@
         "elevationMeters": 364
       },
       "coordinateSourceUrl": "https://www.drikpanchang.com/location/panchang-location-details.html?geoname-id=1258637"
+    },
+    {
+      "id": "drikpanchang-pithoragarh",
+      "name": "Drik Panchang",
+      "method": "Published Drik Panchang Shukra Tara Asta/Udaya data (user-transcribed)",
+      "calculationCenter": "पिथौरागढ़, उत्तराखंड, भारत",
+      "geographicLatitude": "29°35′00.6″ उत्तर (29.58349)",
+      "geographicLongitude": "80°12′34.1″ पूर्व (80.20947)",
+      "timezone": "Asia/Kolkata",
+      "timezoneLabel": "IST",
+      "elevationMeters": 1586,
+      "observerProfile": {
+        "latitude": 29.58349,
+        "longitude": 80.20947,
+        "elevationMeters": 1586
+      },
+      "coordinatesStatus": "Exact default-city observer details from Drik Panchang's own sunrise/moonrise page; city profile is kept distinct from the project's own location point.",
+      "coordinateSourceUrl": "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1259503"
     }
   ],
   "observations": [
@@ -939,6 +957,60 @@
       "event": "अस्त क्षण",
       "date": "2023-04-16",
       "timeRaw": "19:48"
+    },
+    {
+      "id": "drik-pithoragarh-venus-asta-2025-12-11",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2025-12-11",
+      "timeRaw": "06:25"
+    },
+    {
+      "id": "drik-pithoragarh-venus-udaya-2026-02-02",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त",
+      "date": "2026-02-02",
+      "timeRaw": "18:15"
+    },
+    {
+      "id": "drik-pithoragarh-venus-asta-2026-10-12",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2026-10-12",
+      "timeRaw": "18:05"
+    },
+    {
+      "id": "drik-pithoragarh-venus-udaya-2026-10-29",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त",
+      "date": "2026-10-29",
+      "timeRaw": "05:49"
+    },
+    {
+      "id": "drik-pithoragarh-venus-asta-2027-07-21",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त प्रारम्भ",
+      "date": "2027-07-21",
+      "timeRaw": "04:54"
+    },
+    {
+      "id": "drik-pithoragarh-venus-udaya-2027-09-09",
+      "sourceId": "drikpanchang-pithoragarh",
+      "edition": "user-transcribed Drik Panchang Pithoragarh data",
+      "planet": "शुक्र",
+      "event": "अस्त समाप्त",
+      "date": "2027-09-09",
+      "timeRaw": "18:48"
     }
   ],
   "validationNotes": [
@@ -994,7 +1066,7 @@
       "elevationMeters": 1586,
       "profileType": "provider-reference",
       "coordinateSourceUrl": "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1259503",
-      "notes": "Exact observer published by Drik Panchang for its default Pithoragarh city. Used for provider-page sunrise/sunset sanity comparison; not an assumed exact match for the project's target point."
+      "notes": "Exact observer published by Drik Panchang. The six Venus source observations are a separate location-transfer holdout; no Pithoragarh thresholds are trained from these six records."
     },
     {
       "id": "pithoragarh-project-target",
