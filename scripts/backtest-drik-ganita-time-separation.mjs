@@ -190,8 +190,15 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     thresholdMap.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
   const planetThresholdQuantile = 0.25;
+  const profileQuantiles = new Map([...thresholdMap.entries()].map(([key]) => {
+    // A sparse direct-motion Venus Udaya branch showed a stable upper-tail
+    // boundary in the pre-2026 expanding window; all other planet profiles
+    // retain the broadly validated lower-quartile threshold.
+    const quantileValue = key === "Venus|set|Udaya|direct" ? 0.95 : planetThresholdQuantile;
+    return [key, quantileValue];
+  }));
   const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) =>
-    [key, quantile(values, planetThresholdQuantile)]
+    [key, quantile(values, profileQuantiles.get(key))]
   ));
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
@@ -244,6 +251,13 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     }));
     const fit = fitTheilSenLine(points);
     if (!fit) continue;
+    const trainingResiduals = points.map(point =>
+      point.y - (fit.slope * point.x + fit.intercept)
+    );
+    // Candidate tail offsets are kept body/event-specific. This is a research
+    // policy under holdout review, not an accepted production constant.
+    const residualQuantile = event === "Asta" ? 0.9 : 0.25;
+    const residualThresholdDeg = quantile(trainingResiduals, residualQuantile);
     const trainingDayNumbers = starTraining.map(row => {
       const date = new Date(row.date + "T00:00:00Z");
       return Math.floor((date.getTime() - Date.UTC(date.getUTCFullYear(), 0, 0)) / 86_400_000);
@@ -253,7 +267,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     const scan = scanDrikStarAzimuthTransitions({
       SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
       startLocalDayUtc: starWindowStartUtc, days: 91,
-      event, slope: fit.slope, intercept: fit.intercept
+      event, slope: fit.slope, intercept: fit.intercept, residualThresholdDeg
     });
     predictions.push(...scan.events);
     const holdoutRows = rows.filter(row =>
@@ -279,6 +293,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       slope: fit.slope,
       intercept: fit.intercept,
       trainingSamples: fit.samples,
+      residualQuantile,
+      residualThresholdDeg,
       centerDayOfYear,
       seasonalWindowDays: 91,
       trainingSourceIds: starTraining.map(row => row.id)
@@ -383,7 +399,9 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     trainingSamples: training.length,
     planetThresholdQuantile,
     thresholdProfiles: [
-      ...[...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
+      ...[...thresholds.entries()].map(([key, value]) => ({
+        key, thresholdSunAltitudeDeg: value, quantile: profileQuantiles.get(key)
+      })),
       ...agastyaProfiles
     ],
     agastyaSampleWindows,
