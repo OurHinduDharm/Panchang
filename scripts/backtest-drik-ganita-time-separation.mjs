@@ -149,34 +149,49 @@ function summarizeSolarAltitudeCalibration(rows) {
   }));
 }
 
-function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
+function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId = "drikpanchang-almora") {
+  // A location's fitted thresholds must never be trained with another city's rows.
+  const location = LOCATIONS[sourceId];
+  if (!location) throw new Error("Unknown validation observer: " + sourceId);
   const training = rows.filter(row =>
     row.available &&
-    row.sourceId?.startsWith("drikpanchang") &&
+    row.sourceId === sourceId &&
     row.bodyEventResidualMinutes <= 15 &&
     row.horizonAtComputedBodyEvent &&
     Number(row.date.slice(0, 4)) <= trainingThroughYear
   );
   const thresholdMap = new Map();
   for (const row of training) {
-    const key = [row.body, row.branch, row.eventType].join("|");
+    const motionState = row.horizonAtComputedBodyEvent.motionState;
+    const key = [row.body, row.branch, row.eventType, motionState].join("|");
     if (!thresholdMap.has(key)) thresholdMap.set(key, []);
     thresholdMap.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
   const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) => [key, median(values)]));
-  const observer = new Observer(29 + 37 / 60, 79 + 40 / 60, 0);
+  const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
   const predictions = [];
   for (const body of ["Venus", "Jupiter", "Star1"]) {
     for (const branch of ["rise", "set"]) {
-      const astaThreshold = thresholds.get([body, branch, "Asta"].join("|")) ?? 91;
-      const udayaThreshold = thresholds.get([body, branch, "Udaya"].join("|")) ?? -91;
-      if (astaThreshold === 91 && udayaThreshold === -91) continue;
+      const states = [...new Set([...thresholds.keys()]
+        .filter(key => key.startsWith([body, branch].join("|")))
+        .map(key => key.split("|")[3]))];
+      if (!states.length) continue;
+      const astaProfiles = Object.fromEntries(states
+        .filter(state => thresholds.has([body, branch, "Asta", state].join("|")))
+        .map(state => [state, thresholds.get([body, branch, "Asta", state].join("|"))]));
+      const udayaProfiles = Object.fromEntries(states
+        .filter(state => thresholds.has([body, branch, "Udaya", state].join("|")))
+        .map(state => [state, thresholds.get([body, branch, "Udaya", state].join("|"))]));
+      if (!Object.keys(astaProfiles).length && !Object.keys(udayaProfiles).length) continue;
       const scan = scanDrikSolarAltitudeTransitions({
         SearchRiseSet, Equator, Horizon, body, observer, branch,
-        startLocalDayUtc, days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
-        astaSunAltitudeDeg: astaThreshold,
-        udayaSunAltitudeDeg: udayaThreshold
+        startLocalDayUtc,
+        days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
+        astaSunAltitudeDeg: astaProfiles,
+        udayaSunAltitudeDeg: udayaProfiles,
+        motionStateAt: (targetBody, instantUtcMs) =>
+          apparentAtSourceTime(targetBody, observer, instantUtcMs).motionState
       });
       predictions.push(...scan.events);
     }
@@ -184,55 +199,81 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
 
   const observed = rows.filter(row =>
     row.available &&
-    row.sourceId === "drikpanchang-almora" &&
+    row.sourceId === sourceId &&
     row.bodyEventResidualMinutes <= 15 &&
     Number(row.date.slice(0, 4)) === holdoutYear
   );
   const unused = new Set(observed);
   const matches = [];
+  const unmatchedPredictions = [];
+  const ambiguousMatches = [];
   for (const predicted of predictions.sort((a, b) => a.utcMilliseconds - b.utcMilliseconds)) {
+    const predictedLocalDate = new Date(predicted.utcMilliseconds + 330 * 60_000)
+      .toISOString().slice(0, 10);
     const candidates = [...unused].filter(row =>
       row.body === predicted.body &&
       row.branch === predicted.branch &&
       row.eventType === predicted.event
-    ).map(row => ({
-      row,
-      differenceMinutes: (predicted.utcMilliseconds - row.clock.instantUtcMs) / 60_000
-    })).sort((a, b) => Math.abs(a.differenceMinutes) - Math.abs(b.differenceMinutes));
+    ).map(row => {
+      const observedLocalDate = new Date(row.clock.instantUtcMs + 330 * 60_000)
+        .toISOString().slice(0, 10);
+      const dateOffsetDays = Math.round(
+        (Date.parse(predictedLocalDate + "T00:00:00Z") -
+         Date.parse(observedLocalDate + "T00:00:00Z")) / 86_400_000
+      );
+      return { row, dateOffsetDays, observedLocalDate };
+    }).filter(item => Math.abs(item.dateOffsetDays) <= 2)
+      .sort((a, b) => Math.abs(a.dateOffsetDays) - Math.abs(b.dateOffsetDays));
+    if (!candidates.length) {
+      unmatchedPredictions.push({
+        body: predicted.body, event: predicted.event, branch: predicted.branch,
+        motionState: predicted.motionState, predictedLocalDate
+      });
+      continue;
+    }
+    if (candidates.length > 1 &&
+        Math.abs(candidates[0].dateOffsetDays) === Math.abs(candidates[1].dateOffsetDays)) {
+      ambiguousMatches.push({
+        body: predicted.body, event: predicted.event, branch: predicted.branch,
+        predictedLocalDate, candidateSourceIds: candidates
+          .filter(item => Math.abs(item.dateOffsetDays) === Math.abs(candidates[0].dateOffsetDays))
+          .map(item => item.row.id)
+      });
+      continue;
+    }
     const match = candidates[0];
-    if (!match || Math.abs(match.differenceMinutes) > 10 * 24 * 60) continue;
     unused.delete(match.row);
+    const sourceInstant = match.row.clock.instantUtcMs;
     matches.push({
       body: predicted.body,
       event: predicted.event,
       branch: predicted.branch,
+      motionState: predicted.motionState,
       predictedLocal: new Date(predicted.utcMilliseconds + 330 * 60_000).toISOString().replace("Z", "+05:30"),
       sourceId: match.row.id,
-      sourceLocal: new Date(match.row.clock.instantUtcMs + 330 * 60_000).toISOString().replace("Z", "+05:30"),
-      dateDifferenceDays: match.differenceMinutes / 1440,
-      absoluteInstantResidualMinutes: Math.abs(match.differenceMinutes),
-      clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, match.row.clock.instantUtcMs)
+      sourceLocal: new Date(sourceInstant + 330 * 60_000).toISOString().replace("Z", "+05:30"),
+      dateOffsetDays: match.dateOffsetDays,
+      absoluteInstantResidualMinutes: Math.abs(predicted.utcMilliseconds - sourceInstant) / 60_000,
+      clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, sourceInstant)
     });
   }
-  const measuredMatches = matches.map(match => {
-    const predictedDate = match.predictedLocal.slice(0, 10);
-    const sourceDate = match.sourceLocal.slice(0, 10);
-    const dateOffsetDays = Math.round(
-      (Date.parse(predictedDate + "T00:00:00Z") - Date.parse(sourceDate + "T00:00:00Z")) / 86_400_000
-    );
-    return { ...match, predictedDate, sourceDate, dateOffsetDays };
-  });
-  const dateOffsets = measuredMatches.map(match => Math.abs(match.dateOffsetDays));
-  const absoluteClockResiduals = measuredMatches.map(match => Math.abs(match.clockOfDayResidualMinutes));
-  const absoluteInstantResiduals = measuredMatches.map(match => match.absoluteInstantResidualMinutes);
+  const dateOffsets = matches.map(match => Math.abs(match.dateOffsetDays));
+  const absoluteClockResiduals = matches.map(match => Math.abs(match.clockOfDayResidualMinutes));
+  const absoluteInstantResiduals = matches.map(match => match.absoluteInstantResidualMinutes);
+  const predictionKeys = predictions.map(item =>
+    [item.body, item.event, item.branch, new Date(item.utcMilliseconds + 330 * 60_000).toISOString().slice(0, 10)].join("|")
+  );
+  const duplicatePredictionKeys = predictionKeys.filter((key, index) => predictionKeys.indexOf(key) !== index);
   return {
     holdoutYear,
+    sourceId,
+    observer: { name: location.name, latitude: location.latitude, longitude: location.longitude, elevation: location.elevation },
     trainingThroughYear,
     trainingSamples: training.length,
     thresholdProfiles: [...thresholds.entries()].map(([key, value]) => ({ key, thresholdSunAltitudeDeg: value })),
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
-    matchedEvents: measuredMatches.length,
+    matchedEvents: matches.length,
     dateAccuracy: {
       exactDate: dateOffsets.filter(days => days === 0).length,
       withinOneDay: dateOffsets.filter(days => days <= 1).length,
@@ -246,9 +287,11 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear) {
       medianAbsolute: median(absoluteInstantResiduals),
       maximumAbsolute: absoluteInstantResiduals.length ? Math.max(...absoluteInstantResiduals) : null
     },
-    unmatchedPredictions: Math.max(0, predictions.length - measuredMatches.length),
+    unmatchedPredictions,
     unmatchedObserved: [...unused].map(row => row.id),
-    matches: measuredMatches
+    ambiguousMatches,
+    duplicatePredictionKeys: [...new Set(duplicatePredictionKeys)],
+    matches
   };
 }
 
@@ -293,11 +336,11 @@ const report = {
     rejected: rows.length - eligible.length
   },
   sourceAgreement: buildSourceAgreement(dataset.observations),
-  heldOutValidation2026: buildHeldOutValidation(rows, 2026, 2025),
+  heldOutValidation2026: buildHeldOutValidation(rows, 2026, 2025, "drikpanchang-almora"),
   // Fixed-origin 2027 holdout excludes all 2026 observations from training.
-  heldOutValidation2027FixedThrough2025: buildHeldOutValidation(rows, 2027, 2025),
+  heldOutValidation2027FixedThrough2025: buildHeldOutValidation(rows, 2027, 2025, "drikpanchang-almora"),
   // Rolling-origin 2027 holdout intentionally includes 2026 training observations.
-  heldOutValidation2027RollingThrough2026: buildHeldOutValidation(rows, 2027, 2026),
+  heldOutValidation2027RollingThrough2026: buildHeldOutValidation(rows, 2027, 2026, "drikpanchang-almora"),
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   observations: rows,
