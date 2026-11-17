@@ -42,7 +42,11 @@ Accepted Drik source events place the target near the horizon at the printed eve
 | Jupiter | Udaya | Rising | -9.29° |
 Agastya's constant solar-altitude medians are retained only as diagnostics; its current candidate is the separate azimuth-corrected geometric-star model described above.
 
-These are candidate fitted values, not production constants. Venus direct and retrograde states must be fitted independently; a transition across a station is not evaluated using a blended threshold. The 2026–2027 holdout test trains thresholds only through 2025.
+The table above is the median of accepted calibration observations; the current planetary holdout candidate uses the 25th percentile of each body/event/branch/motion-state group. The expanding-window comparison (7-day windows around source dates) found q25 no worse than the median and better for the 2027 Jupiter Asta date: 2024 exact 2/4 vs 1/4; 2025 4/5 vs 4/5; 2026 5/5 vs 5/5; 2027 fixed-origin 3/4 vs 2/4.
+
+Full-year q25 holdout: 2026 = 6/7 exact, 7/7 within one day; 2027 fixed-origin (training through 2025) = 4/6 exact, 6/6 within one day. The 2027 rolling-origin test is worse (4/6 exact with one unmatched observation), so the candidate remains fixed-origin until more independent years are available.
+
+These are candidate fitted values, not production constants. Venus direct and retrograde states must be fitted independently; a transition across a station is not evaluated using a blended threshold.
 
 ## Data safeguards
 
