@@ -557,7 +557,7 @@ export function summarizeCalibration(rows) {
   const groups = new Map();
   for (const row of rows) {
     if (!row.available) continue;
-    const key = [row.body, row.branch, row.eventType].join("|");
+    const key = [row.sourceId || "unknown-source", row.body, row.branch, row.eventType].join("|");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
   }
@@ -567,6 +567,7 @@ export function summarizeCalibration(rows) {
     const gaps = trusted.map(item => item.calibratedTimeDegrees);
     return {
       key,
+      sourceId: items[0].sourceId || null,
       body: items[0].body,
       branch: items[0].branch,
       eventType: items[0].eventType,
