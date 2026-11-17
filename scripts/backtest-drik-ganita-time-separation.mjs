@@ -37,6 +37,16 @@ for (const sourceId of ["drikpanchang-almora", "drikpanchang-ramnagar"]) {
     throw new Error(`Observer profile metadata mismatch for ${sourceId}`);
   }
 }
+for (const sourceId of ["drikpanchagarh-pithoragarh", "pithoragarh-project-target"]) {
+  const source = dataset.observerProfiles?.find(item => item.id === sourceId);
+  const profile = LOCATIONS[sourceId];
+  if (!source || !profile ||
+      source.latitude !== profile.latitude ||
+      source.longitude !== profile.longitude ||
+      source.elevationMeters !== profile.elevation) {
+    throw new Error(`Pithoragarh observer profile metadata mismatch for ${sourceId}`);
+  }
+}
 
 // Canopus (Agastya), J2000 approximate catalog position.
 // Replace with a pinned astrometric catalogue record before production use.
