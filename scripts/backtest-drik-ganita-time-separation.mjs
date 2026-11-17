@@ -313,6 +313,80 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   };
 }
 
+function buildAgastyaSeparationDiagnostics(rows) {
+  const training = rows.filter(row =>
+    row.available &&
+    row.sourceId === "drikpanchang-almora" &&
+    row.body === "Star1" &&
+    row.bodyEventResidualMinutes <= 15 &&
+    row.horizonAtComputedBodyEvent &&
+    Number(row.date.slice(0, 4)) <= 2025
+  );
+  const thresholds = new Map();
+  for (const row of training) {
+    const key = [row.branch, row.eventType].join("|");
+    if (!thresholds.has(key)) thresholds.set(key, []);
+    thresholds.get(key).push(row.horizonAtComputedBodyEvent.topocentricSeparationDeg);
+  }
+  const thresholdMap = new Map([...thresholds.entries()].map(([key, values]) => [key, median(values)]));
+  return rows.filter(row =>
+    row.available &&
+    row.sourceId?.startsWith("drikpanchang") &&
+    row.body === "Star1" &&
+    row.bodyEventResidualMinutes <= 15
+  ).map(row => {
+    const location = LOCATIONS[row.sourceId];
+    const observer = new Observer(location.latitude, location.longitude, location.elevation);
+    const threshold = thresholdMap.get([row.branch, row.eventType].join("|")) ?? null;
+    const center = Date.parse(row.date + "T00:00:00+05:30");
+    const samples = [];
+    for (let offset = -4; offset <= 4; offset++) {
+      const localDayStartUtc = center + offset * 86_400_000;
+      const event = SearchAltitude(
+        "Star1", observer, row.branch === "rise" ? 1 : -1,
+        new Date(localDayStartUtc), 1, 0
+      );
+      const instant = event?.date instanceof Date ? event.date.getTime()
+        : event?.date ? new Date(event.date).getTime() : NaN;
+      if (!Number.isFinite(instant)) continue;
+      const geometry = apparentAtSourceTime("Star1", observer, instant);
+      samples.push({
+        localDate: new Date(localDayStartUtc + 330 * 60_000).toISOString().slice(0, 10),
+        eventLocal: new Date(instant + 330 * 60_000).toISOString(),
+        separationDeg: geometry.topocentricSeparationDeg,
+        sunAltitudeDeg: geometry.sunAltitudeDeg
+      });
+    }
+    const crossings = [];
+    if (Number.isFinite(threshold)) {
+      for (let index = 1; index < samples.length; index++) {
+        const before = samples[index - 1], after = samples[index];
+        if ((before.separationDeg - threshold) * (after.separationDeg - threshold) <= 0) {
+          crossings.push({
+            localDate: after.localDate,
+            direction: after.separationDeg > before.separationDeg ? "increasing" : "decreasing"
+          });
+        }
+      }
+    }
+    return {
+      sourceId: row.id,
+      sourceDate: row.date,
+      eventType: row.eventType,
+      branch: row.branch,
+      sourceClock: row.clock.normalizedUtc,
+      geometricEventResidualMinutes: row.bodyEventResidualMinutes,
+      sourceSeparationDeg: row.horizonAtComputedBodyEvent.topocentricSeparationDeg,
+      trainingMedianSeparationDeg: threshold,
+      sourceThresholdMarginDeg: Number.isFinite(threshold)
+        ? row.horizonAtComputedBodyEvent.topocentricSeparationDeg - threshold : null,
+      crossingDates: crossings,
+      samples
+    };
+  });
+}
+
+
 const rows = [];
 for (const observation of dataset.observations) {
   const location = LOCATIONS[observation.sourceId];
@@ -362,6 +436,7 @@ const report = {
   heldOutValidation2027RollingThrough2026: buildHeldOutValidation(rows, 2027, 2026, "drikpanchang-almora"),
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
+  agastyaSeparationDiagnostics: buildAgastyaSeparationDiagnostics(rows),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
