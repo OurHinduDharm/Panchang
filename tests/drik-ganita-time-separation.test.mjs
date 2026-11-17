@@ -10,6 +10,7 @@ import {
   azimuthSeparationDegrees,
   fitTheilSenLine,
   scanDrikStarAzimuthTransitions,
+  LOCATION_PROFILES,
   sourceObservationToReference,
   measureDrikTimeSeparation,
   calibrateObservation,
@@ -431,4 +432,32 @@ test("Agastya residual threshold shifts Asta to the first event beyond calibrate
   assert.equal(result.events.length, 1);
   assert.equal(result.events[0].utcMilliseconds, start + 3 * 86_400_000 + 19 * 60 * 60_000);
   assert.equal(result.events[0].residualThresholdDeg, 0.02);
+});
+
+
+test("Drik Almora and Ramnagar use provider-specific coordinates and elevations", () => {
+  assert.deepEqual(
+    {
+      latitude: LOCATION_PROFILES["drikpanchang-almora"].latitude,
+      longitude: LOCATION_PROFILES["drikpanchang-almora"].longitude,
+      elevation: LOCATION_PROFILES["drikpanchang-almora"].elevation
+    },
+    { latitude: 29.59713, longitude: 79.65911, elevation: 1600 }
+  );
+  assert.deepEqual(
+    {
+      latitude: LOCATION_PROFILES["drikpanchang-ramnagar"].latitude,
+      longitude: LOCATION_PROFILES["drikpanchang-ramnagar"].longitude,
+      elevation: LOCATION_PROFILES["drikpanchang-ramnagar"].elevation
+    },
+    { latitude: 29.3925, longitude: 79.1283, elevation: 364 }
+  );
+  assert.notEqual(
+    LOCATION_PROFILES["drikpanchang-almora"].latitude,
+    LOCATION_PROFILES["ganesh-martand"].latitude
+  );
+  assert.notEqual(
+    LOCATION_PROFILES["drikpanchang-ramnagar"].latitude,
+    LOCATION_PROFILES["tara-prasad"].latitude
+  );
 });
