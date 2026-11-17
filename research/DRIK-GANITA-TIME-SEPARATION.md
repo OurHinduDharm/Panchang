@@ -20,9 +20,9 @@ For each local date and observer:
 
 1. Use the pinned Astronomy Engine ephemeris and the observer's latitude, longitude and elevation to find the target's apparent rise or set event.
 2. At that exact event instant, calculate the Sun's topocentric apparent altitude using the same observer.
-3. Compare the Sun altitude with the calibrated threshold for that body, event (Asta/Udaya) and horizon branch.
+3. Compare the Sun altitude with the calibrated threshold for that body, event (Asta/Udaya), horizon branch and (for Venus) direct/retrograde state.
 4. Asta is the upward crossing of the solar-altitude threshold (Sun becoming less depressed); Udaya is the downward crossing (Sun becoming more depressed).
-5. Interpolate the target's horizon-event instant between adjacent daily samples and validate it against held-out Drik event clocks.
+5. Publish the first actual target rise/set event that satisfies the threshold. Do not interpolate between adjacent daily horizon events; the event clock is the computed rise/set instant itself.
 
 This is one local Drik-Ganita calculation path. It uses standard apparent rise/set and topocentric solar altitude; it does not calculate visual magnitude, sky brightness, extinction or a separate photometric/naked-eye visibility product. It does not implement Surya-Siddhanta Ch.9 K/C.
 
@@ -43,7 +43,7 @@ Accepted Drik source events place the target near the horizon at the printed eve
 | Agastya / Canopus | Udaya | Rising | -14.36° |
 | Agastya / Canopus | Asta | Setting | -14.57° |
 
-These are candidate fitted values, not production constants. The 2026–2027 holdout test trains thresholds only through 2025.
+These are candidate fitted values, not production constants. Venus direct and retrograde states must be fitted independently; a transition across a station is not evaluated using a blended threshold. The 2026–2027 holdout test trains thresholds only through 2025.
 
 ## Data safeguards
 
