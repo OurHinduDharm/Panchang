@@ -26,6 +26,17 @@ if (new Set(observationIds).size !== observationIds.length) {
 }
 
 const LOCATIONS = LOCATION_PROFILES;
+for (const sourceId of ["drikpanchang-almora", "drikpanchang-ramnagar"]) {
+  const source = dataset.sources.find(item => item.id === sourceId);
+  const profile = LOCATIONS[sourceId];
+  const expected = source?.observerProfile;
+  if (!expected ||
+      expected.latitude !== profile.latitude ||
+      expected.longitude !== profile.longitude ||
+      expected.elevationMeters !== profile.elevation) {
+    throw new Error(`Observer profile metadata mismatch for ${sourceId}`);
+  }
+}
 
 // Canopus (Agastya), J2000 approximate catalog position.
 // Replace with a pinned astrometric catalogue record before production use.
