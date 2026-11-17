@@ -6,6 +6,7 @@ import {
   clockOfDayDifferenceMinutes,
   MINUTES_PER_TIME_DEGREE,
   resolveDrikHorizonBranch,
+  findLocalRiseSetEvent,
   sourceObservationToReference,
   measureDrikTimeSeparation,
   calibrateObservation,
@@ -319,4 +320,23 @@ test("Drik-Ganita benchmark observation IDs are unique", () => {
   ));
   const ids = dataset.observations.map(item => item.id);
   assert.equal(new Set(ids).size, ids.length);
+});
+
+
+test("Agastya uses the geometric zero-altitude crossing, not refraction-corrected apparent rise/set", () => {
+  const start = Date.UTC(2026, 8, 7);
+  const calls = [];
+  const result = findLocalRiseSetEvent({
+    SearchRiseSet: () => {
+      calls.push("apparent-rise-set");
+      return { date: new Date(start + 7 * 60_000) };
+    },
+    SearchAltitude: (body, observer, direction, dateStart, limitDays, altitude) => {
+      calls.push({ body, direction, altitude });
+      return { date: new Date(dateStart.getTime() + 2 * 60_000) };
+    },
+    body: "Star1", observer: {}, direction: "rise", localDayStartUtc: start
+  });
+  assert.equal(result, start + 2 * 60_000);
+  assert.deepEqual(calls, [{ body: "Star1", direction: 1, altitude: 0 }]);
 });
