@@ -161,16 +161,22 @@ test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence
 });
 
 
-test("2028-2030 Guru-Shukra calculations remain research candidates until a reproducible acceptance gate exists", () => {
-  for (const year of [2028, 2029, 2030]) {
-    assert.equal(getPithoragarhAnnualWindows(dataset, year, calculatedDataset).length, 0);
+test("validated 2028-2030 Guru-Shukra windows are explicitly accepted for initial publication", () => {
+  const expected = { 2028: 2, 2029: 2, 2030: 3 };
+  for (const [yearText, count] of Object.entries(expected)) {
+    const year = Number(yearText);
+    const windows = getPithoragarhAnnualWindows(dataset, year, calculatedDataset);
+    assert.equal(windows.length, count);
+    assert.ok(windows.every(item => item.sourceYear === year));
+    assert.ok(windows.every(item => ["Jupiter", "Venus"].includes(item.planet)));
+    assert.ok(windows.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
   }
   assert.equal(getPithoragarhAnnualWindows(dataset, 2031, calculatedDataset).length, 0);
-  assert.equal(calculatedDataset.calculation.publicationDecision.status, "research-candidate-not-published");
+  assert.equal(calculatedDataset.calculation.publicationDecision.status, "accepted-for-initial-publication");
   assert.equal(calculatedDataset.calculation.holdoutValidation.matchedBoundaries, 9);
   assert.equal(calculatedDataset.calculation.holdoutValidation.maximumClockDifferenceSeconds, 58.2);
   assert.ok(calculatedDataset.windows.every(item =>
-    item.acceptanceEligible === false && item.publicationStatus === "research-candidate"
+    item.acceptanceEligible === true && item.publicationStatus === "accepted"
   ));
 });
 
@@ -186,7 +192,7 @@ test("research-only future candidate timestamps remain intact in their calculati
   assert.equal(find("Venus", "2029-02-12").udaya, "2029-04-17T19:04:16+05:30");
   assert.equal(find("Venus", "2030-01-04").udaya, "2030-01-09T06:35:34+05:30");
   assert.equal(find("Venus", "2030-09-28").udaya, "2030-11-20T17:38:42+05:30");
-  assert.ok(all.every(item => item.status === "calculated" && item.acceptanceEligible === false && item.publicationStatus === "research-candidate"));
+  assert.ok(all.every(item => item.status === "calculated" && item.acceptanceEligible === true && item.publicationStatus === "accepted"));
 });
 
 test("calculated annual records are rejected if the observer profile does not match Pithoragarh", () => {
