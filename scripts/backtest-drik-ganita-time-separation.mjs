@@ -11,7 +11,9 @@ import {
   fitTheilSenLine,
   scanDrikStarAzimuthTransitions,
   summarizeCalibration,
-  LOCATION_PROFILES
+  LOCATION_PROFILES,
+  CANOPUS_ASTROMETRY,
+  propagateStarPosition
 } from "../research/drik-ganita-time-separation.mjs";
 
 const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
@@ -48,10 +50,10 @@ for (const sourceId of ["drikpanchang-pithoragarh", "pithoragarh-project-target"
   }
 }
 
-// Canopus (Agastya), J2000 approximate catalog position.
-// Replace with a pinned astrometric catalogue record before production use.
-DefineStar("Star1", 6.3991969, -52.69566, 310);
-
+// SIMBAD/Hipparcos Canopus astrometry; refresh proper-motion position at each date.
+function canopusCoordinatesAt(date) {
+  return propagateStarPosition(CANOPUS_ASTROMETRY, date);
+}
 
 function eventClass(observation) {
   const label = String(observation.event || "");
@@ -189,6 +191,10 @@ function angularSeparationDegrees(a, b) {
 }
 function apparentAtSourceTime(body, observer, instantUtcMs) {
   const date = new Date(instantUtcMs);
+  if (body === "Star1") {
+    const position = canopusCoordinatesAt(date);
+    DefineStar(body, position.raHours, position.decDegrees, position.distanceLightYears);
+  }
   const sunEquator = Equator("Sun", date, observer, true, true);
   const bodyEquator = Equator(body, date, observer, true, true);
   const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
@@ -331,7 +337,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     const scan = scanDrikStarAzimuthTransitions({
       SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
       startLocalDayUtc: starWindowStartUtc, days: 91,
-      event, slope: fit.slope, intercept: fit.intercept, residualThresholdDeg
+      event, slope: fit.slope, intercept: fit.intercept, residualThresholdDeg,
+      DefineStar, starCoordinatesAt: canopusCoordinatesAt
     });
     predictions.push(...scan.events);
     const holdoutRows = rows.filter(row =>
@@ -664,7 +671,8 @@ function buildAgastyaResidualQuantileDiagnostics(rows) {
         const scan = scanDrikStarAzimuthTransitions({
           SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
           startLocalDayUtc, days: 91, event,
-          slope: fit.slope, intercept: fit.intercept, residualThresholdDeg
+          slope: fit.slope, intercept: fit.intercept, residualThresholdDeg,
+          DefineStar, starCoordinatesAt: canopusCoordinatesAt
         });
         for (const row of observed) {
           const sourceDate = row.date;
@@ -794,6 +802,8 @@ function buildAgastyaSeparationDiagnostics(rows) {
     const samples = [];
     for (let offset = -4; offset <= 4; offset++) {
       const localDayStartUtc = center + offset * 86_400_000;
+      const position = canopusCoordinatesAt(new Date(localDayStartUtc + 12 * 60 * 60_000));
+      DefineStar("Star1", position.raHours, position.decDegrees, position.distanceLightYears);
       const event = SearchAltitude(
         "Star1", observer, row.branch === "rise" ? 1 : -1,
         new Date(localDayStartUtc), 1, 0
