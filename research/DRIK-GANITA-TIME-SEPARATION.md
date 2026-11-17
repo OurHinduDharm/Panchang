@@ -54,8 +54,8 @@ These are candidate fitted values, not production constants. Venus direct and re
 - Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
 - Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
-- Drik Almora/Ramnagar coordinates are proxies because the exact coordinates selected in the Drik interface were not captured.
-- Source elevations are unconfirmed; the first benchmark pass uses 0 m. Do not treat this as a final elevation correction.
+- Drik Almora and Ramnagar now use the exact provider-published observer profiles: Almora 29.59713°N, 79.65911°E, 1600 m; Ramnagar 29.3925°N, 79.1283°E, 364 m. These were taken from Drik's own location-detail pages, not substituted from the printed Panchang centres.
+- Ganesh Martand and Tara Prasad retain their own printed calculation-centre coordinates. Their source elevations are still unconfirmed and currently remain 0 m only as a provisional diagnostic assumption.
 - Agastya uses a provisional Canopus J2000 position; pin an astrometric catalogue/proper-motion source before production.
 
 ## Performance plan
