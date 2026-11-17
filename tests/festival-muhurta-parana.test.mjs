@@ -1006,6 +1006,8 @@ test("Masik Shivaratri exposes all four local night prahars when Chaturdashi ove
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 4);
   assert.deepEqual(result.windows.map(w => w.label), ["प्रथम प्रहर","द्वितीय प्रहर","तृतीय प्रहर","चतुर्थ प्रहर"]);
+  assert.equal(result.note, "कृष्ण चतुर्दशी की निशीथ-व्याप्ति के समय रात्रि-पूजन का विशेष महत्व है।");
+  assert.ok(result.windows.every(w => !w.note), "the shared explanation must not repeat under each prahar");
   assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
   assert.equal(result.windows[3].end.toISOString(), nextSunrise.toISOString());
 });

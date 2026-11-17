@@ -1669,7 +1669,7 @@ const rules = {
       prahar.start,
       prahar.end,
       names[index],
-      "कृष्ण चतुर्दशी की निशीथ-व्याप्ति के समय रात्रि-पूजन का विशेष महत्व है।"
+      ""
     )).filter(Boolean);
     if (windows.length !== 4) {
       return {
@@ -1683,7 +1683,8 @@ const rules = {
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
-      windows
+      windows,
+      note: "कृष्ण चतुर्दशी की निशीथ-व्याप्ति के समय रात्रि-पूजन का विशेष महत्व है।"
     };
   },
 
