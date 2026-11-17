@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p /tmp/drik-ganita
           node scripts/backtest-drik-ganita-time-separation.mjs > /tmp/drik-ganita/report.json
-          node -e "const r=require('/tmp/drik-ganita/report.json'); console.log(JSON.stringify({counts:r.benchmarkCounts, solarAltitudeProfiles:r.solarAltitudeCalibrationGroups, agastyaAzimuthModelDiagnostics:r.agastyaAzimuthModelDiagnostics, planetThresholdQuantileDiagnostics:r.planetThresholdQuantileDiagnostics, timeGapDiagnostics:r.timeSeparationDiagnosticGroups, holdout2026:r.heldOutValidation2026, holdout2027FixedThrough2025:r.heldOutValidation2027FixedThrough2025, holdout2027RollingThrough2026:r.heldOutValidation2027RollingThrough2026},null,2))"
+          node -e "const r=require('/tmp/drik-ganita/report.json'); console.log(JSON.stringify({counts:r.benchmarkCounts, solarAltitudeProfiles:r.solarAltitudeCalibrationGroups, agastyaAzimuthModelDiagnostics:r.agastyaAzimuthModelDiagnostics, agastyaResidualQuantileDiagnostics:r.agastyaResidualQuantileDiagnostics, planetThresholdQuantileDiagnostics:r.planetThresholdQuantileDiagnostics, timeGapDiagnostics:r.timeSeparationDiagnosticGroups, holdout2026:r.heldOutValidation2026, holdout2027FixedThrough2025:r.heldOutValidation2027FixedThrough2025, holdout2027RollingThrough2026:r.heldOutValidation2027RollingThrough2026},null,2))"
       - name: Upload calibration report
         uses: actions/upload-artifact@v4
         with:
