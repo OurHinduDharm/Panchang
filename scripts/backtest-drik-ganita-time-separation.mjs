@@ -233,10 +233,15 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     }));
     const fit = fitTheilSenLine(points);
     if (!fit) continue;
+    const trainingDayNumbers = starTraining.map(row => {
+      const date = new Date(row.date + "T00:00:00Z");
+      return Math.floor((date.getTime() - Date.UTC(date.getUTCFullYear(), 0, 0)) / 86_400_000);
+    });
+    const centerDayOfYear = Math.round(median(trainingDayNumbers));
+    const starWindowStartUtc = startLocalDayUtc + (centerDayOfYear - 1 - 45) * 86_400_000;
     const scan = scanDrikStarAzimuthTransitions({
       SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
-      startLocalDayUtc,
-      days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
+      startLocalDayUtc: starWindowStartUtc, days: 91,
       event, slope: fit.slope, intercept: fit.intercept
     });
     predictions.push(...scan.events);
@@ -245,6 +250,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       slope: fit.slope,
       intercept: fit.intercept,
       trainingSamples: fit.samples,
+      centerDayOfYear,
+      seasonalWindowDays: 91,
       trainingSourceIds: starTraining.map(row => row.id)
     });
   }
@@ -296,6 +303,16 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     const match = candidates[0];
     unused.delete(match.row);
     const sourceInstant = match.row.clock.instantUtcMs;
+    const sourceGeometry = match.row.horizonAtComputedBodyEvent;
+    const sourceAzimuthSeparationDeg = predicted.body === "Star1" && sourceGeometry
+      ? azimuthSeparationDegrees(sourceGeometry.bodyAzimuthDeg, sourceGeometry.sunAzimuthDeg)
+      : null;
+    const sourceModelThreshold = predicted.body === "Star1" &&
+      Number.isFinite(predicted.azimuthModelSlope) &&
+      Number.isFinite(predicted.azimuthModelIntercept) &&
+      Number.isFinite(sourceAzimuthSeparationDeg)
+      ? predicted.azimuthModelSlope * sourceAzimuthSeparationDeg + predicted.azimuthModelIntercept
+      : predicted.thresholdSunAltitudeDeg;
     matches.push({
       body: predicted.body,
       event: predicted.event,
@@ -306,12 +323,18 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       sourceLocal: new Date(sourceInstant + 330 * 60_000).toISOString().replace("Z", "+05:30"),
       dateOffsetDays: match.dateOffsetDays,
       thresholdSunAltitudeDeg: predicted.thresholdSunAltitudeDeg,
+      azimuthSeparationDeg: predicted.azimuthSeparationDeg ?? null,
+      sourceAzimuthSeparationDeg,
       beforeSunAltitudeDeg: predicted.beforeSunAltitudeDeg,
       afterSunAltitudeDeg: predicted.afterSunAltitudeDeg,
-      sourceSunAltitudeDeg: match.row.horizonAtComputedBodyEvent?.sunAltitudeDeg ?? null,
-      sourceThresholdMarginDeg: Number.isFinite(match.row.horizonAtComputedBodyEvent?.sunAltitudeDeg)
-        ? match.row.horizonAtComputedBodyEvent.sunAltitudeDeg - predicted.thresholdSunAltitudeDeg
+      sourceSunAltitudeDeg: sourceGeometry?.sunAltitudeDeg ?? null,
+      sourceModelThresholdSunAltitudeDeg: sourceModelThreshold,
+      sourceThresholdMarginDeg: Number.isFinite(sourceGeometry?.sunAltitudeDeg) &&
+        Number.isFinite(sourceModelThreshold)
+        ? sourceGeometry.sunAltitudeDeg - sourceModelThreshold
         : null,
+      beforeResidualDeg: predicted.beforeResidualDeg ?? null,
+      afterResidualDeg: predicted.afterResidualDeg ?? null,
       absoluteInstantResidualMinutes: Math.abs(predicted.utcMilliseconds - sourceInstant) / 60_000,
       clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, sourceInstant)
     });
