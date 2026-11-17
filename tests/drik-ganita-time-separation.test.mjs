@@ -352,11 +352,11 @@ test("Agastya azimuth separation wraps across north correctly", () => {
 
 test("Theil-Sen fit recovers a robust straight-line threshold", () => {
   const fit = fitTheilSenLine([
-    { x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 6 }, { x: 4, y: 20 }
+    { x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 6 }, { x: 4, y: 8 }, { x: 5, y: 20 }
   ]);
   assert.ok(Math.abs(fit.slope - 2) < 1e-12);
   assert.ok(Math.abs(fit.intercept) < 1e-12);
-  assert.equal(fit.samples, 4);
+  assert.equal(fit.samples, 5);
 });
 
 test("Agastya Udaya uses a downward azimuth-corrected residual crossing", () => {
