@@ -25,10 +25,12 @@ if (new Set(observationIds).size !== observationIds.length) {
 }
 
 const LOCATIONS = {
-  "ganesh-martand": { name: "Almora", latitude: 29 + 37 / 60, longitude: 79 + 40 / 60, elevation: 0 },
-  "drikpanchang-almora": { name: "Almora (coordinate proxy)", latitude: 29 + 37 / 60, longitude: 79 + 40 / 60, elevation: 0 },
-  "tara-prasad": { name: "Ramnagar", latitude: 29.5, longitude: 79 + 8 / 60, elevation: 0 },
-  "drikpanchang-ramnagar": { name: "Ramnagar (coordinate proxy)", latitude: 29.5, longitude: 79 + 8 / 60, elevation: 0 }
+  // Printed Panchang calculation centres: source-provided coordinates, elevation still unconfirmed.
+  "ganesh-martand": { name: "Almora (Ganesh Martand centre)", latitude: 29 + 37 / 60, longitude: 79 + 40 / 60, elevation: 0 },
+  "tara-prasad": { name: "Ramnagar (Tara Prasad centre)", latitude: 29.5, longitude: 79 + 8 / 60, elevation: 0 },
+  // Exact geographic details from Drik Panchang's own location pages.
+  "drikpanchang-almora": { name: "Almora (Drik Panchang)", latitude: 29.59713, longitude: 79.65911, elevation: 1600 },
+  "drikpanchang-ramnagar": { name: "Ramnagar (Drik Panchang)", latitude: 29.3925, longitude: 79.1283, elevation: 364 }
 };
 
 // Canopus (Agastya), J2000 approximate catalog position.
@@ -807,7 +809,7 @@ const report = {
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
     "The local time-separation degrees are retained as diagnostics only; held-out predictions use calibrated topocentric Sun altitude at the target rise/set event.",
-    "Drik city coordinates are proxies where exact page coordinates were not captured.",
+    "Drik Almora and Ramnagar are recalculated with the exact coordinates/elevations published on Drik's own location detail pages; Ganesh Martand and Tara Prasad retain their separately transcribed source centres.",
     "Source clock records with ambiguous AM/PM notation are excluded, not guessed.",
     "Ganesh Martand HH.MM clock notation is source-confirmed IST hour-minute with next-day rollover examples; its timestamps remain an independent cross-check and are not pooled into Drik threshold fitting because event-definition equivalence is not assumed.",
     "Drik event clocks are the primary time-calibration observations because they align with computed local apparent rise/set events.",
