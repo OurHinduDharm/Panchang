@@ -424,7 +424,7 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
   const sourceId = "drikpanchang-almora";
   const location = LOCATIONS[sourceId];
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
-  const probabilities = [0.25, 0.5, 0.75, 0.9];
+  const probabilities = [0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1];
   const output = [];
   const scenarios = [
     ...[2022, 2023, 2024, 2025, 2026].map(holdoutYear => ({
