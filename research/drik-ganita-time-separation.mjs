@@ -318,8 +318,7 @@ export function scanDrikSolarAltitudeTransitions({
   motionStateAt = null
 }) {
   if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
-  const isProfile = value => value && typeof value === "object" &&
-    Object.values(value).some(Number.isFinite);
+  const isProfile = value => value && typeof value === "object" && !Array.isArray(value);
   if (![astaSunAltitudeDeg, udayaSunAltitudeDeg].every(value =>
     Number.isFinite(value) || isProfile(value))) {
     throw new RangeError("Asta and Udaya solar-altitude thresholds are required");
