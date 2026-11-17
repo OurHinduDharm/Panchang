@@ -19,10 +19,10 @@ The Drik records indicate that the published event clock is the target body's lo
 For each local date and observer:
 
 1. Use the pinned Astronomy Engine ephemeris and the observer's latitude, longitude and elevation to find the target event. Jupiter/Venus use the standard refraction-corrected `SearchRiseSet`; Agastya/Canopus uses the unrefracted geometric center crossing at 0° via `SearchAltitude`. The Drik source clocks show a consistent ~0.57° apparent-altitude offset for Canopus, matching the refraction distinction rather than a 7–8 minute arbitrary correction.
-2. At that exact event instant, calculate the Sun's topocentric apparent altitude using the same observer.
-3. Compare the Sun altitude with the calibrated threshold for that body, event (Asta/Udaya), horizon branch and (for Venus) direct/retrograde state.
-4. Asta is the upward crossing of the solar-altitude threshold (Sun becoming less depressed); Udaya is the downward crossing (Sun becoming more depressed).
-5. Publish the first actual target rise/set event that satisfies the threshold. Do not interpolate between adjacent daily horizon events; the event clock is the computed rise/set instant itself.
+2. At that exact event instant, calculate the Sun's topocentric apparent altitude and both azimuths using the same observer.
+3. For Jupiter/Venus, compare Sun altitude with the calibrated body/event/branch threshold; Venus direct/retrograde profiles remain separate.
+4. For Agastya, fit a separate robust relation `hSun = alpha + beta × abs(wrap180(Astar − Asun))` using Theil–Sen regression on Drik star-rise/star-set observations. Udaya is the downward crossing of the residual `hSun − hPredicted`; Asta is the upward crossing. The linear model is accepted only when leave-one-year-out error and slope stability improve on the constant-median baseline.
+5. Publish the first actual target event that satisfies the threshold. Do not interpolate between adjacent daily horizon events; the event clock is the computed rise/set or geometric star-crossing instant itself.
 
 This is one local Drik-Ganita calculation path. It uses standard apparent rise/set and topocentric solar altitude; it does not calculate visual magnitude, sky brightness, extinction or a separate photometric/naked-eye visibility product. It does not implement Surya-Siddhanta Ch.9 K/C.
 
@@ -40,8 +40,7 @@ Accepted Drik source events place the target near the horizon at the printed eve
 | Venus | Udaya | Rising | -6.53° |
 | Jupiter | Asta | Setting | -7.47° |
 | Jupiter | Udaya | Rising | -9.29° |
-| Agastya / Canopus | Udaya | Rising | -14.36° |
-| Agastya / Canopus | Asta | Setting | -14.57° |
+Agastya's constant solar-altitude medians are retained only as diagnostics; its current candidate is the separate azimuth-corrected geometric-star model described above.
 
 These are candidate fitted values, not production constants. Venus direct and retrograde states must be fitted independently; a transition across a station is not evaluated using a blended threshold. The 2026–2027 holdout test trains thresholds only through 2025.
 
