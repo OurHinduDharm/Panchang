@@ -10,7 +10,8 @@ import {
   azimuthSeparationDegrees,
   fitTheilSenLine,
   scanDrikStarAzimuthTransitions,
-  summarizeCalibration
+  summarizeCalibration,
+  LOCATION_PROFILES
 } from "../research/drik-ganita-time-separation.mjs";
 
 const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
@@ -24,14 +25,7 @@ if (new Set(observationIds).size !== observationIds.length) {
   throw new Error("Benchmark observation IDs must be unique");
 }
 
-const LOCATIONS = {
-  // Printed Panchang calculation centres: source-provided coordinates, elevation still unconfirmed.
-  "ganesh-martand": { name: "Almora (Ganesh Martand centre)", latitude: 29 + 37 / 60, longitude: 79 + 40 / 60, elevation: 0 },
-  "tara-prasad": { name: "Ramnagar (Tara Prasad centre)", latitude: 29.5, longitude: 79 + 8 / 60, elevation: 0 },
-  // Exact geographic details from Drik Panchang's own location pages.
-  "drikpanchang-almora": { name: "Almora (Drik Panchang)", latitude: 29.59713, longitude: 79.65911, elevation: 1600 },
-  "drikpanchang-ramnagar": { name: "Ramnagar (Drik Panchang)", latitude: 29.3925, longitude: 79.1283, elevation: 364 }
-};
+const LOCATIONS = LOCATION_PROFILES;
 
 // Canopus (Agastya), J2000 approximate catalog position.
 // Replace with a pinned astrometric catalogue record before production use.
