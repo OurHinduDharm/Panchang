@@ -776,8 +776,8 @@ for (const observation of dataset.observations) {
     horizonAtSourceTime,
     horizonAtComputedBodyEvent,
     location: location.name,
-    coordinateProfile: observation.sourceId.includes("drikpanchang")
-      ? "approximate-source-city-coordinate"
+    coordinateProfile: observation.sourceId === "drikpanchang-almora" || observation.sourceId === "drikpanchang-ramnagar"
+      ? "official-Drik-Panchang-location-details"
       : "printed-panchang-calculation-centre"
   });
 }
