@@ -219,14 +219,15 @@ function summarizeSolarAltitudeCalibration(rows) {
   for (const row of rows) {
     if (!row.available || !row.sourceId?.startsWith("drikpanchang") ||
         row.bodyEventResidualMinutes > 15 || !row.horizonAtComputedBodyEvent) continue;
-    const key = [row.body, row.branch, row.eventType, row.horizonAtComputedBodyEvent.motionState].join("|");
+    const key = [row.sourceId, row.body, row.branch, row.eventType, row.horizonAtComputedBodyEvent.motionState].join("|");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
   }
   return [...groups.entries()].map(([key, values]) => ({
     key,
     samples: values.length,
-    motionState: key.split("|")[3],
+    sourceId: key.split("|")[0],
+    motionState: key.split("|")[4],
     medianSunAltitudeDeg: median(values),
     minSunAltitudeDeg: Math.min(...values),
     maxSunAltitudeDeg: Math.max(...values)
