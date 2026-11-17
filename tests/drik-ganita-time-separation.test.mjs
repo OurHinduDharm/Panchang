@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import {
   parsePrintedClock,
   clockOfDayDifferenceMinutes,
@@ -308,4 +309,14 @@ test("solar-altitude scanner uses separate Venus direct/retrograde profiles and 
     start + 86_400_000 + 6 * 60 * 60_000,
     start + 3 * 86_400_000 + 6 * 60 * 60_000
   ]);
+});
+
+
+test("Drik-Ganita benchmark observation IDs are unique", () => {
+  const dataset = JSON.parse(fs.readFileSync(
+    new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
+    "utf8"
+  ));
+  const ids = dataset.observations.map(item => item.id);
+  assert.equal(new Set(ids).size, ids.length);
 });
