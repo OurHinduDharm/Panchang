@@ -304,38 +304,59 @@ export function measureSunAltitudeAtTargetRiseSet({
  * Finds Asta/Udaya when the Sun's apparent altitude at the target's horizon
  * crossing passes the calibrated body/event/branch threshold.
  */
+function thresholdForMotion(profile, motionState) {
+  if (Number.isFinite(profile)) return profile;
+  if (profile && typeof profile === "object" && Number.isFinite(profile[motionState])) {
+    return profile[motionState];
+  }
+  return null;
+}
+
 export function scanDrikSolarAltitudeTransitions({
   SearchRiseSet, Equator, Horizon, body, observer, branch,
-  startLocalDayUtc, days, astaSunAltitudeDeg, udayaSunAltitudeDeg
+  startLocalDayUtc, days, astaSunAltitudeDeg, udayaSunAltitudeDeg,
+  motionStateAt = null
 }) {
   if (!Number.isInteger(days) || days < 2) throw new RangeError("days must be an integer >= 2");
-  if (![astaSunAltitudeDeg, udayaSunAltitudeDeg].every(Number.isFinite)) {
+  const isProfile = value => value && typeof value === "object" &&
+    Object.values(value).some(Number.isFinite);
+  if (![astaSunAltitudeDeg, udayaSunAltitudeDeg].every(value =>
+    Number.isFinite(value) || isProfile(value))) {
     throw new RangeError("Asta and Udaya solar-altitude thresholds are required");
   }
   const samples = [];
   for (let index = 0; index < days; index++) {
     const localDayStartUtc = startLocalDayUtc + index * 86_400_000;
+    const sample = measureSunAltitudeAtTargetRiseSet({
+      SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
+    });
     samples.push({
       dayStartUtc: localDayStartUtc,
-      ...measureSunAltitudeAtTargetRiseSet({
-        SearchRiseSet, Equator, Horizon, body, observer, branch, localDayStartUtc
-      })
+      ...sample,
+      motionState: sample.available && typeof motionStateAt === "function"
+        ? motionStateAt(body, sample.bodyEventUtcMs)
+        : body === "Star1" ? "fixed-star" : "direct"
     });
   }
   const events = [];
   for (let index = 1; index < samples.length; index++) {
     const before = samples[index - 1], after = samples[index];
     if (!before.available || !after.available) continue;
+    // Never bridge a Venus station: direct and retrograde apparitions have
+    // independent fitted thresholds and must be evaluated on their own side.
+    if (before.motionState !== after.motionState) continue;
+    const astaThreshold = thresholdForMotion(astaSunAltitudeDeg, after.motionState);
+    const udayaThreshold = thresholdForMotion(udayaSunAltitudeDeg, after.motionState);
     const delta = after.sunAltitudeDeg - before.sunAltitudeDeg;
     if (delta === 0) continue;
     const crossings = [];
-    if (before.sunAltitudeDeg < astaSunAltitudeDeg &&
-        after.sunAltitudeDeg >= astaSunAltitudeDeg) {
-      crossings.push({ event: "Asta", threshold: astaSunAltitudeDeg });
+    if (Number.isFinite(astaThreshold) &&
+        before.sunAltitudeDeg < astaThreshold && after.sunAltitudeDeg >= astaThreshold) {
+      crossings.push({ event: "Asta", threshold: astaThreshold });
     }
-    if (before.sunAltitudeDeg > udayaSunAltitudeDeg &&
-        after.sunAltitudeDeg <= udayaSunAltitudeDeg) {
-      crossings.push({ event: "Udaya", threshold: udayaSunAltitudeDeg });
+    if (Number.isFinite(udayaThreshold) &&
+        before.sunAltitudeDeg > udayaThreshold && after.sunAltitudeDeg <= udayaThreshold) {
+      crossings.push({ event: "Udaya", threshold: udayaThreshold });
     }
     for (const crossing of crossings) {
       if ((body === "Jupiter" || body === "Star1") &&
@@ -344,13 +365,11 @@ export function scanDrikSolarAltitudeTransitions({
       const fraction = Math.max(0, Math.min(1,
         (crossing.threshold - before.sunAltitudeDeg) / delta
       ));
-      // A heliacal boundary is published on the first actual target
-      // rise/set event that satisfies the threshold. Interpolating between
-      // two daily events would invent a crossing time when the body is not
-      // actually at the horizon.
+      // Report the first actual target rise/set event satisfying the boundary;
+      // interpolation is diagnostic only and is never presented as an event time.
       const bodyEventUtcMs = after.bodyEventUtcMs;
       events.push({
-        body, branch, event: crossing.event,
+        body, branch, event: crossing.event, motionState: after.motionState,
         thresholdSunAltitudeDeg: crossing.threshold,
         beforeSunAltitudeDeg: before.sunAltitudeDeg,
         afterSunAltitudeDeg: after.sunAltitudeDeg,
