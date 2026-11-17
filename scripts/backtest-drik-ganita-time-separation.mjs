@@ -400,6 +400,106 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   };
 }
 
+function quantile(values, probability) {
+  const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const position = (sorted.length - 1) * probability;
+  const lower = Math.floor(position), upper = Math.ceil(position);
+  if (lower === upper) return sorted[lower];
+  return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
+}
+
+function buildPlanetThresholdQuantileDiagnostics(rows) {
+  const sourceId = "drikpanchang-almora";
+  const location = LOCATIONS[sourceId];
+  const observer = new Observer(location.latitude, location.longitude, location.elevation);
+  const probabilities = [0.25, 0.5, 0.75, 0.9];
+  const output = [];
+  for (const holdoutYear of [2026, 2027]) {
+    const holdouts = rows.filter(row =>
+      row.available &&
+      row.sourceId === sourceId &&
+      row.body !== "Star1" &&
+      row.bodyEventResidualMinutes <= 15 &&
+      row.horizonAtComputedBodyEvent &&
+      Number(row.date.slice(0, 4)) === holdoutYear
+    );
+    for (const probability of probabilities) {
+      const results = [];
+      for (const row of holdouts) {
+        const state = row.horizonAtComputedBodyEvent.motionState;
+        const training = rows.filter(candidate =>
+          candidate.available &&
+          candidate.sourceId === sourceId &&
+          candidate.body === row.body &&
+          candidate.branch === row.branch &&
+          candidate.eventType === row.eventType &&
+          candidate.horizonAtComputedBodyEvent?.motionState === state &&
+          candidate.bodyEventResidualMinutes <= 15 &&
+          candidate.horizonAtComputedBodyEvent &&
+          Number(candidate.date.slice(0, 4)) <= 2025
+        );
+        if (training.length < 3) continue;
+        const threshold = quantile(
+          training.map(item => item.horizonAtComputedBodyEvent.sunAltitudeDeg),
+          probability
+        );
+        const startLocalDayUtc = Date.parse(row.date + "T00:00:00+05:30") - 3 * 86_400_000;
+        const scan = scanDrikSolarAltitudeTransitions({
+          SearchRiseSet, SearchAltitude, Equator, Horizon,
+          body: row.body, observer, branch: row.branch,
+          startLocalDayUtc, days: 7,
+          astaSunAltitudeDeg: row.eventType === "Asta" ? { [state]: threshold } : {},
+          udayaSunAltitudeDeg: row.eventType === "Udaya" ? { [state]: threshold } : {},
+          motionStateAt: (targetBody, instantUtcMs) =>
+            apparentAtSourceTime(targetBody, observer, instantUtcMs).motionState
+        });
+        const predicted = scan.events[0] ?? null;
+        const predictedLocalDate = predicted
+          ? new Date(predicted.utcMilliseconds + 330 * 60_000).toISOString().slice(0, 10)
+          : null;
+        const dateOffsetDays = predictedLocalDate
+          ? Math.round((Date.parse(predictedLocalDate + "T00:00:00Z") -
+              Date.parse(row.date + "T00:00:00Z")) / 86_400_000)
+          : null;
+        results.push({
+          sourceId: row.id,
+          body: row.body,
+          event: row.eventType,
+          branch: row.branch,
+          motionState: state,
+          trainingSamples: training.length,
+          thresholdQuantile: probability,
+          thresholdSunAltitudeDeg: threshold,
+          predictedLocalDate,
+          dateOffsetDays,
+          clockOfDayResidualMinutes: predicted
+            ? clockOfDayDifferenceMinutes(predicted.utcMilliseconds, row.clock.instantUtcMs)
+            : null
+        });
+      }
+      const offsets = results.filter(item => item.dateOffsetDays !== null)
+        .map(item => Math.abs(item.dateOffsetDays));
+      const clockResiduals = results.filter(item => Number.isFinite(item.clockOfDayResidualMinutes))
+        .map(item => Math.abs(item.clockOfDayResidualMinutes));
+      output.push({
+        holdoutYear,
+        quantile: probability,
+        observations: results.length,
+        predicted: offsets.length,
+        exactDate: offsets.filter(value => value === 0).length,
+        withinOneDay: offsets.filter(value => value <= 1).length,
+        unmatched: results.length - offsets.length,
+        medianAbsoluteClockResidualMinutes: median(clockResiduals),
+        maximumAbsoluteClockResidualMinutes: clockResiduals.length ? Math.max(...clockResiduals) : null,
+        results
+      });
+    }
+  }
+  return output;
+}
+
+
 function buildAgastyaAzimuthModelDiagnostics(rows) {
   const training = rows.filter(row =>
     row.available &&
@@ -578,6 +678,7 @@ const report = {
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   agastyaSeparationDiagnostics: buildAgastyaSeparationDiagnostics(rows),
   agastyaAzimuthModelDiagnostics: buildAgastyaAzimuthModelDiagnostics(rows),
+  planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
