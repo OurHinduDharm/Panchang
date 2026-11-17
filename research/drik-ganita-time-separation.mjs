@@ -30,6 +30,20 @@ export const LOCATION_PROFILES = Object.freeze({
     latitude: 29.3925,
     longitude: 79.1283,
     elevation: 364
+  }),
+  // Provider-default Pithoragarh location; keep distinct from the project's
+  // more precise observer coordinate used for the actual Panchang location.
+  "drikpanchang-pithoragarh": Object.freeze({
+    name: "Pithoragarh (Drik Panchang default)",
+    latitude: 29.58349,
+    longitude: 80.20947,
+    elevation: 1586
+  }),
+  "pithoragarh-project-target": Object.freeze({
+    name: "Pithoragarh (project observer)",
+    latitude: 29.5828,
+    longitude: 80.2182,
+    elevation: 1650
   })
 });
 
