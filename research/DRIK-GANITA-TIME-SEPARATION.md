@@ -7,7 +7,7 @@ Status: research prototype; not connected to the public Panchang yet.
 The public site will expose one method only: **दृक्-गणितीय उदय-अस्त**.
 
 - Drik Panchang is the primary time-calibration source.
-- Ganesh Martand (दृक्गणित), Almora, is an independent date cross-check. Its printed HH.MM clock notation remains provisional until the original time legend is confirmed.
+- Ganesh Martand (दृक्गणित), Almora, is an independent date/time cross-check. Its source legend confirms planetary rise/set times as IST hour-minute; values above 24 hours are preserved as next-day notation. These observations remain separate from Drik threshold fitting because source-event equivalence is not assumed.
 - Tara Prasad is a secondary Ramnagar cross-check.
 - TKS Surya-Siddhanta and photometric values are excluded from calibration.
 - No public method selector or separate physical/photometric visibility option will be added.
