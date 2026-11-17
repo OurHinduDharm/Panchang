@@ -60,7 +60,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 - Pithoragarh has two intentionally separate profiles: Drik default city (29.58349°N, 80.20947°E, 1586 m) and project observer (29.5828°N, 80.2182°E, 1650 m). On 17 Nov 2026, the engine returned 06:35:14 sunrise and 17:12:38 sunset at the Drik observer, versus provider-published 06:35 / 17:13 IST (residuals +0.25 / −0.37 min). The project observer differs from the Drik observer by only −0.02 / −0.05 min on that date. This validates the observer setup only.
 - Ganesh Martand and Tara Prasad retain their own printed calculation-centre coordinates. Their source elevations are still unconfirmed and currently remain 0 m only as a provisional diagnostic assumption.
 - A cross-location transfer test applies thresholds trained only on 27 accepted Drik Almora events through 2025 to six separately transcribed Drik Pithoragarh Venus events. With Drik's own Pithoragarh city observer, 5/6 dates are exact and 6/6 are within one day; median / maximum clock residual is 0.57 / 2.42 min. The same six events, evaluated at the project's distinct Pithoragarh target observer, also give 5/6 exact and 6/6 within one day; median / maximum clock residual is 0.61 / 2.40 min. None of the six Pithoragarh observations is used to fit the thresholds. The sole one-day mismatch is the 11 Dec 2025 Venus Asta, predicted on 12 Dec, with a clock residual of about 2.4 min. This is a promising location-transfer check for Venus only—not validation of Pithoragarh Jupiter, Agastya or all years.
-- Agastya uses a provisional Canopus J2000 position; pin an astrometric catalogue/proper-motion source before production.
+- Agastya now uses Canopus (α Car) astrometry pinned to SIMBAD's Hipparcos New Reduction entry / van Leeuwen 2007 (2007A&A...474..653V): ICRS J2000 RA 06h 23m 57.10988s, Dec −52° 41′ 44.3810″; μα cosδ = +19.93 mas/yr, μδ = +23.24 mas/yr, parallax 10.55 mas. The date-specific position is propagated from J2000 before each source event and each daily geometric-star scan. Distance for the engine's small parallax correction is derived from the catalog parallax. Source: https://simbad.cds.unistra.fr/simbad/sim-id?Ident=Canopus.
 
 ## Performance plan
 
@@ -74,5 +74,5 @@ These are candidate fitted values, not production constants. Venus direct and re
 1. Freeze all model profiles, then validate against a genuinely unseen year (for example 2028); do not retune thresholds on that holdout.
 2. Expand Pithoragarh's independent source set to Jupiter and Agastya, and add more Venus years before treating the six-event transfer as stable.
 3. Complete independent Ganesh Martand / Tara Prasad date cross-checks using their separate observer centres; their source elevations remain unknown.
-4. Pin a catalogue-quality Canopus position with proper motion and revalidate Agastya over held-out years.
+4. Revalidate the proper-motion-propagated Canopus model over additional held-out years and independent Agastya locations.
 5. Preserve separate city observer profiles and one public method/label; never use city fallbacks.
