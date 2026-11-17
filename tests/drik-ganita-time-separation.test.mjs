@@ -279,3 +279,33 @@ test("time separation compares Sun event with the requested target body event", 
   assert.equal(result.available, true);
   assert.equal(result.gapMinutes, 60);
 });
+
+
+test("solar-altitude scanner uses separate Venus direct/retrograde profiles and never bridges a station", () => {
+  const start = Date.UTC(2026, 0, 1);
+  const alts = [-5, -7, -9, -7, -5];
+  const states = ["direct", "direct", "retrograde", "retrograde", "retrograde"];
+  const result = scanDrikSolarAltitudeTransitions({
+    SearchRiseSet: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: () => ({ ra: 0, dec: 0 }),
+    Horizon: date => ({
+      altitude: alts[Math.floor((date.getTime() - start) / 86_400_000)]
+    }),
+    body: "Venus", observer: {}, branch: "rise",
+    startLocalDayUtc: start, days: alts.length,
+    astaSunAltitudeDeg: { direct: -6, retrograde: -8 },
+    udayaSunAltitudeDeg: { direct: -6, retrograde: -8 },
+    motionStateAt: (body, instant) =>
+      states[Math.floor((instant - start - 6 * 60 * 60_000) / 86_400_000)]
+  });
+  assert.deepEqual(result.events.map(event => [event.event, event.motionState]), [
+    ["Udaya", "direct"],
+    ["Asta", "retrograde"]
+  ]);
+  assert.deepEqual(result.events.map(event => event.utcMilliseconds), [
+    start + 86_400_000 + 6 * 60 * 60_000,
+    start + 3 * 86_400_000 + 6 * 60 * 60_000
+  ]);
+});
