@@ -1039,6 +1039,10 @@ for (const observation of dataset.observations) {
   if (!location) continue;
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const localDayStartUtc = Date.parse(observation.date + "T00:00:00+05:30");
+  if (observation.planet === "अगस्त्य") {
+    const position = canopusCoordinatesAt(new Date(localDayStartUtc + 12 * 60 * 60_000));
+    DefineStar("Star1", position.raHours, position.decDegrees, position.distanceLightYears);
+  }
   const result = calibrateObservation({
     observation,
     SearchRiseSet,
