@@ -18,7 +18,7 @@ The Drik records indicate that the published event clock is the target body's lo
 
 For each local date and observer:
 
-1. Use the pinned Astronomy Engine ephemeris and the observer's latitude, longitude and elevation to find the target's apparent rise or set event.
+1. Use the pinned Astronomy Engine ephemeris and the observer's latitude, longitude and elevation to find the target event. Jupiter/Venus use the standard refraction-corrected `SearchRiseSet`; Agastya/Canopus uses the unrefracted geometric center crossing at 0° via `SearchAltitude`. The Drik source clocks show a consistent ~0.57° apparent-altitude offset for Canopus, matching the refraction distinction rather than a 7–8 minute arbitrary correction.
 2. At that exact event instant, calculate the Sun's topocentric apparent altitude using the same observer.
 3. Compare the Sun altitude with the calibrated threshold for that body, event (Asta/Udaya), horizon branch and (for Venus) direct/retrograde state.
 4. Asta is the upward crossing of the solar-altitude threshold (Sun becoming less depressed); Udaya is the downward crossing (Sun becoming more depressed).
