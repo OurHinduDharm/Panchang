@@ -107,6 +107,52 @@ function pairSourceSets(observations, leftSourceId, rightSourceId) {
   }
   return pairs;
 }
+
+function pithoragarhSunriseSunsetSanity() {
+  const dateIso = "2026-11-17";
+  const timezoneOffsetMinutes = 330;
+  const drikProfile = LOCATION_PROFILES["drikpanchagarh-pithoragarh"];
+  const targetProfile = LOCATION_PROFILES["pithoragarh-project-target"];
+  const calculate = (location, direction) => {
+    const observer = new Observer(location.latitude, location.longitude, location.elevation);
+    const start = Date.parse(`${dateIso}T00:00:00+05:30`);
+    const event = SearchRiseSet("Sun", observer, direction, new Date(start), 1, 0);
+    const instant = event?.date instanceof Date ? event.date.getTime()
+      : event?.date ? new Date(event.date).getTime() : NaN;
+    if (!Number.isFinite(instant)) return null;
+    return Math.round(instant + timezoneOffsetMinutes * 60_000);
+  };
+  const drikSunrise = calculate(drikProfile, 1);
+  const drikSunset = calculate(drikProfile, -1);
+  const targetSunrise = calculate(targetProfile, 1);
+  const targetSunset = calculate(targetProfile, -1);
+  const sourceSunrise = Date.parse(`${dateIso}T06:35:00+05:30`);
+  const sourceSunset = Date.parse(`${dateIso}T17:13:00+05:30`);
+  const clock = instant => Number.isFinite(instant)
+    ? new Date(instant).toISOString().slice(11, 19) : null;
+  return {
+    date: dateIso,
+    drikSourcePage: "https://www.drikpanchang.com/astronomy/sunrisemoonrise/daily/sunrisemoonrise.html?geoname-id=1259503",
+    providerPublished: { sunrise: "06:35:00", sunset: "17:13:00" },
+    drikObserver: {
+      ...drikProfile,
+      computed: { sunrise: clock(drikSunrise), sunset: clock(drikSunset) },
+      sourceResidualMinutes: {
+        sunrise: drikSunrise === null ? null : (drikSunrise - sourceSunrise) / 60_000,
+        sunset: drikSunset === null ? null : (drikSunset - sourceSunset) / 60_000
+      }
+    },
+    projectObserver: {
+      ...targetProfile,
+      computed: { sunrise: clock(targetSunrise), sunset: clock(targetSunset) },
+      differenceFromDrikObserverMinutes: {
+        sunrise: drikSunrise === null || targetSunrise === null ? null : (targetSunrise - drikSunrise) / 60_000,
+        sunset: drikSunset === null || targetSunset === null ? null : (targetSunset - drikSunset) / 60_000
+      }
+    }
+  };
+}
+
 function buildSourceAgreement(observations) {
   return {
     primaryGaneshVsDrikAlmora: pairSourceSets(observations, "ganesh-martand", "drikpanchang-almora"),
@@ -828,6 +874,7 @@ const report = {
   agastyaAzimuthModelDiagnostics: buildAgastyaAzimuthModelDiagnostics(rows),
   agastyaResidualQuantileDiagnostics: buildAgastyaResidualQuantileDiagnostics(rows),
   planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
+  pithoragarhObserverSanity: pithoragarhSunriseSunsetSanity(),
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
