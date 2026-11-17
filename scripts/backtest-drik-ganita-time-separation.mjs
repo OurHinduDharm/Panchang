@@ -415,7 +415,14 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const probabilities = [0.25, 0.5, 0.75, 0.9];
   const output = [];
-  for (const holdoutYear of [2026, 2027]) {
+  const scenarios = [
+    ...[2022, 2023, 2024, 2025, 2026].map(holdoutYear => ({
+      holdoutYear, trainingThroughYear: holdoutYear - 1, mode: "expanding"
+    })),
+    { holdoutYear: 2027, trainingThroughYear: 2025, mode: "fixed-origin" },
+    { holdoutYear: 2027, trainingThroughYear: 2026, mode: "rolling-origin" }
+  ];
+  for (const { holdoutYear, trainingThroughYear, mode } of scenarios) {
     const holdouts = rows.filter(row =>
       row.available &&
       row.sourceId === sourceId &&
@@ -437,7 +444,7 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
           candidate.horizonAtComputedBodyEvent?.motionState === state &&
           candidate.bodyEventResidualMinutes <= 15 &&
           candidate.horizonAtComputedBodyEvent &&
-          Number(candidate.date.slice(0, 4)) <= 2025
+          Number(candidate.date.slice(0, 4)) <= trainingThroughYear
         );
         if (training.length < 3) continue;
         const threshold = quantile(
@@ -484,6 +491,8 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
         .map(item => Math.abs(item.clockOfDayResidualMinutes));
       output.push({
         holdoutYear,
+        trainingThroughYear,
+        mode,
         quantile: probability,
         observations: results.length,
         predicted: offsets.length,
