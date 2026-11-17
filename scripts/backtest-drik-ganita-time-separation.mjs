@@ -879,6 +879,17 @@ function buildPithoragarhTransferValidation(rows) {
     row.bodyEventResidualMinutes <= 15 &&
     row.horizonAtComputedBodyEvent
   );
+  if (!trainingRows.length || !targetRows.length) {
+    throw new Error("Pithoragarh transfer check requires independent Almora training and Pithoragarh target observations");
+  }
+  if (trainingRows.some(row => row.sourceId !== trainingSourceId) ||
+      targetRows.some(row => row.sourceId !== targetSourceId)) {
+    throw new Error("Cross-location transfer source contamination detected");
+  }
+  const targetIds = targetRows.map(row => row.id);
+  if (new Set(targetIds).size !== targetIds.length) {
+    throw new Error("Pithoragarh transfer observation IDs must be unique");
+  }
   const results = [];
   const missingThresholds = [];
   for (const row of targetRows) {
