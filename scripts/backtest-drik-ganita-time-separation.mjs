@@ -482,6 +482,8 @@ function buildPlanetThresholdQuantileDiagnostics(rows) {
           trainingSamples: training.length,
           thresholdQuantile: probability,
           thresholdSunAltitudeDeg: threshold,
+          sourceSunAltitudeDeg: row.horizonAtComputedBodyEvent.sunAltitudeDeg,
+          sourceThresholdMarginDeg: row.horizonAtComputedBodyEvent.sunAltitudeDeg - threshold,
           predictedLocalDate,
           dateOffsetDays,
           clockOfDayResidualMinutes: predicted
