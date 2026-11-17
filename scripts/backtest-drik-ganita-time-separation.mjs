@@ -37,7 +37,7 @@ for (const sourceId of ["drikpanchang-almora", "drikpanchang-ramnagar"]) {
     throw new Error(`Observer profile metadata mismatch for ${sourceId}`);
   }
 }
-for (const sourceId of ["drikpanchagarh-pithoragarh", "pithoragarh-project-target"]) {
+for (const sourceId of ["drikpanchang-pithoragarh", "pithoragarh-project-target"]) {
   const source = dataset.observerProfiles?.find(item => item.id === sourceId);
   const profile = LOCATIONS[sourceId];
   if (!source || !profile ||
