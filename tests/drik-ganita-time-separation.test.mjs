@@ -7,6 +7,9 @@ import {
   MINUTES_PER_TIME_DEGREE,
   resolveDrikHorizonBranch,
   findLocalRiseSetEvent,
+  azimuthSeparationDegrees,
+  fitTheilSenLine,
+  scanDrikStarAzimuthTransitions,
   sourceObservationToReference,
   measureDrikTimeSeparation,
   calibrateObservation,
@@ -339,4 +342,68 @@ test("Agastya uses the geometric zero-altitude crossing, not refraction-correcte
   });
   assert.equal(result, start + 2 * 60_000);
   assert.deepEqual(calls, [{ body: "Star1", direction: 1, altitude: 0 }]);
+});
+
+
+test("Agastya azimuth separation wraps across north correctly", () => {
+  assert.equal(azimuthSeparationDegrees(359, 1), 2);
+  assert.equal(azimuthSeparationDegrees(10, 350), 20);
+});
+
+test("Theil-Sen fit recovers a robust straight-line threshold", () => {
+  const fit = fitTheilSenLine([
+    { x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 6 }, { x: 4, y: 20 }
+  ]);
+  assert.ok(Math.abs(fit.slope - 2) < 1e-12);
+  assert.ok(Math.abs(fit.intercept) < 1e-12);
+  assert.equal(fit.samples, 4);
+});
+
+test("Agastya Udaya uses a downward azimuth-corrected residual crossing", () => {
+  const start = Date.UTC(2026, 8, 1);
+  const altitudes = [-5, -7, -8];
+  const result = scanDrikStarAzimuthTransitions({
+    SearchAltitude: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 6 * 60 * 60_000)
+    }),
+    Equator: body => ({ ra: body === "Sun" ? 0 : 1, dec: 0 }),
+    Horizon: (date, observer, ra) => {
+      const index = Math.floor((date.getTime() - start) / 86_400_000);
+      return {
+        altitude: ra === 0 ? altitudes[index] : 0.5,
+        azimuth: ra === 0 ? 0 : 90
+      };
+    },
+    observer: {}, branch: "rise", event: "Udaya",
+    startLocalDayUtc: start, days: 3, slope: 0, intercept: -6
+  });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].event, "Udaya");
+  assert.equal(result.events[0].utcMilliseconds, start + 86_400_000 + 6 * 60 * 60_000);
+  assert.equal(result.events[0].azimuthSeparationDeg, 90);
+});
+
+test("Agastya Asta requires a setting branch and upward residual crossing", () => {
+  const start = Date.UTC(2026, 3, 1);
+  const altitudes = [-7, -5, -4];
+  const result = scanDrikStarAzimuthTransitions({
+    SearchAltitude: (body, observer, direction, dateStart) => ({
+      date: new Date(dateStart.getTime() + 18 * 60 * 60_000)
+    }),
+    Equator: body => ({ ra: body === "Sun" ? 0 : 1, dec: 0 }),
+    Horizon: (date, observer, ra) => {
+      const index = Math.floor((date.getTime() - start) / 86_400_000);
+      return { altitude: ra === 0 ? altitudes[index] : 0.5, azimuth: ra === 0 ? 0 : 90 };
+    },
+    observer: {}, branch: "set", event: "Asta",
+    startLocalDayUtc: start, days: 3, slope: 0, intercept: -6
+  });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].event, "Asta");
+  assert.equal(result.events[0].utcMilliseconds, start + 86_400_000 + 18 * 60 * 60_000);
+  assert.throws(() => scanDrikStarAzimuthTransitions({
+    SearchAltitude: () => null, Equator: () => ({}), Horizon: () => ({}),
+    observer: {}, branch: "rise", event: "Asta",
+    startLocalDayUtc: start, days: 3, slope: 0, intercept: -6
+  }), /Agastya Udaya requires rise/);
 });
