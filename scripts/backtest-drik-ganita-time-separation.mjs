@@ -138,6 +138,13 @@ function pithoragarhSunriseSunsetSanity() {
   const targetSunset = calculate(targetProfile, -1);
   const sourceSunrise = Date.parse(`${dateIso}T06:35:00+05:30`);
   const sourceSunset = Date.parse(`${dateIso}T17:13:00+05:30`);
+  const sunriseResidualMinutes = drikSunrise === null ? null : (drikSunrise - sourceSunrise) / 60_000;
+  const sunsetResidualMinutes = drikSunset === null ? null : (drikSunset - sourceSunset) / 60_000;
+  if (![sunriseResidualMinutes, sunsetResidualMinutes].every(value =>
+    Number.isFinite(value) && Math.abs(value) <= 2
+  )) {
+    throw new Error("Pithoragarh Drik observer sunrise/sunset sanity check exceeded 2 minutes");
+  }
   const clock = instant => Number.isFinite(instant)
     ? new Date(instant + timezoneOffsetMinutes * 60_000).toISOString().slice(11, 19) : null;
   return {
@@ -148,8 +155,8 @@ function pithoragarhSunriseSunsetSanity() {
       ...drikProfile,
       computed: { sunrise: clock(drikSunrise), sunset: clock(drikSunset) },
       sourceResidualMinutes: {
-        sunrise: drikSunrise === null ? null : (drikSunrise - sourceSunrise) / 60_000,
-        sunset: drikSunset === null ? null : (drikSunset - sourceSunset) / 60_000
+        sunrise: sunriseResidualMinutes,
+        sunset: sunsetResidualMinutes
       }
     },
     projectObserver: {
