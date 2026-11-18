@@ -24,6 +24,21 @@ for (const key of [
   assert.equal(h.dateAccuracy.withinOneDay + h.dateAccuracy.moreThanOneDay,
     h.matchedEvents, `${key}: date accuracy accounting`);
   assert.equal(h.duplicatePredictionKeys.length, 0, `${key}: duplicate predictions`);
+  const missedStars = h.unmatchedObserved.filter(id => {
+    const row = report.observations.find(item => item.id === id);
+    return row?.body === "Star1";
+  });
+  assert.ok(Array.isArray(h.unmatchedAgastyaDiagnostics),
+    `${key}: missing Agastya diagnostics`);
+  assert.deepEqual(
+    h.unmatchedAgastyaDiagnostics.map(item => item.sourceId).sort(),
+    missedStars.sort(),
+    `${key}: every unmatched Agastya observation must have diagnostics`
+  );
+  for (const diagnostic of h.unmatchedAgastyaDiagnostics) {
+    assert.ok(Array.isArray(diagnostic.nearbyDailySamples), `${key}: daily samples`);
+    assert.ok(Array.isArray(diagnostic.nearestPredictions), `${key}: candidate predictions`);
+  }
 }
 const fixed = report.heldOutValidation2027FixedThrough2025;
 const rolling = report.heldOutValidation2027RollingThrough2026;
