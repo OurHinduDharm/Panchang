@@ -1101,7 +1101,9 @@ for (const observation of dataset.observations) {
     location: location.name,
     coordinateProfile: observation.sourceId === "drikpanchang-almora" || observation.sourceId === "drikpanchang-ramnagar"
       ? "official-Drik-Panchang-location-details"
-      : "printed-panchang-calculation-centre"
+      : observation.sourceId === "drikpanchang-pithoragarh"
+        ? "provider-default-Drik-Panchang-Pithoragarh-observer"
+        : "printed-panchang-calculation-centre"
   });
 }
 
@@ -1109,7 +1111,7 @@ const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
   method: "local apparent rise/set event with calibrated topocentric Sun-altitude threshold",
-  horizon: "standard apparent rise/set events; no photometric or naked-eye brightness model",
+  horizon: "planets: standard apparent rise/set; Canopus: geometric 0-degree centre crossings; no photometric or naked-eye brightness model",
   benchmarkCounts: {
     observations: dataset.observations.length,
     evaluated: rows.length,
@@ -1164,7 +1166,7 @@ const report = {
     "Source clock records with ambiguous AM/PM notation are excluded, not guessed.",
     "Ganesh Martand HH.MM clock notation is source-confirmed IST hour-minute with next-day rollover examples; its timestamps remain an independent cross-check and are not pooled into Drik threshold fitting because event-definition equivalence is not assumed.",
     "Drik event clocks are the primary time-calibration observations because they align with computed local apparent rise/set events.",
-    "Agastya uses an approximate Canopus J2000 position and needs a pinned catalogue/proper-motion source.",
+    "Canopus uses pinned SIMBAD/Hipparcos J2000 astrometry propagated with catalogue proper motion at every observation and scan date; the event model is still a research candidate.",
     "No Surya-Siddhanta K/C formulas or physical/photometric visibility model are used."
   ]
 };
