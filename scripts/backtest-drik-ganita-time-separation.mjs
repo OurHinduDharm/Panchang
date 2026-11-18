@@ -531,6 +531,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     unmatchedPredictions,
     unmatchedObserved: [...unused].map(row => row.id),
     unmatchedAgastyaDiagnostics,
+    agastyaProfiles,
     ambiguousMatches,
     duplicatePredictionKeys: [...new Set(duplicatePredictionKeys)],
     matches
