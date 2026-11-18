@@ -2,7 +2,9 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 
-const report = JSON.parse(fs.readFileSync(process.argv[2] ?? "/tmp/drik-ganita/report.json", "utf8"));
+const strict = process.argv.includes("--require-complete");
+const reportPath = process.argv.find(arg => arg.endsWith(".json")) ?? "/tmp/drik-ganita/report.json";
+const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
 for (const key of [
   "heldOutValidation2026",
   "heldOutValidation2027FixedThrough2025",
@@ -29,7 +31,7 @@ assert.equal(fixed.holdoutYear, 2027);
 assert.equal(rolling.holdoutYear, 2027);
 assert.equal(fixed.trainingThroughYear, 2025);
 assert.equal(rolling.trainingThroughYear, 2026);
-const incomplete = [fixed, rolling].some(h =>
+const incomplete = [report.heldOutValidation2026, fixed, rolling].some(h =>
   h.unmatchedPredictions.length || h.unmatchedObserved.length ||
   h.ambiguousMatches.length || h.dateAccuracy.exactDate !== h.observedHoldoutEvents);
 console.log(JSON.stringify({
@@ -38,3 +40,8 @@ console.log(JSON.stringify({
   rolling2027: {exact: rolling.dateAccuracy.exactDate, observed: rolling.observedHoldoutEvents,
     unmatchedPredictions: rolling.unmatchedPredictions, unmatchedObserved: rolling.unmatchedObserved}
 }, null, 2));
+
+if (strict && incomplete) {
+  console.error("Release blocked: one or more held-out events are unmatched, ambiguous, or on the wrong date.");
+  process.exitCode = 1;
+}
