@@ -19,8 +19,7 @@ for (const key of [
   assert.equal(h.observedHoldoutEvents,
     h.matchedEvents + h.unmatchedObserved.length,
     `${key}: observed events must be accounted for`);
-  assert.equal(h.dateAccuracy.exactDate + h.dateAccuracy.withinOneDay -
-    h.dateAccuracy.exactDate + h.dateAccuracy.moreThanOneDay,
+  assert.equal(h.dateAccuracy.withinOneDay + h.dateAccuracy.moreThanOneDay,
     h.matchedEvents, `${key}: date accuracy accounting`);
   assert.equal(h.duplicatePredictionKeys.length, 0, `${key}: duplicate predictions`);
 }
