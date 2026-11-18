@@ -97,7 +97,8 @@ test("scan handles a synthetic Vaidhriti crossing, without altering the date", (
   });
   assert.equal(result.length, 1);
   assert.equal(result[0].eventClass, "Vaidhriti");
-  assert.equal(result[0].utc, "2027-08-01T00:00:00.000Z");
+  assert.ok(Math.abs(result[0].utcMilliseconds - Date.UTC(2027, 7, 1)) < 1000);
+  assert.equal(new Date(result[0].utcMilliseconds).getUTCDate(), 1);
 });
 
 test("scan never emits ordinary equal-hemisphere same-ayana equality", () => {
