@@ -455,6 +455,42 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
       clockOfDayResidualMinutes: clockOfDayDifferenceMinutes(predicted.utcMilliseconds, sourceInstant)
     });
   }
+  // Diagnose missed Canopus events without changing the fitted model or hiding misses.
+  // A source row can be unmatched because the threshold never crossed, the
+  // prediction landed outside the two-day matching window, or another event
+  // consumed its candidate. Keep the actual sampled residuals for inspection.
+  const unmatchedAgastyaDiagnostics = [...unused]
+    .filter(row => row.body === "Star1")
+    .map(row => {
+      const event = row.eventType;
+      const branch = row.branch;
+      const key = `Star1|${branch}|${event}|fixed-star|azimuth-linear`;
+      const window = agastyaSampleWindows.find(item => item.key === key);
+      const sourceDate = new Date(row.clock.instantUtcMs + 330 * 60_000)
+        .toISOString().slice(0, 10);
+      const profile = agastyaProfiles.find(item => item.key === key);
+      return {
+        sourceId: row.id,
+        sourceLocalDate: sourceDate,
+        event,
+        branch,
+        trainingSamples: profile?.trainingSamples ?? 0,
+        residualThresholdDeg: profile?.residualThresholdDeg ?? null,
+        nearbyDailySamples: (window?.samples ?? []).filter(sample =>
+          Math.abs(Date.parse(sample.localDate) - Date.parse(sourceDate)) <= 3 * 86_400_000
+        ),
+        nearestPredictions: predictions.filter(item =>
+          item.body === "Star1" && item.event === event && item.branch === branch
+        ).map(item => ({
+          predictedLocalDate: new Date(item.utcMilliseconds + 330 * 60_000)
+            .toISOString().slice(0, 10),
+          dateOffsetDays: Math.round((
+            Date.parse(new Date(item.utcMilliseconds + 330 * 60_000).toISOString().slice(0, 10)) -
+            Date.parse(sourceDate)
+          ) / 86_400_000)
+        }))
+      };
+    });
   const dateOffsets = matches.map(match => Math.abs(match.dateOffsetDays));
   const absoluteClockResiduals = matches.map(match => Math.abs(match.clockOfDayResidualMinutes));
   const absoluteInstantResiduals = matches.map(match => match.absoluteInstantResidualMinutes);
@@ -494,6 +530,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     },
     unmatchedPredictions,
     unmatchedObserved: [...unused].map(row => row.id),
+    unmatchedAgastyaDiagnostics,
     ambiguousMatches,
     duplicatePredictionKeys: [...new Set(duplicatePredictionKeys)],
     matches
