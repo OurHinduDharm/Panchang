@@ -107,8 +107,11 @@ export function diagnoseMahapata({ sun, moon, obliquityDeg }) {
 /**
  * Finite bisection on a sign-changing bracket. Throws instead of fabricating
  * a result for a non-bracketed (including generic tangent) root.
+ * The default 1 ms resolution keeps the root residual sufficiently small
+ * for rapidly varying lunar declination; this is numerical precision only,
+ * not a guarantee of astronomical timing accuracy.
  */
-export function bisectSignChange(fn, startUtcMs, endUtcMs, toleranceMs = 1000) {
+export function bisectSignChange(fn, startUtcMs, endUtcMs, toleranceMs = 1) {
   if (typeof fn !== "function") throw new TypeError("function required");
   [startUtcMs, endUtcMs, toleranceMs].forEach((v, i) => finite(["start", "end", "tolerance"][i], v));
   if (endUtcMs <= startUtcMs || toleranceMs <= 0) throw new RangeError("invalid root bracket");
@@ -143,7 +146,7 @@ export function bisectSignChange(fn, startUtcMs, endUtcMs, toleranceMs = 1000) {
  */
 export function scanMahapataCandidates({
   startUtcMs, endUtcMs, ephemeris, stepMs = 3 * 60 * 60_000,
-  toleranceMs = 1000
+  toleranceMs = 1
 }) {
   if (typeof ephemeris !== "function") throw new TypeError("ephemeris callback required");
   [startUtcMs, endUtcMs, stepMs, toleranceMs].forEach((v, i) =>
