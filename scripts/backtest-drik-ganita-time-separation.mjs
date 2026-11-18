@@ -1121,6 +1121,32 @@ const report = {
   heldOutValidation2027FixedThrough2025: buildHeldOutValidation(rows, 2027, 2025, "drikpanchang-almora"),
   // Rolling-origin 2027 holdout intentionally includes 2026 training observations.
   heldOutValidation2027RollingThrough2026: buildHeldOutValidation(rows, 2027, 2026, "drikpanchang-almora"),
+  // Explicit fixed-vs-rolling Agastya comparison. Never silently treat the
+  // earlier, better holdout as proof that the rolling model is release-ready.
+  agastya2027TrainingDrift: (() => {
+    const fixed = buildHeldOutValidation(rows, 2027, 2025, "drikpanchang-almora");
+    const rolling = buildHeldOutValidation(rows, 2027, 2026, "drikpanchang-almora");
+    const key = "Star1|set|Asta|fixed-star|azimuth-linear";
+    const summarize = holdout => ({
+      trainingThroughYear: holdout.trainingThroughYear,
+      profile: holdout.agastyaProfiles.find(item => item.key === key) ?? null,
+      match: holdout.matches.find(item => item.body === "Star1" &&
+        item.event === "Asta" && item.branch === "set") ?? null,
+      missedSourceIds: holdout.unmatchedObserved.filter(id =>
+        id === "drik-almora-agastya-asta-2027"),
+      diagnostics: holdout.unmatchedAgastyaDiagnostics.filter(item =>
+        item.sourceId === "drik-almora-agastya-asta-2027")
+    });
+    return {
+      referenceSourceId: "drik-almora-agastya-asta-2027",
+      fixed: summarize(fixed),
+      rolling: summarize(rolling),
+      regression: fixed.matches.some(item => item.body === "Star1" &&
+        item.event === "Asta" && item.branch === "set" &&
+        item.dateOffsetDays === 0) &&
+        rolling.unmatchedObserved.includes("drik-almora-agastya-asta-2027")
+    };
+  })(),
   timeSeparationDiagnosticGroups: summarizeCalibration(eligible),
   solarAltitudeCalibrationGroups: summarizeSolarAltitudeCalibration(rows),
   agastyaSeparationDiagnostics: buildAgastyaSeparationDiagnostics(rows),
