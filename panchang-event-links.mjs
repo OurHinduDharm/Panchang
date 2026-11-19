@@ -35,6 +35,7 @@ export function validPanchangDate(date) {
 
 export function buildPanchangEventUrl(baseUrl, date, location) {
   if (!validPanchangDate(date)) throw new Error("Invalid event date");
+  if (location?.elevationStatus === "unknown") throw new Error("Observer elevation is unverified");
   const url = new URL(baseUrl);
   clearPanchangLinkLocation(url);
   url.searchParams.set("date", date);
