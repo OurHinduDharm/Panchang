@@ -24,7 +24,9 @@ test("Shakambhari Navratri starts are represented on Pausha Shukla Ashtami in th
     assert.equal(event.articleUrl, article);
     assert.equal(event.articleLabel, linkLabel);
     assert.match(event.description || "", /स्तोत्रात्मक उपासना करें।/);
-    assert.ok(event.sourceUrl);
+    assert.doesNotMatch(event.title + " " + event.description, /बाणदा|बनादा|बांदा अष्टमी/);
+    assert.equal(event.sourceName, undefined);
+    assert.equal(event.sourceUrl, undefined);
   }
 });
 
