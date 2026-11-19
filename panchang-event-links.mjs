@@ -9,8 +9,19 @@ export function readPanchangLinkLocation(params) {
   if (!name || name.length>160) return null;
   return {name,lat,lon,elevation,city:name};
 }
+export function validPanchangDate(date) {
+  if (typeof date !== "string" || !/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date)) return false;
+  const year=Number(date.slice(0,4)), month=Number(date.slice(5,7)), day=Number(date.slice(8,10));
+  const parsed=new Date(Date.UTC(year,month-1,day));
+  return year>=100 && parsed.getUTCFullYear()===year &&
+    parsed.getUTCMonth()+1===month && parsed.getUTCDate()===day;
+}
 export function buildPanchangEventUrl(baseUrl,date,location) {
-  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date) || Number.isNaN(Date.parse(date+"T12:00:00Z"))) throw new Error("Invalid event date");
+  if (!validPanchangDate(date)) throw new Error("Invalid event date");
+  if (!readPanchangLinkLocation(new URLSearchParams({
+    lat:String(location.latitude),lon:String(location.longitude),
+    elevation:String(location.elevation),place:String(location.name??"")
+  }))) throw new Error("Invalid event observer");
   const url=new URL(baseUrl);
   url.searchParams.set("date",date);
   url.searchParams.set("lat",String(location.latitude));
