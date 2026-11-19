@@ -2,7 +2,7 @@
 export function normalizeSearchPlace(item) {
   if (!item || typeof item !== "object") return null;
   const latitude = Number(item.latitude), longitude = Number(item.longitude);
-  const elevation = item.elevation == null ? NaN : Number(item.elevation);
+  const elevation = item.elevation == null || item.elevation === "" ? NaN : Number(item.elevation);
   const timeZone = item.timezone;
   if (![latitude, longitude, elevation].every(Number.isFinite) ||
       Math.abs(latitude) > 90 || Math.abs(longitude) > 180 ||
