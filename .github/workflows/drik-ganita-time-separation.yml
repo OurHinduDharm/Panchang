@@ -13,21 +13,26 @@ permissions:
 
 jobs:
   drik-ganita-model:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Install pinned open-source astronomy engine
-        run: npm install --no-save astronomy-engine@2.1.19
+        run: npm install --no-save astronomy-engine@2.1.19 playwright@1.56.1
       - name: Check source syntax
         run: |
           node --check research/drik-ganita-time-separation.mjs
           node --check scripts/backtest-drik-ganita-time-separation.mjs
       # Validate discrete first-qualifying target horizon event and fixed-star residuals.
       - name: Run unit tests
-        run: node --test tests/drik-ganita-time-separation.test.mjs
+        run: |
+          node --test tests/drik-ganita-time-separation.test.mjs tests/annual-tara-prediction.test.mjs scripts/tara-*.test.mjs
+      - name: Check city and year selection in mobile-sized Chromium
+        run: |
+          npx playwright install --with-deps chromium
+          node tests/annual-tara-city-browser.mjs
       # Diagnostics also split source solar-altitude thresholds by apparent direct/retrograde motion.
       # Ganesh Martand IST HH.MM timestamps are confirmed but remain a separate source cross-check.
       - name: Back-test Drik and printed Panchang observations
@@ -37,9 +42,11 @@ jobs:
           node -e "const r=require('/tmp/drik-ganita/report.json'); console.log(JSON.stringify({counts:r.benchmarkCounts, solarAltitudeProfiles:r.solarAltitudeCalibrationGroups, agastyaAzimuthModelDiagnostics:r.agastyaAzimuthModelDiagnostics, agastyaResidualQuantileDiagnostics:r.agastyaResidualQuantileDiagnostics, planetThresholdQuantileDiagnostics:r.planetThresholdQuantileDiagnostics, timeGapDiagnostics:r.timeSeparationDiagnosticGroups, holdout2026:r.heldOutValidation2026, holdout2027FixedThrough2025:r.heldOutValidation2027FixedThrough2025, holdout2027RollingThrough2026:r.heldOutValidation2027RollingThrough2026, pithoragarhObserverSanity:r.pithoragarhObserverSanity, pithoragarhCrossLocationTransfer:r.pithoragarhCrossLocationTransfer},null,2))"
       - name: Audit holdout accounting and unresolved research gaps
         run: node scripts/check-drik-ganita-holdout-integrity.mjs /tmp/drik-ganita/report.json
+      - name: Generate three-city annual candidates for 2026–2030
+        run: node scripts/predict-annual-tara.mjs > /tmp/drik-ganita/city-forecasts.json
       - name: Upload calibration report
         uses: actions/upload-artifact@v4
         with:
           name: drik-ganita-time-separation-report
-          path: /tmp/drik-ganita/report.json
+          path: /tmp/drik-ganita/*.json
           if-no-files-found: error

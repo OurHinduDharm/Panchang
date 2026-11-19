@@ -1,22 +1,23 @@
 import fs from "node:fs";
-import * as Astronomy from "astronomy-engine";
+import { createRequire } from "node:module";
 import {
-  calibrateObservation,
   parsePrintedClock,
   median,
   clockOfDayDifferenceMinutes,
-  scanDrikTimeSeparationTransitions,
   scanDrikSolarAltitudeTransitions,
   azimuthSeparationDegrees,
   fitTheilSenLine,
   scanDrikStarAzimuthTransitions,
   summarizeCalibration,
-  LOCATION_PROFILES,
-  CANOPUS_ASTROMETRY,
-  propagateStarPosition
+  LOCATION_PROFILES
 } from "../research/drik-ganita-time-separation.mjs";
 
-const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
+import {
+  apparentAtSourceTime, canopusCoordinatesAt, fitAnnualTaraProfiles,
+  measureTaraObservation, predictAnnualTara, quantile
+} from "../research/annual-tara-prediction.mjs";
+
+const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon } = createRequire(import.meta.url)("astronomy-engine");
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
@@ -87,10 +88,7 @@ for (const sourceId of ["drikpanchang-pithoragarh", "pithoragarh-project-target"
   }
 }
 
-// SIMBAD/Hipparcos Canopus astrometry; refresh proper-motion position at each date.
-function canopusCoordinatesAt(date) {
-  return propagateStarPosition(CANOPUS_ASTROMETRY, date);
-}
+
 
 function eventClass(observation) {
   const label = String(observation.event || "");
@@ -216,47 +214,6 @@ function buildSourceAgreement(observations) {
   };
 }
 
-
-function angularSeparationDegrees(a, b) {
-  const raA = a.ra * 15 * Math.PI / 180;
-  const raB = b.ra * 15 * Math.PI / 180;
-  const decA = a.dec * Math.PI / 180;
-  const decB = b.dec * Math.PI / 180;
-  const cosine = Math.sin(decA) * Math.sin(decB) +
-    Math.cos(decA) * Math.cos(decB) * Math.cos(raA - raB);
-  return Math.acos(Math.max(-1, Math.min(1, cosine))) * 180 / Math.PI;
-}
-function apparentAtSourceTime(body, observer, instantUtcMs) {
-  const date = new Date(instantUtcMs);
-  if (body === "Star1") {
-    const position = canopusCoordinatesAt(date);
-    DefineStar(body, position.raHours, position.decDegrees, position.distanceLightYears);
-  }
-  const sunEquator = Equator("Sun", date, observer, true, true);
-  const bodyEquator = Equator(body, date, observer, true, true);
-  const sunHorizon = Horizon(date, observer, sunEquator.ra, sunEquator.dec, "normal");
-  const bodyHorizon = Horizon(date, observer, bodyEquator.ra, bodyEquator.dec, "normal");
-  let motionState = "fixed-star";
-  let dailyLongitudeMotionDeg = null;
-  if (body === "Venus" || body === "Jupiter") {
-    const before = Ecliptic(GeoVector(body, new Date(instantUtcMs - 86_400_000), true)).elon;
-    const after = Ecliptic(GeoVector(body, new Date(instantUtcMs + 86_400_000), true)).elon;
-    dailyLongitudeMotionDeg = ((after - before + 540) % 360 - 180) / 2;
-    motionState = dailyLongitudeMotionDeg < 0 ? "retrograde" : "direct";
-  }
-  return {
-    sunAltitudeDeg: sunHorizon.altitude,
-    bodyAltitudeDeg: bodyHorizon.altitude,
-    sunAzimuthDeg: sunHorizon.azimuth,
-    bodyAzimuthDeg: bodyHorizon.azimuth,
-    topocentricSeparationDeg: angularSeparationDegrees(sunEquator, bodyEquator),
-    motionState,
-    dailyLongitudeMotionDeg
-  };
-}
-
-
-
 function summarizeSolarAltitudeCalibration(rows) {
   const groups = new Map();
   for (const row of rows) {
@@ -280,113 +237,21 @@ function summarizeSolarAltitudeCalibration(rows) {
 function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId = "drikpanchang-almora",
   trainingSourceId = sourceId, observerId = sourceId) {
   const location = LOCATIONS[observerId];
-  if (!location) throw new Error("Unknown validation observer: " + sourceId);
-  const training = rows.filter(row =>
-    row.available &&
-    row.sourceId === trainingSourceId &&
-    row.body !== "Star1" &&
-    row.bodyEventResidualMinutes <= 15 &&
-    row.horizonAtComputedBodyEvent &&
-    Number(row.date.slice(0, 4)) <= trainingThroughYear
-  );
-  const thresholdMap = new Map();
-  for (const row of training) {
-    const motionState = row.horizonAtComputedBodyEvent.motionState;
-    const key = [row.body, row.branch, row.eventType, motionState].join("|");
-    if (!thresholdMap.has(key)) thresholdMap.set(key, []);
-    thresholdMap.get(key).push(row.horizonAtComputedBodyEvent.sunAltitudeDeg);
-  }
-  const planetThresholdQuantile = 0.25;
-  const profileQuantiles = new Map([...thresholdMap.entries()].map(([key]) => {
-    // A sparse direct-motion Venus Udaya branch showed a stable upper-tail
-    // boundary in the pre-2026 expanding window; all other planet profiles
-    // retain the broadly validated lower-quartile threshold.
-    const quantileValue = key === "Venus|set|Udaya|direct" ? 0.95 : planetThresholdQuantile;
-    return [key, quantileValue];
-  }));
-  const thresholds = new Map([...thresholdMap.entries()].map(([key, values]) =>
-    [key, quantile(values, profileQuantiles.get(key))]
-  ));
-  const observer = new Observer(location.latitude, location.longitude, location.elevation);
-  const startLocalDayUtc = Date.parse(`${holdoutYear}-01-01T00:00:00+05:30`);
-  const predictions = [];
-  for (const body of ["Venus", "Jupiter"]) {
-    for (const branch of ["rise", "set"]) {
-      const states = [...new Set([...thresholds.keys()]
-        .filter(key => key.startsWith([body, branch].join("|")))
-        .map(key => key.split("|")[3]))];
-      if (!states.length) continue;
-      const astaProfiles = Object.fromEntries(states
-        .filter(state => thresholds.has([body, branch, "Asta", state].join("|")))
-        .map(state => [state, thresholds.get([body, branch, "Asta", state].join("|"))]));
-      const udayaProfiles = Object.fromEntries(states
-        .filter(state => thresholds.has([body, branch, "Udaya", state].join("|")))
-        .map(state => [state, thresholds.get([body, branch, "Udaya", state].join("|"))]));
-      if (!Object.keys(astaProfiles).length && !Object.keys(udayaProfiles).length) continue;
-      const scan = scanDrikSolarAltitudeTransitions({
-        SearchRiseSet, SearchAltitude, Equator, Horizon, body, observer, branch,
-        startLocalDayUtc,
-        days: (holdoutYear % 4 === 0 && (holdoutYear % 100 !== 0 || holdoutYear % 400 === 0)) ? 366 : 365,
-        astaSunAltitudeDeg: astaProfiles,
-        udayaSunAltitudeDeg: udayaProfiles,
-        motionStateAt: (targetBody, instantUtcMs) =>
-          apparentAtSourceTime(targetBody, observer, instantUtcMs).motionState
-      });
-      predictions.push(...scan.events);
-    }
-  }
-
-  const agastyaProfiles = [];
-  const agastyaSampleWindows = [];
-  for (const [event, branch] of [["Udaya", "rise"], ["Asta", "set"]]) {
-    const starTraining = rows.filter(row =>
-      row.available &&
-      row.sourceId === trainingSourceId &&
-      row.body === "Star1" &&
-      row.branch === branch &&
-      row.eventType === event &&
-      row.bodyEventResidualMinutes <= 15 &&
-      row.horizonAtComputedBodyEvent &&
-      Number(row.date.slice(0, 4)) <= trainingThroughYear
-    );
-    const points = starTraining.map(row => ({
-      x: azimuthSeparationDegrees(
-        row.horizonAtComputedBodyEvent.bodyAzimuthDeg,
-        row.horizonAtComputedBodyEvent.sunAzimuthDeg
-      ),
-      y: row.horizonAtComputedBodyEvent.sunAltitudeDeg
-    }));
-    const fit = fitTheilSenLine(points);
-    if (!fit) continue;
-    const trainingResiduals = points.map(point =>
-      point.y - (fit.slope * point.x + fit.intercept)
-    );
-    // Candidate tail offsets are kept body/event-specific. This is a research
-    // policy under holdout review, not an accepted production constant.
-    const residualQuantile = event === "Asta" ? 0.9 : 0.25;
-    const residualThresholdDeg = quantile(trainingResiduals, residualQuantile);
-    const trainingDayNumbers = starTraining.map(row => {
-      const date = new Date(row.date + "T00:00:00Z");
-      return Math.floor((date.getTime() - Date.UTC(date.getUTCFullYear(), 0, 0)) / 86_400_000);
-    });
-    const centerDayOfYear = Math.round(median(trainingDayNumbers));
-    const starWindowStartUtc = startLocalDayUtc + (centerDayOfYear - 1 - 45) * 86_400_000;
-    const scan = scanDrikStarAzimuthTransitions({
-      SearchAltitude, Equator, Horizon, body: "Star1", observer, branch,
-      startLocalDayUtc: starWindowStartUtc, days: 91,
-      event, slope: fit.slope, intercept: fit.intercept, residualThresholdDeg,
-      DefineStar, starCoordinatesAt: canopusCoordinatesAt
-    });
-    predictions.push(...scan.events);
+  if (!location) throw new Error("Unknown validation observer: " + observerId);
+  const fitted = fitAnnualTaraProfiles(rows, trainingSourceId, trainingThroughYear);
+  const { events: predictions, starScans } = predictAnnualTara(location, holdoutYear, fitted.thresholdProfiles);
+  const agastyaProfiles = starScans.map(scan => scan.profile);
+  const agastyaSampleWindows = starScans.map(({profile, samples}) => {
+    const [, branch, event] = profile.key.split("|");
     const holdoutRows = rows.filter(row =>
       row.available && row.sourceId === sourceId && row.body === "Star1" &&
       row.branch === branch && row.eventType === event &&
       Number(row.date.slice(0, 4)) === holdoutYear
     );
     const holdoutDayStarts = holdoutRows.map(row => Date.parse(row.date + "T00:00:00+05:30"));
-    agastyaSampleWindows.push({
-      key: `Star1|${branch}|${event}|fixed-star|azimuth-linear`,
-      samples: scan.samples.filter(sample => sample.available &&
+    return {
+      key: profile.key,
+      samples: samples.filter(sample => sample.available &&
         holdoutDayStarts.some(day => Math.abs(sample.dayStartUtc - day) <= 3 * 86_400_000)
       ).map(sample => ({
         localDate: new Date(sample.dayStartUtc + 330 * 60_000).toISOString().slice(0, 10),
@@ -395,19 +260,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
         thresholdSunAltitudeDeg: sample.thresholdSunAltitudeDeg,
         residualDeg: sample.residualDeg
       }))
-    });
-    agastyaProfiles.push({
-      key: `Star1|${branch}|${event}|fixed-star|azimuth-linear`,
-      slope: fit.slope,
-      intercept: fit.intercept,
-      trainingSamples: fit.samples,
-      residualQuantile,
-      residualThresholdDeg,
-      centerDayOfYear,
-      seasonalWindowDays: 91,
-      trainingSourceIds: starTraining.map(row => row.id)
-    });
-  }
+    };
+  });
 
   const observed = rows.filter(row =>
     row.available &&
@@ -419,7 +273,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   const matches = [];
   const unmatchedPredictions = [];
   const ambiguousMatches = [];
-  for (const predicted of predictions.sort((a, b) => a.utcMilliseconds - b.utcMilliseconds)) {
+  for (const predicted of predictions) {
     const predictedLocalDate = new Date(predicted.utcMilliseconds + 330 * 60_000)
       .toISOString().slice(0, 10);
     const candidates = [...unused].filter(row =>
@@ -542,14 +396,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     observerId,
     observer: { name: location.name, latitude: location.latitude, longitude: location.longitude, elevation: location.elevation },
     trainingThroughYear,
-    trainingSamples: training.length,
-    planetThresholdQuantile,
-    thresholdProfiles: [
-      ...[...thresholds.entries()].map(([key, value]) => ({
-        key, thresholdSunAltitudeDeg: value, quantile: profileQuantiles.get(key)
-      })),
-      ...agastyaProfiles
-    ],
+    ...fitted,
     agastyaSampleWindows,
     predictedEvents: predictions.length,
     observedHoldoutEvents: observed.length,
@@ -575,15 +422,6 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
     duplicatePredictionKeys: [...new Set(duplicatePredictionKeys)],
     matches
   };
-}
-
-function quantile(values, probability) {
-  const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
-  if (!sorted.length) return null;
-  const position = (sorted.length - 1) * probability;
-  const lower = Math.floor(position), upper = Math.ceil(position);
-  if (lower === upper) return sorted[lower];
-  return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
 }
 
 function buildPlanetThresholdQuantileDiagnostics(rows) {
@@ -1111,42 +949,7 @@ function buildPithoragarhTransferValidation(rows, body) {
 }
 
 
-const rows = [];
-for (const observation of observations) {
-  const location = LOCATIONS[observation.sourceId];
-  if (!location) continue;
-  const observer = new Observer(location.latitude, location.longitude, location.elevation);
-  const localDayStartUtc = Date.parse(observation.date + "T00:00:00+05:30");
-  if (observation.planet === "अगस्त्य") {
-    const position = canopusCoordinatesAt(new Date(localDayStartUtc + 12 * 60 * 60_000));
-    DefineStar("Star1", position.raHours, position.decDegrees, position.distanceLightYears);
-  }
-  const result = calibrateObservation({
-    observation,
-    SearchRiseSet,
-    SearchAltitude,
-    observer,
-    localDayStartUtc
-  });
-  const horizonAtSourceTime = result.clock?.valid && result.body
-    ? apparentAtSourceTime(result.body, observer, result.clock.instantUtcMs)
-    : null;
-  const horizonAtComputedBodyEvent = result.available && result.body
-    ? apparentAtSourceTime(result.body, observer, result.bodyEventUtcMs)
-    : null;
-  rows.push({
-    ...result,
-    horizonAtSourceTime,
-    horizonAtComputedBodyEvent,
-    location: location.name,
-    coordinateProfile: observation.sourceId === "drikpanchang-almora" || observation.sourceId === "drikpanchang-ramnagar"
-      ? "official-Drik-Panchang-location-details"
-      : observation.sourceId === "drikpanchang-pithoragarh"
-        ? "provider-default-Drik-Panchang-Pithoragarh-observer"
-        : "printed-panchang-calculation-centre"
-  });
-}
-
+const rows = observations.map(measureTaraObservation).filter(Boolean);
 const eligible = rows.filter(row => row.available);
 const report = {
   schemaVersion: 1,
