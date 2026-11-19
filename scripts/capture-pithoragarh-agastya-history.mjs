@@ -2,9 +2,11 @@ import { chromium } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
+import { sourceYears } from "./annual-tara-source-normalizer.mjs";
+
 const CITY = "Pithoragarh";
 const CITY_ID = "1259503";
-const YEARS = [2024, 2025, 2026, 2027];
+const YEARS = sourceYears(process.env.START_YEAR || 2024, process.env.END_YEAR || 2027);
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({

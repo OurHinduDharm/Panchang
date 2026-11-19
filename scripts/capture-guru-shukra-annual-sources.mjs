@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { pairDrikEventRows, parseDrikBoundary, summarizeSourceCaptures } from "./annual-tara-source-normalizer.mjs";
+import { sourceYears, pairDrikEventRows, parseDrikBoundary, summarizeSourceCaptures } from "./annual-tara-source-normalizer.mjs";
 
 const CITY = "Pithoragarh, Uttarakhand, India";
 const CITY_ID = "1259503";
@@ -10,18 +10,8 @@ const TARGETS = [
   { planet: "Venus", slug: "shukra", names: /Venus|Shukra/i }
 ];
 
-function yearRange() {
-  const currentYear = new Date().getUTCFullYear();
-  const start = Number(process.env.START_YEAR || currentYear);
-  const end = Number(process.env.END_YEAR || currentYear + 2);
-  if (!Number.isInteger(start) || !Number.isInteger(end) ||
-      start < 2000 || end > 2100 || end < start || end - start > 5) {
-    throw new Error("Use a valid year range from 2000–2100, maximum six years.");
-  }
-  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
-}
-
-const years = yearRange();
+const currentYear = new Date().getUTCFullYear();
+const years = sourceYears(process.env.START_YEAR || currentYear, process.env.END_YEAR || currentYear + 2);
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({
   viewport: { width: 1440, height: 1100 },

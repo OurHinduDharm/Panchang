@@ -1,4 +1,4 @@
-name: Annual Guru-Shukra source capture
+name: Annual Guru, Shukra and Agastya source capture
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/annual-tara-source-normalizer.mjs"
       - "scripts/capture-guru-shukra-annual-sources.mjs"
+      - "scripts/capture-pithoragarh-agastya-history.mjs"
       - "tests/annual-tara-source-normalizer.test.mjs"
       - ".github/workflows/annual-guru-shukra-source-capture.yml"
   workflow_dispatch:
@@ -36,7 +37,9 @@ jobs:
       - name: Test source normalization and event pairing
         run: node --test tests/annual-tara-source-normalizer.test.mjs
       - name: Check capture script syntax
-        run: node --check scripts/capture-guru-shukra-annual-sources.mjs
+        run: |
+          node --check scripts/capture-guru-shukra-annual-sources.mjs
+          node --check scripts/capture-pithoragarh-agastya-history.mjs
 
   capture:
     if: github.event_name != 'pull_request'
@@ -51,16 +54,20 @@ jobs:
         run: npm install --no-save playwright@1.55.0
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
-      - name: Capture Guru and Shukra source pages
+      - name: Capture annual source pages
         env:
           START_YEAR: ${{ github.event.inputs.start_year }}
           END_YEAR: ${{ github.event.inputs.end_year }}
-          OUTPUT_PATH: artifacts/guru-shukra-source-candidates.json
-        run: node scripts/capture-guru-shukra-annual-sources.mjs
+        run: |
+          year=$(date -u +%Y)
+          export START_YEAR="${START_YEAR:-$year}"
+          export END_YEAR="${END_YEAR:-$((year + 2))}"
+          OUTPUT_PATH=artifacts/guru-shukra-source-candidates.json node scripts/capture-guru-shukra-annual-sources.mjs
+          OUTPUT_PATH=artifacts/agastya-source-candidates.json node scripts/capture-pithoragarh-agastya-history.mjs
       - name: Upload internal review artifact
         uses: actions/upload-artifact@v4
         with:
           name: guru-shukra-source-candidates-${{ github.run_number }}
-          path: artifacts/guru-shukra-source-candidates.json
+          path: artifacts/*-source-candidates.json
           if-no-files-found: error
           retention-days: 30

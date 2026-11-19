@@ -1,3 +1,13 @@
+export function sourceYears(startYear, endYear) {
+  const start = Number(startYear);
+  const end = Number(endYear);
+  if (!Number.isInteger(start) || !Number.isInteger(end) ||
+      start < 2000 || end > 2100 || end < start || end - start > 5) {
+    throw new Error("Use a valid year range from 2000–2100, maximum six years.");
+  }
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+}
+
 const MONTHS = new Map([
   ["jan", 0], ["january", 0], ["feb", 1], ["february", 1],
   ["mar", 2], ["march", 2], ["apr", 3], ["april", 3],
