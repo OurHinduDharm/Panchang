@@ -1,3 +1,4 @@
+import { readPanchangLinkLocation } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
 import {
@@ -3107,44 +3108,28 @@ const defaultPithoragarh = {
 };
 
 try{
-  const saved = localStorage.getItem(
+  const linkedLocation = readPanchangLinkLocation(new URLSearchParams(window.location.search));
+  const saved = linkedLocation ? null : localStorage.getItem(
     "ohdPanchangLocation"
   );
-
-  if(saved){
+  if (linkedLocation) {
+    selectedLocation = linkedLocation;
+    selectedCity.style.display = "block";
+    selectedCity.textContent = "📍 चुना गया स्थान: " + linkedLocation.name;
+  } else if(saved){
     selectedLocation = JSON.parse(saved);
-
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "💾 पिछला चुना गया स्थान: " +
-      selectedLocation.name;
-  }else{
-    selectedLocation =
-      defaultPithoragarh;
-
+    selectedCity.textContent = "💾 पिछला चुना गया स्थान: " + selectedLocation.name;
+  } else {
+    selectedLocation = defaultPithoragarh;
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "📍 डिफ़ॉल्ट स्थान: " +
-      selectedLocation.name;
-
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
+    selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
   }
 }catch(e){
-  selectedLocation =
-    defaultPithoragarh;
-
+  selectedLocation = defaultPithoragarh;
   selectedCity.style.display = "block";
-
-  selectedCity.textContent =
-    "📍 डिफ़ॉल्ट स्थान: " +
-    selectedLocation.name;
+  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
-
 /* =========================================================
    FORMAT FUNCTIONS
    ========================================================= */
