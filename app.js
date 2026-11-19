@@ -1,3 +1,4 @@
+import { restoreSavedElevationStatus } from "./panchang-location-elevation.mjs";
 import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
@@ -3115,10 +3116,7 @@ function savedPanchangLocation() {
     const params = new URLSearchParams({lat: saved.lat, lon: saved.lon, place: saved.name || "",
       elevation: saved.elevation ?? 0, city: saved.city || "", state: saved.state || ""});
     const location = readPanchangLinkLocation(params);
-    if (location && saved.elevationStatus !== "provided" && !Number(saved.elevation)) {
-      location.elevationStatus = "unknown";
-    }
-    return location;
+    return restoreSavedElevationStatus(location, saved);
   } catch { return null; }
 }
 
