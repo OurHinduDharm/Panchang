@@ -283,3 +283,11 @@ test("classical Ujjain Surya Siddhanta references remain a separate research-onl
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(!page.includes("classical-siddhanta-ujjain-guru-shukra-2028-2030.json"));
 });
+
+
+test("unknown city elevation does not make annual event cards disappear", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.match(source, /try\\s*\\{\\s*link\\.href = buildPanchangEventUrl/);
+  assert.match(source, /link\\.replaceWith\\(note\\)/);
+  assert.match(source, /ऊँचाई सत्यापित नहीं है/);
+});
