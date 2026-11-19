@@ -124,12 +124,24 @@ test("annual iframe page renders Agastya data from its separate JSON dataset", (
   assert.ok(page.includes("taraSetDate"));
 });
 
-test("public Agastya selector excludes legacy years without captured source provenance", () => {
+test("all seven Agastya years require captured source provenance before public display", () => {
   const published = agastya.years.filter(item =>
     item.source?.status === "source-page-identity-and-arghya-fields-captured"
   );
-  assert.deepEqual(published.map(item => item.year), [2028, 2029, 2030]);
-  assert.deepEqual(agastya.years.filter(item => !item.source).map(item => item.year), [2024, 2025, 2026, 2027]);
+  assert.deepEqual(published.map(item => item.year), [2024, 2025, 2026, 2027, 2028, 2029, 2030]);
+  assert.ok(published.every(item => item.source.provider === "Drik Panchang"));
+  assert.ok(published.every(item => item.source.location === "Pithoragarh, Uttarakhand, India"));
+  assert.ok(published.every(item => item.source.locationMatch === "city-label-only"));
+  assert.ok(published.every(item => item.source.coordinateExact === false));
+  for (const item of published.filter(item => item.year <= 2027)) {
+    assert.equal(item.source.httpStatus, 200);
+    assert.equal(item.source.cityConfirmed, true);
+    assert.equal(item.source.eventConfirmed, true);
+    assert.equal(item.source.requestedYearConfirmed, true);
+    assert.equal(item.source.captureRunId, 43555382341);
+    assert.ok(item.source.raw.taraRise.includes("28:"));
+    assert.ok(item.source.raw.taraSet.includes("अप्रैल"));
+  }
 
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(page.includes("const agastyaPublished = agastya.years.filter(entry =>"));
@@ -161,23 +173,29 @@ test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence
 });
 
 
-test("validated 2028-2030 Guru-Shukra windows are explicitly accepted for initial publication", () => {
+test("unaccepted calculated Guru-Shukra candidates stay out of the public annual list", () => {
+  for (const year of [2028, 2029, 2030]) {
+    assert.equal(getPithoragarhAnnualWindows(dataset, year, calculatedDataset).length, 0);
+  }
+
+  const explicitlyAccepted = {
+    ...calculatedDataset,
+    windows: calculatedDataset.windows.map(entry => ({
+      ...entry,
+      acceptanceEligible: true,
+      publicationStatus: "accepted"
+    }))
+  };
   const expected = { 2028: 2, 2029: 2, 2030: 3 };
   for (const [yearText, count] of Object.entries(expected)) {
     const year = Number(yearText);
-    const windows = getPithoragarhAnnualWindows(dataset, year, calculatedDataset);
+    const windows = getPithoragarhAnnualWindows(dataset, year, explicitlyAccepted);
     assert.equal(windows.length, count);
     assert.ok(windows.every(item => item.sourceYear === year));
     assert.ok(windows.every(item => ["Jupiter", "Venus"].includes(item.planet)));
     assert.ok(windows.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
   }
-  assert.equal(getPithoragarhAnnualWindows(dataset, 2031, calculatedDataset).length, 0);
-  assert.equal(calculatedDataset.calculation.publicationDecision.status, "accepted-for-initial-publication");
-  assert.equal(calculatedDataset.calculation.holdoutValidation.matchedBoundaries, 9);
-  assert.equal(calculatedDataset.calculation.holdoutValidation.maximumClockDifferenceSeconds, 58.2);
-  assert.ok(calculatedDataset.windows.every(item =>
-    item.acceptanceEligible === true && item.publicationStatus === "accepted"
-  ));
+  assert.equal(getPithoragarhAnnualWindows(dataset, 2031, explicitlyAccepted).length, 0);
 });
 
 test("research-only future candidate timestamps remain intact in their calculation dataset", () => {
@@ -192,7 +210,7 @@ test("research-only future candidate timestamps remain intact in their calculati
   assert.equal(find("Venus", "2029-02-12").udaya, "2029-04-17T19:04:16+05:30");
   assert.equal(find("Venus", "2030-01-04").udaya, "2030-01-09T06:35:34+05:30");
   assert.equal(find("Venus", "2030-09-28").udaya, "2030-11-20T17:38:42+05:30");
-  assert.ok(all.every(item => item.status === "calculated" && item.acceptanceEligible === true && item.publicationStatus === "accepted"));
+  assert.ok(all.every(item => item.status === "calculated" && item.acceptanceEligible !== true));
 });
 
 test("calculated annual records are rejected if the observer profile does not match Pithoragarh", () => {
