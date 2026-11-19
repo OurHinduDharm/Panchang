@@ -285,9 +285,11 @@ test("classical Ujjain Surya Siddhanta references remain a separate research-onl
 });
 
 
-test("unknown city elevation does not make annual event cards disappear", () => {
+test("unknown city elevation blocks unsupported calculation without fabricating sea level", () => {
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(source.includes("link.href = buildPanchangEventUrl(dailyPage, date, location)"));
   assert.ok(source.includes("link.replaceWith(note)"));
   assert.match(source, /ऊँचाई सत्यापित नहीं है/);
+  assert.ok(source.includes("if (!Number.isFinite(location.elevation))"));
+  assert.match(source, /उदय-अस्त गणना नहीं की जा सकती/);
 });
