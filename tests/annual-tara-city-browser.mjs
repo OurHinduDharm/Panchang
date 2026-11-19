@@ -26,10 +26,10 @@ try {
   await page.selectOption("#forecast-year", "2027");
   await page.waitForSelector("#city-events .planet");
   const delhi = await page.locator("#city-events").innerText();
-  assert.match(delhi, /19:32/);
-  assert.match(delhi, /05:22/);
-  assert.match(delhi, /19:57/);
-  assert.match(delhi, /04:49/);
+  assert.match(delhi, /सायं 07:32 बजे/);
+  assert.match(delhi, /प्रातः 05:22 बजे/);
+  assert.match(delhi, /सायं 07:57 बजे/);
+  assert.match(delhi, /प्रातः 04:49 बजे/);
   // A city-search result can use the same worker without a preset id.
   const located = await page.evaluate(() => new Promise((resolve, reject) => {
     const worker = new Worker("./annual-tara-city-worker.mjs", {type: "module"});
@@ -46,10 +46,10 @@ try {
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
-  assert.equal(await page.locator("#pithoragarh-records").isVisible(), false);
+  assert.equal(await page.locator("#pithoragarh-records").count(), 0);
   await page.selectOption("#city", "dehradun");
   await page.waitForSelector("#city-events .planet");
-  assert.match(await page.locator("#city-events").innerText(), /19:34/);
+  assert.match(await page.locator("#city-events").innerText(), /सायं 07:34 बजे/);
   await page.selectOption("#city", "delhi");
   assert.equal(await page.locator("#city-events").innerText(), delhi);
 } finally {
