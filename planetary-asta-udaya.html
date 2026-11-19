@@ -17,7 +17,7 @@ p{margin:7px 0}
 .panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px;margin:14px 0}
 .controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 label{font-weight:650}
-select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;background:white;min-width:120px}
+input,button{font:inherit}input{padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;min-width:220px;max-width:100%;flex:1}button{padding:9px 12px;cursor:pointer}select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;background:white;min-width:120px}
 .planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .planet{margin:0}
 .window{padding:10px 0;border-top:1px solid var(--line)}
@@ -33,12 +33,16 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <main>
 <header>
 <h1>गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग</h1>
-<p class="muted">गणना से प्राप्त वार्षिक तिथियाँ · भारतीय मानक समय</p>
+<p class="muted">स्थान के अनुसार वर्षवार तारा उदय-अस्त</p>
 </header>
 
 <section class="panel" aria-label="स्थान अनुसार गणना">
 <div class="controls">
-<label for="city">स्थान</label>
+<label for="place-search">स्थान खोजें</label>
+<input id="place-search" type="search" autocomplete="off" placeholder="शहर या कस्बा लिखें" aria-controls="place-results">
+<button id="place-search-button" type="button">खोजें</button>
+<select id="place-results" aria-label="खोज परिणाम" hidden></select>
+<label for="city">प्रमुख स्थान</label>
 <select id="city">
 <option value="pithoragarh-project-target">पिथौरागढ़</option>
 <option value="drikpanchang-almora">अल्मोड़ा</option>
@@ -49,6 +53,7 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <label for="forecast-year">वर्ष</label>
 <select id="forecast-year"></select>
 </div>
+<p id="selected-place" class="muted"></p>
 <p id="city-status" role="status"></p>
 <div id="city-events" class="planet-grid"></div>
 <button id="city-retry" type="button" hidden>गणना फिर करें</button>
