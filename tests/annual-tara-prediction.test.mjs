@@ -110,3 +110,13 @@ test("Jupiter forecast at two untrained city locations tracks supplied reference
     }
   }
 });
+
+test("browser coefficients match the fixed Almora training set", async () => {
+  const {profiles} = await import("../research/annual-tara-profiles.mjs");
+  const {fitAnnualTaraProfiles, measureTaraObservation} = await import("../research/annual-tara-prediction.mjs");
+  const {observations} = JSON.parse(fs.readFileSync(new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url)));
+  const source = "drikpanchang-almora";
+  const rows = observations.filter(o => o.sourceId === source && Number(o.date.slice(0, 4)) <= 2025);
+  const fit = fitAnnualTaraProfiles(rows.map(measureTaraObservation), source, 2025);
+  assert.deepEqual(profiles, fit.thresholdProfiles.map(({trainingSourceIds, ...profile}) => profile));
+});

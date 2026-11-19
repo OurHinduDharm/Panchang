@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="पिथौरागढ़ के लिए गुरु और शुक्र तारा अस्त-उदय तथा अगस्त्य तारा उदय और अर्घ्य की वर्षवार तिथि एवं समय।">
+<meta name="description" content="स्थान के अनुसार गुरु और शुक्र तारा अस्त-उदय तथा अगस्त्य तारा उदय और अर्घ्य की वर्षवार तिथि एवं समय।">
 <title>गुरु-शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग | OurHinduDharm</title>
 <style>
 :root{color-scheme:light;--ink:#28231d;--muted:#686157;--line:#e5dfd5;--paper:#fff;--bg:#f6f4ef;--accent:#81391f}
@@ -33,9 +33,29 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <main>
 <header>
 <h1>गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग</h1>
-<p class="muted">OurHinduDharm · पिथौरागढ़ · वार्षिक तारीख एवं समय</p>
+<p class="muted">गणना से प्राप्त वार्षिक तिथियाँ · भारतीय मानक समय</p>
 </header>
 
+<section class="panel" aria-label="स्थान अनुसार गणना">
+<div class="controls">
+<label for="city">स्थान</label>
+<select id="city">
+<option value="pithoragarh-project-target">पिथौरागढ़</option>
+<option value="drikpanchang-almora">अल्मोड़ा</option>
+<option value="drikpanchang-ramnagar">रामनगर (नैनीताल)</option>
+<option value="delhi">नई दिल्ली</option>
+<option value="dehradun">देहरादून</option>
+</select>
+<label for="forecast-year">वर्ष</label>
+<select id="forecast-year"></select>
+</div>
+<p class="muted">अगस्त्य के दर्शन की अनुमानित तिथि में अंतर संभव है।</p>
+<p id="city-status" role="status"></p>
+<div id="city-events" class="planet-grid"></div>
+<button id="city-retry" type="button" hidden>गणना फिर करें</button>
+</section>
+<details id="pithoragarh-records">
+<summary>पिथौरागढ़ की दर्ज अस्त अवधियाँ और अर्घ्य विवरण</summary>
 <section class="panel" aria-label="वर्ष चुनें">
 <div class="controls">
 <label for="year">वर्ष चुनें</label>
@@ -58,7 +78,9 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <h2>वार्षिक गुरु-शुक्र तारा-अस्त सूची</h2>
 <p class="muted">सभी तारीखें और समय भारतीय मानक समय (IST) में हैं। वर्ष चुनकर गुरु और शुक्र की अस्त अवधि देखें।</p>
 </section>
+</details>
 </main>
+<script type="module" src="./annual-tara-city-page.mjs"></script>
 
 <script type="module">
 import { PLANET_ORDER, getPithoragarhAnnualWindows, formatPithoragarhBoundary } from "./planetary-asta-udaya-page.mjs";

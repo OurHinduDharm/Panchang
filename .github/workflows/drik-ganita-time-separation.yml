@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 20
       - name: Install pinned open-source astronomy engine
-        run: npm install --no-save astronomy-engine@2.1.19
+        run: npm install --no-save astronomy-engine@2.1.19 playwright@1.56.1
       - name: Check source syntax
         run: |
           node --check research/drik-ganita-time-separation.mjs
@@ -29,6 +29,10 @@ jobs:
       - name: Run unit tests
         run: |
           node --test tests/drik-ganita-time-separation.test.mjs tests/annual-tara-prediction.test.mjs scripts/tara-*.test.mjs
+      - name: Check city and year selection in mobile-sized Chromium
+        run: |
+          npx playwright install --with-deps chromium
+          node tests/annual-tara-city-browser.mjs
       # Diagnostics also split source solar-altitude thresholds by apparent direct/retrograde motion.
       # Ganesh Martand IST HH.MM timestamps are confirmed but remain a separate source cross-check.
       - name: Back-test Drik and printed Panchang observations
