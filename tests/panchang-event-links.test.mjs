@@ -5,7 +5,7 @@ const place={name:"पिथौरागढ़",latitude:29.5828,longitude:80.21
 test("event link round trip retains date and observer",()=>{
  const url=new URL(buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/","2026-09-07",place));
  assert.equal(url.searchParams.get("date"),"2026-09-07");
- assert.deepEqual(readPanchangLinkLocation(url.searchParams),{name:place.name,city:place.name,state:"",elevationStatus:"provided",lat:place.latitude,lon:place.longitude,elevation:place.elevation});
+ assert.deepEqual(readPanchangLinkLocation(url.searchParams),{name:"निर्देशांक 29.5828, 80.2182",city:"",state:"",elevationStatus:"provided",lat:place.latitude,lon:place.longitude,elevation:place.elevation});\n assert.equal(url.searchParams.has("place"), false);
 });
 test("missing and invalid location parameters are rejected",()=>{
  for(const query of ["?lat=29&lon=80","?lat=91&lon=80&elevation=10&place=A","?lat=29&lon=80&elevation=&place=A"]){
@@ -50,7 +50,7 @@ test("daily links omit redundant city/state and clear stale legacy values", () =
  assert.equal(url.searchParams.has("city"), false);
  assert.equal(url.searchParams.has("state"), false);
  assert.equal(url.searchParams.get("lat"), "29.5828");
- assert.equal(url.searchParams.get("place"), place.name);
+ assert.equal(url.searchParams.has("place"), false);
  assert.equal(readPanchangLinkLocation(url.searchParams).elevation, 1650);
 });
 test("city/state-only legacy links are recognized and cleared", () => {
@@ -61,4 +61,17 @@ test("city/state-only legacy links are recognized and cleared", () => {
   clearPanchangLinkLocation(url);
   assert.equal(hasPanchangLinkLocation(url.searchParams), false);
  }
+});
+
+
+test("legacy named links retain their display label without affecting observer", () => {
+ const params = new URLSearchParams("date=2026-09-07&lat=29.5828&lon=80.2182&elevation=1650&place=Pithoragarh&city=Pithoragarh&state=Uttarakhand");
+ assert.equal(readPanchangLinkLocation(params).name, "Pithoragarh");
+ assert.equal(readPanchangLinkLocation(params).lat, 29.5828);
+});
+test("coordinate-only links accept measured sea level but not missing elevation", () => {
+ const sea = new URLSearchParams("lat=0&lon=0&elevation=0");
+ assert.equal(readPanchangLinkLocation(sea).elevation, 0);
+ sea.delete("elevation");
+ assert.equal(readPanchangLinkLocation(sea), null);
 });
