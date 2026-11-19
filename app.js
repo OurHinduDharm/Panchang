@@ -1,4 +1,4 @@
-import { readPanchangLinkLocation } from "./panchang-event-links.mjs";
+import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
 import {
@@ -122,19 +122,7 @@ const result = document.getElementById("result");
 
 /* TODAY */
 function todayString(){
-  const d = new Date();
-  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
-}
-
-// आलेखों के ?date=YYYY-MM-DD लिंक से चुनी गई तारीख खोलें।
-// अमान्य तारीख़ मिलने पर सामान्य रूप से आज की तारीख़ ही रखें।
-function isValidIsoDate(value){
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
-  const d = new Date(value + "T12:00:00");
-  return !Number.isNaN(d.getTime()) &&
-    d.getFullYear() === Number(value.slice(0,4)) &&
-    d.getMonth() + 1 === Number(value.slice(5,7)) &&
-    d.getDate() === Number(value.slice(8,10));
+  return panchangIsoDate(new Date());
 }
 function syncDateToUrl(){
   const url = new URL(window.location.href);
@@ -142,8 +130,11 @@ function syncDateToUrl(){
   else url.searchParams.delete("date");
   window.history.replaceState({}, "", url.pathname + url.search + url.hash);
 }
-const requestedDate = new URLSearchParams(window.location.search).get("date");
-dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : todayString();
+const locationParams = new URLSearchParams(window.location.search);
+const requestedDate = locationParams.get("date");
+const invalidEventDate = hasPanchangLinkLocation(locationParams) &&
+  (!isValidIsoDate(requestedDate) || locationParams.getAll("date").length !== 1);
+dateInput.value = invalidEventDate ? "" : isValidIsoDate(requestedDate) ? requestedDate : todayString();
 
 /* HINDI DATA */
 const pakshaHindi = {
@@ -362,7 +353,7 @@ function getYatraNakshatra(
   const baseTime =
     referenceNow ||
     new Date(
-      dateInput.value + "T12:00:00"
+      dateInput.value + "T12:00:00+05:30"
     );
 
   if(
@@ -781,10 +772,7 @@ function getYatraShoolaDetails(
   referenceNow,
   previousPanchang
 ){
-  const selectedDate =
-    new Date(
-      dateInput.value + "T00:00:00"
-    );
+  const selectedDate = new Date(dateInput.value + "T00:00:00Z");
 
   /*
    * वर्तमान तारीख पर सूर्योदय से पहले,
@@ -804,7 +792,7 @@ function getYatraShoolaDetails(
       ? previousPanchang
       : p;
 
-  let weekday = selectedDate.getDay();
+  let weekday = selectedDate.getUTCDay();
 
   if (isPreSunriseToday && previousPanchang) {
     const weekdayNames = [
@@ -1417,14 +1405,14 @@ const sankalpState = {
 
     const selectedDayStart =
       new Date(
-        dateInput.value + "T00:00:00"
+        dateInput.value + "T00:00:00+05:30"
       );
 
     const selectedDayEnd =
       new Date(selectedDayStart);
 
-    selectedDayEnd.setDate(
-      selectedDayEnd.getDate() + 1
+    selectedDayEnd.setUTCDate(
+      selectedDayEnd.getUTCDate() + 1
     );
 
     vishtiKarana =
@@ -2940,6 +2928,7 @@ function getMasaHindi(masa){
    CITY SEARCH
    ========================================================= */
 let citySearchAbortController = null;
+let gpsRequest = 0;
 
 function debounce(fn, delay){
   let timer = null;
@@ -3071,14 +3060,13 @@ function selectCity(place){
     lat: Number(place.lat),
     lon: Number(place.lon),
     elevation: 0,
+    elevationStatus: "unknown",
     state: state,
     city: city
   };
 
-  // A new manual selection supersedes any observer encoded in an incoming event link.
-  const currentUrl = new URL(window.location.href);
-  for (const key of ["lat", "lon", "elevation", "place"]) currentUrl.searchParams.delete(key);
-  window.history.replaceState({}, "", currentUrl.pathname + currentUrl.search + currentUrl.hash);
+  ++gpsRequest;
+  clearEventLocation();
 
   cityInput.value =
     place.name ||
@@ -3112,36 +3100,41 @@ const defaultPithoragarh = {
   city:"पिथौरागढ़"
 };
 
-try{
-  const locationParams = new URLSearchParams(window.location.search);
-  const linkedLocation = readPanchangLinkLocation(locationParams);
-  const hasLinkedLocation = ["lat","lon","elevation","place"].some(key => locationParams.has(key));
-  if (hasLinkedLocation && !linkedLocation) {
-    throw new Error("Invalid linked Panchang location");
+function clearEventLocation() {
+  const url = new URL(window.location.href);
+  if (hasPanchangLinkLocation(url.searchParams)) {
+    clearPanchangLinkLocation(url);
+    history.replaceState(null, "", url);
   }
-  const saved = linkedLocation ? null : localStorage.getItem(
-    "ohdPanchangLocation"
-  );
-  if (linkedLocation) {
-    selectedLocation = linkedLocation;
-    selectedCity.style.display = "block";
-    selectedCity.textContent = "📍 चुना गया स्थान: " + linkedLocation.name;
-  } else if(saved){
-    selectedLocation = JSON.parse(saved);
-    selectedCity.style.display = "block";
-    selectedCity.textContent = "💾 पिछला चुना गया स्थान: " + selectedLocation.name;
-  } else {
-    selectedLocation = defaultPithoragarh;
-    selectedCity.style.display = "block";
-    selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
-  }
-}catch(e){
-  const params = new URLSearchParams(window.location.search);
-  const invalidLink = ["lat","lon","elevation","place"].some(key => params.has(key));
-  selectedLocation = invalidLink ? null : defaultPithoragarh;
-  selectedCity.style.display = "block";
-  selectedCity.textContent = invalidLink ? "स्थान की जानकारी सही नहीं है। कृपया स्थान चुनें।" : "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
+
+function savedPanchangLocation() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("ohdPanchangLocation"));
+    if (!saved || saved.lat == null || saved.lon == null) return null;
+    const params = new URLSearchParams({lat: saved.lat, lon: saved.lon, place: saved.name || "",
+      elevation: saved.elevation ?? 0, city: saved.city || "", state: saved.state || ""});
+    const location = readPanchangLinkLocation(params);
+    if (location && saved.elevationStatus !== "provided" && !Number(saved.elevation)) {
+      location.elevationStatus = "unknown";
+    }
+    return location;
+  } catch { return null; }
+}
+
+// A link is scoped to this tab. Extra Panchang and festivals must use the same
+// observer even when another city is saved, or persistent storage is disabled.
+if (hasPanchangLinkLocation(locationParams)) {
+  selectedLocation = readPanchangLinkLocation(locationParams);
+  selectedCity.textContent = selectedLocation ? "📍 चुना गया स्थान: " + selectedLocation.name :
+    "स्थान की जानकारी सही नहीं है। कृपया स्थान चुनें।";
+} else {
+  selectedLocation = savedPanchangLocation() || defaultPithoragarh;
+  selectedCity.textContent = (selectedLocation === defaultPithoragarh ? "📍 डिफ़ॉल्ट स्थान: " :
+    "💾 पिछला चुना गया स्थान: ") + selectedLocation.name;
+}
+selectedCity.style.display = "block";
+window.getPanchangLocation = () => selectedLocation && {...selectedLocation};
 /* =========================================================
    FORMAT FUNCTIONS
    ========================================================= */
@@ -3151,7 +3144,7 @@ function formatTime(value){
   try{
     return new Date(value).toLocaleTimeString(
       "hi-IN",
-      {
+      {timeZone:"Asia/Kolkata",
         hour:"2-digit",
         minute:"2-digit",
         hour12:true
@@ -3179,7 +3172,7 @@ function formatDateTimeHindi(value){
     const date =
       d.toLocaleDateString(
         "hi-IN",
-        {
+        {timeZone:"Asia/Kolkata",
           day:"numeric",
           month:"long"
         }
@@ -3188,7 +3181,7 @@ function formatDateTimeHindi(value){
     const time =
       d.toLocaleTimeString(
         "hi-IN",
-        {
+        {timeZone:"Asia/Kolkata",
           hour:"2-digit",
           minute:"2-digit",
           hour12:true
@@ -3738,7 +3731,7 @@ function getSandhyaStatusHtml(ctx = null){
   if(!info) return "";
 
   const time = info.start
-    ? info.start.toLocaleTimeString("hi-IN", {hour:"2-digit", minute:"2-digit", hour12:false})
+    ? info.start.toLocaleTimeString("hi-IN", {timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", hour12:false})
     : "";
   const status = info.active
     ? `अभी ${info.label} संध्या का समय है।`
@@ -4939,6 +4932,10 @@ function calculatePanchang(){
     return value;
   };
 
+  if (!isValidIsoDate(dateInput.value)) {
+    result.textContent = "कृपया सही तारीख चुनें।";
+    return;
+  }
   if(!selectedLocation){
     result.innerHTML =
       `<div class="loading">पहले अपना शहर चुनें।</div>`;
@@ -4956,7 +4953,7 @@ function calculatePanchang(){
     );
 
     const date = new Date(
-      dateInput.value + "T12:00:00"
+      dateInput.value + "T12:00:00+05:30"
     );
 
     const p = __ohdTimedPanchang("selected date", 
@@ -4989,8 +4986,8 @@ let nextMoonset = null;
 
 try{
   const nextDate = new Date(date);
-      nextDate.setDate(
-        nextDate.getDate() + 1
+      nextDate.setUTCDate(
+        nextDate.getUTCDate() + 1
       );
 
       const nextPanchang = __ohdTimedPanchang("next date", 
@@ -5032,8 +5029,8 @@ try{
   const previousDate =
     new Date(date);
 
-  previousDate.setDate(
-    previousDate.getDate() - 1
+  previousDate.setUTCDate(
+    previousDate.getUTCDate() - 1
   );
 
   previousPanchang =
@@ -5111,8 +5108,7 @@ displayPanchang(
     result.innerHTML = `
       <div class="error">
         ❌ पंचांग की गणना नहीं हो सकी।
-        <br><br>
-        <small>${error.message || error}</small>
+
       </div>
     `;
   }
@@ -5132,12 +5128,12 @@ function displayPanchang(
   sankalpRashiPanchang
 ){
   const date = new Date(
-    dateInput.value + "T12:00:00"
+    dateInput.value + "T12:00:00+05:30"
   );
 
   const dateText = date.toLocaleDateString(
     "hi-IN",
-    {
+    {timeZone:"Asia/Kolkata",
       weekday:"long",
       year:"numeric",
       month:"long",
@@ -5146,11 +5142,11 @@ function displayPanchang(
   );
 
   const selectedDateObj = new Date(
-    dateInput.value + "T00:00:00"
+    dateInput.value + "T00:00:00Z"
   );
 
   const isWednesday =
-    selectedDateObj.getDay() === 3;
+    selectedDateObj.getUTCDay() === 3;
 
   const paksha = getSimpleHindi(
     p.paksha,
@@ -5458,15 +5454,13 @@ const ghatiPal = getGhatiPal(
   if (!date || !referenceNow) return "";
 
   const sameDate =
-    date.getFullYear() === referenceNow.getFullYear() &&
-    date.getMonth() === referenceNow.getMonth() &&
-    date.getDate() === referenceNow.getDate();
+    panchangIsoDate(date) === panchangIsoDate(referenceNow);
 
   if (sameDate) {
     return "आज";
   }
 
-  return date.toLocaleDateString("hi-IN", {
+  return date.toLocaleDateString("hi-IN", {timeZone:"Asia/Kolkata",
     day: "numeric",
     month: "long"
   });
@@ -5821,13 +5815,13 @@ bhadraPartsHtml += `
   };
 
   const selectedDayStart =
-    new Date(dateInput.value + "T00:00:00");
+    new Date(dateInput.value + "T00:00:00+05:30");
 
   const selectedDayEnd =
     new Date(selectedDayStart);
 
-  selectedDayEnd.setDate(
-    selectedDayEnd.getDate() + 1
+  selectedDayEnd.setUTCDate(
+    selectedDayEnd.getUTCDate() + 1
   );
 
   const amritKalamForDate =
@@ -6442,7 +6436,7 @@ bhadraPartsHtml += `
     📍 स्थान
   </div>
         <div class="value">
-          ${selectedLocation.name}
+          ${escapeHtmlAttr(selectedLocation.name)}
         </div>
       </div>
 
@@ -6759,45 +6753,16 @@ window.today = function(){
   calculatePanchang();
 };
 
-window.previousDay = function(){
-  const d = new Date(
-    dateInput.value + "T12:00:00"
-  );
-
-  d.setDate(d.getDate() - 1);
-
-  dateInput.value =
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1)
-      .padStart(2,"0") +
-    "-" +
-    String(d.getDate())
-      .padStart(2,"0");
+function movePanchangDate(days) {
+  if (!isValidIsoDate(dateInput.value)) return;
+  const day = new Date(dateInput.value + "T12:00:00Z");
+  day.setUTCDate(day.getUTCDate() + days);
+  dateInput.value = day.toISOString().slice(0, 10);
   syncDateToUrl();
-
   calculatePanchang();
-};
-
-window.nextDay = function(){
-  const d = new Date(
-    dateInput.value + "T12:00:00"
-  );
-
-  d.setDate(d.getDate() + 1);
-
-  dateInput.value =
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1)
-      .padStart(2,"0") +
-    "-" +
-    String(d.getDate())
-      .padStart(2,"0");
-  syncDateToUrl();
-
-  calculatePanchang();
-};
+}
+window.previousDay = () => movePanchangDate(-1);
+window.nextDay = () => movePanchangDate(1);
 
 /* =========================================================
    GPS with reverse geocoding for state/city
@@ -6814,14 +6779,17 @@ window.useMyLocation = function(){
     📍 आपकी स्थिति ली जा रही है...
   </div>`;
 
+  const version = ++gpsRequest;
   navigator.geolocation.getCurrentPosition(
     async position => {
-      selectedLocation = {
+      if (version !== gpsRequest) return;
+      const gpsLocation = {
         name: "वर्तमान स्थान",
         lat: position.coords.latitude,
         lon: position.coords.longitude,
         elevation:
-          position.coords.altitude || 0,
+          position.coords.altitude ?? 0,
+        elevationStatus: position.coords.altitude == null ? "unknown" : "provided",
         state: "",
         city: ""
       };
@@ -6829,9 +6797,9 @@ window.useMyLocation = function(){
       try{
         const url =
           "https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&zoom=10&accept-language=hi&lat=" +
-          selectedLocation.lat +
+          gpsLocation.lat +
           "&lon=" +
-          selectedLocation.lon;
+          gpsLocation.lon;
 
         const r = await fetch(
           url,
@@ -6846,12 +6814,12 @@ window.useMyLocation = function(){
           const data = await r.json();
 
           if(data && data.address){
-            selectedLocation.state =
+            gpsLocation.state =
               data.address.state ||
               data.address.state_district ||
               "";
 
-            selectedLocation.city =
+            gpsLocation.city =
               data.address.city ||
               data.address.town ||
               data.address.village ||
@@ -6859,7 +6827,7 @@ window.useMyLocation = function(){
               "";
 
             if(data.display_name){
-              selectedLocation.name =
+              gpsLocation.name =
                 data.display_name;
             }
           }
@@ -6871,6 +6839,9 @@ window.useMyLocation = function(){
         );
       }
 
+      if (version !== gpsRequest) return;
+      selectedLocation = gpsLocation;
+      clearEventLocation();
       selectedCity.style.display = "block";
 
       const locLine =
@@ -6893,6 +6864,7 @@ window.useMyLocation = function(){
       calculatePanchang();
     },
     error => {
+      if (version !== gpsRequest) return;
       result.innerHTML = `<div class="error">
         ❌ Location permission नहीं मिली।
         <br><br>

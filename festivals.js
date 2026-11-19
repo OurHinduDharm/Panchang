@@ -18,7 +18,10 @@ function getSelectedDate() {
 
 function getObserver() {
   try {
-    const saved = JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
+    const saved = typeof window.getPanchangLocation === "function"
+      ? window.getPanchangLocation()
+      : JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
+    if (!saved && typeof window.getPanchangLocation === "function") return null;
     const latitude = Number(saved?.lat);
     const longitude = Number(saved?.lon);
     const elevation = Number(saved?.elevation) || 0;
@@ -107,7 +110,8 @@ function updateHinduFestivals() {
   if (!dateString) return;
 
   const location = getObserver();
-  const renderKey = dateString + "|" + location.latitude + "|" + location.longitude;
+  if (!location) return;
+  const renderKey = [dateString, location.latitude, location.longitude, location.height].join("|");
   if (renderKey === lastRenderKey && document.getElementById("ohdHinduFestivalsCard")) return;
 
   try {

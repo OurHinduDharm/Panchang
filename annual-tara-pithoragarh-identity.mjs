@@ -1,18 +1,21 @@
 import { locations } from "./annual-tara-locations.mjs";
-// The regional record is tied to the project's exact observer, not a city-name match.
+
 const canonical = locations["pithoragarh-project-target"];
-export function isProjectPithoragarh(observer) {
-  return !!observer && Number(observer.latitude) === canonical.latitude &&
-    Number(observer.longitude) === canonical.longitude &&
-    Number(observer.elevation) === canonical.elevation;
+
+function hasCityIdentity(place) {
+  return place?.id === canonical.id && place.countryCode === "IN" &&
+    place.stateCode === "39" && place.timeZone === "Asia/Kolkata";
 }
+
+export function isProjectPithoragarh(place) {
+  return hasCityIdentity(place) && place.latitude === canonical.latitude &&
+    place.longitude === canonical.longitude && place.elevation === canonical.elevation;
+}
+
 export function resolvePithoragarhSearch(place) {
-  if (!place || place.timeZone !== "Asia/Kolkata" || place.countryCode !== "IN" ||
-      place.nameLocal?.toLocaleLowerCase("en") !== "pithoragarh" ||
-      place.admin1?.toLocaleLowerCase("en") !== "uttarakhand" ||
-      !Number.isInteger(Number(place.id))) return null;
-  const distance = Math.hypot((place.latitude-canonical.latitude)*111,
-    (place.longitude-canonical.longitude)*96);
-  // Geocoding identifies the city; the calculation retains canonical project coordinates.
-  return distance <= 3 ? {...canonical,name:"पिथौरागढ़, उत्तराखंड, भारत"} : null;
+  if (!hasCityIdentity(place) || !Number.isFinite(place.latitude) ||
+      !Number.isFinite(place.longitude)) return null;
+  const km = Math.hypot((place.latitude - canonical.latitude) * 111,
+    (place.longitude - canonical.longitude) * 96);
+  return km <= 3 ? canonical : null;
 }
