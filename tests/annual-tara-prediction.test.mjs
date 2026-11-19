@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import * as Astronomy from "astronomy-engine";
+import { createRequire } from "node:module";
 import { predictAnnualTara } from "../research/annual-tara-prediction.mjs";
 import { LOCATION_PROFILES, measureSunAltitudeAtTargetRiseSet } from "../research/drik-ganita-time-separation.mjs";
 
@@ -71,7 +71,7 @@ test("2028 Pithoragarh Canopus dates are compared only after the forecast", () =
 });
 
 test("the preceding December sample can trigger an event on January 1 IST", () => {
-  const engine = Astronomy.default || Astronomy;
+  const engine = createRequire(import.meta.url)("astronomy-engine");
   const location = LOCATION_PROFILES["pithoragarh-project-target"];
   const observer = new engine.Observer(location.latitude, location.longitude, location.elevation);
   const altitudes = ["2027-12-31", "2028-01-01"].map(date => measureSunAltitudeAtTargetRiseSet({

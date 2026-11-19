@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import * as Astronomy from "astronomy-engine";
+import { createRequire } from "node:module";
 import {
   parsePrintedClock,
   median,
@@ -17,7 +17,7 @@ import {
   measureTaraObservation, predictAnnualTara, quantile
 } from "../research/annual-tara-prediction.mjs";
 
-const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon } = createRequire(import.meta.url)("astronomy-engine");
 
 const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),

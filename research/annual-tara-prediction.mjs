@@ -1,4 +1,4 @@
-import * as Astronomy from "astronomy-engine";
+import { createRequire } from "node:module";
 import {
   LOCATION_PROFILES, CANOPUS_ASTROMETRY, propagateStarPosition, calibrateObservation,
   azimuthSeparationDegrees, fitTheilSenLine, median,
@@ -6,7 +6,7 @@ import {
 } from "./drik-ganita-time-separation.mjs";
 import { createTaraContextFromPanchangLocation } from "./tara-astronomy-context.mjs";
 
-const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = Astronomy.default || Astronomy;
+const { Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon, GeoVector, Ecliptic } = createRequire(import.meta.url)("astronomy-engine");
 const DAY_MS = 86_400_000;
 
 export function canopusCoordinatesAt(date) {
