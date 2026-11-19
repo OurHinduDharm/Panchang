@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import panchangPackage from "@ishubhamx/panchangam-js";
 import { buildDwadashiCalendar } from "../dwadashi-calendar.mjs";
-import { normalizeEngineTithi, normalizeEnginePaksha, normalizeEngineMasa, extractDwadashiDay, extractAnnualPanchangDay, buildSourceReviewMetadata } from "../scripts/generate-annual-dwadashi-review.mjs";
+import { normalizeEngineTithi, normalizeEnginePaksha, normalizeEngineMasa, extractDwadashiDay, extractAnnualPanchangDay, buildSourceReviewMetadata, generateYear } from "../scripts/generate-annual-dwadashi-review.mjs";
 
 test("normalizes engine tithi indices to Hindi tithi names", () => {
   assert.equal(normalizeEngineTithi(11), "द्वादशी");
@@ -670,5 +670,56 @@ test("2030 Govatsa and Krishna Padmanabha have separate local evidence", async (
   const month = JSON.parse(await readFile(new URL("../data/festivals/2030-10.json", import.meta.url)));
   for (const rite of [govatsa, padmanabha]) {
     assert.ok(month.events.some(event => event.title === rite.name && event.date === rite.selectedDate));
+  }
+});
+
+test("the canonical Pithoragarh scan reproduces all 25 archived 2030 date sets and keeps the September rites independent", async () => {
+  const archive = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  const audit = archive.sourceReview.canonicalObserverAudit;
+  const current = await generateYear(2030);
+  assert.deepEqual(audit.location, {latitude:29.5828, longitude:80.2182, elevation:1650, timezone:"Asia/Kolkata"});
+  for (const [key, value] of Object.entries(audit.location)) assert.equal(current.location[key], value);
+  assert.equal(current.annualReview.dailyPanchang.length, 365);
+  assert.equal(audit.days, 365);
+  assert.equal(current.tithis.length, 25);
+  assert.equal(audit.matchedRecords, 25);
+  assert.deepEqual(audit.matchedFields, ["sunriseDates", "noonDates", "candidateDates"]);
+  const archived = new Map(archive.tithis.map(item => [item.id, item]));
+  assert.deepEqual(current.tithis.map(item => item.id).sort(), [...archived.keys()].sort());
+  for (const item of current.tithis) {
+    for (const field of audit.matchedFields) assert.deepEqual(item[field], archived.get(item.id)[field], item.id + " " + field);
+  }
+  const september = current.tithis.find(item => item.id === "bhadrapada-shukla");
+  for (const item of [september, archived.get(september.id)]) {
+    assert.deepEqual(item.candidateDates, ["2030-09-08", "2030-09-09"]);
+    assert.equal(item.selectedDate, null);
+    assert.equal(item.referenceDate, null);
+    assert.equal(item.drikSpecialObservances[0].observanceDate, "2030-09-09");
+  }
+});
+
+test("Varaha and Rama-Lakshmana worship precede the next morning's gift during one local Dwadashi", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url)));
+  const cases = [
+    ["magha-shukla", "varaha", "2030-02-14", "2030-02-15"],
+    ["jyeshtha-shukla", "rama", "2030-06-12", "2030-06-13"]
+  ];
+  const observer = new panchangPackage.Observer(29.5828, 80.2182, 1650);
+  const localDay = date => panchangPackage.getPanchangam(new Date(date + "T06:30:00Z"), observer,
+    {timezoneOffset:330, calendarType:"purnimanta"});
+  for (const [id, observance, start, next] of cases) {
+    const rite = review.tithis.find(item => item.id === id).observanceDateReviews.find(item => item.observanceId === observance);
+    assert.equal(rite.selectedDate, start);
+    assert.equal(rite.followingMorningDate, next);
+    const first = localDay(start), second = localDay(next);
+    assert.equal(first.tithi, 10);
+    assert.equal(second.tithi, 11);
+    assert.ok(second.tithiStartTime < first.sunset && first.sunset < second.sunrise);
+    assert.ok(second.sunrise < second.tithiEndTime && second.tithiEndTime < second.sunset);
+    const month = JSON.parse(await readFile(new URL("../data/festivals/" + start.slice(0, 7) + ".json", import.meta.url)));
+    const cards = month.events.filter(event => event.title === rite.name);
+    assert.deepEqual(cards.map(event => event.date), [start]);
+    assert.equal(cards[0].muhurtaRule, undefined);
+    assert.equal(cards[0].sourceUrl, rite.sourceUrl);
   }
 });

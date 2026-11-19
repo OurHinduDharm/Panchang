@@ -565,7 +565,20 @@
         }
       ],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "rama",
+          "name": "रामलक्ष्मण द्वादशी",
+          "selectedDate": "2030-06-12",
+          "followingMorningDate": "2030-06-13",
+          "dateRole": "dwadashi-worship-before-following-morning-gift",
+          "source": "वराह पुराण, अध्याय 45, श्लोक 1–5",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-045",
+          "localDayDecision": "12 जून को द्वादशी लगने पर श्रीराम और लक्ष्मण की पूजा करें। वराह पुराण के अनुसार पूजित प्रतिमाओं का दान अगले दिन 13 जून की सुबह होता है।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "ashadha-krishna",
@@ -1030,7 +1043,7 @@
         "2030-09-08",
         "2030-09-09"
       ],
-      "referenceDate": "2030-09-09",
+      "referenceDate": null,
       "drikLabels": [
         "श्रवण योग द्वादशी"
       ],
@@ -1041,7 +1054,8 @@
           "month": "भाद्रपद",
           "paksha": "शुक्ल",
           "adhika": false,
-          "referenceDate": "2030-09-09",
+          "observanceDate": "2030-09-09",
+          "dateRole": "special-observance-date",
           "labels": [
             "श्रवण योग द्वादशी"
           ],
@@ -2057,7 +2071,20 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "varaha",
+          "name": "वराह-द्वादशी व्रत",
+          "selectedDate": "2030-02-14",
+          "followingMorningDate": "2030-02-15",
+          "dateRole": "dwadashi-worship-before-following-morning-gift",
+          "source": "वराह पुराण, अध्याय 41, श्लोक 1–13",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-041",
+          "localDayDecision": "वराह भगवान की पूजा और रात्रि-जागरण 14 फरवरी को करें। 15 फरवरी के सूर्योदय पर स्नान और पूजन के बाद प्रतिमा तथा कलश के दान का विधान है।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "phalguna-krishna",
@@ -3135,7 +3162,25 @@
         "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       }
     ],
-    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।"
+    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।",
+    "canonicalObserverAudit": {
+      "location": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevation": 1650,
+        "timezone": "Asia/Kolkata"
+      },
+      "calendar": "Purnimanta",
+      "engine": "@ishubhamx/panchangam-js@3.0.0",
+      "days": 365,
+      "matchedRecords": 25,
+      "matchedFields": [
+        "sunriseDates",
+        "noonDates",
+        "candidateDates"
+      ],
+      "scope": "सुरक्षित पुरानी गणना की 25 प्रविष्टियों की तारीखें पिथौरागढ़ के निर्धारित निर्देशांकों पर दोबारा जाँची गईं। व्रत-विशेष के काल और अनुष्ठान का निर्णय अलग है।"
+    }
   },
   "generalDwadashiYogaReview": {
     "ruleId": "shravana-yoga-dwadashi",

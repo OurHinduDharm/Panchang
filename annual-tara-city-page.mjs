@@ -31,7 +31,8 @@ async function show({events, unavailable}, selectedYear, presetId) {
   const agastyaData = presetId === "pithoragarh-project-target"
     ? await agastyaDataPromise
     : null;
-  const agastya = agastyaData?.years?.find(item => item.year === selectedYear);
+  const agastya = agastyaData?.years?.find(item => item.year === selectedYear &&
+    item.source?.status === "source-page-identity-and-arghya-fields-captured");
 
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
     const card = document.createElement("section");

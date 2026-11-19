@@ -254,6 +254,19 @@
       "articleLabel": "भीष्म पंचक व्रत की महिमा पढ़ें"
     },
     {
+      "date": "2029-11-16",
+      "dateLabel": "16 नवंबर",
+      "title": "वृश्चिक संक्रांति",
+      "description": "सूर्य तुला से वृश्चिक राशि में प्रवेश करते हैं। इस संक्रांति पर स्नान और दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का वृश्चिक राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2029 हिन्दू पर्व सूची, उज्जैन",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1253914&year=2029",
+      "muhurtaRule": "sankranti-punya-kala"
+    },
+    {
       "date": "2029-11-17",
       "dateLabel": "17 नवंबर",
       "title": "तुलसी विवाह",
