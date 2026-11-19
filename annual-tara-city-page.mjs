@@ -9,6 +9,7 @@ const status = document.getElementById("city-status");
 const retry = document.getElementById("city-retry");
 const cache = new Map();
 let activeWorker;
+let selectionVersion = 0;
 
 const eventDate = new Intl.DateTimeFormat("hi-IN", {
   timeZone: "Asia/Kolkata", day: "numeric", month: "long"
@@ -41,11 +42,12 @@ function formatDate(value) {
   return dateOnly.format(new Date(value + "T12:00:00+05:30"));
 }
 
-async function show({events, unavailable}, selectedYear, presetId) {
-  status.textContent = "";
+async function show({events, unavailable}, selectedYear, presetId, version) {
   const agastyaData = presetId === "pithoragarh-project-target"
     ? await agastyaDataPromise
     : null;
+  if (version !== selectionVersion) return;
+  status.textContent = "";
   const agastya = agastyaData?.years?.find(item => item.year === selectedYear);
 
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
@@ -89,12 +91,14 @@ async function show({events, unavailable}, selectedYear, presetId) {
 }
 
 function calculate(location, selectedYear, presetId) {
+  const version = ++selectionVersion;
   activeWorker?.terminate();
   activeWorker = undefined;
   cards.replaceChildren();
   retry.hidden = true;
   status.textContent = "गणना हो रही है…";
   function failed() {
+    if (version !== selectionVersion) return;
     status.textContent = "गणना लोड नहीं हो पाई।";
     retry.hidden = false;
   }
@@ -102,7 +106,7 @@ function calculate(location, selectedYear, presetId) {
     const {observer} = resolveTaraLocation(location);
     const key = taraObserverKey(observer) + "/" + selectedYear;
     if (cache.has(key)) {
-      show(cache.get(key), selectedYear, presetId);
+      show(cache.get(key), selectedYear, presetId, version);
       return;
     }
     const worker = new Worker(new URL("./annual-tara-city-worker.mjs", import.meta.url), {type: "module"});
@@ -112,7 +116,7 @@ function calculate(location, selectedYear, presetId) {
       worker.terminate();
       activeWorker = undefined;
       cache.set(key, data);
-      show(data, selectedYear, presetId);
+      show(data, selectedYear, presetId, version);
     };
     worker.onerror = () => {
       if (worker !== activeWorker) return;
