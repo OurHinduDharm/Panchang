@@ -168,6 +168,16 @@ year.value = String(currentYear);
 function calculateSelection() {
   const location = chosenPlace ?? locations[city.value];
   const timeZone = chosenPlace?.timeZone ?? "Asia/Kolkata";
+  if (chosenPlace && timeZone !== "Asia/Kolkata") {
+    ++selectionVersion;
+    activeWorker?.terminate();
+    activeWorker = undefined;
+    cards.replaceChildren();
+    selectedPlace.textContent = chosenPlace.name;
+    status.textContent = "इस स्थान की गणना अभी उपलब्ध नहीं है।";
+    retry.hidden = true;
+    return;
+  }
   selectedPlace.textContent = (chosenPlace?.name ?? city.selectedOptions[0]?.textContent ?? "") +
     " · " + timeZone;
   calculate(location, Number(year.value), chosenPlace ? null : city.value, timeZone);
@@ -184,11 +194,11 @@ async function runSearch() {
   try {
     const results = await searchTaraPlaces(searchInput.value, searchController.signal);
     if (version !== searchVersion) return;
-    searchMatches = results;
+    searchMatches = results.filter(place => place.timeZone === "Asia/Kolkata");
     searchResults.add(new Option("स्थान चुनें", ""));
-    results.forEach((place, index) => searchResults.add(new Option(place.name, String(index))));
-    searchResults.hidden = results.length === 0;
-    if (!results.length) selectedPlace.textContent = "कोई स्थान नहीं मिला। दूसरा नाम खोजें।";
+    searchMatches.forEach((place, index) => searchResults.add(new Option(place.name, String(index))));
+    searchResults.hidden = searchMatches.length === 0;
+    if (!searchMatches.length) selectedPlace.textContent = "इस खोज के लिए अभी कोई समर्थित स्थान नहीं मिला।";
   } catch (error) {
     if (version === searchVersion && error.name !== "AbortError")
       selectedPlace.textContent = "स्थान खोज अभी उपलब्ध नहीं है।";
@@ -204,6 +214,8 @@ searchInput.addEventListener("input", () => {
   clearTimeout(searchDelay);
   ++searchVersion;
   searchController?.abort();
+  searchButton.disabled = false;
+  searchButton.textContent = "खोजें";
   searchResults.hidden = true;
   if (searchInput.value.trim().length >= 3)
     searchDelay = setTimeout(runSearch, 550);
