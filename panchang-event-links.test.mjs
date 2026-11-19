@@ -15,3 +15,19 @@ test("missing and invalid location parameters are rejected",()=>{
 test("invalid event date rejected",()=>{
  assert.throws(()=>buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/","bad",place));
 });
+
+test("calendar validation rejects impossible dates",()=>{
+ for (const date of ["2026-02-30","2026-13-01","2026-04-31","2025-02-29"]) {
+  assert.throws(()=>buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/",date,place));
+ }
+ assert.doesNotThrow(()=>buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/","2028-02-29",place));
+});
+test("event link refuses malformed observer",()=>{
+ for(const change of [{elevation:""},{elevation:10000},{latitude:91},{longitude:null}]){
+  assert.throws(()=>buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/","2026-09-07",{...place,...change}));
+ }
+});
+test("legacy date-only links have no invented location",()=>{
+ const params=new URLSearchParams("date=2026-09-07");
+ assert.equal(readPanchangLinkLocation(params),null);
+});
