@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "title": "Classical Guru-Shukra Udaya/Asta reference series",
+  "status": "research-only-not-public",
+  "observer": {
+    "name": "Ujjain",
+    "country": "India",
+    "timeZone": "Asia/Kolkata",
+    "coordinateExact": false
+  },
+  "method": {
+    "class": "surya-siddhanta-chapter-ix",
+    "sourceText": "Surya Siddhanta, chapter IX (Burgess and Whitney 1860)",
+    "eventMeaning": "Twilight at which the planet is first seen or first lost, using the Siddhanta degrees-of-time limits and local horizon crossings",
+    "distinction": "This is a classical Ujjain series. It must never be averaged with modern local-visibility or longitude-combustion series.",
+    "providerEngine": "Divine Nakshatra",
+    "licenceNote": "Publicly accessible reference pages/API; no open-source data licence confirmed. Retained here as attributed research reference only; do not redistribute source code or imply endorsement."
+  },
+  "records": [
+    {
+      "year": 2028,
+      "planet": "Jupiter",
+      "asta": "2028-09-13T18:59:00+05:30",
+      "udaya": "2028-10-14T05:53:00+05:30",
+      "astaDescription": "lost in Sun's rays in west",
+      "udayaDescription": "first seen in east before sunrise",
+      "source": "https://divinenakshatra.com/graha/2028/"
+    },
+    {
+      "year": 2028,
+      "planet": "Venus",
+      "asta": "2028-05-28T19:26:00+05:30",
+      "udaya": "2028-06-07T05:18:00+05:30",
+      "astaDescription": "lost in Sun's rays (direction not specified in year table)",
+      "udayaDescription": "first seen (direction not specified in year table)",
+      "source": "https://divinenakshatra.com/graha/2028/"
+    },
+    {
+      "year": 2029,
+      "planet": "Jupiter",
+      "asta": "2029-10-14T18:30:00+05:30",
+      "udaya": "2029-11-13T06:08:00+05:30",
+      "astaDescription": "lost in Sun's rays in west",
+      "udayaDescription": "first seen in east before sunrise",
+      "source": "https://divinenakshatra.com/graha/guru/2029/"
+    },
+    {
+      "year": 2029,
+      "planet": "Venus",
+      "asta": "2029-02-04T06:40:00+05:30",
+      "udaya": "2029-04-27T19:18:00+05:30",
+      "astaDescription": "lost in Sun's rays in east",
+      "udayaDescription": "first seen in west after sunset",
+      "source": "https://divinenakshatra.com/graha/shukra/2029/"
+    },
+    {
+      "year": 2030,
+      "planet": "Jupiter",
+      "asta": "2030-11-16T18:09:00+05:30",
+      "udaya": "2030-12-13T06:29:00+05:30",
+      "astaDescription": "lost in Sun's rays in west",
+      "udayaDescription": "first seen in east before sunrise",
+      "source": "https://divinenakshatra.com/graha/2030/"
+    },
+    {
+      "year": 2030,
+      "planet": "Venus",
+      "asta": "2030-01-03T18:11:00+05:30",
+      "udaya": "2030-01-10T06:47:00+05:30",
+      "astaDescription": "lost in Sun's rays (direction not specified in year table)",
+      "udayaDescription": "first seen (direction not specified in year table)",
+      "source": "https://divinenakshatra.com/graha/2030/"
+    },
+    {
+      "year": 2030,
+      "planet": "Venus",
+      "asta": "2030-09-16T05:47:00+05:30",
+      "udaya": "2030-11-30T18:06:00+05:30",
+      "astaDescription": "lost in Sun's rays (direction not specified in year table)",
+      "udayaDescription": "first seen (direction not specified in year table)",
+      "source": "https://divinenakshatra.com/graha/2030/"
+    }
+  ]
+}

@@ -34,10 +34,168 @@
         2029,
         2030
       ],
-      "result": "Dates matched or differed by one day; times were generally within about 10-20 minutes. This is a separate-location sanity check, not Pithoragarh ground truth.",
+      "comparisonClass": "separate-city-local-visibility-sanity-check",
+      "notAcceptanceEvidence": true,
+      "result": "Across 14 boundaries, 8 calendar dates agree and 6 differ by one day. Clock-of-day offsets are -9 to -20 minutes, but this is a New Delhi comparison, not Pithoragarh ground truth; clock-only closeness must not be described as full event-time agreement.",
       "sources": [
         "https://www.panchangguru.com/guru-asta",
         "https://www.panchangguru.com/shukra-asta"
+      ],
+      "boundaryAudit": [
+        {
+          "planet": "Jupiter",
+          "year": 2028,
+          "event": "astaStart",
+          "candidateDate": "2028-09-15",
+          "candidateTime": "18:48",
+          "referenceDate": "2028-09-16",
+          "referenceTime": "18:57",
+          "dateDifferenceDays": -1,
+          "clockDifferenceMinutes": -9
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2028,
+          "event": "udaya",
+          "candidateDate": "2028-10-13",
+          "candidateTime": "05:26",
+          "referenceDate": "2028-10-13",
+          "referenceTime": "05:38",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -12
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2029,
+          "event": "astaStart",
+          "candidateDate": "2029-10-17",
+          "candidateTime": "18:09",
+          "referenceDate": "2029-10-17",
+          "referenceTime": "18:23",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -14
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2029,
+          "event": "udaya",
+          "candidateDate": "2029-11-12",
+          "candidateTime": "05:47",
+          "referenceDate": "2029-11-12",
+          "referenceTime": "05:57",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -10
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2030,
+          "event": "astaStart",
+          "candidateDate": "2030-11-18",
+          "candidateTime": "17:47",
+          "referenceDate": "2030-11-18",
+          "referenceTime": "18:02",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -15
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2030,
+          "event": "udaya",
+          "candidateDate": "2030-12-13",
+          "candidateTime": "06:10",
+          "referenceDate": "2030-12-13",
+          "referenceTime": "06:20",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -10
+        },
+        {
+          "planet": "Venus",
+          "year": 2028,
+          "event": "astaStart",
+          "candidateDate": "2028-05-29",
+          "candidateTime": "19:25",
+          "referenceDate": "2028-05-29",
+          "referenceTime": "19:36",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -11
+        },
+        {
+          "planet": "Venus",
+          "year": 2028,
+          "event": "udaya",
+          "candidateDate": "2028-06-08",
+          "candidateTime": "04:32",
+          "referenceDate": "2028-06-07",
+          "referenceTime": "04:52",
+          "dateDifferenceDays": 1,
+          "clockDifferenceMinutes": -20
+        },
+        {
+          "planet": "Venus",
+          "year": 2029,
+          "event": "astaStart",
+          "candidateDate": "2029-02-12",
+          "candidateTime": "06:25",
+          "referenceDate": "2029-02-13",
+          "referenceTime": "06:35",
+          "dateDifferenceDays": -1,
+          "clockDifferenceMinutes": -10
+        },
+        {
+          "planet": "Venus",
+          "year": 2029,
+          "event": "udaya",
+          "candidateDate": "2029-04-17",
+          "candidateTime": "19:04",
+          "referenceDate": "2029-04-16",
+          "referenceTime": "19:14",
+          "dateDifferenceDays": 1,
+          "clockDifferenceMinutes": -10
+        },
+        {
+          "planet": "Venus",
+          "year": 2030,
+          "event": "astaStart",
+          "candidateDate": "2030-01-04",
+          "candidateTime": "17:45",
+          "referenceDate": "2030-01-04",
+          "referenceTime": "18:00",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -15
+        },
+        {
+          "planet": "Venus",
+          "year": 2030,
+          "event": "udaya",
+          "candidateDate": "2030-01-09",
+          "candidateTime": "06:35",
+          "referenceDate": "2030-01-09",
+          "referenceTime": "06:46",
+          "dateDifferenceDays": 0,
+          "clockDifferenceMinutes": -11
+        },
+        {
+          "planet": "Venus",
+          "year": 2030,
+          "event": "astaStart",
+          "candidateDate": "2030-09-28",
+          "candidateTime": "05:34",
+          "referenceDate": "2030-09-29",
+          "referenceTime": "05:48",
+          "dateDifferenceDays": -1,
+          "clockDifferenceMinutes": -14
+        },
+        {
+          "planet": "Venus",
+          "year": 2030,
+          "event": "udaya",
+          "candidateDate": "2030-11-20",
+          "candidateTime": "17:38",
+          "referenceDate": "2030-11-19",
+          "referenceTime": "17:53",
+          "dateDifferenceDays": 1,
+          "clockDifferenceMinutes": -15
+        }
       ]
     },
     "generatedAt": "2026-11-13T06:40:42Z",
