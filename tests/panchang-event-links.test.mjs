@@ -76,3 +76,9 @@ test("coordinate-only links accept measured sea level but not missing elevation"
  sea.delete("elevation");
  assert.equal(readPanchangLinkLocation(sea), null);
 });
+
+
+test("unverified elevation cannot be published in a daily event URL", () => {
+ assert.throws(() => buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", "2026-09-07", {...place, elevation: 0, elevationStatus: "unknown"}));
+ assert.doesNotThrow(() => buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", "2026-09-07", {...place, elevation: 0, elevationStatus: "provided"}));
+});
