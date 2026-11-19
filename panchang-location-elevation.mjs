@@ -6,7 +6,7 @@ export function restoreSavedElevationStatus(location, saved) {
   if (!location) return null;
   const status = saved?.elevationStatus;
   if (status === "unknown" || (status !== "provided" && !Number(saved?.elevation))) {
-    return {...location, elevationStatus: "unknown"};
+    return {...location, elevation: 0, elevationStatus: "unknown"};
   }
   if (status === "estimated") {
     return {...location, elevationStatus: "estimated"};
