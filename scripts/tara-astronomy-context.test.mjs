@@ -19,10 +19,22 @@ test("city and year are part of the cache key", () => {
 });
 test("never silently uses Pithoragarh or sea level", () => {
   assert.throws(()=>createTaraContextFromPanchangLocation(null,FakeObserver,2028),/Select/);
-  assert.throws(()=>createTaraContextFromPanchangLocation({latitude:29,longitude:80},FakeObserver,2028),/Elevation required/);
+  assert.throws(()=>createTaraContextFromPanchangLocation({latitude:29,longitude:80},FakeObserver,2028),/Elevation unavailable/);
 });
 test("rejects missing engine and invalid year", () => {
   const location={latitude:29,longitude:80,elevation:1650};
   assert.throws(()=>createTaraAstronomyContext({location,Observer:null,year:2028}),/constructor/);
   assert.throws(()=>createTaraAstronomyContext({location,Observer:FakeObserver,year:NaN}),/year/);
+});
+
+test("accepts real Panchang lat/lon storage format", () => {
+  const ctx=createTaraContextFromPanchangLocation({lat:29.5828,lon:80.2182,elevation:1650,name:"पिथौरागढ़"},FakeObserver,2028);
+  assert.equal(ctx.astronomyObserver.latitude,29.5828);
+  assert.equal(ctx.astronomyObserver.longitude,80.2182);
+  assert.equal(ctx.elevationApproximate,false);
+});
+test("sea-level approximation must be explicit and labeled", () => {
+  const ctx=createTaraContextFromPanchangLocation({lat:29,lon:80},FakeObserver,2028,{allowSeaLevelApproximation:true});
+  assert.equal(ctx.astronomyObserver.height,0);
+  assert.equal(ctx.elevationApproximate,true);
 });
