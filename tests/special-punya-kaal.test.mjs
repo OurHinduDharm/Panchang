@@ -1,0 +1,140 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { buildVaruniCandidates, SPECIAL_PUNYA_KAAL_POLICY } from "../special-punya-kaal.mjs";
+
+const day = (overrides = {}) => ({
+  date: "2028-03-17",
+  masa: "Chaitra",
+  paksha: "कृष्ण पक्ष",
+  sunrise: "2028-03-17T00:30:00.000Z",
+  nextSunrise: "2028-03-18T00:30:00.000Z",
+  tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-17T02:00:00.000Z", endTime: "2028-03-17T10:00:00.000Z" }],
+  nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-17T04:00:00.000Z", endTime: "2028-03-17T12:00:00.000Z" }],
+  yogas: [],
+  ...overrides
+});
+
+test("Varuni candidate is the exact overlap of Trayodashi, Shatabhisha and the Hindu day", () => {
+  const results = buildVaruniCandidates([day()]);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].date, "2028-03-17");
+  assert.equal(results[0].startTime, "2028-03-17T04:00:00.000Z");
+  assert.equal(results[0].endTime, "2028-03-17T10:00:00.000Z");
+  assert.deepEqual(results[0].labels, ["वारुणी योग"]);
+  assert.equal(results[0].status, "research-candidate");
+});
+
+test("Saturday adds Mahavaruni; Mahamahavaruni is limited to the exact Shubha overlap", () => {
+  const saturday = day({
+    date: "2028-03-18",
+    sunrise: "2028-03-18T00:30:00.000Z",
+    nextSunrise: "2028-03-19T00:30:00.000Z",
+    tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-18T02:00:00.000Z", endTime: "2028-03-18T10:00:00.000Z" }],
+    nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
+    yogas: [{ index: 22, name: "Shubha", startTime: "2028-03-18T05:00:00.000Z", endTime: "2028-03-18T06:00:00.000Z" }]
+  });
+  const results = buildVaruniCandidates([saturday]);
+  const mahavaruni = results.find(item => item.labels[0] === "महावारुणी योग");
+  const mahama = results.find(item => item.labels[0] === "महामहावारुणी योग");
+  assert.ok(mahavaruni);
+  assert.ok(mahama);
+  assert.equal(mahavaruni.startTime, "2028-03-18T04:00:00.000Z");
+  assert.equal(mahavaruni.endTime, "2028-03-18T10:00:00.000Z");
+  assert.equal(mahama.startTime, "2028-03-18T05:00:00.000Z");
+  assert.equal(mahama.endTime, "2028-03-18T06:00:00.000Z");
+});
+
+test("a Shubha yoga outside the conjunction does not create Mahamahavaruni", () => {
+  const saturday = day({
+    date: "2028-03-18",
+    sunrise: "2028-03-18T00:30:00.000Z",
+    nextSunrise: "2028-03-19T00:30:00.000Z",
+    tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-18T02:00:00.000Z", endTime: "2028-03-18T10:00:00.000Z" }],
+    nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
+    yogas: [{ index: 22, name: "Shubha", startTime: "2028-03-18T11:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }]
+  });
+  const results = buildVaruniCandidates([saturday]);
+  assert.ok(results.some(item => item.labels[0] === "महावारुणी योग"));
+  assert.ok(!results.some(item => item.labels[0] === "महामहावारुणी योग"));
+});
+
+test("wrong paksha, month, tithi or nakshatra does not create a candidate", () => {
+  assert.deepEqual(buildVaruniCandidates([day({ masa: "Vaishakha" })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 12, name: "Trayodashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 26, name: "Dwadashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ nakshatras: [{ index: 22, name: "Dhanishtha", startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }] })]), []);
+});
+
+test("engine zero-based indexes identify Shatabhisha and Shubha even without names", () => {
+  const indexed = day({
+    nakshatras: [{ index: 23, startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }]
+  });
+  assert.equal(buildVaruniCandidates([indexed]).length, 1);
+  const saturday = day({
+    date: "2028-03-18",
+    sunrise: "2028-03-18T00:30:00.000Z",
+    nextSunrise: "2028-03-19T00:30:00.000Z",
+    tithis: [{ index: 27, startTime: "2028-03-18T02:00:00Z", endTime: "2028-03-18T10:00:00Z" }],
+    nakshatras: [{ index: 23, startTime: "2028-03-18T04:00:00Z", endTime: "2028-03-18T12:00:00Z" }],
+    yogas: [{ index: 22, startTime: "2028-03-18T05:00:00Z", endTime: "2028-03-18T06:00:00Z" }]
+  });
+  const results = buildVaruniCandidates([saturday]);
+  assert.ok(results.some(item => item.labels[0] === "महामहावारुणी योग"));
+});
+
+test("a conjunction crossing midnight is assigned to its actual local start date, not the previous sunrise date", () => {
+  const days = [
+    day({
+      date: "2027-04-03",
+      sunrise: "2027-04-03T00:30:00Z",
+      nextSunrise: "2027-04-04T00:26:00Z",
+      tithis: [{ index: 27, startTime: "2027-04-03T22:57:00Z", endTime: "2027-04-04T00:26:00Z" }],
+      nakshatras: [{ index: 23, startTime: "2027-04-03T09:11:00Z", endTime: "2027-04-04T00:26:00Z" }],
+      yogas: []
+    }),
+    day({
+      date: "2027-04-04",
+      sunrise: "2027-04-04T00:26:00Z",
+      nextSunrise: "2027-04-05T00:25:00Z",
+      tithis: [{ index: 27, startTime: "2027-04-04T00:26:00Z", endTime: "2027-04-04T23:53:00Z" }],
+      nakshatras: [{ index: 23, startTime: "2027-04-04T00:26:00Z", endTime: "2027-04-04T11:02:00Z" }],
+      yogas: []
+    })
+  ];
+  const results = buildVaruniCandidates(days);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].date, "2027-04-04");
+  assert.equal(results[0].startTime, "2027-04-03T22:57:00.000Z");
+  assert.equal(results[0].endTime, "2027-04-04T11:02:00.000Z");
+  assert.deepEqual(results[0].labels, ["वारुणी योग"]);
+});
+
+test("a conjunction beginning Friday but continuing into Saturday gets its Saturday upgrade", () => {
+  const friday = day({
+    date: "2028-03-17",
+    tithis: [{ index: 27, startTime: "2028-03-17T17:00:00Z", endTime: "2028-03-18T01:00:00Z" }],
+    nakshatras: [{ index: 23, startTime: "2028-03-17T17:00:00Z", endTime: "2028-03-18T01:00:00Z" }],
+    yogas: []
+  });
+  const results = buildVaruniCandidates([friday]);
+  assert.ok(results.some(item => item.labels[0] === "वारुणी योग" && item.date === "2028-03-17"));
+  assert.ok(results.some(item => item.labels[0] === "महावारुणी योग" && item.date === "2028-03-18"));
+});
+
+test("known one-minute scanner gap is closed at the exact previous transition", () => {
+  const candidate = day({
+    nakshatras: [
+      { index: 22, startTime: "2028-03-17T00:00:00Z", endTime: "2028-03-17T04:00:00Z" },
+      { index: 23, startTime: "2028-03-17T04:01:00Z", endTime: "2028-03-17T12:00:00Z" }
+    ]
+  });
+  const results = buildVaruniCandidates([candidate]);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].startTime, "2028-03-17T04:00:00.000Z");
+});
+
+test("invalid or absent intervals are safely omitted", () => {
+  assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 27, startTime: null, endTime: null }] })]), []);
+  assert.equal(SPECIAL_PUNYA_KAAL_POLICY.sankranti, "reuse-existing-display-and-calculation; never-duplicate");
+  assert.equal(SPECIAL_PUNYA_KAAL_POLICY.mahapata, "blocked-pending-reviewed-contact-definition");
+});

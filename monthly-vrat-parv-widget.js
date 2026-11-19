@@ -1652,8 +1652,9 @@
   var initialDate=getIndiaCalendarDate();
   var requestedYear=Number(pageParams.get("year"));
   var requestedMonth=Number(pageParams.get("month"));
-  if(focusPending&&requestedYear>=1900&&requestedYear<=2200&&requestedMonth>=1&&requestedMonth<=12&&
-     focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
+  var validRequestedMonth=Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2030&&
+    Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12;
+  if(validRequestedMonth){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }
   var initialYear=Math.min(2030,Math.max(2026,initialDate.getFullYear()));

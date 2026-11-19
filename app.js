@@ -70,6 +70,12 @@ document.head.appendChild(yatraShoolaStyles);
 const compactPanchangStyles = document.createElement("style");
 compactPanchangStyles.textContent = `
 #result > .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; align-items:stretch; }
+.special-punya-kaal-card{grid-column:1/-1;border:1px solid rgba(169,93,24,.25);border-radius:10px;padding:10px;background:#fffaf2}
+.special-punya-kaal-card .label{font-weight:750;margin-bottom:5px}
+.special-punya-kaal-card .value{font-size:13px;line-height:1.55}
+.special-punya-kaal-card a{display:inline-block;margin-top:7px;color:#8c4810;font-weight:700;text-decoration:none}
+.special-punya-kaal-card .warning{margin-top:7px;padding:7px;border-radius:7px;background:#fff2df;color:#80501f;font-size:12px}
+
 #result > .grid > .card { box-sizing:border-box; min-width:0; margin:0; padding:10px; overflow-wrap:anywhere; }
 #result > .grid > .card.full { grid-column:1 / -1; }
 #result > .grid > .card:not(.full) .label { line-height:1.4; overflow-wrap:anywhere; }
@@ -4837,6 +4843,91 @@ function updateSankalpText(){
 /* =========================================================
    PANCHANG CALCULATE
    ========================================================= */
+let specialPunyaKaalMonthRequest=0;
+const specialPunyaKaalMonthCache=new Map();
+const specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
+function specialPunyaKaalTime(value){
+  return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
+}
+function specialPunyaKaalDateTime(value){
+  return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
+}
+async function appendSpecialPunyaKaalMonthLink(dateString,request){
+  const resultGrid=result.querySelector(".grid");
+  if(!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
+  const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
+  const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
+  const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
+  try{
+    let calculation=specialPunyaKaalMonthCache.get(key);
+    if(!calculation){
+      calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
+        const observer=new Observer(location.lat,location.lon,location.elevation);
+        return module.calculateSpecialPunyaKaalMonth({
+          year,month,observer,getPanchangam,
+          timezoneOffsetMinutes:330,calendarType:"purnimanta"
+        });
+      }).catch(error=>{
+        specialPunyaKaalMonthCache.delete(key);
+        throw error;
+      });
+      specialPunyaKaalMonthCache.set(key,calculation);
+      if(specialPunyaKaalMonthCache.size>12){
+        specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
+      }
+    }
+    const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
+    if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
+    if(resultData.calculationStatus!=="complete")return;
+    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
+      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
+    if(!events.length)return;
+    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
+    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
+    const selectedDayEnd=selectedDayStart+86400000;
+    const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
+    todays.forEach(item=>{
+      const detail=document.createElement("div");detail.className="value";
+      const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
+      detail.appendChild(document.createElement("br"));
+      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
+      card.appendChild(detail);
+    });
+    const link=document.createElement("a");
+    link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    link.textContent="विशेष पुण्यकाल देखें →";
+    card.appendChild(link);
+    resultGrid.appendChild(card);
+  }catch(error){
+    // Missing, incomplete or unapproved calculations must not create a public link.
+  }
+}
+function scheduleSpecialPunyaKaalMonthLink(dateString){
+  const resultGrid=result.querySelector(".grid");
+  if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
+  const request=++specialPunyaKaalMonthRequest;
+  const sentinel=document.createElement("div");
+  sentinel.className="special-punya-kaal-sentinel";
+  sentinel.style.cssText="grid-column:1/-1;height:1px";
+  resultGrid.appendChild(sentinel);
+  const run=()=>{
+    if(request!==specialPunyaKaalMonthRequest)return;
+    appendSpecialPunyaKaalMonthLink(dateString,request);
+  };
+  if("IntersectionObserver" in window){
+    const observer=new IntersectionObserver(entries=>{
+      if(entries.some(entry=>entry.isIntersecting)){
+        observer.disconnect();
+        run();
+      }
+    },{rootMargin:"450px 0px"});
+    observer.observe(sentinel);
+  }else{
+    run();
+  }
+}
+
 function calculatePanchang(){
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
@@ -6384,6 +6475,7 @@ bhadraPartsHtml += `
 
   renderSankalpControls();
   updateSankalpText();
+  scheduleSpecialPunyaKaalMonthLink(dateInput.value);
    window.dispatchEvent(
   new CustomEvent(
     "ohd:panchangUpdated"
