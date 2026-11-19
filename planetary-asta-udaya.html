@@ -26,6 +26,12 @@ button:disabled{opacity:.6;cursor:wait}
 .planet{margin:0;border-top:4px solid var(--gold)}
 .planet p{padding:8px 0;border-bottom:1px solid #f0e5d5;overflow-wrap:anywhere}
 .planet p:last-child{border-bottom:0}
+.event-link{display:block;margin:9px 0;padding:11px 13px;border:1px solid #d7a04d;border-radius:10px;background:#fff3da;color:#7e2c0c;font-weight:700;text-decoration:none;overflow-wrap:anywhere}
+.event-link:hover,.event-link:focus-visible{background:#ffe7b6;text-decoration:underline}
+#selected-place{font-weight:700;padding:8px 0}
+#city-status:not(:empty){padding:12px;border-radius:10px;background:#fff0d6}
+[hidden]{display:none!important}
+
 .status{padding:10px;border-radius:8px;background:#fff3df}
 @media(min-width:680px){body{padding:24px}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.controls label{grid-column:1/-1}.planet-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:940px){.planet-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
