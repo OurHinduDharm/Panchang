@@ -123,7 +123,7 @@ test("city calculator renders Agastya Arghya in a friendly card", () => {
   assert.ok(source.includes("अवधि — "));
   assert.ok(source.includes("अगस्त्य तारा उदय — "));
   assert.ok(source.includes("अगस्त्य तारा अस्त — "));
-  assert.ok(source.includes('presetId === "pithoragarh-project-target"'));
+  assert.ok(source.includes('isProjectPithoragarh(location)'));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
@@ -147,7 +147,7 @@ test("all seven Agastya years require captured source provenance before public d
 
   const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(renderer.includes('item.source?.status === "source-page-identity-and-arghya-fields-captured"'));
-  assert.ok(renderer.includes('presetId === "pithoragarh-project-target"'));
+  assert.ok(renderer.includes('isProjectPithoragarh(location)'));
 });
 
 
