@@ -407,7 +407,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(at(dec, "2030-12-17", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
-  assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
+  assert.ok(at(dec, "2030-12-31", /मासिक दुर्गाष्टमी.*शाकंभरी नवरात्रि प्रारंभ/));
   assert.equal(events.length, 303);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
