@@ -1,7 +1,8 @@
 // Global place search; elevation and IANA timezone must come from the same selected result.
 export function normalizeSearchPlace(item) {
   if (!item || typeof item !== "object") return null;
-  const latitude = Number(item.latitude), longitude = Number(item.longitude);
+  const latitude = item.latitude == null || item.latitude === "" ? NaN : Number(item.latitude);
+  const longitude = item.longitude == null || item.longitude === "" ? NaN : Number(item.longitude);
   const elevation = item.elevation == null || item.elevation === "" ? NaN : Number(item.elevation);
   const timeZone = item.timezone;
   if (![latitude, longitude, elevation].every(Number.isFinite) ||
@@ -10,10 +11,12 @@ export function normalizeSearchPlace(item) {
       typeof timeZone !== "string" || !timeZone.includes("/")) return null;
   try { new Intl.DateTimeFormat("en", {timeZone}); } catch { return null; }
   if (!item.name || !item.country) return null;
-  const name = [item.name, item.admin1, item.country].filter(Boolean).join(", ");
+  const name = [item.name, item.admin2, item.admin1, item.country].filter(Boolean).join(", ");
   return Object.freeze({
     id: String(item.id ?? [latitude, longitude].join(":")),
-    name, latitude, longitude, elevation, timeZone
+    name, nameLocal:String(item.name), admin1:String(item.admin1??""),
+    admin2:String(item.admin2??""), countryCode:String(item.country_code??""),
+    latitude, longitude, elevation, timeZone
   });
 }
 
