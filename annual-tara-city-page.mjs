@@ -50,8 +50,17 @@ function addText(parent, tag, value) {
 function eventLink(card, label, date, location) {
   const link = addText(card, "a", label + " का पंचांग देखें");
   link.className = "event-link";
-  link.href = buildPanchangEventUrl(dailyPage, date, location);
-  if (embedded) link.target = "_top";
+  try {
+    link.href = buildPanchangEventUrl(dailyPage, date, location);
+    if (embedded) link.target = "_top";
+  } catch {
+    // Missing/invalid elevation must not erase otherwise valid annual results.
+    // Never substitute an invented observer height in a daily Panchang link.
+    const note = document.createElement("span");
+    note.className = "event-link-unavailable";
+    note.textContent = "दैनिक पंचांग लिंक अनुपलब्ध (स्थान की ऊँचाई सत्यापित नहीं है)";
+    link.replaceWith(note);
+  }
 }
 
 async function show({events, unavailable}, selectedYear, location, version) {
