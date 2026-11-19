@@ -23,20 +23,6 @@
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
-      "date": "2029-09-01",
-      "dateLabel": "1 सितंबर",
-      "title": "अगस्त्य अर्घ्य",
-      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
-      "sourceName": "Drik Panchang — 2029 Agastya Arghya",
-      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2029",
-      "secondarySourceName": "Drik Panchang — 2029 Festival Calendar",
-      "secondarySourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=01%2F09%2F2029&lang=hi"
-    },
-    {
       "date": "2029-09-04",
       "dateLabel": "4 सितंबर",
       "title": "अजा एकादशी",
@@ -74,6 +60,18 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
+      "date": "2029-09-07",
+      "dateLabel": "7 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "पिथौरागढ़ में अगस्त्य तारे के उदय पर ऋषि अगस्त्य को अर्घ्य अर्पित किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
+      "sourceName": "Drik Panchang — पिथौरागढ़, अगस्त्य अर्घ्य 2029",
+      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2029&time-format=24plushour&lang=hi"
     },
     {
       "date": "2029-09-10",
