@@ -18,6 +18,7 @@ function shiftDate(isoDate, days) {
   return date.toISOString().slice(0, 10);
 }
 function asDate(value) {
+  if (value == null || value === "") return null;
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
 }
@@ -99,6 +100,16 @@ const report = events.map(event => {
 const chandraDarshan = report.find(row => row.date === "2029-08-11" && row.title === "चन्द्र दर्शन");
 if (!chandraDarshan || chandraDarshan.expectedTithi !== "श्रावण शुक्ल द्वितीया" || chandraDarshan.tithiAtMoonrise?.index !== 1) {
   throw new Error("2029 Chandra Darshan must remain on 11 August with local Shukla Dwitiya at moonrise");
+}
+// These adjacent sunrises distinguish a locally skipped Saptami from a skipped Shashthi.
+const autumnSunriseTithis = ["2029-10-12", "2029-10-13", "2029-10-14"].map(
+  date => report.find(row => row.date === date)?.tithiAtSunrise?.index
+);
+if (autumnSunriseTithis.join(",") !== "4,5,7") {
+  throw new Error("Recheck the Pithoragarh Sharadiya Navratri tithi boundaries");
+}
+if (report.some(row => row.moonrise && Math.abs(Date.parse(row.date) - Date.parse(row.moonrise)) > 2 * 86400000)) {
+  throw new Error("Missing or unrelated moonrise was reported as a local event");
 }
 const missing = report.filter(row => !row.sunrise || !row.sunset || !row.tithiAtSunrise);
 console.log("OHD_2029_PITHORAGARH_FESTIVAL_DATE_AUDIT=" + JSON.stringify({
