@@ -153,7 +153,12 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-08-24", /^नारळी पूर्णिमा$/));
   assert.ok(has("2029-08-27", /^कजरी तीज$/));
   assert.ok(has("2029-08-23", /^रक्षाबंधन$/));
-  assert.ok(has("2029-09-01", /^अगस्त्य अर्घ्य$/));
+  const arghya = JSON.parse(readFileSync(join(folder, "../agastya-arghya-pithoragarh.json"), "utf8"))
+    .years.find(row => row.year === 2029);
+  const cards = events.filter(event => event.title === "अगस्त्य अर्घ्य");
+  assert.deepEqual(cards.map(card => card.date), [arghya.arghyaDate]);
+  assert.equal(cards[0].dateLabel, "7 सितंबर");
+  assert.equal(cards[0].sourceUrl, arghya.source.url);
   assert.ok(has("2029-09-01", /^काली महाविद्या जयंती \/ मासिक कालाष्टमी$/));
   assert.ok(has("2029-09-13", /^ज्येष्ठा गौरी आवाहन$/));
   assert.ok(has("2029-09-14", /^ज्येष्ठा गौरी पूजन$/));
@@ -228,4 +233,12 @@ test("26 October keeps Karwa Chauth puja and Sankashti moonrise on their own car
   assert.equal(has("2029-10-26", /^करवा चौथ$/)?.muhurtaRule, "karwa-chauth-puja");
   assert.equal(has("2029-10-26", /^वक्रतुण्ड संकष्टी चतुर्थी$/)?.muhurtaRule,
     "sankashti-chaturthi-moonrise");
+});
+
+test("all twelve 2029 solar ingress dates have one named Sankranti card", () => {
+  const ingressDays = ["01-14", "02-12", "03-14", "04-14", "05-15", "06-15",
+    "07-16", "08-17", "09-17", "10-17", "11-16", "12-16"];
+  const cards = events.filter(event => /संक्रांति$/.test(event.title));
+  assert.deepEqual(cards.map(event => event.date), ingressDays.map(day => "2029-" + day));
+  assert.equal(has("2029-11-16", /^वृश्चिक संक्रांति$/).muhurtaRule, "sankranti-punya-kala");
 });

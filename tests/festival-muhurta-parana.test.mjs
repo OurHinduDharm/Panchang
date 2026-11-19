@@ -134,28 +134,69 @@ test("Pithoragarh Rama Ekadashi parana uses the real next-day Dwadashi and dayli
   const sunset = new Date(context.nextSunset);
   const daylight = sunset.getTime() - sunrise.getTime();
   assert.ok(daylight > 0);
-  if (result.time) {
-    assert.equal(result.time.toISOString(), sunrise.toISOString());
-    assert.match(result.note, /द्वादशी तिथि सूर्योदय से पहले समाप्त/);
-    return;
-  }
   assert.ok(result.start instanceof Date && result.end instanceof Date);
   assert.ok(result.end > result.start);
   assert.ok(result.start >= sunrise);
-  const dwadashi = context.tithis.find(item => {
-    const index = Number(item.index ?? item.number ?? item.value);
-    const start = new Date(item.startTime ?? item.start);
-    const end = new Date(item.endTime ?? item.end);
-    return [11, 26].includes(index) && end > new Date(sunrise.getTime() - 36 * 60 * 60 * 1000) &&
-      start < new Date(sunrise.getTime() + 36 * 60 * 60 * 1000);
-  });
-  assert.ok(dwadashi, "the actual next-day Dwadashi interval must be present");
-  assert.ok(result.end <= new Date(dwadashi.endTime ?? dwadashi.end));
+  assert.equal(context.nextTithi, 26);
+  assert.ok(result.end <= context.nextTithiEndTime);
   if (result.calculationStatus === "morning-window") {
     assert.ok(result.end <= new Date(sunrise.getTime() + daylight / 5));
   } else {
     assert.equal(result.calculationStatus, "afternoon-window");
     assert.ok(result.start >= new Date(sunrise.getTime() + daylight * 3 / 5));
+  }
+});
+
+test("each 2029 parana uses a complete Dwadashi, including the following January sunrise", async () => {
+  const observer = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset: 330, calendarType: "purnimanta" };
+  const fasts = [];
+  for (let month = 1; month <= 12; month++) {
+    const file = "../data/festivals/2029-" + String(month).padStart(2, "0") + ".json";
+    const catalog = JSON.parse(await readFile(new URL(file, import.meta.url), "utf8"));
+    fasts.push(...catalog.events.filter(event => event.muhurtaRule === "ekadashi-parana"));
+  }
+  assert.equal(fasts.length, 25);
+  for (const fast of fasts) {
+    const anchor = Date.parse(fast.date + "T06:30:00Z");
+    const [today, tomorrow, following] = [0, 1, 2].map(offset =>
+      getPanchangam(new Date(anchor + offset * 86400000), observer, options));
+    const context = getFestivalMuhurtaContext(today, tomorrow, new Date(anchor), observer, () => following);
+    const result = calculate(context);
+    assert.equal(result.status, "calculated", fast.date);
+    // An independent pair of transition bounds: sunrise tithi scalars extend
+    // beyond each daily table. Kshaya Dwadashi lies between Ekadashi and Trayodashi.
+    const sunriseDay = [tomorrow, following].find(day => [11, 26].includes(day.tithi));
+    const start = sunriseDay?.tithiStartTime ?? tomorrow.tithiEndTime;
+    const end = sunriseDay?.tithiEndTime ?? following.tithiStartTime;
+    assert.ok(end > start && end > tomorrow.sunrise, fast.date);
+    const quarter = (+start * 3 + +end) / 4;
+    assert.ok(result.start >= tomorrow.sunrise && +result.end <= +end + 1000, fast.date);
+    // Daily transition rows can round the beginning of a kshaya tithi up by a minute.
+    assert.ok(Math.abs(+result.hariVasaraEnd - quarter) <= 60000, fast.date);
+    assert.ok(+result.start >= quarter - 1000, fast.date);
+  }
+});
+
+test("December 2029 Shiva and Ganesha cards retain the portion of tithi inside the puja window", async () => {
+  const month = JSON.parse(await readFile(new URL("../data/festivals/2029-12.json", import.meta.url)));
+  const observer = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset: 330, calendarType: "purnimanta" };
+  for (const [date, title, tithi, expectedStart, expectedEnd] of [
+    ["2029-12-04", "मासिक शिवरात्रि", 28, "23:32", "23:46"],
+    ["2029-12-08", "कृच्छ्र चतुर्थी", 3, "12:12", "13:02"]
+  ]) {
+    const event = month.events.find(item => item.date === date && item.title === title);
+    const noon = new Date(date + "T06:30:00Z");
+    const p = getPanchangam(noon, observer, options);
+    const next = getPanchangam(new Date(+noon + 86400000), observer, options);
+    const result = getFestivalMuhurta(event, getFestivalMuhurtaContext(p, next, noon, observer));
+    assert.equal(result.status, "calculated", title);
+    const [window] = result.windows;
+    const localMinute = stamp => new Date(+stamp + 330 * 60000).toISOString().slice(11, 16);
+    assert.deepEqual([localMinute(window.start), localMinute(window.end)], [expectedStart, expectedEnd]);
+    assert.ok(p.tithis.some(row => row.index === tithi &&
+      row.startTime <= window.start && row.endTime >= window.end));
   }
 });
 

@@ -549,7 +549,11 @@
       if(!usableRules.length) return;
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
-      var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location,function(){
+        var followingDate=new Date(values.date);
+        followingDate.setUTCDate(followingDate.getUTCDate()+2);
+        return values.panchangLib.getPanchangam(followingDate,values.observer,{timezoneOffset:330,calendarType:"purnimanta"});
+      });
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="sankranti-punya-kala";})){
         context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
         context.sankrantiRashiIndex=getSankrantiRashiIndex(item);

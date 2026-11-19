@@ -225,17 +225,24 @@ function collectTithiIntervals(...lists) {
     for (const item of list) {
       if (!item || typeof item !== "object") continue;
       const index = tithiIndex(item);
+      if ((item.startTime ?? item.start) == null || (item.endTime ?? item.end) == null) continue;
       const start = validDate(item.startTime ?? item.start);
       const end = validDate(item.endTime ?? item.end);
       if (index === null || !start || !end || end <= start) continue;
       if (index !== 11 && index !== 26) continue; // Shukla/Krishna Dwadashi
-      const key = index + "|" + start.getTime() + "|" + end.getTime();
-      if (!intervals.some(existing => existing.key === key)) {
-        intervals.push({ key, index, start, end });
-      }
+      intervals.push({ index, start, end });
     }
   }
-  return intervals.sort((a, b) => a.start - b.start);
+  const merged = [];
+  for (const interval of intervals.sort((a, b) => a.start - b.start)) {
+    const previous = merged[merged.length - 1];
+    if (previous && previous.index === interval.index && interval.start <= previous.end) {
+      previous.end = laterDate(previous.end, interval.end);
+    } else {
+      merged.push(interval);
+    }
+  }
+  return merged;
 }
 
 export function isNavratriMahashtamiEvent(event) {
@@ -585,7 +592,24 @@ const rules = {
   "ekadashi-parana"(context) {
     const sunrise = validDate(context.nextSunrise);
     const sunset = validDate(context.nextSunset);
-    const tithis = collectTithiIntervals(context.tithis);
+    const sunriseIntervals = [
+      { index: context.tithi, start: context.tithiStartTime, end: context.tithiEndTime },
+      { index: context.nextTithi, start: context.nextTithiStartTime, end: context.nextTithiEndTime }
+    ];
+    // A late-starting Dwadashi can continue beyond the second daily array.
+    // Its full bounds are then supplied by the following sunrise's Panchang.
+    const finalIndex = tithiIndex(context.lastParanaDayTithi);
+    if ([11, 26].includes(finalIndex) && Number(context.nextTithi) !== finalIndex &&
+        context.nextTithi != null) {
+      const following = context.getFollowingPanchang?.();
+      if (!following || following.tithi !== finalIndex ||
+          !following.tithiStartTime || !following.tithiEndTime) {
+        return { label: "एकादशी पारण काल", status: "unavailable",
+          message: "पारण के लिए द्वादशी की पूरी अवधि उपलब्ध नहीं है।" };
+      }
+      sunriseIntervals.push({ index: following.tithi, start: following.tithiStartTime, end: following.tithiEndTime });
+    }
+    const tithis = collectTithiIntervals(context.tithis, sunriseIntervals);
     if (!sunrise || !sunset || sunset <= sunrise || !tithis.length) {
       return {
         label: "एकादशी पारण काल",
@@ -1860,7 +1884,7 @@ export function formatFestivalMuhurtaTime(value, timeZone = "Asia/Kolkata") {
   }).format(date);
 }
 
-export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location) {
+export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location, getFollowingPanchang) {
   return {
     date: validDate(date),
     sunrise: panchang && panchang.sunrise,
@@ -1879,6 +1903,8 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
       ...(panchang && Array.isArray(panchang.tithis) ? panchang.tithis : []),
       ...(nextPanchang && Array.isArray(nextPanchang.tithis) ? nextPanchang.tithis : [])
     ],
+    lastParanaDayTithi: nextPanchang?.tithis?.at(-1),
+    getFollowingPanchang,
     nextTithi: nextPanchang && nextPanchang.tithi,
     nextTithiStartTime: nextPanchang && nextPanchang.tithiStartTime,
     nextTithiEndTime: nextPanchang && nextPanchang.tithiEndTime,
