@@ -10,10 +10,25 @@ const retry = document.getElementById("city-retry");
 const cache = new Map();
 let activeWorker;
 
-const clock = new Intl.DateTimeFormat("hi-IN", {
-  timeZone: "Asia/Kolkata", day: "numeric", month: "long", hour: "2-digit",
-  minute: "2-digit", hourCycle: "h23"
+const eventDate = new Intl.DateTimeFormat("hi-IN", {
+  timeZone: "Asia/Kolkata", day: "numeric", month: "long"
 });
+const eventTime = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+});
+function hindiTime(hours, minutes) {
+  const period = hours < 4 ? "रात्रि" : hours < 12 ? "प्रातः" : hours < 16 ? "दोपहर" : hours < 20 ? "सायं" : "रात्रि";
+  return period + " " + String(hours % 12 || 12).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + " बजे";
+}
+function formatClock(value) {
+  const match = /^(\\d{1,2}):(\\d{2})$/.exec(value);
+  return match ? hindiTime(Number(match[1]), Number(match[2])) : value;
+}
+function formatEvent(utcMilliseconds) {
+  const instant = new Date(Math.round(utcMilliseconds / 60000) * 60000);
+  const [hours, minutes] = eventTime.format(instant).split(":").map(Number);
+  return eventDate.format(instant) + " · " + hindiTime(hours, minutes);
+}
 const dateOnly = new Intl.DateTimeFormat("hi-IN", {
   timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric"
 });
@@ -45,10 +60,10 @@ async function show({events, unavailable}, selectedYear, presetId) {
       title.textContent = "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")";
       card.append(title);
       for (const line of [
-        "अर्घ्य का समय — " + agastya.arghyaStart + " से " + agastya.arghyaEnd,
+        "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd),
         "अवधि — " + agastya.duration,
-        "अगस्त्य तारा उदय — " + agastya.taraRise,
-        "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + agastya.taraSet
+        "अगस्त्य तारा उदय — " + formatClock(agastya.taraRise),
+        "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet)
       ]) {
         const p = document.createElement("p");
         p.textContent = line;
@@ -59,7 +74,7 @@ async function show({events, unavailable}, selectedYear, presetId) {
     }
 
     const lines = events.filter(e => e.body === body).map(e =>
-      (e.event === "Udaya" ? "उदय" : "अस्त") + " — " + clock.format(Math.round(e.utcMilliseconds / 60000) * 60000));
+      (e.event === "Udaya" ? "उदय" : "अस्त") + " — " + formatEvent(e.utcMilliseconds));
     if (body === "Star1") {
       for (const event of unavailable) lines.push((event === "Udaya" ? "उदय" : "अस्त") + " — गणना अनुपलब्ध");
     }
