@@ -1,3 +1,4 @@
+import { buildPanchangEventUrl } from "./panchang-event-links.mjs";
 import { searchTaraPlaces } from "./annual-tara-place-search.mjs";
 import { locations } from "./annual-tara-locations.mjs";
 import { taraObserverKey } from "./research/tara-location-observer.mjs";
@@ -53,7 +54,7 @@ function formatDate(value) {
   return dateOnly.format(new Date(value + "T12:00:00+05:30"));
 }
 
-async function show({events, unavailable}, selectedYear, presetId, version, timeZone) {
+async function show({events, unavailable}, selectedYear, presetId, version, timeZone, location) {
   const agastyaData = presetId === "pithoragarh-project-target"
     ? await agastyaDataPromise
     : null;
@@ -97,6 +98,18 @@ async function show({events, unavailable}, selectedYear, presetId, version, time
       p.textContent = line;
       card.append(p);
     }
+    if (timeZone === "Asia/Kolkata") {
+      for (const event of events.filter(e => e.body === body)) {
+        const date = new Intl.DateTimeFormat("en-CA", {
+          timeZone, year:"numeric", month:"2-digit", day:"2-digit"
+        }).format(new Date(event.utcMilliseconds));
+        const link = document.createElement("a");
+        link.href = buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", date, location);
+        link.textContent = (event.event === "Udaya" ? "उदय" : "अस्त") + " का पंचांग देखें";
+        link.className = "event-link";
+        card.append(link);
+      }
+    }
     cards.append(card);
   }
 }
@@ -117,7 +130,7 @@ function calculate(location, selectedYear, presetId, timeZone = "Asia/Kolkata") 
     const {observer} = resolveTaraLocation(location);
     const key = taraObserverKey(observer) + "/" + selectedYear;
     if (cache.has(key)) {
-      show(cache.get(key), selectedYear, presetId, version, timeZone);
+      show(cache.get(key), selectedYear, presetId, version, timeZone, location);
       return;
     }
     const worker = new Worker(new URL("./annual-tara-city-worker.mjs", import.meta.url), {type: "module"});
@@ -127,7 +140,7 @@ function calculate(location, selectedYear, presetId, timeZone = "Asia/Kolkata") 
       worker.terminate();
       activeWorker = undefined;
       cache.set(key, data);
-      show(data, selectedYear, presetId, version, timeZone);
+      show(data, selectedYear, presetId, version, timeZone, location);
     };
     worker.onerror = () => {
       if (worker !== activeWorker) return;
