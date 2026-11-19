@@ -23,8 +23,8 @@ export function readPanchangLinkLocation(params) {
   const [lat, lon, elevation] = numbers.map(Number);
   if (Math.abs(lat) > 90 || Math.abs(lon) > 180 || elevation < -500 || elevation > 9000) return null;
   const [name, city, state] = ["place", "city", "state"].map(key => (params.get(key) || "").trim());
-  if (!name || [name, city, state].some(s => s.length > 200 || /[\u0000-\u001f\u007f]/u.test(s))) return null;
-  return {name, city: city || name.split(",")[0], state, lat, lon, elevation, elevationStatus: "provided"};
+  if ([name, city, state].some(s => s.length > 200 || /[\u0000-\u001f\u007f]/u.test(s))) return null;
+  return {name: name || `निर्देशांक ${lat}, ${lon}`, city: city || (name ? name.split(",")[0] : ""), state, lat, lon, elevation, elevationStatus: "provided"};
 }
 
 export function validPanchangDate(date) {
@@ -39,7 +39,7 @@ export function buildPanchangEventUrl(baseUrl, date, location) {
   clearPanchangLinkLocation(url);
   url.searchParams.set("date", date);
   for (const [key, value] of Object.entries({lat: location.latitude, lon: location.longitude,
-    elevation: location.elevation, place: location.name})) {
+    elevation: location.elevation})) {
     if (value != null && value !== "") url.searchParams.set(key, value);
   }
   if (!readPanchangLinkLocation(url.searchParams)) throw new Error("Invalid event observer");
