@@ -24,9 +24,17 @@ delta = asin(clamp(sin(delta), -1, 1))
 
 इसमें चन्द्र की ecliptic latitude `beta` को शून्य मानना उचित नहीं है। सूर्य/चन्द्र के apparent positions, obliquity और timescale एक ही परिभाषा में हों। Topocentric और geocentric क्रान्ति का मिश्रण न करें।
 
-## अभी अनिर्णीत: महापात की घटना-शर्त
+## शास्त्रीय घटना-वर्ग और कार्यान्वित शोध गणना
 
-किसी भी `delta_sun ± delta_moon = 0` समीकरण को **शास्त्रीय महापात** के रूप में चुनने से पहले पाताधिकार के मूल श्लोक/टीका से व्यतीपात तथा वैधृति के लिए अलग दिशा, sign और interval नियम की पुष्टि चाहिए। इस चरण में दोनों संभावित residuals केवल diagnostic हैं, final event definitions नहीं।
+सूर्यसिद्धान्त अध्याय 11 श्लोक 1–2 के अनुसार वैधृति में सूर्य-चन्द्र एक अयन में और उनके भोगों का योग चक्र (360°) के आस-पास होता है; व्यतीपात में दोनों विपरीत अयन में तथा योग अर्धचक्र (180°) के आस-पास होता है। दोनों के लिए क्रान्तिसाम्य आवश्यक है। यहाँ 'आस-पास' वास्तविक चन्द्र विक्षेप के कारण **संख्यात्मक candidate-search** का वर्णन है; 180° या 360° को क्रान्तिसाम्य के साथ जबरन दूसरी सटीक समानता न बनाएं।
+
+स्रोत: [सूर्यसिद्धान्त, पाताधिकार 11.1–2](https://karmasakha.com/texts/surya-siddhanta#adhyaya-11); [Siddhāntasundara व्याख्या](https://namami.gov.in/sites/default/files/Prakshika/Prakashika59%20Siddhanta%20Sundara.pdf).
+
+`mahapata-math.mjs` में `abs(delta_sun)-abs(delta_moon)` के sign-changing roots खोजे जाते हैं; same/opp. ayana और क्रान्ति-गोल के आधार पर अलग class दी जाती है। `astronomy-engine-adapter.mjs` आधुनिक apparent geocentric tropical ECT Sun/Moon coordinates और date का true obliquity देता है; किसी location की topocentric parallax यहाँ नहीं मिलाई जाती।
+
+यह **प्रारम्भिक candidate calculation** है, न कि प्रकाशित महापात का सिद्ध समय। पात-स्थिति, पुनरावृत्ति/द्विपात, ग्रहबिम्ब और शास्त्रीय काल-संशोधन की जाँच शेष है। विशेषकर स्पर्श, मध्य और मोक्ष की गणना इस मॉड्यूल में **नहीं** है। तीन घंटे की scan resolution के बीच tangential/multiple roots छूट सकते हैं; केवल sign-changing roots की पुष्टि होती है। स्वतंत्र पंचांग से तारीख तथा समय अलग-अलग मिलान होने तक परिणाम production में न दें।
+
+स्थानीय परीक्षण: `npm install --no-save astronomy-engine@2.1.19`, फिर `node --test tests/paatadhikar-*.test.mjs`।
 
 ## परीक्षण-क्रम
 
