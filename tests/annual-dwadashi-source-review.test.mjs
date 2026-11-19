@@ -630,3 +630,45 @@ test("2030 Vamana Dwadashi is not mislabeled Vamana Jayanti when Madhyahna Shrav
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+test("both 2030 Rupa morning rites follow a distinct Pausha Krishna Ekadashi fast", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url)));
+  const records = review.tithis.filter(record => record.month === "पौष" && record.paksha === "कृष्ण");
+  assert.equal(records.length, 2);
+  const observer = new panchangPackage.Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset: 330, calendarType: "purnimanta" };
+  for (const record of records) {
+    const rite = record.observanceDateReviews.find(item => item.observanceId === "rupa");
+    const at = Date.parse(rite.selectedDate + "T06:30:00Z");
+    const puja = panchangPackage.getPanchangam(new Date(at), observer, options);
+    const fast = panchangPackage.getPanchangam(new Date(at - 86400000), observer, options);
+    assert.equal(fast.tithi, 25);
+    assert.equal(puja.tithi, 26);
+    assert.equal(puja.masa.name, "Pausha");
+    assert.ok(puja.tithiStartTime < puja.sunrise && puja.sunrise < puja.tithiEndTime);
+    assert.equal(rite.vrataDate, new Date(at - 86400000).toISOString().slice(0, 10));
+    const file = "../data/festivals/" + rite.selectedDate.slice(0, 7) + ".json";
+    const month = JSON.parse(await readFile(new URL(file, import.meta.url)));
+    const cards = month.events.filter(event => event.title.startsWith("रूप-व्रत"));
+    assert.deepEqual(cards.map(card => card.date), [rite.selectedDate]);
+    assert.equal(cards[0].sourceUrl, rite.sourceUrl);
+  }
+});
+
+test("2030 Govatsa and Krishna Padmanabha have separate local evidence", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url)));
+  const record = review.tithis.find(item => item.id === "kartika-krishna");
+  const [govatsa, padmanabha] = record.observanceDateReviews;
+  assert.equal(govatsa.dateRole, "pradosha-worship");
+  assert.equal(padmanabha.followingMorningDate, "2030-10-24");
+  const observer = new panchangPackage.Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset: 330, calendarType: "purnimanta" };
+  const evening = panchangPackage.getPanchangam(new Date("2030-10-23T06:30:00Z"), observer, options);
+  const morning = panchangPackage.getPanchangam(new Date("2030-10-24T06:30:00Z"), observer, options);
+  assert.equal(morning.tithi, 26);
+  assert.ok(morning.tithiStartTime < evening.sunset && morning.sunrise < morning.tithiEndTime);
+  const month = JSON.parse(await readFile(new URL("../data/festivals/2030-10.json", import.meta.url)));
+  for (const rite of [govatsa, padmanabha]) {
+    assert.ok(month.events.some(event => event.title === rite.name && event.date === rite.selectedDate));
+  }
+});
