@@ -33,8 +33,13 @@ try {
   // A city-search result can use the same worker without a preset id.
   const located = await page.evaluate(() => new Promise((resolve, reject) => {
     const worker = new Worker("./annual-tara-city-worker.mjs", {type: "module"});
-    worker.onerror = event => { worker.terminate(); reject(new Error(event.message)); };
-    worker.onmessage = ({data}) => { worker.terminate(); resolve(data); };
+    const timeout = setTimeout(() => {
+      worker.terminate();
+      reject(new Error("Coordinate-only annual forecast timed out"));
+    }, 30_000);
+    const finish = () => { clearTimeout(timeout); worker.terminate(); };
+    worker.onerror = event => { finish(); reject(new Error(event.message)); };
+    worker.onmessage = ({data}) => { finish(); resolve(data); };
     worker.postMessage({location: {name: "वाराणसी", lat: 25.3176, lon: 82.9739,
       elevation: 81, elevationStatus: "provided"}, year: 2027});
   }));
