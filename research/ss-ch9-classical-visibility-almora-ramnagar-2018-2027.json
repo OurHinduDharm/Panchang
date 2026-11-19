@@ -1,0 +1,1074 @@
+{
+  "schemaVersion": 1,
+  "title": "Surya Siddhanta Chapter 9 classical Udaya/Asta and photometric comparison — Almora",
+  "createdAt": "2026-11-16",
+  "status": "user-transcribed research benchmark; not an approved public ephemeris",
+  "location": {
+    "name": "अल्मोड़ा",
+    "latitudeDMS": "29°37′ N",
+    "longitudeDMS": "79°40′ E",
+    "latitudeDecimal": 29.616666666666667,
+    "longitudeDecimal": 79.66666666666667,
+    "elevationMeters": 1571,
+    "elevationSource": "TKS interface observer profile, copied by user and supplied 2026-11-16",
+    "timezone": "Asia/Kolkata",
+    "timezoneLabel": "IST"
+  },
+  "method": {
+    "classical": "Surya Siddhanta, Chapter 9; user interface labels SS 9.17 · nakṣatra-udaya/asta",
+    "classicalThresholdsDegrees": {
+      "Venus": 10,
+      "Jupiter": 11,
+      "Agastya": 13
+    },
+    "scientificComparison": "Photometric event times supplied alongside classical results; exact model/version and observer settings not yet documented.",
+    "definitions": "Keep Shastriya SS Ch.9 events separate from scientific photometric visibility. Do not merge event definitions or use photometric times as corrections to SS times.",
+    "timeFormat": "IST, 24-hour clock after normalizing AM/PM from the supplied display."
+  },
+  "events": [
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2019-07-14T12:38:05",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2019-09-10T11:15:37",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2019-12-14T15:16:37",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2020-01-09T01:09:02",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2020-05-30T08:15:08",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2020-06-09T10:22:44",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2021-02-16T11:47:02",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2021-05-11T01:34:35",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2021-01-17T01:05:49",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2021-02-10T20:45:06",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2022-02-21T01:42:51",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2022-03-19T16:35:45",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2022-09-20T22:44:29",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2022-12-03T12:27:19",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2023-03-21T23:37:43",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2023-05-02T06:57:37",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2023-08-05T14:01:12",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2023-08-19T10:48:54",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2024-04-30T04:31:23",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2024-06-03T22:15:07",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2024-04-06T06:58:45",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2024-07-04T01:01:58",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2025-06-09T14:20:46",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2025-07-08T02:44:55",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2025-11-18T10:22:40",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2026-02-12T18:58:56",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2026-07-17T08:18:16",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2026-08-11T04:11:17",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2026-10-12T11:37:08",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2026-10-31T11:24:37",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2027-08-20T00:11:20",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2027-09-12T23:53:58",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2027-07-12T04:53:13",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2027-09-08T03:23:01",
+      "method": "SS9",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2019-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2019-08-22",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2020-05-16",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2020-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2021-05-16",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2021-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2022-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2022-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2023-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2023-08-22",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2024-05-16",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2024-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2025-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2025-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2026-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2026-09-14",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2027-05-17",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2027-08-22",
+      "method": "SS9-date-only",
+      "timezone": "Asia/Kolkata"
+    }
+  ],
+  "photometricComparisons": [
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2019-07-21T05:10:11",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2019-09-11T18:37:44",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2020-05-29T19:42:40",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2020-06-11T04:35:58",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2021-02-12T06:38:58",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2021-04-16T18:54:21",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2022-01-04T18:04:16",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2022-09-28T05:49:15",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2022-11-22T17:30:52",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2023-07-31T19:43:11",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2023-08-19T05:14:40",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2024-04-27T05:19:01",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2024-06-27T19:32:06",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2025-12-15T06:42:45",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2026-02-04T18:08:17",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2026-10-09T18:20:35",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2026-10-29T05:54:48",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Asta",
+      "dateTime": "2027-07-19T05:09:04",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Venus",
+      "event": "Udaya",
+      "dateTime": "2027-09-11T18:37:40",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2019-12-18T17:42:15",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2020-01-08T06:37:20",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2021-01-21T18:01:21",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2021-02-10T06:33:56",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2022-02-22T18:40:17",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2022-03-20T05:55:53",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2023-04-01T19:00:04",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2023-04-26T05:14:49",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2024-05-08T19:21:16",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2024-06-04T04:36:02",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2025-06-13T19:40:56",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2025-07-03T04:58:31",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2026-07-17T19:39:21",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2026-08-06T05:16:42",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Asta",
+      "dateTime": "2027-08-17T19:19:10",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Jupiter",
+      "event": "Udaya",
+      "dateTime": "2027-09-09T05:29:49",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2019-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2019-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2020-04-12",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2020-09-18",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2021-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2021-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2022-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2022-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2023-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2023-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2024-04-12",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2024-09-18",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2025-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2025-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2026-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2026-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Asta",
+      "dateTime": "2027-04-13",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "body": "Agastya",
+      "event": "Udaya",
+      "dateTime": "2027-09-19",
+      "method": "photometric",
+      "timezone": "Asia/Kolkata"
+    }
+  ],
+  "stateSnapshots": [
+    {
+      "cycle": "2018-19",
+      "venus": {
+        "K": 51.798,
+        "C": 10,
+        "fromSun": 46.6,
+        "udayaBegan": "2018-11-02T16:48:44",
+        "astaNext": "2019-07-14T12:38:05",
+        "udayaNext": "2019-09-10T11:15:37"
+      },
+      "jupiter": {
+        "K": 44.925,
+        "C": 11,
+        "fromSun": 40.8,
+        "udayaBegan": "2018-12-10T01:59:24",
+        "astaNext": "2019-12-14T15:16:37",
+        "udayaNext": "2020-01-09T01:09:02"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.3,
+        "asta": "2019-05-17",
+        "udaya": "2019-08-22"
+      }
+    },
+    {
+      "cycle": "2019-20",
+      "venus": {
+        "K": 43.7,
+        "C": 10,
+        "fromSun": 37.5,
+        "udayaBegan": "2019-10-03T05:26:56",
+        "astaNext": "2020-05-30T08:15:08",
+        "udayaNext": "2020-06-09T10:22:44"
+      },
+      "jupiter": {
+        "K": 17.588,
+        "C": 11,
+        "fromSun": 15.2,
+        "udayaBegan": "2020-01-09T01:09:02",
+        "astaNext": "2021-01-17T01:05:49",
+        "udayaNext": "2021-02-10T20:45:06"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.5,
+        "asta": "2020-05-16",
+        "udaya": "2020-09-14"
+      }
+    },
+    {
+      "cycle": "2020-21",
+      "venus": {
+        "K": 19.396,
+        "C": 10,
+        "fromSun": 16.8,
+        "udayaBegan": "2020-06-09T10:22:44",
+        "astaNext": "2021-02-16T11:47:02",
+        "udayaNext": "2021-05-11T01:34:35"
+      },
+      "jupiter": {
+        "K": 11.279,
+        "C": 11,
+        "fromSun": 9.8,
+        "udayaBegan": "2020-01-09T01:09:02",
+        "astaNext": "2021-01-17T01:05:49",
+        "udayaNext": "2021-02-10T20:45:06"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 177.8,
+        "asta": "2021-05-16",
+        "udaya": "2021-09-14"
+      }
+    },
+    {
+      "cycle": "2021-22",
+      "venus": {
+        "K": 17.57,
+        "C": 8,
+        "fromSun": 11.2,
+        "udayaBegan": "2022-01-11T07:52:16",
+        "astaNext": "2022-09-20T22:44:29",
+        "udayaNext": "2022-12-03T12:27:19"
+      },
+      "jupiter": {
+        "K": 43.736,
+        "C": 11,
+        "fromSun": 37.4,
+        "udayaBegan": "2021-02-10T20:45:06",
+        "astaNext": "2022-02-21T01:42:51",
+        "udayaNext": "2022-03-19T16:35:45"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.1,
+        "asta": "2022-05-17",
+        "udaya": "2022-09-14"
+      }
+    },
+    {
+      "cycle": "2022-23",
+      "venus": {
+        "K": 23.811,
+        "C": 10,
+        "fromSun": 20.7,
+        "udayaBegan": "2022-12-03T12:27:19",
+        "astaNext": "2023-08-05T14:01:12",
+        "udayaNext": "2023-08-19T10:48:54"
+      },
+      "jupiter": {
+        "K": 76.711,
+        "C": 11,
+        "fromSun": 67.3,
+        "udayaBegan": "2022-03-19T16:35:45",
+        "astaNext": "2023-03-21T23:37:43",
+        "udayaNext": "2023-05-02T06:57:37"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.3,
+        "asta": "2023-05-17",
+        "udaya": "2023-08-22"
+      }
+    },
+    {
+      "cycle": "2023-24",
+      "venus": {
+        "K": 38.889,
+        "C": 10,
+        "fromSun": 34.4,
+        "udayaBegan": "2023-08-19T10:48:54",
+        "astaNext": "2024-04-06T06:58:45",
+        "udayaNext": "2024-07-04T01:01:58"
+      },
+      "jupiter": {
+        "K": 100.582,
+        "C": 11,
+        "fromSun": 100.2,
+        "udayaBegan": "2023-05-02T06:57:37",
+        "astaNext": "2024-04-30T04:31:23",
+        "udayaNext": "2024-06-03T22:15:07"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.6,
+        "asta": "2024-05-16",
+        "udaya": "2024-09-14"
+      }
+    },
+    {
+      "cycle": "2024-25",
+      "venus": {
+        "K": 55.027,
+        "C": 10,
+        "fromSun": 47,
+        "udayaBegan": "2024-07-04T01:01:58",
+        "astaNext": "2025-11-18T10:22:40",
+        "udayaNext": "2026-02-12T18:58:56"
+      },
+      "jupiter": {
+        "K": 131.031,
+        "C": 11,
+        "fromSun": 135.3,
+        "udayaBegan": "2024-06-03T22:15:07",
+        "astaNext": "2025-06-09T14:20:46",
+        "udayaNext": "2025-07-08T02:44:55"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 177.8,
+        "asta": "2025-05-17",
+        "udaya": "2025-09-14"
+      }
+    },
+    {
+      "cycle": "2025-26",
+      "venus": {
+        "K": 2.257,
+        "C": 10,
+        "fromSun": 2.3,
+        "astaBegan": "2025-11-18T10:22:40",
+        "udayaNext": "2026-02-12T18:58:56",
+        "astaNext": "2026-10-12T11:37:08"
+      },
+      "jupiter": {
+        "K": 172.067,
+        "C": 11,
+        "fromSun": 172.9,
+        "udayaBegan": "2025-07-08T02:44:55",
+        "astaNext": "2026-07-17T08:18:16",
+        "udayaNext": "2026-08-11T04:11:17"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.1,
+        "asta": "2026-05-17",
+        "udaya": "2026-09-14"
+      }
+    },
+    {
+      "cycle": "2026-27",
+      "venus": {
+        "K": 51.624,
+        "C": 10,
+        "fromSun": 46.4,
+        "udayaBegan": "2026-10-31T11:24:37",
+        "astaNext": "2027-07-12T04:53:13",
+        "udayaNext": "2027-09-08T03:23:01"
+      },
+      "jupiter": {
+        "K": 145.532,
+        "C": 11,
+        "fromSun": 150.5,
+        "udayaBegan": "2026-08-11T04:11:17",
+        "astaNext": "2027-08-20T00:11:20",
+        "udayaNext": "2027-09-12T23:53:58"
+      },
+      "agastya": {
+        "C": 13,
+        "fromSun": 178.4,
+        "asta": "2027-05-17",
+        "udaya": "2027-08-22"
+      }
+    }
+  ],
+  "caveats": [
+    "This is a faithful structured transcription of the values supplied in chat; no independent recomputation has been performed.",
+    "The 2020-21 Jupiter snapshot repeats the 2019-20 transition dates exactly in the supplied material; retained as supplied pending source screenshot/page check.",
+    "The Venus 2024-25 snapshot spans a long interval from 2024-07-04 to 2025-11-18; retained as supplied, not interpreted as a normal single synodic cycle.",
+    "The 2025-26 Venus state starts with Asta on 2025-11-18, then Udaya 2026-02-12, followed by Asta 2026-10-12.",
+    "Agastya classical results are date-only in the supplied text; no time is inferred.",
+    "Ramnagar 2023 has one Shastriya SS Ch.9 sample only; it is kept separate and is not treated as Almora output.",
+    "Source attribution corrected 2026-11-16: the SS Ch.9 and scientific photometric values in this file came from the TKS Ephemeris interface URL recorded under provenance, not from Ganesh Martand or Tara Prasad printed Panchangs.",
+    "TKS's own documentation distinguishes Shastriya K/C status from Ptolemaic arcus-visionis and Schaefer photometric physical-visibility estimates. Keep the supplied scientific photometric column labelled as TKS model output; do not call it an observed naked-eye event."
+  ],
+  "ramnagar2023Sample": {
+    "location": {
+      "name": "रामनगर",
+      "latitudeDMS": "29°30′ N",
+      "longitudeDMS": "79°08′ E",
+      "latitudeDecimal": 29.5,
+      "longitudeDecimal": 79.13333333333334,
+      "elevationMeters": 272,
+      "timezone": "Asia/Kolkata",
+      "elevationSource": "TKS interface observer profile, copied by user and supplied 2026-11-16"
+    },
+    "events": [
+      {
+        "body": "Venus",
+        "event": "Asta",
+        "dateTime": "2023-08-05T14:07:37",
+        "method": "SS9",
+        "K": 23.805,
+        "C": 10,
+        "fromSun": 20.7
+      },
+      {
+        "body": "Venus",
+        "event": "Udaya",
+        "dateTime": "2023-08-19T10:39:25",
+        "method": "SS9"
+      },
+      {
+        "body": "Jupiter",
+        "event": "Asta",
+        "dateTime": "2023-03-22T00:08:04",
+        "method": "SS9",
+        "K": 76.677,
+        "C": 11,
+        "fromSun": 67.3
+      },
+      {
+        "body": "Jupiter",
+        "event": "Udaya",
+        "dateTime": "2023-05-02T06:36:47",
+        "method": "SS9"
+      },
+      {
+        "body": "Agastya",
+        "event": "Asta",
+        "dateTime": "2023-05-17",
+        "method": "SS9-date-only"
+      },
+      {
+        "body": "Agastya",
+        "event": "Udaya",
+        "dateTime": "2023-08-22",
+        "method": "SS9-date-only"
+      }
+    ]
+  },
+  "provenance": {
+    "sourceName": "TKS Ephemeris / TKS Pañcāṅga — Udaya-asta (heliacal & eclipses) panel",
+    "sourceUrl": "https://tksephemeris.com/tks-panchanga?pane=hel",
+    "relatedDocumentation": [
+      "https://tksephemeris.com/tks-ephemeris",
+      "https://tksephemeris.com/tks-planets",
+      "https://tksephemeris.com/tks-udaya-asta"
+    ],
+    "suppliedByUserOn": "2026-11-16",
+    "attribution": "The SS Ch.9 K/C values, event dates/times, scientific photometric comparison values, and Almora/Ramnagar observer coordinates/elevations in this file were copied by the user from the TKS interface and supplied in chat. They are TKS outputs, not transcriptions from Ganesh Martand or Tara Prasad printed Panchangs.",
+    "methodClarification": "TKS documents K = lagnāntara-asu ÷ 60, with K depending on place and planetary ecliptic latitude; classical udaya is K > C. Venus uses 8°/10° branches; Jupiter 11°; Agastya 13° in the supplied display. TKS distinguishes this Shastriya state from physical visibility estimates based on Ptolemaic arcus visionis and the Schaefer photometric model.",
+    "engineBasis": "TKS documentation describes apparent ecliptic-of-date positions in its modern ephemeris pipeline for the visibility lab, while the Siddhanta path in its Panchanga is a separate Surya Siddhanta mean-to-true longitude model. Exact pipeline used for the supplied panel snapshot should be retained as TKS UI output until endpoint/engine version is pinned.",
+    "citationNote": "Web documentation consulted 2026-11-16; the user-provided numeric output remains a transcription, not independently reproduced."
+  }
+}

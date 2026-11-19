@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "title": "Printed Panchang Guru, Shukra and Agastya source observations",
-  "createdAt": "2026-11-15",
+  "createdAt": "2026-11-16",
   "purpose": "Preserve user-transcribed paper Panchang observations as independent source benchmarks. Do not treat these as calculated results or merge them with Drik/PAC event models until notation, observer coordinates and event definitions are verified.",
   "transcriptionPolicy": {
     "preserveOriginalDateAndTime": true,
@@ -10,7 +10,8 @@
     "direction": "पूर्व/पश्चिम is preserved exactly as printed/reported; do not infer rise/set azimuth or morning/evening star semantics without the original table legend.",
     "timezone": "Indian Standard Time (Asia/Kolkata), as reported by the user.",
     "eventDefinition": "The printed labels अस्त, उदय and अगस्त्योदय are preserved. Do not equate them automatically with geometric horizon crossing, naked-eye heliacal visibility, Drik Tara Asta boundaries or Surya Siddhanta K/C events.",
-    "missingValues": "Keep null or omit; never infer."
+    "missingValues": "Keep null or omit; never infer.",
+    "locationMetadataNote": "Almora elevation 1571 m and Ramnagar elevation 272 m were supplied by the user on 2026-11-16. These elevations belong to the named printed-Panchang source centers; they must not be copied to the separately transcribed Drik location profiles without confirmation."
   },
   "sources": [
     {
@@ -23,7 +24,12 @@
       "geocentricLatitude": "29°27′",
       "timezone": "Asia/Kolkata",
       "timezoneLabel": "भारतीय स्टैण्डर्ड टाइम",
-      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified."
+      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified.",
+      "elevationMeters": 1571,
+      "decimalLatitude": 29.616666666666667,
+      "decimalLongitude": 79.66666666666667,
+      "coordinateNotation": "29°37′ N, 79°40′ E",
+      "elevationStatus": "User supplied; added 2026-11-16."
     },
     {
       "id": "tara-prasad",
@@ -35,7 +41,12 @@
       "geocentricLatitude": "29°20′",
       "timezone": "Asia/Kolkata",
       "timezoneLabel": "भा. स्टै. टा.",
-      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified."
+      "coordinatesStatus": "User-transcribed printed Panchang metadata; coordinate datum/precision and exact center point not independently verified.",
+      "elevationMeters": 272,
+      "decimalLatitude": 29.5,
+      "decimalLongitude": 79.13333333333334,
+      "coordinateNotation": "29°30′ N, 79°08′ E",
+      "elevationStatus": "User supplied; added 2026-11-16."
     },
     {
       "id": "drikpanchang-almora",
