@@ -81,7 +81,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 ## Pithoragarh annual date selection
 
-The planetary scan starts on January 1 of the evaluation year. The Canopus scan uses the seasonal window learned from Almora. Both use Almora calibration through 2025 and the project observer at 1650 m. Published Pithoragarh dates enter the matching step after the scans.
+The planetary scan includes the preceding December 31 to detect transitions on January 1. Only events in the requested IST year are returned. The Canopus scan uses the seasonal window learned from Almora. Both use Almora calibration through 2025 and the project observer at 1650 m. Published Pithoragarh dates enter the matching step after the scans.
 
 | Year | Guru and Shukra exact dates | Agastya exact dates | Total within one day | Extra or missing predictions |
 |---|---:|---:|---:|---:|
@@ -89,3 +89,20 @@ The planetary scan starts on January 1 of the evaluation year. The Canopus scan 
 | 2027 | 4/4 | 0/2 | 6/6 | 0 |
 
 Both years give April 16 for Agastya setting and September 6 for rising. The city-labelled reference gives April 15 and September 7. The comparison uses the explicit published star rise/set clocks. Arghya duration and visibility to the naked eye require separate evidence.
+
+## Offline city forecasts, 2026–2030
+
+With the workflow's pinned `astronomy-engine@2.1.19`, run `node scripts/predict-annual-tara.mjs` for Pithoragarh (project observer, 1650 m), Almora (Drik observer, 1600 m) and Ramnagar (Drik observer, 364 m). For one coordinate and year, run e.g. `node scripts/predict-annual-tara.mjs 2028 29.5828 80.2182 1650`. Both commands emit IST event timestamps. The CI artifact includes `city-forecasts.json`. City altitude must be known to this offline calculation. When integrating legacy Panchang selections, treat their placeholder zero as unknown. A confirmed sea-level location can pass `elevationStatus: "provided"`.
+
+The forecast fits the existing rules to Almora observations through 2025. It does not read Pithoragarh's target ledgers. The ordinary back-test now calls the same annual function. At the Pithoragarh project observer, all nine planetary dates from 2026–2027 still match the captured local records.
+
+| Pithoragarh boundary | Calculated date (IST) | Recorded date (city label) | Difference |
+|---|---|---|---:|
+| Jupiter Udaya, 2024 | 7 Jun | 6 Jun | +1 day |
+| Venus Asta, Dec 2025 | 12 Dec | 11 Dec | +1 day |
+| Canopus Asta, 2028 | 15 Apr | 14 Apr | +1 day |
+| Canopus Udaya, 2028 | 5 Sep | 7 Sep | −2 days |
+
+At the project observer's morning rise on 6 Jun 2024 the Sun was at −8.988°, above the fitted Jupiter Udaya threshold of −9.247°. On 7 Jun it was at −9.527°. For Venus on 11 Dec 2025 it was at −5.824°, just below the fitted Asta threshold of −5.808°. On 12 Dec it was at −5.563°. These diagnostics explain the date selected by the model. The offsets do not identify the reference provider's rule.
+
+The 2028 Canopus comparison uses the saved star rise/set fields and the civil dates for clocks beyond 24:00. The 2028 Guru/Shukra forecasts still require a comparable independent city reference. For Almora 2030 the fitted Canopus setting criterion returns no crossing. All 91 daily samples exist, but even the minimum residual is 0.005° above the fitted boundary. The output records the missing event under `canopusIssues`. No date was filled in.

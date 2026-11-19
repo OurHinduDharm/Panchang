@@ -22,22 +22,30 @@ export function createTaraAstronomyContext({ location, Observer, year }) {
  * The caller owns persistence and supplies the already-selected location.
  */
 export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year, options = {}) {
-  if (!selectedLocation) throw new Error("Select a Panchang location before calculating Tara events");
-  // The existing Panchang stores lat/lon, not latitude/longitude.
-  const latitude = selectedLocation.lat ?? selectedLocation.latitude;
-  const longitude = selectedLocation.lon ?? selectedLocation.longitude;
+  if (!selectedLocation || typeof selectedLocation !== "object" || Array.isArray(selectedLocation)) throw new Error("Select a Panchang location before calculating Tara events");
+  const latitude = numericField(selectedLocation.lat ?? selectedLocation.latitude);
+  const longitude = numericField(selectedLocation.lon ?? selectedLocation.longitude);
   const rawElevation = selectedLocation.elevation;
-  const hasElevation = rawElevation !== null && rawElevation !== undefined && rawElevation !== "";
-  if (!hasElevation && options.allowSeaLevelApproximation !== true) {
+  const elevation = numericField(rawElevation);
+  // Historical app.js selections store a placeholder zero for missing altitudes.
+  const legacyZero = ("lat" in selectedLocation || "lon" in selectedLocation) &&
+    elevation === 0 && selectedLocation.elevationStatus !== "provided";
+  const missing = rawElevation == null || (typeof rawElevation === "string" && !rawElevation.trim()) ||
+    selectedLocation.elevationStatus === "unknown" || legacyZero;
+  if (missing && options.allowSeaLevelApproximation !== true) {
     throw new Error("Elevation unavailable; explicitly opt in to sea-level approximation");
   }
-  const elevation = hasElevation ? Number(rawElevation) : 0;
   const context = createTaraAstronomyContext({
-    location: {latitude: Number(latitude), longitude: Number(longitude), elevation, name:selectedLocation.name},
+    location: { latitude, longitude, elevation: missing ? 0 : elevation, name: selectedLocation.name },
     Observer, year
   });
   return Object.freeze({
     ...context,
-    elevationApproximate: !hasElevation
+    elevationApproximate: missing
   });
+}
+
+function numericField(value) {
+  if (typeof value === "number") return value;
+  return typeof value === "string" && value.trim() ? Number(value) : NaN;
 }

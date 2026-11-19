@@ -38,3 +38,20 @@ test("sea-level approximation must be explicit and labeled", () => {
   assert.equal(ctx.astronomyObserver.height,0);
   assert.equal(ctx.elevationApproximate,true);
 });
+
+test("legacy city altitude zero is unverified and must be distinguished from measured sea level", () => {
+  const city = {lat: 20, lon: 80, elevation: 0};
+  assert.throws(() => createTaraContextFromPanchangLocation(city, FakeObserver, 2028), /Elevation unavailable/);
+  const known = createTaraContextFromPanchangLocation({...city, elevationStatus: "provided"}, FakeObserver, 2028);
+  assert.equal(known.astronomyObserver.height, 0);
+  assert.equal(known.elevationApproximate, false);
+});
+
+test("location adapter accepts stored numeric strings and rejects coercion to zero", () => {
+  const city = {lat: "29.5828", lon: "80.2182", elevation: "1650"};
+  const ctx = createTaraContextFromPanchangLocation(city, FakeObserver, 2028);
+  assert.equal(ctx.astronomyObserver.latitude, 29.5828);
+  for (const input of [{lat: " "}, {lon: ""}, {lat: false}, {lon: null}, {elevation: true}, {elevation: " "}]) {
+    assert.throws(() => createTaraContextFromPanchangLocation({...city, ...input}, FakeObserver, 2028));
+  }
+});
