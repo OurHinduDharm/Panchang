@@ -120,3 +120,29 @@ test("browser coefficients match the fixed Almora training set", async () => {
   const fit = fitAnnualTaraProfiles(rows.map(measureTaraObservation), source, 2025);
   assert.deepEqual(profiles, fit.thresholdProfiles.map(({trainingSourceIds, ...profile}) => profile));
 });
+
+test("Delhi Canopus finds unique night crossings without input from the Delhi reference", async () => {
+  const {profiles} = await import("../research/annual-tara-profiles.mjs");
+  const {events, canopusIssues} = predictAnnualTara({lat: 28.6139, lon: 77.209, elevation: 216}, 2027, profiles);
+  const stars = events.filter(e => e.body === "Star1");
+  assert.deepEqual(canopusIssues, []);
+  assert.deepEqual(stars.map(e => e.event), ["Asta", "Udaya"]);
+  // Published city reference: Drik Panchang Agastya Arghya, New Delhi, 2027.
+  // Setting is within two minutes. Rising retains a measured two-day discrepancy.
+  const targetDates = ["2027-04-18T19:55:00+05:30", "2027-09-04T04:59:00+05:30"];
+  const tolerancesMs = [2 * 60_000, 2 * 86_400_000];
+  stars.forEach((e, i) => {
+    assert.equal(e.model, "solar-altitude-median");
+    assert.ok(e.thresholdSunAltitudeDeg + e.afterResidualDeg < 0);
+    assert.ok(Math.abs(e.utcMilliseconds - Date.parse(targetDates[i])) <= tolerancesMs[i]);
+  });
+});
+
+test("no Canopus event is inferred where the star never reaches the horizon", async () => {
+  const {profiles} = await import("../research/annual-tara-profiles.mjs");
+  const {events, canopusIssues} = predictAnnualTara({lat: 60, lon: 20, elevation: 10}, 2027,
+    profiles.filter(p => p.key.startsWith("Star1|")));
+  assert.equal(events.length, 0);
+  assert.equal(canopusIssues.length, 2);
+  assert.ok(canopusIssues.every(i => i.reason === "no-consecutive-horizon-samples"));
+});

@@ -17,6 +17,10 @@ export function planetMotion({Ecliptic, GeoVector}, body, instantUtcMs) {
   return { motionState: dailyLongitudeMotionDeg < 0 ? "retrograde" : "direct", dailyLongitudeMotionDeg };
 }
 
+function isNightCrossing(event) {
+  return event.thresholdSunAltitudeDeg + event.afterResidualDeg < 0;
+}
+
 // The scan receives fitted profiles and a location. There is no target-date input.
 export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
   const {Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon} = engine;
@@ -54,14 +58,27 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
   for (const profile of profiles.filter(p => p.key.startsWith("Star1|"))) {
     const [, branch, event] = profile.key.split("|");
     const startDay = profile.centerDayOfYear - 1 - Math.floor(profile.seasonalWindowDays / 2);
-    const scan = scanDrikStarAzimuthTransitions({
+    const starOptions = {
       SearchAltitude, Equator, Horizon, body: "Star1", observer, branch, event,
       startLocalDayUtc: startLocalDayUtc + startDay * DAY_MS, days: profile.seasonalWindowDays,
       slope: profile.slope, intercept: profile.intercept, residualThresholdDeg: profile.residualThresholdDeg,
       DefineStar, starCoordinatesAt: canopusCoordinatesAt
-    });
-    predictions.push(...scan.events);
-    starScans.push({ profile, samples: scan.samples });
+    };
+    let scan = scanDrikStarAzimuthTransitions(starOptions);
+    let nightEvents = scan.events.filter(isNightCrossing);
+    let model = "azimuth-linear";
+    // The Almora azimuth fit can extrapolate to daylight at other latitudes.
+    // With no night crossing, try the measured median for this event and branch.
+    if (!nightEvents.length && profile.medianSunAltitudeDeg < 0 &&
+        Number.isFinite(profile.medianSunAltitudeDeg)) {
+      scan = scanDrikStarAzimuthTransitions({
+        ...starOptions, slope: 0, intercept: profile.medianSunAltitudeDeg, residualThresholdDeg: 0
+      });
+      nightEvents = scan.events.filter(isNightCrossing);
+      model = "solar-altitude-median";
+    }
+    predictions.push(...nightEvents.map(entry => ({...entry, model})));
+    starScans.push({ profile, model, samples: scan.samples });
   }
   const events = predictions.filter(e => e.utcMilliseconds >= startLocalDayUtc && e.utcMilliseconds < endLocalDayUtc)
     .sort((a, b) => a.utcMilliseconds - b.utcMilliseconds);
