@@ -27,14 +27,23 @@ test("real ephemeris supplies geocentric ecliptic-of-date Sun/Moon and obliquity
   assert.ok(Number.isFinite(d.moonDeclinationDeg));
 });
 
-test("real 2026 research candidates have finite declination roots and no public status", () => {
+test("full-year 2026 research candidates agree at 3-hour and 10-minute scan steps", () => {
   const ephemeris = createAstronomyEngineMahapataEphemeris(AstronomyModule);
   const startUtcMs = Date.parse("2026-01-01T00:00:00Z");
-  const endUtcMs = Date.parse("2026-04-01T00:00:00Z");
+  const endUtcMs = Date.parse("2027-01-01T00:00:00Z");
   const events = scanMahapataCandidates({
     ephemeris, startUtcMs, endUtcMs, stepMs: 3 * 3_600_000
   });
-  assert.ok(events.length > 0, "expected at least one research candidate in 90 days");
+  const finerScan = scanMahapataCandidates({
+    ephemeris, startUtcMs, endUtcMs, stepMs: 10 * 60_000
+  });
+  assert.equal(events.filter(event => event.eventClass === "Vyatipata").length, 14);
+  assert.equal(events.filter(event => event.eventClass === "Vaidhriti").length, 13);
+  assert.equal(events.length, finerScan.length);
+  for (const [index, event] of finerScan.entries()) {
+    assert.equal(events[index].eventClass, event.eventClass);
+    assert.ok(Math.abs(events[index].utcMilliseconds - event.utcMilliseconds) <= 2);
+  }
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
     assert.ok(event.utcMilliseconds >= startUtcMs && event.utcMilliseconds <= endUtcMs);
