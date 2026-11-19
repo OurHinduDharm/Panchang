@@ -52,15 +52,16 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 ## Data safeguards
 
-- The research file preserves 95 observations: the original 89 records plus 6 separately transcribed Drik Pithoragarh Venus events. The current engine evaluates all 95; 87 are usable and 8 remain rejected/insufficient.
+- The research file preserves 95 observations: the original 89 records plus 6 separately transcribed Drik Pithoragarh Venus events. The back-test also reads eight Jupiter boundaries from the direct Pithoragarh source ledger, for 103 evaluated observations, 95 usable and 8 rejected or insufficient.
 - Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
 - Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
 - Drik Almora and Ramnagar now use the exact provider-published observer profiles: Almora 29.59713°N, 79.65911°E, 1600 m; Ramnagar 29.3925°N, 79.1283°E, 364 m. These were taken from Drik's own location-detail pages, not substituted from the printed Panchang centres.
 - Pithoragarh has two intentionally separate profiles: Drik default city (29.58349°N, 80.20947°E, 1586 m) and project observer (29.5828°N, 80.2182°E, 1650 m). On 17 Nov 2026, the engine returned 06:35:14 sunrise and 17:12:38 sunset at the Drik observer, versus provider-published 06:35 / 17:13 IST (residuals +0.25 / −0.37 min). The project observer differs from the Drik observer by only −0.02 / −0.05 min on that date. This validates the observer setup only.
 - Ganesh Martand and Tara Prasad retain their own printed calculation-centre coordinates. Their source elevations are still unconfirmed and currently remain 0 m only as a provisional diagnostic assumption.
-- A cross-location transfer test applies thresholds trained only on 27 accepted Drik Almora events through 2025 to six separately transcribed Drik Pithoragarh Venus events. With Drik's own Pithoragarh city observer, 5/6 dates are exact and 6/6 are within one day; median / maximum clock residual is 0.57 / 2.42 min. The same six events, evaluated at the project's distinct Pithoragarh target observer, also give 5/6 exact and 6/6 within one day; median / maximum clock residual is 0.61 / 2.40 min. None of the six Pithoragarh observations is used to fit the thresholds. The sole one-day mismatch is the 11 Dec 2025 Venus Asta, predicted on 12 Dec, with a clock residual of about 2.4 min. This is a promising location-transfer check for Venus only—not validation of Pithoragarh Jupiter, Agastya or all years.
+- A cross-location transfer test applies thresholds trained only on 27 accepted Drik Almora events through 2025 to six separately transcribed Drik Pithoragarh Venus events. With Drik's own Pithoragarh city observer, 5/6 dates are exact and 6/6 are within one day; median / maximum clock residual is 0.57 / 2.42 min. The same six events, evaluated at the project's distinct Pithoragarh target observer, also give 5/6 exact and 6/6 within one day; median / maximum clock residual is 0.61 / 2.40 min. None of the six Pithoragarh observations is used to fit the thresholds. The sole one-day mismatch is the 11 Dec 2025 Venus Asta, predicted on 12 Dec, with a clock residual of about 2.4 min. These six results describe the tested Venus events.
 - Agastya now uses Canopus (α Car) astrometry pinned to SIMBAD's Hipparcos New Reduction entry / van Leeuwen 2007 (2007A&A...474..653V): ICRS J2000 RA 06h 23m 57.10988s, Dec −52° 41′ 44.3810″; μα cosδ = +19.93 mas/yr, μδ = +23.24 mas/yr, parallax 10.55 mas. The date-specific position is propagated from J2000 before each source event and each daily geometric-star scan. Distance for the engine's small parallax correction is derived from the catalog parallax. Source: https://simbad.cds.unistra.fr/simbad/sim-id?Ident=Canopus.
+- The separate Jupiter transfer uses eight Drik Pithoragarh boundaries from 2024–2027. The Almora-only profiles give 6/8 exact dates at the Drik default observer and 7/8 at the project observer; both give 8/8 within one day. At the project observer, the June 6, 2024 end is predicted June 7, with a 2.82-minute clock-of-day residual. The direct pages establish the city label; their internal coordinates are undisclosed.
 
 ## Performance plan
 
@@ -72,7 +73,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 ## Acceptance gates
 
 1. Freeze all model profiles, then validate against a genuinely unseen year (for example 2028); do not retune thresholds on that holdout.
-2. Expand Pithoragarh's independent source set to Jupiter and Agastya, and add more Venus years before treating the six-event transfer as stable.
+2. Validate the Pithoragarh Agastya model against independently captured rise/set events, and extend the Venus and Jupiter comparisons to additional years.
 3. Complete independent Ganesh Martand / Tara Prasad date cross-checks using their separate observer centres; their source elevations remain unknown.
 4. Revalidate the proper-motion-propagated Canopus model over additional held-out years and independent Agastya locations.
 5. Preserve separate city observer profiles and one public method/label; never use city fallbacks.

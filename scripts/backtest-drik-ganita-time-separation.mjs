@@ -22,7 +22,30 @@ const dataset = JSON.parse(fs.readFileSync(
   new URL("../research/drik-ganita-asta-udaya-benchmarks-2019-2027.json", import.meta.url),
   "utf8"
 ));
-const observationIds = dataset.observations.map(item => item.id);
+const pithoragarhLedger = JSON.parse(fs.readFileSync(
+  new URL("../data/drik-pithoragarh-asta-udaya-2024-2027.json", import.meta.url),
+  "utf8"
+));
+const jupiterReferences = pithoragarhLedger.windows.filter(window =>
+  window.planet === "Jupiter" && window.acceptanceEligible &&
+  window.sourceCityId === "1259503" && window.comparisonLevel === "city-label-only" &&
+  window.sourceStatus === "direct-page-captured-browser-verified"
+).flatMap(window => [
+  ["astaStart", "अस्त प्रारम्भ"],
+  ["astaEnd", "अस्त समाप्त"]
+].map(([boundary, event]) => {
+  const local = window.boundaries[boundary].normalizedLocalDateTime;
+  return {
+    id: window.id + "-" + boundary,
+    sourceId: "drikpanchang-pithoragarh",
+    planet: "गुरु",
+    event,
+    date: local.slice(0, 10),
+    timeRaw: local.slice(11, 16)
+  };
+}));
+const observations = [...dataset.observations, ...jupiterReferences];
+const observationIds = observations.map(item => item.id);
 if (new Set(observationIds).size !== observationIds.length) {
   throw new Error("Benchmark observation IDs must be unique");
 }
@@ -887,7 +910,7 @@ function buildAgastyaSeparationDiagnostics(rows) {
 }
 
 
-function buildPithoragarhTransferValidation(rows) {
+function buildPithoragarhTransferValidation(rows, body) {
   const trainingSourceId = "drikpanchang-almora";
   const targetSourceId = "drikpanchang-pithoragarh";
   const trainingThroughYear = 2025;
@@ -921,13 +944,8 @@ function buildPithoragarhTransferValidation(rows) {
   const thresholdProfiles = new Map([...trainingGroups.entries()].map(([key, values]) => [
     key, quantile(values, profileQuantiles.get(key))
   ]));
-  const targetRows = rows.filter(row =>
-    row.sourceId === targetSourceId &&
-    row.body !== "Star1" &&
-    row.available &&
-    row.bodyEventResidualMinutes <= 15 &&
-    row.horizonAtComputedBodyEvent
-  );
+  const targetRows = rows.filter(row => row.sourceId === targetSourceId && row.body === body);
+  const rejectedReferences = [];
   if (!trainingRows.length || !targetRows.length) {
     throw new Error("Pithoragarh transfer check requires independent Almora training and Pithoragarh target observations");
   }
@@ -942,6 +960,11 @@ function buildPithoragarhTransferValidation(rows) {
   const results = [];
   const missingThresholds = [];
   for (const row of targetRows) {
+    if (!row.available || row.bodyEventResidualMinutes > 15 || !row.horizonAtComputedBodyEvent) {
+      rejectedReferences.push({ sourceId: row.id, body: row.body,
+        reason: "No horizon crossing within 15 minutes of source time" });
+      continue;
+    }
     const state = row.horizonAtComputedBodyEvent.motionState;
     const key = [row.body, row.branch, row.eventType, state].join("|");
     const threshold = thresholdProfiles.get(key);
@@ -1053,6 +1076,7 @@ function buildPithoragarhTransferValidation(rows) {
       elevation: projectLocation.elevation
     },
     targetObservations: targetRows.length,
+    rejectedReferences,
     matchedEvents: matched.length,
     exactDate: offsets.filter(value => value === 0).length,
     withinOneDay: offsets.filter(value => value <= 1).length,
@@ -1072,7 +1096,7 @@ function buildPithoragarhTransferValidation(rows) {
 
 
 const rows = [];
-for (const observation of dataset.observations) {
+for (const observation of observations) {
   const location = LOCATIONS[observation.sourceId];
   if (!location) continue;
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
@@ -1113,7 +1137,7 @@ const report = {
   method: "local apparent rise/set event with calibrated topocentric Sun-altitude threshold",
   horizon: "planets: standard apparent rise/set; Canopus: geometric 0-degree centre crossings; no photometric or naked-eye brightness model",
   benchmarkCounts: {
-    observations: dataset.observations.length,
+    observations: observations.length,
     evaluated: rows.length,
     available: eligible.length,
     rejected: rows.length - eligible.length
@@ -1157,7 +1181,13 @@ const report = {
   agastyaResidualQuantileDiagnostics: buildAgastyaResidualQuantileDiagnostics(rows),
   planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
   pithoragarhObserverSanity: pithoragarhSunriseSunsetSanity(),
-  pithoragarhCrossLocationTransfer: buildPithoragarhTransferValidation(rows),
+  pithoragarhCrossLocationTransfer: buildPithoragarhTransferValidation(rows, "Venus"),
+  pithoragarhJupiterCrossLocationTransfer: {
+    ...buildPithoragarhTransferValidation(rows, "Jupiter"),
+    referenceLevel: "city-label-only",
+    referenceDataset: "data/drik-pithoragarh-asta-udaya-2024-2027.json",
+    referenceIds: jupiterReferences.map(reference => reference.id)
+  },
   observations: rows,
   notes: [
     "This is a Drik-Ganita calibration hypothesis, not a final published calculation.",
