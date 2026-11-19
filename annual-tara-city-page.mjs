@@ -133,7 +133,7 @@ function calculateSelection(sync = true) {
     retry.hidden = false;
   }
   // The astronomical engine requires measured elevation. Never silently use sea level.
-  if (!Number.isFinite(location.elevation)) {
+  if (!Number.isFinite(location.elevation) || location.elevationStatus === "unknown") {
     status.textContent = "इस स्थान की ऊँचाई उपलब्ध नहीं है; उदय-अस्त गणना नहीं की जा सकती। कृपया दूसरा स्थान चुनें।";
     cards.setAttribute("aria-busy", "false");
     retry.hidden = true;
