@@ -653,7 +653,6 @@
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
-          if(result.note){var sharedNote=document.createElement("div");sharedNote.className="muhurta-window-note";sharedNote.textContent=result.note;detail.appendChild(sharedNote);}
         }else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
           result.times.forEach(function(timeItem){
             var row=document.createElement("div");row.className="muhurta-window";
