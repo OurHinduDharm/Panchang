@@ -10,7 +10,7 @@ export function readPanchangLinkLocation(params) {
   return {name,lat,lon,elevation,city:name};
 }
 export function buildPanchangEventUrl(baseUrl,date,location) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)||Number.isNaN(Date.parse(date+"T12:00:00Z"))) throw new Error("Invalid event date");
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date) || Number.isNaN(Date.parse(date+"T12:00:00Z"))) throw new Error("Invalid event date");
   const url=new URL(baseUrl);
   url.searchParams.set("date",date);
   url.searchParams.set("lat",String(location.latitude));
