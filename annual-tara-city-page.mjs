@@ -1,3 +1,4 @@
+import { isProjectPithoragarh, resolvePithoragarhSearch } from "./annual-tara-pithoragarh-identity.mjs";
 import { buildPanchangEventUrl } from "./panchang-event-links.mjs";
 import { searchTaraPlaces } from "./annual-tara-place-search.mjs";
 import { locations } from "./annual-tara-locations.mjs";
@@ -55,7 +56,7 @@ function formatDate(value) {
 }
 
 async function show({events, unavailable}, selectedYear, presetId, version, timeZone, location) {
-  const agastyaData = presetId === "pithoragarh-project-target"
+  const agastyaData = isProjectPithoragarh(location)
     ? await agastyaDataPromise
     : null;
   if (version !== selectionVersion) return;
@@ -224,7 +225,8 @@ searchButton.onclick = () => { clearTimeout(searchDelay); runSearch(); };
 searchResults.onchange = () => {
   const index = searchResults.value;
   if (index === "") return;
-  chosenPlace = searchMatches[Number(index)];
+  const candidate = searchMatches[Number(index)];
+  chosenPlace = resolvePithoragarhSearch(candidate) ?? candidate;
   if (chosenPlace) calculateSelection();
 };
 city.onchange = () => {
