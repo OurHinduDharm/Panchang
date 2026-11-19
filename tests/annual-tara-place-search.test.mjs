@@ -39,3 +39,9 @@ test("short inputs skip loading and unknown cities produce no match", async () =
   assert.deepEqual(await searchTaraPlaces("x"), []);
   assert.deepEqual(matchPlaces(index, "no-such-Indian-place"), []);
 });
+
+test("GeoNames heights are identified as estimates, not measured elevations", () => {
+  const [place] = matchPlaces(index, "Pithoragarh");
+  assert.equal(place.elevationStatus, "estimated");
+  assert.match(place.elevationSource, /GeoNames/);
+});
