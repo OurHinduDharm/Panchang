@@ -3108,7 +3108,12 @@ const defaultPithoragarh = {
 };
 
 try{
-  const linkedLocation = readPanchangLinkLocation(new URLSearchParams(window.location.search));
+  const locationParams = new URLSearchParams(window.location.search);
+  const linkedLocation = readPanchangLinkLocation(locationParams);
+  const hasLinkedLocation = ["lat","lon","elevation","place"].some(key => locationParams.has(key));
+  if (hasLinkedLocation && !linkedLocation) {
+    throw new Error("Invalid linked Panchang location");
+  }
   const saved = linkedLocation ? null : localStorage.getItem(
     "ohdPanchangLocation"
   );
@@ -3126,9 +3131,11 @@ try{
     selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
   }
 }catch(e){
-  selectedLocation = defaultPithoragarh;
+  const params = new URLSearchParams(window.location.search);
+  const invalidLink = ["lat","lon","elevation","place"].some(key => params.has(key));
+  selectedLocation = invalidLink ? null : defaultPithoragarh;
   selectedCity.style.display = "block";
-  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
+  selectedCity.textContent = invalidLink ? "स्थान की जानकारी सही नहीं है। कृपया स्थान चुनें।" : "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
 /* =========================================================
    FORMAT FUNCTIONS
