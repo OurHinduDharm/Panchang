@@ -21,7 +21,23 @@ export function createTaraAstronomyContext({ location, Observer, year }) {
  * Consume the existing location selection; no city lookup or silent fallback.
  * The caller owns persistence and supplies the already-selected location.
  */
-export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year) {
+export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year, options = {}) {
   if (!selectedLocation) throw new Error("Select a Panchang location before calculating Tara events");
-  return createTaraAstronomyContext({location:selectedLocation,Observer,year});
+  // The existing Panchang stores lat/lon, not latitude/longitude.
+  const latitude = selectedLocation.lat ?? selectedLocation.latitude;
+  const longitude = selectedLocation.lon ?? selectedLocation.longitude;
+  const rawElevation = selectedLocation.elevation;
+  const hasElevation = rawElevation !== null && rawElevation !== undefined && rawElevation !== "";
+  if (!hasElevation && options.allowSeaLevelApproximation !== true) {
+    throw new Error("Elevation unavailable; explicitly opt in to sea-level approximation");
+  }
+  const elevation = hasElevation ? Number(rawElevation) : 0;
+  const context = createTaraAstronomyContext({
+    location: {latitude: Number(latitude), longitude: Number(longitude), elevation, name:selectedLocation.name},
+    Observer, year
+  });
+  return Object.freeze({
+    ...context,
+    elevationApproximate: !hasElevation
+  });
 }
