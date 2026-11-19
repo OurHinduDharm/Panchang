@@ -22,6 +22,12 @@ export function createTaraAstronomyContext({ location, Observer, year }) {
  * The caller owns persistence and supplies the already-selected location.
  */
 export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year, options = {}) {
+  const {observer, elevationApproximate} = resolveTaraLocation(selectedLocation, options);
+  const context = createTaraAstronomyContext({ location: observer, Observer, year });
+  return Object.freeze({...context, elevationApproximate});
+}
+
+export function resolveTaraLocation(selectedLocation, options = {}) {
   if (!selectedLocation || typeof selectedLocation !== "object" || Array.isArray(selectedLocation)) throw new Error("Select a Panchang location before calculating Tara events");
   const latitude = numericField(selectedLocation.lat ?? selectedLocation.latitude);
   const longitude = numericField(selectedLocation.lon ?? selectedLocation.longitude);
@@ -35,14 +41,10 @@ export function createTaraContextFromPanchangLocation(selectedLocation, Observer
   if (missing && options.allowSeaLevelApproximation !== true) {
     throw new Error("Elevation unavailable; explicitly opt in to sea-level approximation");
   }
-  const context = createTaraAstronomyContext({
-    location: { latitude, longitude, elevation: missing ? 0 : elevation, name: selectedLocation.name },
-    Observer, year
+  const observer = requireTaraElevation({
+    latitude, longitude, elevation: missing ? 0 : elevation, name: selectedLocation.name
   });
-  return Object.freeze({
-    ...context,
-    elevationApproximate: missing
-  });
+  return {observer, elevationApproximate: missing};
 }
 
 function numericField(value) {

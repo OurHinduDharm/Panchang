@@ -1,6 +1,8 @@
 import { locations } from "./annual-tara-locations.mjs";
 import { taraObserverKey } from "./research/tara-location-observer.mjs";
 
+import { resolveTaraLocation } from "./research/tara-astronomy-context.mjs";
+
 const city = document.getElementById("city");
 const year = document.getElementById("forecast-year");
 const cards = document.getElementById("city-events");
@@ -44,14 +46,15 @@ function calculate(location, selectedYear, presetId) {
   cards.replaceChildren();
   retry.hidden = true;
   records.hidden = presetId !== "pithoragarh-project-target";
-  const key = taraObserverKey(location) + "/" + selectedYear;
-  if (cache.has(key)) return show(cache.get(key));
   status.textContent = "गणना हो रही है…";
   function failed() {
     status.textContent = "गणना लोड नहीं हो पाई।";
     retry.hidden = false;
   }
   try {
+    const {observer} = resolveTaraLocation(location);
+    const key = taraObserverKey(observer) + "/" + selectedYear;
+    if (cache.has(key)) return show(cache.get(key));
     const worker = new Worker(new URL("./annual-tara-city-worker.mjs", import.meta.url), {type: "module"});
     activeWorker = worker;
     worker.onmessage = ({data}) => {
@@ -67,7 +70,7 @@ function calculate(location, selectedYear, presetId) {
       activeWorker = undefined;
       failed();
     };
-    worker.postMessage({location, city: presetId, year: selectedYear});
+    worker.postMessage({location: observer, city: presetId, year: selectedYear});
   } catch {
     failed();
   }
