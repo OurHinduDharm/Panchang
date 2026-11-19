@@ -32,3 +32,11 @@ test("missing elevation remains unknown even when parser supplied a numeric fall
   const restored = restoreSavedElevationStatus(parsed, {lat: 29, lon: 80});
   assert.equal(restored.elevationStatus, "unknown");
 });
+
+test("an estimated zero-meter height keeps its estimate provenance", () => {
+  const restored = restoreSavedElevationStatus({...parsed, elevation: 0}, {
+    lat: 0, lon: 0, elevation: 0, elevationStatus: "estimated"
+  });
+  assert.equal(restored.elevation, 0);
+  assert.equal(restored.elevationStatus, "estimated");
+});
