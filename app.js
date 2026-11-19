@@ -3075,6 +3075,11 @@ function selectCity(place){
     city: city
   };
 
+  // A new manual selection supersedes any observer encoded in an incoming event link.
+  const currentUrl = new URL(window.location.href);
+  for (const key of ["lat", "lon", "elevation", "place"]) currentUrl.searchParams.delete(key);
+  window.history.replaceState({}, "", currentUrl.pathname + currentUrl.search + currentUrl.hash);
+
   cityInput.value =
     place.name ||
     place.display_name;
