@@ -17,7 +17,30 @@
       "duration": "01 घंटा 08 मिनट",
       "taraRise": "04:41",
       "taraSetDate": "2024-04-14",
-      "taraSet": "19:46"
+      "taraSet": "19:46",
+      "source": {
+        "provider": "Drik Panchang",
+        "pageType": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-14T04:12:06.534Z",
+        "location": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "status": "source-page-identity-and-arghya-fields-captured",
+        "captureRunId": 43555382341,
+        "captureMethod": "Playwright Chromium; HTTP 200; rendered title and body independently confirmed Pithoragarh, Agastya and requested year",
+        "httpStatus": 200,
+        "cityConfirmed": true,
+        "eventConfirmed": true,
+        "requestedYearConfirmed": true,
+        "raw": {
+          "arghyaDate": "अगस्त्य अर्घ्य शनिवार, सितम्बर 7, 2024 को",
+          "arghyaWindow": "अगस्त्य अर्घ्य समय - सितम्बर 06 को 28:41+ बजे से 05:50",
+          "duration": "अवधि - 01 घण्टा 08 मिनट्स",
+          "taraRise": "अगस्त्य तारा उदय क्षण - सितम्बर 06 को 28:41+ बजे",
+          "taraSet": "अगस्त्य तारा अस्त क्षण - अप्रैल 14 को 19:46 बजे"
+        }
+      }
     },
     {
       "year": 2025,
@@ -28,7 +51,30 @@
       "duration": "01 घंटा 07 मिनट",
       "taraRise": "04:43",
       "taraSetDate": "2025-04-15",
-      "taraSet": "19:44"
+      "taraSet": "19:44",
+      "source": {
+        "provider": "Drik Panchang",
+        "pageType": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-14T04:12:07.868Z",
+        "location": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "status": "source-page-identity-and-arghya-fields-captured",
+        "captureRunId": 43555382341,
+        "captureMethod": "Playwright Chromium; HTTP 200; rendered title and body independently confirmed Pithoragarh, Agastya and requested year",
+        "httpStatus": 200,
+        "cityConfirmed": true,
+        "eventConfirmed": true,
+        "requestedYearConfirmed": true,
+        "raw": {
+          "arghyaDate": "अगस्त्य अर्घ्य रविवार, सितम्बर 7, 2025 को",
+          "arghyaWindow": "अगस्त्य अर्घ्य समय - सितम्बर 06 को 28:43+ बजे से 05:50",
+          "duration": "अवधि - 01 घण्टा 07 मिनट्स",
+          "taraRise": "अगस्त्य तारा उदय क्षण - सितम्बर 06 को 28:43+ बजे",
+          "taraSet": "अगस्त्य तारा अस्त क्षण - अप्रैल 15 को 19:44 बजे"
+        }
+      }
     },
     {
       "year": 2026,
@@ -39,7 +85,30 @@
       "duration": "01 घंटा 05 मिनट",
       "taraRise": "04:44",
       "taraSetDate": "2026-04-15",
-      "taraSet": "19:44"
+      "taraSet": "19:44",
+      "source": {
+        "provider": "Drik Panchang",
+        "pageType": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-14T04:12:08.848Z",
+        "location": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "status": "source-page-identity-and-arghya-fields-captured",
+        "captureRunId": 43555382341,
+        "captureMethod": "Playwright Chromium; HTTP 200; rendered title and body independently confirmed Pithoragarh, Agastya and requested year",
+        "httpStatus": 200,
+        "cityConfirmed": true,
+        "eventConfirmed": true,
+        "requestedYearConfirmed": true,
+        "raw": {
+          "arghyaDate": "अगस्त्य अर्घ्य सोमवार, सितम्बर 7, 2026 को",
+          "arghyaWindow": "अगस्त्य अर्घ्य समय - सितम्बर 06 को 28:44+ बजे से 05:49",
+          "duration": "अवधि - 01 घण्टा 05 मिनट्स",
+          "taraRise": "अगस्त्य तारा उदय क्षण - सितम्बर 06 को 28:44+ बजे",
+          "taraSet": "अगस्त्य तारा अस्त क्षण - अप्रैल 15 को 19:44 बजे"
+        }
+      }
     },
     {
       "year": 2027,
@@ -50,7 +119,30 @@
       "duration": "01 घंटा 05 मिनट",
       "taraRise": "04:45",
       "taraSetDate": "2027-04-15",
-      "taraSet": "19:45"
+      "taraSet": "19:45",
+      "source": {
+        "provider": "Drik Panchang",
+        "pageType": "Agastya Tara Udaya and Arghya",
+        "url": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=hi",
+        "capturedAt": "2026-11-14T04:12:10.475Z",
+        "location": "Pithoragarh, Uttarakhand, India",
+        "locationMatch": "city-label-only",
+        "coordinateExact": false,
+        "status": "source-page-identity-and-arghya-fields-captured",
+        "captureRunId": 43555382341,
+        "captureMethod": "Playwright Chromium; HTTP 200; rendered title and body independently confirmed Pithoragarh, Agastya and requested year",
+        "httpStatus": 200,
+        "cityConfirmed": true,
+        "eventConfirmed": true,
+        "requestedYearConfirmed": true,
+        "raw": {
+          "arghyaDate": "अगस्त्य अर्घ्य मंगलवार, सितम्बर 7, 2027 को",
+          "arghyaWindow": "अगस्त्य अर्घ्य समय - सितम्बर 06 को 28:45+ बजे से 05:49",
+          "duration": "अवधि - 01 घण्टा 05 मिनट्स",
+          "taraRise": "अगस्त्य तारा उदय क्षण - सितम्बर 06 को 28:45+ बजे",
+          "taraSet": "अगस्त्य तारा अस्त क्षण - अप्रैल 15 को 19:45 बजे"
+        }
+      }
     },
     {
       "year": 2028,

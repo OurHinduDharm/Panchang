@@ -124,12 +124,24 @@ test("annual iframe page renders Agastya data from its separate JSON dataset", (
   assert.ok(page.includes("taraSetDate"));
 });
 
-test("public Agastya selector excludes legacy years without captured source provenance", () => {
+test("all seven Agastya years require captured source provenance before public display", () => {
   const published = agastya.years.filter(item =>
     item.source?.status === "source-page-identity-and-arghya-fields-captured"
   );
-  assert.deepEqual(published.map(item => item.year), [2028, 2029, 2030]);
-  assert.deepEqual(agastya.years.filter(item => !item.source).map(item => item.year), [2024, 2025, 2026, 2027]);
+  assert.deepEqual(published.map(item => item.year), [2024, 2025, 2026, 2027, 2028, 2029, 2030]);
+  assert.ok(published.every(item => item.source.provider === "Drik Panchang"));
+  assert.ok(published.every(item => item.source.location === "Pithoragarh, Uttarakhand, India"));
+  assert.ok(published.every(item => item.source.locationMatch === "city-label-only"));
+  assert.ok(published.every(item => item.source.coordinateExact === false));
+  for (const item of published.filter(item => item.year <= 2027)) {
+    assert.equal(item.source.httpStatus, 200);
+    assert.equal(item.source.cityConfirmed, true);
+    assert.equal(item.source.eventConfirmed, true);
+    assert.equal(item.source.requestedYearConfirmed, true);
+    assert.equal(item.source.captureRunId, 43555382341);
+    assert.ok(item.source.raw.taraRise.includes("28:"));
+    assert.ok(item.source.raw.taraSet.includes("अप्रैल"));
+  }
 
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(page.includes("const agastyaPublished = agastya.years.filter(entry =>"));
