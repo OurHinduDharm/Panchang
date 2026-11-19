@@ -85,3 +85,28 @@ test("the preceding December sample can trigger an event on January 1 IST", () =
   assert.ok(events.some(e => e.event === event && new Date(e.utcMilliseconds + 330 * 60_000).toISOString().startsWith("2028-01-01")));
   assert.deepEqual(canopusIssues.map(i => i.reason), ["no-fitted-profile", "no-fitted-profile"]);
 });
+
+test("Jupiter forecast at two untrained city locations tracks supplied reference clocks", () => {
+  // Published minutes transcribed by the project owner (IST). Coordinates and
+  // elevations are test observers, not confirmed coordinates of the publishers.
+  const cases = [
+    { city: "New Delhi", source: "Drik Panchang", observer: [28.6139, 77.2090, 216], year: 2027,
+      expected: ["2027-08-17T19:32", "2027-09-13T05:22"] },
+    { city: "Dehradun", source: "Panchang Guru", observer: [30.3165, 78.0322, 640], year: 2026,
+      expected: ["2026-07-15T19:59", "2026-08-12T04:56"] },
+    { city: "Dehradun", source: "Panchang Guru", observer: [30.3165, 78.0322, 640], year: 2027,
+      expected: ["2027-08-16T19:34", "2027-09-13T05:17"] }
+  ];
+  for (const { city, source, observer, year, expected } of cases) {
+    const result = JSON.parse(execFileSync(process.execPath, [cli, year, ...observer].map(String), { encoding: "utf8" }));
+    assert.equal(result.forecasts.length, 1);
+    const events = result.forecasts[0].events.filter(e => e.body === "Jupiter");
+    assert.deepEqual(events.map(e => e.event), ["Asta", "Udaya"]);
+    for (const [i, event] of events.entries()) {
+      const label = city + " " + source + " " + expected[i];
+      assert.equal(event.local.slice(0, 10), expected[i].slice(0, 10), label);
+      const differenceMs = Date.parse(event.local) - Date.parse(expected[i] + ":00+05:30");
+      assert.ok(Math.abs(differenceMs) <= 60_000, label + " difference (ms): " + differenceMs);
+    }
+  }
+});
