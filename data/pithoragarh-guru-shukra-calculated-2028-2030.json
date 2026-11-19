@@ -210,7 +210,9 @@
       "udaya": "2028-10-13T05:26:26+05:30",
       "conjunctionUtc": "2028-09-30T12:51:39.178Z",
       "durationDays": 27.443,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-jupiter-2029",
@@ -220,7 +222,9 @@
       "udaya": "2029-11-12T05:47:14+05:30",
       "conjunctionUtc": "2029-10-30T23:55:41.165Z",
       "durationDays": 25.484,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-jupiter-2030",
@@ -230,7 +234,9 @@
       "udaya": "2030-12-13T06:10:26+05:30",
       "conjunctionUtc": "2030-11-30T14:43:21.715Z",
       "durationDays": 24.516,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-venus-2028",
@@ -240,7 +246,9 @@
       "udaya": "2028-06-08T04:32:38+05:30",
       "conjunctionUtc": "2028-06-01T09:59:54.239Z",
       "durationDays": 9.38,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-venus-2029",
@@ -250,7 +258,9 @@
       "udaya": "2029-04-17T19:04:16+05:30",
       "conjunctionUtc": "2029-03-23T20:12:49.931Z",
       "durationDays": 64.527,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-venus-2030-jan",
@@ -260,7 +270,9 @@
       "udaya": "2030-01-09T06:35:34+05:30",
       "conjunctionUtc": "2030-01-06T13:18:53.564Z",
       "durationDays": 4.535,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     },
     {
       "id": "ohd-pithoragarh-venus-2030-sep",
@@ -270,7 +282,9 @@
       "udaya": "2030-11-20T17:38:42+05:30",
       "conjunctionUtc": "2030-10-20T11:11:28.397Z",
       "durationDays": 53.503,
-      "status": "calculated"
+      "status": "calculated",
+      "acceptanceEligible": false,
+      "publicationStatus": "research-candidate"
     }
   ]
 }
