@@ -113,6 +113,25 @@ try {
   assert.equal(await page.locator("#place-results").isVisible(), false);
   assert.match(await page.locator("#selected-place").innerText(), /नई दिल्ली/);
 
+  // Hold the real index response: changing the year must not cancel restoration.
+  const restore = await browser.newPage({viewport: {width: 1280, height: 800}});
+  let releaseIndex, indexRequested;
+  const pending = new Promise(resolve => { releaseIndex = resolve; });
+  const requested = new Promise(resolve => { indexRequested = resolve; });
+  await restore.route("**/tara-india-places.json", async route => {
+    indexRequested();
+    await pending;
+    await route.continue();
+  });
+  await restore.goto("http://127.0.0.1:" + server.address().port +
+    "/planetary-asta-udaya.html?geoname=1259503&year=2027");
+  await requested;
+  await restore.selectOption("#forecast-year", "2026");
+  releaseIndex();
+  await restore.getByText("अगस्त्य अर्घ्य — 7 सितंबर 2026 (सोमवार)").waitFor();
+  assert.match(await restore.locator("#selected-place").innerText(), /पिथौरागढ़/);
+  await restore.close();
+
   // Verify the actual iframe link points outside the annual calendar.
   await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html", {waitUntil: "domcontentloaded"});
   await page.setContent('<iframe title="वार्षिक पंचांग" src="/planetary-asta-udaya.html?city=delhi&year=2027"></iframe>');

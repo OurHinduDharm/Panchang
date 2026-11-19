@@ -95,12 +95,13 @@ async function show({events, unavailable}, selectedYear, location, version) {
 }
 
 function calculateSelection(sync = true) {
+  const location = chosenPlace || locations[city.value];
+  // A year change during URL restoration applies to the city once it resolves.
+  if (!location) return;
   const version = ++selectionVersion;
   worker?.terminate();
   worker = undefined;
-  const location = chosenPlace || locations[city.value];
   const selectedYear = Number(year.value);
-  if (!location) return;
   selectedPlace.textContent = location.name + " · भारतीय मानक समय";
   cards.replaceChildren();
   cards.setAttribute("aria-busy", "true");
