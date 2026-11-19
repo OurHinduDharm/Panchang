@@ -5,7 +5,7 @@ import {restoreSavedElevationStatus} from "../panchang-location-elevation.mjs";
 const parsed = {lat: 29, lon: 80, elevation: 0, elevationStatus: "provided"};
 
 test("a nonzero fallback does not erase explicitly unknown elevation", () => {
-  const restored = restoreSavedElevationStatus(parsed, {
+  const restored = restoreSavedElevationStatus({...parsed, elevation: 1586}, {
     lat: 29, lon: 80, elevation: 1586, elevationStatus: "unknown"
   });
   assert.equal(restored.elevation, 0);
@@ -21,10 +21,10 @@ test("measured sea-level elevation remains valid", () => {
 });
 
 test("sourced estimates retain their distinct provenance", () => {
-  const restored = restoreSavedElevationStatus(parsed, {
+  const restored = restoreSavedElevationStatus({...parsed, elevation: 1586}, {
     lat: 29, lon: 80, elevation: 1586, elevationStatus: "estimated"
   });
-  assert.equal(restored.elevation, 0);
+  assert.equal(restored.elevation, 1586);
   assert.equal(restored.elevationStatus, "estimated");
 });
 
