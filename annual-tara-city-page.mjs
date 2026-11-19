@@ -100,9 +100,9 @@ async function show({events, unavailable}, selectedYear, presetId, version, time
     }
     if (timeZone === "Asia/Kolkata") {
       for (const event of events.filter(e => e.body === body)) {
-        const date = new Intl.DateTimeFormat("en-CA", {
-          timeZone, year:"numeric", month:"2-digit", day:"2-digit"
-        }).format(new Date(event.utcMilliseconds));
+        const parts = new Intl.DateTimeFormat("en-GB", {timeZone, year:"numeric", month:"2-digit", day:"2-digit"}).formatToParts(new Date(event.utcMilliseconds));
+        const part = type => parts.find(p => p.type === type).value;
+        const date = part("year") + "-" + part("month") + "-" + part("day");
         const link = document.createElement("a");
         link.href = buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", date, location);
         link.textContent = (event.event === "Udaya" ? "उदय" : "अस्त") + " का पंचांग देखें";
