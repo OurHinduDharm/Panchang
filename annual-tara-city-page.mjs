@@ -1,3 +1,6 @@
+import { locations } from "./annual-tara-locations.mjs";
+import { taraObserverKey } from "./research/tara-location-observer.mjs";
+
 const city = document.getElementById("city");
 const year = document.getElementById("forecast-year");
 const cards = document.getElementById("city-events");
@@ -35,13 +38,13 @@ function show({events, unavailable}) {
   }
 }
 
-function calculate() {
+function calculate(location, selectedYear, presetId) {
   activeWorker?.terminate();
   activeWorker = undefined;
   cards.replaceChildren();
   retry.hidden = true;
-  records.hidden = city.value !== "pithoragarh-project-target";
-  const key = city.value + "/" + year.value;
+  records.hidden = presetId !== "pithoragarh-project-target";
+  const key = taraObserverKey(location) + "/" + selectedYear;
   if (cache.has(key)) return show(cache.get(key));
   status.textContent = "गणना हो रही है…";
   function failed() {
@@ -64,7 +67,7 @@ function calculate() {
       activeWorker = undefined;
       failed();
     };
-    worker.postMessage({city: city.value, year: Number(year.value)});
+    worker.postMessage({location, city: presetId, year: selectedYear});
   } catch {
     failed();
   }
@@ -73,5 +76,8 @@ function calculate() {
 const currentYear = Number(new Intl.DateTimeFormat("en", {year: "numeric", timeZone: "Asia/Kolkata"}).format(new Date()));
 for (let y = 2021; y <= Math.max(2030, currentYear + 1); y++) year.add(new Option(String(y), String(y)));
 year.value = String(currentYear);
-year.onchange = city.onchange = retry.onclick = calculate;
-calculate();
+function calculateSelection() {
+  calculate(locations[city.value], Number(year.value), city.value);
+}
+year.onchange = city.onchange = retry.onclick = calculateSelection;
+calculateSelection();

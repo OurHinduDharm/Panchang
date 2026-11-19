@@ -1,6 +1,10 @@
 # Drik-Ganita location-based Tara Asta/Udaya model
 
-Status: research prototype; not connected to the public Panchang yet.
+The annual city page uses the shared runtime. Calibration and historical comparisons below document the earlier model stages.
+
+When the seasonal azimuth fit yields no crossing with the Sun below the horizon, the runtime rescans the same local geometric star events using the median solar altitude for the same event and branch in the eligible training observations. The fixed browser fit uses Almora through 2025. The event date is chosen by a crossing between consecutive daily samples. Missing horizon events and ambiguous results remain unavailable on the page. This empirical estimate does not model sky brightness, terrain or actual first sighting.
+
+New Delhi 2027 (28.6139° N, 77.209° E, 216 m): calculated setting Apr 18 19:57 and rising Sep 6 04:49 IST. The published city reference lists Apr 18 19:55 and Sep 4 04:59. Delhi dates are used for checking only. Source: https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?time-format=24hour&year=2027
 
 ## Agreed product rule
 

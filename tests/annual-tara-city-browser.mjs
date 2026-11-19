@@ -28,6 +28,19 @@ try {
   const delhi = await page.locator("#city-events").innerText();
   assert.match(delhi, /19:32/);
   assert.match(delhi, /05:22/);
+  assert.match(delhi, /19:57/);
+  assert.match(delhi, /04:49/);
+  // A city-search result can use the same worker without a preset id.
+  const located = await page.evaluate(() => new Promise((resolve, reject) => {
+    const worker = new Worker("./annual-tara-city-worker.mjs", {type: "module"});
+    worker.onerror = event => { worker.terminate(); reject(new Error(event.message)); };
+    worker.onmessage = ({data}) => { worker.terminate(); resolve(data); };
+    worker.postMessage({location: {name: "वाराणसी", lat: 25.3176, lon: 82.9739,
+      elevation: 81, elevationStatus: "provided"}, year: 2027});
+  }));
+  const guru = located.events.filter(e => e.body === "Jupiter");
+  assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
+  assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
   assert.equal(await page.locator("#pithoragarh-records").isVisible(), false);
   await page.selectOption("#city", "dehradun");
   await page.waitForSelector("#city-events .planet");

@@ -135,6 +135,7 @@ export function fitAnnualTaraProfiles(rows, trainingSourceId, trainingThroughYea
       slope: fit.slope,
       intercept: fit.intercept,
       trainingSamples: fit.samples,
+      medianSunAltitudeDeg: median(points.map(point => point.y)),
       residualQuantile,
       residualThresholdDeg,
       centerDayOfYear,
