@@ -70,7 +70,7 @@
     section.appendChild(note);
     var links=document.createElement("div");links.className="links";links.style.marginTop="9px";
     [
-      ["https://ourhindudharm.github.io/Panchang/","विस्तृत दैनिक पंचांग खोलें"],
+      ["https://ourhindudharm.blogspot.com/p/panchang-today.html","विस्तृत दैनिक पंचांग खोलें"],
       ["https://ourhindudharm.blogspot.com/","OurHinduDharm के धार्मिक लेख"]
     ].forEach(function(pair){
       var link=makeLink(pair[0],pair[1]);if(link)links.appendChild(link);
