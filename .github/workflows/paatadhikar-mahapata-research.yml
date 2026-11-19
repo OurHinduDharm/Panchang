@@ -1,0 +1,32 @@
+name: Paatadhikara research maths tests
+
+on:
+  pull_request:
+    paths:
+      - 'research/paatadhikar/**'
+      - 'tests/paatadhikar-*.*.mjs'
+      - '.github/workflows/paatadhikar-mahapata-research.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mahapata-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned MIT-licensed astronomy engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Check syntax
+        run: |
+          node --check research/paatadhikar/mahapata-math.mjs
+          node --check research/paatadhikar/astronomy-engine-adapter.mjs
+          node --check tests/paatadhikar-mahapata-math.test.mjs
+          node --check tests/paatadhikar-astronomy-engine.integration.mjs
+      - name: Unit and ephemeris smoke tests
+        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs
