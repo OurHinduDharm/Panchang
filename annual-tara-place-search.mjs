@@ -28,7 +28,7 @@ function toPlace([id, city, stateCode, districtCode, latitude, longitude, elevat
   return {
     id, city, admin1, admin2, stateCode, countryCode: "IN", timeZone: "Asia/Kolkata",
     name: [city, admin2, admin1, "भारत"].filter(Boolean).join(", "),
-    latitude, longitude, elevation
+    latitude, longitude, elevation, elevationStatus: "estimated", elevationSource: "GeoNames point elevation or DEM"
   };
 }
 
