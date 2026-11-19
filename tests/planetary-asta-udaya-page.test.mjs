@@ -84,20 +84,19 @@ test("main Panchang planetary card links to the annual reference page", () => {
   assert.match(source, /गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें/);
 });
 
-test("annual page builds its year selector from the available dataset and shows no outside links", () => {
+test("annual page keeps the public city calculator and removes legacy records UI", () => {
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
-  assert.ok(page.includes("const years = [...new Set(["));
-  assert.ok(page.includes("...agastyaPublished.map(entry => entry.year)"));
-  assert.ok(page.includes("./data/pithoragarh-guru-shukra-calculated-2028-2030.json"));
-  assert.ok(page.includes("...calculated.windows"));
-  assert.ok(page.includes('entry.acceptanceEligible === true'));
-  assert.ok(page.includes('entry.publicationStatus === "accepted"'));
-  assert.ok(page.includes("yearSelect.append(option)"));
-  assert.ok(!page.includes("<option>2021</option>"));
+  assert.ok(page.includes('id="city"'));
+  assert.ok(page.includes('id="forecast-year"'));
+  assert.ok(page.includes('id="city-events"'));
+  assert.ok(!page.includes("अगस्त्य के दर्शन की अनुमानित तिथि में अंतर संभव है"));
+  assert.ok(!page.includes("पिथौरागढ़ की दर्ज अस्त अवधियाँ और अर्घ्य विवरण"));
+  assert.ok(!page.includes('id="pithoragarh-records"'));
+  assert.ok(!page.includes('id="results"'));
+  assert.ok(!page.includes("./data/agastya-arghya-pithoragarh.json"));
   assert.ok(!page.includes("http://") && !page.includes("https://"));
   assert.ok(!page.includes("Drik Panchang") && !page.includes("drikpanchang.com"));
 });
-
 
 const agastya = JSON.parse(readFileSync(
   new URL("../data/agastya-arghya-pithoragarh.json", import.meta.url),
@@ -116,12 +115,15 @@ test("Pithoragarh Agastya Arghya records preserve supplied annual dates and loca
   assert.equal(agastya.location.timeZone, "Asia/Kolkata");
 });
 
-test("annual iframe page renders Agastya data from its separate JSON dataset", () => {
-  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
-  assert.ok(page.includes("./data/agastya-arghya-pithoragarh.json"));
-  assert.ok(page.includes("renderAgastya"));
-  assert.ok(page.includes("अगस्त्य तारा उदय एवं अर्घ्य"));
-  assert.ok(page.includes("taraSetDate"));
+test("city calculator renders Agastya Arghya in a friendly card", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.ok(source.includes("./data/agastya-arghya-pithoragarh.json"));
+  assert.ok(source.includes("अगस्त्य अर्घ्य — "));
+  assert.ok(source.includes("अर्घ्य का समय — "));
+  assert.ok(source.includes("अवधि — "));
+  assert.ok(source.includes("अगस्त्य तारा उदय — "));
+  assert.ok(source.includes("अगस्त्य तारा अस्त — "));
+  assert.ok(source.includes('presetId === "pithoragarh-project-target"'));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
