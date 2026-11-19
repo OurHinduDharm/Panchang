@@ -83,6 +83,13 @@ async function show({events, unavailable}, selectedYear, presetId, version, time
         p.textContent = line;
         card.append(p);
       }
+      for (const [label, date] of [["अगस्त्य उदय", agastya.arghyaDate], ["अगस्त्य अस्त", agastya.taraSetDate]]) {
+        const link = document.createElement("a");
+        link.href = buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", date, location);
+        link.textContent = label + " का पंचांग देखें";
+        link.className = "event-link";
+        card.append(link);
+      }
       cards.append(card);
       continue;
     }
