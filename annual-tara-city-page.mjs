@@ -22,8 +22,10 @@ function hindiTime(hours, minutes) {
   return period + " " + String(hours % 12 || 12).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + " बजे";
 }
 function formatClock(value) {
-  const match = /^(\\d{1,2}):(\\d{2})$/.exec(value);
-  return match ? hindiTime(Number(match[1]), Number(match[2])) : value;
+  const parts = String(value).split(":");
+  if (parts.length !== 2 || !parts.every(part => /^[0-9]{2}$/.test(part))) return value;
+  const hours = Number(parts[0]), minutes = Number(parts[1]);
+  return hours < 24 && minutes < 60 ? hindiTime(hours, minutes) : value;
 }
 function formatEvent(utcMilliseconds) {
   const instant = new Date(Math.round(utcMilliseconds / 60000) * 60000);
