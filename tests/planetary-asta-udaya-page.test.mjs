@@ -145,11 +145,9 @@ test("all seven Agastya years require captured source provenance before public d
     assert.ok(item.source.raw.taraSet.includes("अप्रैल"));
   }
 
-  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
-  assert.ok(page.includes("const agastyaPublished = agastya.years.filter(entry =>"));
-  assert.ok(page.includes('entry.source?.status === "source-page-identity-and-arghya-fields-captured"'));
-  assert.ok(page.includes("...agastyaPublished.map(entry => entry.year)"));
-  assert.ok(page.includes("renderAgastya(agastyaPublished, year)"));
+  const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.ok(renderer.includes('item.source?.status === "source-page-identity-and-arghya-fields-captured"'));
+  assert.ok(renderer.includes('presetId === "pithoragarh-project-target"'));
 });
 
 
