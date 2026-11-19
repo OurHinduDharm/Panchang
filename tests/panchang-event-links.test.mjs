@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {readPanchangLinkLocation,buildPanchangEventUrl} from "../panchang-event-links.mjs";
+import {readPanchangLinkLocation,buildPanchangEventUrl,hasPanchangLinkLocation,clearPanchangLinkLocation} from "../panchang-event-links.mjs";
 const place={name:"पिथौरागढ़",latitude:29.5828,longitude:80.2182,elevation:1650};
 test("event link round trip retains date and observer",()=>{
  const url=new URL(buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/","2026-09-07",place));
@@ -42,4 +42,23 @@ test("duplicate coordinates, nondecimal numbers and invalid heights cannot selec
   }
   good.append("lat", "28");
   assert.equal(readPanchangLinkLocation(good), null);
+});
+
+
+test("daily links omit redundant city/state and clear stale legacy values", () => {
+ const url = new URL(buildPanchangEventUrl("https://ourhindudharm.blogspot.com/p/panchang-today.html?city=Delhi&state=Delhi&lat=1&lon=2&elevation=3", "2026-09-07", {...place, city:"Pithoragarh", admin1:"Uttarakhand"}));
+ assert.equal(url.searchParams.has("city"), false);
+ assert.equal(url.searchParams.has("state"), false);
+ assert.equal(url.searchParams.get("lat"), "29.5828");
+ assert.equal(url.searchParams.get("place"), place.name);
+ assert.equal(readPanchangLinkLocation(url.searchParams).elevation, 1650);
+});
+test("city/state-only legacy links are recognized and cleared", () => {
+ for (const query of ["?city=Delhi", "?state=Delhi", "?city=Delhi&state=Delhi"]) {
+  const url = new URL("https://example.com/" + query);
+  assert.equal(hasPanchangLinkLocation(url.searchParams), true);
+  assert.equal(readPanchangLinkLocation(url.searchParams), null);
+  clearPanchangLinkLocation(url);
+  assert.equal(hasPanchangLinkLocation(url.searchParams), false);
+ }
 });
