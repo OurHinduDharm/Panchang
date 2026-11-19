@@ -223,3 +223,9 @@ test("2029 Dhanteras and Chhath muhurtas belong only to their own observance car
   assert.equal(skanda?.muhurtaRule, undefined);
   assert.equal(skanda?.muhurtaRules, undefined);
 });
+
+test("26 October keeps Karwa Chauth puja and Sankashti moonrise on their own cards", () => {
+  assert.equal(has("2029-10-26", /^करवा चौथ$/)?.muhurtaRule, "karwa-chauth-puja");
+  assert.equal(has("2029-10-26", /^वक्रतुण्ड संकष्टी चतुर्थी$/)?.muhurtaRule,
+    "sankashti-chaturthi-moonrise");
+});
