@@ -132,6 +132,13 @@ function calculateSelection(sync = true) {
     cards.setAttribute("aria-busy", "false");
     retry.hidden = false;
   }
+  // The astronomical engine requires measured elevation. Never silently use sea level.
+  if (!Number.isFinite(location.elevation)) {
+    status.textContent = "इस स्थान की ऊँचाई उपलब्ध नहीं है; उदय-अस्त गणना नहीं की जा सकती। कृपया दूसरा स्थान चुनें।";
+    cards.setAttribute("aria-busy", "false");
+    retry.hidden = true;
+    return;
+  }
   const key = taraObserverKey(location) + "/" + selectedYear;
   const render = data => show(data, selectedYear, location, version).catch(failed);
   if (cache.has(key)) return render(cache.get(key));
