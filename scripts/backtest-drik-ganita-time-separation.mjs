@@ -44,7 +44,21 @@ const jupiterReferences = pithoragarhLedger.windows.filter(window =>
     timeRaw: local.slice(11, 16)
   };
 }));
-const observations = [...dataset.observations, ...jupiterReferences];
+const agastyaLedger = JSON.parse(fs.readFileSync(
+  new URL("../data/agastya-arghya-pithoragarh.json", import.meta.url), "utf8"
+));
+const agastyaReferences = agastyaLedger.years.filter(row =>
+  [2026, 2027].includes(row.year) &&
+  row.source?.status === "source-page-identity-and-arghya-fields-captured" &&
+  row.source.cityConfirmed && row.source.eventConfirmed && row.source.requestedYearConfirmed
+).flatMap(row => [
+  ["rise", "अगस्त्य तारा उदय क्षण", row.arghyaDate, row.taraRise],
+  ["set", "अस्त क्षण", row.taraSetDate, row.taraSet]
+].map(([branch, event, date, timeRaw]) => ({
+  id: "drik-pithoragarh-agastya-" + branch + "-" + row.year,
+  sourceId: "drikpanchang-pithoragarh", planet: "अगस्त्य", event, date, timeRaw
+})));
+const observations = [...dataset.observations, ...jupiterReferences, ...agastyaReferences];
 const observationIds = observations.map(item => item.id);
 if (new Set(observationIds).size !== observationIds.length) {
   throw new Error("Benchmark observation IDs must be unique");
@@ -263,13 +277,13 @@ function summarizeSolarAltitudeCalibration(rows) {
   }));
 }
 
-function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId = "drikpanchang-almora") {
-  // A location's fitted thresholds must never be trained with another city's rows.
-  const location = LOCATIONS[sourceId];
+function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId = "drikpanchang-almora",
+  trainingSourceId = sourceId, observerId = sourceId) {
+  const location = LOCATIONS[observerId];
   if (!location) throw new Error("Unknown validation observer: " + sourceId);
   const training = rows.filter(row =>
     row.available &&
-    row.sourceId === sourceId &&
+    row.sourceId === trainingSourceId &&
     row.body !== "Star1" &&
     row.bodyEventResidualMinutes <= 15 &&
     row.horizonAtComputedBodyEvent &&
@@ -327,7 +341,7 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   for (const [event, branch] of [["Udaya", "rise"], ["Asta", "set"]]) {
     const starTraining = rows.filter(row =>
       row.available &&
-      row.sourceId === sourceId &&
+      row.sourceId === trainingSourceId &&
       row.body === "Star1" &&
       row.branch === branch &&
       row.eventType === event &&
@@ -524,6 +538,8 @@ function buildHeldOutValidation(rows, holdoutYear, trainingThroughYear, sourceId
   return {
     holdoutYear,
     sourceId,
+    trainingSourceId,
+    observerId,
     observer: { name: location.name, latitude: location.latitude, longitude: location.longitude, elevation: location.elevation },
     trainingThroughYear,
     trainingSamples: training.length,
@@ -1180,6 +1196,10 @@ const report = {
   agastyaAzimuthModelDiagnostics: buildAgastyaAzimuthModelDiagnostics(rows),
   agastyaResidualQuantileDiagnostics: buildAgastyaResidualQuantileDiagnostics(rows),
   planetThresholdQuantileDiagnostics: buildPlanetThresholdQuantileDiagnostics(rows),
+  pithoragarhAnnualValidation: [2026, 2027].map(year =>
+    buildHeldOutValidation(rows, year, 2025, "drikpanchang-pithoragarh",
+      "drikpanchang-almora", "pithoragarh-project-target")
+  ),
   pithoragarhObserverSanity: pithoragarhSunriseSunsetSanity(),
   pithoragarhCrossLocationTransfer: buildPithoragarhTransferValidation(rows, "Venus"),
   pithoragarhJupiterCrossLocationTransfer: {

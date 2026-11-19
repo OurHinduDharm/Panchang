@@ -94,7 +94,23 @@ for (const [body, transfer] of [["Venus", venus], ["Jupiter", jupiter]]) {
   }
 }
 
-const incomplete = [report.heldOutValidation2026, fixed, rolling].some(h =>
+const annual = report.pithoragarhAnnualValidation;
+assert.deepEqual(annual.map(row => row.holdoutYear), [2026, 2027]);
+for (const h of annual) {
+  assert.equal(h.sourceId, "drikpanchang-pithoragarh");
+  assert.equal(h.trainingSourceId, "drikpanchang-almora");
+  assert.equal(h.trainingThroughYear, 2025);
+  assert.equal(h.observerId, "pithoragarh-project-target");
+  const references = report.observations.filter(row =>
+    row.sourceId === h.sourceId && Number(row.date.slice(0, 4)) === h.holdoutYear);
+  assert.equal(references.filter(row => row.body === "Star1").length, 2);
+  assert.equal(references.length, h.holdoutYear === 2026 ? 7 : 6);
+  assert.deepEqual([...h.matches.map(match => match.sourceId), ...h.unmatchedObserved].sort(),
+    references.map(row => row.id).sort());
+  assert.equal(h.predictedEvents,
+    h.matches.length + h.unmatchedPredictions.length + h.ambiguousMatches.length);
+}
+const incomplete = [report.heldOutValidation2026, fixed, rolling, ...annual].some(h =>
   h.unmatchedPredictions.length || h.unmatchedObserved.length ||
   h.ambiguousMatches.length || h.dateAccuracy.exactDate !== h.observedHoldoutEvents) ||
   [venus, jupiter].some(transfer =>

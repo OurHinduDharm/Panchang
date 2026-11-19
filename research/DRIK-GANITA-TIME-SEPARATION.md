@@ -52,7 +52,7 @@ These are candidate fitted values, not production constants. Venus direct and re
 
 ## Data safeguards
 
-- The research file preserves 95 observations: the original 89 records plus 6 separately transcribed Drik Pithoragarh Venus events. The back-test also reads eight Jupiter boundaries from the direct Pithoragarh source ledger, for 103 evaluated observations, 95 usable and 8 rejected or insufficient.
+- The research file preserves 95 observations: the original 89 records plus 6 separately transcribed Drik Pithoragarh Venus events. The back-test also reads eight Jupiter boundaries from the direct Pithoragarh source ledger, and four explicit Pithoragarh star rise/set observations for 2026–2027.
 - Drik is used for time-threshold fitting only when the source clock is within 15 minutes of the computed target rise/set event.
 - Ganesh Martand HH.MM values are preserved verbatim; the source legend confirms IST hour-minute notation and next-day rollover examples. Its timestamps remain an independent cross-check and are not pooled into Drik-fitted thresholds because source-event equivalence is not assumed.
 - Ambiguous Tara Prasad AM/PM records are excluded instead of guessed.
@@ -77,3 +77,15 @@ These are candidate fitted values, not production constants. Venus direct and re
 3. Complete independent Ganesh Martand / Tara Prasad date cross-checks using their separate observer centres; their source elevations remain unknown.
 4. Revalidate the proper-motion-propagated Canopus model over additional held-out years and independent Agastya locations.
 5. Preserve separate city observer profiles and one public method/label; never use city fallbacks.
+
+
+## Pithoragarh annual date selection
+
+The planetary scan starts on January 1 of the evaluation year. The Canopus scan uses the seasonal window learned from Almora. Both use Almora calibration through 2025 and the project observer at 1650 m. Published Pithoragarh dates enter the matching step after the scans.
+
+| Year | Guru and Shukra exact dates | Agastya exact dates | Total within one day | Extra or missing predictions |
+|---|---:|---:|---:|---:|
+| 2026 | 5/5 | 0/2 | 7/7 | 0 |
+| 2027 | 4/4 | 0/2 | 6/6 | 0 |
+
+Both years give April 16 for Agastya setting and September 6 for rising. The city-labelled reference gives April 15 and September 7. The comparison uses the explicit published star rise/set clocks. Arghya duration and visibility to the naked eye require separate evidence.
