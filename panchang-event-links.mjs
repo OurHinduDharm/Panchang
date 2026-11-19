@@ -9,7 +9,7 @@ export function panchangIsoDate(instant) {
 }
 
 export function hasPanchangLinkLocation(params) {
-  return ["lat", "lon", "elevation", "place"].some(key => params.has(key));
+  return locationKeys.some(key => params.has(key));
 }
 
 export function clearPanchangLinkLocation(url) {
@@ -39,7 +39,7 @@ export function buildPanchangEventUrl(baseUrl, date, location) {
   clearPanchangLinkLocation(url);
   url.searchParams.set("date", date);
   for (const [key, value] of Object.entries({lat: location.latitude, lon: location.longitude,
-    elevation: location.elevation, place: location.name, city: location.city, state: location.admin1})) {
+    elevation: location.elevation, place: location.name})) {
     if (value != null && value !== "") url.searchParams.set(key, value);
   }
   if (!readPanchangLinkLocation(url.searchParams)) throw new Error("Invalid event observer");
