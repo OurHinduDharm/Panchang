@@ -60,7 +60,8 @@ async function show({events, unavailable}, selectedYear, presetId, version, time
     : null;
   if (version !== selectionVersion) return;
   status.textContent = "";
-  const agastya = agastyaData?.years?.find(item => item.year === selectedYear);
+  const agastya = agastyaData?.years?.find(item => item.year === selectedYear &&
+    item.source?.status === "source-page-identity-and-arghya-fields-captured");
 
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
     const card = document.createElement("section");
