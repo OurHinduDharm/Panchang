@@ -121,7 +121,7 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 });
 
 
-test("Planetary Asta/Udaya card displays only Guru and Shukra without external source links", () => {
+test("Planetary Asta/Udaya card links to the three-body annual page without external sources", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
   const end = source.indexOf("\nfunction createHoraCard(", start);
@@ -130,7 +130,10 @@ test("Planetary Asta/Udaya card displays only Guru and Shukra without external s
   const cardSource = source.slice(start, end);
   assert.ok(cardSource.includes("अस्त प्रारम्भ"));
   assert.ok(cardSource.includes("पुनः उदय"));
-  assert.ok(cardSource.includes("गुरु एवं शुक्र"));
+  assert.ok(cardSource.includes("गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त"));
+  assert.deepEqual(Array.from(cardSource.matchAll(/href="([^"]+)"/g), match => match[1]), [
+    "https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html"
+  ]);
   assert.ok(!cardSource.includes("Drik"));
   assert.ok(!cardSource.includes("sourceUrl"));
   assert.ok(!cardSource.includes("सूर्य"));

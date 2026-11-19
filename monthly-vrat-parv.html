@@ -46,6 +46,21 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 h2{font-size:19px;margin:0}
 .count{font-size:12px;color:var(--muted)}
 .events{display:grid;gap:9px}
+  .special-punya-kaal-sentinel{height:1px;scroll-margin-top:80px}
+  .special-calendar{margin:14px 0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .special-calendar[hidden]{display:none!important}
+  .special-calendar details>summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:750;color:var(--ink)}
+  .special-calendar details>summary::-webkit-details-marker{display:none}
+  .special-calendar details>summary:after{content:"＋";float:right;color:var(--saffron)}
+  .special-calendar details[open]>summary:after{content:"−"}
+  .special-calendar-content{padding:0 13px 13px;display:grid;gap:9px}
+  .special-kaal-card{border:1px solid var(--line);border-radius:10px;padding:11px;background:#fffaf2}
+  .special-kaal-title{font-weight:750;margin-bottom:4px}
+  .special-kaal-date,.special-kaal-time{font-size:13px;color:var(--muted)}
+  .special-kaal-time{font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums}
+  .special-kaal-description{font-size:13px;line-height:1.5;margin-top:7px;color:var(--ink)}
+  .special-kaal-warning{font-size:12px;color:#80501f;background:#fff2df;border-radius:8px;padding:8px;margin-top:7px}
+
 .event{display:flex;gap:12px;padding:11px;align-items:flex-start}
 .date{flex:0 0 68px;text-align:center;background:#fff2df;border:1px solid #f0d7b2;border-radius:10px;padding:8px 3px;color:#904b11}
 .date strong{display:block;font-size:17px;line-height:1.4}
@@ -241,6 +256,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   <span class="count" id="count">लोड हो रहा है…</span>
 </div>
 <section id="events" class="events" aria-live="polite"><div class="empty">पर्वों की सूची लोड हो रही है…</div></section>
+<div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>
+<section id="special-punya-kaal" class="special-calendar" aria-label="विशेष साधना काल एवं पुण्यकाल" hidden>
+  <details id="specialPunyaKaalDetails">
+    <summary>विशेष साधना काल एवं पुण्यकाल</summary>
+    <div id="specialPunyaKaalContent" class="special-calendar-content"></div>
+  </details>
+</section>
 <nav class="footer-month-nav" aria-label="महीने बदलें">
   <button type="button" id="footerPrevBtn">← पिछला महीना</button>
   <button type="button" id="footerNextBtn">अगला महीना →</button>
@@ -267,6 +289,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
   var reviewMode=new URLSearchParams(window.location.search).get("review")==="1";
+  var pageParams=new URLSearchParams(window.location.search);
   document.body.classList.toggle("review-mode",reviewMode);
   document.getElementById("reviewBanner").hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
@@ -800,7 +823,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
-      eventsEl.appendChild(empty);return;
+      eventsEl.appendChild(empty);
+      scheduleSpecialPunyaKaal(year,month);
+      return;
     }
     list.forEach(function(item){
       var card=document.createElement("article");card.className="event";
@@ -886,6 +911,106 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       card.appendChild(content);eventsEl.appendChild(card);
     });
     applyFilters();
+    scheduleSpecialPunyaKaal(year,month);
+  }
+  var specialPunyaKaalRequest=0;
+  var specialPunyaKaalEnginePromise=null;
+  var specialPunyaKaalMonthCache=new Map();
+  var specialPunyaKaalObserver=null;
+  var specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
+  function formatSpecialPunyaKaalDateTime(value){
+    var date=new Date(value);
+    if(Number.isNaN(date.getTime()))return "";
+    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+  }
+  function sameObserver(a,b){
+    if(!a||!b)return false;
+    return Math.abs(Number(a.lat)-Number(b.lat))<0.0001&&Math.abs(Number(a.lon)-Number(b.lon))<0.0001&&Math.abs(Number(a.elevation)-Number(b.elevation))<1;
+  }
+  function getSpecialPunyaKaalEngine(){
+    if(!specialPunyaKaalEnginePromise){
+      specialPunyaKaalEnginePromise=Promise.all([
+        import("./special-punya-kaal-runtime.mjs"),
+        specialPunyaKaalApprovalPromise,
+        import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0")
+      ]).then(function(modules){
+        return {runtime:modules[0],approval:modules[1],panchang:modules[2]};
+      }).catch(function(error){
+        specialPunyaKaalEnginePromise=null;
+        throw error;
+      });
+    }
+    return specialPunyaKaalEnginePromise;
+  }
+  async function loadSpecialPunyaKaal(year,month){
+    var token=++specialPunyaKaalRequest;
+    var section=document.getElementById("special-punya-kaal");
+    var content=document.getElementById("specialPunyaKaalContent");
+    var details=document.getElementById("specialPunyaKaalDetails");
+    section.hidden=true;content.replaceChildren();
+    try{
+      var location=getLocalLocation();
+      var cacheKey=[year,month,Number(location.lat).toFixed(5),Number(location.lon).toFixed(5),Number(location.elevation)||0].join(":");
+      var calculation=specialPunyaKaalMonthCache.get(cacheKey);
+      if(!calculation){
+        calculation=getSpecialPunyaKaalEngine().then(function(engine){
+          var observer=new engine.panchang.Observer(location.lat,location.lon,location.elevation);
+          return engine.runtime.calculateSpecialPunyaKaalMonth({
+            year:year,month:month,observer:observer,getPanchangam:engine.panchang.getPanchangam,
+            timezoneOffsetMinutes:330,calendarType:"purnimanta"
+          });
+        }).catch(function(error){
+          specialPunyaKaalMonthCache.delete(cacheKey);
+          throw error;
+        });
+        specialPunyaKaalMonthCache.set(cacheKey,calculation);
+        if(specialPunyaKaalMonthCache.size>12){
+          specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
+        }
+      }
+      var data=await calculation;
+      if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
+      if(data.calculationStatus!=="complete"||!sameObserver(location,getLocalLocation()))return;
+      var engine=await getSpecialPunyaKaalEngine();
+      var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(engine.approval.isApprovedSpecialPunyaKaalCandidate)
+        .sort(function(a,b){return a.startTime.localeCompare(b.startTime);});
+      if(!approved.length)return;
+      approved.forEach(function(item){
+        var card=document.createElement("article");card.className="special-kaal-card";
+        var title=document.createElement("div");title.className="special-kaal-title";title.textContent=item.labels[0];card.appendChild(title);
+        var date=document.createElement("div");date.className="special-kaal-date";
+        date.textContent="संयोग की तिथि: "+new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(item.date+"T12:00:00+05:30"));
+        card.appendChild(date);
+        var time=document.createElement("div");time.className="special-kaal-time";
+        time.textContent="संयोग आरंभ : "+formatSpecialPunyaKaalDateTime(item.startTime)+" · संयोग समाप्ति : "+formatSpecialPunyaKaalDateTime(item.endTime);
+        card.appendChild(time);
+        content.appendChild(card);
+      });
+      section.hidden=false;
+      if(window.location.hash==="#special-punya-kaal"){
+        details.open=true;
+        window.requestAnimationFrame(function(){section.scrollIntoView({block:"start",behavior:"smooth"});});
+      }
+    }catch(error){
+      if(token===specialPunyaKaalRequest)section.hidden=true;
+    }
+  }
+  function scheduleSpecialPunyaKaal(year,month){
+    if(specialPunyaKaalObserver){specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;}
+    var sentinel=document.getElementById("special-punya-kaal-sentinel");
+    if(!sentinel)return;
+    var run=function(){loadSpecialPunyaKaal(year,month);};
+    if(window.location.hash==="#special-punya-kaal"){run();return;}
+    if("IntersectionObserver" in window){
+      specialPunyaKaalObserver=new IntersectionObserver(function(entries){
+        if(entries.some(function(entry){return entry.isIntersecting;})){
+          specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;run();
+        }
+      },{rootMargin:"550px 0px"});
+      specialPunyaKaalObserver.observe(sentinel);
+    }else{
+      run();
+    }
   }
   async function loadMonth(preserveViewportAnchor){
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
@@ -970,6 +1095,12 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   });
   // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
   var initialDate=getIndiaCalendarDate();
+  var requestedYear=Number(pageParams.get("year"));
+  var requestedMonth=Number(pageParams.get("month"));
+  if(Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2030&&
+     Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12){
+    initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
+  }
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
