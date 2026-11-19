@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'research/paatadhikar/**'
-      - 'tests/paatadhikar-*.test.mjs'
+      - 'tests/paatadhikar-*.*.mjs'
       - '.github/workflows/paatadhikar-mahapata-research.yml'
   workflow_dispatch:
 
@@ -27,6 +27,6 @@ jobs:
           node --check research/paatadhikar/mahapata-math.mjs
           node --check research/paatadhikar/astronomy-engine-adapter.mjs
           node --check tests/paatadhikar-mahapata-math.test.mjs
-          node --check tests/paatadhikar-astronomy-engine.test.mjs
+          node --check tests/paatadhikar-astronomy-engine.integration.mjs
       - name: Unit and ephemeris smoke tests
-        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.test.mjs
+        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs
