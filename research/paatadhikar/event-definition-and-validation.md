@@ -34,7 +34,7 @@ delta = asin(clamp(sin(delta), -1, 1))
 
 यह **प्रारम्भिक candidate calculation** है, न कि प्रकाशित महापात का सिद्ध समय। पात-स्थिति, पुनरावृत्ति/द्विपात, ग्रहबिम्ब और शास्त्रीय काल-संशोधन की जाँच शेष है। विशेषकर स्पर्श, मध्य और मोक्ष की गणना इस मॉड्यूल में **नहीं** है। तीन घंटे की scan resolution के बीच tangential/multiple roots छूट सकते हैं; केवल sign-changing roots की पुष्टि होती है। स्वतंत्र पंचांग से तारीख तथा समय अलग-अलग मिलान होने तक परिणाम production में न दें।
 
-स्थानीय परीक्षण: `npm install --no-save astronomy-engine@2.1.19`, फिर `node --test tests/paatadhikar-*.test.mjs`।
+स्थानीय परीक्षण: `npm install --no-save astronomy-engine@2.1.19`, फिर `node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs`।
 
 ## परीक्षण-क्रम
 
