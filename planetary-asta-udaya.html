@@ -147,6 +147,12 @@ async function init() {
       throw new Error("अमान्य वार्षिक डेटा");
     }
 
+    // Legacy 2024-2027 entries lack captured traditional-source provenance.
+    // Keep them in the research JSON, but do not expose them as public Arghya dates.
+    const agastyaPublished = agastya.years.filter(entry =>
+      entry.source?.status === "source-page-identity-and-arghya-fields-captured"
+    );
+
     const years = [...new Set([
       ...dataset.windows
         .filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
@@ -155,9 +161,11 @@ async function init() {
         .map(entry => entry.sourcePageYear),
       ...calculated.windows
         .filter(entry => entry.status === "calculated" &&
+          entry.acceptanceEligible === true &&
+          entry.publicationStatus === "accepted" &&
           ["Jupiter", "Venus"].includes(entry.planet))
         .map(entry => entry.year),
-      ...agastya.years.map(entry => entry.year)
+      ...agastyaPublished.map(entry => entry.year)
     ])].filter(Number.isInteger).sort((a, b) => a - b);
 
     yearSelect.replaceChildren();
@@ -174,7 +182,7 @@ async function init() {
     const render = () => {
       const year = Number(yearSelect.value);
       renderPlanets(dataset, calculated, year);
-      renderAgastya(agastya.years, year);
+      renderAgastya(agastyaPublished, year);
     };
     render();
     yearSelect.addEventListener("change", render);

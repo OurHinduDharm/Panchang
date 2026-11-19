@@ -46,6 +46,9 @@ export function findTithiInterval(days, descriptor, dateIso) {
   if (!Array.isArray(days) || !descriptor || !/^\d{4}-\d{2}-\d{2}$/.test(String(dateIso || ""))) return null;
   const dayStart = Date.parse(dateIso + "T00:00:00+05:30");
   const dayEnd = dayStart + 86400000;
+  // Panchang day objects expose tithi pieces clipped to sunrise-to-sunrise.
+  // Join adjacent pieces first; otherwise a sunrise boundary is mistaken for
+  // the actual tithi transition and the displayed interval develops a false gap.
   const intervals = [];
   const seen = new Set();
   days.forEach(day => {
@@ -56,7 +59,7 @@ export function findTithiInterval(days, descriptor, dateIso) {
       if (!Number.isInteger(index) || index !== descriptor.index) return;
       const start = validDate(item.startTime ?? item.start);
       const end = validDate(item.endTime ?? item.end);
-      if (!start || !end || end <= start || end.getTime() <= dayStart || start.getTime() >= dayEnd) return;
+      if (!start || !end || end <= start) return;
       const key = start.getTime() + "|" + end.getTime();
       if (seen.has(key)) return;
       seen.add(key);
@@ -64,7 +67,20 @@ export function findTithiInterval(days, descriptor, dateIso) {
     });
   });
   intervals.sort((a, b) => a.start - b.start);
-  return intervals[0] || null;
+
+  // Merge sunrise-clipped pieces of the same tithi. A two-minute tolerance
+  // covers minor boundary rounding while remaining far below one ghati.
+  const merged = [];
+  const joinToleranceMs = 2 * 60 * 1000;
+  intervals.forEach(item => {
+    const current = merged[merged.length - 1];
+    if (current && item.start.getTime() <= current.end.getTime() + joinToleranceMs) {
+      if (item.end > current.end) current.end = item.end;
+    } else {
+      merged.push({ name: item.name, start: item.start, end: item.end });
+    }
+  });
+  return merged.find(item => item.end.getTime() > dayStart && item.start.getTime() < dayEnd) || null;
 }
 
 function formatClock(value) {

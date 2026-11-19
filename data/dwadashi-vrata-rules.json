@@ -212,7 +212,9 @@
           "paksha": "शुक्ल",
           "name": "परशुराम-द्वादशी",
           "deity": "भगवान परशुराम",
-          "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।"
+          "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
+          "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
         },
         {
           "id": "rama",
@@ -343,8 +345,50 @@
           "jayanti": "शुक्ल द्वादशी + पुनर्वसु"
         },
         "note": "इस पाठांतर में नक्षत्र-नामों का निर्धारण नारद पुराण से भिन्न है; इसे उसी कार्ड पर स्रोत-भेद के रूप में दिखाएँ।"
+      },
+      {
+        "id": "drikPanchang",
+        "source": "Drik Panchang — महाद्वादशी के नक्षत्र-संयोग",
+        "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/mahadwadashi.html?lang=hi",
+        "criteria": {
+          "jaya": "द्वादशी + पुष्य",
+          "vijaya": "द्वादशी + श्रवण",
+          "jayanti": "द्वादशी + पुनर्वसु",
+          "papanashini": "द्वादशी + रोहिणी"
+        },
+        "note": "Drik के विवरण में नक्षत्र-संयोग दोनों पक्षों में सूचीबद्ध है; वास्तविक तिथि और नक्षत्र का स्थानीय सूर्योदय–सूर्यास्त overlap अलग जाँचा जाए।",
+        "timing": "sunrise-to-sunset"
+      },
+      {
+        "id": "smartaDharmaSindhu",
+        "source": "धर्मसिंधु एवं निर्णयसिंधु",
+        "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+        "criteria": {
+          "trisparsha": "पहले सूर्योदय पर एकादशी; द्वादशी केवल उसी सूर्योदय के बाद और अगले सूर्योदय से पहले; अगले सूर्योदय पर त्रयोदशी।"
+        },
+        "note": "यह स्मार्त सूर्योदय-आधारित लक्षण है। इसे नारद पुराण, पूर्वार्ध, अध्याय 121 में दिए गए त्रिस्पृशा के पृथक अरुणोदय/रात्रि-लक्षण से अलग रखा जाए।"
       }
-    ]
+    ],
+    "trisparshaSmarta": {
+      "tradition": "smarta",
+      "name": "त्रिस्पर्शा महाद्वादशी",
+      "source": "धर्मसिंधु एवं निर्णयसिंधु",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+      "definition": "पहले स्थानीय सूर्योदय पर एकादशी, उसी सूर्योदय के बाद आरम्भ होकर अगले सूर्योदय से पहले समाप्त होने वाली क्षय-द्वादशी, और अगले स्थानीय सूर्योदय पर त्रयोदशी — इन तीन तिथियों का एक सूर्योदय से अगले सूर्योदय तक स्पर्श।",
+      "criteria": {
+        "firstSunrise": "एकादशी",
+        "interveningNoon": "द्वादशी",
+        "followingSunrise": "त्रयोदशी",
+        "interval": "द्वादशी का आरम्भ पहले सूर्योदय के बाद और समाप्ति अगले सूर्योदय से पहले हो।"
+      },
+      "scriptureSource": {
+        "source": "स्कन्द पुराण, प्रभासखण्ड, अध्याय 483, श्लोक 16 एवं 19",
+        "sourceUrl": "https://eternalraga.com/en/scriptures/puranas/skanda-purana/7/483",
+        "note": "श्लोक 16 वैशाख शुक्ल पक्ष की त्रिस्पर्शा द्वादशी का उल्लेख करता है; श्लोक 19 आरम्भ में अल्प एकादशी, मध्य में पूर्ण द्वादशी और अन्त में त्रयोदशी का लक्षण देता है।"
+      },
+      "conduct": "स्मार्त निर्णय में एकादशी-व्रत का पूर्ण त्याग नहीं किया जाता। एकादशी और द्वादशी के पृथक होने पर सामर्थ्य के अनुसार दोनों दिनों के नियम धर्मसिंधु के निर्देश से तय किए जाएँ; केवल द्वादशी-व्रत के नाम पर एकादशी को अन्न-भोजन का दिन न बनाया जाए।",
+      "approvalPolicy": "यह selector केवल स्थान-विशिष्ट तिथि-अंतराल और लगातार दो स्थानीय सूर्योदयों से candidate बनाता है। यह स्वयं सार्वजनिक तिथि approve नहीं करता; source check और manual Smarta review आवश्यक है।"
+    }
   },
   "paranaAndConduct": {
     "source": {
@@ -367,7 +411,70 @@
         "name": "एकभुक्त",
         "shortDetail": "नारद पुराण के द्वादशी-व्रत अध्याय में निर्दिष्ट विशेष संयोगों को छोड़कर अन्य द्वादशियों पर एकभुक्त का विधान बताया गया है; इसे हर स्वतंत्र द्वादशी-व्रत पर बिना भेद लागू न किया जाए।"
       }
-    ]
+    ],
+    "calculationModel": {
+      "tradition": "smarta-general",
+      "scope": "एकादशी-व्रत के पारण-काल की गणना; एकादशी-व्रत का दिन चुनने का नियम नहीं",
+      "sequence": [
+        {
+          "step": 1,
+          "rule": "स्थानीय द्वादशी तिथि का वास्तविक आरम्भ और समाप्ति लें; सूर्योदय और सूर्यास्त उसी स्थान के हों।"
+        },
+        {
+          "step": 2,
+          "rule": "हरिवासर = द्वादशी की कुल अवधि का प्रथम चतुर्थांश; इसके समाप्त होने से पहले पारण न करें।"
+        },
+        {
+          "step": 3,
+          "rule": "पारण सूर्योदय के बाद हो और सामान्यतः द्वादशी समाप्त होने से पहले पूरा हो।"
+        },
+        {
+          "step": 4,
+          "rule": "प्राथःकाल को स्थानीय दिनमान का प्रथम पंचमांश मानें; इस अवधि में मिलने वाला पारण-काल प्राथमिक है।"
+        },
+        {
+          "step": 5,
+          "rule": "यदि हरिवासर प्रातःकाल से आगे निकल जाए, तो मध्याह्न में पारण न करके मध्याह्न समाप्त होने के बाद का शेष वैध समय देखें।"
+        },
+        {
+          "step": 6,
+          "rule": "यदि द्वादशी अगले सूर्योदय से पहले समाप्त हो चुकी हो, तो after-sunrise exception अलग से लागू करें; इसे सामान्य द्वादशी-व्याप्ति न समझें।"
+        },
+        {
+          "step": 7,
+          "rule": "यदि कोई वैध window न बचे या आवश्यक interval अधूरा हो, तो manual review दें; समय अनुमान से न बनाएँ।"
+        }
+      ],
+      "timeDivisions": {
+        "pratahkal": "स्थानीय सूर्योदय से दिनमान के 1/5 भाग तक",
+        "madhyahna": "दिनमान के 2/5 से 3/5 भाग तक",
+        "postMadhyahna": "दिनमान के 3/5 भाग के बाद"
+      },
+      "sourceReview": [
+        {
+          "name": "धर्मसिंधु",
+          "reference": "पृष्ठ 19",
+          "role": "पारण और हरिवासर का मूल निर्णय-संदर्भ; उपलब्ध द्वितीयक पाठ-समीक्षा"
+        },
+        {
+          "name": "निर्णयसिंधु",
+          "reference": "पृष्ठ 70–71",
+          "role": "पारण-काल और अपवादों का मूल निर्णय-संदर्भ; उपलब्ध द्वितीयक पाठ-समीक्षा"
+        },
+        {
+          "name": "Drik Panchang — Ekadashi Parana",
+          "url": "https://www.drikpanchang.com/ekadashis/nirjala/nirjala-ekadashi-date-time.html?year=2026",
+          "role": "हरिवासर, द्वादशी-समाप्ति, प्रातःकाल और मध्याह्न-अपवाद का timing cross-check"
+        },
+        {
+          "name": "PanchangTime — Ekadashi methodology",
+          "url": "https://panchangtime.com/methodology/ekadashi",
+          "role": "प्रातःकाल/मध्याह्न की दिनमान-आधारित operational division का द्वितीयक cross-check"
+        }
+      ],
+      "approvalPolicy": "यह नियम गणना-window देता है, स्वयं व्रत-दिन या सार्वजनिक तारीख़ को approve नहीं करता।"
+    },
+    "sourceReviewNote": "हरिभक्ति-विलास का संदर्भ पारण-संबंधी पूरक सामग्री के रूप में सुरक्षित है; स्मार्त तिथि-निर्णय का एकमात्र आधार नहीं। स्मार्त पारण गणना के लिए धर्मसिंधु/निर्णयसिंधु के संदर्भ और Drik timing cross-check अलग से दर्ज हैं।"
   },
   "dateSelection": {
     "chaturmasBoundary": {
@@ -592,7 +699,8 @@
             "deity": "भगवान परशुराम",
             "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
             "sourceProfile": "varahaPurana",
-            "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+            "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+            "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
           }
         ],
         "displayNames": [
@@ -916,6 +1024,14 @@
         ],
         "displayNames": [
           "रूप-व्रत"
+        ],
+        "crossReferences": [
+          {
+            "name": "कृष्ण मत्स्य द्वादशी",
+            "source": "Drik Panchang",
+            "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
+            "status": "cross-reference"
+          }
         ]
       },
       {
@@ -1585,7 +1701,8 @@
       ],
       "observanceDate": "2030-03-29",
       "dateRole": "special-observance-date",
-      "note": "तिथि-अंतराल और स्थानीय सूर्योदय का परीक्षण अलग से करें; व्रत/विशेष observance की संदर्भ-तिथि Drik Panchang के अनुसार ही रखें।"
+      "note": "Drik की संदर्भ-तिथि 29 मार्च है। पिथौरागढ़ में द्वादशी 30 मार्च को मध्यरात्रि के बाद आरम्भ होकर 29 मार्च के सूर्योदय से 30 मार्च के अगले सूर्योदय तक के पंचांग-दिन में आती है; इसे स्थानीय sunrise-to-next-sunrise interval से cross-check करें। यह केवल source candidate है, स्वतः स्वीकृति नहीं।",
+      "referenceDate": "2030-03-29"
     },
     {
       "year": 2030,
@@ -1651,6 +1768,33 @@
       ],
       "sourcePage": "dwadashi-dates",
       "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2030,
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "labels": [
+        "त्रिस्पर्शा महाद्वादशी",
+        "परशुराम द्वादशी"
+      ],
+      "observanceDate": "2030-05-14",
+      "dateRole": "special-observance-date",
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की 2030 द्वादशी सूची में 14 मई को त्रिस्पर्शा महाद्वादशी तथा परशुराम द्वादशी का संदर्भ है। स्थानीय स्मार्त त्रिस्पर्शा selector से अलग cross-check किया जाए; यह तारीख़ केवल source observation है।"
+    },
+    {
+      "year": 2030,
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "labels": [
+        "कृष्ण मत्स्य द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik की 2030 सूची में कृष्ण मत्स्य द्वादशी 21 दिसंबर को है। पिथौरागढ़ में द्वादशी 21 दिसंबर 12:33 IST पर आरम्भ होकर 22 दिसंबर 09:41 IST तक चलती है; यह 21 दिसंबर सूर्योदय से 22 दिसंबर अगले सूर्योदय तक के पंचांग-दिन में आती है। यह रूप-व्रत का पर्याय नहीं है और पूरे पौष कृष्ण रिकॉर्ड की तारीख़ नहीं बदलती। स्थानीय पंचांग-व्याप्ति अलग से दर्ज की जाती है।",
+      "observanceDate": "2030-12-21",
+      "dateRole": "special-observance-date"
     }
   ],
   "sourcePolicy": {
@@ -1658,5 +1802,17 @@
     "drikPanchangRole": "Named-observance date reference and timing cross-check; never an automatic approval or override of Smarta vrata rules.",
     "conflictResolution": "When calendar dates conflict, apply Smarta vrata rules. Drik Panchang dates remain source references for review and Drik timings may be used, but a listed date must not override the applicable Smarta rule or be auto-approved.",
     "localCalculationRole": "The local Panchanga engine inspects tithi intervals and sunrise observations against the source reference. A candidate remains review-required until the applicable Smarta vrata rule is confirmed."
+  },
+  "generalDwadashiYogas": {
+    "shravana": {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "minimumOverlapMinutes": 48,
+      "paksha": "शुक्ल और कृष्ण दोनों पक्ष",
+      "criterion": "स्थानीय सूर्योदय से अगले सूर्योदय तक द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग कम-से-कम एक मुहूर्त (48 मिनट) हो।",
+      "decisionPolicy": "यह केवल योग-साक्ष्य है। इससे अकेले उपवास-दिन या पारण-दिन तय नहीं होता; स्मार्त एकादशी-व्रत और व्रत-विशेष के नियम अलग जाँचे जाएँ।"
+    }
   }
 }

@@ -84,3 +84,21 @@ test("10-day widget gives precedence to Smarta Devutthana Ekadashi over Gauna/Va
   assert.ok(widget.includes("chaturmasConfig.completionTithi"));
   assert.ok(widget.includes("व्रत-समापन · "));
 });
+
+
+test("2029 and 2030 Chaturmas boundaries use local sunrise Dwadashi and next-day completion", async () => {
+  const expected = {
+    2029: { start: "2029-07-21", phases: ["2029-08-21", "2029-09-19", "2029-10-19"], end: "2029-11-16", completion: "2029-11-17", visible: "2029-11-18" },
+    2030: { start: "2030-07-11", phases: ["2030-08-10", "2030-09-09", "2030-10-08"], end: "2030-11-05", completion: "2030-11-06", visible: "2030-11-07" }
+  };
+  for (const [year, dates] of Object.entries(expected)) {
+    const config = JSON.parse(await readFile(new URL(`../data/chaturmas/${year}.json`, import.meta.url), "utf8"));
+    assert.equal(config.startDate, dates.start);
+    assert.deepEqual(config.phases.map(phase => phase.endDate).slice(0, 3), dates.phases);
+    assert.equal(config.endDate, dates.end);
+    assert.equal(config.completionDate, dates.completion);
+    assert.equal(config.cardVisibleThroughDate, dates.visible);
+    assert.equal(config.completionTithi, "कार्तिक शुक्ल द्वादशी");
+    assert.ok(config.completionDetail.includes("दालों"));
+  }
+});

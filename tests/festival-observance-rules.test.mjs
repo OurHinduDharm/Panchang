@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateObservanceRule, getObservanceRuleProfile } from "../festival-observance-rules.mjs";
+import { evaluateObservanceRule, getObservanceRuleProfile, resolveObservanceCandidates } from "../festival-observance-rules.mjs";
 
 const interval = (index, startTime, endTime, paksha) => ({ index, startTime, endTime, paksha });
 
@@ -423,3 +423,426 @@ test("Jayanti review profiles reject a mismatched month instead of silently appl
   assert.ok(result.warnings.includes("lunar-month-outside-profile"));
   assert.equal(result.autoApproved, false);
 });
+
+
+test("candidate resolver selects only a unique local karmakala match and keeps source approval separate", () => {
+  const result = resolveObservanceCandidates("sankashti-moonrise", [
+    { date: "2026-11-26", masa: "कार्तिक", moonrise: "2026-11-26T12:00:00Z",
+      tithis: [interval(17, "2026-11-26T00:00:00Z", "2026-11-26T11:00:00Z", "कृष्ण पक्ष")] },
+    { date: "2026-11-27", masa: "कार्तिक", moonrise: "2026-11-27T12:00:00Z",
+      tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-28T02:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.finalDate, "2026-11-27");
+  assert.equal(result.autoApproved, false);
+  assert.ok(result.warnings.includes("primary-source-and-publication-approval-still-required"));
+});
+
+test("candidate resolver refuses to invent a tie-break when two days satisfy the same karmakala", () => {
+  const result = resolveObservanceCandidates("pradosh-trayodashi", [
+    { date: "2026-11-26", masa: "कार्तिक", sunset: "2026-11-26T12:00:00Z", nextSunrise: "2026-11-27T00:00:00Z",
+      tithis: [interval(12, "2026-11-26T12:00:00Z", "2026-11-27T18:00:00Z", "कृष्ण पक्ष")] },
+    { date: "2026-11-27", masa: "कार्तिक", sunset: "2026-11-27T12:00:00Z", nextSunrise: "2026-11-28T00:00:00Z",
+      tithis: [interval(12, "2026-11-26T12:00:00Z", "2026-11-28T00:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.finalDate, null);
+  assert.ok(result.warnings.includes("multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"));
+});
+
+test("candidate resolver blocks selection when any candidate day lacks calculation inputs", () => {
+  const result = resolveObservanceCandidates("sankashti-moonrise", [
+    { date: "2026-11-26", masa: "कार्तिक", moonrise: "2026-11-26T12:00:00Z", tithis: [] },
+    { date: "2026-11-27", masa: "कार्तिक", moonrise: "2026-11-27T12:00:00Z",
+      tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-28T02:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "insufficient-data");
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+
+test("Shravana Dwadashi yoga detector segments evidence by sunrise-to-sunrise vrata day", async () => {
+  const { evaluateShravanaDwadashiYoga } = await import("../festival-observance-rules.mjs");
+  const result = evaluateShravanaDwadashiYoga([
+    {
+      date: "2030-09-08", dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    },
+    {
+      date: "2030-09-09", dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    }
+  ]);
+  assert.equal(result.status, "candidate-evidence-only");
+  assert.deepEqual(result.qualifyingDates, ["2030-09-08"]);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+  assert.equal(result.matches[0].durationMs, 35515308);
+  assert.equal(result.matches[1].durationMs, 2513615);
+});
+
+test("Dharmasindhu Vishnushrinkhala selects the earlier 2030 vrata day only with all two-day conditions", () => {
+  const candidateDays = [
+    {
+      date: "2030-09-08", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      sunset: "2030-09-08T12:52:52.114Z",
+      tithis: [
+        interval(10, "2030-09-07T04:48:24.531Z", "2030-09-08T02:50:59.472Z", "शुक्ल पक्ष"),
+        interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")
+      ],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    },
+    {
+      date: "2030-09-09", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      sunset: "2030-09-09T12:51:39.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    }
+  ];
+  const result = resolveObservanceCandidates("shravana-yoga-dwadashi-review", candidateDays);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-09-08");
+  assert.equal(result.finalDate, "2030-09-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana-both-vrata-days-previous-day-only");
+  assert.equal(result.evaluations[0].shravanaDwadashiOverlapMs, 35515308);
+  assert.equal(result.evaluations[1].dwadashiRemainingAfterSunriseMs, 2513615);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Shravana Dwadashi special resolver refuses the earlier day when first-prahara overlap is absent", () => {
+  const candidateDays = [
+    {
+      date: "2030-09-08", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      sunset: "2030-09-08T12:52:52.114Z",
+      tithis: [
+        interval(10, "2030-09-07T04:48:24.531Z", "2030-09-08T02:50:59.472Z", "शुक्ल पक्ष"),
+        interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")
+      ],
+      nakshatraIntervals: [interval(21, "2030-09-08T16:00:00.000Z", "2030-09-09T13:30:51.947Z")]
+    },
+    {
+      date: "2030-09-09", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      sunset: "2030-09-09T12:51:39.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T16:00:00.000Z", "2030-09-09T13:30:51.947Z")]
+    }
+  ];
+  const result = resolveObservanceCandidates("shravana-yoga-dwadashi-review", candidateDays);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Shravana Dwadashi yoga detector does not treat a short overlap as a complete muhurta", async () => {
+  const { evaluateShravanaDwadashiYoga } = await import("../festival-observance-rules.mjs");
+  const result = evaluateShravanaDwadashiYoga([{
+    date: "2030-09-09", dayStart: "2030-09-08T18:30:00Z", dayEnd: "2030-09-09T18:30:00Z",
+    tithis: [interval(11, "2030-09-09T00:00:00Z", "2030-09-09T03:00:00Z", "शुक्ल पक्ष")],
+    nakshatraIntervals: [interval(21, "2030-09-09T02:30:00Z", "2030-09-09T05:00:00Z")]
+  }]);
+  assert.equal(result.status, "brief-overlap-needs-review");
+  assert.equal(result.finalDate, null);
+  assert.ok(result.warnings.includes("overlap-shorter-than-one-muhurta"));
+});
+
+test("Ekadashi parana opens after sunrise and Hari Vasara, inside Pratahkal and Dwadashi", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T12:00:00Z", dwadashiEnd: "2030-01-02T04:30:00Z"
+  });
+  assert.equal(result.status, "morning-window");
+  assert.equal(result.windowStart, "2030-01-02T00:30:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T02:54:00.000Z");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ekadashi parana waits until Hari Vasara ends when it crosses sunrise", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-02T00:00:00Z", dwadashiEnd: "2030-01-02T10:00:00Z"
+  });
+  assert.equal(result.status, "morning-window");
+  assert.equal(result.windowStart, "2030-01-02T02:30:00.000Z");
+});
+
+test("Ekadashi parana moves after Madhyahna when Hari Vasara exceeds Pratahkal", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T23:30:00Z", dwadashiEnd: "2030-01-02T18:30:00Z"
+  });
+  assert.equal(result.status, "afternoon-window");
+  assert.equal(result.windowStart, "2030-01-02T07:42:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T18:30:00.000Z");
+  assert.ok(result.warnings.includes("madhyahna-avoided"));
+});
+
+test("Ekadashi parana uses the after-sunrise exception when Dwadashi ended before sunrise", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T06:00:00Z", dwadashiEnd: "2030-01-01T23:00:00Z"
+  });
+  assert.equal(result.status, "parana-after-dwadashi-ended-before-sunrise");
+  assert.equal(result.windowStart, "2030-01-02T00:30:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T02:54:00.000Z");
+});
+
+test("Ekadashi parana refuses to invent a window when Dwadashi ends during Hari Vasara", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-02T02:00:00Z", dwadashiEnd: "2030-01-02T07:00:00Z"
+  });
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.windowStart, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ekadashi parana requires local sunrise, sunset and a valid Dwadashi interval", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({ sunrise: "2030-01-02T00:30:00Z" });
+  assert.equal(result.status, "insufficient-data");
+  assert.equal(result.windowStart, null);
+});
+
+
+test("Nag Panchami selects the later day when Panchami lasts three muhurtas after its sunrise", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T06:00:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T06:00:00Z", "2026-08-17T08:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T06:00:00Z", "2026-08-17T03:00:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-17");
+  assert.equal(result.selectionBasis, "later-day-panchami-prevails-three-muhurtas-after-sunrise");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Nag Panchami uses the later day with two muhurtas when earlier Chaturthi exceeded three", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T03:00:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T03:00:00Z", "2026-08-17T01:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T03:00:00Z", "2026-08-17T02:06:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-17");
+  assert.equal(result.selectionBasis, "later-day-two-muhurta-panchami-with-earlier-chaturthi-over-three-muhurtas");
+});
+
+test("Nag Panchami keeps the earlier day when earlier Chaturthi is under three and later Panchami has two", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T01:30:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T01:30:00Z", "2026-08-17T02:06:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-16");
+  assert.equal(result.selectionBasis, "earlier-day-panchami-when-earlier-chaturthi-is-under-three-muhurtas");
+});
+
+test("Nag Panchami refuses to guess when later Panchami is shorter than two muhurtas", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T01:30:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:00:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:00:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+
+const rathaDay = (date, sunrise, tithis) => ({
+  date, masa: "माघ", paksha: "शुक्ल पक्ष", sunrise, tithis
+});
+
+test("Ratha Saptami selects the first day when Saptami covers both Arunodayas", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(6, "2030-02-13T22:00:00.000Z", "2030-02-14T03:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(6, "2030-02-13T22:00:00.000Z", "2030-02-15T03:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-02-14");
+  assert.equal(result.selectionBasis, "dharmasindhu-arunodaya-vyapti-on-two-days-first-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami selects the unique local Arunodaya day", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T01:00:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-15T00:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-15T00:00:00.000Z", "शुक्ल पक्ष"),
+      interval(7, "2030-02-15T00:00:00.000Z", "2030-02-16T02:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.selectedDate, "2030-02-15");
+  assert.equal(result.selectionBasis, "magha-shukla-saptami-at-local-arunodaya");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami applies the Dharmasindhu Shashthi-yukta Kshaya exception", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T00:50:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T00:50:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(7, "2030-02-14T22:00:00.000Z", "2030-02-15T03:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-02-14");
+  assert.equal(result.selectionBasis, "dharmasindhu-shashthi-yukta-saptami-kshaya-before-next-arunodaya");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ratha Saptami refuses the Kshaya exception when Shashthi exceeds one ghati", () => {
+  const result = resolveObservanceCandidates("ratha-saptami-review", [
+    rathaDay("2030-02-14", "2030-02-14T00:30:00.000Z", [
+      interval(5, "2030-02-13T21:00:00.000Z", "2030-02-14T01:00:00.000Z", "शुक्ल पक्ष"),
+      interval(6, "2030-02-14T01:00:00.000Z", "2030-02-14T22:00:00.000Z", "शुक्ल पक्ष")
+    ]),
+    rathaDay("2030-02-15", "2030-02-15T00:31:00.000Z", [
+      interval(7, "2030-02-14T22:00:00.000Z", "2030-02-16T02:00:00.000Z", "शुक्ल पक्ष")
+    ])
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+
+const narasimhaDay = (date, sunset, nextSunrise, tithis) => ({
+  date, masa: "वैशाख", paksha: "शुक्ल पक्ष", sunset, nextSunrise, tithis
+});
+
+test("Narasimha Jayanti selects the unique day with Pradosh Chaturdashi", () => {
+  const chaturdashi = interval(13, "2030-05-01T13:00:00.000Z", "2030-05-01T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-05-01");
+  assert.equal(result.selectionBasis, "unique-pradosh-vyapini-chaturdashi");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti selects the later day when both Pradoshas have Chaturdashi", () => {
+  const chaturdashi = interval(13, "2030-05-01T13:00:00.000Z", "2030-05-02T14:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "dharmasindhu-both-pradoshas-later-day-to-avoid-trayodashi-contact");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti uses the second day when neither Pradosha is Chaturdashi-vyapini", () => {
+  const chaturdashi = interval(13, "2030-05-01T14:30:00.000Z", "2030-05-02T11:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "dharmasindhu-no-pradosh-vyapti-second-day-to-avoid-trayodashi-contact");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Narasimha Jayanti selects the later day when only its Pradosha is covered", () => {
+  const chaturdashi = interval(13, "2030-05-02T13:00:00.000Z", "2030-05-02T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("narasimha-jayanti", [
+    narasimhaDay("2030-05-01", "2030-05-01T12:00:00.000Z", "2030-05-02T00:00:00.000Z", [chaturdashi]),
+    narasimhaDay("2030-05-02", "2030-05-02T12:00:00.000Z", "2030-05-03T00:00:00.000Z", [chaturdashi])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-02");
+  assert.equal(result.selectionBasis, "unique-pradosh-vyapini-chaturdashi");
+  assert.equal(result.autoApproved, false);
+});
+
+
+const parashuramaDay = (date, sunset, nextSunrise, tithis) => ({
+  date, masa: "वैशाख", paksha: "शुक्ल पक्ष", sunset, nextSunrise, tithis
+});
+
+test("Parashurama Jayanti takes the later day when Tritiya touches both Pradoshas", () => {
+  const tritiya = interval(2, "2030-05-08T13:00:00.000Z", "2030-05-09T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-09");
+  assert.equal(result.selectionBasis, "dharmasindhu-two-day-pradosha-vyapti-later-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti takes the earlier day when only the first Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-08T13:00:00.000Z", "2030-05-08T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti still takes the earlier day when only the second Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-09T13:00:00.000Z", "2030-05-09T15:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Parashurama Jayanti takes the earlier day when neither Pradosha is touched", () => {
+  const tritiya = interval(2, "2030-05-08T14:30:00.000Z", "2030-05-09T11:00:00.000Z", "शुक्ल पक्ष");
+  const result = resolveObservanceCandidates("parashurama-jayanti", [
+    parashuramaDay("2030-05-08", "2030-05-08T12:00:00.000Z", "2030-05-09T00:00:00.000Z", [tritiya]),
+    parashuramaDay("2030-05-09", "2030-05-09T12:00:00.000Z", "2030-05-10T00:00:00.000Z", [tritiya])
+  ]);
+  assert.equal(result.selectedDate, "2030-05-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
+  assert.equal(result.autoApproved, false);
+});
+

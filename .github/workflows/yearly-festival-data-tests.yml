@@ -11,6 +11,7 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2030-festival-audit.test.mjs'
+      - 'tests/2030-pithoragarh-diagnostic.test.mjs'
       - 'tests/2027-festival-audit.test.mjs'
       - 'tests/2028-festival-audit.test.mjs'
       - 'tests/2028-festival-card-separation.test.mjs'
@@ -24,6 +25,7 @@ on:
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'scripts/diagnose-2028-pithoragarh-festival-dates.mjs'
       - 'scripts/diagnose-2029-pithoragarh-festival-dates.mjs'
+      - 'scripts/diagnose-2030-pithoragarh-festival-dates.mjs'
       - 'data/festivals/**'
       - 'data/dwadashi/**'
       - 'data/chaturmas/**'
@@ -45,6 +47,7 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2030-festival-audit.test.mjs'
+      - 'tests/2030-pithoragarh-diagnostic.test.mjs'
       - 'tests/2027-festival-audit.test.mjs'
       - 'tests/2028-festival-audit.test.mjs'
       - 'tests/2028-festival-card-separation.test.mjs'
@@ -56,6 +59,7 @@ on:
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'scripts/diagnose-2028-pithoragarh-festival-dates.mjs'
       - 'scripts/diagnose-2029-pithoragarh-festival-dates.mjs'
+      - 'scripts/diagnose-2030-pithoragarh-festival-dates.mjs'
       - 'data/festivals/**'
       - 'data/dwadashi/**'
       - 'data/chaturmas/**'
@@ -90,6 +94,10 @@ jobs:
         run: node scripts/diagnose-2028-pithoragarh-festival-dates.mjs
       - name: Diagnose all 2029 festival dates against Pithoragarh sunrise and observance times
         run: node scripts/diagnose-2029-pithoragarh-festival-dates.mjs
+      - name: Diagnose all 2030 festival dates against Pithoragarh sunrise and observance times
+        run: node scripts/diagnose-2030-pithoragarh-festival-dates.mjs
+      - name: Run 2030 Pithoragarh diagnostic wiring test
+        run: node --test tests/2030-pithoragarh-diagnostic.test.mjs
       - name: Run complete 2027 festival catalog regression audits
         run: node --test tests/2027-festival-audit.test.mjs
       - name: Run complete 2028 festival catalog regression audits

@@ -26,8 +26,27 @@ test("2030 monthly festival files have approved records dated within their month
 test("2030 catalog keeps distinct same-date observances on separate cards", () => {
   const seen = new Map();
   const allowedSameDate = new Map([
+    ["2030-10-24|कार्तिक कृष्ण त्रयोदशी", new Set(["धनतेरस / धन्वन्तरि जयंती / यमदीपदान", "गुरु प्रदोष व्रत"])],
     ["2030-10-25|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])],
-    ["2030-10-26|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती", "काली पूजा"])]
+    ["2030-10-26|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती", "काली पूजा"])],
+    ["2030-06-22|आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-07-22|श्रावण कृष्ण अष्टमी", new Set(["प्रथम श्रावण सोमवार", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-08-09|श्रावण शुक्ल एकादशी", new Set(["वरलक्ष्मी व्रत", "श्रावण पुत्रदा एकादशी (स्मार्त)"])],
+    ["2030-08-20|भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)", new Set(["श्रीकृष्ण जन्माष्टमी (स्मार्त)", "मासिक कालाष्टमी", "आद्याकाली महाविद्या जयंती", "विंध्यवासिनी जयंती"])],
+    ["2030-08-25|भाद्रपद कृष्ण द्वादशी", new Set(["बछबारस (वत्स द्वादशी)", "कृष्ण दामोदर द्वादशी"])],
+    ["2030-09-08|भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति", new Set(["परिवर्तिनी / पार्श्व एकादशी (स्मार्त)", "वामन-द्वादशी व्रत", "कल्कि द्वादशी", "दामोदर-द्वादशी व्रत", "नीराजन-व्रत"])],
+    ["2030-10-19|कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["अहोई अष्टमी", "राधाकुण्ड स्नान", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-11-18|मार्गशीर्ष कृष्ण अष्टमी", new Set(["कालभैरव जयंती", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-12-02|मार्गशीर्ष शुक्ल अष्टमी", new Set(["मासिक दुर्गाष्टमी", "बाबा नीब करौरी जयंती"])],
+    ["2030-12-09|मार्गशीर्ष शुक्ल पूर्णिमा", new Set(["दत्तात्रेय जयंती / मार्गशीर्ष पूर्णिमा", "त्रिपुरभैरवी महाविद्या जयंती", "अन्नपूर्णा जयंती"])],
+    ["2030-12-17|पौष कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-02-24|फाल्गुन कृष्ण सप्तमी / अष्टमी", new Set(["भानु सप्तमी", "शबरी जयंती", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-03-26|चैत्र कृष्ण अष्टमी", new Set(["शीतला अष्टमी / बसोड़ा", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
+    ["2030-09-19|आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी", "महालक्ष्मी व्रत समापन", "अष्टमी श्राद्ध"])],
+    ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])],
+    ["2030-05-14|वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])],
+    ["2030-03-01|फाल्गुन कृष्ण द्वादशी", new Set(["कृष्ण भीष्म द्वादशी"])],
+    ["2030-03-01|फाल्गुन कृष्ण त्रयोदशी", new Set(["शुक्र प्रदोष व्रत"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -54,7 +73,8 @@ test("2030 important annual festivals and jayantis are represented", () => {
   assert.ok(has("2030-01-15", /तैलंग स्वामी जयंती/));
   assert.ok(has("2030-02-18", /गुरु रविदास जयंती/));
   assert.ok(has("2030-02-23", /यशोदा जयंती/));
-  assert.ok(has("2030-02-24", /भानु सप्तमी.*शबरी जयंती/));
+  assert.ok(has("2030-02-24", /^भानु सप्तमी$/));
+  assert.ok(has("2030-02-24", /^शबरी जयंती$/));
   assert.ok(has("2030-02-25", /जानकी जयंती/));
   assert.ok(has("2030-03-06", /फुलेरा दूज.*श्रीरामकृष्ण परमहंस जयंती/));
   assert.ok(has("2030-03-19", /चैतन्य महाप्रभु जयंती.*सावर्णि मन्वादि तिथि/));
@@ -81,17 +101,37 @@ test("2030 important annual festivals and jayantis are represented", () => {
   assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
 
-test("2030 same-tithi Navratri and festival observances are combined", () => {
+test("2030 same-tithi festival observances preserve distinct cards where required", () => {
   assert.ok(has("2030-03-03", /द्वापरादि तिथि.*दर्श अमावस्या/));
-  assert.ok(has("2030-03-01", /कृष्ण भीष्म द्वादशी.*शुक्र प्रदोष/));
+  const bhishma=has("2030-03-01", /^कृष्ण भीष्म द्वादशी$/);
+  const shukraPradosh=has("2030-03-01", /^शुक्र प्रदोष व्रत$/);
+  assert.ok(bhishma);
+  assert.ok(shukraPradosh);
+  assert.equal(bhishma.hinduTithi,"फाल्गुन कृष्ण द्वादशी");
+  assert.equal(bhishma.muhurtaRule,undefined);
+  assert.equal(shukraPradosh.hinduTithi,"फाल्गुन कृष्ण त्रयोदशी");
+  assert.equal(shukraPradosh.muhurtaRule,"pradosh-kala");
+  assert.equal(has("2030-03-01", /कृष्ण भीष्म द्वादशी.*शुक्र प्रदोष/),undefined);
   assert.ok(has("2030-03-16", /नृसिंह द्वादशी/));
-  assert.ok(has("2030-03-26", /शीतला अष्टमी.*मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/));
+  const krishnaNarasimha=has("2030-03-30", /^कृष्ण नृसिंह द्वादशी$/);
+  assert.ok(krishnaNarasimha);
+  assert.equal(krishnaNarasimha.hinduTithi,"चैत्र कृष्ण द्वादशी");
+  assert.equal(krishnaNarasimha.associatedEkadashiDate,"2030-03-29");
+  assert.equal(krishnaNarasimha.paranaDate,"2030-03-30");
+  assert.equal(krishnaNarasimha.muhurtaRule,undefined);
+  assert.equal(has("2030-03-29", /^कृष्ण नृसिंह द्वादशी$/),undefined);
+  assert.ok(has("2030-03-26", /^शीतला अष्टमी \/ बसोड़ा$/));
+  assert.ok(has("2030-03-26", /^मासिक कालाष्टमी$/));
+  assert.equal(has("2030-03-26", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(has("2030-02-03", /चन्द्र दर्शन.*माघ गुप्त नवरात्र प्रारंभ/));
   assert.ok(has("2030-02-06", /गौरी गणेश.*कूष्माण्डा/));
   assert.ok(has("2030-02-07", /वसंत पंचमी.*स्कन्दमाता/));
   assert.ok(has("2030-02-08", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
   assert.ok(has("2030-02-09", /रथ सप्तमी.*नर्मदा जयंती.*ब्रह्मसावर्णि मन्वादि तिथि.*कालरात्रि/));
-  assert.ok(has("2030-02-24", /भानु सप्तमी.*शबरी जयंती.*मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/));
+  assert.ok(has("2030-02-24", /^भानु सप्तमी$/));
+  assert.ok(has("2030-02-24", /^शबरी जयंती$/));
+  assert.ok(has("2030-02-24", /^मासिक कालाष्टमी$/));
+  assert.equal(has("2030-02-24", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.equal(has("2030-02-25", /मासिक कालाष्टमी/), undefined);
   assert.ok(has("2030-02-10", /भीष्म अष्टमी.*मासिक दुर्गाष्टमी.*महागौरी/));
   assert.ok(has("2030-04-04", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
@@ -106,6 +146,17 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-05-11", /मासिक दुर्गाष्टमी.*सीता नवमी.*वगलामुखी/));
   assert.equal(has("2030-05-11", /^सीता नवमी$/), undefined);
   assert.ok(has("2030-05-13", /मोहिनी एकादशी.*सिद्धिलक्ष्मी जयंती/));
+  const madhavaDwadashi = has("2030-05-14", /^माधव-द्वादशी व्रत$/);
+  const parashuramaDwadashi = has("2030-05-14", /^परशुराम-द्वादशी$/);
+  assert.ok(madhavaDwadashi);
+  assert.ok(parashuramaDwadashi);
+  assert.notEqual(madhavaDwadashi, parashuramaDwadashi);
+  assert.equal(madhavaDwadashi.hinduTithi, "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)");
+  assert.equal(parashuramaDwadashi.hinduTithi, "वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)");
+  assert.equal(madhavaDwadashi.muhurtaRule, undefined);
+  assert.equal(parashuramaDwadashi.muhurtaRule, undefined);
+  assert.equal(parashuramaDwadashi.followingMorningActionDate, "2030-05-15");
+  assert.equal(has("2030-05-14", /माधव-द्वादशी.*परशुराम-द्वादशी/), undefined);
   assert.ok(has("2030-05-17", /वैशाख पूर्णिमा.*बुद्ध पूर्णिमा.*कूर्म अवतार जयंती.*चण्डिका जयंती/));
   assert.ok(has("2030-05-30", /मासिक शिवरात्रि/)?.hinduTithi.includes("त्रयोदशी / चतुर्दशी"));
   assert.ok(has("2030-05-31", /वट सावित्री व्रत.*शनि जयंती.*ज्येष्ठ अमावस्या.*दर्श अमावस्या/));
@@ -116,7 +167,8 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-06-11", /गंगा दशहरा/));
   assert.ok(has("2030-06-12", /निर्जला एकादशी.*गायत्री जयंती.*रामलक्ष्मण द्वादशी/));
   assert.ok(has("2030-06-15", /ज्येष्ठ पूर्णिमा.*वट पूर्णिमा व्रत.*मिथुन संक्रांति.*बटुक भैरव.*वैवस्वत मन्वादि तिथि/));
-  assert.ok(has("2030-06-22", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/));
+  assert.ok(has("2030-06-22", /^मासिक कालाष्टमी$/));
+  assert.equal(has("2030-06-22", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(has("2030-06-27", /कृष्ण रामलक्ष्मण द्वादशी/));
   assert.ok(has("2030-06-28", /शुक्र प्रदोष व्रत.*मासिक शिवरात्रि/)?.hinduTithi.includes("त्रयोदशी / चतुर्दशी"));
   assert.equal(has("2030-06-28", /^शुक्र प्रदोष व्रत$/), undefined);
@@ -137,16 +189,22 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-07-16", /कर्क संक्रांति.*श्रावण मासारम्भ.*प्रथम मंगला गौरी/)?.description.includes("17 जुलाई को 00:16 बजे"));
   assert.equal(has("2030-07-18", /गजानन संकष्टी/)?.muhurtaRule, "sankashti-chaturthi-moonrise");
   assert.ok(has("2030-07-21", /भानु सप्तमी/));
-  assert.equal(has("2030-07-22", /प्रथम श्रावण सोमवार.*मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/)?.muhurtaRule, "janmashtami-nishita");
+  assert.ok(has("2030-07-22", /^प्रथम श्रावण सोमवार$/));
+  assert.ok(has("2030-07-22", /^मासिक कालाष्टमी$/));
+  assert.equal(has("2030-07-22", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(has("2030-07-23", /द्वितीय मंगला गौरी व्रत/));
-  assert.equal(has("2030-07-26", /कामिका एकादशी \(स्मार्त\).*कृष्ण वासुदेव द्वादशी/)?.muhurtaRule, "ekadashi-parana");
+  assert.equal(has("2030-07-26", /^कामिका एकादशी \(स्मार्त\)$/)?.muhurtaRule, "ekadashi-parana");
+  assert.equal(has("2030-07-26", /^कामिका एकादशी \(स्मार्त\)$/)?.hinduTithi, "श्रावण कृष्ण एकादशी");
+  assert.equal(has("2030-07-26", /^कृष्ण वासुदेव द्वादशी$/)?.muhurtaRule, undefined);
+  assert.equal(has("2030-07-26", /^कृष्ण वासुदेव द्वादशी$/)?.hinduTithi, "श्रावण कृष्ण द्वादशी");
   assert.equal(has("2030-07-27", /शनि प्रदोष व्रत/)?.muhurtaRule, "pradosh-kala");
   assert.equal(has("2030-07-28", /श्रावण शिवरात्रि.*मासिक शिवरात्रि/)?.muhurtaRule, "masik-shivaratri-nishita");
   assert.equal(has("2030-07-29", /द्वितीय श्रावण सोमवार/)?.hinduTithi, "श्रावण कृष्ण चतुर्दशी");
   assert.ok(has("2030-07-30", /हरियाली अमावस्या.*श्रावण अमावस्या.*दर्श अमावस्या.*तृतीय मंगला गौरी/));
   assert.ok(has("2030-08-04", /नाग पंचमी.*कल्कि जयंती/));
   assert.equal(has("2030-08-05", /मासिक स्कन्द षष्ठी/)?.hinduTithi, "श्रावण शुक्ल षष्ठी");
-  assert.ok(has("2030-08-09", /वरलक्ष्मी व्रत.*श्रावण पुत्रदा एकादशी.*स्मार्त/)?.muhurtaRule === "ekadashi-parana");
+  assert.equal(has("2030-08-09", /^वरलक्ष्मी व्रत$/)?.muhurtaRule, undefined);
+  assert.equal(has("2030-08-09", /^श्रावण पुत्रदा एकादशी \(स्मार्त\)$/)?.muhurtaRule, "ekadashi-parana");
   assert.equal(has("2030-08-11", /रवि प्रदोष व्रत/)?.muhurtaRule, "pradosh-kala");
   assert.equal(has("2030-08-13", /रक्षाबंधन/)?.muhurtaRule, "raksha-bandhan-thread");
   assert.ok(has("2030-08-16", /कजरी तीज/) && has("2030-08-16", /हेरम्ब संकष्टी/));
@@ -154,11 +212,19 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-08-17", /सिंह संक्रांति/)?.muhurtaRule === "sankranti-punya-kala");
   assert.ok(has("2030-08-19", /हलषष्ठी/));
 
-  assert.ok(has("2030-08-20", /मासिक कालाष्टमी.*श्रीकृष्ण जन्माष्टमी.*स्मार्त.*आद्याकाली.*विंध्यवासिनी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.equal(has("2030-08-20", /^श्रीकृष्ण जन्माष्टमी \(स्मार्त\)$/)?.muhurtaRule, "janmashtami-nishita");
+  assert.equal(has("2030-08-20", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
+  assert.ok(has("2030-08-20", /^आद्याकाली महाविद्या जयंती$/));
+  assert.ok(has("2030-08-20", /^विंध्यवासिनी जयंती$/));
   assert.equal(has("2030-08-21", /श्रीकृष्ण जन्माष्टमी/), undefined);
   assert.ok(has("2030-08-22", /दही हांडी/));
   assert.ok(has("2030-08-24", /अजा एकादशी/)?.muhurtaRule === "ekadashi-parana");
   assert.ok(has("2030-08-25", /बछबारस/));
+  assert.equal(has("2030-08-25", /जयन्ती महाद्वादशी|जयन्ती द्वादशी/), undefined);
+  const krishnaDamodara=has("2030-08-25", /कृष्ण दामोदर द्वादशी/);
+  assert.ok(krishnaDamodara);
+  assert.equal(krishnaDamodara.hinduTithi,"भाद्रपद कृष्ण द्वादशी");
+  assert.equal(krishnaDamodara.muhurtaRule,undefined);
   assert.ok(has("2030-08-26", /सोम प्रदोष व्रत/)?.muhurtaRule === "pradosh-kala");
   assert.ok(has("2030-08-27", /मासिक शिवरात्रि/)?.muhurtaRule === "masik-shivaratri-nishita");
   assert.ok(has("2030-08-28", /पिठोरी अमावस्या.*भाद्रपद अमावस्या.*दर्श अमावस्या/));
@@ -168,12 +234,39 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-09-04", /ललिता सप्तमी.*दूर्वाष्टमी.*ज्येष्ठा गौरी आवाहन/));
   assert.ok(has("2030-09-05", /राधाष्टमी.*महालक्ष्मी व्रत प्रारम्भ.*ज्येष्ठा गौरी पूजा.*दधीचि जयंती/));
   assert.ok(has("2030-09-06", /ज्येष्ठा गौरी विसर्जन.*दशावतार व्रत/));
-  assert.ok(has("2030-09-08", /परिवर्तिनी.*स्मार्त.*वामन जयंती.*कल्कि द्वादशी/)?.muhurtaRule === "ekadashi-parana");
-  assert.equal(has("2030-09-09", /सोम प्रदोष/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(has("2030-09-08", /^परिवर्तिनी \/ पार्श्व एकादशी \(स्मार्त\)$/)?.muhurtaRule, "ekadashi-parana");
+  const vamanaDwadashi=has("2030-09-08", /^वामन-द्वादशी व्रत$/);
+  assert.ok(vamanaDwadashi);
+  assert.equal(vamanaDwadashi.hinduTithi,"भाद्रपद शुक्ल द्वादशी");
+  assert.equal(vamanaDwadashi.sourceName,"नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 23b–24");
+  assert.equal(vamanaDwadashi.muhurtaRule,undefined);
+  assert.equal(has("2030-09-08", /^वामन जयंती$/),undefined);
+  assert.equal(has("2030-09-08", /^कल्कि द्वादशी$/)?.muhurtaRule, undefined);
+  const damodaraDwadashi=has("2030-09-08", /^दामोदर-द्वादशी व्रत$/);
+  const niranjanaVrata=has("2030-09-08", /^नीराजन-व्रत$/);
+  const kalkiDwadashi=has("2030-09-08", /^कल्कि द्वादशी$/);
+  assert.ok(damodaraDwadashi);
+  assert.ok(niranjanaVrata);
+  assert.ok(kalkiDwadashi);
+  assert.equal(damodaraDwadashi.hinduTithi,"भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति");
+  assert.equal(niranjanaVrata.hinduTithi,"भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति");
+  assert.equal(damodaraDwadashi.muhurtaRule,undefined);
+  assert.equal(niranjanaVrata.muhurtaRule,undefined);
+  assert.equal(niranjanaVrata.ritualTime,"रात्रि-संध्या");
+  assert.equal(kalkiDwadashi.followingMorningActionDate,"2030-09-09");
+  assert.equal(has("2030-09-09", /^दामोदर-द्वादशी व्रत$/),undefined);
+  assert.equal(has("2030-09-09", /^नीराजन-व्रत$/),undefined);
+  assert.equal(has("2030-09-09", /^भुवनेश्वरी महाविद्या जयंती$/)?.hinduTithi, "भाद्रपद शुक्ल द्वादशी");
+  assert.equal(has("2030-09-09", /^भुवनेश्वरी महाविद्या जयंती$/)?.muhurtaRule, undefined);
+  assert.equal(has("2030-09-09", /^सोम प्रदोष व्रत$/)?.hinduTithi, "भाद्रपद शुक्ल त्रयोदशी");
+  assert.equal(has("2030-09-09", /^सोम प्रदोष व्रत$/)?.muhurtaRule, "pradosh-kala");
   assert.equal(has("2030-09-15", /विघ्नराज संकष्टी/)?.muhurtaRule, "sankashti-chaturthi-moonrise");
   assert.ok(has("2030-09-16", /महा भरणी श्राद्ध/));
   assert.equal(has("2030-09-17", /कन्या संक्रांति/)?.muhurtaRule, "sankranti-punya-kala");
-  assert.ok(has("2030-09-19", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी.*महालक्ष्मी व्रत पूर्ण/)?.muhurtaRule === "janmashtami-nishita");
+  assert.equal(has("2030-09-19", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
+  assert.equal(has("2030-09-19", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
+  assert.ok(has("2030-09-19", /^महालक्ष्मी व्रत समापन$/));
+  assert.ok(has("2030-09-19", /^अष्टमी श्राद्ध$/));
   assert.ok(has("2030-09-20", /जीवित्पुत्रिका व्रत/));
   assert.equal(has("2030-09-24", /कृष्ण कल्कि द्वादशी.*भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
   assert.ok(has("2030-09-27", /सर्वपितृ अमावस्या.*आश्विन अमावस्या.*दर्श अमावस्या/));
@@ -209,7 +302,6 @@ test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing 
 test("2030 every Pradosh observance has its correct local muhurta rule", () => {
   const allowed = new Set([
     "pradosh-kala",
-    "dhanteras-muhurta",
     "dev-deepawali-pradosh"
   ]);
   for (const event of events.filter(event => /प्रदोष/.test(event.title || ""))) {
@@ -243,9 +335,14 @@ test("2030 only Pithoragarh-visible solar and partial lunar eclipses are listed"
   assert.equal(eclipses.filter(event => event.date === "2030-06-15").length, 1);
   assert.equal(eclipses.some(event => event.date === "2030-11-25" || event.date === "2030-12-10"), false);
   const solar = has("2030-06-01", /आंशिक सूर्यग्रहण/);
-  assert.match(solar.description, /3:57 बजे.*5:15:56 बजे.*6:38:21 बजे/);
+  assert.equal(solar.hinduTithi, "ज्येष्ठ अमावस्या");
+  assert.match(solar.description, /1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा/);
+  assert.doesNotMatch(solar.description, /\d{1,2}:\d{2}/,
+    "Do not publish local solar-eclipse contacts while the Pithoragarh timing source remains unresolved");
+  assert.match(solar.sourceName || "", /NASA 2030 eclipse catalog/);
   const lunar = has("2030-06-15", /आंशिक चंद्रग्रहण/);
   assert.match(lunar.description, /10:51 बजे.*1:15 बजे/);
+  assert.match(lunar.description, /16 जून 00:03 बजे/);
 });
 
 
@@ -254,15 +351,30 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const nov = months[10].events;
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
-  assert.equal(oct.length, 30);
-  assert.equal(nov.length, 24);
-  assert.equal(dec.length, 19);
+  assert.equal(months[1].events.length, 23);
+  assert.equal(months[2].events.length, 25);
+  assert.equal(months[8].events.length, 34);
+  assert.equal(oct.length, 36);
+  assert.equal(nov.length, 26);
+  assert.equal(dec.length, 23);
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
   assert.ok(at(oct, "2030-10-05", /दक्ष सावर्णि मन्वादि तिथि/));
-  assert.ok(at(oct, "2030-10-07", /पद्मनाभ द्वादशी.*काशी भरत मिलाप/));
-  assert.ok(at(oct, "2030-10-19", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी.*अहोई अष्टमी/)?.muhurtaRule === "janmashtami-nishita");
-  assert.equal(at(oct, "2030-10-19", /^अहोई अष्टमी$/), undefined);
-  assert.ok(at(oct, "2030-10-23", /^गोवत्स द्वादशी.*कृष्ण पद्मनाभ द्वादशी$/)?.hinduTithi === "कार्तिक कृष्ण द्वादशी");
+  const padmanabha=at(oct, "2030-10-07", /^पद्मनाभ द्वादशी$/);
+  const bharatMilap=at(oct, "2030-10-07", /^काशी भरत मिलाप$/);
+  assert.ok(padmanabha);
+  assert.ok(bharatMilap);
+  assert.equal(padmanabha.hinduTithi,"आश्विन शुक्ल द्वादशी");
+  assert.equal(padmanabha.followingMorningActionDate,"2030-10-08");
+  assert.equal(padmanabha.muhurtaRule,undefined);
+  assert.equal(bharatMilap.hinduTithi,undefined);
+  assert.ok(at(oct, "2030-10-19", /^अहोई अष्टमी$/));
+  assert.ok(at(oct, "2030-10-19", /^राधाकुण्ड स्नान$/));
+  assert.equal(at(oct, "2030-10-19", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
+  assert.equal(at(oct, "2030-10-19", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
+  assert.equal(at(oct, "2030-10-23", /^गोवत्स द्वादशी$/)?.hinduTithi, "कार्तिक कृष्ण द्वादशी");
+  assert.equal(at(oct, "2030-10-23", /^गोवत्स द्वादशी$/)?.muhurtaRule, "govatsa-dwadashi-pradosh-kala");
+  assert.equal(at(oct, "2030-10-23", /^कृष्ण पद्मनाभ द्वादशी$/)?.hinduTithi, "कार्तिक कृष्ण द्वादशी");
+  assert.equal(at(oct, "2030-10-23", /^कृष्ण पद्मनाभ द्वादशी$/)?.muhurtaRule, undefined);
   assert.ok(at(oct, "2030-10-23", /^रमा एकादशी$/)?.hinduTithi === "कार्तिक कृष्ण एकादशी");
   assert.ok(at(oct, "2030-10-24", /यमदीपदान/));
   assert.ok(at(oct, "2030-10-25", /हनुमान पूजा/));
@@ -279,22 +391,30 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(nov, "2030-11-10", /कार्तिक पूर्णिमा.*गुरु नानक जयंती/));
   assert.equal(at(nov, "2030-11-10", /देव दीपावली/), undefined);
   assert.ok(at(nov, "2030-11-17", /भानु सप्तमी/));
-  assert.ok(at(nov, "2030-11-18", /मासिक कृष्ण जन्माष्टमी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.ok(at(nov, "2030-11-18", /^कालभैरव जयंती$/));
+  assert.equal(at(nov, "2030-11-18", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
+  assert.equal(at(nov, "2030-11-18", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(nov, "2030-11-22", /कृष्ण योगेश्वर द्वादशी/));
   assert.ok(at(nov, "2030-11-24", /बाला जयंती.*दर्श अमावस्या/));
   assert.ok(at(nov, "2030-11-25", /सोमवती अमावस्या/));
 
   assert.ok(at(dec, "2030-12-01", /भानु सप्तमी/));
   assert.ok(at(dec, "2030-12-06", /मत्स्य द्वादशी/)?.hinduTithi === "मार्गशीर्ष शुक्ल द्वादशी");
-  assert.ok(at(dec, "2030-12-09", /अन्नपूर्णा जयंती/));
-  assert.ok(at(dec, "2030-12-17", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.ok(at(dec, "2030-12-09", /^दत्तात्रेय जयंती \/ मार्गशीर्ष पूर्णिमा$/));
+  assert.ok(at(dec, "2030-12-09", /^त्रिपुरभैरवी महाविद्या जयंती$/));
+  assert.ok(at(dec, "2030-12-09", /^अन्नपूर्णा जयंती$/));
+  assert.equal(at(dec, "2030-12-17", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
+  assert.equal(at(dec, "2030-12-17", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 265);
+  assert.equal(events.length, 303);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(at(oct, "2030-10-24", /^गुरु प्रदोष व्रत$/)?.muhurtaRule, "pradosh-kala");
+  assert.equal(at(oct, "2030-10-24", /धनतेरस/)?.muhurtaRule, "dhanteras-muhurta");
+  assert.equal(at(oct, "2030-10-24", /धनतेरस/)?.muhurtaRules, undefined);
   assert.equal(at(nov, "2030-11-07", /गुरु प्रदोष/)?.muhurtaRule, "pradosh-kala");
   assert.equal(at(nov, "2030-11-23", /शनि प्रदोष/)?.muhurtaRule, "pradosh-kala");
   assert.equal(at(dec, "2030-12-07", /शनि प्रदोष/)?.muhurtaRule, "pradosh-kala");
@@ -315,3 +435,25 @@ test("2030 Kalashtami records never carry a Janmashtami rule unless Janmashtami 
     }
   }
 });
+
+test("2030 separated recurring Janmashtami cards alone own Nishita muhurta", () => {
+  const dates = ["2030-06-22","2030-07-22","2030-10-19","2030-11-18","2030-12-17"];
+  for (const date of dates) {
+    const janmashtami = events.find(event => event.date === date && /^मासिक कृष्ण जन्माष्टमी$/.test(event.title || ""));
+    const kalashtami = events.find(event => event.date === date && /^मासिक कालाष्टमी$/.test(event.title || ""));
+    assert.equal(janmashtami?.muhurtaRule, "janmashtami-nishita", date + " monthly Janmashtami must retain Nishita");
+    assert.equal(kalashtami?.muhurtaRule, undefined, date + " Kalashtami must not inherit Janmashtami Nishita");
+  }
+  const separateJanmashtami = events.find(event => event.date === "2030-08-20" && event.title === "श्रीकृष्ण जन्माष्टमी (स्मार्त)");
+  assert.equal(separateJanmashtami?.muhurtaRule, "janmashtami-nishita");
+});
+
+test("2030 February, March and September split recurring tithi observances from major festivals", () => {
+  for (const date of ["2030-02-24","2030-03-26","2030-09-19"]) {
+    const janmashtami = events.find(event => event.date === date && event.title === "मासिक कृष्ण जन्माष्टमी");
+    const kalashtami = events.find(event => event.date === date && event.title === "मासिक कालाष्टमी");
+    assert.equal(janmashtami?.muhurtaRule, "janmashtami-nishita", date + " monthly Janmashtami must own Nishita");
+    assert.equal(kalashtami?.muhurtaRule, undefined, date + " Kalashtami must not inherit Nishita");
+  }
+});
+

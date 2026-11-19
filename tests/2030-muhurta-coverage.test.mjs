@@ -32,8 +32,9 @@ test("2030 major festival cards retain their implemented muhurta rules", async (
   assert.deepEqual(find(march.events, /महाशिवरात्रि/).muhurtaRules,
     ["mahashivaratri-four-prahar", "mahashivaratri-nishita"]);
   assert.equal(find(october.events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
-  assert.deepEqual(find(october.events, /धनतेरस/).muhurtaRules,
-    ["dhanteras-muhurta", "pradosh-kala"]);
+  assert.equal(find(october.events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
+  assert.equal(find(october.events, /धनतेरस/).muhurtaRules, undefined);
+  assert.equal(find(october.events, /^गुरु प्रदोष व्रत$/).muhurtaRule, "pradosh-kala");
   assert.deepEqual(find(october.events, /दीपावली|दिवाली/).muhurtaRules,
     ["diwali-lakshmi-puja"]);
   const kali = find(october.events, /काली चौदस/);

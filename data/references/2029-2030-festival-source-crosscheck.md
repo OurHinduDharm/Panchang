@@ -26,7 +26,9 @@ References:
 The 2030 monthly dates were compared against Drik Panchang's annual Hindu calendar. The core annual festival dates align with the OHD catalog. The following locally visible lunar eclipse was added:
 - 15–16 June: partial lunar eclipse visible in Pithoragarh; partial phase 10:51 PM to 1:15 AM, maximum at 12:03 AM, and penumbral phase ends at 2:22 AM.
 - 9–10 December 2030 is only a penumbral lunar eclipse (negative umbral magnitude). It is not added as a Hindu grahan card.
-- The 1 June 2030 annular solar eclipse is visible as a partial eclipse in Pithoragarh. A public Vrat-Parv eclipse card has been added with the date and a link to the grahan page, but no exact local contact times are shown because the available city table conflicts with the global NASA event timing.
+- The 1 June 2030 annular solar eclipse is visible as a partial eclipse in Pithoragarh. The public Vrat-Parv card retains the date and visibility only; exact local contacts are withheld because the captured city-table times conflict with independent global eclipse timing.
+- Audit correction (14 Nov 2026): removed the unsupported 3:57 PM / 5:15:56 PM / 6:38:21 PM values from `data/festivals/2030-06.json`; retained the event date and added a regression assertion so those local times cannot silently return.
+- The 15–16 June lunar eclipse description expresses maximum eclipse as 16 June 00:03 IST to make the midnight date unambiguous.
 
 References:
 - Drik Panchang 2030 Hindu calendar: https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030

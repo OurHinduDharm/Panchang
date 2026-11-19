@@ -39,6 +39,44 @@ test("monthly Vrat-Parv widget only imports approved annual Dwadashi records", a
   assert.match(widget, /एकादशी\|पारण\|parana/);
 });
 
+
+test("monthly widget enriches separate Dwadashi cards without merging distinct observances", async () => {
+  const widget = await read("monthly-vrat-parv-widget.js");
+  const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
+  const end = widget.indexOf("\n\n  async function loadMonth", start);
+  assert.ok(start >= 0 && end > start, "merge function should be extractable for regression testing");
+  const source = widget.slice(start, end).trim();
+  const mergeAnnualDwadashiEvents = new Function("return (" + source + ")")();
+  const data = {events:[
+    {
+      date:"2030-10-23",title:"गोवत्स द्वादशी",category:"व्रत",
+      hinduTithi:"कार्तिक कृष्ण द्वादशी",description:"पहले से मौजूद गोवत्स-विधान।"
+    },
+    {
+      date:"2030-10-23",title:"कृष्ण पद्मनाभ द्वादशी",category:"द्वादशी व्रत",
+      hinduTithi:"कार्तिक कृष्ण द्वादशी",description:"स्वतंत्र पद्मनाभ observance।"
+    }
+  ]};
+  const annual = {status:"approved",year:2030,tithis:[{
+    status:"approved",selectedDate:"2030-10-23",month:"कार्तिक",paksha:"कृष्ण",
+    displayNames:["गोवत्स द्वादशी","कृष्ण-पद्मनाभ द्वादशी"],
+    observances:[{
+      id:"govatsa",name:"गोवत्स द्वादशी",deity:"गाय एवं बछड़ा",
+      shortDetail:"गाय-बछड़े का स्वतंत्र पूजन-विधान।"
+    }]
+  }]};
+  const result = mergeAnnualDwadashiEvents(data,annual,2030,10);
+  assert.equal(result.events.length,2,"separate existing cards must not be collapsed or duplicated");
+  const govatsa = result.events.find(item=>item.title==="गोवत्स द्वादशी");
+  const padmanabha = result.events.find(item=>item.title==="कृष्ण पद्मनाभ द्वादशी");
+  assert.ok(govatsa);
+  assert.ok(padmanabha);
+  assert.match(govatsa.description,/गाय-बछड़े का स्वतंत्र पूजन-विधान/);
+  assert.equal(padmanabha.description,"स्वतंत्र पद्मनाभ observance।");
+  assert.deepEqual(govatsa.dwadashiAliases,["गोवत्स द्वादशी"]);
+  assert.deepEqual(padmanabha.dwadashiAliases,["कृष्ण-पद्मनाभ द्वादशी"]);
+});
+
 test("upcoming festival widget prefers approved annual Chaturmas phases and retains legacy fallback", async () => {
   const widget = await read("festival-widget.js");
   assert.match(widget, /\.\.\/dwadashi\/.*year.*json/);

@@ -122,14 +122,24 @@
     {
       "date": "2030-10-07",
       "dateLabel": "7 अक्टूबर",
-      "title": "पद्मनाभ द्वादशी / काशी भरत मिलाप",
-      "description": "आश्विन शुक्ल द्वादशी पर भगवान विष्णु के पद्मनाभ स्वरूप का स्मरण और पूजन किया जाता है। दशहरा के अगले दिन काशी में भरत मिलाप की परंपरा भी है।",
-      "category": "व्रत एवं पर्व",
+      "title": "पद्मनाभ द्वादशी",
+      "description": "आश्विन शुक्ल द्वादशी के आगमन पर भगवान पद्मनाभ का दूध से अभिषेक, हवन और पूजन करें। रात्रि-जागरण के बाद अगली सुबह पुनः पूजा तथा मधु और दक्षिणा दान का विधान है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल द्वादशी",
-      "sourceName": "Drik Panchang — 2030 मासिक पंचांग",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F10%2F2030"
+      "sourceName": "नारद पुराण, अध्याय 17, श्लोक 74–78; अध्याय 121, श्लोक 25–27a",
+      "followingMorningActionDate": "2030-10-08"
+    },
+    {
+      "date": "2030-10-07",
+      "dateLabel": "7 अक्टूबर",
+      "title": "काशी भरत मिलाप",
+      "description": "दशहरा के अगले दिन काशी में श्रीराम और भरत के पुनर्मिलन की लीला की स्मृति में भरत मिलाप की परंपरा मनाई जाती है।",
+      "category": "क्षेत्रीय परंपरा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "काशी की पारंपरिक विजयादशमी-परवर्ती उत्सव परंपरा"
     },
     {
       "date": "2030-10-08",
@@ -202,14 +212,42 @@
     {
       "date": "2030-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी / अहोई अष्टमी / राधाकुण्ड स्नान",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इसी दिन मासिक कृष्ण जन्माष्टमी की निशीथकालीन उपासना, अहोई माता का संतान-सुख हेतु पूजन और तारों को अर्घ्य देने की परंपरा है। ब्रज में अहोई अष्टमी पर राधाकुण्ड स्नान का विशेष महत्व माना जाता है।",
+      "title": "अहोई अष्टमी",
+      "description": "अहोई अष्टमी पर संतान-सुख और कल्याण की कामना से अहोई माता का पूजन करें तथा सायंकाल तारों को अर्घ्य अर्पित करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "राधाकुण्ड स्नान",
+      "description": "अहोई अष्टमी के अवसर पर ब्रज में राधाकुण्ड स्नान का विशेष महत्त्व माना जाता है। श्रद्धालु राधाकुण्ड में स्नान और पूजन करते हैं।",
+      "category": "स्नान",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
+      "date": "2030-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी के निशीथ काल में श्रीकृष्ण की उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "muhurtaRule": "janmashtami-nishita"
     },
     {
@@ -232,22 +270,33 @@
     {
       "date": "2030-10-23",
       "dateLabel": "23 अक्टूबर",
-      "title": "गोवत्स द्वादशी / कृष्ण पद्मनाभ द्वादशी",
-      "description": "कार्तिक कृष्ण द्वादशी पर गोवत्स द्वादशी में गाय और बछड़े का पूजन किया जाता है। इसी तिथि पर भगवान विष्णु के पद्मनाभ स्वरूप की उपासना का भी विधान है। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">गोवत्स द्वादशी व्रत</a>",
-      "category": "व्रत एवं द्वादशी",
+      "title": "गोवत्स द्वादशी",
+      "description": "कार्तिक कृष्ण द्वादशी पर गाय और बछड़े का पूजन करें। यदि द्वादशी दो दिनों में व्याप्त हो तो भविष्योत्तर पुराण के अनुसार पहले दिन प्रदोषकाल में वत्स-पूजन किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">गोवत्स द्वादशी व्रत</a>",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण द्वादशी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "https://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
-      "articleLabel": "गोवत्स द्वादशी व्रत"
+      "articleLabel": "गोवत्स द्वादशी व्रत",
+      "muhurtaRule": "govatsa-dwadashi-pradosh-kala"
+    },
+    {
+      "date": "2030-10-23",
+      "dateLabel": "23 अक्टूबर",
+      "title": "कृष्ण पद्मनाभ द्वादशी",
+      "category": "द्वादशी व्रत",
+      "description": "आश्विन शुक्ल पद्मनाभ द्वादशी के पंद्रह दिन बाद आने वाली कार्तिक कृष्ण द्वादशी पर भगवान विष्णु के पद्मनाभ स्वरूप का पूजन, व्रत और दान करें।",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी"
     },
     {
       "date": "2030-10-24",
       "dateLabel": "24 अक्टूबर",
-      "title": "धनतेरस / धन्वन्तरि जयंती / गुरु प्रदोष व्रत / यमदीपदान",
-      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a> त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "title": "धनतेरस / धन्वन्तरि जयंती / यमदीपदान",
+      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -258,10 +307,18 @@
       "articleLabel": "धनतेरस",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
       "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
-      "muhurtaRules": [
-        "dhanteras-muhurta",
-        "pradosh-kala"
-      ]
+      "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2030-10-24",
+      "dateLabel": "24 अक्टूबर",
+      "title": "गुरु प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-10-25",

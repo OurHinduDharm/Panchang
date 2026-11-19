@@ -11,14 +11,23 @@
     {
       "date": "2030-03-01",
       "dateLabel": "1 मार्च",
-      "title": "कृष्ण भीष्म द्वादशी / शुक्र प्रदोष व्रत",
-      "description": "कृष्ण भीष्म द्वादशी पर पितामह भीष्म का स्मरण और उनके निमित्त तर्पण किया जाता है। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा, व्रत और दीपदान की परंपरा है।",
+      "title": "कृष्ण भीष्म द्वादशी",
+      "description": "कृष्ण भीष्म द्वादशी पर भगवान विष्णु का पूजन, व्रत और दान करें। पितामह भीष्म का स्मरण एवं तर्पण भी किया जाता है। इस दिन द्वादशी और श्रवण नक्षत्र का एक मुहूर्त से अधिक संयोग होने से श्रवण योग द्वादशी भी है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण द्वादशी / त्रयोदशी",
-      "sourceName": "Drik Panchang — 2030 March Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030",
+      "hinduTithi": "फाल्गुन कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 Krishna Bhishma Dwadashi"
+    },
+    {
+      "date": "2030-03-01",
+      "dateLabel": "1 मार्च",
+      "title": "शुक्र प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव का पूजन, व्रत और दीपदान करें। शुक्रवार को पड़ने से इसे शुक्र प्रदोष कहा जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण त्रयोदशी",
       "muhurtaRule": "pradosh-kala"
     },
     {
@@ -246,18 +255,39 @@
     {
       "date": "2030-03-26",
       "dateLabel": "26 मार्च",
-      "title": "शीतला अष्टमी / बसोड़ा / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "शीतला अष्टमी पर माँ शीतला की पूजा की जाती है। कई क्षेत्रों में एक दिन पहले बना शीतल भोजन देवी को अर्पित कर प्रसाद ग्रहण करने की परंपरा है। प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इसी तिथि की रात्रि में मासिक कृष्ण जन्माष्टमी का व्रत-पूजन भी किया जाता है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
-      "category": "व्रत-पर्व",
+      "title": "शीतला अष्टमी / बसोड़ा",
+      "description": "शीतला अष्टमी पर माँ शीतला की पूजा करें। कई क्षेत्रों में एक दिन पहले बना शीतल भोजन देवी को अर्पित कर प्रसाद ग्रहण करने की परंपरा है।",
+      "category": "व्रत एवं पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र कृष्ण अष्टमी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "secondarySourceName": "Drik Panchang — 2030 March Festivals",
       "secondarySourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030"
+    },
+    {
+      "date": "2030-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"https://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+    },
+    {
+      "date": "2030-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी के निशीथ काल में श्रीकृष्ण की उपासना का विशेष महत्व है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अष्टमी",
+      "muhurtaRule": "janmashtami-nishita"
     },
     {
       "date": "2030-03-29",
@@ -275,6 +305,19 @@
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2030-03-30",
+      "dateLabel": "30 मार्च",
+      "title": "कृष्ण नृसिंह द्वादशी",
+      "description": "पापमोचनी एकादशी के अगले दिन चैत्र कृष्ण द्वादशी पर भगवान नृसिंह का पूजन करें। यह पापमोचनी एकादशी का पारण-दिन भी है; पारण स्थानीय द्वादशी और हरिवासर के नियम से करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 द्वादशी सूची; PanchangTime — कृष्ण नृसिंह द्वादशी",
+      "associatedEkadashiDate": "2030-03-29",
+      "paranaDate": "2030-03-30"
     },
     {
       "date": "2030-03-31",

@@ -629,7 +629,7 @@
         }
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
+            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|मुख्य धनतेरस पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
             if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
               var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
@@ -653,6 +653,7 @@
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
+          if(result.note){var sharedNote=document.createElement("div");sharedNote.className="muhurta-window-note";sharedNote.textContent=result.note;detail.appendChild(sharedNote);}
         }else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
           result.times.forEach(function(timeItem){
             var row=document.createElement("div");row.className="muhurta-window";
@@ -1373,41 +1374,64 @@
       });
     });
     annual.tithis.forEach(function(record){
-      if(!record||record.status!=="approved"||!record.selectedDate||!Array.isArray(record.displayNames)||!record.displayNames.length)return;
+      if(!record||record.status!=="approved"||!record.selectedDate)return;
       var date=String(record.selectedDate);
       if(Number(date.slice(0,4))!==Number(year)||Number(date.slice(5,7))!==Number(month))return;
-      var names=record.displayNames.map(function(name){return String(name||"").trim()}).filter(Boolean);
+      var names=(Array.isArray(record.displayNames)?record.displayNames:[])
+        .map(function(name){return String(name||"").trim()}).filter(Boolean);
+      if(!names.length&&Array.isArray(record.observances)){
+        names=record.observances.map(function(item){return String(item?.name||"").trim()}).filter(Boolean);
+      }
       if(!names.length)return;
       var paksha=String(record.paksha||"");
       var tithiLabel=String(record.month||"")+" "+paksha+" द्वादशी";
-      var existing=events.find(function(item){
+      var observances=Array.isArray(record.observances)?record.observances:[];
+      function normalizeName(value){
+        return String(value||"").normalize("NFC")
+          .replace(/[\s\-–—।|\/.,:;()]+/g,"")
+          .toLocaleLowerCase("hi");
+      }
+      function isMatchingDwadashiEvent(item){
         if(String(item.date||"")!==date||/एकादशी|पारण|parana/i.test(String(item.title||"")))return false;
         return String(item.hinduTithi||"").includes(record.month)&&
           String(item.hinduTithi||"").includes(paksha)&&
           /द्वादशी/.test(String(item.hinduTithi||""))&&
           (/द्वादशी/.test(String(item.category||""))||/द्वादशी/.test(String(item.title||"")));
-      });
-      var details=(Array.isArray(record.observances)?record.observances:[]).map(function(item){
-        return [item.name,item.deity,item.shortDetail].filter(Boolean).join(" — ");
-      }).filter(Boolean);
-      var description=details.join("\n\n");
-      if(existing){
-        var oldTitle=String(existing.title||"");
-        var mergedNames=names.filter(function(name){return !oldTitle.includes(name)});
-        if(mergedNames.length)existing.title=oldTitle+" / "+mergedNames.join(" / ");
-        if(description&&!String(existing.description||"").includes(description))existing.description=[existing.description,description].filter(Boolean).join("\n\n");
-        existing.dwadashiAliases=names;
-        return;
       }
-      events.push({
-        date:date,
-        title:names.join(" / "),
-        description:description,
-        category:"द्वादशी व्रत",
-        reviewStatus:"approved",
-        calculationStatus:"tithi-derived",
-        hinduTithi:tithiLabel,
-        dwadashiAliases:names
+      names.forEach(function(name){
+        var key=normalizeName(name);
+        if(!key)return;
+        var matches=events.filter(isMatchingDwadashiEvent);
+        var existing=matches.find(function(item){return normalizeName(item.title)===key;});
+        if(!existing){
+          var partial=matches.filter(function(item){return normalizeName(item.title).includes(key);});
+          if(partial.length===1)existing=partial[0];
+        }
+        var observance=observances.find(function(item){
+          return normalizeName(item?.name)===key;
+        })||null;
+        var details=observance
+          ? [observance.name,observance.deity,observance.shortDetail].filter(Boolean).join(" — ")
+          : "";
+        if(existing){
+          if(details&&!String(existing.description||"").includes(details)){
+            existing.description=[existing.description,details].filter(Boolean).join("\n\n");
+          }
+          if(!Array.isArray(existing.dwadashiAliases))existing.dwadashiAliases=[];
+          if(!existing.dwadashiAliases.includes(name))existing.dwadashiAliases.push(name);
+          return;
+        }
+        // एक ही मास-पक्ष की अलग-अलग द्वादशी-पूजाएँ अलग cards रहेंगी।
+        events.push({
+          date:date,
+          title:name,
+          description:details,
+          category:"द्वादशी व्रत",
+          reviewStatus:"approved",
+          calculationStatus:"tithi-derived",
+          hinduTithi:tithiLabel,
+          dwadashiAliases:[name]
+        });
       });
     });
     return Object.assign({},data,{events:events});

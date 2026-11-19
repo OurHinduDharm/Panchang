@@ -28,7 +28,7 @@
       "date": "2030-06-01",
       "dateLabel": "1 जून",
       "title": "आंशिक सूर्यग्रहण",
-      "description": "1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा। ग्रहण दोपहर 3:57 बजे आरंभ होगा, अधिकतम ग्रहण शाम 5:15:56 बजे होगा और शाम 6:38:21 बजे समाप्त होगा।",
+      "description": "1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -36,8 +36,9 @@
       "timingType": "eclipse-visibility",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
       "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
-      "sourceName": "Pithoragarh solar eclipse visibility table — local contacts",
-      "sourceUrl": "https://suryodaysuryast.in/sun-eclipse/pithoragarh"
+      "sourceName": "NASA 2030 eclipse catalog — event date; Pithoragarh visibility cross-check",
+      "sourceUrl": "https://eclipse.gsfc.nasa.gov/OH/OH2030.html",
+      "sourceNote": "Local contact times intentionally omitted: the previously captured city-table times conflict with the independent global eclipse timing."
     },
     {
       "date": "2030-06-02",
@@ -170,7 +171,7 @@
       "date": "2030-06-15",
       "dateLabel": "15 जून",
       "title": "आंशिक चंद्रग्रहण",
-      "description": "15–16 जून 2030 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 15 जून रात 10:51 बजे आरंभ होगा और 16 जून रात 1:15 बजे समाप्त होगा। ग्रहण का मध्यरात्रि अधिकतम 16 जून 12:03 बजे होगा। उपच्छाया चरण 2:22 बजे समाप्त होगा।",
+      "description": "15–16 जून 2030 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 15 जून रात 10:51 बजे आरंभ होगा और 16 जून 1:15 बजे समाप्त होगा। ग्रहण का अधिकतम 16 जून 00:03 बजे तथा उपच्छाया चरण का अंत 2:22 बजे होगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
@@ -194,14 +195,23 @@
     {
       "date": "2030-06-22",
       "dateLabel": "22 जून",
-      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "रात्रिव्यापिनी अष्टमी पर मासिक कालाष्टमी तथा मासिक कृष्ण जन्माष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें; भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन भी करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी पर मासिक कालाष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति"
+    },
+    {
+      "date": "2030-06-22",
+      "dateLabel": "22 जून",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "मासिक कृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन करें। रात्रिव्यापिनी अष्टमी के निशीथ काल में श्रीकृष्ण की उपासना का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "muhurtaRule": "janmashtami-nishita"
     },
     {
       "date": "2030-06-26",

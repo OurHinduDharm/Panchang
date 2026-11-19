@@ -24,6 +24,7 @@ test("master catalogue contains named records for all 24 regular month-paksha Dw
 
 const sunriseDay = (date, month, paksha, tithi, adhika=false) => ({
   date,
+  sunrise: date + "T00:30:00.000Z",
   masa: (adhika ? "अधिक " : "") + month,
   paksha: paksha + " पक्ष",
   tithi,
@@ -82,7 +83,8 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   assert.equal(record.selectedDate,"2026-04-01");
 });
 
-test("a source date overlapping the Dwadashi interval is retained as a review candidate", () => {
+test("a source date overlapping Dwadashi in its local sunrise-day window is retained as a review candidate", () => {
+  const previous = sunriseDay("2026-05-13","ज्येष्ठ","कृष्ण","एकादशी");
   const day = sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी");
   day.tithiStartTime = "2026-05-13T08:00:15.846Z";
   day.tithiEndTime = "2026-05-14T05:50:57.849Z";
@@ -94,7 +96,7 @@ test("a source date overlapping the Dwadashi interval is retained as a review ca
       labels:["कृष्ण परशुराम द्वादशी"]
     }]
   };
-  const result = buildDwadashiCalendar([day],sourceRules);
+  const result = buildDwadashiCalendar([previous,day],sourceRules);
   const record = result.tithis.find(item => item.id === "jyeshtha-krishna");
   assert.deepEqual(record.candidateDates,["2026-05-14"]);
   assert.equal(record.referenceDate,"2026-05-13");
@@ -104,8 +106,10 @@ test("a source date overlapping the Dwadashi interval is retained as a review ca
     date:"2026-05-13",
     intervalStart:"2026-05-13T08:00:15.846Z",
     intervalEnd:"2026-05-14T05:50:57.849Z",
+    sunriseDayStart:"2026-05-13T00:30:00.000Z",
+    sunriseDayEnd:"2026-05-14T00:30:00.000Z",
     basis:"daily-tithi-interval",
-    source:"local-panchang-tithi-interval"
+    source:"local-panchang-sunrise-to-next-sunrise"
   });
   assert.equal(record.status,"needs-review");
 });
@@ -122,10 +126,11 @@ test("2026 Drik source dates resolve four multi-day Dwadashi intervals as review
     {id:"kartika-krishna",month:"कार्तिक",paksha:"कृष्ण",date:"2026-11-05",candidate:"2026-11-06",start:"2026-11-05T05:06:00.008Z",end:"2026-11-06T05:00:59.972Z",labels:["गोवत्स द्वादशी","कृष्ण पद्मनाभ द्वादशी"]}
   ];
   for(const item of cases) {
+    const previous=sunriseDay(item.date,item.month,item.paksha,"एकादशी");
     const day=sunriseDay(item.candidate,item.month,item.paksha,"द्वादशी");
     day.tithiStartTime=item.start;
     day.tithiEndTime=item.end;
-    const result=buildDwadashiCalendar([day],sourceRules);
+    const result=buildDwadashiCalendar([previous,day],sourceRules);
     const record=result.tithis.find(x=>x.id===item.id);
     assert.equal(record.referenceDate,item.date,item.id);
     assert.equal(record.selectedDate,item.date,item.id);
@@ -136,7 +141,9 @@ test("2026 Drik source dates resolve four multi-day Dwadashi intervals as review
   }
 });
 
-test("a source date outside both candidates and the Dwadashi interval remains unresolved", () => {
+test("a source date outside its sunrise-day window and tithi interval remains unresolved", () => {
+  const sourceDay = sunriseDay("2026-05-12","ज्येष्ठ","कृष्ण","एकादशी");
+  const followingDay = sunriseDay("2026-05-13","ज्येष्ठ","कृष्ण","एकादशी");
   const day = sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी");
   day.tithiStartTime = "2026-05-13T08:00:15.846Z";
   day.tithiEndTime = "2026-05-14T05:50:57.849Z";
@@ -148,14 +155,15 @@ test("a source date outside both candidates and the Dwadashi interval remains un
       labels:["कृष्ण परशुराम द्वादशी"]
     }]
   };
-  const result = buildDwadashiCalendar([day],sourceRules);
+  const result = buildDwadashiCalendar([sourceDay,followingDay,day],sourceRules);
   const record = result.tithis.find(item => item.id === "jyeshtha-krishna");
   assert.equal(record.selectedDate,null);
   assert.equal(record.sourceReferenceObservation,null);
   assert.equal(record.dateSelection,"reference-date-outside-local-observations-review-required");
 });
 
-test("a source date overlapping the Dwadashi interval is recognized even when Dwadashi begins after sunrise", () => {
+test("a source date overlapping Dwadashi after sunrise is recognized within the sunrise-day window", () => {
+  const previous = sunriseDay("2026-09-22","भाद्रपद","शुक्ल","एकादशी");
   const day = sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी");
   day.tithiStartTime = "2026-09-22T16:13:37.432Z";
   day.tithiEndTime = "2026-09-23T17:20:50.513Z";
@@ -167,7 +175,7 @@ test("a source date overlapping the Dwadashi interval is recognized even when Dw
       labels:["विष्णुशृंखला योग द्वादशी"]
     }]
   };
-  const result = buildDwadashiCalendar([day],sourceRules);
+  const result = buildDwadashiCalendar([previous,day],sourceRules);
   const record = result.tithis.find(item => item.id === "bhadrapada-shukla");
   assert.deepEqual(record.candidateDates,["2026-09-23"]);
   assert.equal(record.selectedDate,"2026-09-22");
@@ -175,6 +183,27 @@ test("a source date overlapping the Dwadashi interval is recognized even when Dw
   assert.equal(record.sourceReferenceObservation.intervalStart,"2026-09-22T16:13:37.432Z");
   assert.equal(record.status,"needs-review");
 });
+
+test("a source reference is not matched when either sunrise boundary is missing", () => {
+  const sourceDay = sunriseDay("2026-09-22","भाद्रपद","शुक्ल","एकादशी");
+  delete sourceDay.sunrise;
+  const day = sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी");
+  day.tithiStartTime = "2026-09-22T16:13:37.432Z";
+  day.tithiEndTime = "2026-09-23T17:20:50.513Z";
+  const sourceRules = {
+    ...rules,
+    drikSpecialObservances: [{
+      year:2026, month:"भाद्रपद", paksha:"शुक्ल", adhika:false,
+      referenceDate:"2026-09-22", labels:["विष्णुशृंखला योग द्वादशी"]
+    }]
+  };
+  const result = buildDwadashiCalendar([sourceDay,day],sourceRules);
+  const record = result.tithis.find(item => item.id === "bhadrapada-shukla");
+  assert.equal(record.selectedDate,null);
+  assert.equal(record.sourceReferenceObservation,null);
+  assert.equal(record.status,"needs-review");
+});
+
 
 test("a matching Drik reference date resolves a multi-date Dwadashi candidate without approving it", () => {
   const previousDay = sunriseDay("2027-03-04","फाल्गुन","कृष्ण","एकादशी");
@@ -349,12 +378,14 @@ test("permanent month-paksha names remain the same in every year, including Adhi
     sunriseDay(year+"-01-01","माघ","कृष्ण","प्रतिपदा")
   ], {unifiedTithiIndex:{tithis:master},drik2026Calendar:refs});
   const y2026=make(2026), y2027=make(2027);
-  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
+  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","ashadha-krishna"]) {
     assert.deepEqual(y2026.tithis.find(x=>x.id===id).displayNames,y2027.tithis.find(x=>x.id===id).displayNames);
   }
   assert.equal(y2026.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,"2026-07-11");
   assert.equal(y2027.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,null);
   assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-shukla-adhika").adhika,true);
+  assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-krishna-adhika").adhika,true);
+  assert.equal(y2027.tithis.some(x=>x.adhika),false);
 });
 
 test("annual reference dates do not provide or override permanent Dwadashi names", () => {
@@ -512,8 +543,475 @@ test("Smarta rules remain authoritative while Drik dates stay source references"
     const source=sourceRules.drikSpecialObservances.find(x=>x.year===item.year && x.observanceDate===item.observanceDate);
     assert.ok(source,"Drik date exists for "+item.year);
     assert.equal(source.dateRole,"special-observance-date");
-    assert.equal(source.referenceDate,undefined);
+    assert.equal(source.referenceDate,item.year===2030 ? "2030-03-29" : undefined);
     assert.equal(source.independentTithiCrossCheck,undefined);
     assert.ok(source.labels.includes(item.label));
   }
+});
+
+
+test("Adhika catalogue rows are omitted when that Adhika month is absent from the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"पौष", paksha:"कृष्ण", displayNames:["कृष्ण मत्स्य द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2030-01-01","पौष","कृष्ण","द्वादशी")
+  ], sourceRules);
+  assert.equal(result.tithis.some(item => item.adhika), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-krishna-adhika"), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-shukla-adhika"), false);
+  assert.equal(result.tithis.some(item => item.month === "ज्येष्ठ"), false);
+});
+
+test("Adhika catalogue rows remain available when that Adhika month occurs in the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const day = sunriseDay("2026-05-18","ज्येष्ठ","कृष्ण","एकादशी",true);
+  const result = buildDwadashiCalendar([day], sourceRules);
+  const record = result.tithis.find(item => item.id === "jyeshtha-krishna-adhika");
+  assert.ok(record);
+  assert.equal(record.status, "needs-observation");
+});
+
+
+test("annual review drafts do not report non-occurring Adhika Jyeshtha as missing observations", async () => {
+  const review2029 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2029-review.json", import.meta.url), "utf8"));
+  const review2030 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  assert.deepEqual(review2029.tithis.filter(item => item.adhika).map(item => item.month), ["चैत्र", "चैत्र"]);
+  assert.equal(review2030.tithis.some(item => item.adhika), false);
+  assert.equal(review2030.tithis.filter(item => item.status === "needs-observation").length, 0);
+});
+
+
+
+test("a dated Drik special observance keeps its own sunrise-day evidence without overriding the primary vrata date", () => {
+  const first = sunriseDay("2030-12-21","पौष","कृष्ण","एकादशी");
+  const following = sunriseDay("2030-12-22","पौष","कृष्ण","द्वादशी");
+  following.tithiStartTime = "2030-12-21T07:03:11.523Z";
+  following.tithiEndTime = "2030-12-22T04:11:50.353Z";
+  const sourceRules = {
+    unifiedTithiIndex: {tithis:[{
+      month:"पौष",paksha:"कृष्ण",
+      displayNames:["रूप-व्रत"],
+      observances:[{id:"rupa",name:"रूप-व्रत",source:"नारद पुराण, पूर्वार्ध, अध्याय 121"}]
+    }]},
+    drikSpecialObservances:[{
+      year:2030,month:"पौष",paksha:"कृष्ण",adhika:false,
+      observanceDate:"2030-12-21",dateRole:"special-observance-date",
+      labels:["कृष्ण मत्स्य द्वादशी"]
+    }]
+  };
+  const result=buildDwadashiCalendar([first,following],sourceRules);
+  const record=result.tithis.find(item=>item.id==="pausha-krishna");
+  assert.equal(record.selectedDate,"2030-12-22");
+  assert.equal(record.referenceDate,null);
+  assert.equal(record.displayNames[0],"रूप-व्रत");
+  assert.equal(record.drikSpecialObservances[0].observanceDate,"2030-12-21");
+  assert.equal(record.drikSpecialObservances[0].localPanchangObservation.date,"2030-12-21");
+  assert.equal(record.drikSpecialObservances[0].localPanchangObservation.source,"local-panchang-sunrise-to-next-sunrise");
+  assert.equal(record.status,"needs-review");
+});
+
+test("2030 annual review keeps the two Pausha Krishna Dwadashi occurrences separate", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  const records = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
+  assert.deepEqual(records.map(item => item.id), ["pausha-krishna", "pausha-krishna-occurrence-2"]);
+  assert.deepEqual(records.map(item => item.candidateDates), [["2030-01-01"], ["2030-12-22"]]);
+  assert.equal(records[0].selectedDate, "2030-01-01");
+  assert.equal(records[1].referenceDate, null);
+  assert.equal(records[1].selectedDate, "2030-12-22");
+  assert.equal(records[1].dateSelection, "single-observation-candidate-review-required");
+  assert.deepEqual(records[1].displayNames, ["रूप-व्रत"]);
+  assert.deepEqual(records[1].observances.map(item => item.id), ["rupa"]);
+  assert.deepEqual(records[1].drikLabels, ["कृष्ण मत्स्य द्वादशी"]);
+  assert.deepEqual(records[1].crossReferences.map(ref => ref.name), ["कृष्ण मत्स्य द्वादशी"]);
+  assert.equal(records[1].drikSpecialObservances[0].observanceDate, "2030-12-21");
+  assert.equal(records[1].drikSpecialObservances[0].localPanchangObservation.sunriseDayStart, "2030-12-21T01:30:03.181Z");
+  assert.equal(records[1].drikSpecialObservances[0].localPanchangObservation.sunriseDayEnd, "2030-12-22T01:30:33.432Z");
+  assert.equal(records[1].sourceReferenceObservation, null);
+  assert.ok(records.every(item => item.status === "needs-review"));
+});
+
+
+test("2030 complex Dwadashi records retain Drik dates as review candidates, not approvals", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  for (const [id, date, label, expectedSourceStatus] of [
+    ["shravana-krishna", "2030-07-26", "कृष्ण वासुदेव द्वादशी", "local-tithi-interval-confirmed-source-date-review-pending"],
+    ["kartika-krishna", "2030-10-23", "गोवत्स द्वादशी", "source-cross-reference-needs-local-rule-review"]
+  ]) {
+    const record = review.tithis.find(item => item.id === id);
+    assert.equal(record.referenceDate, date);
+    assert.equal(record.selectedDate, date);
+    assert.ok(record.drikLabels.includes(label));
+    assert.equal(record.status, "needs-review");
+    assert.equal(record.drikSpecialObservances[0].status, expectedSourceStatus);
+  }
+  const pausha = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
+  assert.ok(pausha.every(item => item.crossReferences.some(ref => ref.name === "कृष्ण मत्स्य द्वादशी")));
+});
+
+test("2030 Vaishakha Shukla Dwadashi keeps Madhava and Jamadagnyadvadashi as distinct source-backed observances", async () => {
+  const rules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  const source = rules.unifiedTithiIndex.tithis.find(item => item.month === "वैशाख" && item.paksha === "शुक्ल");
+  assert.deepEqual(source.observances.map(item => item.id), ["madhava", "parashurama"]);
+  const parashurama = source.observances.find(item => item.id === "parashurama");
+  assert.equal(parashurama.source, "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत");
+  assert.equal(parashurama.sourceUrl, "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044");
+  const monthlySource = rules.profiles.varahaPurana.monthlyVratas.find(item => item.id === "parashurama");
+  assert.equal(monthlySource.source, parashurama.source);
+  assert.equal(monthlySource.sourceUrl, parashurama.sourceUrl);
+
+  const record = review.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.ok(record);
+  assert.deepEqual(record.candidateDates, ["2030-05-14"]);
+  assert.deepEqual(record.sunriseDates, []);
+  assert.deepEqual(record.noonDates, ["2030-05-14"]);
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required");
+  assert.equal(record.selectedDate, "2030-05-14");
+  assert.equal(record.status, "needs-review");
+  assert.deepEqual(record.observances.map(item => item.id), ["madhava", "parashurama"]);
+  assert.deepEqual(record.drikLabels, ["त्रिस्पर्शा महाद्वादशी", "परशुराम द्वादशी"]);
+  assert.equal(record.specialTithiYogas.length, 1);
+  assert.equal(record.specialTithiYogas[0].id, "trisparsha");
+  assert.equal(record.specialTithiYogas[0].tradition, "smarta");
+  assert.equal(record.specialTithiYogas[0].observanceDate, "2030-05-14");
+  assert.equal(record.specialTithiYogas[0].followingSunriseDate, "2030-05-15");
+  assert.deepEqual(record.specialTithiYogas[0].tithiSequence, ["एकादशी", "द्वादशी", "त्रयोदशी"]);
+  assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
+});
+
+test("Smarta Trisparsha Mahadwadashi is detected only across consecutive local sunrises", async () => {
+  const sourceRules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const first = sunriseDay("2030-05-14", "वैशाख", "शुक्ल", "एकादशी");
+  first.sunrise = "2030-05-14T00:00:00.000Z";
+  first.sunriseTithi.tithiEndTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithi = "द्वादशी";
+  first.noonTithiStartTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithiEndTime = "2030-05-14T22:02:44.790Z";
+
+  const following = sunriseDay("2030-05-15", "वैशाख", "शुक्ल", "त्रयोदशी");
+  following.sunrise = "2030-05-15T00:00:00.000Z";
+  following.sunriseTithi.tithiStartTime = "2030-05-14T22:02:44.790Z";
+
+  const result = buildDwadashiCalendar([first, following], sourceRules);
+  const record = result.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(record.candidateDates, ["2030-05-14"]);
+  assert.equal(record.selectedDate, "2030-05-14");
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required");
+  assert.equal(record.status, "needs-review");
+  assert.deepEqual(record.drikLabels, ["त्रिस्पर्शा महाद्वादशी", "परशुराम द्वादशी"]);
+  assert.equal(record.specialTithiYogas.length, 1);
+  assert.equal(record.specialTithiYogas[0].id, "trisparsha");
+  assert.equal(record.specialTithiYogas[0].tradition, "smarta");
+  assert.deepEqual(record.specialTithiYogas[0].tithiSequence, ["एकादशी", "द्वादशी", "त्रयोदशी"]);
+  assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
+  assert.equal(record.observances.some(item => item.id === "parashurama"), true);
+});
+
+test("Trisparsha is not inferred when the following sunrise is missing or the tithi sequence differs", async () => {
+  const sourceRules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const first = sunriseDay("2030-05-14", "वैशाख", "शुक्ल", "एकादशी");
+  first.sunrise = "2030-05-14T00:00:00.000Z";
+  first.sunriseTithi.tithiEndTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithi = "द्वादशी";
+  first.noonTithiStartTime = "2030-05-14T00:52:43.949Z";
+  first.noonTithiEndTime = "2030-05-14T22:02:44.790Z";
+
+  const missingNextSunrise = buildDwadashiCalendar([first], sourceRules);
+  const missingRecord = missingNextSunrise.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(missingRecord.specialTithiYogas, []);
+  assert.equal(missingRecord.dateSelection, "single-observation-candidate-review-required");
+
+  const notTrisparshaNext = sunriseDay("2030-05-15", "वैशाख", "शुक्ल", "द्वादशी");
+  notTrisparshaNext.sunrise = "2030-05-15T00:00:00.000Z";
+  notTrisparshaNext.sunriseTithi.tithiStartTime = "2030-05-14T22:02:44.790Z";
+  notTrisparshaNext.noonTithi = "त्रयोदशी";
+  const wrongSequence = buildDwadashiCalendar([first, notTrisparshaNext], sourceRules);
+  const wrongRecord = wrongSequence.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.deepEqual(wrongRecord.specialTithiYogas, []);
+  assert.equal(wrongRecord.dateSelection, "requires-vrata-specific-rule");
+});
+
+test("source-specific Mahadwadashi nakshatra overlaps are calculated without auto-approval", () => {
+  const day = sunriseDay("2030-08-25","भाद्रपद","शुक्ल","द्वादशी");
+  day.sunrise = "2030-08-25T00:12:57.366Z";
+  day.sunset = "2030-08-25T12:57:00.000Z";
+  day.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"शुक्ल पक्ष",
+    startTime:"2030-08-24T15:54:33.403Z", endTime:"2030-08-25T17:17:31.584Z"
+  }];
+  day.nakshatraIntervals = [{
+    index:6, name:"पुनर्वसु",
+    startTime:"2030-08-25T00:00:00.000Z", endTime:"2030-08-25T23:54:00.000Z"
+  }];
+  const sourceRules = {
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"शुक्ल",displayNames:[],observances:[]}]},
+    mahaDwadashi:{sourceVariants:[{
+      id:"nirnayaSindhu", source:"निर्णय-सिन्धु",
+      criteria:{jayanti:"शुक्ल द्वादशी + पुनर्वसु"}
+    }]}
+  };
+  const result = buildDwadashiCalendar([day],sourceRules);
+  const record = result.tithis.find(item => item.id === "bhadrapada-shukla");
+  const candidate = record.specialTithiYogas.find(item =>
+    item.sourceProfile === "nirnayaSindhu" && item.id.endsWith("-jayanti")
+  );
+  assert.ok(candidate);
+  assert.equal(candidate.nakshatra,"पुनर्वसु");
+  assert.ok(candidate.overlapMinutes > 48);
+  assert.equal(candidate.meetsOneMuhurta,true);
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+  assert.equal(record.status,"needs-review");
+});
+
+test("Mahadwadashi nakshatra rules require the source-defined paksha and real interval overlap", () => {
+  const day = sunriseDay("2030-08-25","भाद्रपद","कृष्ण","द्वादशी");
+  day.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2030-08-25T00:00:00.000Z", endTime:"2030-08-25T12:00:00.000Z"
+  }];
+  day.nakshatraIntervals = [{
+    index:6, name:"पुनर्वसु",
+    startTime:"2030-08-25T13:00:00.000Z", endTime:"2030-08-25T23:00:00.000Z"
+  }];
+  const sourceRules = {
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"कृष्ण",displayNames:[],observances:[]}]},
+    mahaDwadashi:{sourceVariants:[{
+      id:"nirnayaSindhu", source:"निर्णय-सिन्धु",
+      criteria:{jayanti:"शुक्ल द्वादशी + पुनर्वसु"}
+    }]}
+  };
+  const result = buildDwadashiCalendar([day],sourceRules);
+  const record = result.tithis.find(item => item.id === "bhadrapada-krishna");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+
+test("Unmilini is selected on the second of two consecutive Ekadashi sunrises", () => {
+  const start="2030-08-23T20:00:00.000Z", end="2030-08-25T02:00:00.000Z";
+  const first=sunriseDay("2030-08-24","भाद्रपद","शुक्ल","एकादशी");
+  const second=sunriseDay("2030-08-25","भाद्रपद","शुक्ल","एकादशी");
+  for (const day of [first,second]) {
+    day.sunriseTithi={tithi:"एकादशी",paksha:"शुक्ल पक्ष",masa:"भाद्रपद",tithiStartTime:start,tithiEndTime:end};
+  }
+  second.noonTithi="द्वादशी";
+  second.noonTithiStartTime="2030-08-25T01:00:00.000Z";
+  second.noonTithiEndTime="2030-08-26T02:00:00.000Z";
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"भाद्रपद",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-unmilini");
+  assert.ok(candidate);
+  assert.equal(candidate.observanceDate,"2030-08-25");
+  assert.equal(candidate.firstSunriseDate,"2030-08-24");
+  assert.equal(candidate.secondSunriseDate,"2030-08-25");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("Vanjuli is selected on the first of two consecutive Dwadashi sunrises", () => {
+  const start="2030-05-27T22:00:00.000Z", end="2030-05-29T01:00:00.000Z";
+  const first=sunriseDay("2030-05-28","ज्येष्ठ","कृष्ण","द्वादशी");
+  const second=sunriseDay("2030-05-29","ज्येष्ठ","कृष्ण","द्वादशी");
+  for (const day of [first,second]) {
+    day.sunriseTithi={tithi:"द्वादशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-vanjuli");
+  assert.ok(candidate);
+  assert.equal(candidate.observanceDate,"2030-05-28");
+  assert.equal(candidate.firstSunriseDate,"2030-05-28");
+  assert.equal(candidate.secondSunriseDate,"2030-05-29");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("consecutive sunrise Mahadwadashi rules do not accept different tithis or a boundary ending before the second sunrise", () => {
+  const first=sunriseDay("2030-05-28","ज्येष्ठ","कृष्ण","द्वादशी");
+  const second=sunriseDay("2030-05-29","ज्येष्ठ","कृष्ण","त्रयोदशी");
+  first.sunriseTithi={tithi:"द्वादशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:"2030-05-27T22:00:00.000Z",tithiEndTime:"2030-05-29T00:00:00.000Z"};
+  second.sunriseTithi={tithi:"त्रयोदशी",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:"2030-05-29T00:00:00.000Z",tithiEndTime:"2030-05-30T00:00:00.000Z"};
+  const result=buildDwadashiCalendar([first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+
+test("Pakshavardhini follows two consecutive local Purnima sunrises and attaches to preceding Shukla Dwadashi", () => {
+  const dwadashi=sunriseDay("2030-05-01","वैशाख","शुक्ल","द्वादशी");
+  const first=sunriseDay("2030-05-03","वैशाख","शुक्ल","पूर्णिमा");
+  const second=sunriseDay("2030-05-04","वैशाख","शुक्ल","पूर्णिमा");
+  const start="2030-05-02T20:00:00.000Z", end="2030-05-04T02:00:00.000Z";
+  for(const day of [first,second]) {
+    day.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"वैशाख",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="vaishakha-shukla");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-pakshavardhini");
+  assert.ok(candidate);
+  assert.equal(candidate.fortnightTithi,"पूर्णिमा");
+  assert.equal(candidate.observanceDate,"2030-05-01");
+  assert.equal(candidate.firstBoundarySunriseDate,"2030-05-03");
+  assert.equal(candidate.secondBoundarySunriseDate,"2030-05-04");
+  assert.equal(candidate.status,"candidate-needs-manual-review");
+});
+
+test("Pakshavardhini also detects two consecutive local Amavasya sunrises in Krishna Paksha", () => {
+  const dwadashi=sunriseDay("2030-06-01","ज्येष्ठ","कृष्ण","द्वादशी");
+  const first=sunriseDay("2030-06-03","ज्येष्ठ","कृष्ण","अमावस्या");
+  const second=sunriseDay("2030-06-04","ज्येष्ठ","कृष्ण","अमावस्या");
+  const start="2030-06-02T20:00:00.000Z", end="2030-06-04T02:00:00.000Z";
+  for(const day of [first,second]) {
+    day.sunriseTithi={tithi:"अमावस्या",paksha:"कृष्ण पक्ष",masa:"ज्येष्ठ",tithiStartTime:start,tithiEndTime:end};
+  }
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"ज्येष्ठ",paksha:"कृष्ण",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="jyeshtha-krishna");
+  const candidate=record.specialTithiYogas.find(item=>item.id==="mahadwadashi-smarta-pakshavardhini");
+  assert.ok(candidate);
+  assert.equal(candidate.fortnightTithi,"अमावस्या");
+  assert.equal(candidate.paksha,"कृष्ण");
+  assert.equal(candidate.observanceDate,"2030-06-01");
+});
+
+test("Pakshavardhini is not inferred from a single sunrise or a boundary ending before the second sunrise", () => {
+  const dwadashi=sunriseDay("2030-05-01","वैशाख","शुक्ल","द्वादशी");
+  const first=sunriseDay("2030-05-03","वैशाख","शुक्ल","पूर्णिमा");
+  const second=sunriseDay("2030-05-04","वैशाख","शुक्ल","पूर्णिमा");
+  first.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:"2030-05-02T20:00:00.000Z",tithiEndTime:"2030-05-04T00:00:00.000Z"};
+  second.sunriseTithi={tithi:"पूर्णिमा",paksha:"शुक्ल पक्ष",masa:"वैशाख",tithiStartTime:"2030-05-04T00:00:00.000Z",tithiEndTime:"2030-05-05T00:00:00.000Z"};
+  const result=buildDwadashiCalendar([dwadashi,first,second],{
+    unifiedTithiIndex:{tithis:[{month:"वैशाख",paksha:"शुक्ल",displayNames:[],observances:[]}]}
+  });
+  const record=result.tithis.find(item=>item.id==="vaishakha-shukla");
+  assert.deepEqual(record.specialTithiYogas,[]);
+});
+
+
+
+test("general Shravana Yoga Dwadashi requires a real 48-minute overlap and remains review-only", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: {
+      shravana: {
+        id:"shravana-yoga-dwadashi",
+        name:"श्रवण योग द्वादशी",
+        minimumOverlapMinutes:48
+      }
+    }
+  };
+  const makeDays = (shravanaStart) => {
+    const first = sunriseDay("2030-03-01","फाल्गुन","कृष्ण","द्वादशी");
+    first.sunrise = "2030-03-01T01:05:28.051Z";
+    first.sunset = "2030-03-01T12:37:51.392Z";
+    first.tithiIntervals = [{
+      tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+      startTime:"2030-03-01T01:05:28.051Z",
+      endTime:"2030-03-01T07:35:25.632Z"
+    }];
+    first.nakshatraIntervals = [{
+      index:21, name:"Shravana",
+      startTime:shravanaStart,
+      endTime:"2030-03-02T01:04:23.775Z"
+    }];
+    const following = sunriseDay("2030-03-02","फाल्गुन","कृष्ण","त्रयोदशी");
+    following.sunrise = "2030-03-02T01:04:23.775Z";
+    following.sunset = "2030-03-02T12:37:30.000Z";
+    following.tithiIntervals = [{
+      tithi:"त्रयोदशी", paksha:"कृष्ण पक्ष",
+      startTime:"2030-03-01T07:36:25.632Z",
+      endTime:"2030-03-02T01:04:23.775Z"
+    }];
+    following.nakshatraIntervals = [];
+    return [first,following];
+  };
+
+  const qualifies = buildDwadashiCalendar(
+    makeDays("2030-03-01T06:44:57.705Z"),ruleSet
+  ).dwadashiYogas.find(item=>item.observanceDate==="2030-03-01");
+  assert.ok(qualifies);
+  assert.equal(qualifies.overlapMs,3027927);
+  assert.equal(qualifies.meetsOneMuhurta,true);
+  assert.equal(qualifies.status,"candidate-needs-manual-review");
+  assert.equal(qualifies.dateSelection,"evidence-only-no-fast-date-selected");
+  assert.equal(qualifies.autoApproved,false);
+
+  const short = buildDwadashiCalendar(
+    makeDays("2030-03-01T06:48:25.632Z"),ruleSet
+  ).dwadashiYogas.find(item=>item.observanceDate==="2030-03-01");
+  assert.ok(short);
+  assert.equal(short.overlapMs,2820000);
+  assert.equal(short.meetsOneMuhurta,false);
+  assert.equal(short.status,"not-qualified");
+  assert.equal(short.autoApproved,false);
+});
+
+test("general Shravana Yoga Dwadashi does not mix the opposite paksha or use civil-midnight boundaries", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: { shravana:{minimumOverlapMinutes:48} }
+  };
+  const first = sunriseDay("2030-03-01","फाल्गुन","कृष्ण","द्वादशी");
+  first.sunrise = "2030-03-01T01:05:28.051Z";
+  first.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"शुक्ल पक्ष",
+    startTime:"2030-03-01T06:00:00.000Z",
+    endTime:"2030-03-01T08:00:00.000Z"
+  }];
+  first.nakshatraIntervals = [{
+    index:21, name:"Shravana",
+    startTime:"2030-03-01T06:00:00.000Z",
+    endTime:"2030-03-01T08:00:00.000Z"
+  }];
+  const following = sunriseDay("2030-03-02","फाल्गुन","कृष्ण","त्रयोदशी");
+  following.sunrise = "2030-03-02T01:04:23.775Z";
+  const result = buildDwadashiCalendar([first,following],ruleSet);
+  assert.deepEqual(result.dwadashiYogas,[]);
+});
+
+
+test("general Shravana Yoga Dwadashi review excludes adjacent-year buffer days", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: { shravana:{minimumOverlapMinutes:48} }
+  };
+  const lastYearDay = sunriseDay("2030-12-31","पौष","कृष्ण","एकादशी");
+  lastYearDay.sunrise = "2030-12-31T01:00:00.000Z";
+  lastYearDay.tithiIntervals = [{
+    tithi:"एकादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2030-12-31T01:00:00.000Z",
+    endTime:"2030-12-31T22:00:00.000Z"
+  }];
+  const nextYearDwadashi = sunriseDay("2031-01-01","पौष","कृष्ण","द्वादशी");
+  nextYearDwadashi.sunrise = "2031-01-01T01:00:00.000Z";
+  nextYearDwadashi.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2031-01-01T01:00:00.000Z",
+    endTime:"2031-01-01T03:00:00.000Z"
+  }];
+  nextYearDwadashi.nakshatraIntervals = [{
+    index:21,name:"Shravana",
+    startTime:"2031-01-01T01:00:00.000Z",
+    endTime:"2031-01-01T04:00:00.000Z"
+  }];
+  const finalDay = sunriseDay("2031-01-02","पौष","कृष्ण","त्रयोदशी");
+  finalDay.sunrise = "2031-01-02T01:00:00.000Z";
+  const result = buildDwadashiCalendar(
+    [lastYearDay,nextYearDwadashi,finalDay],ruleSet
+  );
+  assert.deepEqual(result.dwadashiYogas,[]);
 });

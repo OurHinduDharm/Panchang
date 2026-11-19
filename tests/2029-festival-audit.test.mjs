@@ -85,10 +85,10 @@ test("2029 Ekadashi cards follow the Smarta sunrise rule and omit Vaishnava dupl
   assert.ok(papankusha);
   assert.equal(papankusha.hinduTithi, "आश्विन शुक्ल एकादशी");
   assert.equal(has("2029-10-18", /पापांकुशा एकादशी/), undefined);
-  const utpanna = has("2029-12-02", /उत्पन्ना एकादशी \(स्मार्त\)/);
+  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \(स्मार्त\)/);
   assert.ok(utpanna);
   assert.equal(utpanna.hinduTithi, "मार्गशीर्ष कृष्ण एकादशी");
-  assert.equal(has("2029-12-01", /उत्पन्ना एकादशी/), undefined);
+  assert.equal(has("2029-12-02", /उत्पन्ना एकादशी/), undefined);
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
 
@@ -209,4 +209,17 @@ test("2029 Champa Shashthi follows local Shashthi sunrise and stays distinct fro
   assert.equal(champa.sourceName, "Drik Panchang — 2029 Hindu Calendar");
   assert.equal(has("2029-12-10", /^चम्पा षष्ठी$/), undefined);
   assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी \/ सुब्रह्मण्य षष्ठी$/));
+});
+
+
+test("2029 Dhanteras and Chhath muhurtas belong only to their own observance cards", () => {
+  const dhanteras = has("2029-11-04", /^धनतेरस$/);
+  const pradosh = has("2029-11-04", /^रवि प्रदोष व्रत$/);
+  const chhath = has("2029-11-11", /^छठ पूजा$/);
+  const skanda = has("2029-11-11", /^मासिक स्कन्द षष्ठी$/);
+  assert.equal(dhanteras?.muhurtaRule, "dhanteras-muhurta");
+  assert.equal(pradosh?.muhurtaRule, "pradosh-kala");
+  assert.equal(chhath?.muhurtaRule, "chhath-arghya");
+  assert.equal(skanda?.muhurtaRule, undefined);
+  assert.equal(skanda?.muhurtaRules, undefined);
 });

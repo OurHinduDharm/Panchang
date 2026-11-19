@@ -5,11 +5,18 @@ import panchangPackage from "@ishubhamx/panchangam-js";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
+const observanceRulesSource = await readFile(new URL("../festival-observance-rules.mjs", import.meta.url), "utf8");
 const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
-const sourceWithHelper = source.replace(
-  'import { getNightPraharWindows } from "./night-prahar.js";',
-  `const { getNightPraharWindows } = await import("${helperUrl}");`
-);
+const observanceRulesUrl = "data:text/javascript;base64," + Buffer.from(observanceRulesSource).toString("base64");
+const sourceWithHelper = source
+  .replace(
+    'import { getNightPraharWindows } from "./night-prahar.js";',
+    `const { getNightPraharWindows } = await import("${helperUrl}");`
+  )
+  .replace(
+    'import { calculateEkadashiParanaWindow } from "./festival-observance-rules.mjs";',
+    `const { calculateEkadashiParanaWindow } = await import("${observanceRulesUrl}");`
+  );
 const engineUrl = "data:text/javascript;base64," + Buffer.from(sourceWithHelper).toString("base64");
 const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
 
@@ -65,7 +72,8 @@ test("Ekadashi parana prefers a morning window after Hari Vasara", () => {
   const result = calculate(context);
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), sunrise.toISOString());
-  assert.equal(result.end.toISOString(), date("2026-10-22T10:42:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-10-22T08:21:00+05:30").toISOString());
+  assert.equal(result.calculationStatus, "morning-window");
   assert.match(result.dateLabel, /2026/);
 });
 
@@ -78,7 +86,22 @@ test("Hari Vasara delays parana when its first quarter continues after sunrise",
   const result = calculate(contextWithTithis({ fast: [dwadashi], parana: [dwadashi] }));
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-10-22T06:15:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-10-22T08:21:00+05:30").toISOString());
+  assert.equal(result.calculationStatus, "morning-window");
+});
+
+test("Ekadashi parana moves after Madhyahna when Hari Vasara exceeds Pratahkal", () => {
+  const dwadashi = {
+    index: 11,
+    startTime: date("2026-10-22T05:30:00+05:30"),
+    endTime: date("2026-10-22T22:00:00+05:30")
+  };
+  const result = calculate(contextWithTithis({ fast: [dwadashi], parana: [dwadashi] }));
+  assert.equal(result.status, "calculated");
+  assert.equal(result.start.toISOString(), date("2026-10-22T13:03:00+05:30").toISOString());
   assert.equal(result.end.toISOString(), dwadashi.endTime.toISOString());
+  assert.equal(result.calculationStatus, "afternoon-window");
+  assert.match(result.note, /मध्याह्न से बचकर उसके बाद/);
 });
 
 test("Dwadashi ended before sunrise uses the explicit sunrise exception", () => {
@@ -100,6 +123,41 @@ test("missing tithi intervals never produce an invented parana time", () => {
   assert.equal(result.start, undefined);
 });
 
+
+test("Pithoragarh Rama Ekadashi parana uses the real next-day Dwadashi and daylight", () => {
+  const context = realPanchangContext("2026-11-05");
+  const result = calculate(context);
+  assert.equal(result.status, "calculated");
+  assert.ok(result.date instanceof Date);
+  assert.equal(result.date.toISOString(), new Date(context.nextSunrise).toISOString());
+  const sunrise = new Date(context.nextSunrise);
+  const sunset = new Date(context.nextSunset);
+  const daylight = sunset.getTime() - sunrise.getTime();
+  assert.ok(daylight > 0);
+  if (result.time) {
+    assert.equal(result.time.toISOString(), sunrise.toISOString());
+    assert.match(result.note, /द्वादशी तिथि सूर्योदय से पहले समाप्त/);
+    return;
+  }
+  assert.ok(result.start instanceof Date && result.end instanceof Date);
+  assert.ok(result.end > result.start);
+  assert.ok(result.start >= sunrise);
+  const dwadashi = context.tithis.find(item => {
+    const index = Number(item.index ?? item.number ?? item.value);
+    const start = new Date(item.startTime ?? item.start);
+    const end = new Date(item.endTime ?? item.end);
+    return [11, 26].includes(index) && end > new Date(sunrise.getTime() - 36 * 60 * 60 * 1000) &&
+      start < new Date(sunrise.getTime() + 36 * 60 * 60 * 1000);
+  });
+  assert.ok(dwadashi, "the actual next-day Dwadashi interval must be present");
+  assert.ok(result.end <= new Date(dwadashi.endTime ?? dwadashi.end));
+  if (result.calculationStatus === "morning-window") {
+    assert.ok(result.end <= new Date(sunrise.getTime() + daylight / 5));
+  } else {
+    assert.equal(result.calculationStatus, "afternoon-window");
+    assert.ok(result.start >= new Date(sunrise.getTime() + daylight * 3 / 5));
+  }
+});
 
 test("Diwali returns Pradosh and special Nishita options only during Amavasya", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
@@ -346,11 +404,11 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   assert.ok(Math.abs(shopping[4].start.getTime() - date("2026-11-07T00:04:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[7].start.getTime() - date("2026-11-07T07:59:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[7].end.getTime() - date("2026-11-07T09:21:00+05:30").getTime()) < 60_000);
-  const puja = result.windows.find(w => /वृषभ स्थिर लग्न/.test(w.label));
+  const puja = result.windows.find(w => /मुख्य धनतेरस पूजन — वृषभ स्थिर लग्न/.test(w.label));
   assert.ok(puja);
   assert.equal(puja.start.toISOString(), date("2026-11-06T18:02:00+05:30").toISOString());
   assert.equal(puja.end.toISOString(), date("2026-11-06T19:57:00+05:30").toISOString());
-  assert.ok(result.windows.some(w => /धनतेरस पूजा/.test(w.label)));
+  assert.ok(result.windows.some(w => /वैकल्पिक धनतेरस पूजा — प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.every(w => w.end > w.start));
 });
 
@@ -948,6 +1006,8 @@ test("Masik Shivaratri exposes all four local night prahars when Chaturdashi ove
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 4);
   assert.deepEqual(result.windows.map(w => w.label), ["प्रथम प्रहर","द्वितीय प्रहर","तृतीय प्रहर","चतुर्थ प्रहर"]);
+  assert.equal(result.note, "कृष्ण चतुर्दशी की निशीथ-व्याप्ति के समय रात्रि-पूजन का विशेष महत्व है।");
+  assert.ok(result.windows.every(w => !w.note), "the shared explanation must not repeat under each prahar");
   assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
   assert.equal(result.windows[3].end.toISOString(), nextSunrise.toISOString());
 });
@@ -1210,3 +1270,58 @@ test("Dev Deepawali can use the previous evening Pradosh when Purnima spans into
   assert.equal(result.windows[0].start.toISOString(),previousSunset.toISOString());
   assert.match(result.windows[0].label,/पूर्व संध्या/);
 });
+
+test("Govatsa Dwadashi Pradosh muhurta requires the Dwadashi interval during local Pradosh", () => {
+  const event = { muhurtaRule: "govatsa-dwadashi-pradosh-kala" };
+  const sunset = date("2030-10-23T17:30:00+05:30");
+  const nextSunrise = date("2030-10-24T06:10:00+05:30");
+  const valid = getFestivalMuhurta(event, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 11,
+      startTime: date("2030-10-23T10:20:00+05:30"),
+      endTime: date("2030-10-24T09:06:00+05:30")
+    }]
+  });
+  assert.equal(valid.status, "calculated");
+  assert.equal(valid.label, "गोवत्स द्वादशी — प्रदोषकाल");
+  assert.equal(valid.windows.length, 1);
+  assert.equal(valid.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(valid.windows[0].end.toISOString(),
+    date("2030-10-23T20:02:00+05:30").toISOString());
+  assert.match(valid.note, /गाय और बछड़े/);
+
+  const wrongTithi = getFestivalMuhurta(event, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 12,
+      startTime: date("2030-10-23T10:20:00+05:30"),
+      endTime: date("2030-10-24T09:06:00+05:30")
+    }]
+  });
+  assert.equal(wrongTithi.status, "unavailable");
+});
+
+test("Pithoragarh 2030 Govatsa Dwadashi has the local Dwadashi-Pradosh overlap", () => {
+  const context = realPanchangContext("2030-10-23");
+  const result = getFestivalMuhurta({ muhurtaRule: "govatsa-dwadashi-pradosh-kala" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  const sunset = date(context.sunset);
+  const nextSunrise = date(context.nextSunrise);
+  const pradoshEnd = date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+  const dwadashi = context.tithis.find(item => {
+    const index = Number(item.index ?? item.number ?? item.value);
+    const start = date(item.startTime ?? item.start);
+    const end = date(item.endTime ?? item.end);
+    return [11, 26].includes(index) && start < pradoshEnd && end > sunset;
+  });
+  assert.ok(dwadashi, "the actual local Dwadashi must overlap the Govatsa Pradosh window");
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.ok(result.windows[0].end <= pradoshEnd);
+  assert.ok(result.windows[0].end <= date(dwadashi.endTime ?? dwadashi.end));
+  assert.match(result.note, /गाय और बछड़े/);
+});
+
