@@ -6,27 +6,30 @@
 <meta name="description" content="स्थान के अनुसार गुरु और शुक्र तारा अस्त-उदय तथा अगस्त्य तारा उदय और अर्घ्य की वर्षवार तिथि एवं समय।">
 <title>गुरु-शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग | OurHinduDharm</title>
 <style>
-:root{color-scheme:light;--ink:#28231d;--muted:#686157;--line:#e5dfd5;--paper:#fff;--bg:#f6f4ef;--accent:#81391f}
+:root{color-scheme:light;--ink:#392718;--muted:#745e4b;--line:#e8d5b8;--paper:#fffdf8;--bg:#fff6e9;--accent:#a43c12;--gold:#c28a28}
 *{box-sizing:border-box}
-body{margin:0;padding:18px;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Noto Sans Devanagari",sans-serif}
-main{max-width:920px;margin:auto}
-h1{font-size:1.55rem;line-height:1.35;margin:0 0 6px}
-h2{font-size:1.15rem;margin:0 0 12px}
-p{margin:7px 0}
-.muted{color:var(--muted);font-size:.92rem}
-.panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px;margin:14px 0}
-.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-label{font-weight:650}
-input,button{font:inherit}input{padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;min-width:220px;max-width:100%;flex:1}button{padding:9px 12px;cursor:pointer}select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;background:white;min-width:120px}
-.planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.planet{margin:0}
-.window{padding:10px 0;border-top:1px solid var(--line)}
-.window:first-of-type{border-top:0}
-.window strong{display:block;margin-bottom:5px}
-.times{display:grid;gap:4px;font-size:.94rem}
-.empty{color:var(--muted);font-size:.9rem}
-.status{padding:10px;border-radius:8px;background:#f1eee8}
-@media(max-width:480px){body{padding:12px}.panel,.planet{padding:12px}}
+body{margin:0;padding:12px;background:radial-gradient(circle at top,#ffead0,var(--bg) 65%);color:var(--ink);font:16px/1.65 system-ui,"Noto Sans Devanagari",sans-serif}
+main{max-width:1040px;margin:auto}
+header{padding:23px 17px;border-radius:18px;background:linear-gradient(125deg,#812a0e,#c65318 70%,#e7a443);color:#fff;box-shadow:0 8px 24px #6e300d25}
+h1{font-size:clamp(1.35rem,3vw,2rem);line-height:1.4;margin:0 0 8px}
+h2{font-size:1.15rem;margin:0 0 12px;color:#81330e}
+p{margin:7px 0}.muted{color:var(--muted);font-size:.93rem}header .muted{color:#fff4de}
+.panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 4px 15px #663e1110}
+.controls{display:grid;grid-template-columns:1fr;gap:9px;align-items:center}
+label{font-weight:700;color:#693613}
+input,button,select{font:inherit;min-height:45px;border-radius:10px}
+input,select{width:100%;min-width:0;padding:10px 12px;border:1px solid #d9bd95;background:#fff;color:var(--ink)}
+button{padding:9px 15px;border:0;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:3px solid #db8c23;outline-offset:3px}
+.planet-grid{display:grid;grid-template-columns:1fr;gap:13px}
+.planet{margin:0;border-top:4px solid var(--gold)}
+.planet p{padding:8px 0;border-bottom:1px solid #f0e5d5;overflow-wrap:anywhere}
+.planet p:last-child{border-bottom:0}
+.status{padding:10px;border-radius:8px;background:#fff3df}
+@media(min-width:680px){body{padding:24px}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.controls label{grid-column:1/-1}.planet-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:940px){.planet-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:no-preference){button,.planet{transition:box-shadow .15s,transform .15s}button:hover{box-shadow:0 3px 12px #8b370d30}}
 </style>
 </head>
 <body>
