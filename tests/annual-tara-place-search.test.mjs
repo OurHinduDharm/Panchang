@@ -35,6 +35,12 @@ test("all indexed cities have distinct stable IDs and finite point elevations", 
   }
 });
 
+test("GeoNames city heights retain estimated provenance", () => {
+  const [place] = matchPlaces(index, "Pithoragarh");
+  assert.equal(place.elevationStatus, "estimated");
+  assert.match(place.elevationSource, /GeoNames/);
+});
+
 test("short inputs skip loading and unknown cities produce no match", async () => {
   assert.deepEqual(await searchTaraPlaces("x"), []);
   assert.deepEqual(matchPlaces(index, "no-such-Indian-place"), []);
