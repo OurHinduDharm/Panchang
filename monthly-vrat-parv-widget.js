@@ -800,8 +800,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         avahanScheduled=true;
       }else if(!avahanScheduled&&!avahanFallbackScheduled&&mulaWindow){
         // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
-        var nextCursor=new Date(cursor);nextCursor.setDate(nextCursor.getDate()+1);
-        var nextIso=nextCursor.getFullYear()+"-"+String(nextCursor.getMonth()+1).padStart(2,"0")+"-"+String(nextCursor.getDate()).padStart(2,"0");
+        var nextCursor=new Date(cursor);nextCursor.setUTCDate(nextCursor.getUTCDate()+1);
+        var nextIso=nextCursor.getUTCFullYear()+"-"+String(nextCursor.getUTCMonth()+1).padStart(2,"0")+"-"+String(nextCursor.getUTCDate()).padStart(2,"0");
         if(nextCursor<=end&&Number(nextIso.slice(5,7))===month){
           try{
             var nextValues=await getDatePanchang(nextIso);
@@ -1229,10 +1229,10 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var date=document.createElement("div");date.className="date";
       var strong=document.createElement("strong");strong.textContent=String(item.date||"").slice(8,10)||item.dateLabel||"";
       date.appendChild(strong);
-      var dateObj=zonedDateTimeToUtc(String(item.date||""),12,0,getLocationTimeZone());
+      var dateObj=new Date(String(item.date||"")+"T12:00:00.000Z");
       var monthName=document.createElement("span");
       monthName.className="month-name";
-      monthName.textContent=Number.isNaN(dateObj.getTime())?"":months[dateObj.getMonth()];
+      monthName.textContent=Number.isNaN(dateObj.getTime())?"":months[dateObj.getUTCMonth()];
       monthName.style.cssText="display:block;font-size:10px;line-height:1.3;overflow-wrap:normal;word-break:keep-all";
       date.appendChild(monthName);
       var small=document.createElement("small");
@@ -1288,9 +1288,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       if(/^\d{4}-\d{2}-\d{2}$/.test(panchangDate)){
         var panchangDateCheck=new Date(panchangDate+"T12:00:00");
         if(!Number.isNaN(panchangDateCheck.getTime())&&
-           panchangDateCheck.getFullYear()===Number(panchangDate.slice(0,4))&&
-           panchangDateCheck.getMonth()+1===Number(panchangDate.slice(5,7))&&
-           panchangDateCheck.getDate()===Number(panchangDate.slice(8,10))){
+           panchangDateCheck.getUTCFullYear()===Number(panchangDate.slice(0,4))&&
+           panchangDateCheck.getUTCMonth()+1===Number(panchangDate.slice(5,7))&&
+           panchangDateCheck.getUTCDate()===Number(panchangDate.slice(8,10))){
           var panchangLink=makeLink("https://ourhindudharm.blogspot.com/p/panchang-today.html?date="+panchangDate,"इस दिन का पंचांग देखें",cardLinkUrls);
           if(panchangLink)links.appendChild(panchangLink);
         }
@@ -1629,11 +1629,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   }
   function goToCurrentMonth(){
     var now=getIndiaCalendarDate();
-    var year=now.getFullYear();
+    var year=now.getUTCFullYear();
     ensureYearOption(year);
     if(!ensureYearOption(year))return;
     yearSelect.value=String(year);
-    monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
+    monthSelect.value=String(now.getUTCMonth()+1).padStart(2,"0");
     syncMonthNavigationButtons();
     loadMonth();
   }
@@ -1662,13 +1662,13 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   var validRequestedMonth=Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2030&&
     Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12;
   if(validRequestedMonth){
-    initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
+    initialDate=new Date(Date.UTC(requestedYear,requestedMonth-1,1,12,0,0));
   }
-  var initialYear=Math.min(2030,Math.max(2026,initialDate.getFullYear()));
-  if(initialYear!==initialDate.getFullYear())initialDate=new Date(initialYear,initialDate.getMonth(),1,12,0,0);
+  var initialYear=Math.min(2030,Math.max(2026,initialDate.getUTCFullYear()));
+  if(initialYear!==initialDate.getUTCFullYear())initialDate=new Date(Date.UTC(initialYear,initialDate.getUTCMonth(),1,12,0,0));
   ensureYearOption(initialYear);
   yearSelect.value=String(initialYear);
-  monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  monthSelect.value=String(initialDate.getUTCMonth()+1).padStart(2,"0");
   syncMonthNavigationButtons();
   syncLocationUI();
   // पिथौरागढ़ की स्वीकृत ऊँचाई यथावत; कोई गैर-व्यावसायिक elevation API कॉल नहीं।
