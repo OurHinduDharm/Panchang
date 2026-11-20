@@ -33,12 +33,6 @@
   var CONTAINER_ID = 'ohd-eclipse-panchang';
   var APP_CONTAINER_ID = 'ohd-eclipse-app';
 
-  /*
-   * IMPORTANT:
-   * This is the same location key used by OurHinduDharm.
-   */
-  var STORAGE_KEY = 'ohdPanchangLocation';
-
   var TZ_OFFSET = 330;
   var YEAR_MIN = 2026;
   var YEAR_MAX = 2050;
@@ -357,16 +351,12 @@ function getEclipseTypeHindi(g) {
     };
   }
 
+  // Exact coordinates remain in page memory only; never read/write them via localStorage.
   function readLocation() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return null;
-      }
-      var parsed = JSON.parse(raw);
-      return normalizeLocation(parsed);
+      return normalizeLocation(window.__ohdPanchangLocation);
     } catch (e) {
-      logErr('Location read failed:', e);
+      logErr('In-memory location read failed:', e);
       return null;
     }
   }
@@ -377,16 +367,9 @@ function getEclipseTypeHindi(g) {
       logErr('Invalid location; not saved:', location);
       return false;
     }
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(normalized)
-      );
-      return true;
-    } catch (e) {
-      logErr('Location save failed:', e);
-      return false;
-    }
+    // Share only within this page session. The daily Panchang persists public city IDs separately.
+    window.__ohdPanchangLocation = normalized;
+    return true;
   }
 
   function locationDisplayName(location) {
