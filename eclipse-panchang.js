@@ -49,7 +49,8 @@
 
   var state = {
     initialized: false,
-    controller: null
+    controller: null,
+    location: null
   };
 
   /* ============================================================
@@ -354,7 +355,7 @@ function getEclipseTypeHindi(g) {
   // Exact coordinates remain in page memory only; never read/write them via localStorage.
   function readLocation() {
     try {
-      return normalizeLocation(window.__ohdPanchangLocation);
+      return normalizeLocation(state.location || window.__ohdPanchangLocation);
     } catch (e) {
       logErr('In-memory location read failed:', e);
       return null;
@@ -367,8 +368,9 @@ function getEclipseTypeHindi(g) {
       logErr('Invalid location; not saved:', location);
       return false;
     }
-    // Share only within this page session. The daily Panchang persists public city IDs separately.
-    window.__ohdPanchangLocation = normalized;
+    // Keep the selected observer in this module's page-session memory without
+    // overwriting the main Panchang's richer shared observer object.
+    state.location = normalized;
     return true;
   }
 
