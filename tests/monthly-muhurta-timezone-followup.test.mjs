@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   formatFestivalMuhurtaTime,
+  getFestivalMuhurta,
   getFestivalMuhurtaContext,
   getSamavedaUpakarmaDateDecision
 } from "../festival-muhurta.js";
@@ -37,4 +38,17 @@ test("Sāmaveda resolver supports explicit timezone without changing its India d
 
 test("monthly event weekday is derived from its ISO calendar date, not viewer timezone",()=>{
   assert.match(widget,/\["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"\]\[dateObj\.getUTCDay\(\)\]/);
+});
+
+test("Chhath and moonlight boundaries follow the selected overseas local calendar",()=>{
+  const timeZone="America/New_York";
+  const mainDate=new Date("2026-11-15T17:00:00.000Z");
+  const chhath=getFestivalMuhurta({muhurtaRule:"chhath-arghya"},{date:mainDate,timeZone,
+    sunset:new Date("2026-11-15T21:00:00.000Z"),
+    nextSunrise:new Date("2026-11-16T11:30:00.000Z")});
+  const dateKey=value=>new Intl.DateTimeFormat("en-CA",{timeZone,year:"numeric",month:"2-digit",day:"2-digit"}).format(value);
+  assert.deepEqual(chhath.milestones.map(item=>dateKey(item.date)),["2026-11-13","2026-11-14"]);
+  const moonlight=getFestivalMuhurta({muhurtaRule:"moonlight-until-midnight"},{date:mainDate,
+    moonrise:new Date("2026-11-15T22:00:00.000Z"),timeZone});
+  assert.equal(moonlight.end.toISOString(),"2026-11-16T05:00:00.000Z");
 });
