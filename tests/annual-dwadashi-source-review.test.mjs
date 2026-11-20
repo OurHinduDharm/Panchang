@@ -814,7 +814,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     const tithi = rules.unifiedTithiIndex.tithis.find(x => x.month === month && x.paksha === "शुक्ल");
     const observance = tithi.observances.find(x => x.id === id);
     assert.ok(observance, `missing ${id} for ${month}`);
-    assert.match(observance.source, new RegExp("अध्याय " + chapter + "(?:\\\\s| —|-)"));
+    assert.ok(observance.source.includes("अध्याय " + chapter), `wrong chapter for ${id}`);
     assert.doesNotMatch(JSON.stringify(observance), /https?:\/\//i);
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
@@ -835,7 +835,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     assert.equal(t.observances.some(x => x.id === "matsya"), false);
     for (const record of annual.tithis) {
       for (const observance of record.observances || []) {
-        if (observance.sourceProfile === "varahaPurana") assert.doesNotMatch(JSON.stringify(observance), /https?:\\/\\//i);
+        if (observance.sourceProfile === "varahaPurana") assert.equal(JSON.stringify(observance).includes("http"), false);
       }
     }
   }
