@@ -5,7 +5,7 @@ import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
-import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";\nimport tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 
 import {
   Observer,
@@ -278,32 +278,31 @@ function getLocation() {
     const location =
       JSON.parse(saved);
 
-    const lat =
-      Number(location.lat);
-
-    const lon =
-      Number(location.lon);
-
-    const elevation =
-      Number(location.elevation) || 0;
-
-    if (
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lon)
-    ) {
+    const lat = Number(location.lat);
+    const lon = Number(location.lon);
+    if (!Number.isFinite(lat) || lat < -90 || lat > 90 ||
+        !Number.isFinite(lon) || lon < -180 || lon > 180) {
       return null;
     }
+
+    const rawElevation = Number(location.elevation);
+    const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
+      ? rawElevation : 0;
+    const timeZone = tzLookup(lat, lon);
+    if (!isValidTimeZone(timeZone)) return null;
+    const cleanText = value => String(value == null ? "" : value)
+      .replace(/[\\u0000-\\u001F\\u007F]/g, " ").trim().slice(0, 240);
 
     return {
       latitude: lat,
       longitude: lon,
       elevation,
-      name: location.name || "",
-      city: location.city || "",
-      state: location.state || "",
-      timeZone: location.timeZone || null,
-      country: location.country || "",
-      countryCode: location.countryCode || ""
+      name: cleanText(location.name),
+      city: cleanText(location.city),
+      state: cleanText(location.state),
+      timeZone,
+      country: cleanText(location.country),
+      countryCode: /^[a-z]{2}$/i.test(String(location.countryCode || "")) ? String(location.countryCode).toLowerCase() : ""
     };
 
   } catch (error) {
