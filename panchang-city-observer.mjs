@@ -12,7 +12,11 @@ const distanceKm = (a, b) => {
  * Never pretend an unmatched OSM coordinate has a known elevation.
  */
 export async function resolveCityObserver(location) {
-  if (!location || !Number.isFinite(location.lat) || !Number.isFinite(location.lon)) return location;
+  if (!location) return location;
+  if (!Number.isFinite(location.lat) || !Number.isFinite(location.lon) ||
+      Math.abs(location.lat) > 90 || Math.abs(location.lon) > 180) {
+    return {...location, elevation: 0, elevationStatus: "unknown"};
+  }
   const city = norm(location.city);
   if (!city) return location;
   // Prefer the same city profiles already used by the annual Tara page.
