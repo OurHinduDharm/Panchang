@@ -139,25 +139,25 @@ function windowWithin(start, end, intervals, label, note) {
   return null;
 }
 
-function formatDateLabel(dateValue) {
+function formatDateLabel(dateValue, timeZone = "Asia/Kolkata") {
   const date = validDate(dateValue);
   return date ? new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric"
+    timeZone, day: "numeric", month: "long", year: "numeric"
   }).format(date) : "";
 }
 
-function localDateKey(dateValue) {
+function localDateKey(dateValue, timeZone = "Asia/Kolkata") {
   const date = validDate(dateValue);
   if (!date) return "";
   const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+    timeZone, year: "numeric", month: "2-digit", day: "2-digit"
   }).formatToParts(date);
   const part = type => (parts.find(item => item.type === type) || {}).value || "";
   return part("year") + "-" + part("month") + "-" + part("day");
 }
 
 /* Dharmasindhu Yama-Dvitiya day selection. */
-export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
+export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay, timeZone = "Asia/Kolkata") {
   const days = [previousDay, currentDay, nextDay].map(day => ({
     sunrise: validDate(day && day.sunrise),
     sunset: validDate(day && day.sunset),
@@ -166,7 +166,7 @@ export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
   if (days.some(day => !day.sunrise || !day.sunset || day.sunset <= day.sunrise)) {
     return { status: "unavailable", message: "तीनों दिनों के स्थानीय सूर्योदय-सूर्यास्त उपलब्ध नहीं हैं; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
   }
-  const keys = days.map(day => localDateKey(day.sunrise));
+  const keys = days.map(day => localDateKey(day.sunrise, timeZone));
   const timestamps = keys.map(key => Date.parse(key + "T00:00:00Z"));
   if (timestamps.some((value, index) => index > 0 && value - timestamps[index - 1] !== 86400000)) {
     return { status: "unavailable", message: "लगातार तीन स्थानीय दिनों का पंचांग उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
@@ -201,7 +201,7 @@ export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
     // Neither compared Aparahna is occupied: the second civil date of the
     // actual Dwitiya interval is the conservative fallback.
     const lastMoment = new Date(Math.max(...tithis.map(item => item.end.getTime())) - 1);
-    selectedDateKey = localDateKey(lastMoment);
+    selectedDateKey = localDateKey(lastMoment, timeZone);
     if (!keys.includes(selectedDateKey)) {
       return { status: "unavailable", message: "अपराह्न-व्याप्ति नहीं मिली और द्वितीया की समाप्ति इन तीन दिनों के बाहर है; पर्व-दिन निर्धारित नहीं किया गया।" };
     }
@@ -638,7 +638,7 @@ const rules = {
       dwadashiStart: dwadashi.start,
       dwadashiEnd: dwadashi.end
     });
-    const dateLabel = formatDateLabel(sunrise);
+    const dateLabel = formatDateLabel(sunrise, context.timeZone);
 
     if (calculation.status === "parana-after-dwadashi-ended-before-sunrise") {
       return {
@@ -875,7 +875,7 @@ const rules = {
       label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
       status: "calculated",
       date: sunrise,
-      dateLabel: formatDateLabel(sunrise),
+      dateLabel: formatDateLabel(sunrise, context.timeZone),
       windows,
       note: "खरीदारी के लिए त्रयोदशी-व्याप्ति में शुभ चौघड़िया विकल्प दिखाए गए हैं। पूजा का समय स्थानीय प्रदोष और त्रयोदशी के साझा भाग से निकाला गया है; वृषभ स्थिर लग्न तभी दिखेगा जब स्थानीय गणना उपलब्ध हो।"
     };
@@ -1152,7 +1152,7 @@ const rules = {
       label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
       status: "calculated",
       date: sunset,
-      dateLabel: formatDateLabel(sunset),
+      dateLabel: formatDateLabel(sunset, context.timeZone),
       windows
     };
   },
@@ -1161,7 +1161,7 @@ const rules = {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
     const decision = context.bhaiDoojDateDecision;
-    const currentDateKey = localDateKey(sunrise);
+    const currentDateKey = localDateKey(sunrise, context.timeZone);
     if (!decision || decision.status !== "calculated" || !decision.selectedDateKey) {
       return {
         label: "भाई दूज तिलक मुहूर्त",
@@ -1216,7 +1216,7 @@ const rules = {
       label: "भाई दूज तिलक मुहूर्त",
       status: "calculated",
       date: sunrise,
-      dateLabel: formatDateLabel(sunrise),
+      dateLabel: formatDateLabel(sunrise, context.timeZone),
       windows: [tilakWindow],
       note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्न-व्याप्ति जाँची गई है।"
     };
@@ -1274,7 +1274,7 @@ const rules = {
       label: "करवा चौथ — पूजा और व्रत समय",
       status: "calculated",
       date: sunset,
-      dateLabel: formatDateLabel(sunset),
+      dateLabel: formatDateLabel(sunset, context.timeZone),
       windows
     };
   },
@@ -1312,7 +1312,7 @@ const rules = {
       "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त",
       "धर्मसिंधु के विशेष क्षय-तिथि निर्णय के अनुसार दूसरे दिन चंद्रोदय से सूर्योदय तक का स्नान-काल।"
     );
-    return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
+    return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise, context.timeZone), windows: [bath] };
   },
 
   "narak-chaturdashi-abhyanga"(context) {
@@ -1330,7 +1330,7 @@ const rules = {
       return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "चंद्रोदय से सूर्योदय के बीच कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; अनुमानित समय नहीं दिखाया जा रहा है।" };
     }
     const { note: windowNote, ...bathResult } = bath;
-    return { ...bathResult, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
+    return { ...bathResult, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise, context.timeZone), windows: [bath] };
   },
   moonrise(context) {
     const time = validDate(context.moonrise);
@@ -1398,7 +1398,7 @@ const rules = {
       label: "विनायक चतुर्थी — मध्याह्न पूजा मुहूर्त",
       status: "calculated",
       date: sunrise,
-      dateLabel: formatDateLabel(sunrise),
+      dateLabel: formatDateLabel(sunrise, context.timeZone),
       windows: [pujaWindow]
     };
   },
@@ -1466,7 +1466,7 @@ const rules = {
     const punya = interval(start, end, "स्नान-दान का पुण्यकाल");
     if (!punya) return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "स्थानीय दिनमान में पुण्यकाल की मान्य अवधि उपलब्ध नहीं हुई।" };
     const mahaPunya = interval(mahaStart, mahaEnd, "महापुण्यकाल");
-    return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: mahaPunya ? [punya, mahaPunya] : [punya] };
+    return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment, context.timeZone), windows: mahaPunya ? [punya, mahaPunya] : [punya] };
   },
 
   "dev-deepawali-pradosh"(context) {
@@ -1516,7 +1516,7 @@ const rules = {
       label: "देव दीपावली दीपदान का मुहूर्त",
       status: "calculated",
       date: selected.deepdan.start,
-      dateLabel: formatDateLabel(selected.deepdan.start),
+      dateLabel: formatDateLabel(selected.deepdan.start, context.timeZone),
       windows: [selected.deepdan]
     };
   },
@@ -1608,9 +1608,9 @@ const rules = {
     }
     windows.unshift(primary);
     const bhadraNote = bhadraForDate
-      ? "पंचांगानुसार भद्रा: " + formatFestivalMuhurtaTime(bhadraForDate.start) + " से " + formatFestivalMuhurtaTime(bhadraForDate.end) + " तक। होलिका-दहन का समय भद्रा के नियमों के अनुसार चुना गया है।"
+      ? "पंचांगानुसार भद्रा: " + formatFestivalMuhurtaTime(bhadraForDate.start, context.timeZone) + " से " + formatFestivalMuhurtaTime(bhadraForDate.end, context.timeZone) + " तक। होलिका-दहन का समय भद्रा के नियमों के अनुसार चुना गया है।"
       : "";
-    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows, note: bhadraNote };
+    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset, context.timeZone), windows, note: bhadraNote };
   },
 
   "kali-chaudas-nishita"(context) {
@@ -1632,7 +1632,7 @@ const rules = {
     if (!pujaWindow) {
       return { label, status: "unavailable", message: "निशीथ काल में कार्तिक कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; समय नहीं दिखाया जा रहा है।" };
     }
-    return { label, status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [pujaWindow] };
+    return { label, status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset, context.timeZone), windows: [pujaWindow] };
   },
 
   "mahashivaratri-four-prahar"(context) {
@@ -1659,7 +1659,7 @@ const rules = {
       windows.push(part);
     }
     if (windows.length !== 4) return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "चारों प्रहरों में कृष्ण चतुर्दशी की पूरी व्याप्ति नहीं मिली; अधूरे समय नहीं दिखाए जा रहे हैं।" };
-    return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
+    return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset, context.timeZone), windows };
   },
 
   "masik-shivaratri-four-prahar"(context) {
@@ -1706,7 +1706,7 @@ const rules = {
       label: "मासिक शिवरात्रि — चार प्रहर पूजा समय",
       status: "calculated",
       date: sunset,
-      dateLabel: formatDateLabel(sunset),
+      dateLabel: formatDateLabel(sunset, context.timeZone),
       windows,
       note: "कृष्ण चतुर्दशी की निशीथ-व्याप्ति के समय रात्रि-पूजन का विशेष महत्व है।"
     };
@@ -1725,7 +1725,7 @@ const rules = {
     const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
     const pujaWindow = nishita && windowWithin(nishita.start, nishita.end, chaturdashi, "महाशिवरात्रि — निशीथ पूजा मुहूर्त", "निशीथ काल और कृष्ण चतुर्दशी की संयुक्त व्याप्ति।");
     if (!pujaWindow) return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "unavailable", message: "निशीथ काल और कृष्ण चतुर्दशी की साझा व्याप्ति नहीं मिली; समय नहीं दिखाया जा रहा है।" };
-    return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [pujaWindow] };
+    return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset, context.timeZone), windows: [pujaWindow] };
   },
 
   "masik-shivaratri-nishita"(context) {
@@ -1765,7 +1765,7 @@ const rules = {
       label: "मासिक शिवरात्रि — निशीथ पूजा मुहूर्त",
       status: "calculated",
       date: sunset,
-      dateLabel: formatDateLabel(sunset),
+      dateLabel: formatDateLabel(sunset, context.timeZone),
       windows: [pujaWindow]
     };
   },
@@ -1813,7 +1813,7 @@ const rules = {
     if (!moonrise || !date) return null;
     // Use the selected Panchang date in Asia/Kolkata, not the viewer's
     // browser timezone. The widget may be opened outside India.
-    const localDate = localDateKey(date);
+    const localDate = localDateKey(date, context.timeZone);
     if (!localDate) return null;
     const [year, month, day] = localDate.split("-").map(Number);
     const midnight = new Date(Date.UTC(year, month - 1, day + 1) - 330 * 60000);
@@ -1884,8 +1884,9 @@ export function formatFestivalMuhurtaTime(value, timeZone = "Asia/Kolkata") {
   }).format(date);
 }
 
-export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location, getFollowingPanchang) {
+export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location, getFollowingPanchang, timeZone = "Asia/Kolkata") {
   return {
+    timeZone,
     date: validDate(date),
     sunrise: panchang && panchang.sunrise,
     sunset: panchang && panchang.sunset,

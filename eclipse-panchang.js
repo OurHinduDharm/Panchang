@@ -629,6 +629,59 @@ function getHindiWeekday(date, tzOffsetMin) {
     );
   }
 
+  function localDateKeyInZone(date, timeZone) {
+    var parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).formatToParts(date);
+    var part = function (type) {
+      return (parts.find(function (item) { return item.type === type; }) || {}).value || '';
+    };
+    return part('year') + '-' + part('month') + '-' + part('day');
+  }
+
+  function offsetMinutesAt(date, timeZone) {
+    var parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23'
+    }).formatToParts(date);
+    var values = {};
+    parts.forEach(function (item) { if (item.type !== 'literal') values[item.type] = Number(item.value); });
+    var localAsUtc = Date.UTC(values.year, values.month - 1, values.day, values.hour, values.minute, values.second);
+    return Math.round((localAsUtc - date.getTime()) / 60000);
+  }
+
+  function localNoonInZone(dateKey, timeZone) {
+    var pieces = String(dateKey).split('-').map(Number);
+    if (pieces.length !== 3 || pieces.some(function (value) { return !Number.isInteger(value); })) return null;
+    var wallNoonUtc = Date.UTC(pieces[0], pieces[1] - 1, pieces[2], 12, 0, 0);
+    var guess = wallNoonUtc;
+    for (var attempt = 0; attempt < 3; attempt++) {
+      var offset = offsetMinutesAt(new Date(guess), timeZone);
+      var next = wallNoonUtc - offset * 60000;
+      if (next === guess) break;
+      guess = next;
+    }
+    return new Date(guess);
+  }
+
+  function addLocalCivilDays(date, days, timeZone) {
+    var key = localDateKeyInZone(date, timeZone);
+    if (!key) return null;
+    var parts = key.split('-').map(Number);
+    var target = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] + days, 12, 0, 0));
+    var targetKey = target.toISOString().slice(0, 10);
+    return localNoonInZone(targetKey, timeZone);
+  }
+
   function canonicalEclipseDate(g, fallback) {
     var first =
       g && g.contact
@@ -781,7 +834,8 @@ function getHindiWeekday(date, tzOffsetMin) {
   function getDayPanchang(
     eclipseDate,
     observer,
-    api
+    api,
+    timeZone
   ) {
     var getPanchangam = resolveFunction(
       api,
@@ -798,7 +852,7 @@ function getHindiWeekday(date, tzOffsetMin) {
       eclipseDate,
       observer,
       {
-        timezoneOffset: TZ_OFFSET,
+        timezoneOffset: timeZone ? offsetMinutesAt(eclipseDate, timeZone) : TZ_OFFSET,
         calendarType: 'purnimanta'
       }
     );
@@ -2054,12 +2108,15 @@ function renderLocalVisibilityDetails(visibility) {
   function getEclipseDayPanchangs(
     eclipseDate,
     observer,
-    api
+    api,
+    timeZone
   ) {
     return [-1, 0, 1].map(function (offset) {
-      var date = addIstCivilDays(eclipseDate, offset);
+      var date = timeZone
+        ? addLocalCivilDays(eclipseDate, offset, timeZone)
+        : addIstCivilDays(eclipseDate, offset);
       return date
-        ? getDayPanchang(date, observer, api)
+        ? getDayPanchang(date, observer, api, timeZone)
         : null;
     });
   }
