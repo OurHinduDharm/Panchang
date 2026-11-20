@@ -293,7 +293,11 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(matsya.localPanchangObservation.sunriseDayEnd, following.sunrise);
   assert.equal(record.displayNames.includes("रूप-व्रत"), true);
   assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(record.status, "needs-review", "neither observance is automatically approved");
+  assert.equal(record.status, "approved", "Rupa has a manual source-and-local-sunrise approval");
+  const rupa = record.observanceDateReviews.find(item => item.observanceId === "rupa");
+  assert.equal(rupa.reviewStatus, "approved");
+  assert.equal(rupa.autoApproved, false);
+  assert.match(rupa.reviewBasis, /नारद पुराण/);
 });
 
 test("Dwadashi extraction preserves all tithi and nakshatra intervals for local yoga checks", () => {
@@ -629,6 +633,25 @@ test("2030 Vamana Dwadashi is not mislabeled Vamana Jayanti when Madhyahna Shrav
   assert.equal(vamana.autoApproved,false);
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
+
+test("only the two manually source-reviewed Pausha Krishna Rupa occurrences are approved", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url)));
+  const approved = review.tithis.filter(record => record.status === "approved");
+  assert.deepEqual(approved.map(record => [record.id, record.selectedDate]), [
+    ["pausha-krishna", "2030-01-01"],
+    ["pausha-krishna-occurrence-2", "2030-12-22"]
+  ]);
+  assert.equal(review.sourceReview.status, "pending-manual-cross-check");
+  for (const record of approved) {
+    const rite = record.observanceDateReviews.find(item => item.observanceId === "rupa");
+    assert.equal(rite.reviewStatus, "approved");
+    assert.equal(rite.autoApproved, false);
+    assert.match(rite.source, /नारद पुराण/);
+    assert.equal(record.sunriseObservations[0].date, rite.selectedDate);
+    assert.ok(Date.parse(record.sunriseObservations[0].tithiStartTime) < Date.parse(record.sunriseObservations[0].sunrise));
+    assert.ok(Date.parse(record.sunriseObservations[0].sunrise) < Date.parse(record.sunriseObservations[0].tithiEndTime));
+  }
 });
 
 test("both 2030 Rupa morning rites follow a distinct Pausha Krishna Ekadashi fast", async () => {
