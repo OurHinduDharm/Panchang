@@ -819,7 +819,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
   const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
-  assert.ok(dharani.sourceTextNote.includes("title/body"));
+  assert.match(dharani.sourceTextNote, /Matsyadvadashivrata/);\n  assert.match(dharani.sourceTextNote, /Dharaṇī-vrata/);
   assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);
   assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "सामान्य द्वादशी-व्रत", "मत्स्य द्वादशी"]);
