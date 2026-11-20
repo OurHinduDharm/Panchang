@@ -1,4 +1,7 @@
 
+import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
+import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOffsetForLocalDay,isValidTimeZone} from "./location-timezone.mjs";
+
 (function(){
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
@@ -21,9 +24,8 @@
   if(reviewBanner) reviewBanner.hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   function getIndiaCalendarDate(){
-    var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
-    var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
-    return new Date(Number(part("year")),Number(part("month"))-1,Number(part("day")),12,0,0);
+    var zone=getLocalLocation().timeZone||"Asia/Kolkata";
+    return new Date(getIsoDateInTimeZone(new Date(),zone)+"T12:00:00.000Z");
   }
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
@@ -106,30 +108,31 @@
     console.warn("Festival muhurta module unavailable:",error);return null;
   });
   function getLocalLocation(){
-    // A reload intentionally returns to the default; selected coordinates are never persisted.
     if(selectedLocationInSession){
-      return {
-        name:selectedLocationInSession.name||selectedLocationInSession.city||"चुना हुआ स्थान",
+      return {name:selectedLocationInSession.name||selectedLocationInSession.city||"चुना हुआ स्थान",
         lat:selectedLocationInSession.lat,lon:selectedLocationInSession.lon,
-        elevation:Number(selectedLocationInSession.elevation)||0,
-        state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""
-      };
+        elevation:Number.isFinite(Number(selectedLocationInSession.elevation))?Number(selectedLocationInSession.elevation):0,
+        elevationStatus:selectedLocationInSession.elevationStatus||"unknown",
+        timeZone:selectedLocationInSession.timeZone||"Asia/Kolkata",
+        state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""};
     }
-    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:defaultLocationElevation,state:"उत्तराखंड",city:"पिथौरागढ़"};
+    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:defaultLocationElevation,
+      elevationStatus:"provided",timeZone:"Asia/Kolkata",state:"उत्तराखंड",city:"पिथौरागढ़"};
+  }
+  function getLocationTimeZone(){
+    var zone=getLocalLocation().timeZone;
+    return isValidTimeZone(zone)?zone:"Asia/Kolkata";
+  }
+  function formatLocationDateTime(value,options){
+    var date=value instanceof Date?value:new Date(value);
+    if(!Number.isFinite(date.getTime()))return "";
+    return new Intl.DateTimeFormat("hi-IN",Object.assign({timeZone:getLocationTimeZone()},options||{})).format(date);
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+((selectedLocationInSession||defaultElevationFromDem)?" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM":"");
+    var heightNote=location.elevationStatus==="unknown"?" · ऊँचाई अज्ञात; समुद्र-तल आधार":"";
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+" · समय क्षेत्र: "+location.timeZone+heightNote;
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
-  }
-  async function getTerrainElevation(lat,lon){
-    var url="https://api.open-meteo.com/v1/elevation?latitude="+encodeURIComponent(lat)+"&longitude="+encodeURIComponent(lon);
-    var response=await fetch(url,{headers:{"Accept":"application/json"}});
-    if(!response.ok) throw new Error("Elevation_HTTP_"+response.status);
-    var data=await response.json();
-    var elevation=Array.isArray(data.elevation)?Number(data.elevation[0]):NaN;
-    if(!Number.isFinite(elevation)) throw new Error("Elevation data unavailable");
-    return elevation;
   }
   async function searchLocation(){
     var query=locationInput.value.trim();
@@ -143,7 +146,7 @@
     locationStatus.textContent="स्थान खोजा जा रहा है…";
     locationSuggestions.replaceChildren();
     try{
-      var url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&countrycodes=in&accept-language=hi&q="+encodeURIComponent(query);
+      var url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&accept-language=hi&q="+encodeURIComponent(query);
       var response=await fetch(url,{headers:{"Accept":"application/json"}});
       if(!response.ok) throw new Error("HTTP_"+response.status);
       var places=await response.json();
@@ -160,7 +163,7 @@
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:null,
+            lat:Number(place.lat),lon:Number(place.lon),elevation:0,elevationStatus:"unknown",
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query
           };
@@ -168,14 +171,12 @@
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
-          button.disabled=true;
-          locationStatus.textContent="चुने गए स्थान की ऊँचाई प्राप्त की जा रही है…";
           try{
-            selected.elevation=await getTerrainElevation(selected.lat,selected.lon);
+            selected.timeZone=tzLookup(selected.lat,selected.lon);
+            if(!isValidTimeZone(selected.timeZone))throw new Error("Invalid IANA timezone");
           }catch(error){
-            console.warn("Location elevation unavailable:",error);
-            locationStatus.textContent="इस स्थान की ऊँचाई का डेटा अभी नहीं मिल सका। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
-            button.disabled=false;
+            console.warn("Location timezone lookup failed:",error);
+            locationStatus.textContent="इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका। दूसरा परिणाम चुनें।";
             return;
           }
           selectedLocationInSession=selected;
@@ -184,7 +185,7 @@
           locationEclipseCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
-          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
+          syncLocationUI();
           loadMonth();
         });
         locationSuggestions.appendChild(button);
@@ -218,13 +219,13 @@
         observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
         observerCache.set(observerKey,observer);
       }
-      // तारीख़ को भारत के नागरिक समय के भीतर एक निश्चित UTC instant से बनाएं।
-      // इससे विदेशी time-zone पर चल रहे मोबाइल में भी चुनी हुई भारतीय तारीख़ एक दिन आगे/पीछे नहीं खिसकेगी।
-      var date=new Date(dateIso+"T06:30:00.000Z");
-      var nextDate=new Date(date);nextDate.setUTCDate(nextDate.getUTCDate()+1);
-      var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330,calendarType:"purnimanta"});
-      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330,calendarType:"purnimanta"});
-      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330,calendarType:"purnimanta"});}};
+      var timeZone=location.timeZone||"Asia/Kolkata";
+      var date=zonedDateTimeToUtc(dateIso,12,0,timeZone);
+      var nextDate=zonedDateTimeToUtc(addIsoCalendarDays(dateIso,1),12,0,timeZone);
+      var offsetFor=function(instant){return getTimeZoneOffsetForLocalDay(instant,timeZone);};
+      var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:offsetFor(date),calendarType:"purnimanta"});
+      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:offsetFor(nextDate),calendarType:"purnimanta"});
+      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:offsetFor(instant),calendarType:"purnimanta"});}};
     }).catch(function(error){
       // अस्थायी CDN/API विफलता को cache में स्थायी न रखें; अगली कोशिश दोबारा लोड कर सके।
       panchangCache.delete(cacheKey);
@@ -301,14 +302,14 @@
   function istDateKey(value){
     var date=value instanceof Date?value:new Date(value);
     if(!Number.isFinite(date.getTime()))return "";
-    var parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
+    var parts=new Intl.DateTimeFormat("en-CA",{timeZone:getLocationTimeZone(),year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
     var get=function(type){return (parts.find(function(part){return part.type===type;})||{}).value||"";};
     return get("year")+"-"+get("month")+"-"+get("day");
   }
   function formatGrahanDateTime(value){
     var date=value instanceof Date?value:new Date(value);
     if(!Number.isFinite(date.getTime()))return "";
-    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+    return new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
   }
   function getGrahanTitle(grahan){
     var type=String(grahan&&grahan.type||"").toLowerCase();
@@ -345,7 +346,7 @@
         var eclipseDate=firstContact||item.date;
         var dateKey=istDateKey(eclipseDate);
         if(!dateKey||Number(dateKey.slice(0,4))!==year)return;
-        var visibilityDate=new Date(dateKey+"T12:00:00+05:30");
+        var visibilityDate=zonedDateTimeToUtc(dateKey,12,0,getLocationTimeZone());
         var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
         if(!visibility||visibility.localVisible!==true)return;
@@ -356,7 +357,7 @@
         }
         events.push({
           date:dateKey,
-          dateLabel:new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long"}).format(new Date(dateKey+"T12:00:00+05:30")),
+          dateLabel:new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"long"}).format(zonedDateTimeToUtc(dateKey,12,0,getLocationTimeZone())),
           title:getGrahanTitle(grahan),
           category:"ग्रहण",
           description:description,
@@ -499,7 +500,7 @@
     if(item.muhurtaStart&&item.muhurtaEnd){
       var nakshatraStart=new Date(item.muhurtaStart),nakshatraEnd=new Date(item.muhurtaEnd);
       if(Number.isFinite(nakshatraStart.getTime())&&Number.isFinite(nakshatraEnd.getTime())&&nakshatraEnd>nakshatraStart){
-        var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
+        var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),hour:"2-digit",minute:"2-digit",hour12:true});
         var startLabel=timeFormatter.format(nakshatraStart),endLabel=timeFormatter.format(nakshatraEnd);
         var timeBox=document.createElement("div");timeBox.className="desc";
         timeBox.style.cssText="margin-top:6px;font-size:12px;line-height:1.45";
@@ -625,7 +626,7 @@
             var row=document.createElement("div");row.className="muhurta-window";
             var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=milestone.label||"अनुष्ठान";row.appendChild(name);
             var date=document.createElement("div");date.className="muhurta-window-time";
-            date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(milestone.date);
+            date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),weekday:"short",day:"numeric",month:"short"}).format(milestone.date);
             row.appendChild(date);
             if(milestone.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=milestone.note;row.appendChild(note);}
             detail.appendChild(row);
@@ -639,16 +640,16 @@
               var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             }
             var time=document.createElement("div");time.className="muhurta-window-time";
-            var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
-            var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
+            var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start,values.location.timeZone);
+            var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end,values.location.timeZone);
             function dateKey(value){
-              var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(value);
+              var parts=new Intl.DateTimeFormat("en-GB",{timeZone:getLocationTimeZone(),year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(value);
               var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
               return part("year")+"-"+part("month")+"-"+part("day");
             }
             var startDateKey=dateKey(windowItem.start),endDateKey=dateKey(windowItem.end);
             if(startDateKey!==dateIso||endDateKey!==dateIso){
-              var dateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"});
+              var dateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"short"});
               time.textContent=dateFormatter.format(windowItem.start)+" "+startTime+" – "+dateFormatter.format(windowItem.end)+" "+endTime;
             }else{
               time.textContent=startTime+" – "+endTime;
@@ -663,20 +664,20 @@
             var name=document.createElement("strong");name.className="muhurta-window-name";
             name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");time.className="muhurta-window-time";
-            var timeDate=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"}).format(timeItem.time);
-            time.textContent=timeDate+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
+            var timeDate=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"short"}).format(timeItem.time);
+            time.textContent=timeDate+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time,values.location.timeZone);
             row.appendChild(time);
             if(timeItem.note){var timeNote=document.createElement("div");timeNote.className="muhurta-window-note";timeNote.textContent=timeItem.note;row.appendChild(timeNote);}
             detail.appendChild(row);
           });
         }else if(result.status==="reference"&&result.time){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="reference"&&result.time){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="calculated"&&result.time){
-          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start,values.location.timeZone)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end,values.location.timeZone);
         }else{
           return;
         }
@@ -770,7 +771,7 @@
       return null;
     }
     function clockRange(a,b){
-      var fmt=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
+      var fmt=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),hour:"2-digit",minute:"2-digit",hour12:true});
       return fmt.format(a)+"–"+fmt.format(b)+" IST";
     }
     for(var cursor=new Date(start);cursor<=end;cursor.setDate(cursor.getDate()+1)){
@@ -1225,7 +1226,7 @@
       var date=document.createElement("div");date.className="date";
       var strong=document.createElement("strong");strong.textContent=String(item.date||"").slice(8,10)||item.dateLabel||"";
       date.appendChild(strong);
-      var dateObj=new Date(String(item.date||"")+"T12:00:00+05:30");
+      var dateObj=zonedDateTimeToUtc(String(item.date||""),12,0,getLocationTimeZone());
       var monthName=document.createElement("span");
       monthName.className="month-name";
       monthName.textContent=Number.isNaN(dateObj.getTime())?"":months[dateObj.getMonth()];
@@ -1667,22 +1668,6 @@
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
   syncMonthNavigationButtons();
   syncLocationUI();
-  // The festival list must not wait for the external elevation service.
+  // पिथौरागढ़ की स्वीकृत ऊँचाई यथावत; कोई गैर-व्यावसायिक elevation API कॉल नहीं।
   loadMonth();
-  (async function(){
-    try{
-      var fetchedElevation=await getTerrainElevation(29.5828,80.2182);
-      var elevationChanged=fetchedElevation!==defaultLocationElevation;
-      defaultLocationElevation=fetchedElevation;
-      defaultElevationFromDem=true;
-      syncLocationUI();
-      if(elevationChanged){
-        panchangCache.clear();
-        locationEclipseCache.clear();
-        loadMonth();
-      }
-    }catch(error){
-      console.warn("Default location elevation unavailable; using configured elevation.",error);
-    }
-  })();
 })();
