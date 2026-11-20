@@ -17,6 +17,9 @@ export async function resolveCityObserver(location) {
       Math.abs(location.lat) > 90 || Math.abs(location.lon) > 180) {
     return {...location, elevation: 0, elevationStatus: "unknown"};
   }
+  // GPS coordinates are the observer itself, not a city-center search result.
+  // Preserve them; an unverified GPS altitude must remain unknown.
+  if (location.observerSource === "gps") return location;
   const city = norm(location.city);
   if (!city) return location;
   // Prefer the same city profiles already used by the annual Tara page.
