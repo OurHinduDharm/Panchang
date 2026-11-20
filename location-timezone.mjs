@@ -77,6 +77,12 @@ export function zonedDateTimeToUtc(isoDate, hour, minute, timeZone) {
   return candidate;
 }
 
+export function getTimeZoneOffsetForLocalDay(value, timeZone) {
+  const localDate = getIsoDateInTimeZone(value, timeZone);
+  const localMidnight = zonedDateTimeToUtc(localDate, 0, 0, timeZone);
+  return getTimeZoneOffsetMinutes(localMidnight, timeZone);
+}
+
 export function getWeekdayForIsoDate(isoDate) {
   const match = String(isoDate ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) throw new TypeError("A valid ISO date is required");
