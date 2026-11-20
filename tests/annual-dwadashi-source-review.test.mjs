@@ -831,6 +831,13 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   assert.equal(bhadrapadaDamodara.sourceTextNote, undefined);
   const kalki = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "kalki");
   assert.match(kalki.sourceTextNote, /48\.1/);
+  const may2030 = JSON.parse(await readFile(resolve(root, "data/festivals/2030-05.json"), "utf8"));
+  for (const title of ["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"]) {
+    const card = may2030.events.find(x => x.title === title);
+    assert.ok(card, `missing public card ${title}`);
+    assert.doesNotMatch(JSON.stringify(card), /https?:\\/\\//i);
+    assert.doesNotMatch(JSON.stringify(card), /Drik|Vedic People|Vedapath/i);
+  }
 
   for (const year of [2026, 2027, 2028, 2029, 2030]) {
     const annual = JSON.parse(await readFile(resolve(root, `data/references/ohd-dwadashi-${year}-review.json`), "utf8"));
