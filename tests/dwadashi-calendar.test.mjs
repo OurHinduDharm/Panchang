@@ -664,11 +664,11 @@ test("2030 Vaishakha Shukla Dwadashi keeps Madhava and Jamadagnyadvadashi as dis
   const source = rules.unifiedTithiIndex.tithis.find(item => item.month === "वैशाख" && item.paksha === "शुक्ल");
   assert.deepEqual(source.observances.map(item => item.id), ["madhava", "parashurama"]);
   const parashurama = source.observances.find(item => item.id === "parashurama");
-  assert.equal(parashurama.source, "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत");
-  assert.equal(parashurama.sourceUrl, "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044");
+  assert.equal(parashurama.source, "वराह पुराण, अध्याय 44 — जामदग्न्य/परशुराम-द्वादशी-व्रत");
+  assert.equal(parashurama.sourceUrl, undefined);
   const monthlySource = rules.profiles.varahaPurana.monthlyVratas.find(item => item.id === "parashurama");
   assert.equal(monthlySource.source, parashurama.source);
-  assert.equal(monthlySource.sourceUrl, parashurama.sourceUrl);
+  assert.equal(monthlySource.sourceUrl, undefined);
 
   const record = review.tithis.find(item => item.id === "vaishakha-shukla");
   assert.ok(record);
