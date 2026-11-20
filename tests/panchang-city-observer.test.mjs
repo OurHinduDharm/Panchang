@@ -27,28 +27,43 @@ test("unidentified city retains explicitly unknown height", async () => {
   assert.equal(selected.elevationStatus, "unknown");
 });
 
-test("Hindi alias resolves one fixed GeoNames city profile", async () => {
+test("Hindi alias resolves one GeoNames city profile", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => ({
     ok: true,
     json: async () => ({
       states: {"39": "Uttarakhand"},
-      districts: {"39.01": "Dehradun"},
+      districts: {"39.01": "Haridwar"},
       cities: [
-        [900001, "Dehradun", "39", "01", 30.3165, 78.0322, 640, ["देहरादून"]],
-        [900002, "Dehradun", "39", "01", 22.5, 75.5, 999, ["देहरादून"]]
+        [900001, "Haridwar", "39", "01", 29.9457, 78.1642, 314, ["हरिद्वार"]],
+        [900002, "Haridwar", "39", "01", 22.5, 75.5, 999, ["हरिद्वार"]]
       ]
     })
   });
   try {
     const selected = await resolveCityObserver({
-      city: "देहरादून", lat: 30.3164, lon: 78.0321,
+      city: "हरिद्वार", lat: 29.9456, lon: 78.1641,
       elevation: 0, elevationStatus: "unknown"
     });
-    assert.equal(selected.elevation, 640);
+    assert.equal(selected.elevation, 314);
     assert.equal(selected.cityId, 900001);
     assert.equal(selected.elevationStatus, "estimated");
   } finally {
     globalThis.fetch = originalFetch;
+  }
+});
+
+test("annual Tara city presets retain identical heights in daily Panchang", async () => {
+  for (const [city, lat, lon, height] of [
+    ["अल्मोड़ा", 29.59713, 79.65911, 1600],
+    ["रामनगर", 29.3925, 79.1283, 364],
+    ["देहरादून", 30.3165, 78.0322, 640],
+    ["नई दिल्ली", 28.6139, 77.2090, 216]
+  ]) {
+    const selected = await resolveCityObserver({
+      city, lat, lon, elevation: 0, elevationStatus: "unknown"
+    });
+    assert.equal(selected.elevation, height, city);
+    assert.equal(selected.elevationStatus, "provided", city);
   }
 });
