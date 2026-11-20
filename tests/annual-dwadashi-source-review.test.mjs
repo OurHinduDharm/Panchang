@@ -925,3 +925,31 @@ test("2030 Varaha Dwadashi follows the Varaha Purana Ekadashi-to-dawn sequence w
   assert.equal(card.sourceName, "वराह पुराण, अध्याय 41, श्लोक 1–13");
   assert.equal(card.sourceUrl, undefined);
 });
+
+
+test("2030 Krishna Narasimha distinguishes the prior sunrise-day label from local puja and parana date", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "chaitra-krishna");
+  const vrata = record.observanceDateReviews.find(x => x.observanceId === "krishna-narasimha");
+  assert.equal(record.status, "needs-review");
+  assert.equal(vrata.sourceCrossCheck.referenceCalendarDate, "2030-03-29");
+  assert.equal(vrata.sourceCrossCheck.referenceTithiStart, "2030-03-30T00:34:00+05:30");
+  assert.equal(vrata.vrataDate, "2030-03-29");
+  assert.equal(vrata.observanceAndParanaDate, "2030-03-30");
+  assert.equal(vrata.localDayEvidence.sunriseTithi, "द्वादशी");
+  assert.equal(vrata.localDayEvidence.followingSunriseTithi, "त्रयोदशी");
+  assert.match(vrata.localDayDecision, /29 मार्च के सूर्योदय से 30 मार्च के सूर्योदय/);
+  assert.equal(vrata.autoApproved, false);
+
+  const march = JSON.parse(await readFile(resolve(root, "data/festivals/2030-03.json"), "utf8"));
+  const card = march.events.find(x => x.title === "कृष्ण नृसिंह द्वादशी");
+  assert.equal(card.date, "2030-03-30");
+  assert.equal(card.associatedEkadashiDate, "2030-03-29");
+  assert.equal(card.paranaDate, "2030-03-30");
+  assert.equal(card.sourceName, undefined);
+  assert.equal(card.sourceUrl, undefined);
+});
