@@ -868,7 +868,37 @@
         }
       ],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "drikDecisionAnalysis": {
+        "source": "Drik Panchang — Damodara Dwadashi 2030, New Delhi",
+        "sourceUrls": [
+          "https://www.drikpanchang.com/dwadashi/damodara/damodara-dwadashi-date-time.html?year=2030",
+          "https://vedapath.app/sa/varaha-purana/47"
+        ],
+        "drikNewDelhi": {
+          "observanceDate": "2030-08-10",
+          "dwadashiStart": "2030-08-10T01:59:00+05:30",
+          "dwadashiEnd": "2030-08-10T23:23:00+05:30",
+          "paranaDate": "2030-08-11",
+          "paranaWindow": "05:48–08:27 IST",
+          "paranaLogic": "द्वादशी 10 अगस्त की रात 23:23 पर समाप्त होती है, इसलिए 11 अगस्त सूर्योदय से पहले समाप्त होने का Drik कथन उसके प्रकाशित समय से मेल खाता है।"
+        },
+        "pithoragarh": {
+          "sunrise": "2030-08-10T05:34:30.216+05:30",
+          "dwadashiStart": "2030-08-10T02:00:29.669+05:30",
+          "dwadashiEnd": "2030-08-10T23:24:16.354+05:30",
+          "sunriseTithi": "द्वादशी",
+          "dateMatch": true,
+          "note": "स्थानीय सूर्योदय पर द्वादशी विद्यमान है; Drik New Delhi के समय से लगभग 1–2 मिनट का स्थानीय अंतर है।"
+        },
+        "sourceReading": {
+          "primary": "संस्कृत वराह पुराण 47.1 में 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' स्पष्ट है।",
+          "translationCaution": "Vedic People अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; यह संस्कृत पाठ से मेल नहीं खाता।",
+          "disposition": "Damodara Dwadashi के लिए 10 अगस्त की स्थानीय तिथि Drik और संस्कृत मूल से मेल खाती है; अंग्रेज़ी अनुवाद की एकादशी-पंक्ति को प्राथमिक न मानें।"
+        },
+        "approval": "evidence-only; manual source review pending",
+        "autoApproved": false
+      }
     },
     {
       "id": "bhadrapada-krishna",
