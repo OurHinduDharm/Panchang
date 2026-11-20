@@ -6,11 +6,61 @@
 
 import { getNightPraharWindows } from "./night-prahar.js";
 import { calculateEkadashiParanaWindow } from "./festival-observance-rules.mjs";
-import { addIsoCalendarDays, getIsoDateInTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 
 function validDate(value) {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
+}
+
+const localTimeFormatterCache = new Map();
+
+function localTimeParts(value, timeZone) {
+  if (!localTimeFormatterCache.has(timeZone)) {
+    localTimeFormatterCache.set(timeZone, new Intl.DateTimeFormat("en-CA-u-ca-iso8601-nu-latn", {
+      timeZone, year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23"
+    }));
+  }
+  const date = validDate(value);
+  if (!date) throw new TypeError("A valid date is required");
+  return Object.fromEntries(localTimeFormatterCache.get(timeZone).formatToParts(date)
+    .filter(part => part.type !== "literal").map(part => [part.type, Number(part.value)]));
+}
+
+function localIsoDate(value, timeZone) {
+  const parts = localTimeParts(value, timeZone);
+  return String(parts.year).padStart(4, "0") + "-" +
+    String(parts.month).padStart(2, "0") + "-" + String(parts.day).padStart(2, "0");
+}
+
+function addLocalIsoDays(isoDate, amount) {
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match || !Number.isInteger(amount)) throw new TypeError("A valid ISO date and integer day offset are required");
+  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]) + amount))
+    .toISOString().slice(0, 10);
+}
+
+function localTimeZoneOffsetMinutes(value, timeZone) {
+  const parts = localTimeParts(value, timeZone);
+  const representedUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+  return Math.round((representedUtc - new Date(value).getTime()) / 60000);
+}
+
+function localDateTimeToUtc(isoDate, hour, minute, timeZone) {
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match || !Number.isInteger(hour) || hour < 0 || hour > 23 ||
+      !Number.isInteger(minute) || minute < 0 || minute > 59) {
+    throw new TypeError("A valid ISO date and local clock time are required");
+  }
+  const nominalUtc = Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), hour, minute);
+  let candidate = new Date(nominalUtc);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const offset = localTimeZoneOffsetMinutes(candidate, timeZone);
+    const corrected = new Date(nominalUtc - offset * 60000);
+    if (corrected.getTime() === candidate.getTime()) break;
+    candidate = corrected;
+  }
+  return candidate;
 }
 
 function interval(startValue, endValue, label, note) {
@@ -1788,9 +1838,9 @@ const rules = {
       };
     }
     const timeZone = context.timeZone || "Asia/Kolkata";
-    const mainDateKey = getIsoDateInTimeZone(mainDate, timeZone);
+    const mainDateKey = localIsoDate(mainDate, timeZone);
     if (!mainDateKey) return null;
-    const day = offset => zonedDateTimeToUtc(addIsoCalendarDays(mainDateKey, offset), 12, 0, timeZone);
+    const day = offset => localDateTimeToUtc(addLocalIsoDays(mainDateKey, offset), 12, 0, timeZone);
     return {
       label: "छठ महापर्व — चार दिवसीय अनुष्ठान",
       status: "calculated",
@@ -1814,8 +1864,8 @@ const rules = {
     const timeZone = context.timeZone || "Asia/Kolkata";
     const localDate = localDateKey(date, timeZone);
     if (!localDate) return null;
-    const nextLocalDate = addIsoCalendarDays(localDate, 1);
-    const midnight = zonedDateTimeToUtc(nextLocalDate, 0, 0, timeZone);
+    const nextLocalDate = addLocalIsoDays(localDate, 1);
+    const midnight = localDateTimeToUtc(nextLocalDate, 0, 0, timeZone);
     const result = interval(moonrise, midnight, "चंद्रमा के उदय से मध्यरात्रि तक");
     return result ? {
       ...result,
