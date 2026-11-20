@@ -71,6 +71,7 @@ test("uses the offset at the selected local date when crossing a DST boundary", 
 test("daily and supplementary Panchang use the selected location timezone", async () => {
   const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
   const source = await readFile(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const eclipse = await readFile(new URL("../eclipse-panchang.js", import.meta.url), "utf8");
   assert.match(app, /tzLookup/);
   assert.match(app, /getTimeZoneOffsetForLocalDay/);
   assert.doesNotMatch(app, /timezoneOffset\s*:\s*330/);
@@ -79,4 +80,6 @@ test("daily and supplementary Panchang use the selected location timezone", asyn
   assert.match(source, /getIsoDateInTimeZone/);
   assert.doesNotMatch(source, /timezoneOffset\s*:\s*330/);
   assert.doesNotMatch(source, /timeZone\s*:\s*"Asia\/Kolkata"/);
+  assert.doesNotMatch(eclipse, /localStorage\.(?:getItem|setItem)/);
+  assert.match(eclipse, /state\.location = normalized/);
 });
