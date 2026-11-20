@@ -3063,7 +3063,7 @@ function sanitizeLocationRecord(value){
 
   const cleanText = (input, maxLength = 160) =>
     String(input == null ? "" : input)
-      .replace(/[\\u0000-\\u001F\\u007F]/g, " ")
+      .replace(/[\u0000-\u001F\u007F]/g, " ")
       .trim()
       .slice(0, maxLength);
   const rawElevation = Number(value.elevation);
