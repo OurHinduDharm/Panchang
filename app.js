@@ -3053,6 +3053,39 @@ function resolveLocationTimeZone(location){
   return timeZone;
 }
 
+// URL और localStorage दोनों को अविश्वसनीय इनपुट मानकर एक ही validation path से गुजारें।
+function sanitizeLocationRecord(value){
+  if(!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const lat = Number(value.lat);
+  const lon = Number(value.lon);
+  if(!Number.isFinite(lat) || lat < -90 || lat > 90 ||
+     !Number.isFinite(lon) || lon < -180 || lon > 180) return null;
+
+  const cleanText = (input, maxLength = 160) =>
+    String(input == null ? "" : input)
+      .replace(/[\\u0000-\\u001F\\u007F]/g, " ")
+      .trim()
+      .slice(0, maxLength);
+  const rawElevation = Number(value.elevation);
+  const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
+    ? rawElevation : 0;
+  const countryCodeRaw = cleanText(value.countryCode, 2).toLowerCase();
+  const location = {
+    name: cleanText(value.name, 240) || cleanText(value.city, 120) || "चुना हुआ स्थान",
+    lat,
+    lon,
+    elevation,
+    state: cleanText(value.state, 120),
+    city: cleanText(value.city, 120),
+    country: cleanText(value.country, 120),
+    countryCode: /^[a-z]{2}$/.test(countryCodeRaw) ? countryCodeRaw : ""
+  };
+
+  // Stored/URL timezone is never authoritative; derive it from the coordinates.
+  resolveLocationTimeZone(location);
+  return location;
+}
+
 function selectCity(place){
   const wasViewingPreviousLocationToday = dateInput.value === todayString();
   const addr = place.address || {};
@@ -3131,30 +3164,30 @@ try{
   if(Number.isFinite(sharedLat) && sharedLat >= -90 && sharedLat <= 90 &&
      Number.isFinite(sharedLon) && sharedLon >= -180 && sharedLon <= 180 &&
      isValidTimeZone(sharedTimeZone)){
-    sharedLocation = {
+    sharedLocation = sanitizeLocationRecord({
       name: params.get("locName") || params.get("locCity") || "चुना हुआ स्थान",
       lat: sharedLat,
       lon: sharedLon,
-      elevation: Number(params.get("locElevation") || 0),
-      state: params.get("locState") || "",
-      city: params.get("locCity") || "",
-      country: params.get("locCountry") || "",
-      countryCode: (params.get("locCountryCode") || "").toLowerCase(),
-      timeZone: sharedTimeZone
-    };
-    if(!Number.isFinite(sharedLocation.elevation) || sharedLocation.elevation < -500 || sharedLocation.elevation > 9000) sharedLocation.elevation = 0;
-    resolveLocationTimeZone(sharedLocation);
+      elevation: params.get("locElevation"),
+      state: params.get("locState"),
+      city: params.get("locCity"),
+      country: params.get("locCountry"),
+      countryCode: params.get("locCountryCode")
+    });
   }
 
   const saved = localStorage.getItem("ohdPanchangLocation");
+  const savedLocation = saved ? sanitizeLocationRecord(JSON.parse(saved)) : null;
 
   if(sharedLocation){
     selectedLocation = sharedLocation;
     localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
     selectedCity.style.display = "block";
     selectedCity.textContent = "📍 साझा किए गए स्थान से: " + selectedLocation.name + " · " + selectedLocation.timeZone;
-  }else if(saved){
-    selectedLocation = JSON.parse(saved);
+  }else if(savedLocation){
+    selectedLocation = savedLocation;
+    // पुराने या बदले हुए storage records को validated canonical रूप में लिखें।
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
     selectedCity.style.display = "block";
     selectedCity.textContent = "💾 पिछला चुना गया स्थान: " + selectedLocation.name;
   }else{
