@@ -78,6 +78,25 @@ test("coordinate-only links accept measured sea level but not missing elevation"
 });
 
 
+
+test("event links preserve estimated elevation provenance without upgrading it", () => {
+ const estimated = {...place, elevationStatus: "estimated"};
+ const url = new URL(buildPanchangEventUrl("https://ourhindudharm.blogspot.com/p/panchang-today.html", "2027-08-17", estimated));
+ assert.equal(url.searchParams.get("elevationStatus"), "estimated");
+ assert.equal(readPanchangLinkLocation(url.searchParams).elevationStatus, "estimated");
+ const legacy = new URLSearchParams("lat=29&lon=80&elevation=0");
+ assert.equal(readPanchangLinkLocation(legacy).elevationStatus, "provided");
+});
+test("event links reject unknown or malformed elevation provenance", () => {
+ assert.throws(() => buildPanchangEventUrl("https://example.com/", "2026-09-07",
+   {...place, elevationStatus: "unknown"}));
+ for (const status of ["unknown", "measured-ish", ""]) {
+   const params = new URLSearchParams("lat=29&lon=80&elevation=0");
+   params.set("elevationStatus", status);
+   assert.equal(readPanchangLinkLocation(params), null);
+ }
+});
+
 test("unverified elevation cannot be published in a daily event URL", () => {
  assert.throws(() => buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", "2026-09-07", {...place, elevation: 0, elevationStatus: "unknown"}));
  assert.doesNotThrow(() => buildPanchangEventUrl("https://ourhindudharm.github.io/Panchang/", "2026-09-07", {...place, elevation: 0, elevationStatus: "provided"}));
