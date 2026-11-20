@@ -75,10 +75,11 @@ test("daily Panchang blocks unknown observer heights before astronomical calcula
 });
 
 test("saved GPS observer identity survives elevation restoration", () => {
-  const restored = restoreSavedElevationStatus(parsed, {
+  const saved = {
     lat: 29.584, lon: 80.219, elevation: 0,
     elevationStatus: "unknown", observerSource: "gps"
-  });
+  };
+  const restored = restoreSavedElevationStatus({ ...parsed, lat: saved.lat, lon: saved.lon }, saved);
   assert.equal(restored.observerSource, "gps");
   assert.equal(restored.elevationStatus, "unknown");
   assert.equal(restored.lat, 29.584);
