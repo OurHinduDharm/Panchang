@@ -234,3 +234,32 @@ test("legacy saved Pithoragarh selection resolves its missing elevation before f
     await browser.close();
   }
 });
+
+
+test("saved GPS observer keeps exact coordinates instead of snapping to its city", async () => {
+  const browser = await chromium.launch();
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await context.addInitScript(() => {
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify({
+      observerSource: "gps", name: "वर्तमान स्थान", city: "पिथौरागढ़",
+      state: "उत्तराखंड", lat: 29.584, lon: 80.219,
+      elevation: 0, elevationStatus: "unknown"
+    }));
+  });
+  try {
+    await page.goto("http://127.0.0.1:8080/index.html");
+    await page.getByText("चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।").waitFor();
+    const location = await page.evaluate(() => window.getPanchangLocation());
+    assert.deepEqual({
+      observerSource: location.observerSource, lat: location.lat, lon: location.lon,
+      elevation: location.elevation, elevationStatus: location.elevationStatus
+    }, {observerSource: "gps", lat: 29.584, lon: 80.219,
+      elevation: 0, elevationStatus: "unknown"});
+    assert.deepEqual(errors, []);
+  } finally {
+    await browser.close();
+  }
+});
