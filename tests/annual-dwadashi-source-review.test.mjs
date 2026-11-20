@@ -837,6 +837,10 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     const t = annual.tithis.find(x => x.id === "margashirsha-shukla");
     assert.ok(t.observances.find(x => x.id === "standard-margashirsha").sourceTextNote, `chapter 39 note missing in ${year}`);
     assert.equal(t.observances.some(x => x.id === "matsya"), false);
+    const bhadrapada = annual.tithis.find(x => x.id === "bhadrapada-shukla");
+    const naradaDamodara = bhadrapada.observances.find(x => x.id === "damodara");
+    assert.equal(naradaDamodara.sourceProfile, "naradaPurana");
+    assert.equal(naradaDamodara.source, "नारद पुराण, पूर्वार्ध, अध्याय 121");
     for (const record of annual.tithis) {
       for (const observance of record.observances || []) {
         if (observance.sourceProfile === "varahaPurana") assert.equal(JSON.stringify(observance).includes("http"), false);
