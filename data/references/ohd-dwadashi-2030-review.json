@@ -1779,7 +1779,7 @@
       "drik2026Labels": [],
       "drikSpecialObservances": [],
       "selectedDate": "2030-01-01",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reviewed-manual-approval",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1802,7 +1802,7 @@
           "status": "cross-reference"
         }
       ],
-      "status": "needs-review",
+      "status": "approved",
       "occurrence": 1,
       "observanceDateReviews": [
         {
@@ -1814,7 +1814,9 @@
           "source": "नारद पुराण, पूर्वार्ध 121.67b–76a",
           "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
           "localDayDecision": "पूर्व एकादशी को उपवास और जागरण के बाद पौष कृष्ण द्वादशी की सुबह विष्णु-पूजन।",
-          "autoApproved": false
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण पूर्वार्ध 121.67b–76a में एकादशी-उपवास और रात्रि-जागरण के बाद द्वादशी-प्रातः पूजन, होम और दान का स्पष्ट क्रम है; चुनी तारीख़ पर पिथौरागढ़ के स्थानीय सूर्योदय में द्वादशी विद्यमान है।"
         }
       ]
     },
@@ -1873,7 +1875,7 @@
         }
       ],
       "selectedDate": "2030-12-22",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reviewed-manual-approval",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1896,7 +1898,7 @@
           "status": "cross-reference"
         }
       ],
-      "status": "needs-review",
+      "status": "approved",
       "occurrence": 2,
       "sourceReferenceObservation": null,
       "observanceDateReviews": [
@@ -1909,7 +1911,9 @@
           "source": "नारद पुराण, पूर्वार्ध 121.67b–76a",
           "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
           "localDayDecision": "पूर्व एकादशी को उपवास और जागरण के बाद पौष कृष्ण द्वादशी की सुबह विष्णु-पूजन।",
-          "autoApproved": false
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण पूर्वार्ध 121.67b–76a में एकादशी-उपवास और रात्रि-जागरण के बाद द्वादशी-प्रातः पूजन, होम और दान का स्पष्ट क्रम है; चुनी तारीख़ पर पिथौरागढ़ के स्थानीय सूर्योदय में द्वादशी विद्यमान है।"
         }
       ]
     },
