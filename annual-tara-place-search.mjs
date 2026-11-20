@@ -56,3 +56,30 @@ export async function findTaraPlace(id) {
   const row = index.cities.find(place => String(place[0]) === id);
   return row ? toPlace(row, index) : null;
 }
+
+/** Resolve a city by its exact name/alias and coordinates across the full index.
+ * UI search deliberately limits results to 12; observer resolution must not.
+ */
+export function matchNearestPlace(index, query, lat, lon, maxDistanceKm = 3) {
+  const term = searchKey(String(query || ""));
+  if (term.length < 2 || term.length > 100 ||
+      !Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  let nearest = null;
+  let nearestDistance = maxDistanceKm;
+  for (const row of index.cities) {
+    if (!Number.isFinite(row[6])) continue;
+    if (![row[1], ...(row[7] || [])].some(name => searchKey(name) === term)) continue;
+    const midLat = (lat + row[4]) * Math.PI / 360;
+    const distance = Math.hypot((lat - row[4]) * 111.2,
+      (lon - row[5]) * 111.2 * Math.cos(midLat));
+    if (distance <= nearestDistance) {
+      nearestDistance = distance;
+      nearest = row;
+    }
+  }
+  return nearest ? toPlace(nearest, index) : null;
+}
+
+export async function findNearestTaraPlace(query, lat, lon, maxDistanceKm = 3) {
+  return matchNearestPlace(await loadIndex(), query, lat, lon, maxDistanceKm);
+}
