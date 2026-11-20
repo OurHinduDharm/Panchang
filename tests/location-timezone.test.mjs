@@ -6,6 +6,7 @@ import {
   addIsoCalendarDays,
   getIsoDateInTimeZone,
   getTimeZoneOffsetMinutes,
+  getTimeZoneOffsetForLocalDay,
   getWeekdayForIsoDate,
   isValidTimeZone,
   zonedDateTimeToUtc
@@ -29,6 +30,18 @@ test("returns the correct DST-sensitive offsets", () => {
   assert.equal(getTimeZoneOffsetMinutes(new Date("2026-01-15T12:00:00Z"), "America/New_York"), -300);
   assert.equal(getTimeZoneOffsetMinutes(new Date("2026-07-15T12:00:00Z"), "America/New_York"), -240);
   assert.equal(getTimeZoneOffsetMinutes(new Date("2026-01-15T12:00:00Z"), "Asia/Kolkata"), 330);
+});
+
+test("uses the offset at local midnight on DST transition days", () => {
+  const londonSpring = new Date("2026-03-29T12:00:00Z");
+  const londonAutumn = new Date("2026-10-25T12:00:00Z");
+  const newYorkSpring = new Date("2026-03-08T16:00:00Z");
+  assert.equal(getTimeZoneOffsetMinutes(londonSpring, "Europe/London"), 60);
+  assert.equal(getTimeZoneOffsetForLocalDay(londonSpring, "Europe/London"), 0);
+  assert.equal(getTimeZoneOffsetMinutes(londonAutumn, "Europe/London"), 0);
+  assert.equal(getTimeZoneOffsetForLocalDay(londonAutumn, "Europe/London"), 60);
+  assert.equal(getTimeZoneOffsetMinutes(newYorkSpring, "America/New_York"), -240);
+  assert.equal(getTimeZoneOffsetForLocalDay(newYorkSpring, "America/New_York"), -300);
 });
 
 test("converts local noon to the matching UTC instant", () => {
