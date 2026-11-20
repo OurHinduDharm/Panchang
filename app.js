@@ -3174,6 +3174,10 @@ try{
     selectedLocation.name;
 }
 
+// Location is initialized after the date field; derive the default date
+// again using the selected location's timezone, not the browser timezone.
+if(!isValidIsoDate(requestedDate)) dateInput.value = todayString();
+
 /* =========================================================
    FORMAT FUNCTIONS
    ========================================================= */
