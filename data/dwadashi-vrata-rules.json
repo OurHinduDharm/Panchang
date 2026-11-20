@@ -1001,17 +1001,20 @@
             "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
           },
           {
-            "id": "matsya",
-            "name": "मत्स्य द्वादशी",
-            "deity": "भगवान मत्स्य",
-            "shortDetail": "मार्गशीर्ष शुक्ल पक्ष में मत्स्य-रूप विष्णु की पूजा, चार जल-कलश और स्वर्ण-मत्स्य प्रतिमा के दान का विधान है; एकादशी उपवास और द्वादशी-दिन के अनुष्ठान का क्रम भी दिया है।",
+            "id": "standard-margashirsha",
+            "name": "सामान्य द्वादशी-व्रत",
+            "deity": "भगवान विष्णु",
+            "shortDetail": "मार्गशीर्ष द्वादशी पर भगवान विष्णु की पूजा, उपवास, कलश और मत्स्य-रूप प्रतिमा के दान का विधान है।",
             "sourceProfile": "varahaPurana",
-            "source": "वराह पुराण, अध्याय 39 — मत्स्य-द्वादशी-व्रत",
-            "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-039"
+            "source": "वराह पुराण, अध्याय 39 — धरणी-व्रत (मार्गशीर्ष द्वादशी; मत्स्य-रूप प्रतिमा सहित)",
+            "sourceUrl": "https://vedapath.app/en/varaha-purana/39",
+            "secondarySourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-039",
+            "sourceTextNote": "Vedic People chapter-039 का heading Matsyadvadashivrata कहता है, पर उसी पृष्ठ का body 39.20 onward Dharaṇī-vrata बताता है; Vedapath भी chapter 39 को Dharaṇī-vrata/Dvādaśī-kalpa कहता है। विधि में Matsya-रूप स्वर्ण-प्रतिमा है, पर अलग स्वतंत्र Matsya observance का निष्कर्ष अभी लंबित है।"
           }
         ],
         "displayNames": [
           "साध्य-व्रत",
+          "सामान्य द्वादशी-व्रत",
           "मत्स्य द्वादशी"
         ]
       },
