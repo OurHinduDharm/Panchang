@@ -200,3 +200,37 @@ test("event deep link applies one observer across the daily page, date changes a
     assert.deepEqual(errors, []);
   } finally { await browser.close(); }
 });
+
+
+test("legacy saved Pithoragarh selection resolves its missing elevation before first calculation", async () => {
+  const browser = await chromium.launch();
+  const context = await browser.newContext({timezoneId: "America/Los_Angeles"});
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await context.addInitScript(() => {
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify({
+      name: "Pithoragarh", city: "Pithoragarh", state: "Uttarakhand",
+      lat: 29.5828, lon: 80.2182, elevation: 0
+    }));
+  });
+  try {
+    await page.goto("http://127.0.0.1:8080/index.html");
+    const sunCard = page.locator("#result .card").filter({
+      has: page.getByText("🌅 सूर्य व 🌙 चंद्र समय", {exact: true})
+    });
+    await sunCard.waitFor({timeout: 90000});
+    const location = await page.evaluate(() => ({
+      ...window.getPanchangLocation(),
+      saved: JSON.parse(localStorage.getItem("ohdPanchangLocation"))
+    }));
+    assert.deepEqual({
+      lat: location.lat, lon: location.lon, elevation: location.elevation,
+      elevationStatus: location.elevationStatus
+    }, {lat: 29.5828, lon: 80.2182, elevation: 1650, elevationStatus: "provided"});
+    assert.equal(location.saved.elevationStatus, "provided");
+    assert.deepEqual(errors, []);
+  } finally {
+    await browser.close();
+  }
+});
