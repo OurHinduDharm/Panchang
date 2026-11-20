@@ -4845,7 +4845,8 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
   const isPithoragarh = selectedLocation &&
     Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
-    Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02;
+    Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02 &&
+    Math.abs(Number(selectedLocation.elevation) - 1650) < 100;
   if(!isPithoragarh||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
