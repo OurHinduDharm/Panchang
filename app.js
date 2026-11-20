@@ -1,3 +1,5 @@
+import { restoreSavedElevationStatus } from "./panchang-location-elevation.mjs";
+import { resolveCityObserver } from "./panchang-city-observer.mjs";
 import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
@@ -3035,7 +3037,7 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
-function selectCity(place){
+async function selectCity(place){
   const addr = place.address || {};
 
   const state = (
@@ -3055,7 +3057,8 @@ function selectCity(place){
     ""
   ).trim();
 
-  selectedLocation = {
+  const version = ++gpsRequest;
+  const resolvedLocation = await resolveCityObserver({
     name: place.display_name,
     lat: Number(place.lat),
     lon: Number(place.lon),
@@ -3063,9 +3066,9 @@ function selectCity(place){
     elevationStatus: "unknown",
     state: state,
     city: city
-  };
-
-  ++gpsRequest;
+  });
+  if (version !== gpsRequest) return;
+  selectedLocation = resolvedLocation;
   clearEventLocation();
 
   cityInput.value =
@@ -3115,10 +3118,7 @@ function savedPanchangLocation() {
     const params = new URLSearchParams({lat: saved.lat, lon: saved.lon, place: saved.name || "",
       elevation: saved.elevation ?? 0, city: saved.city || "", state: saved.state || ""});
     const location = readPanchangLinkLocation(params);
-    if (location && saved.elevationStatus !== "provided" && !Number(saved.elevation)) {
-      location.elevationStatus = "unknown";
-    }
-    return location;
+    return restoreSavedElevationStatus(location, saved);
   } catch { return null; }
 }
 
@@ -4939,6 +4939,12 @@ function calculatePanchang(){
   if(!selectedLocation){
     result.innerHTML =
       `<div class="loading">पहले अपना शहर चुनें।</div>`;
+    return;
+  }
+  // Never feed a fabricated zero-meter fallback to the astronomical engine.
+  // Keep the public state neutral; do not expose internal provenance diagnostics.
+  if (!Number.isFinite(selectedLocation.elevation) || selectedLocation.elevationStatus === "unknown") {
+    result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।";
     return;
   }
 
@@ -6840,7 +6846,8 @@ window.useMyLocation = function(){
       }
 
       if (version !== gpsRequest) return;
-      selectedLocation = gpsLocation;
+      selectedLocation = await resolveCityObserver(gpsLocation);
+      if (version !== gpsRequest) return;
       clearEventLocation();
       selectedCity.style.display = "block";
 
