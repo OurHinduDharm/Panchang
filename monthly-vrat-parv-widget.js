@@ -270,7 +270,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var baseLabel=document.createElement("strong");baseLabel.className="tithi-vyapti-label";
         baseLabel.textContent=descriptor.base.name+" तिथि समाप्ति";
         var baseTime=document.createElement("span");baseTime.className="tithi-vyapti-time";
-        baseTime.textContent=module.formatTithiPoint(base.end,dateIso)+" तक";
+        baseTime.textContent=module.formatTithiPoint(base.end,dateIso,getLocationTimeZone())+" तक";
         baseRow.appendChild(baseLabel);baseRow.appendChild(baseTime);box.appendChild(baseRow);
       }
       if(vyapti){
@@ -278,7 +278,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var vyaptiLabel=document.createElement("strong");vyaptiLabel.className="tithi-vyapti-label";
         vyaptiLabel.textContent=descriptor.vyapti.name+" व्याप्ति";
         var vyaptiTime=document.createElement("span");vyaptiTime.className="tithi-vyapti-time";
-        vyaptiTime.textContent=module.formatTithiPoint(vyapti.start,dateIso)+" से "+module.formatTithiPoint(vyapti.end,dateIso)+" तक";
+        vyaptiTime.textContent=module.formatTithiPoint(vyapti.start,dateIso,getLocationTimeZone())+" से "+module.formatTithiPoint(vyapti.end,dateIso,getLocationTimeZone())+" तक";
         vyaptiRow.appendChild(vyaptiLabel);vyaptiRow.appendChild(vyaptiTime);box.appendChild(vyaptiRow);
       }
       content.appendChild(box);
@@ -437,7 +437,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     var numeric=Number(value);
     return Number.isInteger(numeric)&&numeric>=0&&numeric<=11?numeric:null;
   }
-  function getStiraLagnaWindows(lib,observer,startValue,endValue){
+  function getStiraLagnaWindows(lib,observer,startValue,endValue,timeZone){
     var start=new Date(startValue),end=new Date(endValue);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
        !lib||typeof lib.getPanchangam!=="function")return [];
@@ -445,7 +445,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     function signAt(ms){
       var instant=new Date(ms);
       try{
-        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
+        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:getTimeZoneOffsetForLocalDay(instant,timeZone||getLocationTimeZone())});
         var index=getLagnaIndex(panchang);
         if(index!==null)return index;
         // कुछ package builds में getPanchangam के परिणाम पर Udaya Lagna
@@ -507,7 +507,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var timeTitle=document.createElement("strong");timeTitle.textContent=item.muhurtaLabel||"मुहूर्त";
         timeBox.appendChild(timeTitle);
         var timeText=document.createElement("div");
-        timeText.textContent=startLabel+"–"+endLabel+" IST";
+        timeText.textContent=startLabel+"–"+endLabel+" (स्थानीय समय)";
         timeBox.appendChild(timeText);content.appendChild(timeBox);
       }
     }
@@ -553,8 +553,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location,function(){
         var followingDate=new Date(values.date);
         followingDate.setUTCDate(followingDate.getUTCDate()+2);
-        return values.panchangLib.getPanchangam(followingDate,values.observer,{timezoneOffset:330,calendarType:"purnimanta"});
-      });
+        return values.panchangLib.getPanchangam(followingDate,values.observer,{timezoneOffset:getTimeZoneOffsetForLocalDay(followingDate,values.location.timeZone),calendarType:"purnimanta"});
+      },values.location.timeZone);
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="sankranti-punya-kala";})){
         context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
         context.sankrantiRashiIndex=getSankrantiRashiIndex(item);
@@ -601,7 +601,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
           {sunrise:values.p.sunrise,sunset:values.p.sunset,
             tithis:[...(values.p.tithis||[]),...(values.next.tithis||[])]},
           {sunrise:nextValues.p.sunrise,sunset:nextValues.p.sunset,
-            tithis:[...(nextValues.p.tithis||[]),...(nextValues.next.tithis||[])]}
+            tithis:[...(nextValues.p.tithis||[]),...(nextValues.next.tithis||[])]},
+          values.location.timeZone
         );
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
@@ -611,7 +612,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
         // लक्ष्मी-पूजन का मुख्य लग्न प्रदोष में चाहिए; पूरे दिन/रात को स्कैन न करें।
         context.sthirLagnaWindows=[
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd,values.location.timeZone)
         ];
       }
       usableRules.forEach(function(ruleItem){
@@ -755,15 +756,17 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       }
     }
     if(!startEvent||!/^\d{4}-\d{2}-\d{2}$/.test(String(startEvent.date||""))) return [];
-    var start=new Date(startEvent.date+"T12:00:00");
+    var start=new Date(startEvent.date+"T12:00:00.000Z");
     var endIso=/^\d{4}-\d{2}-\d{2}$/.test(String(startEvent.endDate||""))?startEvent.endDate:"";
-    var end=endIso?new Date(endIso+"T12:00:00"):new Date(start.getTime()+9*86400000);
+    var end=endIso?new Date(endIso+"T12:00:00.000Z"):new Date(start.getTime()+9*86400000);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<start) return [];
     var found=[],avahanScheduled=false,avahanFallbackScheduled=false;
     var pujaScheduled=false,balidanScheduled=false,visarjanaScheduled=false;
     function findMulaInterval(panchang,dateIso){
       var rows=Array.isArray(panchang&&panchang.nakshatras)?panchang.nakshatras:[];
-      var dayStart=new Date(dateIso+"T00:00:00"),dayEnd=new Date(dateIso+"T23:59:59.999");
+      var timeZone=getLocationTimeZone();
+      var dayStart=zonedDateTimeToUtc(dateIso,0,0,timeZone);
+      var dayEnd=zonedDateTimeToUtc(addIsoCalendarDays(dateIso,1),0,0,timeZone);
       for(var ri=0;ri<rows.length;ri++){
         var row=rows[ri],a=new Date(row&&row.startTime),b=new Date(row&&row.endTime);
         if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b.getTime())&&b>a&&b>dayStart&&a<dayEnd) return {start:a,end:b};
@@ -772,11 +775,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     function clockRange(a,b){
       var fmt=new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),hour:"2-digit",minute:"2-digit",hour12:true});
-      return fmt.format(a)+"–"+fmt.format(b)+" IST";
+      return fmt.format(a)+"–"+fmt.format(b)+" (स्थानीय समय)";
     }
-    for(var cursor=new Date(start);cursor<=end;cursor.setDate(cursor.getDate()+1)){
+    for(var cursor=new Date(start);cursor<=end;cursor.setUTCDate(cursor.getUTCDate()+1)){
       if(token!==requestToken) return [];
-      var iso=cursor.getFullYear()+"-"+String(cursor.getMonth()+1).padStart(2,"0")+"-"+String(cursor.getDate()).padStart(2,"0");
+      var iso=cursor.getUTCFullYear()+"-"+String(cursor.getUTCMonth()+1).padStart(2,"0")+"-"+String(cursor.getUTCDate()).padStart(2,"0");
       if(Number(iso.slice(5,7))!==month) continue;
       var values;
       try{values=await getDatePanchang(iso);}catch(_){continue;}
