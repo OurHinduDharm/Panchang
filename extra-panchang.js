@@ -5,7 +5,8 @@ import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
-import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 
 import {
   Observer,
@@ -109,17 +110,23 @@ const HORA_DAY_LORD = {
   5: 1, // शुक्र
   6: 4  // शनि
 };
-function formatHoraTime(date){
+function formatHoraTime(date, timeZone = getLocation()?.timeZone || "Asia/Kolkata"){
   if(!date) return "—";
 
-  return new Intl.DateTimeFormat(
-    "hi-IN",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true
-    }
-  ).format(date);
+  try{
+    return new Intl.DateTimeFormat(
+      "hi-IN",
+      {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }
+    ).format(date);
+  }catch(error){
+    console.warn("Hora timezone formatting failed:", error);
+    return "—";
+  }
 }
 
 function calculateHoraDetails(
@@ -150,10 +157,9 @@ function calculateHoraDetails(
     };
   }
 
+  // Use the ISO calendar date directly; browser timezone must not alter weekday.
   const weekday =
-    new Date(
-      `${selectedDate}T00:00:00`
-    ).getDay();
+    new Date(selectedDate + "T00:00:00.000Z").getUTCDay();
 
   const firstPlanetIndex =
     HORA_DAY_LORD[weekday];
@@ -258,54 +264,38 @@ function calculateHoraDetails(
    ========================================= */
 
 function getLocation() {
-
   try {
+    // app.js publishes the selected observer in page memory only.
+    const location = window.__ohdPanchangLocation;
+    if (!location || typeof location !== "object") return null;
+    if (location.lat == null || String(location.lat).trim() === "" ||
+        location.lon == null || String(location.lon).trim() === "") return null;
+    const lat = Number(location.lat);
+    const lon = Number(location.lon);
+    if (!Number.isFinite(lat) || lat < -90 || lat > 90 ||
+        !Number.isFinite(lon) || lon < -180 || lon > 180) return null;
 
-    const saved =
-      localStorage.getItem(
-        "ohdPanchangLocation"
-      );
-
-    if (!saved) {
-      return null;
-    }
-
-    const location =
-      JSON.parse(saved);
-
-    const lat =
-      Number(location.lat);
-
-    const lon =
-      Number(location.lon);
-
-    const elevation =
-      Number(location.elevation) || 0;
-
-    if (
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lon)
-    ) {
-      return null;
-    }
+    const rawElevation = Number(location.elevation);
+    const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
+      ? rawElevation : 0;
+    const timeZone = tzLookup(lat, lon);
+    if (!isValidTimeZone(timeZone)) return null;
+    const cleanText = value => String(value == null ? "" : value)
+      .replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, 240);
 
     return {
       latitude: lat,
       longitude: lon,
       elevation,
-      name: location.name || "",
-      city: location.city || "",
-      state: location.state || "",
-      timeZone: location.timeZone || null
+      name: cleanText(location.name),
+      city: cleanText(location.city),
+      state: cleanText(location.state),
+      timeZone,
+      country: cleanText(location.country),
+      countryCode: /^[a-z]{2}$/i.test(String(location.countryCode || "")) ? String(location.countryCode).toLowerCase() : ""
     };
-
   } catch (error) {
-
-    console.error(
-      "Extra Panchang location error:",
-      error
-    );
-
+    console.error("Extra Panchang location error:", error);
     return null;
   }
 }

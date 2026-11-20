@@ -3053,6 +3053,63 @@ function resolveLocationTimeZone(location){
   return timeZone;
 }
 
+// URL और localStorage दोनों को अविश्वसनीय इनपुट मानकर एक ही validation path से गुजारें।
+function sanitizeLocationRecord(value){
+  if(!value || typeof value !== "object" || Array.isArray(value)) return null;
+  if(value.lat == null || String(value.lat).trim() === "" ||
+     value.lon == null || String(value.lon).trim() === "") return null;
+  const lat = Number(value.lat);
+  const lon = Number(value.lon);
+  if(!Number.isFinite(lat) || lat < -90 || lat > 90 ||
+     !Number.isFinite(lon) || lon < -180 || lon > 180) return null;
+
+  const cleanText = (input, maxLength = 160) =>
+    String(input == null ? "" : input)
+      .replace(/[\u0000-\u001F\u007F]/g, " ")
+      .trim()
+      .slice(0, maxLength);
+  const rawElevation = Number(value.elevation);
+  const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
+    ? rawElevation : 0;
+  const countryCodeRaw = cleanText(value.countryCode, 2).toLowerCase();
+  const location = {
+    name: cleanText(value.name, 240) || cleanText(value.city, 120) || "चुना हुआ स्थान",
+    lat,
+    lon,
+    elevation,
+    state: cleanText(value.state, 120),
+    city: cleanText(value.city, 120),
+    country: cleanText(value.country, 120),
+    countryCode: /^[a-z]{2}$/.test(countryCodeRaw) ? countryCodeRaw : ""
+  };
+
+  // Stored/URL timezone is never authoritative; derive it from the coordinates.
+  resolveLocationTimeZone(location);
+  return location;
+}
+
+// सटीक स्थान केवल सक्रिय पेज-सत्र की मेमोरी में रखें; localStorage में नहीं।
+function publishSelectedLocation(){
+  const safeLocation = sanitizeLocationRecord(selectedLocation);
+  if(!safeLocation){
+    window.__ohdPanchangLocation = null;
+    return null;
+  }
+  selectedLocation = safeLocation;
+  window.__ohdPanchangLocation = {
+    name: safeLocation.name,
+    lat: safeLocation.lat,
+    lon: safeLocation.lon,
+    elevation: safeLocation.elevation,
+    state: safeLocation.state,
+    city: safeLocation.city,
+    country: safeLocation.country,
+    countryCode: safeLocation.countryCode,
+    timeZone: safeLocation.timeZone
+  };
+  return selectedLocation;
+}
+
 function selectCity(place){
   const wasViewingPreviousLocationToday = dateInput.value === todayString();
   const addr = place.address || {};
@@ -3081,6 +3138,7 @@ function selectCity(place){
     elevation: 0,
     state: state,
     city: city,
+    country: String(addr.country || "").trim(),
     countryCode: String(addr.country_code || "").toLowerCase()
   };
 
@@ -3093,8 +3151,8 @@ function selectCity(place){
     if(wasViewingPreviousLocationToday && !requestedDate){
       dateInput.value = todayString();
     }
-    selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name + " · " + selectedLocation.timeZone;
-    try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
+    publishSelectedLocation();
+    selectedCity.textContent = "✅ चुना गया स्थान: " + selectedLocation.name + " · " + selectedLocation.timeZone;
     calculatePanchang();
   }catch(error){
     selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
@@ -3113,48 +3171,56 @@ const defaultPithoragarh = {
   elevation:1650,
   state:"उत्तराखंड",
   city:"पिथौरागढ़",
+  country:"भारत",
   countryCode:"in",
   timeZone:"Asia/Kolkata"
 };
 
 try{
-  const saved = localStorage.getItem(
-    "ohdPanchangLocation"
-  );
+  // पुराना स्थायी GPS/location record हटाएँ; सटीक निर्देशांक केवल पेज मेमोरी में रहें।
+  try{ localStorage.removeItem("ohdPanchangLocation"); }catch(_){}
+  // Shared monthly-calendar links carry the selected city and date together.
+  const params = new URLSearchParams(window.location.search);
+  const sharedLatParam = params.get("locLat");
+  const sharedLonParam = params.get("locLon");
+  const sharedLat = sharedLatParam === null || sharedLatParam.trim() === "" ? NaN : Number(sharedLatParam);
+  const sharedLon = sharedLonParam === null || sharedLonParam.trim() === "" ? NaN : Number(sharedLonParam);
+  const sharedTimeZone = params.get("locTz") || "";
+  let sharedLocation = null;
+  if(Number.isFinite(sharedLat) && sharedLat >= -90 && sharedLat <= 90 &&
+     Number.isFinite(sharedLon) && sharedLon >= -180 && sharedLon <= 180 &&
+     isValidTimeZone(sharedTimeZone)){
+    sharedLocation = sanitizeLocationRecord({
+      name: params.get("locName") || params.get("locCity") || "चुना हुआ स्थान",
+      lat: sharedLat,
+      lon: sharedLon,
+      elevation: params.get("locElevation"),
+      state: params.get("locState"),
+      city: params.get("locCity"),
+      country: params.get("locCountry"),
+      countryCode: params.get("locCountryCode")
+    });
+  }
 
-  if(saved){
-    selectedLocation = JSON.parse(saved);
-
+  if(sharedLocation){
+    selectedLocation = sharedLocation;
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "💾 पिछला चुना गया स्थान: " +
-      selectedLocation.name;
+    selectedCity.textContent = "📍 साझा किए गए स्थान से: " + selectedLocation.name + " · " + selectedLocation.timeZone;
   }else{
-    selectedLocation =
-      defaultPithoragarh;
-
+    selectedLocation = defaultPithoragarh;
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "📍 डिफ़ॉल्ट स्थान: " +
-      selectedLocation.name;
-
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
+    selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
   }
 }catch(e){
-  selectedLocation =
-    defaultPithoragarh;
-
+  selectedLocation = defaultPithoragarh;
   selectedCity.style.display = "block";
-
-  selectedCity.textContent =
-    "📍 डिफ़ॉल्ट स्थान: " +
-    selectedLocation.name;
+  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
+publishSelectedLocation();
+
+// Location is initialized after the date field; derive the default date
+// again using the selected location's timezone, not the browser timezone.
+if(!isValidIsoDate(requestedDate)) dateInput.value = todayString();
 
 /* =========================================================
    FORMAT FUNCTIONS
@@ -3468,19 +3534,40 @@ function formatSankalpLocation(loc){
   if(!loc) return "";
 
   const { state, city } = extractStateCity(loc);
+  const countryCode = String(loc.countryCode || "").toLowerCase();
+  const isIndia = countryCode === "in" ||
+    /^(india|भारत)$/i.test(String(loc.country || "").trim());
 
-  if(state && city && state === city)
-  return city + "-नगरे";
+  if(isIndia){
+    if(state && city && state === city) return city + "-नगरे";
+    if(state && city) return state + "-राज्यान्तर्गते " + city + "-नगरे";
+    if(state) return state + "-राज्ये";
+    if(city) return city + "-नगरे";
+    return "";
+  }
 
-if(state && city)
-  return state + "-राज्यान्तर्गते " + city + "-नगरे";
-
-if(state)
-  return state + "-राज्ये";
-
-if(city)
-  return city + "-नगरे";
+  if(state && city && state.toLowerCase() === city.toLowerCase()) return city + "-नगरे";
+  if(state && city) return state + "-प्रदेशे " + city + "-नगरे";
+  if(state) return state + "-प्रदेशे";
+  if(city) return city + "-नगरे";
   return "";
+}
+
+function getSankalpGeographyPrefix(loc){
+  if(!loc) return "";
+  const countryCode = String(loc.countryCode || "").toLowerCase();
+  const countryRaw = String(loc.country || "").trim();
+  const isIndia = countryCode === "in" || /^(india|भारत)$/i.test(countryRaw);
+  if(isIndia) return "जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तान्तर्गत पुण्यभूप्रदेशे";
+
+  let countryName = countryRaw;
+  if(!countryName && countryCode){
+    try{
+      countryName = new Intl.DisplayNames(["hi"], {type:"region"}).of(countryCode.toUpperCase()) || "";
+    }catch(_){}
+  }
+  if(!countryName) return "जम्बूद्वीपे";
+  return "जम्बूद्वीपे " + countryName + "-देशे";
 }
 
 /* =========================================================
@@ -4016,8 +4103,10 @@ const praharForm = kaalPrahar.praharName
   );
 
   parts.push(
-    "अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तान्तर्गत पुण्यभूप्रदेशे"
+    "अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे"
   );
+  const geographyPrefix = getSankalpGeographyPrefix(ctx.location);
+  if(geographyPrefix) parts.push(geographyPrefix);
 
   if(locationForm) parts.push(locationForm);
   if(samvatForm) parts.push(samvatForm);
@@ -5098,7 +5187,7 @@ displayPanchang(
       <div class="error">
         ❌ पंचांग की गणना नहीं हो सकी।
         <br><br>
-        <small>${error.message || error}</small>
+        <small>${escapeHtmlAttr(error.message || error)}</small>
       </div>
     `;
   }
@@ -6407,7 +6496,7 @@ bhadraPartsHtml += `
     📍 स्थान
   </div>
         <div class="value">
-          ${selectedLocation.name}
+          ${escapeHtmlAttr(selectedLocation.name)}
         </div>
       </div>
 
@@ -6821,13 +6910,13 @@ window.useMyLocation = function(){
         "📍 वर्तमान स्थान" + locLine;
 
       try{
-        localStorage.setItem(
-          "ohdPanchangLocation",
-          JSON.stringify(
-            selectedLocation
-          )
-        );
-      }catch(e){}
+        resolveLocationTimeZone(selectedLocation);
+        publishSelectedLocation();
+      }catch(locationError){
+        selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
+        console.warn("GPS location timezone lookup failed:", locationError);
+        return;
+      }
 
       calculatePanchang();
     },
@@ -6861,9 +6950,9 @@ sankalpState.sandhyaType =
 
 try{
   resolveLocationTimeZone(selectedLocation);
+  publishSelectedLocation();
   if(!requestedDate) dateInput.value = todayString();
   selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
-  try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
   calculatePanchang();
 }catch(error){
   result.innerHTML = '<div class="error">चुने गए स्थान का समय क्षेत्र निर्धारित नहीं हो सका। कृपया स्थान की जानकारी जाँचें।</div>';

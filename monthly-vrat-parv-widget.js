@@ -114,10 +114,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         elevation:Number.isFinite(Number(selectedLocationInSession.elevation))?Number(selectedLocationInSession.elevation):0,
         elevationStatus:selectedLocationInSession.elevationStatus||"unknown",
         timeZone:selectedLocationInSession.timeZone||"Asia/Kolkata",
-        state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""};
+        state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||"",
+        country:selectedLocationInSession.country||"",countryCode:selectedLocationInSession.countryCode||""};
     }
     return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:defaultLocationElevation,
-      elevationStatus:"provided",timeZone:"Asia/Kolkata",state:"उत्तराखंड",city:"पिथौरागढ़"};
+      elevationStatus:"provided",timeZone:"Asia/Kolkata",state:"उत्तराखंड",city:"पिथौरागढ़",country:"भारत",countryCode:"in"};
   }
   function getLocationTimeZone(){
     var zone=getLocalLocation().timeZone;
@@ -165,7 +166,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
             name:place.display_name||place.name||query,
             lat:Number(place.lat),lon:Number(place.lon),elevation:0,elevationStatus:"unknown",
             state:address.state||address.state_district||address.region||"",
-            city:address.city||address.town||address.village||address.municipality||place.name||query
+            city:address.city||address.town||address.village||address.municipality||place.name||query,
+            country:address.country||"",
+            countryCode:String(address.country_code||"").toLowerCase()
           };
           if(!Number.isFinite(selected.lat)||!Number.isFinite(selected.lon)){
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
@@ -1291,7 +1294,21 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
            panchangDateCheck.getUTCFullYear()===Number(panchangDate.slice(0,4))&&
            panchangDateCheck.getUTCMonth()+1===Number(panchangDate.slice(5,7))&&
            panchangDateCheck.getUTCDate()===Number(panchangDate.slice(8,10))){
-          var panchangLink=makeLink("https://ourhindudharm.blogspot.com/p/panchang-today.html?date="+panchangDate,"इस दिन का पंचांग देखें",cardLinkUrls);
+          var panchangUrl=new URL("https://ourhindudharm.blogspot.com/p/panchang-today.html");
+          panchangUrl.searchParams.set("date",panchangDate);
+          var sharedLocation=getLocalLocation();
+          if(Number.isFinite(Number(sharedLocation.lat))&&Number.isFinite(Number(sharedLocation.lon))&&isValidTimeZone(sharedLocation.timeZone)){
+            panchangUrl.searchParams.set("locLat",String(sharedLocation.lat));
+            panchangUrl.searchParams.set("locLon",String(sharedLocation.lon));
+            panchangUrl.searchParams.set("locTz",sharedLocation.timeZone);
+            panchangUrl.searchParams.set("locElevation",String(sharedLocation.elevation||0));
+            if(sharedLocation.name)panchangUrl.searchParams.set("locName",sharedLocation.name);
+            if(sharedLocation.city)panchangUrl.searchParams.set("locCity",sharedLocation.city);
+            if(sharedLocation.state)panchangUrl.searchParams.set("locState",sharedLocation.state);
+            if(sharedLocation.country)panchangUrl.searchParams.set("locCountry",sharedLocation.country);
+            if(sharedLocation.countryCode)panchangUrl.searchParams.set("locCountryCode",sharedLocation.countryCode);
+          }
+          var panchangLink=makeLink(panchangUrl.href,"इस दिन का पंचांग देखें",cardLinkUrls);
           if(panchangLink)links.appendChild(panchangLink);
         }
       }
