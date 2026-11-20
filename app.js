@@ -3054,6 +3054,7 @@ function resolveLocationTimeZone(location){
 }
 
 function selectCity(place){
+  const wasViewingPreviousLocationToday = dateInput.value === todayString();
   const addr = place.address || {};
 
   const state = (
@@ -3089,6 +3090,9 @@ function selectCity(place){
 
   try{
     resolveLocationTimeZone(selectedLocation);
+    if(wasViewingPreviousLocationToday && !requestedDate){
+      dateInput.value = todayString();
+    }
     selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name + " · " + selectedLocation.timeZone;
     try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
     calculatePanchang();
