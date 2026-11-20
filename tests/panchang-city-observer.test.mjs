@@ -132,3 +132,10 @@ test("city search discards stale results and cancels pending searches on selecti
   assert.match(source, /searchController\.signal\.aborted \|\| citySearchAbortController !== searchController/);
   assert.match(source, /async function selectCity\(place\)\s*\{\s*\/\/[^\n]*\n\s*if \(citySearchAbortController\) citySearchAbortController\.abort\(\)/);
 });
+
+
+test("extra Panchang uses the active observer without resurrecting stored GPS coordinates", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(source, /window\.getPanchangLocation\(\)/);
+  assert.doesNotMatch(source, /localStorage\.getItem\(["\x27]ohdPanchangLocation/);
+});
