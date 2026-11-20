@@ -3139,7 +3139,7 @@ async function restorePublicCity() {
         lat: p.latitude, lon: p.longitude, elevation: p.elevation,
         elevationStatus: "provided", cityProfileKey: key};
     }
-  } else if (/^geonames:[1-9]\\d*$/.test(saved)) {
+  } else if (/^geonames:[1-9]\d*$/.test(saved)) {
     try {
       const p = await findTaraPlace(saved.slice(9));
       if (p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude)) {
