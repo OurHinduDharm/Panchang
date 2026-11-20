@@ -117,7 +117,7 @@ test("saved GeoNames identifier validation accepts numeric IDs and rejects coord
   const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
   const line = source.split("\n").find(line => line.includes('saved.startsWith("profile:")')) || "";
   assert.match(line, /saved\.startsWith/);
-  const patternLine = source.split("\n").find(line => line.includes("saved.slice(9)") && line.includes("test(saved)"));
+  const patternLine = source.split("\n").find(line => line.includes("geonames:") && line.includes("test(saved)"));
   assert.ok(patternLine, "GeoNames preference validation must exist");
   const match = patternLine.match(/(\/\^geonames:.*?\$\/)\.test\(saved\)/);
   assert.ok(match, "GeoNames preference must be validated with a regex");
