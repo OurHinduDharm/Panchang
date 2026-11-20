@@ -56,4 +56,6 @@ test("daily Panchang blocks unknown observer heights before astronomical calcula
   assert.ok(source.includes('result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।"'));
   assert.ok(source.includes("selectedLocation = await resolveCityObserver(gpsLocation)"));
   assert.ok(source.includes("const resolvedLocation = await resolveCityObserver({"));
+  assert.ok(source.includes("elevation: 0,\n        elevationStatus: \"unknown\","));
+  assert.ok(!source.includes("elevation: position.coords.altitude ?? 0"));
 });
