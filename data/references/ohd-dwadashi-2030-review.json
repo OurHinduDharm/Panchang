@@ -1779,7 +1779,7 @@
       "drik2026Labels": [],
       "drikSpecialObservances": [],
       "selectedDate": "2030-01-01",
-      "dateSelection": "source-reviewed-manual-approval",
+      "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1802,7 +1802,7 @@
           "status": "cross-reference"
         }
       ],
-      "status": "approved",
+      "status": "needs-review",
       "occurrence": 1,
       "observanceDateReviews": [
         {
@@ -1875,7 +1875,7 @@
         }
       ],
       "selectedDate": "2030-12-22",
-      "dateSelection": "source-reviewed-manual-approval",
+      "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1898,7 +1898,7 @@
           "status": "cross-reference"
         }
       ],
-      "status": "approved",
+      "status": "needs-review",
       "occurrence": 2,
       "sourceReferenceObservation": null,
       "observanceDateReviews": [
