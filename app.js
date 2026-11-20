@@ -3081,12 +3081,7 @@ async function selectCity(place){
     place.display_name;
   suggestions.innerHTML = "";
 
-  try{
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
-  }catch(e){}
+  // Coordinates are used in memory only; do not persist location data.
 
   calculatePanchang();
 }
@@ -3111,16 +3106,10 @@ function clearEventLocation() {
   }
 }
 
-function savedPanchangLocation() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("ohdPanchangLocation"));
-    if (!saved || saved.lat == null || saved.lon == null) return null;
-    const params = new URLSearchParams({lat: saved.lat, lon: saved.lon, place: saved.name || "",
-      elevation: saved.elevation ?? 0, city: saved.city || "", state: saved.state || ""});
-    const location = readPanchangLinkLocation(params);
-    return restoreSavedElevationStatus(location, saved);
-  } catch { return null; }
-}
+// Clear historical plaintext coordinates saved by older releases.
+// City and GPS selections now remain in memory for this page visit.
+try { localStorage.removeItem("ohdPanchangLocation"); } catch {}
+function savedPanchangLocation() { return null; }
 
 // A link is scoped to this tab. Extra Panchang and festivals must use the same
 // observer even when another city is saved, or persistent storage is disabled.
@@ -6855,14 +6844,7 @@ window.useMyLocation = function(){
       selectedCity.textContent =
         "📍 वर्तमान स्थान" + locLine;
 
-      try{
-        localStorage.setItem(
-          "ohdPanchangLocation",
-          JSON.stringify(
-            selectedLocation
-          )
-        );
-      }catch(e){}
+      // Device coordinates remain in memory only, never persistent storage.
 
       calculatePanchang();
     },
