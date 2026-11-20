@@ -76,7 +76,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       state: "Maharashtra",
       city: "Mumbai"
     })));
-    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31&lat=19.076&lon=72.8777&elevation=14", {
+    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31&lat=19.076&lon=72.8777&elevation=14&place=Mumbai", {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
