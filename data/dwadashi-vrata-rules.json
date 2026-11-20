@@ -1741,7 +1741,8 @@
       "month": "भाद्रपद",
       "paksha": "शुक्ल",
       "adhika": false,
-      "referenceDate": "2030-09-09",
+      "observanceDate": "2030-09-09",
+      "dateRole": "special-observance-date",
       "labels": [
         "श्रवण योग द्वादशी"
       ]
