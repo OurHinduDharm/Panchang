@@ -2987,6 +2987,8 @@ async function performCitySearch(){
     }
 
     const places = await response.json();
+    // A slower previous search must not replace results for newer input.
+    if (citySearchAbortController.signal.aborted || cityInput.value.trim() !== q) return;
 
     if(!places.length){
       suggestions.innerHTML =
@@ -3040,6 +3042,8 @@ window.searchCity = debounce(performCitySearch, 500);
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
 async function selectCity(place){
+  // Invalidate an outstanding search before committing this selection.
+  if (citySearchAbortController) citySearchAbortController.abort();
   const addr = place.address || {};
 
   const state = (
