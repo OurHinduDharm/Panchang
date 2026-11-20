@@ -13,6 +13,9 @@ const distanceKm = (a, b) => {
  */
 export async function resolveCityObserver(location) {
   if (!location || !Number.isFinite(location.lat) || !Number.isFinite(location.lon)) return location;
+  // GPS is a precise observation, not a city-center search result.
+  // Never replace device coordinates or altitude with a nearby city profile.
+  if (location.observerSource === "gps") return location;
   const city = norm(location.city);
   if (!city) return location;
   // Prefer the same city profiles already used by the annual Tara page.
