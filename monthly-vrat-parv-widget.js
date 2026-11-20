@@ -1286,7 +1286,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       // केवल वैध YYYY-MM-DD तारीख़ पर लिंक बनता है; गणना यहाँ दोबारा नहीं होती।
       var panchangDate=String(item.date||"");
       if(/^\d{4}-\d{2}-\d{2}$/.test(panchangDate)){
-        var panchangDateCheck=new Date(panchangDate+"T12:00:00");
+        var panchangDateCheck=new Date(panchangDate+"T12:00:00.000Z");
         if(!Number.isNaN(panchangDateCheck.getTime())&&
            panchangDateCheck.getUTCFullYear()===Number(panchangDate.slice(0,4))&&
            panchangDateCheck.getUTCMonth()+1===Number(panchangDate.slice(5,7))&&
