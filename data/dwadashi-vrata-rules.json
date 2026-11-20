@@ -803,8 +803,10 @@
             "deity": "भगवान दामोदर",
             "shortDetail": "यशोदा द्वारा रस्सी से बाँधे गए बालकृष्ण-दामोदर की पूजा और प्रतिमा-दान का विधान है।",
             "sourceProfile": "varahaPurana",
-            "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-रूप पूजा; संस्कृत पाठ 47.1 में द्वादशी)",
-            "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-047"
+            "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-पूजन; संस्कृत श्लोक 47.1 में द्वादशी)",
+            "sourceUrl": "https://vedapath.app/sa/varaha-purana/47",
+            "secondarySourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-047",
+            "sourceTextNote": "Vedic People के अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; Vedapath के संस्कृत 47.1 में स्पष्ट 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' है। संस्कृत पाठ को प्राथमिक रखें; अनुवाद-अंतर दर्ज है।"
           }
         ],
         "displayNames": [
@@ -848,7 +850,10 @@
             "deity": "भगवान दामोदर",
             "shortDetail": "दामोदर-पूजन, बारह ब्राह्मणों को भोजन तथा वस्त्राच्छादित जल-कलश, मोदक और स्वर्ण के दान का विधान है।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-पूजन; संस्कृत श्लोक 47.1 में द्वादशी)",
+            "sourceUrl": "https://vedapath.app/sa/varaha-purana/47",
+            "secondarySourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-047",
+            "sourceTextNote": "Vedic People के अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; Vedapath के संस्कृत 47.1 में स्पष्ट 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' है। संस्कृत पाठ को प्राथमिक रखें; अनुवाद-अंतर दर्ज है।"
           },
           {
             "id": "niranjana",
@@ -864,8 +869,10 @@
             "deity": "भगवान कल्कि",
             "shortDetail": "भविष्य में प्रकट होने वाले कल्कि-अवतार की पूजा और कल्कि-प्रतिमा का विधान है।",
             "sourceProfile": "varahaPurana",
-            "source": "वराह पुराण, अध्याय 48 — कल्कि-द्वादशी-व्रत",
-            "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-048"
+            "source": "वराह पुराण, अध्याय 48 — कल्कि-द्वादशी-व्रत (संस्कृत श्लोक 48.1)",
+            "sourceUrl": "https://vedapath.app/en/varaha-purana/48",
+            "secondarySourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-048",
+            "sourceTextNote": "संस्कृत 48.1 में 'भाद्रपदे मासि शुक्लपक्षे तु द्वादशीम्' है; Vedic People के अंग्रेज़ी अनुवाद में Ekadashi लिखा है। संस्कृत मूल द्वादशी-पाठ का समर्थन करता है; अनुवाद-अंतर दर्ज है।"
           }
         ],
         "displayNames": [
