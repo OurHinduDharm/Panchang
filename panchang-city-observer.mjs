@@ -24,10 +24,10 @@ export async function resolveCityObserver(location) {
   }
   try {
     const candidates = await searchTaraPlaces(location.city);
+    // Search already matches the city name or an alias (including Hindi names).
+    // Require a close geographic match as protection against same-name cities.
     const matches = candidates.filter(place =>
-      [place.city, ...place.name.split(",").slice(0, 1)].some(name => norm(name) === city) &&
-      distanceKm(location, place) <= 10 &&
-      Number.isFinite(place.elevation));
+      distanceKm(location, place) <= 3 && Number.isFinite(place.elevation));
     matches.sort((a, b) => distanceKm(location, a) - distanceKm(location, b));
     if (!matches.length) return location;
     const place = matches[0];
