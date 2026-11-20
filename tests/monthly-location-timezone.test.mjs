@@ -24,6 +24,8 @@ test("global search avoids the non-commercial elevation API",()=>{
 test("local muhurta and tithi formatters accept the selected timezone",()=>{
  assert.match(widget,/formatFestivalMuhurtaTime\(windowItem\.start,values\.location\.timeZone\)/);
  assert.match(widget,/formatTithiPoint\(base\.end,dateIso,getLocationTimeZone\(\)\)/);
+ assert.match(widget,/findTithiInterval\(days,descriptor\.base,dateIso,getLocationTimeZone\(\)\)/);
+ assert.match(tithi,/zonedDateTimeToUtc\(dateIso, 0, 0, timeZone\)/);
  assert.match(muhurta,/getFestivalMuhurtaContext\(panchang, nextPanchang, date, location, getFollowingPanchang, timeZone = "Asia\/Kolkata"\)/);
  assert.match(tithi,/formatTithiPoint\(value, eventDate, timeZone = "Asia\/Kolkata"\)/);
 });

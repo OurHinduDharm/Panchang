@@ -261,8 +261,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         if(value&&value.p)days.push(value.p);
         if(value&&value.next)days.push(value.next);
       });
-      var base=module.findTithiInterval(days,descriptor.base,dateIso);
-      var vyapti=module.findTithiInterval(days,descriptor.vyapti,dateIso);
+      var base=module.findTithiInterval(days,descriptor.base,dateIso,getLocationTimeZone());
+      var vyapti=module.findTithiInterval(days,descriptor.vyapti,dateIso,getLocationTimeZone());
       if(!base&&!vyapti)return;
       var box=document.createElement("div");box.className="tithi-vyapti-box";
       if(base){
@@ -398,7 +398,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   function findSankrantiMoment(values,item,dateIso){
     var target=getSankrantiRashiIndex(item);
     if(target===null||!values||typeof values.at!=="function")return null;
-    var dayStart=Date.parse(dateIso+"T00:00:00+05:30");
+    var dayStart=zonedDateTimeToUtc(dateIso,0,0,getLocationTimeZone()).getTime();
     if(!Number.isFinite(dayStart))return null;
     var start=dayStart-36*60*60*1000,end=dayStart+36*60*60*1000,step=30*60*1000;
     function signAt(ms){try{return getInstantSunRashiIndex(values.at(new Date(ms)));}catch(_){return null;}}

@@ -1,3 +1,4 @@
+import {addIsoCalendarDays,zonedDateTimeToUtc} from "./location-timezone.mjs";
 // Shared helpers for displaying the actual local interval of a tithi used as a festival vyapti.
 const TITHI_NAMES = [
   "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी", "सप्तमी",
@@ -42,10 +43,10 @@ function validDate(value) {
   return Number.isFinite(date.getTime()) ? date : null;
 }
 
-export function findTithiInterval(days, descriptor, dateIso) {
+export function findTithiInterval(days, descriptor, dateIso, timeZone = "Asia/Kolkata") {
   if (!Array.isArray(days) || !descriptor || !/^\d{4}-\d{2}-\d{2}$/.test(String(dateIso || ""))) return null;
-  const dayStart = Date.parse(dateIso + "T00:00:00+05:30");
-  const dayEnd = dayStart + 86400000;
+  const dayStart = zonedDateTimeToUtc(dateIso, 0, 0, timeZone).getTime();
+  const dayEnd = zonedDateTimeToUtc(addIsoCalendarDays(dateIso, 1), 0, 0, timeZone).getTime();
   // Panchang day objects expose tithi pieces clipped to sunrise-to-sunrise.
   // Join adjacent pieces first; otherwise a sunrise boundary is mistaken for
   // the actual tithi transition and the displayed interval develops a false gap.
