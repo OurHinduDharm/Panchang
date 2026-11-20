@@ -347,7 +347,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var dateKey=istDateKey(eclipseDate);
         if(!dateKey||Number(dateKey.slice(0,4))!==year)return;
         var visibilityDate=zonedDateTimeToUtc(dateKey,12,0,getLocationTimeZone());
-        var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
+        var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib,values.location.timeZone);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
         if(!visibility||visibility.localVisible!==true)return;
         var description="स्थान: "+String(values.location.name||values.location.city||"चयनित स्थान")+" में यह ग्रहण दृश्य है।";

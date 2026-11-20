@@ -7,6 +7,7 @@ import {findTithiInterval} from "../tithi-vyapti.js";
 const widget=fs.readFileSync(new URL("../monthly-vrat-parv-widget.js",import.meta.url),"utf8");
 const muhurta=fs.readFileSync(new URL("../festival-muhurta.js",import.meta.url),"utf8");
 const tithi=fs.readFileSync(new URL("../tithi-vyapti.js",import.meta.url),"utf8");
+const eclipse=fs.readFileSync(new URL("../eclipse-panchang.js",import.meta.url),"utf8");
 test("timezone lookup covers Pithoragarh and overseas cities",()=>{
  assert.equal(tzLookup(29.5828,80.2182),"Asia/Kolkata");
  assert.equal(tzLookup(51.5072,-0.1276),"Europe/London");
@@ -24,6 +25,9 @@ test("global search avoids the non-commercial elevation API",()=>{
 });
 test("local muhurta and tithi formatters accept the selected timezone",()=>{
  assert.match(widget,/formatFestivalMuhurtaTime\(windowItem\.start,values\.location\.timeZone\)/);
+ assert.match(widget,/getEclipseDayPanchangs\(visibilityDate,values\.observer,values\.panchangLib,values\.location\.timeZone\)/);
+ assert.match(eclipse,/function addLocalCivilDays\(date, days, timeZone\)/);
+ assert.match(eclipse,/timezoneOffset: timeZone \? offsetMinutesAt\(eclipseDate, timeZone\) : TZ_OFFSET/);
  assert.match(widget,/formatTithiPoint\(base\.end,dateIso,getLocationTimeZone\(\)\)/);
  assert.match(widget,/findTithiInterval\(days,descriptor\.base,dateIso,getLocationTimeZone\(\)\)/);
  assert.match(tithi,/zonedDateTimeToUtc\(dateIso, 0, 0, timeZone\)/);
