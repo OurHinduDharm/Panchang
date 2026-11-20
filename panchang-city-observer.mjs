@@ -1,0 +1,53 @@
+import {findNearestTaraPlace} from "./annual-tara-place-search.mjs";
+import {locations} from "./annual-tara-locations.mjs";
+
+const norm = value => String(value || "").normalize("NFC").trim().toLocaleLowerCase();
+const distanceKm = (a, b) => {
+  const lat = (a.lat + b.latitude) / 2 * Math.PI / 180;
+  return Math.hypot((a.lat - b.latitude) * 111.2,
+    (a.lon - b.longitude) * 111.2 * Math.cos(lat));
+};
+
+/** Resolve one stable city observer from the existing GeoNames city index.
+ * Never pretend an unmatched OSM coordinate has a known elevation.
+ */
+export async function resolveCityObserver(location) {
+  if (!location) return location;
+  if (!Number.isFinite(location.lat) || !Number.isFinite(location.lon) ||
+      Math.abs(location.lat) > 90 || Math.abs(location.lon) > 180) {
+    return {...location, elevation: 0, elevationStatus: "unknown"};
+  }
+  // GPS coordinates are the observer itself, not a city-center search result.
+  // Preserve them; an unverified GPS altitude must remain unknown.
+  if (location.observerSource === "gps") return location;
+  const city = norm(location.city);
+  if (!city) return location;
+  // Prefer the same city profiles already used by the annual Tara page.
+  // Printed-source research observers are not automatically public city defaults.
+  const profiles = [
+    {key: "pithoragarh-project-target", names: ["पिथौरागढ़", "पिथौरागढ", "pithoragarh"]},
+    {key: "drikpanchang-almora", names: ["अल्मोड़ा", "अल्मोडा", "almora"]},
+    {key: "drikpanchang-ramnagar", names: ["रामनगर", "ramnagar"]},
+    {key: "dehradun", names: ["देहरादून", "dehradun"]},
+    {key: "delhi", names: ["नई दिल्ली", "new delhi"]}
+  ];
+  for (const profile of profiles) {
+    const canonical = locations[profile.key];
+    if (profile.names.includes(city) && distanceKm(location, canonical) <= 3) {
+      return {...location, lat: canonical.latitude, lon: canonical.longitude,
+        elevation: canonical.elevation, elevationStatus: "provided",
+        elevationSource: "OurHinduDharm canonical city profile", cityProfileKey: profile.key};
+    }
+  }
+  try {
+    // UI search is capped at 12 results. Resolve against the complete index,
+    // otherwise a correct same-name city later in the index is missed.
+    const place = await findNearestTaraPlace(location.city, location.lat, location.lon);
+    if (!place) return location;
+    return {...location, lat: place.latitude, lon: place.longitude,
+      elevation: place.elevation, elevationStatus: place.elevationStatus,
+      elevationSource: place.elevationSource, cityId: place.id};
+  } catch {
+    return location;
+  }
+}

@@ -6,54 +6,80 @@
 <meta name="description" content="स्थान के अनुसार गुरु और शुक्र तारा अस्त-उदय तथा अगस्त्य तारा उदय और अर्घ्य की वर्षवार तिथि एवं समय।">
 <title>गुरु-शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग | OurHinduDharm</title>
 <style>
-:root{color-scheme:light;--ink:#28231d;--muted:#686157;--line:#e5dfd5;--paper:#fff;--bg:#f6f4ef;--accent:#81391f}
+:root{color-scheme:light;--ink:#392718;--muted:#745e4b;--line:#e8d5b8;--paper:#fffdf8;--bg:#fff6e9;--accent:#a43c12;--gold:#c28a28}
 *{box-sizing:border-box}
-body{margin:0;padding:18px;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Noto Sans Devanagari",sans-serif}
-main{max-width:920px;margin:auto}
-h1{font-size:1.55rem;line-height:1.35;margin:0 0 6px}
-h2{font-size:1.15rem;margin:0 0 12px}
-p{margin:7px 0}
-.muted{color:var(--muted);font-size:.92rem}
-.panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px;margin:14px 0}
-.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-label{font-weight:650}
-select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;background:white;min-width:120px}
-.planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.planet{margin:0}
-.window{padding:10px 0;border-top:1px solid var(--line)}
-.window:first-of-type{border-top:0}
-.window strong{display:block;margin-bottom:5px}
-.times{display:grid;gap:4px;font-size:.94rem}
-.empty{color:var(--muted);font-size:.9rem}
-.status{padding:10px;border-radius:8px;background:#f1eee8}
-@media(max-width:480px){body{padding:12px}.panel,.planet{padding:12px}}
+body{margin:0;padding:12px;background:radial-gradient(circle at top,#ffead0,var(--bg) 65%);color:var(--ink);font:16px/1.65 system-ui,"Noto Sans Devanagari",sans-serif}
+main{max-width:1040px;margin:auto}
+header{padding:23px 17px;border-radius:18px;background:linear-gradient(125deg,#812a0e,#c65318 70%,#e7a443);color:#fff;box-shadow:0 8px 24px #6e300d25}
+h1{font-size:clamp(1.35rem,3vw,2rem);line-height:1.4;margin:0 0 8px}
+h2{font-size:1.15rem;margin:0 0 12px;color:#81330e}
+p{margin:7px 0}.muted{color:var(--muted);font-size:.93rem}header .muted{color:#fff4de}
+.panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 4px 15px #663e1110}
+.controls{display:grid;gap:16px;align-items:start}
+.field{min-width:0}
+label{display:block;margin-bottom:5px;font-weight:700;color:#693613}
+.search-row{display:flex;gap:7px}
+input,button,select{font:inherit;min-height:46px;border-radius:9px}
+input,select{width:100%;min-width:0;padding:9px 12px;border:1px solid #b89b74;background:#fff;color:var(--ink)}
+button{padding:8px 15px;border:0;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+:focus-visible{outline:3px solid #8c4405;outline-offset:3px}
+#place-results{list-style:none;padding:0;margin:8px 0;max-height:19rem;overflow:auto;border:1px solid var(--line);border-radius:10px}
+#place-results button{display:block;width:100%;text-align:start;border-radius:0;background:white;color:var(--ink);padding:9px 12px}
+#place-results li+li{border-top:1px solid var(--line)}
+#place-results button:hover,#place-results button:focus-visible{background:#fff0d6;outline-offset:-3px}
+#place-results small{display:block;color:var(--muted);font-weight:400}
+#selected-place{font-weight:700;margin:18px 0 8px;color:#633318}
+#city-status:not(:empty),#search-status:not(:empty){margin:8px 0;color:#693613}
+.planet-grid{display:grid;gap:14px;align-items:start}
+.planet{margin:0;border-top:3px solid var(--gold);min-width:0}
+.planet h2{font-family:Georgia,serif;font-size:1.35rem}
+.planet p{margin:0;padding:8px 0;overflow-wrap:anywhere}
+.event{border-top:1px solid var(--line);padding:8px 0}
+.event-link{display:inline-flex;align-items:center;min-height:44px;padding:4px 0;color:#803009;text-underline-offset:4px;font-weight:650}
+footer{margin:12px 0;font-size:.8rem;color:var(--muted)}
+[hidden]{display:none!important}
+@media(min-width:680px){body{padding:24px}.controls{grid-template-columns:2fr 1.3fr .8fr}.planet-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:940px){.planet-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 <main>
 <header>
 <h1>गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग</h1>
-<p class="muted">गणना से प्राप्त वार्षिक तिथियाँ · भारतीय मानक समय</p>
+<p class="muted">अपने शहर और वर्ष के लिए उदय, अस्त और अर्घ्य का समय देखें।</p>
 </header>
 
 <section class="panel" aria-label="स्थान अनुसार गणना">
 <div class="controls">
-<label for="city">स्थान</label>
+<form class="field" id="place-form" role="search">
+<label for="place-search">भारत में स्थान खोजें</label>
+<div class="search-row">
+<input id="place-search" type="search" maxlength="100" autocomplete="off" placeholder="शहर या कस्बा" aria-controls="place-results">
+<button type="submit">खोजें</button>
+</div>
+<div id="search-status" role="status"></div>
+<ul id="place-results" aria-label="खोज परिणाम" hidden></ul>
+</form>
+<div class="field"><label for="city">प्रमुख स्थान</label>
 <select id="city">
-<option value="pithoragarh-project-target">पिथौरागढ़</option>
+<option value="" hidden>खोज से चयन</option>
+<option value="pithoragarh-project-target" selected>पिथौरागढ़</option>
 <option value="drikpanchang-almora">अल्मोड़ा</option>
 <option value="drikpanchang-ramnagar">रामनगर (नैनीताल)</option>
 <option value="delhi">नई दिल्ली</option>
 <option value="dehradun">देहरादून</option>
-</select>
-<label for="forecast-year">वर्ष</label>
-<select id="forecast-year"></select>
+</select></div>
+<div class="field"><label for="forecast-year">वर्ष</label>
+<select id="forecast-year"></select></div>
 </div>
+<p id="selected-place" aria-live="polite"></p>
 <p id="city-status" role="status"></p>
 <div id="city-events" class="planet-grid"></div>
 <button id="city-retry" type="button" hidden>गणना फिर करें</button>
 </section>
 
+<noscript>शहर चुनने और समय देखने के लिए JavaScript चालू करें।</noscript>
+<footer>स्थान-सूची · GeoNames, CC BY 4.0 · भारतीय नगरों का चयनित संकलन</footer>
 </main>
 <script type="module" src="./annual-tara-city-page.mjs"></script>
 

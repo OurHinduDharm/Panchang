@@ -290,6 +290,9 @@ function getLocation() {
       name: cleanText(location.name),
       city: cleanText(location.city),
       state: cleanText(location.state),
+      elevationStatus: location.elevationStatus,
+      cityProfileKey: typeof location.cityProfileKey === "string" ? location.cityProfileKey : "",
+      cityId: Number.isSafeInteger(location.cityId) && location.cityId > 0 ? location.cityId : null,
       timeZone,
       country: cleanText(location.country),
       countryCode: /^[a-z]{2}$/i.test(String(location.countryCode || "")) ? String(location.countryCode).toLowerCase() : ""
@@ -418,6 +421,21 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
    Card creation
    ========================================= */
 
+// Forward only a verified public city identifier, never private GPS coordinates.
+function annualTaraPageUrl() {
+  const url = new URL("https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html");
+  const location = getLocation();
+  if (location?.cityProfileKey && Object.hasOwn({
+    "pithoragarh-project-target": true, "drikpanchang-almora": true,
+    "drikpanchang-ramnagar": true, delhi: true, dehradun: true
+  }, location.cityProfileKey)) {
+    url.searchParams.set("city", location.cityProfileKey);
+  } else if (location?.cityId) {
+    url.searchParams.set("geoname", String(location.cityId));
+  }
+  return url.href;
+}
+
 function createPlanetCard(data, dailyEvents = {}) {
   const card = document.createElement("div");
   card.className = "card full";
@@ -451,7 +469,7 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
+    <p style="margin:12px 0 0"><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
   `;
   return card;
 }

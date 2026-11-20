@@ -1,3 +1,7 @@
+import { resolveCityObserver } from "./panchang-city-observer.mjs";
+import { findTaraPlace } from "./annual-tara-place-search.mjs";
+import { locations as annualCityProfiles } from "./annual-tara-locations.mjs";
+import { clearPanchangLinkLocation, hasPanchangLinkLocation, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
@@ -131,24 +135,18 @@ function todayString(){
   }
 }
 
-// आलेखों के ?date=YYYY-MM-DD लिंक से चुनी गई तारीख खोलें।
-// अमान्य तारीख़ मिलने पर सामान्य रूप से आज की तारीख़ ही रखें।
-function isValidIsoDate(value){
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
-  const d = new Date(value + "T12:00:00");
-  return !Number.isNaN(d.getTime()) &&
-    d.getFullYear() === Number(value.slice(0,4)) &&
-    d.getMonth() + 1 === Number(value.slice(5,7)) &&
-    d.getDate() === Number(value.slice(8,10));
-}
 function syncDateToUrl(){
   const url = new URL(window.location.href);
   if(isValidIsoDate(dateInput.value)) url.searchParams.set("date", dateInput.value);
   else url.searchParams.delete("date");
   window.history.replaceState({}, "", url.pathname + url.search + url.hash);
 }
-const requestedDate = new URLSearchParams(window.location.search).get("date");
-dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : todayString();
+const locationParams = new URLSearchParams(window.location.search);
+const hasEventLocation = hasPanchangLinkLocation(locationParams);
+const requestedDate = locationParams.getAll("date").length === 1 ? locationParams.get("date") : null;
+const sharedLocationKeys = ["locLat", "locLon", "locTz", "locElevation", "locName", "locState", "locCity", "locCountry", "locCountryCode"];
+const hasSharedLocation = sharedLocationKeys.some(key => locationParams.has(key));
+dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : (hasEventLocation ? "" : todayString());
 
 /* HINDI DATA */
 const pakshaHindi = {
@@ -2933,6 +2931,7 @@ function getMasaHindi(masa){
    CITY SEARCH
    ========================================================= */
 let citySearchAbortController = null;
+let gpsRequest = 0;
 
 function debounce(fn, delay){
   let timer = null;
@@ -2959,6 +2958,7 @@ async function performCitySearch(){
   }
 
   citySearchAbortController = new AbortController();
+  const searchController = citySearchAbortController;
 
   suggestions.innerHTML =
     `<div class="loading">🔎 शहर खोजा जा रहा है...</div>`;
@@ -2974,7 +2974,7 @@ async function performCitySearch(){
         headers:{
           "Accept":"application/json"
         },
-        signal: citySearchAbortController.signal
+        signal: searchController.signal
       }
     );
 
@@ -2987,6 +2987,9 @@ async function performCitySearch(){
     }
 
     const places = await response.json();
+    // A slower previous search must not replace results for newer input.
+    if (searchController.signal.aborted || citySearchAbortController !== searchController ||
+        cityInput.value.trim() !== q) return;
 
     if(!places.length){
       suggestions.innerHTML =
@@ -3012,7 +3015,8 @@ async function performCitySearch(){
     });
 
   }catch(error){
-    if(error.name === "AbortError"){
+    if(error.name === "AbortError" || searchController.signal.aborted ||
+        citySearchAbortController !== searchController || cityInput.value.trim() !== q){
       return;
     }
 
@@ -3069,14 +3073,22 @@ function sanitizeLocationRecord(value){
       .trim()
       .slice(0, maxLength);
   const rawElevation = Number(value.elevation);
-  const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
-    ? rawElevation : 0;
+  const hasElevation = value.elevation != null && String(value.elevation).trim() !== "" &&
+    Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000;
+  // The daily engine retains its reference-height fallback for unmatched and GPS observers.
+  // Elevation-dependent records require separately sourced elevation.
+  const elevation = hasElevation && value.elevationStatus !== "unknown" ? rawElevation : 0;
   const countryCodeRaw = cleanText(value.countryCode, 2).toLowerCase();
   const location = {
     name: cleanText(value.name, 240) || cleanText(value.city, 120) || "चुना हुआ स्थान",
     lat,
     lon,
     elevation,
+    elevationStatus: hasElevation && ["estimated", "provided"].includes(value.elevationStatus)
+      ? value.elevationStatus : "unknown",
+    observerSource: value.observerSource === "gps" ? "gps" : undefined,
+    cityProfileKey: Object.hasOwn(annualCityProfiles, value.cityProfileKey) ? value.cityProfileKey : undefined,
+    cityId: Number.isSafeInteger(value.cityId) && value.cityId > 0 ? value.cityId : undefined,
     state: cleanText(value.state, 120),
     city: cleanText(value.city, 120),
     country: cleanText(value.country, 120),
@@ -3101,6 +3113,10 @@ function publishSelectedLocation(){
     lat: safeLocation.lat,
     lon: safeLocation.lon,
     elevation: safeLocation.elevation,
+    elevationStatus: safeLocation.elevationStatus,
+    observerSource: safeLocation.observerSource,
+    cityProfileKey: safeLocation.cityProfileKey,
+    cityId: safeLocation.cityId,
     state: safeLocation.state,
     city: safeLocation.city,
     country: safeLocation.country,
@@ -3110,53 +3126,54 @@ function publishSelectedLocation(){
   return selectedLocation;
 }
 
-function selectCity(place){
+function clearEventLocation() {
+  const url = new URL(window.location.href);
+  clearPanchangLinkLocation(url);
+  for (const key of sharedLocationKeys) url.searchParams.delete(key);
+  if (url.href !== window.location.href) history.replaceState(null, "", url);
+}
+
+async function selectCity(place){
+  citySearchAbortController?.abort();
+  const version = ++gpsRequest;
   const wasViewingPreviousLocationToday = dateInput.value === todayString();
   const addr = place.address || {};
-
-  const state = (
-    addr.state ||
-    addr.state_district ||
-    addr.region ||
-    ""
-  ).trim();
-
-  const city = (
-    addr.city ||
-    addr.town ||
-    addr.village ||
-    addr.county ||
-    addr.municipality ||
-    place.name ||
-    ""
-  ).trim();
-
-  selectedLocation = {
+  const pendingLocation = {
     name: place.display_name,
     lat: Number(place.lat),
     lon: Number(place.lon),
     elevation: 0,
-    state: state,
-    city: city,
-    country: String(addr.country || "").trim(),
-    countryCode: String(addr.country_code || "").toLowerCase()
+    elevationStatus: "unknown",
+    state: addr.state || addr.state_district || addr.region || "",
+    city: addr.city || addr.town || addr.village || addr.county || addr.municipality || place.name || "",
+    country: addr.country || "",
+    countryCode: addr.country_code || ""
   };
 
+  selectedLocation = null;
+  publishSelectedLocation();
+  clearEventLocation();
+  rememberPublicCity(pendingLocation);
+  result.innerHTML = '<div class="loading">चुने हुए स्थान की गणना हो रही है...</div>';
   cityInput.value = place.name || place.display_name;
   selectedCity.style.display = "block";
+  selectedCity.textContent = pendingLocation.name;
   suggestions.innerHTML = "";
 
-  try{
-    resolveLocationTimeZone(selectedLocation);
-    if(wasViewingPreviousLocationToday && !requestedDate){
-      dateInput.value = todayString();
-    }
-    publishSelectedLocation();
+  const resolvedLocation = await resolveCityObserver(pendingLocation);
+  if (version !== gpsRequest) return;
+  try {
+    selectedLocation = resolvedLocation;
+    if (!publishSelectedLocation()) throw new Error("LOCATION_INVALID");
+    if (wasViewingPreviousLocationToday && !requestedDate) dateInput.value = todayString();
+    rememberPublicCity(selectedLocation);
     selectedCity.textContent = "✅ चुना गया स्थान: " + selectedLocation.name + " · " + selectedLocation.timeZone;
     calculatePanchang();
-  }catch(error){
+  } catch (error) {
+    selectedLocation = null;
+    publishSelectedLocation();
     selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
-    result.innerHTML = '<div class="error">इस स्थान के निर्देशांकों से समय क्षेत्र निर्धारित नहीं हो सका। कृपया सही शहर चुनें।</div>';
+    result.textContent = "कृपया सही शहर चुनें।";
     console.warn("Location timezone lookup failed:", error);
   }
 }
@@ -3169,6 +3186,8 @@ const defaultPithoragarh = {
   lat:29.5828,
   lon:80.2182,
   elevation:1650,
+  elevationStatus:"provided",
+  cityProfileKey:"pithoragarh-project-target",
   state:"उत्तराखंड",
   city:"पिथौरागढ़",
   country:"भारत",
@@ -3176,9 +3195,59 @@ const defaultPithoragarh = {
   timeZone:"Asia/Kolkata"
 };
 
+// Persist only an identifier from our PUBLIC city catalogue, never coordinates.
+// Device GPS and unmatched free-form locations are never saved.
+const cityPreferenceKey = "ohdPanchangCityId";
+try { localStorage.removeItem("ohdPanchangLocation"); } catch {}
+function rememberPublicCity(location) {
+  try {
+    if (location.observerSource === "gps") {
+      localStorage.removeItem(cityPreferenceKey);
+    } else if (location.cityProfileKey && Object.hasOwn(annualCityProfiles, location.cityProfileKey)) {
+      localStorage.setItem(cityPreferenceKey, "profile:" + location.cityProfileKey);
+    } else if (Number.isSafeInteger(location.cityId) && location.cityId > 0) {
+      localStorage.setItem(cityPreferenceKey, "geonames:" + location.cityId);
+    } else {
+      localStorage.removeItem(cityPreferenceKey);
+    }
+  } catch {}
+}
+async function restorePublicCity() {
+  let saved;
+  try { saved = localStorage.getItem(cityPreferenceKey); } catch { return; }
+  if (!saved || (hasEventLocation || hasSharedLocation)) return;
+  const version = gpsRequest;
+  let place = null;
+  if (saved.startsWith("profile:")) {
+    const key = saved.slice(8);
+    if (Object.hasOwn(annualCityProfiles, key)) {
+      const p = annualCityProfiles[key];
+      place = {name: p.name || p.city || key, city: p.city || p.name || key,
+        state: p.admin1, country: "भारत", countryCode: "in",
+        lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+        elevationStatus: "provided", cityProfileKey: key};
+    }
+  } else if (/^geonames:[1-9]\d*$/.test(saved)) {
+    try {
+      const p = await findTaraPlace(saved.slice(9));
+      if (p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude)) {
+        place = {name: p.name, city: p.city, state: p.admin1,
+          country: "भारत", countryCode: p.countryCode,
+          lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+          elevationStatus: p.elevationStatus, elevationSource: p.elevationSource,
+          cityId: p.id};
+      }
+    } catch {}
+  }
+  if (version !== gpsRequest || (hasEventLocation || hasSharedLocation)) return;
+  if (!place) {
+    try { localStorage.removeItem(cityPreferenceKey); } catch {}
+    return;
+  }
+  return place;
+}
+
 try{
-  // पुराना स्थायी GPS/location record हटाएँ; सटीक निर्देशांक केवल पेज मेमोरी में रहें।
-  try{ localStorage.removeItem("ohdPanchangLocation"); }catch(_){}
   // Shared monthly-calendar links carry the selected city and date together.
   const params = new URLSearchParams(window.location.search);
   const sharedLatParam = params.get("locLat");
@@ -3195,6 +3264,7 @@ try{
       lat: sharedLat,
       lon: sharedLon,
       elevation: params.get("locElevation"),
+      elevationStatus: params.has("locElevation") && params.get("locElevation")?.trim() ? "provided" : "unknown",
       state: params.get("locState"),
       city: params.get("locCity"),
       country: params.get("locCountry"),
@@ -3202,7 +3272,14 @@ try{
     });
   }
 
-  if(sharedLocation){
+  if (hasEventLocation) {
+    selectedLocation = isValidIsoDate(requestedDate)
+      ? sanitizeLocationRecord(readPanchangLinkLocation(locationParams))
+      : null;
+    selectedCity.style.display = "block";
+    selectedCity.textContent = selectedLocation ? "📍 " + selectedLocation.name
+      : "स्थान या तारीख की जानकारी सही नहीं है। कृपया शहर चुनें।";
+  } else if(sharedLocation){
     selectedLocation = sharedLocation;
     selectedCity.style.display = "block";
     selectedCity.textContent = "📍 साझा किए गए स्थान से: " + selectedLocation.name + " · " + selectedLocation.timeZone;
@@ -3212,15 +3289,16 @@ try{
     selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
   }
 }catch(e){
-  selectedLocation = defaultPithoragarh;
+  selectedLocation = hasEventLocation ? null : defaultPithoragarh;
   selectedCity.style.display = "block";
-  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
+  selectedCity.textContent = selectedLocation ? "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name
+    : "स्थान की जानकारी सही नहीं है। कृपया शहर चुनें।";
 }
 publishSelectedLocation();
 
 // Location is initialized after the date field; derive the default date
 // again using the selected location's timezone, not the browser timezone.
-if(!isValidIsoDate(requestedDate)) dateInput.value = todayString();
+if(!hasEventLocation && !isValidIsoDate(requestedDate)) dateInput.value = todayString();
 
 /* =========================================================
    FORMAT FUNCTIONS
@@ -4936,7 +5014,7 @@ function specialPunyaKaalDateTime(value){
 }
 async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
-  const isPithoragarh = selectedLocation &&
+  const isPithoragarh = selectedLocation && selectedLocation.elevationStatus !== "unknown" &&
     Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
     Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02 &&
     Math.abs(Number(selectedLocation.elevation) - 1650) < 100;
@@ -5028,6 +5106,10 @@ function calculatePanchang(){
     return value;
   };
 
+  if (!isValidIsoDate(dateInput.value)) {
+    result.textContent = "कृपया सही तारीख चुनें।";
+    return;
+  }
   if(!selectedLocation){
     result.innerHTML =
       `<div class="loading">पहले अपना शहर चुनें।</div>`;
@@ -6842,14 +6924,18 @@ window.useMyLocation = function(){
     📍 आपकी स्थिति ली जा रही है...
   </div>`;
 
+  const version = ++gpsRequest;
+  const wasViewingPreviousLocationToday = dateInput.value === todayString();
   navigator.geolocation.getCurrentPosition(
     async position => {
-      selectedLocation = {
+      if (version !== gpsRequest) return;
+      const gpsLocation = {
+        observerSource: "gps",
         name: "वर्तमान स्थान",
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-        elevation:
-          position.coords.altitude || 0,
+        elevation: 0,
+        elevationStatus: "unknown",
         state: "",
         city: ""
       };
@@ -6857,9 +6943,9 @@ window.useMyLocation = function(){
       try{
         const url =
           "https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&zoom=10&accept-language=hi&lat=" +
-          selectedLocation.lat +
+          gpsLocation.lat +
           "&lon=" +
-          selectedLocation.lon;
+          gpsLocation.lon;
 
         const r = await fetch(
           url,
@@ -6874,12 +6960,12 @@ window.useMyLocation = function(){
           const data = await r.json();
 
           if(data && data.address){
-            selectedLocation.state =
+            gpsLocation.state =
               data.address.state ||
               data.address.state_district ||
               "";
 
-            selectedLocation.city =
+            gpsLocation.city =
               data.address.city ||
               data.address.town ||
               data.address.village ||
@@ -6887,7 +6973,7 @@ window.useMyLocation = function(){
               "";
 
             if(data.display_name){
-              selectedLocation.name =
+              gpsLocation.name =
                 data.display_name;
             }
           }
@@ -6899,11 +6985,14 @@ window.useMyLocation = function(){
         );
       }
 
+      if (version !== gpsRequest) return;
+      selectedLocation = gpsLocation;
+      clearEventLocation();
       selectedCity.style.display = "block";
 
       const locLine =
-        selectedLocation.city
-          ? " - " + selectedLocation.city
+        gpsLocation.city
+          ? " - " + gpsLocation.city
           : "";
 
       selectedCity.textContent =
@@ -6911,7 +7000,8 @@ window.useMyLocation = function(){
 
       try{
         resolveLocationTimeZone(selectedLocation);
-        publishSelectedLocation();
+        if (!publishSelectedLocation()) throw new Error("GPS_LOCATION_INVALID");
+        if (wasViewingPreviousLocationToday && !requestedDate) dateInput.value = todayString();
       }catch(locationError){
         selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
         console.warn("GPS location timezone lookup failed:", locationError);
@@ -6920,7 +7010,8 @@ window.useMyLocation = function(){
 
       calculatePanchang();
     },
-    error => {
+    () => {
+      if (version !== gpsRequest) return;
       result.innerHTML = `<div class="error">
         ❌ Location permission नहीं मिली।
         <br><br>
@@ -6948,13 +7039,21 @@ document.getElementById(
 sankalpState.sandhyaType =
   getAutoSandhyaType();
 
-try{
-  resolveLocationTimeZone(selectedLocation);
-  publishSelectedLocation();
-  if(!requestedDate) dateInput.value = todayString();
-  selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
-  calculatePanchang();
-}catch(error){
-  result.innerHTML = '<div class="error">चुने गए स्थान का समय क्षेत्र निर्धारित नहीं हो सका। कृपया स्थान की जानकारी जाँचें।</div>';
-  console.warn("Initial location timezone lookup failed:", error);
+async function initializePanchang() {
+  const version = gpsRequest;
+  try {
+    const preferredCity = await restorePublicCity();
+    if (version !== gpsRequest) return;
+    if (preferredCity) selectedLocation = preferredCity;
+    if (selectedLocation) {
+      publishSelectedLocation();
+      if (!isValidIsoDate(requestedDate)) dateInput.value = todayString();
+      selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
+    }
+    calculatePanchang();
+  } catch (error) {
+    result.textContent = "चुने गए स्थान का समय क्षेत्र निर्धारित नहीं हो सका। कृपया स्थान की जानकारी जाँचें।";
+    console.warn("Initial location timezone lookup failed:", error);
+  }
 }
+void initializePanchang();
