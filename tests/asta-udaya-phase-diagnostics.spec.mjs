@@ -76,7 +76,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       state: "Maharashtra",
       city: "Mumbai"
     })));
-    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31", {
+    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31&lat=19.076&lon=72.8777&elevation=14", {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
@@ -85,6 +85,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
       return card.includes("अस्त प्रारम्भ") && !card.includes("Drik मूल स्रोत");
     }, null, { timeout: 180000 });
+    assert.equal(await mumbaiPage.evaluate(() => window.__ohdPanchangLocation.lat), 19.076);
     const mumbaiCard = await mumbaiPage.locator("#planetRiseSetCard").innerText();
     assert.doesNotMatch(mumbaiCard, /Drik Panchang के पिथौरागढ़/);
     assert.doesNotMatch(mumbaiCard, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
@@ -121,14 +122,14 @@ test("event deep link applies one observer across the daily page, date changes a
   }, saved);
   try {
     const params = new URLSearchParams({date: "2027-08-17", lat: "28.6139", lon: "77.209",
-      elevation: "216", place: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली"});
+      elevation: "216", elevationStatus: "estimated", place: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली"});
     await page.goto(base + "?" + params);
     const sunCard = page.locator("#result .card").filter({has: page.getByText("🌅 सूर्य व 🌙 चंद्र समय", {exact: true})});
     try {
       await sunCard.waitFor({timeout: 90000});
     } catch (error) {
       const diagnostics = await page.evaluate(() => ({
-        location: window.getPanchangLocation?.() || null,
+        location: window.__ohdPanchangLocation || null,
         selectedCity: document.querySelector("#selectedCity")?.innerText || "",
         result: document.querySelector("#result")?.innerText?.slice(0, 1200) || "",
         date: document.querySelector("#dateInput")?.value || ""
@@ -145,12 +146,14 @@ test("event deep link applies one observer across the daily page, date changes a
     });
     const checkObserver = async () => {
       const data = await page.evaluate(() => ({
-        observer: window.getPanchangLocation(), iso: new Date(window.__panchangTest.sunrise).toISOString(),
-        saved: JSON.parse(localStorage.getItem("ohdPanchangLocation"))
+        observer: window.__ohdPanchangLocation, iso: new Date(window.__panchangTest.sunrise).toISOString(),
+        saved: localStorage.getItem("ohdPanchangLocation")
       }));
-      assert.deepEqual(data.observer, {name: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली",
-        lat: 28.6139, lon: 77.209, elevation: 216, elevationStatus: "provided"});
-      assert.deepEqual(data.saved, saved);
+      const {name, city, state, lat, lon, elevation, elevationStatus, timeZone} = data.observer;
+      assert.deepEqual({name, city, state, lat, lon, elevation, elevationStatus, timeZone},
+        {name: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली",
+          lat: 28.6139, lon: 77.209, elevation: 216, elevationStatus: "estimated", timeZone: "Asia/Kolkata"});
+      assert.equal(data.saved, null);
       assert.equal(data.iso, expected.iso);
       assert.ok((await sunCard.innerText()).includes(expected.time));
       const firstHora = page.locator("#horaCard details .time-row").first();
@@ -182,7 +185,9 @@ test("event deep link applies one observer across the daily page, date changes a
     // The click clears the old event URL synchronously, while observer lookup is async.
     // Wait for the resolved city estimate to replace the temporary unknown observer.
     await page.waitForFunction(() =>
-      JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null")?.elevationStatus === "estimated",
+      window.__ohdPanchangLocation?.elevationStatus === "estimated" &&
+        /^geonames:[1-9]\d*$/.test(localStorage.getItem("ohdPanchangCityId") || "") &&
+        localStorage.getItem("ohdPanchangLocation") === null,
       null,
       {timeout: 15000}
     );
@@ -202,7 +207,7 @@ test("event deep link applies one observer across the daily page, date changes a
 });
 
 
-test("legacy saved Pithoragarh selection resolves its missing elevation before first calculation", async () => {
+test("public city preference restores Pithoragarh and purges the legacy coordinate record", async () => {
   const browser = await chromium.launch();
   const context = await browser.newContext({timezoneId: "America/Los_Angeles"});
   const page = await context.newPage();
@@ -213,6 +218,7 @@ test("legacy saved Pithoragarh selection resolves its missing elevation before f
       name: "Pithoragarh", city: "Pithoragarh", state: "Uttarakhand",
       lat: 29.5828, lon: 80.2182, elevation: 0
     }));
+    localStorage.setItem("ohdPanchangCityId", "profile:pithoragarh-project-target");
   });
   try {
     await page.goto("http://127.0.0.1:8080/index.html");
@@ -221,14 +227,15 @@ test("legacy saved Pithoragarh selection resolves its missing elevation before f
     });
     await sunCard.waitFor({timeout: 90000});
     const location = await page.evaluate(() => ({
-      ...window.getPanchangLocation(),
-      saved: JSON.parse(localStorage.getItem("ohdPanchangLocation"))
+      ...window.__ohdPanchangLocation,
+      saved: localStorage.getItem("ohdPanchangLocation")
     }));
     assert.deepEqual({
       lat: location.lat, lon: location.lon, elevation: location.elevation,
       elevationStatus: location.elevationStatus
     }, {lat: 29.5828, lon: 80.2182, elevation: 1650, elevationStatus: "provided"});
-    assert.equal(location.saved.elevationStatus, "provided");
+    assert.equal(location.cityProfileKey, "pithoragarh-project-target");
+    assert.equal(location.saved, null);
     assert.deepEqual(errors, []);
   } finally {
     await browser.close();
@@ -236,28 +243,30 @@ test("legacy saved Pithoragarh selection resolves its missing elevation before f
 });
 
 
-test("saved GPS observer keeps exact coordinates instead of snapping to its city", async () => {
+test("GPS keeps the exact position in memory and never saves it", async () => {
   const browser = await chromium.launch();
-  const context = await browser.newContext();
+  const context = await browser.newContext({
+    geolocation: {latitude: 29.584, longitude: 80.219}, permissions: ["geolocation"]
+  });
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", error => errors.push(error.message));
-  await context.addInitScript(() => {
-    localStorage.setItem("ohdPanchangLocation", JSON.stringify({
-      observerSource: "gps", name: "वर्तमान स्थान", city: "पिथौरागढ़",
-      state: "उत्तराखंड", lat: 29.584, lon: 80.219,
-      elevation: 0, elevationStatus: "unknown"
-    }));
-  });
+  await page.route("https://nominatim.openstreetmap.org/reverse?**", route => route.fulfill({
+    json: {display_name: "पिथौरागढ़, उत्तराखंड", address: {city: "पिथौरागढ़", state: "उत्तराखंड"}}
+  }));
   try {
-    await page.goto("http://127.0.0.1:8080/index.html");
-    await page.getByText("चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।").waitFor();
-    const location = await page.evaluate(() => window.getPanchangLocation());
-    assert.deepEqual({
-      observerSource: location.observerSource, lat: location.lat, lon: location.lon,
-      elevation: location.elevation, elevationStatus: location.elevationStatus
-    }, {observerSource: "gps", lat: 29.584, lon: 80.219,
-      elevation: 0, elevationStatus: "unknown"});
+    await page.goto("http://127.0.0.1:8080/index.html?date=2027-08-17");
+    await page.waitForFunction(() => typeof window.useMyLocation === "function");
+    await page.evaluate(() => window.useMyLocation());
+    await page.waitForFunction(() => window.__ohdPanchangLocation?.observerSource === "gps");
+    const location = await page.evaluate(() => ({
+      ...window.__ohdPanchangLocation, saved: localStorage.getItem("ohdPanchangLocation")
+    }));
+    const {observerSource, lat, lon, elevation, elevationStatus, saved} = location;
+    assert.deepEqual({observerSource, lat, lon, elevation, elevationStatus, saved},
+      {observerSource: "gps", lat: 29.584, lon: 80.219, elevation: 0, elevationStatus: "unknown", saved: null});
+    await page.reload();
+    await page.waitForFunction(() => window.__ohdPanchangLocation?.lat === 29.5828);
     assert.deepEqual(errors, []);
   } finally {
     await browser.close();

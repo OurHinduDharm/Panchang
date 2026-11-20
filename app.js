@@ -146,7 +146,7 @@ const hasEventLocation = hasPanchangLinkLocation(locationParams);
 const requestedDate = locationParams.getAll("date").length === 1 ? locationParams.get("date") : null;
 const sharedLocationKeys = ["locLat", "locLon", "locTz", "locElevation", "locName", "locState", "locCity", "locCountry", "locCountryCode"];
 const hasSharedLocation = sharedLocationKeys.some(key => locationParams.has(key));
-dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : todayString();
+dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : (hasEventLocation ? "" : todayString());
 
 /* HINDI DATA */
 const pakshaHindi = {
@@ -3114,6 +3114,7 @@ function publishSelectedLocation(){
     lon: safeLocation.lon,
     elevation: safeLocation.elevation,
     elevationStatus: safeLocation.elevationStatus,
+    observerSource: safeLocation.observerSource,
     cityProfileKey: safeLocation.cityProfileKey,
     cityId: safeLocation.cityId,
     state: safeLocation.state,
@@ -3222,6 +3223,7 @@ async function restorePublicCity() {
     if (Object.hasOwn(annualCityProfiles, key)) {
       const p = annualCityProfiles[key];
       place = {name: p.name || p.city || key, city: p.city || p.name || key,
+        state: p.admin1, country: "भारत", countryCode: "in",
         lat: p.latitude, lon: p.longitude, elevation: p.elevation,
         elevationStatus: "provided", cityProfileKey: key};
     }
@@ -3230,6 +3232,7 @@ async function restorePublicCity() {
       const p = await findTaraPlace(saved.slice(9));
       if (p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude)) {
         place = {name: p.name, city: p.city, state: p.admin1,
+          country: "भारत", countryCode: p.countryCode,
           lat: p.latitude, lon: p.longitude, elevation: p.elevation,
           elevationStatus: p.elevationStatus, elevationSource: p.elevationSource,
           cityId: p.id};
@@ -3295,7 +3298,7 @@ publishSelectedLocation();
 
 // Location is initialized after the date field; derive the default date
 // again using the selected location's timezone, not the browser timezone.
-if(!isValidIsoDate(requestedDate)) dateInput.value = todayString();
+if(!hasEventLocation && !isValidIsoDate(requestedDate)) dateInput.value = todayString();
 
 /* =========================================================
    FORMAT FUNCTIONS
