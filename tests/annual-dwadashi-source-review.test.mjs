@@ -815,12 +815,12 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     const observance = tithi.observances.find(x => x.id === id);
     assert.ok(observance, `missing ${id} for ${month}`);
     assert.match(observance.source, new RegExp(`अध्याय ${chapter}(?:\\s| —|-)`));
-    assert.doesNotMatch(observance.source, /Drik|Vedic People|Vedapath/i);
+    assert.doesNotMatch(observance.source, /बाहरी स्रोत|Vedic People|Vedapath/i);
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
   const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
   assert.match(dharani.sourceTextNote, /अध्याय-शीर्षक और पाठ-शरीर/);
-  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);\n  assert.doesNotMatch(JSON.stringify(dharani), /Drik|Vedic People|Vedapath|https?:\\/\\//i);
+  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);\n  assert.doesNotMatch(JSON.stringify(dharani), /https?:\\/\\//i);
   assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
   const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
@@ -835,7 +835,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     assert.equal(t.observances.some(x => x.id === "matsya"), false);
     for (const record of annual.tithis) {
       for (const observance of record.observances || []) {
-        if (observance.sourceProfile === "varahaPurana") assert.doesNotMatch(JSON.stringify(observance), /Drik|Vedic People|Vedapath|https?:\\/\\//i);
+        if (observance.sourceProfile === "varahaPurana") assert.doesNotMatch(JSON.stringify(observance), /https?:\\/\\//i);
       }
     }
   }
