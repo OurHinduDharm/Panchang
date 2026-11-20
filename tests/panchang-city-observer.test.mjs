@@ -84,3 +84,21 @@ test("same-name city after first 12 search results resolves by nearby coordinate
   assert.equal(selected.id, 910013);
   assert.equal(selected.elevation, 777);
 });
+
+test("GPS near a canonical city preserves actual coordinates and measured altitude", async () => {
+  const gps = {observerSource: "gps", city: "पिथौरागढ़", name: "वर्तमान स्थान",
+    lat: 29.584, lon: 80.219, elevation: 1732, elevationStatus: "provided"};
+  const resolved = await resolveCityObserver(gps);
+  assert.equal(resolved.lat, gps.lat);
+  assert.equal(resolved.lon, gps.lon);
+  assert.equal(resolved.elevation, 1732);
+  assert.equal(resolved.observerSource, "gps");
+});
+
+test("GPS without altitude does not inherit city-center elevation", async () => {
+  const gps = {observerSource: "gps", city: "पिथौरागढ़",
+    lat: 29.584, lon: 80.219, elevation: 0, elevationStatus: "unknown"};
+  const resolved = await resolveCityObserver(gps);
+  assert.equal(resolved.elevationStatus, "unknown");
+  assert.equal(resolved.elevation, 0);
+});
