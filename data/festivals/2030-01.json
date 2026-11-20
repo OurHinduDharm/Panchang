@@ -20,6 +20,18 @@
       "muhurtaRule": "pradosh-kala"
     },
     {
+      "date": "2030-01-01",
+      "dateLabel": "1 जनवरी",
+      "title": "रूप-व्रत — द्वादशी प्रातः पूजन",
+      "description": "पौष कृष्ण एकादशी को उपवास और रात्रि-जागरण के बाद द्वादशी की सुबह भगवान विष्णु का पूजन, हवन और दान किया जाता है।",
+      "category": "द्वादशी व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण द्वादशी",
+      "sourceName": "नारद पुराण, पूर्वार्ध 121.67b–76a",
+      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html"
+    },
+    {
       "date": "2030-01-02",
       "dateLabel": "2 जनवरी",
       "title": "मासिक शिवरात्रि",

@@ -128,12 +128,12 @@
     {
       "date": "2030-06-12",
       "dateLabel": "12 जून",
-      "title": "निर्जला एकादशी / गायत्री जयंती / रामलक्ष्मण द्वादशी",
-      "description": "निर्जला एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और जलदान की परंपरा है। इसी दिन गायत्री जयंती पर माँ गायत्री का पूजन, गायत्री मंत्र-जप और हवन करें। द्वादशी तिथि की व्याप्ति में रामलक्ष्मण द्वादशी का स्मरण और श्रीराम-लक्ष्मण पूजन भी करें। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "निर्जला एकादशी / गायत्री जयंती",
+      "description": "निर्जला एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और जलदान की परंपरा है। इसी दिन गायत्री जयंती पर माँ गायत्री का पूजन, गायत्री मंत्र-जप और हवन करें। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
       "sourceName": "Drik Panchang — 12 जून 2030 दैनिक पंचांग",
       "sourceUrl": "https://www.drikpanchang.com/bengali/bengali-day-panjika.html?date=12%2F06%2F2030",
       "muhurtaRule": "ekadashi-parana",
@@ -141,6 +141,18 @@
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2030-06-12",
+      "dateLabel": "12 जून",
+      "title": "रामलक्ष्मण द्वादशी",
+      "description": "12 जून को द्वादशी लगने पर श्रीराम और लक्ष्मण की पूजा करें। वराह पुराण के अनुसार पूजित प्रतिमाओं का दान अगले दिन 13 जून की सुबह होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल द्वादशी",
+      "sourceName": "वराह पुराण, अध्याय 45, श्लोक 1–5",
+      "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-045"
     },
     {
       "date": "2030-06-13",

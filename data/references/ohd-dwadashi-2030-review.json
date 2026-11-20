@@ -565,7 +565,20 @@
         }
       ],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "rama",
+          "name": "रामलक्ष्मण द्वादशी",
+          "selectedDate": "2030-06-12",
+          "followingMorningDate": "2030-06-13",
+          "dateRole": "dwadashi-worship-before-following-morning-gift",
+          "source": "वराह पुराण, अध्याय 45, श्लोक 1–5",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-045",
+          "localDayDecision": "12 जून को द्वादशी लगने पर श्रीराम और लक्ष्मण की पूजा करें। वराह पुराण के अनुसार पूजित प्रतिमाओं का दान अगले दिन 13 जून की सुबह होता है।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "ashadha-krishna",
@@ -1030,7 +1043,7 @@
         "2030-09-08",
         "2030-09-09"
       ],
-      "referenceDate": "2030-09-09",
+      "referenceDate": null,
       "drikLabels": [
         "श्रवण योग द्वादशी"
       ],
@@ -1041,7 +1054,8 @@
           "month": "भाद्रपद",
           "paksha": "शुक्ल",
           "adhika": false,
-          "referenceDate": "2030-09-09",
+          "observanceDate": "2030-09-09",
+          "dateRole": "special-observance-date",
           "labels": [
             "श्रवण योग द्वादशी"
           ],
@@ -1526,7 +1540,31 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "govatsa",
+          "name": "गोवत्स द्वादशी",
+          "selectedDate": "2030-10-23",
+          "dateRole": "pradosha-worship",
+          "source": "नारद पुराण, पूर्वार्ध 121.27b–35a और गोवत्स द्वादशी का प्रदोष-विधान",
+          "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+          "localDayDecision": "23 अक्टूबर के सूर्यास्त पर कार्तिक कृष्ण द्वादशी व्याप्त है।",
+          "autoApproved": false
+        },
+        {
+          "observanceId": "krishna-padmanabha",
+          "name": "कृष्ण पद्मनाभ द्वादशी",
+          "selectedDate": "2030-10-23",
+          "followingMorningDate": "2030-10-24",
+          "dateRole": "source-listed-observance-with-overnight-worship",
+          "source": "Drik Panchang, कृष्ण पद्मनाभ द्वादशी, नई दिल्ली",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/padmanabha/krishna-padmanabha-dwadashi-date-time.html?year=2030",
+          "secondarySourceUrl": "https://panchangtime.com/festivals/krishna-padmanabha-dwadashi/yearly/2030",
+          "localDayDecision": "दोनों वार्षिक स्रोत 23 अक्टूबर देते हैं। दृक् इस व्रत की विधि के लिए आश्विन शुक्ल पद्मनाभ-विधान को संदर्भित करता है। पिथौरागढ़ में 23 की रात्रि और 24 की सुबह एक ही द्वादशी में हैं। नारद पुराण, पूर्वार्ध 17.74–78 का प्रत्यक्ष विधान आश्विन शुक्ल के लिए है। कार्तिक कृष्ण के स्वतंत्र दिन-निर्णय का पाठ अभी अपेक्षित है।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "kartika-shukla",
@@ -1765,7 +1803,20 @@
         }
       ],
       "status": "needs-review",
-      "occurrence": 1
+      "occurrence": 1,
+      "observanceDateReviews": [
+        {
+          "observanceId": "rupa",
+          "name": "रूप-व्रत",
+          "vrataDate": "2029-12-31",
+          "selectedDate": "2030-01-01",
+          "dateRole": "dwadashi-morning-worship",
+          "source": "नारद पुराण, पूर्वार्ध 121.67b–76a",
+          "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+          "localDayDecision": "पूर्व एकादशी को उपवास और जागरण के बाद पौष कृष्ण द्वादशी की सुबह विष्णु-पूजन।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "pausha-krishna-occurrence-2",
@@ -1847,7 +1898,20 @@
       ],
       "status": "needs-review",
       "occurrence": 2,
-      "sourceReferenceObservation": null
+      "sourceReferenceObservation": null,
+      "observanceDateReviews": [
+        {
+          "observanceId": "rupa",
+          "name": "रूप-व्रत",
+          "vrataDate": "2030-12-21",
+          "selectedDate": "2030-12-22",
+          "dateRole": "dwadashi-morning-worship",
+          "source": "नारद पुराण, पूर्वार्ध 121.67b–76a",
+          "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+          "localDayDecision": "पूर्व एकादशी को उपवास और जागरण के बाद पौष कृष्ण द्वादशी की सुबह विष्णु-पूजन।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "pausha-shukla",
@@ -2007,7 +2071,20 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "varaha",
+          "name": "वराह-द्वादशी व्रत",
+          "selectedDate": "2030-02-14",
+          "followingMorningDate": "2030-02-15",
+          "dateRole": "dwadashi-worship-before-following-morning-gift",
+          "source": "वराह पुराण, अध्याय 41, श्लोक 1–13",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-041",
+          "localDayDecision": "वराह भगवान की पूजा और रात्रि-जागरण 14 फरवरी को करें। 15 फरवरी के सूर्योदय पर स्नान और पूजन के बाद प्रतिमा तथा कलश के दान का विधान है।",
+          "autoApproved": false
+        }
+      ]
     },
     {
       "id": "phalguna-krishna",
@@ -3085,7 +3162,25 @@
         "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       }
     ],
-    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।"
+    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।",
+    "canonicalObserverAudit": {
+      "location": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevation": 1650,
+        "timezone": "Asia/Kolkata"
+      },
+      "calendar": "Purnimanta",
+      "engine": "@ishubhamx/panchangam-js@3.0.0",
+      "days": 365,
+      "matchedRecords": 25,
+      "matchedFields": [
+        "sunriseDates",
+        "noonDates",
+        "candidateDates"
+      ],
+      "scope": "सुरक्षित पुरानी गणना की 25 प्रविष्टियों की तारीखें पिथौरागढ़ के निर्धारित निर्देशांकों पर दोबारा जाँची गईं। व्रत-विशेष के काल और अनुष्ठान का निर्णय अलग है।"
+    }
   },
   "generalDwadashiYogaReview": {
     "ruleId": "shravana-yoga-dwadashi",
