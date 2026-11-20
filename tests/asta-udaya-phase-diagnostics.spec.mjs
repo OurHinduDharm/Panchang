@@ -106,3 +106,80 @@ test("production Asta/Udaya card has no provisional angular-threshold engine", (
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
   assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
 });
+
+test("event deep link applies one observer across the daily page, date changes and reload", async () => {
+  const browser = await chromium.launch();
+  const context = await browser.newContext({timezoneId: "America/Los_Angeles"});
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", e => errors.push(e.message));
+  const base = "http://127.0.0.1:8080/index.html";
+  const saved = {name: "पुराना स्थान", lat: 29.5828, lon: 80.2182, elevation: 1650};
+  await context.addInitScript(value => {
+    if (!localStorage.getItem("ohdPanchangLocation"))
+      localStorage.setItem("ohdPanchangLocation", JSON.stringify(value));
+  }, saved);
+  try {
+    const params = new URLSearchParams({date: "2027-08-17", lat: "28.6139", lon: "77.209",
+      elevation: "216", place: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली"});
+    await page.goto(base + "?" + params);
+    const sunCard = page.locator("#result .card").filter({has: page.getByText("🌅 सूर्य व 🌙 चंद्र समय", {exact: true})});
+    await sunCard.waitFor({timeout: 90000});
+    const expected = await page.evaluate(async () => {
+      const {Observer, getPanchangam} = await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
+      const p = getPanchangam(new Date("2027-08-17T12:00:00+05:30"),
+        new Observer(28.6139, 77.209, 216), {timezoneOffset: 330, calendarType: "purnimanta"});
+      return {iso: new Date(p.sunrise).toISOString(), time: new Intl.DateTimeFormat("hi-IN", {
+        timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true
+      }).format(p.sunrise), festivals: (p.festivals || []).map(f => f.name || f.title || String(f))};
+    });
+    const checkObserver = async () => {
+      const data = await page.evaluate(() => ({
+        observer: window.getPanchangLocation(), iso: new Date(window.__panchangTest.sunrise).toISOString(),
+        saved: JSON.parse(localStorage.getItem("ohdPanchangLocation"))
+      }));
+      assert.deepEqual(data.observer, {name: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली",
+        lat: 28.6139, lon: 77.209, elevation: 216, elevationStatus: "provided"});
+      assert.deepEqual(data.saved, saved);
+      assert.equal(data.iso, expected.iso);
+      assert.ok((await sunCard.innerText()).includes(expected.time));
+      const firstHora = page.locator("#horaCard details .time-row").first();
+      await firstHora.waitFor({state: "attached"});
+      assert.ok((await firstHora.textContent()).includes(expected.time));
+      await page.locator("#ohdHinduFestivalsCard").waitFor();
+      assert.deepEqual(await page.locator("#ohdHinduFestivalsCard li").allTextContents(), expected.festivals);
+    };
+    await checkObserver();
+    await page.getByRole("button", {name: /अगला दिन/}).click();
+    assert.equal(await page.locator("#dateInput").inputValue(), "2027-08-18");
+    assert.equal(new URL(page.url()).searchParams.get("lat"), "28.6139");
+    await page.getByRole("button", {name: /पिछला दिन/}).click();
+    await page.reload();
+    await sunCard.waitFor();
+    await checkObserver();
+
+    // Replacing the observer manually must remove only the event's location.
+    await page.route("https://nominatim.openstreetmap.org/search?**", route => route.fulfill({
+      json: [{name: "वाराणसी", display_name: "वाराणसी, उत्तर प्रदेश", lat: "25.31", lon: "83.01",
+        address: {city: "वाराणसी", state: "उत्तर प्रदेश"}}]
+    }));
+    await page.locator("#cityInput").fill("वाराणसी");
+    await page.getByRole("button", {name: /खोजें/}).click();
+    await page.locator("#suggestions .city").click();
+    const after = new URL(page.url()).searchParams;
+    assert.equal(after.get("date"), "2027-08-17");
+    assert.ok(["lat", "lon", "elevation", "place", "city", "state"].every(k => !after.has(k)));
+    await page.reload();
+    await sunCard.waitFor();
+    assert.match(await page.locator("#selectedCity").innerText(), /वाराणसी/);
+
+    await page.goto(base + "?date=2027-08-17&lat=29");
+    await page.getByText("पहले अपना शहर चुनें।").waitFor();
+    assert.equal(await page.locator("#result .grid").count(), 0);
+    params.set("date", "2027-02-30");
+    await page.goto(base + "?" + params);
+    await page.getByText("कृपया सही तारीख चुनें।").waitFor();
+    assert.equal(await page.locator("#dateInput").inputValue(), "");
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); }
+});
