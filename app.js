@@ -6910,4 +6910,23 @@ document.getElementById(
 sankalpState.sandhyaType =
   getAutoSandhyaType();
 
-calculatePanchang();
+async function initializePanchang() {
+  // Older saved city selections used elevation: 0 as a placeholder and had
+  // no provenance field. Re-resolve them before the first calculation.
+  if (!hasPanchangLinkLocation(locationParams) &&
+      selectedLocation?.elevationStatus === "unknown" &&
+      selectedLocation.city) {
+    const initialLocation = selectedLocation;
+    const version = ++gpsRequest;
+    result.innerHTML = `<div class="loading">चुने हुए स्थान की गणना हो रही है...</div>`;
+    const resolvedInitialLocation = await resolveCityObserver(initialLocation).catch(() => initialLocation);
+    if (version !== gpsRequest || selectedLocation !== initialLocation) return;
+    selectedLocation = resolvedInitialLocation;
+    try {
+      localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
+    } catch(e) {}
+  }
+  calculatePanchang();
+}
+
+initializePanchang();
