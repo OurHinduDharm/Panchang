@@ -953,3 +953,30 @@ test("2030 Krishna Narasimha distinguishes the prior sunrise-day label from loca
   assert.equal(card.sourceName, undefined);
   assert.equal(card.sourceUrl, undefined);
 });
+
+
+test("2030 Rama Lakshmana Dwadashi worship date and following-morning donation match Varaha Purana chapter 45", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "jyeshtha-shukla");
+  const vrata = record.observanceDateReviews.find(x => x.observanceId === "rama");
+  assert.equal(record.selectedDate, "2030-06-13");
+  assert.equal(record.status, "needs-review");
+  assert.equal(vrata.selectedDate, "2030-06-12");
+  assert.equal(vrata.followingMorningDate, "2030-06-13");
+  assert.equal(vrata.reviewStatus, "approved");
+  assert.equal(vrata.autoApproved, false);
+  assert.match(vrata.reviewBasis, /45\.1/);
+  assert.match(vrata.reviewBasis, /45\.5/);
+  assert.match(vrata.localDayDecision, /12 जून को पिथौरागढ़ में द्वादशी 14:06:03 IST/);
+  assert.match(vrata.localDayDecision, /13 जून के सूर्योदय 05:08:59 IST/);
+
+  const june = JSON.parse(await readFile(resolve(root, "data/festivals/2030-06.json"), "utf8"));
+  const card = june.events.find(x => x.title === "रामलक्ष्मण द्वादशी");
+  assert.equal(card.date, "2030-06-12");
+  assert.equal(card.sourceName, "वराह पुराण, अध्याय 45, श्लोक 1–5");
+  assert.equal(card.sourceUrl, undefined);
+});
