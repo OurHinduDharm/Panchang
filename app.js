@@ -3058,7 +3058,7 @@ async function selectCity(place){
   ).trim();
 
   const version = ++gpsRequest;
-  const resolvedLocation = await resolveCityObserver({
+  const pendingLocation = {
     name: place.display_name,
     lat: Number(place.lat),
     lon: Number(place.lon),
@@ -3066,20 +3066,19 @@ async function selectCity(place){
     elevationStatus: "unknown",
     state: state,
     city: city
-  });
+  };
+  // Clear the old event observer immediately; never keep calculating with it
+  // while the newly selected city is being resolved.
+  selectedLocation = pendingLocation;
+  clearEventLocation();
+  cityInput.value = place.name || place.display_name;
+  selectedCity.style.display = "block";
+  selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name;
+  suggestions.innerHTML = "";
+
+  const resolvedLocation = await resolveCityObserver(pendingLocation);
   if (version !== gpsRequest) return;
   selectedLocation = resolvedLocation;
-  clearEventLocation();
-
-  cityInput.value =
-    place.name ||
-    place.display_name;
-
-  selectedCity.style.display = "block";
-  selectedCity.textContent =
-    "✅ चुना गया स्थान: " +
-    place.display_name;
-  suggestions.innerHTML = "";
 
   try{
     localStorage.setItem(
