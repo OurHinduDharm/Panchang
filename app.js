@@ -1,5 +1,6 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetMinutes, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 import { getNightPraharWindows } from "./night-prahar.js";
 import {
   Body as AstroBody,
@@ -3038,47 +3039,15 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
-let locationSelectionVersion = 0;
-const locationTimeZoneCache = new Map();
-
-async function resolveLocationTimeZone(location){
+function resolveLocationTimeZone(location){
   if(isValidTimeZone(location?.timeZone)) return location.timeZone;
-  const key = `${Number(location.lat).toFixed(4)},${Number(location.lon).toFixed(4)}`;
-  if(locationTimeZoneCache.has(key)){
-    location.timeZone = await locationTimeZoneCache.get(key);
-    return location.timeZone;
-  }
-  const lookup = (async()=>{
-    const url = "https://api.open-meteo.com/v1/forecast?latitude=" +
-      encodeURIComponent(location.lat) + "&longitude=" +
-      encodeURIComponent(location.lon) +
-      "&current=temperature_2m&timezone=auto&forecast_days=1";
-    const response = await fetch(url, {headers:{"Accept":"application/json"}});
-    if(!response.ok) throw new Error("TIMEZONE_LOOKUP_HTTP_" + response.status);
-    const data = await response.json();
-    if(!isValidTimeZone(data?.timezone)) throw new Error("TIMEZONE_LOOKUP_INVALID_RESULT");
-    return data.timezone;
-  })();
-  locationTimeZoneCache.set(key, lookup);
-  try{
-    location.timeZone = await lookup;
-    if(selectedLocation === location){
-      try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(location)); }catch(e){}
-    }
-    return location.timeZone;
-  }catch(error){
-    locationTimeZoneCache.delete(key);
-    const name = String(location.name || "");
-    const isKnownIndia = String(location.countryCode || "").toLowerCase() === "in" ||
-      (/भारत|India/i.test(name) && Number(location.lat) >= 6 && Number(location.lat) <= 38 &&
-       Number(location.lon) >= 68 && Number(location.lon) <= 98);
-    if(isKnownIndia){ location.timeZone = "Asia/Kolkata"; return location.timeZone; }
-    throw error;
-  }
+  const timeZone = tzLookup(Number(location.lat), Number(location.lon));
+  if(!isValidTimeZone(timeZone)) throw new Error("TIMEZONE_LOOKUP_INVALID_RESULT");
+  location.timeZone = timeZone;
+  return timeZone;
 }
 
-async function selectCity(place){
-  const selectionVersion = ++locationSelectionVersion;
+function selectCity(place){
   const addr = place.address || {};
 
   const state = (
@@ -3108,24 +3077,18 @@ async function selectCity(place){
     countryCode: String(addr.country_code || "").toLowerCase()
   };
 
-  cityInput.value =
-    place.name ||
-    place.display_name;
-
+  cityInput.value = place.name || place.display_name;
   selectedCity.style.display = "block";
-  selectedCity.textContent = "🕒 स्थान का समय क्षेत्र निर्धारित हो रहा है...";
   suggestions.innerHTML = "";
 
   try{
-    await resolveLocationTimeZone(selectedLocation);
-    if(selectionVersion !== locationSelectionVersion) return;
+    resolveLocationTimeZone(selectedLocation);
     selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name + " · " + selectedLocation.timeZone;
     try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
     calculatePanchang();
   }catch(error){
-    if(selectionVersion !== locationSelectionVersion) return;
-    selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र प्राप्त नहीं हो सका। पुनः प्रयास करें।";
-    result.innerHTML = '<div class="error">स्थानीय समय क्षेत्र उपलब्ध न होने से सही पंचांग गणना नहीं की जा सकी। इंटरनेट कनेक्शन जाँचकर शहर फिर चुनें।</div>';
+    selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
+    result.innerHTML = '<div class="error">इस स्थान के निर्देशांकों से समय क्षेत्र निर्धारित नहीं हो सका। कृपया सही शहर चुनें।</div>';
     console.warn("Location timezone lookup failed:", error);
   }
 }
@@ -6885,16 +6848,13 @@ document.getElementById(
 sankalpState.sandhyaType =
   getAutoSandhyaType();
 
-const initialLocation = selectedLocation;
-const initialSelectionVersion = locationSelectionVersion;
-resolveLocationTimeZone(initialLocation).then(()=>{
-  if(selectedLocation !== initialLocation || locationSelectionVersion !== initialSelectionVersion) return;
+try{
+  resolveLocationTimeZone(selectedLocation);
   if(!requestedDate) dateInput.value = todayString();
   selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
   try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
   calculatePanchang();
-}).catch(error=>{
-  if(selectedLocation !== initialLocation || locationSelectionVersion !== initialSelectionVersion) return;
-  result.innerHTML = '<div class="error">स्थान का IANA समय क्षेत्र प्राप्त नहीं हो सका। इंटरनेट कनेक्शन जाँचकर पृष्ठ पुनः खोलें।</div>';
+}catch(error){
+  result.innerHTML = '<div class="error">चुने गए स्थान का समय क्षेत्र निर्धारित नहीं हो सका। कृपया स्थान की जानकारी जाँचें।</div>';
   console.warn("Initial location timezone lookup failed:", error);
-});
+}
