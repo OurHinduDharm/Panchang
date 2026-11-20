@@ -37,5 +37,5 @@ test("monthly widget opens a directly requested year and month", () => {
   assert.match(widget, /var requestedYear=Number\(pageParams\.get\("year"\)\)/);
   assert.match(widget, /var requestedMonth=Number\(pageParams\.get\("month"\)\)/);
   assert.match(widget, /validRequestedMonth/);
-  assert.match(widget, /initialDate=new Date\(requestedYear,requestedMonth-1,1,12,0,0\)/);
+  assert.match(widget, /initialDate=new Date\(Date\.UTC\(requestedYear,requestedMonth-1,1,12,0,0\)\)/);
 });

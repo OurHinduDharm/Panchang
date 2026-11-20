@@ -40,20 +40,13 @@ test("monthly Durga Ashtami and Skanda Shashthi copy avoids awkward sunrise word
   }
 });
 
-test("city selection obtains terrain elevation without blocking the initial festival list", async () => {
+test("Blogger monthly widget resolves location timezone locally without a non-commercial elevation API", async () => {
   const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
-  const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
   const engine = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
   assert.doesNotMatch(engine, /पंचांग पृष्ठ में जाकर देखें|परंपराएँ क्षेत्रानुसार भिन्न/);
-  for (const source of [widget, html]) {
-    assert.match(source, /api\.open-meteo\.com\/v1\/elevation/);
-    assert.match(source, /selected\.elevation=await getTerrainElevation\(selected\.lat,selected\.lon\)/);
-    assert.match(source, /var fetchedElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);
-    assert.ok(source.indexOf("// The festival list must not wait for the external elevation service.") < source.indexOf("var fetchedElevation=await getTerrainElevation(29.5828,80.2182)"), "Initial month load must start before default elevation fetch");
-    assert.match(source, /dateIso\+"T(?:12:00:00\+05:30|06:30:00\.000Z)"/);
-    assert.match(source, /function getIndiaCalendarDate\(\)/);
-    assert.doesNotMatch(source, /lat:Number\(place\.lat\),lon:Number\(place\.lon\),elevation:0/);
-    assert.match(source, /startDateKey!==dateIso\|\|endDateKey!==dateIso/);
-    assert.match(source, /dateFormatter\.format\(windowItem\.start\)/);
-  }
+  assert.doesNotMatch(widget, /api\.open-meteo\.com\/v1\/elevation|countrycodes=in/);
+  assert.match(widget, /tzLookup\(selected\.lat,selected\.lon\)/);
+  assert.match(widget, /elevationStatus:"unknown"/);
+  assert.match(widget, /timeZone:selectedLocationInSession\.timeZone/);
+  assert.match(widget, /loadMonth\(\);\s*\}\)\(\);/);
 });
