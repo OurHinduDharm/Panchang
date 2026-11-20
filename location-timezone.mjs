@@ -51,14 +51,14 @@ export function getIsoDateInTimeZone(value, timeZone) {
 }
 
 export function addIsoCalendarDays(value, amount) {
-  const match = String(value ?? "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match || !Number.isInteger(amount)) throw new TypeError("A valid ISO date and integer day offset are required");
   const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]) + amount));
   return date.toISOString().slice(0, 10);
 }
 
 export function zonedDateTimeToUtc(isoDate, hour, minute, timeZone) {
-  const match = String(isoDate ?? "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  const match = String(isoDate ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match || !Number.isInteger(hour) || hour < 0 || hour > 23 ||
       !Number.isInteger(minute) || minute < 0 || minute > 59) {
     throw new TypeError("A valid ISO date and local clock time are required");
@@ -78,7 +78,7 @@ export function zonedDateTimeToUtc(isoDate, hour, minute, timeZone) {
 }
 
 export function getWeekdayForIsoDate(isoDate) {
-  const match = String(isoDate ?? "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  const match = String(isoDate ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) throw new TypeError("A valid ISO date is required");
   return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12)).getUTCDay();
 }
