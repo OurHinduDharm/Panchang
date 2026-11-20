@@ -1,4 +1,5 @@
 import { restoreSavedElevationStatus } from "./panchang-location-elevation.mjs";
+import { resolveCityObserver } from "./panchang-city-observer.mjs";
 import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
@@ -3036,7 +3037,7 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
-function selectCity(place){
+async function selectCity(place){
   const addr = place.address || {};
 
   const state = (
@@ -3066,7 +3067,9 @@ function selectCity(place){
     city: city
   };
 
-  ++gpsRequest;
+  const version = ++gpsRequest;
+  selectedLocation = await resolveCityObserver(selectedLocation);
+  if (version !== gpsRequest) return;
   clearEventLocation();
 
   cityInput.value =
@@ -6838,7 +6841,8 @@ window.useMyLocation = function(){
       }
 
       if (version !== gpsRequest) return;
-      selectedLocation = gpsLocation;
+      selectedLocation = await resolveCityObserver(gpsLocation);
+      if (version !== gpsRequest) return;
       clearEventLocation();
       selectedCity.style.display = "block";
 
