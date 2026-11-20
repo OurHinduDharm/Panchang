@@ -19,7 +19,7 @@ test("2030 January to July and December cards use event-specific descriptions", 
     assert.equal(generic.length, 0, `2030 month ${month} still has generic descriptions`);
   }
 
-  assert.match(find(months[1].events, /सकट चौथ/).description, /तिल-गुड़/);
+  assert.match(find(months[1].events, /संकट चौथ/).description, /तिल-गुड़/);
   assert.match(find(months[2].events, /वसंत पंचमी/).articleUrl || "", /AboutGoddessSaraswatiOnVasantPanchami/);
   assert.match(find(months[2].events, /भीष्म अष्टमी/).articleUrl || "", /AboutBheeshma-Tarpan/);
   assert.match(find(months[3].events, /होली \/ धुलेंडी/).description, /रंग और गुलाल/);
