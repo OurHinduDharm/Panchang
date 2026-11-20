@@ -12,6 +12,9 @@ on:
       - 'tests/panchang-location-elevation.test.mjs'
       - 'tests/annual-tara-place-search.test.mjs'
       - 'tests/panchang-event-links.test.mjs'
+      - 'tests/annual-tara-city-browser.mjs'
+      - 'annual-tara-city-page.mjs'
+      - 'planetary-asta-udaya.html'
       - '.github/workflows/city-observer-regression.yml'
   workflow_dispatch:
 permissions:
@@ -32,3 +35,9 @@ jobs:
       - name: Location and elevation regression
         run: |
           node --test tests/panchang-city-observer.test.mjs tests/panchang-location-elevation.test.mjs tests/annual-tara-place-search.test.mjs tests/panchang-event-links.test.mjs tests/annual-tara-pithoragarh-identity.test.mjs tests/planetary-asta-udaya-location-scope.test.mjs
+      - name: Install pinned browser test dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2 astronomy-engine@2.1.19
+          npx playwright install --with-deps chromium
+      - name: Annual Tara mobile and desktop browser integration
+        run: node tests/annual-tara-city-browser.mjs
