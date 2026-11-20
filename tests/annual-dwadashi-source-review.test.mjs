@@ -894,3 +894,34 @@ test("2030 Pausha Krishna keeps the named Matsya observance distinct from Narada
   assert.equal(rupa.selectedDate, "2030-12-22");
   assert.equal(record.status, "needs-review");
 });
+
+
+test("2030 Varaha Dwadashi follows the Varaha Purana Ekadashi-to-dawn sequence without moving the parent tithi", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "magha-shukla");
+  const vrata = record.observanceDateReviews.find(x => x.observanceId === "varaha");
+  assert.equal(record.selectedDate, "2030-02-15");
+  assert.equal(record.status, "needs-review");
+  assert.equal(vrata.selectedDate, "2030-02-14");
+  assert.equal(vrata.followingMorningDate, "2030-02-15");
+  assert.equal(vrata.dateRole, "ekadashi-day-preparation-and-following-dawn-donation");
+  assert.equal(vrata.reviewStatus, "approved");
+  assert.equal(vrata.autoApproved, false);
+  assert.match(vrata.reviewBasis, /41\.2/);
+  assert.match(vrata.reviewBasis, /41\.11/);
+  assert.match(vrata.reviewBasis, /41\.12–13/);
+  assert.match(vrata.localDayDecision, /14 फरवरी के स्थानीय सूर्योदय-दिन पर एकादशी/);
+  assert.match(vrata.localDayDecision, /15 फरवरी सूर्योदय 06:49:06 IST/);
+
+  const february = JSON.parse(await readFile(resolve(root, "data/festivals/2030-02.json"), "utf8"));
+  const card = february.events.find(x => x.title === "वराह-द्वादशी व्रत");
+  assert.equal(card.date, "2030-02-14");
+  assert.match(card.description, /एकादशी-दिन संकल्प/);
+  assert.match(card.description, /15 फरवरी सूर्योदय/);
+  assert.equal(card.sourceName, "वराह पुराण, अध्याय 41, श्लोक 1–13");
+  assert.equal(card.sourceUrl, undefined);
+});
