@@ -19,6 +19,9 @@ on:
     branches:
       - "fix/location-aware-timezones"
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
