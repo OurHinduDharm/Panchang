@@ -83,29 +83,29 @@ export function findTithiInterval(days, descriptor, dateIso) {
   return merged.find(item => item.end.getTime() > dayStart && item.start.getTime() < dayEnd) || null;
 }
 
-function formatClock(value) {
+function formatClock(value, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata", hour: "numeric", minute: "2-digit", hour12: true
+    timeZone, hour: "numeric", minute: "2-digit", hour12: true
   }).format(date) + " बजे";
 }
 
-function formatDate(value) {
+function formatDate(value, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata", day: "numeric", month: "short"
+    timeZone, day: "numeric", month: "short"
   }).format(date);
 }
 
-export function formatTithiPoint(value, eventDate) {
+export function formatTithiPoint(value, eventDate, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+    timeZone, year: "numeric", month: "2-digit", day: "2-digit"
   }).formatToParts(date);
   const key = type => (parts.find(part => part.type === type) || {}).value || "";
   const dateKey = key("year") + "-" + key("month") + "-" + key("day");
-  return (dateKey === eventDate ? "" : formatDate(date) + " · ") + formatClock(date);
+  return (dateKey === eventDate ? "" : formatDate(date,timeZone) + " · ") + formatClock(date,timeZone);
 }
