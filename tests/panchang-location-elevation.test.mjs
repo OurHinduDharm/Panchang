@@ -59,6 +59,11 @@ test("daily Panchang blocks unknown observer heights before astronomical calcula
   assert.ok(source.includes("const resolvedGpsLocation = await resolveCityObserver(gpsLocation)"));
   assert.ok(source.includes("if (version !== gpsRequest) return;\n      selectedLocation = resolvedGpsLocation;"));
   assert.ok(source.includes("const resolvedLocation = await resolveCityObserver({"));
+  const selectStart = source.indexOf("async function selectCity(place)");
+  const selectEnd = source.indexOf("/* =========================================================\n   DEFAULT PITHORAGARH", selectStart);
+  const selectCity = source.slice(selectStart, selectEnd);
+  assert.ok(selectCity.indexOf("selectedLocation = pendingLocation") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
+  assert.ok(selectCity.indexOf("clearEventLocation()") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
   assert.ok(source.includes("elevation: 0,\n        elevationStatus: \"unknown\","));
   assert.ok(!source.includes("elevation: position.coords.altitude ?? 0"));
 });
