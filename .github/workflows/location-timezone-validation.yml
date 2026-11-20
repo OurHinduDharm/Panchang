@@ -6,6 +6,7 @@ on:
       - "app.js"
       - "extra-panchang.js"
       - "monthly-vrat-parv-widget.js"
+      - "eclipse-panchang.js"
       - "festival-muhurta.js"
       - "tithi-vyapti.js"
       - "location-timezone.mjs"
@@ -31,6 +32,7 @@ jobs:
           node --check extra-panchang.js
           node --check location-timezone.mjs
           node --check monthly-vrat-parv-widget.js
+          node --check eclipse-panchang.js
           node --check festival-muhurta.js
           node --check tithi-vyapti.js
       - name: Run timezone tests
