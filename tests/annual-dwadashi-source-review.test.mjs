@@ -764,3 +764,28 @@ test("annual Dwadashi workflow keeps PR validation read-only and scopes writes t
   assert.match(publisherJob, /permissions:\s+contents:\s+write/);
   assert.doesNotMatch(publisherJob, /pull-requests:\s+write/);
 });
+
+
+test("2030 Pausha Krishna keeps Drik Matsya Dwadashi distinct from Narada Purana Rupa vrata", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "pausha-krishna-occurrence-2");
+  const analysis = record.drikDecisionAnalysis;
+  assert.ok(analysis, "Drik date logic must be documented");
+  assert.equal(analysis.drikNewDelhi.observanceDate, "2030-12-21");
+  assert.equal(analysis.drikNewDelhi.paranaDate, "2030-12-22");
+  assert.equal(analysis.drikNewDelhi.dwadashiEnd, "2030-12-22T09:41:00+05:30");
+  assert.match(analysis.drikNewDelhi.sourceTextConflict, /contradict/);
+  assert.equal(analysis.pithoragarh.followingSunrise, "2030-12-22T07:00:33.432+05:30");
+  assert.equal(analysis.pithoragarh.dwadashiEnd, "2030-12-22T09:41:50.353+05:30");
+  assert.equal(analysis.distinctObservance.drikVrataDate, "2030-12-21");
+  assert.equal(analysis.distinctObservance.naradaMorningWorshipDate, "2030-12-22");
+  assert.match(analysis.distinctObservance.disposition, /अलग named observances/);
+  assert.equal(analysis.autoApproved, false);
+  const rupa = record.observanceDateReviews.find(x => x.observanceId === "rupa");
+  assert.equal(rupa.reviewStatus, "approved", "the independently approved Rupa observance decision must remain intact");
+  assert.equal(rupa.selectedDate, "2030-12-22");
+  assert.equal(record.status, "needs-review", "the parent tithi record must remain pending");
+});
