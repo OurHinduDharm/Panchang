@@ -77,10 +77,11 @@ export function zonedDateTimeToUtc(isoDate, hour, minute, timeZone) {
   return candidate;
 }
 
+// Legacy name retained for compatibility. Resolve the offset at the supplied
+// calculation instant (for example, local noon), not automatically at midnight.
+// The offset can change during a DST transition day.
 export function getTimeZoneOffsetForLocalDay(value, timeZone) {
-  const localDate = getIsoDateInTimeZone(value, timeZone);
-  const localMidnight = zonedDateTimeToUtc(localDate, 0, 0, timeZone);
-  return getTimeZoneOffsetMinutes(localMidnight, timeZone);
+  return getTimeZoneOffsetMinutes(value, timeZone);
 }
 
 export function getWeekdayForIsoDate(isoDate) {

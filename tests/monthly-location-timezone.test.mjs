@@ -39,12 +39,12 @@ test("Bhai Dooj date decision accepts the selected timezone",()=>{
 });
 test("DST offsets are resolved for the selected local civil day",()=>{
  const london=zonedDateTimeToUtc("2026-03-29",12,0,"Europe/London");
- assert.equal(getTimeZoneOffsetForLocalDay(london,"Europe/London"),0);
+ assert.equal(getTimeZoneOffsetForLocalDay(london,"Europe/London"),60);
  const londonAutumn=zonedDateTimeToUtc("2026-10-25",12,0,"Europe/London");
- assert.equal(getTimeZoneOffsetForLocalDay(londonAutumn,"Europe/London"),60);
+ assert.equal(getTimeZoneOffsetForLocalDay(londonAutumn,"Europe/London"),0);
  assert.equal(getIsoDateInTimeZone(london,"Europe/London"),"2026-03-29");
  const ny=zonedDateTimeToUtc("2026-03-08",12,0,"America/New_York");
- assert.equal(getTimeZoneOffsetForLocalDay(ny,"America/New_York"),-300);
+ assert.equal(getTimeZoneOffsetForLocalDay(ny,"America/New_York"),-240);
 });
 
 test("tithi intervals are filtered against the selected city's civil day",()=>{
