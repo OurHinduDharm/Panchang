@@ -5,7 +5,8 @@ import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
-import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";\nimport tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 
 import {
   Observer,
@@ -291,7 +292,7 @@ function getLocation() {
     const timeZone = tzLookup(lat, lon);
     if (!isValidTimeZone(timeZone)) return null;
     const cleanText = value => String(value == null ? "" : value)
-      .replace(/[\\u0000-\\u001F\\u007F]/g, " ").trim().slice(0, 240);
+      .replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, 240);
 
     return {
       latitude: lat,
