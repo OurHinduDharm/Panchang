@@ -825,6 +825,10 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
   const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
   assert.match(damodara.sourceTextNote, /47\.1/);
+  const bhadrapadaDamodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "damodara");
+  assert.equal(bhadrapadaDamodara.sourceProfile, "naradaPurana");
+  assert.equal(bhadrapadaDamodara.source, "नारद पुराण, पूर्वार्ध, अध्याय 121");
+  assert.equal(bhadrapadaDamodara.sourceTextNote, undefined);
   const kalki = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "kalki");
   assert.match(kalki.sourceTextNote, /48\.1/);
 
