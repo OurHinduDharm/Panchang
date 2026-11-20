@@ -242,3 +242,24 @@ test("all twelve 2029 solar ingress dates have one named Sankranti card", () => 
   assert.deepEqual(cards.map(event => event.date), ingressDays.map(day => "2029-" + day));
   assert.equal(has("2029-11-16", /^वृश्चिक संक्रांति$/).muhurtaRule, "sankranti-punya-kala");
 });
+
+
+test("2029 Pithoragarh Sharad Navratri combines Katyayani and Kalaratri on the Shashthi sunrise day when Saptami is kshaya", () => {
+  const skandaShashthi = has("2029-10-13", /^मासिक स्कन्द षष्ठी$/);
+  assert.ok(skandaShashthi);
+  assert.equal(skandaShashthi.hinduTithi, "आश्विन शुक्ल षष्ठी");
+  assert.equal(has("2029-10-12", /^मासिक स्कन्द षष्ठी$/), undefined);
+
+  const dayFive = has("2029-10-12", /^शारदीय नवरात्र पंचमी — माँ स्कन्दमाता$/);
+  assert.ok(dayFive);
+  assert.equal(dayFive.hinduTithi, "आश्विन शुक्ल पंचमी");
+  assert.doesNotMatch(dayFive.description, /कात्यायनी/);
+
+  const kshayaDay = has("2029-10-13", /^शारदीय नवरात्र षष्ठी \/ क्षय सप्तमी — माँ कात्यायनी एवं कालरात्रि$/);
+  assert.ok(kshayaDay);
+  assert.equal(kshayaDay.hinduTithi, "आश्विन शुक्ल षष्ठी (सप्तमी तिथि का क्षय)");
+  assert.match(kshayaDay.description, /माँ कात्यायनी/);
+  assert.match(kshayaDay.description, /माँ कालरात्रि/);
+  assert.equal(has("2029-10-13", /^शारदीय नवरात्र सप्तमी — माँ कालरात्रि$/), undefined);
+  assert.ok(has("2029-10-14", /^दुर्गाष्टमी \/ माँ महागौरी पूजन$/));
+});
