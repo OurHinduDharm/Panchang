@@ -1,3 +1,4 @@
+import {readFileSync} from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {resolveCityObserver} from "../panchang-city-observer.mjs";
@@ -101,4 +102,13 @@ test("GPS without altitude does not inherit city-center elevation", async () => 
   const resolved = await resolveCityObserver(gps);
   assert.equal(resolved.elevationStatus, "unknown");
   assert.equal(resolved.elevation, 0);
+});
+
+test("daily Panchang remembers only public city identifiers, never coordinates", () => {
+  const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
+  assert.match(source, /localStorage\.setItem\(cityPreferenceKey, "profile:" \+ location\.cityProfileKey\)/);
+  assert.match(source, /localStorage\.setItem\(cityPreferenceKey, "geonames:" \+ location\.cityId\)/);
+  assert.doesNotMatch(source, /localStorage\.setItem\(\s*"ohdPanchangLocation"/);
+  assert.match(source, /localStorage\.removeItem\("ohdPanchangLocation"\)/);
+  assert.match(source, /void restorePublicCity\(\)/);
 });
