@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'app.js'
+      - 'tests/review-page-html-syntax.test.mjs'
+      - 'tests/festival-article-link-label-quality.test.mjs'
       - 'panchang-city-observer.mjs'
       - 'panchang-location-elevation.mjs'
       - 'annual-tara-place-search.mjs'
@@ -35,6 +37,8 @@ jobs:
       - name: Location and elevation regression
         run: |
           node --test tests/panchang-city-observer.test.mjs tests/panchang-location-elevation.test.mjs tests/annual-tara-place-search.test.mjs tests/panchang-event-links.test.mjs tests/annual-tara-pithoragarh-identity.test.mjs tests/planetary-asta-udaya-location-scope.test.mjs
+      - name: Festival HTML and link label security regressions
+        run: node --test tests/review-page-html-syntax.test.mjs tests/festival-article-link-label-quality.test.mjs
       - name: Install pinned browser test dependencies
         run: |
           npm install --no-save --no-package-lock playwright@1.58.2 astronomy-engine@2.1.19
