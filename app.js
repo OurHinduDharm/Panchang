@@ -2959,6 +2959,7 @@ async function performCitySearch(){
   }
 
   citySearchAbortController = new AbortController();
+  const searchController = citySearchAbortController;
 
   suggestions.innerHTML =
     `<div class="loading">🔎 शहर खोजा जा रहा है...</div>`;
@@ -2974,7 +2975,7 @@ async function performCitySearch(){
         headers:{
           "Accept":"application/json"
         },
-        signal: citySearchAbortController.signal
+        signal: searchController.signal
       }
     );
 
@@ -2988,7 +2989,8 @@ async function performCitySearch(){
 
     const places = await response.json();
     // A slower previous search must not replace results for newer input.
-    if (citySearchAbortController.signal.aborted || cityInput.value.trim() !== q) return;
+    if (searchController.signal.aborted || citySearchAbortController !== searchController ||
+        cityInput.value.trim() !== q) return;
 
     if(!places.length){
       suggestions.innerHTML =
@@ -3014,7 +3016,8 @@ async function performCitySearch(){
     });
 
   }catch(error){
-    if(error.name === "AbortError"){
+    if(error.name === "AbortError" || searchController.signal.aborted ||
+        citySearchAbortController !== searchController || cityInput.value.trim() !== q){
       return;
     }
 
