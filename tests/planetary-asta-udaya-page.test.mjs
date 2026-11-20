@@ -123,7 +123,7 @@ test("city calculator renders Agastya Arghya in a friendly card", () => {
   assert.ok(source.includes("अवधि — "));
   assert.ok(source.includes("अगस्त्य तारा उदय — "));
   assert.ok(source.includes("अगस्त्य तारा अस्त — "));
-  assert.ok(source.includes('presetId === "pithoragarh-project-target"'));
+  assert.ok(source.includes('isProjectPithoragarh(location)'));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
@@ -146,8 +146,8 @@ test("all seven Agastya years require captured source provenance before public d
   }
 
   const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.match(renderer, /years\?\.find\(item => item\.year === selectedYear &&\s*item\.source\?\.status === "source-page-identity-and-arghya-fields-captured"\)/);
-  assert.ok(renderer.includes('if (body === "Star1" && agastya)'));
+  assert.ok(renderer.includes('item.source?.status === "source-page-identity-and-arghya-fields-captured"'));
+  assert.ok(renderer.includes('isProjectPithoragarh(location)'));
 });
 
 
@@ -282,4 +282,14 @@ test("classical Ujjain Surya Siddhanta references remain a separate research-onl
   );
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(!page.includes("classical-siddhanta-ujjain-guru-shukra-2028-2030.json"));
+});
+
+
+test("unknown city elevation blocks unsupported calculation without fabricating sea level", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.ok(source.includes("link.href = buildPanchangEventUrl(dailyPage, date, location)"));
+  assert.ok(source.includes("link.replaceWith(note)"));
+  assert.match(source, /ऊँचाई सत्यापित नहीं है/);
+  assert.ok(source.includes("if (!Number.isFinite(location.elevation))"));
+  assert.match(source, /उदय-अस्त गणना नहीं की जा सकती/);
 });
