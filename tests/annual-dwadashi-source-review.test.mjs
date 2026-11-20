@@ -764,3 +764,27 @@ test("annual Dwadashi workflow keeps PR validation read-only and scopes writes t
   assert.match(publisherJob, /permissions:\s+contents:\s+write/);
   assert.doesNotMatch(publisherJob, /pull-requests:\s+write/);
 });
+
+
+test("2030 Bhadrapada Shukla Drik Shravana-Dwadashi rationale preserves the 8 September vrata day without auto-approval", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "bhadrapada-shukla");
+  const analysis = record.drikDecisionAnalysis;
+  assert.ok(analysis, "Drik decision analysis must be documented");
+  assert.equal(analysis.drikNewDelhi.observanceDate, "2030-09-08");
+  assert.match(analysis.drikRule.shravanaYoga, /कम-से-कम एक मुहूर्त/);
+  assert.match(analysis.drikRule.combinedFast, /अगले दिन पारण/);
+  assert.equal(analysis.pithoragarh.dwadashiStart, "2030-09-08T08:21:59.472+05:30");
+  assert.equal(analysis.pithoragarh.shravanaStart, "2030-09-08T19:59:00.797+05:30");
+  assert.equal(analysis.pithoragarh.dwadashiEnd, "2030-09-09T06:32:49.720+05:30");
+  assert.equal(analysis.pithoragarh.dwadashiAtFollowingSunriseRemainingSeconds, 2513.958);
+  assert.equal(analysis.disposition.mainVrataDate, "2030-09-08");
+  assert.equal(analysis.disposition.followingMorningActionDate, "2030-09-09");
+  assert.equal(analysis.autoApproved, false);
+  assert.equal(record.selectedDate, null, "tithi-level selection must remain pending while observance-specific reviews are unresolved");
+  assert.equal(record.status, "needs-review");
+  assert.equal(review.status, "needs-review");
+});
