@@ -64,7 +64,8 @@ export async function findTaraPlace(id) {
 export function matchNearestPlace(index, query, lat, lon, maxDistanceKm = 3) {
   const term = searchKey(String(query || ""));
   if (term.length < 2 || term.length > 100 ||
-      !Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+      !Number.isFinite(lat) || !Number.isFinite(lon) ||
+      Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
   let nearest = null;
   let nearestDistance = maxDistanceKm;
   for (const row of index.cities) {
