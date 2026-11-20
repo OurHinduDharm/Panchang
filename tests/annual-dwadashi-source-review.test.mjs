@@ -294,10 +294,6 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(record.displayNames.includes("रूप-व्रत"), true);
   assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
   assert.equal(record.status, "needs-review", "the record remains pending because its separate Drik cross-reference is not yet resolved");
-  const rupa = record.observanceDateReviews.find(item => item.observanceId === "rupa");
-  assert.equal(rupa.reviewStatus, "approved");
-  assert.equal(rupa.autoApproved, false);
-  assert.match(rupa.reviewBasis, /नारद पुराण/);
 });
 
 test("Dwadashi extraction preserves all tithi and nakshatra intervals for local yoga checks", () => {
@@ -646,7 +642,11 @@ test("only the two Rupa observances are manually source-approved while their par
   assert.ok(records.every(record => record.dateSelection === "single-observation-candidate-review-required"));
   assert.equal(review.sourceReview.status, "pending-manual-cross-check");
   for (const record of records) {
+    assert.equal(record.status, "needs-review", "the parent record remains pending for its separate cross-reference");
     const rite = record.observanceDateReviews.find(item => item.observanceId === "rupa");
+    assert.equal(rite.reviewStatus, "approved");
+    assert.equal(rite.autoApproved, false);
+    assert.match(rite.reviewBasis, /नारद पुराण/);
     assert.equal(rite.reviewStatus, "approved");
     assert.equal(rite.autoApproved, false);
     assert.match(rite.source, /नारद पुराण/);
