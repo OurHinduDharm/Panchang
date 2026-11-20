@@ -112,3 +112,17 @@ test("daily Panchang remembers only public city identifiers, never coordinates",
   assert.match(source, /localStorage\.removeItem\("ohdPanchangLocation"\)/);
   assert.match(source, /void restorePublicCity\(\)/);
 });
+
+test("saved GeoNames identifier validation accepts numeric IDs and rejects coordinates", () => {
+  const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
+  const line = source.split("\n").find(line => line.includes('saved.startsWith("profile:")')) || "";
+  assert.match(line, /saved\.startsWith/);
+  const patternLine = source.split("\n").find(line => line.includes("saved.slice(9)") && line.includes("test(saved)"));
+  assert.ok(patternLine, "GeoNames preference validation must exist");
+  const match = patternLine.match(/(\/\^geonames:.*?\$\/)\.test\(saved\)/);
+  assert.ok(match, "GeoNames preference must be validated with a regex");
+  const pattern = new RegExp(match[1].slice(1, -1));
+  assert.equal(pattern.test("geonames:1259503"), true);
+  assert.equal(pattern.test("geonames:0"), false);
+  assert.equal(pattern.test("geonames:29.5828,80.2182"), false);
+});
