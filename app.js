@@ -3071,6 +3071,10 @@ async function selectCity(place){
   // while the newly selected city is being resolved.
   selectedLocation = pendingLocation;
   clearEventLocation();
+  // Persist the pending observer as unknown so a reload cannot revive the old city.
+  try {
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify(pendingLocation));
+  } catch(e) {}
   cityInput.value = place.name || place.display_name;
   selectedCity.style.display = "block";
   selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name;
