@@ -126,3 +126,9 @@ test("saved GeoNames identifier validation accepts numeric IDs and rejects coord
   assert.equal(pattern.test("geonames:0"), false);
   assert.equal(pattern.test("geonames:29.5828,80.2182"), false);
 });
+
+test("city search discards stale results and cancels pending searches on selection", () => {
+  const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
+  assert.match(source, /citySearchAbortController\.signal\.aborted \|\| cityInput\.value\.trim\(\) !== q/);
+  assert.match(source, /async function selectCity\(place\)\s*\{\s*\/\/[^\n]*\n\s*if \(citySearchAbortController\) citySearchAbortController\.abort\(\)/);
+});
