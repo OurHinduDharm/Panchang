@@ -766,17 +766,17 @@ test("annual Dwadashi workflow keeps PR validation read-only and scopes writes t
 });
 
 
-test("2030 Bhadrapada Shukla Drik Shravana-Dwadashi rationale preserves the 8 September vrata day without auto-approval", async () => {
+test("2030 Bhadrapada Shukla Shravana-Dwadashi date analysis preserves the 8 September vrata day without auto-approval", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
   const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
   const record = review.tithis.find(x => x.id === "bhadrapada-shukla");
-  const analysis = record.drikDecisionAnalysis;
-  assert.ok(analysis, "Drik decision analysis must be documented");
-  assert.equal(analysis.drikNewDelhi.observanceDate, "2030-09-08");
-  assert.match(analysis.drikRule.shravanaYoga, /कम-से-कम एक मुहूर्त/);
-  assert.match(analysis.drikRule.combinedFast, /अगले दिन पारण/);
+  const analysis = record.dateComparisonAnalysis;
+  assert.ok(analysis, "date-selection analysis must be documented");
+  assert.equal(analysis.referencePanchang.observanceDate, "2030-09-08");
+  assert.match(analysis.publishedRule.shravanaYoga, /कम-से-कम एक मुहूर्त/);
+  assert.match(analysis.publishedRule.combinedFast, /अगले दिन पारण/);
   assert.equal(analysis.pithoragarh.dwadashiStart, "2030-09-08T08:21:59.472+05:30");
   assert.equal(analysis.pithoragarh.shravanaStart, "2030-09-08T19:59:00.797+05:30");
   assert.equal(analysis.pithoragarh.dwadashiEnd, "2030-09-09T06:32:49.720+05:30");
@@ -787,4 +787,110 @@ test("2030 Bhadrapada Shukla Drik Shravana-Dwadashi rationale preserves the 8 Se
   assert.equal(record.selectedDate, null, "tithi-level selection must remain pending while observance-specific reviews are unresolved");
   assert.equal(record.status, "needs-review");
   assert.equal(review.status, "needs-review");
+});
+
+
+test("Varaha Purana monthly Dwadashi source references use the actual chapter sequence and keep chapter 39's ambiguity internal", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const rules = JSON.parse(await readFile(resolve(root, "data/dwadashi-vrata-rules.json"), "utf8"));
+  const expected = [
+    ["मार्गशीर्ष", "standard-margashirsha", 39],
+    ["पौष", "kurma", 40],
+    ["माघ", "varaha", 41],
+    ["फाल्गुन", "narasimha", 42],
+    ["चैत्र", "vamana", 43],
+    ["वैशाख", "parashurama", 44],
+    ["ज्येष्ठ", "rama", 45],
+    ["आषाढ़", "vasudeva", 46],
+    ["श्रावण", "damodara", 47],
+    ["भाद्रपद", "kalki", 48],
+    ["आश्विन", "padmanabha-varaha", 49],
+    ["कार्तिक", "sahasrashirsha", 50]
+  ];
+  for (const [month, id, chapter] of expected) {
+    const tithi = rules.unifiedTithiIndex.tithis.find(x => x.month === month && x.paksha === "शुक्ल");
+    const observance = tithi.observances.find(x => x.id === id);
+    assert.ok(observance, `missing ${id} for ${month}`);
+    assert.ok(observance.source.includes("अध्याय " + chapter), `wrong chapter for ${id}`);
+    assert.doesNotMatch(JSON.stringify(observance), /https?:\/\//i);
+  }
+  const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
+  const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
+  assert.match(dharani.sourceTextNote, /अध्याय-शीर्षक और पाठ-शरीर/);
+  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);
+  assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
+  assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
+  const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
+  assert.match(damodara.sourceTextNote, /47\.1/);
+  const bhadrapadaDamodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "damodara");
+  assert.equal(bhadrapadaDamodara.sourceProfile, "naradaPurana");
+  assert.equal(bhadrapadaDamodara.source, "नारद पुराण, पूर्वार्ध, अध्याय 121");
+  assert.equal(bhadrapadaDamodara.sourceTextNote, undefined);
+  const kalki = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "kalki");
+  assert.match(kalki.sourceTextNote, /48\.1/);
+  const may2030 = JSON.parse(await readFile(resolve(root, "data/festivals/2030-05.json"), "utf8"));
+  for (const title of ["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"]) {
+    const card = may2030.events.find(x => x.title === title);
+    assert.ok(card, `missing public card ${title}`);
+    assert.equal(JSON.stringify(card).includes("http"), false);
+  }
+
+  for (const year of [2026, 2027, 2028, 2029, 2030]) {
+    const annual = JSON.parse(await readFile(resolve(root, `data/references/ohd-dwadashi-${year}-review.json`), "utf8"));
+    const t = annual.tithis.find(x => x.id === "margashirsha-shukla");
+    assert.ok(t.observances.find(x => x.id === "standard-margashirsha").sourceTextNote, `chapter 39 note missing in ${year}`);
+    assert.equal(t.observances.some(x => x.id === "matsya"), false);
+    const bhadrapada = annual.tithis.find(x => x.id === "bhadrapada-shukla");
+    const naradaDamodara = bhadrapada.observances.find(x => x.id === "damodara");
+    assert.equal(naradaDamodara.sourceProfile, "naradaPurana");
+    assert.equal(naradaDamodara.source, "नारद पुराण, पूर्वार्ध, अध्याय 121");
+    for (const record of annual.tithis) {
+      for (const observance of record.observances || []) {
+        if (observance.sourceProfile === "varahaPurana") assert.equal(JSON.stringify(observance).includes("http"), false);
+      }
+    }
+  }
+});
+
+test("2030 Shravana Damodara Dwadashi matches the local sunrise observation and Sanskrit text", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "shravana-shukla");
+  const analysis = record.dateComparisonAnalysis;
+  assert.equal(analysis.referencePanchang.observanceDate, "2030-08-10");
+  assert.equal(analysis.referencePanchang.dwadashiStart, "2030-08-10T01:59:00+05:30");
+  assert.equal(analysis.referencePanchang.dwadashiEnd, "2030-08-10T23:23:00+05:30");
+  assert.equal(analysis.pithoragarh.sunriseTithi, "द्वादशी");
+  assert.equal(analysis.pithoragarh.dateMatch, true);
+  assert.match(analysis.sourceReading.primary, /द्वादशी/);
+  assert.match(analysis.sourceReading.translationCaution, /मेल नहीं खाता/);
+  assert.equal(analysis.autoApproved, false);
+  assert.equal(record.selectedDate, "2030-08-10");
+  assert.equal(record.status, "needs-review");
+});
+
+test("2030 Pausha Krishna keeps the named Matsya observance distinct from Narada Purana Rupa vrata", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "pausha-krishna-occurrence-2");
+  const analysis = record.dateComparisonAnalysis;
+  assert.equal(analysis.referencePanchang.observanceDate, "2030-12-21");
+  assert.equal(analysis.referencePanchang.paranaDate, "2030-12-22");
+  assert.match(analysis.referencePanchang.sourceTextConflict, /परस्पर विरोधी/);
+  assert.equal(analysis.pithoragarh.followingSunrise, "2030-12-22T07:00:33.432+05:30");
+  assert.equal(analysis.pithoragarh.dwadashiEnd, "2030-12-22T09:41:50.353+05:30");
+  assert.equal(analysis.distinctObservance.referenceVrataDate, "2030-12-21");
+  assert.equal(analysis.distinctObservance.naradaMorningWorshipDate, "2030-12-22");
+  assert.equal(analysis.autoApproved, false);
+  const rupa = record.observanceDateReviews.find(x => x.observanceId === "rupa");
+  assert.equal(rupa.reviewStatus, "approved");
+  assert.equal(rupa.selectedDate, "2030-12-22");
+  assert.equal(record.status, "needs-review");
 });
