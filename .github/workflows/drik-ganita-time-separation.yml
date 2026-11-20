@@ -28,7 +28,7 @@ jobs:
       # Validate discrete first-qualifying target horizon event and fixed-star residuals.
       - name: Run unit tests
         run: |
-          node --test tests/drik-ganita-time-separation.test.mjs tests/annual-tara-prediction.test.mjs scripts/tara-*.test.mjs
+          node --test tests/drik-ganita-time-separation.test.mjs tests/annual-tara-prediction.test.mjs tests/tara-*.test.mjs
       - name: Check city and year selection in mobile-sized Chromium
         run: |
           npx playwright install --with-deps chromium
