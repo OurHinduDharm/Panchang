@@ -3081,6 +3081,7 @@ function selectCity(place){
     elevation: 0,
     state: state,
     city: city,
+    country: String(addr.country || "").trim(),
     countryCode: String(addr.country_code || "").toLowerCase()
   };
 
@@ -3113,37 +3114,52 @@ const defaultPithoragarh = {
   elevation:1650,
   state:"उत्तराखंड",
   city:"पिथौरागढ़",
+  country:"भारत",
   countryCode:"in",
   timeZone:"Asia/Kolkata"
 };
 
 try{
-  const saved = localStorage.getItem(
-    "ohdPanchangLocation"
-  );
+  // Shared monthly-calendar links carry the selected city and date together.
+  const params = new URLSearchParams(window.location.search);
+  const sharedLat = Number(params.get("locLat"));
+  const sharedLon = Number(params.get("locLon"));
+  const sharedTimeZone = params.get("locTz") || "";
+  let sharedLocation = null;
+  if(Number.isFinite(sharedLat) && sharedLat >= -90 && sharedLat <= 90 &&
+     Number.isFinite(sharedLon) && sharedLon >= -180 && sharedLon <= 180 &&
+     isValidTimeZone(sharedTimeZone)){
+    sharedLocation = {
+      name: params.get("locName") || params.get("locCity") || "चुना हुआ स्थान",
+      lat: sharedLat,
+      lon: sharedLon,
+      elevation: Number(params.get("locElevation") || 0),
+      state: params.get("locState") || "",
+      city: params.get("locCity") || "",
+      country: params.get("locCountry") || "",
+      countryCode: (params.get("locCountryCode") || "").toLowerCase(),
+      timeZone: sharedTimeZone
+    };
+    if(!Number.isFinite(sharedLocation.elevation) || sharedLocation.elevation < -500 || sharedLocation.elevation > 9000) sharedLocation.elevation = 0;
+    resolveLocationTimeZone(sharedLocation);
+  }
 
-  if(saved){
+  const saved = localStorage.getItem("ohdPanchangLocation");
+
+  if(sharedLocation){
+    selectedLocation = sharedLocation;
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
+    selectedCity.style.display = "block";
+    selectedCity.textContent = "📍 साझा किए गए स्थान से: " + selectedLocation.name + " · " + selectedLocation.timeZone;
+  }else if(saved){
     selectedLocation = JSON.parse(saved);
-
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "💾 पिछला चुना गया स्थान: " +
-      selectedLocation.name;
+    selectedCity.textContent = "💾 पिछला चुना गया स्थान: " + selectedLocation.name;
   }else{
-    selectedLocation =
-      defaultPithoragarh;
-
+    selectedLocation = defaultPithoragarh;
     selectedCity.style.display = "block";
-
-    selectedCity.textContent =
-      "📍 डिफ़ॉल्ट स्थान: " +
-      selectedLocation.name;
-
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
+    selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
+    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
   }
 }catch(e){
   selectedLocation =
@@ -3468,19 +3484,40 @@ function formatSankalpLocation(loc){
   if(!loc) return "";
 
   const { state, city } = extractStateCity(loc);
+  const countryCode = String(loc.countryCode || "").toLowerCase();
+  const isIndia = countryCode === "in" ||
+    /^(india|भारत)$/i.test(String(loc.country || "").trim());
 
-  if(state && city && state === city)
-  return city + "-नगरे";
+  if(isIndia){
+    if(state && city && state === city) return city + "-नगरे";
+    if(state && city) return state + "-राज्यान्तर्गते " + city + "-नगरे";
+    if(state) return state + "-राज्ये";
+    if(city) return city + "-नगरे";
+    return "";
+  }
 
-if(state && city)
-  return state + "-राज्यान्तर्गते " + city + "-नगरे";
-
-if(state)
-  return state + "-राज्ये";
-
-if(city)
-  return city + "-नगरे";
+  if(state && city && state.toLowerCase() === city.toLowerCase()) return city + "-नगरे";
+  if(state && city) return state + "-प्रदेशे " + city + "-नगरे";
+  if(state) return state + "-प्रदेशे";
+  if(city) return city + "-नगरे";
   return "";
+}
+
+function getSankalpGeographyPrefix(loc){
+  if(!loc) return "";
+  const countryCode = String(loc.countryCode || "").toLowerCase();
+  const countryRaw = String(loc.country || "").trim();
+  const isIndia = countryCode === "in" || /^(india|भारत)$/i.test(countryRaw);
+  if(isIndia) return "जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तान्तर्गत पुण्यभूप्रदेशे";
+
+  let countryName = countryRaw;
+  if(!countryName && countryCode){
+    try{
+      countryName = new Intl.DisplayNames(["hi"], {type:"region"}).of(countryCode.toUpperCase()) || "";
+    }catch(_){}
+  }
+  if(!countryName) return "जम्बूद्वीपे";
+  return "जम्बूद्वीपे " + countryName + "-देशे";
 }
 
 /* =========================================================
@@ -4016,8 +4053,10 @@ const praharForm = kaalPrahar.praharName
   );
 
   parts.push(
-    "अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तान्तर्गत पुण्यभूप्रदेशे"
+    "अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे"
   );
+  const geographyPrefix = getSankalpGeographyPrefix(ctx.location);
+  if(geographyPrefix) parts.push(geographyPrefix);
 
   if(locationForm) parts.push(locationForm);
   if(samvatForm) parts.push(samvatForm);
