@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import tzLookup from "../vendor/tz-lookup-11.8.0.mjs";
 import {getIsoDateInTimeZone,getTimeZoneOffsetForLocalDay,zonedDateTimeToUtc} from "../location-timezone.mjs";
+import {findTithiInterval} from "../tithi-vyapti.js";
 const widget=fs.readFileSync(new URL("../monthly-vrat-parv-widget.js",import.meta.url),"utf8");
 const muhurta=fs.readFileSync(new URL("../festival-muhurta.js",import.meta.url),"utf8");
 const tithi=fs.readFileSync(new URL("../tithi-vyapti.js",import.meta.url),"utf8");
@@ -40,4 +41,11 @@ test("DST offsets are resolved for the selected local civil day",()=>{
  assert.equal(getIsoDateInTimeZone(london,"Europe/London"),"2026-03-29");
  const ny=zonedDateTimeToUtc("2026-03-08",12,0,"America/New_York");
  assert.equal(getTimeZoneOffsetForLocalDay(ny,"America/New_York"),-300);
+});
+
+test("tithi intervals are filtered against the selected city's civil day",()=>{
+ const outsideLondon=[{tithis:[{index:2,startTime:"2026-03-28T23:30:00Z",endTime:"2026-03-28T23:55:00Z"}]}];
+ assert.equal(findTithiInterval(outsideLondon,{name:"द्वितीया",index:2},"2026-03-29","Europe/London"),null);
+ const outsideNewYork=[{tithis:[{index:3,startTime:"2026-03-08T04:00:00Z",endTime:"2026-03-08T04:30:00Z"}]}];
+ assert.equal(findTithiInterval(outsideNewYork,{name:"तृतीया",index:3},"2026-03-08","America/New_York"),null);
 });
