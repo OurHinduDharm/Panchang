@@ -34,6 +34,13 @@ try {
   page.on("pageerror", error => errors.push(error.message));
   const started = Date.now();
   await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html");
+  // Malformed deep links must not leave the city picker without a valid observer.
+  await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html?city=not-a-city&year=2027");
+  assert.equal(await page.locator("#city").inputValue(), "pithoragarh-project-target");
+  await page.locator("#city-events .planet").first().waitFor();
+  await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html?geoname=29.5828,80.2182&year=2027");
+  assert.equal(await page.locator("#city").inputValue(), "pithoragarh-project-target");
+  await page.locator("#city-events .planet").first().waitFor();
   await page.selectOption("#city", "delhi");
   await page.selectOption("#forecast-year", "2027");
   await page.waitForSelector("#city-events .planet");

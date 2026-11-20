@@ -132,8 +132,11 @@ test("Planetary Asta/Udaya card links to the three-body annual page without exte
   assert.ok(cardSource.includes("पुनः उदय"));
   assert.ok(cardSource.includes("गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त"));
   assert.deepEqual(Array.from(cardSource.matchAll(/href="([^"]+)"/g), match => match[1]), [
-    "https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html"
+    "${annualTaraPageUrl()}"
   ]);
+  assert.ok(source.includes("https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html"));
+  assert.ok(source.includes('url.searchParams.set("city", location.cityProfileKey)'));
+  assert.ok(source.includes('url.searchParams.set("geoname", String(location.cityId))'));
   assert.ok(!cardSource.includes("Drik"));
   assert.ok(!cardSource.includes("sourceUrl"));
   assert.ok(!cardSource.includes("सूर्य"));

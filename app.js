@@ -1,4 +1,7 @@
 import { restoreSavedElevationStatus } from "./panchang-location-elevation.mjs";
+import { resolveCityObserver } from "./panchang-city-observer.mjs";
+import { findTaraPlace } from "./annual-tara-place-search.mjs";
+import { locations as annualCityProfiles } from "./annual-tara-locations.mjs";
 import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
@@ -2956,6 +2959,7 @@ async function performCitySearch(){
   }
 
   citySearchAbortController = new AbortController();
+  const searchController = citySearchAbortController;
 
   suggestions.innerHTML =
     `<div class="loading">🔎 शहर खोजा जा रहा है...</div>`;
@@ -2971,7 +2975,7 @@ async function performCitySearch(){
         headers:{
           "Accept":"application/json"
         },
-        signal: citySearchAbortController.signal
+        signal: searchController.signal
       }
     );
 
@@ -2984,6 +2988,9 @@ async function performCitySearch(){
     }
 
     const places = await response.json();
+    // A slower previous search must not replace results for newer input.
+    if (searchController.signal.aborted || citySearchAbortController !== searchController ||
+        cityInput.value.trim() !== q) return;
 
     if(!places.length){
       suggestions.innerHTML =
@@ -3009,7 +3016,8 @@ async function performCitySearch(){
     });
 
   }catch(error){
-    if(error.name === "AbortError"){
+    if(error.name === "AbortError" || searchController.signal.aborted ||
+        citySearchAbortController !== searchController || cityInput.value.trim() !== q){
       return;
     }
 
@@ -3036,7 +3044,9 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
-function selectCity(place){
+async function selectCity(place){
+  // Invalidate an outstanding search before committing this selection.
+  if (citySearchAbortController) citySearchAbortController.abort();
   const addr = place.address || {};
 
   const state = (
@@ -3056,7 +3066,8 @@ function selectCity(place){
     ""
   ).trim();
 
-  selectedLocation = {
+  const version = ++gpsRequest;
+  const resolvedLocation = await resolveCityObserver({
     name: place.display_name,
     lat: Number(place.lat),
     lon: Number(place.lon),
@@ -3064,9 +3075,9 @@ function selectCity(place){
     elevationStatus: "unknown",
     state: state,
     city: city
-  };
-
-  ++gpsRequest;
+  });
+  if (version !== gpsRequest) return;
+  selectedLocation = resolvedLocation;
   clearEventLocation();
 
   cityInput.value =
@@ -3079,12 +3090,7 @@ function selectCity(place){
     place.display_name;
   suggestions.innerHTML = "";
 
-  try{
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
-  }catch(e){}
+  rememberPublicCity(selectedLocation);
 
   calculatePanchang();
 }
@@ -3109,15 +3115,57 @@ function clearEventLocation() {
   }
 }
 
-function savedPanchangLocation() {
+// Persist only an identifier from our PUBLIC city catalogue, never coordinates.
+// Device GPS and unmatched free-form locations are never saved.
+const cityPreferenceKey = "ohdPanchangCityId";
+try { localStorage.removeItem("ohdPanchangLocation"); } catch {}
+function rememberPublicCity(location) {
   try {
-    const saved = JSON.parse(localStorage.getItem("ohdPanchangLocation"));
-    if (!saved || saved.lat == null || saved.lon == null) return null;
-    const params = new URLSearchParams({lat: saved.lat, lon: saved.lon, place: saved.name || "",
-      elevation: saved.elevation ?? 0, city: saved.city || "", state: saved.state || ""});
-    const location = readPanchangLinkLocation(params);
-    return restoreSavedElevationStatus(location, saved);
-  } catch { return null; }
+    if (location.observerSource === "gps") {
+      localStorage.removeItem(cityPreferenceKey);
+    } else if (location.cityProfileKey && Object.hasOwn(annualCityProfiles, location.cityProfileKey)) {
+      localStorage.setItem(cityPreferenceKey, "profile:" + location.cityProfileKey);
+    } else if (Number.isSafeInteger(location.cityId) && location.cityId > 0) {
+      localStorage.setItem(cityPreferenceKey, "geonames:" + location.cityId);
+    } else {
+      localStorage.removeItem(cityPreferenceKey);
+    }
+  } catch {}
+}
+async function restorePublicCity() {
+  let saved;
+  try { saved = localStorage.getItem(cityPreferenceKey); } catch { return; }
+  if (!saved || hasPanchangLinkLocation(locationParams)) return;
+  const version = gpsRequest;
+  let place = null;
+  if (saved.startsWith("profile:")) {
+    const key = saved.slice(8);
+    if (Object.hasOwn(annualCityProfiles, key)) {
+      const p = annualCityProfiles[key];
+      place = {name: p.name || p.city || key, city: p.city || p.name || key,
+        lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+        elevationStatus: "provided", cityProfileKey: key};
+    }
+  } else if (/^geonames:[1-9]\d*$/.test(saved)) {
+    try {
+      const p = await findTaraPlace(saved.slice(9));
+      if (p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude)) {
+        place = {name: p.name, city: p.city, state: p.admin1,
+          lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+          elevationStatus: p.elevationStatus, elevationSource: p.elevationSource,
+          cityId: p.id};
+      }
+    } catch {}
+  }
+  if (version !== gpsRequest || hasPanchangLinkLocation(locationParams)) return;
+  if (!place) {
+    try { localStorage.removeItem(cityPreferenceKey); } catch {}
+    return;
+  }
+  selectedLocation = place;
+  selectedCity.textContent = "💾 पिछला चुना गया शहर: " + place.name;
+  selectedCity.style.display = "block";
+  calculatePanchang();
 }
 
 // A link is scoped to this tab. Extra Panchang and festivals must use the same
@@ -3127,9 +3175,8 @@ if (hasPanchangLinkLocation(locationParams)) {
   selectedCity.textContent = selectedLocation ? "📍 चुना गया स्थान: " + selectedLocation.name :
     "स्थान की जानकारी सही नहीं है। कृपया स्थान चुनें।";
 } else {
-  selectedLocation = savedPanchangLocation() || defaultPithoragarh;
-  selectedCity.textContent = (selectedLocation === defaultPithoragarh ? "📍 डिफ़ॉल्ट स्थान: " :
-    "💾 पिछला चुना गया स्थान: ") + selectedLocation.name;
+  selectedLocation = defaultPithoragarh;
+  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
 selectedCity.style.display = "block";
 window.getPanchangLocation = () => selectedLocation && {...selectedLocation};
@@ -6782,6 +6829,7 @@ window.useMyLocation = function(){
     async position => {
       if (version !== gpsRequest) return;
       const gpsLocation = {
+        observerSource: "gps",
         name: "वर्तमान स्थान",
         lat: position.coords.latitude,
         lon: position.coords.longitude,
@@ -6838,7 +6886,9 @@ window.useMyLocation = function(){
       }
 
       if (version !== gpsRequest) return;
-      selectedLocation = gpsLocation;
+      const resolvedGpsLocation = await resolveCityObserver(gpsLocation);
+      if (version !== gpsRequest) return;
+      selectedLocation = resolvedGpsLocation;
       clearEventLocation();
       selectedCity.style.display = "block";
 
@@ -6850,14 +6900,7 @@ window.useMyLocation = function(){
       selectedCity.textContent =
         "📍 वर्तमान स्थान" + locLine;
 
-      try{
-        localStorage.setItem(
-          "ohdPanchangLocation",
-          JSON.stringify(
-            selectedLocation
-          )
-        );
-      }catch(e){}
+      // GPS must not overwrite a stored city preference with private coordinates.
 
       calculatePanchang();
     },
@@ -6891,3 +6934,4 @@ sankalpState.sandhyaType =
   getAutoSandhyaType();
 
 calculatePanchang();
+void restorePublicCity();

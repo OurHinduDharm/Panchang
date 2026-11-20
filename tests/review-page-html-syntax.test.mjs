@@ -13,7 +13,7 @@ test("inline JavaScript in festival pages parses without syntax errors", () => {
     for (const page of pages) {
       const html = readFileSync(resolve(page), "utf8");
       // Accept optional whitespace before the closing angle bracket in </script >.
-      const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi)];
+      const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script(?:\s|[^>])*?>/gi)];
       assert.ok(scripts.length, page + " should contain an inline script");
       scripts.forEach((match, index) => {
         const path = join(temp, page.replace(/[^a-z0-9]/gi, "_") + "-" + index + ".mjs");

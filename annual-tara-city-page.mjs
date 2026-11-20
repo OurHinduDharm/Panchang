@@ -54,12 +54,9 @@ function eventLink(card, label, date, location) {
     link.href = buildPanchangEventUrl(dailyPage, date, location);
     if (embedded) link.target = "_top";
   } catch {
-    // Missing/invalid elevation must not erase otherwise valid annual results.
-    // Never substitute an invented observer height in a daily Panchang link.
-    const note = document.createElement("span");
-    note.className = "event-link-unavailable";
-    note.textContent = "दैनिक पंचांग लिंक अनुपलब्ध (स्थान की ऊँचाई सत्यापित नहीं है)";
-    link.replaceWith(note);
+    // Do not expose internal observer-validation details to visitors.
+    // Omit only the unavailable link; keep the astronomical result visible.
+    link.remove();
   }
 }
 
@@ -219,7 +216,7 @@ const params = new URLSearchParams(window.location.search);
 const currentYear = Number(panchangIsoDate(new Date()).slice(0, 4));
 for (let y = 2021; y <= Math.max(2030, currentYear + 1); y++) year.add(new Option(String(y), String(y)));
 year.value = [...year.options].some(o => o.value === params.get("year")) ? params.get("year") : String(currentYear);
-if (params.has("geoname")) {
+if (params.has("geoname") && /^\d+$/.test(params.get("geoname") || "") && Number.isSafeInteger(Number(params.get("geoname"))) && Number(params.get("geoname")) > 0) {
   city.value = "";
   status.textContent = "स्थान लोड हो रहा है…";
   const initialVersion = selectionVersion;
@@ -229,7 +226,8 @@ if (params.has("geoname")) {
     else status.textContent = "स्थान नहीं मिला। कृपया स्थान चुनें।";
   }).catch(() => { if (selectionVersion === initialVersion) status.textContent = "कृपया स्थान फिर से चुनें।"; });
 } else {
-  if (params.has("city")) city.value = params.get("city");
+  if (params.has("city") && Object.hasOwn(locations, params.get("city"))) city.value = params.get("city");
+  if (!city.value) city.value = "pithoragarh-project-target";
   if (city.value) calculateSelection(false);
   else status.textContent = "कृपया स्थान चुनें।";
 }
