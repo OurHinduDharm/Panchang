@@ -114,6 +114,7 @@ function formatHoraTime(date){
   return new Intl.DateTimeFormat(
     "hi-IN",
     {
+      timeZone: "Asia/Kolkata",
       hour: "2-digit",
       minute: "2-digit",
       hour12: true
@@ -260,17 +261,10 @@ function getLocation() {
 
   try {
 
-    const saved =
-      localStorage.getItem(
-        "ohdPanchangLocation"
-      );
-
-    if (!saved) {
-      return null;
-    }
-
-    const location =
-      JSON.parse(saved);
+    const location = typeof window.getPanchangLocation === "function"
+      ? window.getPanchangLocation()
+      : JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
+    if (!location) return null;
 
     const lat =
       Number(location.lat);
@@ -407,6 +401,7 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
       !latestLocation ||
       latestLocation.latitude !== location.latitude ||
       latestLocation.longitude !== location.longitude ||
+      latestLocation.elevation !== location.elevation ||
       latestLocation.city !== location.city ||
       latestLocation.name !== location.name
     ) return;
@@ -1067,8 +1062,8 @@ function updatePlanetRiseSet() {
   const nextHoraDate =
     new Date(horaDate);
 
-  nextHoraDate.setDate(
-    nextHoraDate.getDate() + 1
+  nextHoraDate.setUTCDate(
+    nextHoraDate.getUTCDate() + 1
   );
 
   const nextPHora =
@@ -1146,25 +1141,9 @@ if(
 
   try{
 
-    const previousDateObj =
-      new Date(
-        `${selectedDate}T12:00:00`
-      );
-
-    previousDateObj.setDate(
-      previousDateObj.getDate() - 1
-    );
-
-    const previousSelectedDate =
-      previousDateObj.getFullYear() +
-      "-" +
-      String(
-        previousDateObj.getMonth() + 1
-      ).padStart(2,"0") +
-      "-" +
-      String(
-        previousDateObj.getDate()
-      ).padStart(2,"0");
+    const previousDateObj = new Date(selectedDate + "T12:00:00+05:30");
+    previousDateObj.setUTCDate(previousDateObj.getUTCDate() - 1);
+    const previousSelectedDate = previousDateObj.toISOString().slice(0, 10);
 
     const previousPanchang =
       getPanchangam(
