@@ -293,7 +293,7 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(matsya.localPanchangObservation.sunriseDayEnd, following.sunrise);
   assert.equal(record.displayNames.includes("रूप-व्रत"), true);
   assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(record.status, "approved", "Rupa has a manual source-and-local-sunrise approval");
+  assert.equal(record.status, "needs-review", "the record remains pending because its separate Drik cross-reference is not yet resolved");
   const rupa = record.observanceDateReviews.find(item => item.observanceId === "rupa");
   assert.equal(rupa.reviewStatus, "approved");
   assert.equal(rupa.autoApproved, false);
@@ -635,15 +635,17 @@ test("2030 Vamana Dwadashi is not mislabeled Vamana Jayanti when Madhyahna Shrav
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
 
-test("only the two manually source-reviewed Pausha Krishna Rupa occurrences are approved", async () => {
+test("only the two Rupa observances are manually source-approved while their parent records remain review-only", async () => {
   const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url)));
-  const approved = review.tithis.filter(record => record.status === "approved");
-  assert.deepEqual(approved.map(record => [record.id, record.selectedDate]), [
+  const records = review.tithis.filter(record => record.month === "पौष" && record.paksha === "कृष्ण");
+  assert.deepEqual(records.map(record => [record.id, record.selectedDate]), [
     ["pausha-krishna", "2030-01-01"],
     ["pausha-krishna-occurrence-2", "2030-12-22"]
   ]);
+  assert.ok(records.every(record => record.status === "needs-review"));
+  assert.ok(records.every(record => record.dateSelection === "single-observation-candidate-review-required"));
   assert.equal(review.sourceReview.status, "pending-manual-cross-check");
-  for (const record of approved) {
+  for (const record of records) {
     const rite = record.observanceDateReviews.find(item => item.observanceId === "rupa");
     assert.equal(rite.reviewStatus, "approved");
     assert.equal(rite.autoApproved, false);
