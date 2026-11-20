@@ -290,5 +290,5 @@ test("unknown city elevation blocks unsupported calculation without exposing int
   assert.ok(source.includes("link.href = buildPanchangEventUrl(dailyPage, date, location)"));
   assert.ok(source.includes("link.remove()"));
   assert.doesNotMatch(source, /ऊँचाई सत्यापित नहीं है|उदय-अस्त गणना नहीं की जा सकती/);
-  assert.ok(source.includes("if (!Number.isFinite(location.elevation))"));
+  assert.ok(source.includes('if (!Number.isFinite(location.elevation) || location.elevationStatus === "unknown")'));
 });
