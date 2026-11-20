@@ -99,3 +99,13 @@ test("nearest-city matching rejects out-of-range coordinates", () => {
   ]};
   assert.equal(matchNearestPlace(index, "उदाहरणनगर", 129.5, 79.5), null);
 });
+
+test("GPS keeps precise coordinates and does not inherit a city-center elevation", async () => {
+  const gps = {observerSource: "gps", city: "पिथौरागढ़", name: "वर्तमान स्थान",
+    lat: 29.584, lon: 80.219, elevation: 0, elevationStatus: "unknown"};
+  const resolved = await resolveCityObserver(gps);
+  assert.equal(resolved.lat, gps.lat);
+  assert.equal(resolved.lon, gps.lon);
+  assert.equal(resolved.elevation, 0);
+  assert.equal(resolved.elevationStatus, "unknown");
+});
