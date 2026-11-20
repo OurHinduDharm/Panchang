@@ -290,7 +290,9 @@ function getLocation() {
       elevation,
       name: location.name || "",
       city: location.city || "",
-      state: location.state || ""
+      state: location.state || "",
+      cityProfileKey: typeof location.cityProfileKey === "string" ? location.cityProfileKey : "",
+      cityId: Number.isSafeInteger(location.cityId) && location.cityId > 0 ? location.cityId : null
     };
 
   } catch (error) {
@@ -423,6 +425,21 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
    Card creation
    ========================================= */
 
+// Forward only a verified public city identifier, never private GPS coordinates.
+function annualTaraPageUrl() {
+  const url = new URL("https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html");
+  const location = getLocation();
+  if (location?.cityProfileKey && Object.hasOwn({
+    "pithoragarh-project-target": true, "drikpanchang-almora": true,
+    "drikpanchang-ramnagar": true, delhi: true, dehradun: true
+  }, location.cityProfileKey)) {
+    url.searchParams.set("city", location.cityProfileKey);
+  } else if (location?.cityId) {
+    url.searchParams.set("geoname", String(location.cityId));
+  }
+  return url.href;
+}
+
 function createPlanetCard(data, dailyEvents = {}) {
   const card = document.createElement("div");
   card.className = "card full";
@@ -457,7 +474,7 @@ function createPlanetCard(data, dailyEvents = {}) {
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
     <p style="margin:10px 0 0;font-size:.93em">अगस्त्य तारा उदय, अस्त एवं अर्घ्य का समय विस्तृत वार्षिक पंचांग में देखें।</p>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">स्थानानुसार गुरु, शुक्र एवं अगस्त्य का विस्तृत वार्षिक पंचांग देखें</a></p>
+    <p style="margin:12px 0 0"><a href="${annualTaraPageUrl()}">स्थानानुसार गुरु, शुक्र एवं अगस्त्य का विस्तृत वार्षिक पंचांग देखें</a></p>
   `;
   return card;
 }
