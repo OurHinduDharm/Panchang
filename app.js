@@ -3039,11 +3039,17 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
+const LOCATION_TIMEZONE_DATA_VERSION = "11.8.0";
+
 function resolveLocationTimeZone(location){
-  if(isValidTimeZone(location?.timeZone)) return location.timeZone;
+  if(
+    location?.timeZoneSourceVersion === LOCATION_TIMEZONE_DATA_VERSION &&
+    isValidTimeZone(location?.timeZone)
+  ) return location.timeZone;
   const timeZone = tzLookup(Number(location.lat), Number(location.lon));
   if(!isValidTimeZone(timeZone)) throw new Error("TIMEZONE_LOOKUP_INVALID_RESULT");
   location.timeZone = timeZone;
+  location.timeZoneSourceVersion = LOCATION_TIMEZONE_DATA_VERSION;
   return timeZone;
 }
 
