@@ -864,14 +864,14 @@
       "crossReferences": [],
       "status": "needs-review",
       "dateComparisonAnalysis": {
-        "source": "तुलनात्मक पंचांग — Damodara Dwadashi 2030, New Delhi",
+        "source": "आंतरिक तुलनात्मक पंचांग-जाँच — श्रावण शुक्ल द्वादशी",
         "referencePanchang": {
           "observanceDate": "2030-08-10",
           "dwadashiStart": "2030-08-10T01:59:00+05:30",
           "dwadashiEnd": "2030-08-10T23:23:00+05:30",
           "paranaDate": "2030-08-11",
           "paranaWindow": "05:48–08:27 IST",
-          "paranaLogic": "द्वादशी 10 अगस्त की रात 23:23 पर समाप्त होती है, इसलिए 11 अगस्त सूर्योदय से पहले समाप्त होने का संदर्भ पंचांग कथन उसके प्रकाशित समय से मेल खाता है।"
+          "paranaLogic": "द्वादशी 10 अगस्त की रात 23:23 पर समाप्त होती है; इसलिए 11 अगस्त सूर्योदय से पहले समाप्त होने का कथन प्रकाशित समय से मेल खाता है।"
         },
         "pithoragarh": {
           "sunrise": "2030-08-10T05:34:30.216+05:30",
@@ -879,12 +879,12 @@
           "dwadashiEnd": "2030-08-10T23:24:16.354+05:30",
           "sunriseTithi": "द्वादशी",
           "dateMatch": true,
-          "note": "स्थानीय सूर्योदय पर द्वादशी विद्यमान है; संदर्भ पंचांग New Delhi के समय से लगभग 1–2 मिनट का स्थानीय अंतर है।"
+          "note": "स्थानीय सूर्योदय पर द्वादशी विद्यमान है; दिल्ली के संदर्भ समय के समय से लगभग 1–2 मिनट का स्थानीय अंतर है।"
         },
         "sourceReading": {
           "primary": "संस्कृत वराह पुराण 47.1 में 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' स्पष्ट है।",
-          "translationCaution": "Vedic People अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; यह संस्कृत पाठ से मेल नहीं खाता।",
-          "disposition": "Damodara Dwadashi के लिए 10 अगस्त की स्थानीय तिथि संदर्भ पंचांग और संस्कृत मूल से मेल खाती है; अंग्रेज़ी अनुवाद की एकादशी-पंक्ति को प्राथमिक न मानें।"
+          "translationCaution": "उपलब्ध अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; यह संस्कृत पाठ से मेल नहीं खाता।",
+          "disposition": "Damodara Dwadashi के लिए 10 अगस्त की स्थानीय तिथि तुलनात्मक गणना और संस्कृत मूल से मेल खाती है; अनुवाद की एकादशी-पंक्ति को प्राथमिक न मानें।"
         },
         "approval": "evidence-only; manual source review pending",
         "autoApproved": false
@@ -1315,7 +1315,7 @@
       ],
       "sourceDateDecisionNote": "8 सितंबर को नारद पुराणोक्त वामन-द्वादशी व्रत रखा गया है। धर्मसिन्धु का वामन-जयंती हेतु मध्याह्न-द्वादशी + श्रवण नक्षत्र संयोग स्थानीय रूप से नहीं बनता, क्योंकि श्रवण 19:58 IST के बाद शुरू होता है। इसलिए कार्ड का नाम वामन-द्वादशी व्रत है, वामन जयंती नहीं।",
       "dateComparisonAnalysis": {
-        "source": "तुलनात्मक पंचांग — Shravana Yoga Dwadashi and 2030 Kalki Dwadashi",
+        "source": "आंतरिक तुलनात्मक पंचांग-जाँच — भाद्रपद शुक्ल द्वादशी",
         "referencePanchang": {
           "observanceDate": "2030-09-08",
           "dwadashiStart": "2030-09-08T08:20:00+05:30",
@@ -1979,14 +1979,14 @@
         }
       ],
       "dateComparisonAnalysis": {
-        "source": "तुलनात्मक पंचांग — Krishna Matsya Dwadashi 2030; Narada Purana, Pūrva-bhāga 121.67b–76a",
+        "source": "आंतरिक तुलनात्मक पंचांग-जाँच — पौष कृष्ण द्वादशी",
         "referencePanchang": {
           "observanceDate": "2030-12-21",
           "dwadashiStart": "2030-12-21T12:32:00+05:30",
           "dwadashiEnd": "2030-12-22T09:41:00+05:30",
           "paranaDate": "2030-12-22",
           "paranaWindow": "07:10–09:14 IST",
-          "sourceTextConflict": "संदर्भ पंचांग says Dwadashi is over before sunrise on parana day, but its own end time is 09:41 IST; the explicit interval and parana window contradict that sentence."
+          "sourceTextConflict": "संदर्भ पंचांग में पारण-दिन सूर्योदय से पहले द्वादशी समाप्त बताई गई है, जबकि उसी का प्रकाशित समाप्ति-समय 09:41 IST है; दोनों कथन परस्पर विरोधी हैं।"
         },
         "pithoragarh": {
           "dwadashiStart": "2030-12-21T12:33:11.523+05:30",
