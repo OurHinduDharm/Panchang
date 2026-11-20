@@ -790,7 +790,8 @@ test("2030 Bhadrapada Shukla local Shravana-Dwadashi rationale preserves the 8 S
 });
 
 
-test("Varaha Purana monthly Dwadashi source references use the actual chapter sequence and preserve chapter 39's title/body ambiguity", async () => {
+
+test("Varaha Purana monthly Dwadashi source references use the actual chapter sequence and keep chapter 39's ambiguity internal", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
@@ -814,19 +815,19 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     const tithi = rules.unifiedTithiIndex.tithis.find(x => x.month === month && x.paksha === "शुक्ल");
     const observance = tithi.observances.find(x => x.id === id);
     assert.ok(observance, `missing ${id} for ${month}`);
-    assert.match(observance.source, new RegExp(`अध्याय ${chapter}(?:\\s| —|-)`));
-    assert.doesNotMatch(observance.source, /बाहरी स्रोत|Vedic People|Vedapath/i);
+    assert.match(observance.source, new RegExp(`अध्याय ${chapter}(?:\\\\s| —|-)`));
+    assert.doesNotMatch(JSON.stringify(observance), /https?:\\/\\//i);
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
   const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
   assert.match(dharani.sourceTextNote, /अध्याय-शीर्षक और पाठ-शरीर/);
-  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);\n  assert.doesNotMatch(JSON.stringify(dharani), /https?:\\/\\//i);
+  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);
   assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
   const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
-  assert.match(damodara.sourceTextNote, /47\.1/);
+  assert.match(damodara.sourceTextNote, /47\\.1/);
   const kalki = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "kalki");
-  assert.match(kalki.sourceTextNote, /48\.1/);
+  assert.match(kalki.sourceTextNote, /48\\.1/);
 
   for (const year of [2026, 2027, 2028, 2029, 2030]) {
     const annual = JSON.parse(await readFile(resolve(root, `data/references/ohd-dwadashi-${year}-review.json`), "utf8"));
@@ -860,7 +861,7 @@ test("2030 Shravana Damodara Dwadashi date agrees with local calculation and San
   assert.equal(record.status, "needs-review");
 });
 
-test("2030 Pausha Krishna keeps named Matsya Dwadashi distinct from Narada Purana Rupa vrata", async () => {
+test("2030 Pausha Krishna keeps the named Matsya observance distinct from Narada Purana Rupa vrata", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
