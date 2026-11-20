@@ -523,7 +523,7 @@
       ruleIds.push("kalashtami-pradosh");
     }
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(eventTitle)||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
-    if(!ruleIds.length&&/संकष्टी चतुर्थी|सकट चौथ/i.test(eventTitle)) ruleIds=["sankashti-chaturthi-moonrise"];
+    if(!ruleIds.length&&/संकष्टी चतुर्थी|सकट चौथ|संकट चौथ/i.test(eventTitle)) ruleIds=["sankashti-chaturthi-moonrise"];
     if(!ruleIds.length&&/वसंत पंचमी|श्रीपंचमी/i.test(eventTitle)) ruleIds=["vasant-panchami-saraswati"];
     if(!ruleIds.length&&/रथ\s*सप्तमी/i.test(eventTitle)) ruleIds=["ratha-saptami-arunodaya"];
     if(!ruleIds.length&&/राम नवमी/i.test(eventTitle)&&!/वैष्णव|गौण/i.test(eventTitle)) ruleIds=["ram-navami-madhyahna"];
