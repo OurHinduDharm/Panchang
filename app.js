@@ -3088,6 +3088,28 @@ function sanitizeLocationRecord(value){
   return location;
 }
 
+// सटीक स्थान केवल सक्रिय पेज-सत्र की मेमोरी में रखें; localStorage में नहीं।
+function publishSelectedLocation(){
+  const safeLocation = sanitizeLocationRecord(selectedLocation);
+  if(!safeLocation){
+    window.__ohdPanchangLocation = null;
+    return null;
+  }
+  selectedLocation = safeLocation;
+  window.__ohdPanchangLocation = {
+    name: safeLocation.name,
+    lat: safeLocation.lat,
+    lon: safeLocation.lon,
+    elevation: safeLocation.elevation,
+    state: safeLocation.state,
+    city: safeLocation.city,
+    country: safeLocation.country,
+    countryCode: safeLocation.countryCode,
+    timeZone: safeLocation.timeZone
+  };
+  return selectedLocation;
+}
+
 function selectCity(place){
   const wasViewingPreviousLocationToday = dateInput.value === todayString();
   const addr = place.address || {};
@@ -3129,8 +3151,8 @@ function selectCity(place){
     if(wasViewingPreviousLocationToday && !requestedDate){
       dateInput.value = todayString();
     }
-    selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name + " · " + selectedLocation.timeZone;
-    try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
+    publishSelectedLocation();
+    selectedCity.textContent = "✅ चुना गया स्थान: " + selectedLocation.name + " · " + selectedLocation.timeZone;
     calculatePanchang();
   }catch(error){
     selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
@@ -3155,6 +3177,8 @@ const defaultPithoragarh = {
 };
 
 try{
+  // पुराना स्थायी GPS/location record हटाएँ; सटीक निर्देशांक केवल पेज मेमोरी में रहें।
+  try{ localStorage.removeItem("ohdPanchangLocation"); }catch(_){}
   // Shared monthly-calendar links carry the selected city and date together.
   const params = new URLSearchParams(window.location.search);
   const sharedLatParam = params.get("locLat");
@@ -3178,36 +3202,21 @@ try{
     });
   }
 
-  const saved = localStorage.getItem("ohdPanchangLocation");
-  const savedLocation = saved ? sanitizeLocationRecord(JSON.parse(saved)) : null;
-
   if(sharedLocation){
     selectedLocation = sharedLocation;
-    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
     selectedCity.style.display = "block";
     selectedCity.textContent = "📍 साझा किए गए स्थान से: " + selectedLocation.name + " · " + selectedLocation.timeZone;
-  }else if(savedLocation){
-    selectedLocation = savedLocation;
-    // पुराने या बदले हुए storage records को validated canonical रूप में लिखें।
-    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
-    selectedCity.style.display = "block";
-    selectedCity.textContent = "💾 पिछला चुना गया स्थान: " + selectedLocation.name;
   }else{
     selectedLocation = defaultPithoragarh;
     selectedCity.style.display = "block";
     selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
-    localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation));
   }
 }catch(e){
-  selectedLocation =
-    defaultPithoragarh;
-
+  selectedLocation = defaultPithoragarh;
   selectedCity.style.display = "block";
-
-  selectedCity.textContent =
-    "📍 डिफ़ॉल्ट स्थान: " +
-    selectedLocation.name;
+  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
+publishSelectedLocation();
 
 // Location is initialized after the date field; derive the default date
 // again using the selected location's timezone, not the browser timezone.
@@ -6901,13 +6910,13 @@ window.useMyLocation = function(){
         "📍 वर्तमान स्थान" + locLine;
 
       try{
-        localStorage.setItem(
-          "ohdPanchangLocation",
-          JSON.stringify(
-            selectedLocation
-          )
-        );
-      }catch(e){}
+        resolveLocationTimeZone(selectedLocation);
+        publishSelectedLocation();
+      }catch(locationError){
+        selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका।";
+        console.warn("GPS location timezone lookup failed:", locationError);
+        return;
+      }
 
       calculatePanchang();
     },
