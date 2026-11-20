@@ -1286,7 +1286,46 @@
           "autoApproved": false
         }
       ],
-      "sourceDateDecisionNote": "8 सितंबर को नारद पुराणोक्त वामन-द्वादशी व्रत रखा गया है। धर्मसिन्धु का वामन-जयंती हेतु मध्याह्न-द्वादशी + श्रवण नक्षत्र संयोग स्थानीय रूप से नहीं बनता, क्योंकि श्रवण 19:58 IST के बाद शुरू होता है। इसलिए कार्ड का नाम वामन-द्वादशी व्रत है, वामन जयंती नहीं।"
+      "sourceDateDecisionNote": "8 सितंबर को नारद पुराणोक्त वामन-द्वादशी व्रत रखा गया है। धर्मसिन्धु का वामन-जयंती हेतु मध्याह्न-द्वादशी + श्रवण नक्षत्र संयोग स्थानीय रूप से नहीं बनता, क्योंकि श्रवण 19:58 IST के बाद शुरू होता है। इसलिए कार्ड का नाम वामन-द्वादशी व्रत है, वामन जयंती नहीं।",
+      "drikDecisionAnalysis": {
+        "source": "Drik Panchang — Shravana Yoga Dwadashi and 2030 Kalki Dwadashi",
+        "sourceUrls": [
+          "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+          "https://www.drikpanchang.com/dwadashi/kalki/kalki-dwadashi-date-time.html?year=2030"
+        ],
+        "drikNewDelhi": {
+          "observanceDate": "2030-09-08",
+          "dwadashiStart": "2030-09-08T08:20:00+05:30",
+          "dwadashiEnd": "2030-09-09T06:32:00+05:30",
+          "shravanaStart": "2030-09-08T19:58:00+05:30",
+          "shravanaEnd": "2030-09-09T19:00:00+05:30",
+          "paranaDate": "2030-09-09",
+          "paranaWindow": "06:03–06:32 IST"
+        },
+        "drikRule": {
+          "shravanaYoga": "द्वादशी तिथि और श्रवण नक्षत्र का कम-से-कम एक मुहूर्त का संयोग",
+          "combinedFast": "एकादशी और द्वादशी एक ही पंचांग-दिन में हों तो दोनों का संयुक्त उपवास; अगले दिन पारण",
+          "dateLogic": "8 सितंबर के सूर्योदय-दिन में पहले एकादशी और बाद में द्वादशी; उसी द्वादशी का श्रवण नक्षत्र से रात्रि-संयोग; 9 सितंबर पारण-दिन"
+        },
+        "pithoragarh": {
+          "dwadashiStart": "2030-09-08T08:21:59.472+05:30",
+          "shravanaStart": "2030-09-08T19:59:00.797+05:30",
+          "followingSunrise": "2030-09-09T05:50:55.762+05:30",
+          "dwadashiEnd": "2030-09-09T06:32:49.720+05:30",
+          "dwadashiAtFollowingSunriseRemainingSeconds": 2513.958,
+          "shravanaDwadashiOverlap": "2030-09-08T19:59:00.797+05:30/2030-09-09T06:32:49.720+05:30",
+          "note": "8 सितंबर के सूर्योदय-दिन में एकादशी के बाद 08:21:59 IST पर द्वादशी आरम्भ होती है; उसी रात श्रवण नक्षत्र शुरू होकर द्वादशी के साथ अगले दिन 06:32:49 IST तक रहता है। 9 सितंबर सूर्योदय पर द्वादशी लगभग 41 मिनट 54 सेकंड शेष है।"
+        },
+        "disposition": {
+          "mainVrataDate": "2030-09-08",
+          "followingMorningActionDate": "2030-09-09",
+          "doNotMoveAllObservancesTo": "2030-09-09",
+          "distinction": "Drik का 8 सितंबर चयन केवल सूर्योदय-द्वादशी नियम नहीं; संयुक्त एकादशी-द्वादशी दिन और द्वादशी-श्रवण संयोग के कारण है। अलग व्रत-विधि के समय अलग जाँचे जाएँ।",
+          "naradaPuranaCaution": "नारद पुराण पूर्वार्ध 121.115 में भाद्रपद शुक्ल एकादशी-श्रवण संयोग का अलग उल्लेख है; इसे Drik के धर्मसिंधु-आधारित श्रवण-द्वादशी और Vishnushrinkhala विवेचन के साथ स्वतः समान न मानें।"
+        },
+        "approval": "evidence-only; manual Smarta source review pending",
+        "autoApproved": false
+      }
     },
     {
       "id": "ashwin-krishna",
