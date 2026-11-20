@@ -6784,6 +6784,7 @@ window.useMyLocation = function(){
     async position => {
       if (version !== gpsRequest) return;
       const gpsLocation = {
+        observerSource: "gps",
         name: "वर्तमान स्थान",
         lat: position.coords.latitude,
         lon: position.coords.longitude,
