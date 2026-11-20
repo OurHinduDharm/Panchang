@@ -3122,8 +3122,10 @@ const defaultPithoragarh = {
 try{
   // Shared monthly-calendar links carry the selected city and date together.
   const params = new URLSearchParams(window.location.search);
-  const sharedLat = Number(params.get("locLat"));
-  const sharedLon = Number(params.get("locLon"));
+  const sharedLatParam = params.get("locLat");
+  const sharedLonParam = params.get("locLon");
+  const sharedLat = sharedLatParam === null || sharedLatParam.trim() === "" ? NaN : Number(sharedLatParam);
+  const sharedLon = sharedLonParam === null || sharedLonParam.trim() === "" ? NaN : Number(sharedLonParam);
   const sharedTimeZone = params.get("locTz") || "";
   let sharedLocation = null;
   if(Number.isFinite(sharedLat) && sharedLat >= -90 && sharedLat <= 90 &&
