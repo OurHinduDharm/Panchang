@@ -179,6 +179,12 @@ test("event deep link applies one observer across the daily page, date changes a
     const after = new URL(page.url()).searchParams;
     assert.equal(after.get("date"), "2027-08-17");
     assert.ok(["lat", "lon", "elevation", "elevationStatus", "place", "city", "state"].every(k => !after.has(k)));
+    // The click clears the old event URL synchronously, while observer lookup is async.
+    // Wait for the resolved city estimate to replace the temporary unknown observer.
+    await page.waitForFunction(() =>
+      JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null")?.elevationStatus === "estimated",
+      {timeout: 15000}
+    );
     await page.reload();
     await sunCard.waitFor();
     assert.match(await page.locator("#selectedCity").innerText(), /वाराणसी/);
