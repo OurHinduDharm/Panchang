@@ -193,7 +193,10 @@ test("event deep link applies one observer across the daily page, date changes a
     );
     await page.reload();
     await sunCard.waitFor();
-    assert.match(await page.locator("#selectedCity").innerText(), /वाराणसी/);
+    assert.match(await page.locator("#selectedCity").innerText(), /Varanasi|वाराणसी/i);
+    const restored = await page.evaluate(() => window.__ohdPanchangLocation);
+    assert.equal(restored.cityId, 1253405);
+    assert.equal(restored.elevationStatus, "estimated");
 
     await page.goto(base + "?date=2027-08-17&lat=29");
     await page.getByText("पहले अपना शहर चुनें।").waitFor();
