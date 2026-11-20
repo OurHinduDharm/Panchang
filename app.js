@@ -6950,9 +6950,9 @@ sankalpState.sandhyaType =
 
 try{
   resolveLocationTimeZone(selectedLocation);
+  publishSelectedLocation();
   if(!requestedDate) dateInput.value = todayString();
   selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
-  try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
   calculatePanchang();
 }catch(error){
   result.innerHTML = '<div class="error">चुने गए स्थान का समय क्षेत्र निर्धारित नहीं हो सका। कृपया स्थान की जानकारी जाँचें।</div>';
