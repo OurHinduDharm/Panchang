@@ -819,8 +819,8 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
   const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
-  assert.match(dharani.sourceTextNote, /Matsyadvadashivrata/);\n  assert.match(dharani.sourceTextNote, /Dharaṇī-vrata/);
-  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);
+  assert.match(dharani.sourceTextNote, /अध्याय-शीर्षक और पाठ-शरीर/);
+  assert.match(dharani.source, /अध्याय 39 — धरणी-व्रत/);\n  assert.doesNotMatch(JSON.stringify(dharani), /Drik|Vedic People|Vedapath|https?:\\/\\//i);
   assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
   const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
