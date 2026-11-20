@@ -129,8 +129,8 @@ function calculateSelection(sync = true) {
     cards.setAttribute("aria-busy", "false");
     retry.hidden = false;
   }
-  // The astronomical engine requires measured elevation. Never silently use sea level.
-  if (!Number.isFinite(location.elevation)) {
+  // A numeric fallback must not make an explicitly unknown observer appear valid.
+  if (!Number.isFinite(location.elevation) || location.elevationStatus === "unknown") {
     status.textContent = "चुने हुए स्थान के लिए गणना उपलब्ध नहीं है।";
     cards.setAttribute("aria-busy", "false");
     retry.hidden = true;
