@@ -264,29 +264,16 @@ function calculateHoraDetails(
    ========================================= */
 
 function getLocation() {
-
   try {
-
-    const saved =
-      localStorage.getItem(
-        "ohdPanchangLocation"
-      );
-
-    if (!saved) {
-      return null;
-    }
-
-    const location =
-      JSON.parse(saved);
-
+    // app.js publishes the selected observer in page memory only.
+    const location = window.__ohdPanchangLocation;
+    if (!location || typeof location !== "object") return null;
     if (location.lat == null || String(location.lat).trim() === "" ||
         location.lon == null || String(location.lon).trim() === "") return null;
     const lat = Number(location.lat);
     const lon = Number(location.lon);
     if (!Number.isFinite(lat) || lat < -90 || lat > 90 ||
-        !Number.isFinite(lon) || lon < -180 || lon > 180) {
-      return null;
-    }
+        !Number.isFinite(lon) || lon < -180 || lon > 180) return null;
 
     const rawElevation = Number(location.elevation);
     const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
@@ -307,14 +294,8 @@ function getLocation() {
       country: cleanText(location.country),
       countryCode: /^[a-z]{2}$/i.test(String(location.countryCode || "")) ? String(location.countryCode).toLowerCase() : ""
     };
-
   } catch (error) {
-
-    console.error(
-      "Extra Panchang location error:",
-      error
-    );
-
+    console.error("Extra Panchang location error:", error);
     return null;
   }
 }
