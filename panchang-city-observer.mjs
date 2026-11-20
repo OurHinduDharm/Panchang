@@ -1,4 +1,4 @@
-import {searchTaraPlaces} from "./annual-tara-place-search.mjs";
+import {findNearestTaraPlace} from "./annual-tara-place-search.mjs";
 import {locations} from "./annual-tara-locations.mjs";
 
 const norm = value => String(value || "").normalize("NFC").trim().toLocaleLowerCase();
@@ -33,14 +33,10 @@ export async function resolveCityObserver(location) {
     }
   }
   try {
-    const candidates = await searchTaraPlaces(location.city);
-    // Search already matches the city name or an alias (including Hindi names).
-    // Require a close geographic match as protection against same-name cities.
-    const matches = candidates.filter(place =>
-      distanceKm(location, place) <= 3 && Number.isFinite(place.elevation));
-    matches.sort((a, b) => distanceKm(location, a) - distanceKm(location, b));
-    if (!matches.length) return location;
-    const place = matches[0];
+    // UI search is capped at 12 results. Resolve against the complete index,
+    // otherwise a correct same-name city later in the index is missed.
+    const place = await findNearestTaraPlace(location.city, location.lat, location.lon);
+    if (!place) return location;
     return {...location, lat: place.latitude, lon: place.longitude,
       elevation: place.elevation, elevationStatus: place.elevationStatus,
       elevationSource: place.elevationSource, cityId: place.id};
