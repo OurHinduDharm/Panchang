@@ -75,7 +75,7 @@ test("daily and supplementary Panchang use the selected location timezone", asyn
   assert.match(app, /getTimeZoneOffsetForLocalDay/);
   assert.doesNotMatch(app, /timezoneOffset\s*:\s*330/);
   assert.match(source, /location\.timeZone/);
-  assert.match(source, /getTimeZoneOffsetMinutes/);
+  assert.match(source, /getTimeZoneOffsetForLocalDay/);
   assert.match(source, /getIsoDateInTimeZone/);
   assert.doesNotMatch(source, /timezoneOffset\s*:\s*330/);
   assert.doesNotMatch(source, /timeZone\s*:\s*"Asia\/Kolkata"/);
