@@ -109,17 +109,23 @@ const HORA_DAY_LORD = {
   5: 1, // शुक्र
   6: 4  // शनि
 };
-function formatHoraTime(date){
+function formatHoraTime(date, timeZone = getLocation()?.timeZone || "Asia/Kolkata"){
   if(!date) return "—";
 
-  return new Intl.DateTimeFormat(
-    "hi-IN",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true
-    }
-  ).format(date);
+  try{
+    return new Intl.DateTimeFormat(
+      "hi-IN",
+      {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }
+    ).format(date);
+  }catch(error){
+    console.warn("Hora timezone formatting failed:", error);
+    return "—";
+  }
 }
 
 function calculateHoraDetails(
@@ -150,10 +156,9 @@ function calculateHoraDetails(
     };
   }
 
+  // Use the ISO calendar date directly; browser timezone must not alter weekday.
   const weekday =
-    new Date(
-      `${selectedDate}T00:00:00`
-    ).getDay();
+    new Date(selectedDate + "T00:00:00.000Z").getUTCDay();
 
   const firstPlanetIndex =
     HORA_DAY_LORD[weekday];
@@ -296,7 +301,9 @@ function getLocation() {
       name: location.name || "",
       city: location.city || "",
       state: location.state || "",
-      timeZone: location.timeZone || null
+      timeZone: location.timeZone || null,
+      country: location.country || "",
+      countryCode: location.countryCode || ""
     };
 
   } catch (error) {
