@@ -67,3 +67,28 @@ test("annual Tara city presets retain identical heights in daily Panchang", asyn
     assert.equal(selected.elevationStatus, "provided", city);
   }
 });
+
+test("same-name city after first 12 search results resolves by nearby coordinates", async () => {
+  const originalFetch = globalThis.fetch;
+  const cities = Array.from({length: 14}, (_, i) => [
+    910000 + i, "Exampletown", "39", "01",
+    i === 13 ? 29.5 : 15 + i * 0.1,
+    i === 13 ? 79.5 : 70 + i * 0.1,
+    i === 13 ? 777 : 200, ["उदाहरणनगर"]
+  ]);
+  globalThis.fetch = async () => ({
+    ok: true,
+    json: async () => ({states: {"39": "Uttarakhand"},
+      districts: {"39.01": "Example District"}, cities})
+  });
+  try {
+    const selected = await resolveCityObserver({
+      city: "उदाहरणनगर", lat: 29.5001, lon: 79.5001,
+      elevation: 0, elevationStatus: "unknown"
+    });
+    assert.equal(selected.cityId, 910013);
+    assert.equal(selected.elevation, 777);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
