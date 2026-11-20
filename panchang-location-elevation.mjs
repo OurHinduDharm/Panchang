@@ -5,7 +5,8 @@
 export function restoreSavedElevationStatus(location, saved) {
   if (!location) return null;
   const status = saved?.elevationStatus;
-  if (status === "unknown" || saved?.elevation == null || saved.elevation === "") {
+  if (status === "unknown" || saved?.elevation == null || saved.elevation === "" ||
+      (status != null && !["provided", "estimated"].includes(status))) {
     return {...location, elevation: 0, elevationStatus: "unknown"};
   }
   if (status === "estimated") {
