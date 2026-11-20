@@ -26,3 +26,29 @@ test("unidentified city retains explicitly unknown height", async () => {
   });
   assert.equal(selected.elevationStatus, "unknown");
 });
+
+test("Hindi alias resolves one fixed GeoNames city profile", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({
+    ok: true,
+    json: async () => ({
+      states: {"39": "Uttarakhand"},
+      districts: {"39.01": "Dehradun"},
+      cities: [
+        [900001, "Dehradun", "39", "01", 30.3165, 78.0322, 640, ["देहरादून"]],
+        [900002, "Dehradun", "39", "01", 22.5, 75.5, 999, ["देहरादून"]]
+      ]
+    })
+  });
+  try {
+    const selected = await resolveCityObserver({
+      city: "देहरादून", lat: 30.3164, lon: 78.0321,
+      elevation: 0, elevationStatus: "unknown"
+    });
+    assert.equal(selected.elevation, 640);
+    assert.equal(selected.cityId, 900001);
+    assert.equal(selected.elevationStatus, "estimated");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
