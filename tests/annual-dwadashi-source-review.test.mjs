@@ -76,7 +76,7 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   assert.equal(result.grahanaVisibilityChecked,false);
 });
 
-test("2029–2030 reference calendar special Dwadashi labels use the exact source dates and names", async () => {
+test("2029–2030 Drik special Dwadashi labels use the exact source dates and names", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
@@ -293,7 +293,7 @@ test("real Pithoragarh 2030 Krishna Matsya Dwadashi uses the 21 December sunrise
   assert.equal(matsya.localPanchangObservation.sunriseDayEnd, following.sunrise);
   assert.equal(record.displayNames.includes("रूप-व्रत"), true);
   assert.deepEqual(record.crossReferences.map(item => item.name), ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(record.status, "needs-review", "the record remains pending because its separate reference calendar cross-reference is not yet resolved");
+  assert.equal(record.status, "needs-review", "the record remains pending because its separate Drik cross-reference is not yet resolved");
 });
 
 test("Dwadashi extraction preserves all tithi and nakshatra intervals for local yoga checks", () => {
@@ -336,7 +336,7 @@ test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by sour
   const jayanti = jayantiRecord.specialTithiYogas.find(item=>
     item.sourceProfile==="drikPanchang" && item.id.endsWith("-jayanti")
   );
-  assert.ok(jayanti,"25 August Krishna Dwadashi must be checked against reference calendar's both-paksha Punarvasu-Jayanti rule");
+  assert.ok(jayanti,"25 August Krishna Dwadashi must be checked against Drik's both-paksha Punarvasu-Jayanti rule");
   assert.equal(jayanti.nakshatra,"पुनर्वसु");
   assert.ok(jayanti.overlapMinutes>=48);
   assert.equal(jayanti.meetsOneMuhurta,true);
@@ -354,7 +354,7 @@ test("real Pithoragarh 2030 Shukla Dwadashi nakshatra yogas are measured by sour
   assert.equal(vijaya.coversFullDaylight,false);
   assert.equal(vijayaRecord.specialTithiYogas.some(item=>
     item.sourceProfile==="drikPanchang" && item.id.endsWith("-vijaya")
-  ),false,"Shravana begins after sunset on 8 September, so it is not a reference calendar sunrise-to-sunset Vijayā candidate");
+  ),false,"Shravana begins after sunset on 8 September, so it is not a Drik sunrise-to-sunset Vijayā candidate");
   assert.equal(vijayaRecord.status,"needs-review");
 });
 
@@ -463,7 +463,7 @@ test("2030 Bhadrapada Shukla Dwadashi rites retain distinct source-based dates",
 });
 
 
-test("2030 Chaitra Krishna and Ashwin Shukla reject unsupported reference calendar Ekadashi-Shravana labels", async () => {
+test("2030 Chaitra Krishna and Ashwin Shukla reject unsupported Drik Ekadashi-Shravana labels", async () => {
   const review=JSON.parse(await readFile(
     new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
   ));
@@ -766,14 +766,14 @@ test("annual Dwadashi workflow keeps PR validation read-only and scopes writes t
 });
 
 
-test("2030 Bhadrapada Shukla local Shravana-Dwadashi rationale preserves the 8 September vrata day without auto-approval", async () => {
+test("2030 Bhadrapada Shukla Shravana-Dwadashi date analysis preserves the 8 September vrata day without auto-approval", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
   const review = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/references/ohd-dwadashi-2030-review.json"), "utf8"));
   const record = review.tithis.find(x => x.id === "bhadrapada-shukla");
   const analysis = record.dateComparisonAnalysis;
-  assert.ok(analysis, "reference calendar decision analysis must be documented");
+  assert.ok(analysis, "date-selection analysis must be documented");
   assert.equal(analysis.referencePanchang.observanceDate, "2030-09-08");
   assert.match(analysis.publishedRule.shravanaYoga, /कम-से-कम एक मुहूर्त/);
   assert.match(analysis.publishedRule.combinedFast, /अगले दिन पारण/);
@@ -788,7 +788,6 @@ test("2030 Bhadrapada Shukla local Shravana-Dwadashi rationale preserves the 8 S
   assert.equal(record.status, "needs-review");
   assert.equal(review.status, "needs-review");
 });
-
 
 
 test("Varaha Purana monthly Dwadashi source references use the actual chapter sequence and keep chapter 39's ambiguity internal", async () => {
@@ -842,7 +841,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   }
 });
 
-test("2030 Shravana Damodara Dwadashi date agrees with local calculation and Sanskrit 47.1", async () => {
+test("2030 Shravana Damodara Dwadashi matches the local sunrise observation and Sanskrit text", async () => {
   const { readFile } = await import("node:fs/promises");
   const { fileURLToPath } = await import("node:url");
   const { dirname, resolve } = await import("node:path");
