@@ -24,9 +24,9 @@ test("festival context retains selected timezone for local weekday and date rule
 });
 
 test("Chhath milestones and moonlight midnight use location-local calendar boundaries",()=>{
-  assert.match(source,/getIsoDateInTimeZone\(mainDate, timeZone\)/);
-  assert.match(source,/zonedDateTimeToUtc\(addIsoCalendarDays\(mainDateKey, offset\), 12, 0, timeZone\)/);
-  assert.match(source,/zonedDateTimeToUtc\(nextLocalDate, 0, 0, timeZone\)/);
+  assert.match(source,/localIsoDate\(mainDate, timeZone\)/);
+  assert.match(source,/localDateTimeToUtc\(addLocalIsoDays\(mainDateKey, offset\), 12, 0, timeZone\)/);
+  assert.match(source,/localDateTimeToUtc\(nextLocalDate, 0, 0, timeZone\)/);
   assert.doesNotMatch(source,/Date\.UTC\(year, month - 1, day \+ 1\) - 330/);
 });
 
