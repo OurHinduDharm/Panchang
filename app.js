@@ -6840,8 +6840,9 @@ window.useMyLocation = function(){
       }
 
       if (version !== gpsRequest) return;
-      selectedLocation = await resolveCityObserver(gpsLocation);
+      const resolvedGpsLocation = await resolveCityObserver(gpsLocation);
       if (version !== gpsRequest) return;
+      selectedLocation = resolvedGpsLocation;
       clearEventLocation();
       selectedCity.style.display = "block";
 
