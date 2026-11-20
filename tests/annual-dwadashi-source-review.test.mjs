@@ -814,8 +814,8 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
     const tithi = rules.unifiedTithiIndex.tithis.find(x => x.month === month && x.paksha === "शुक्ल");
     const observance = tithi.observances.find(x => x.id === id);
     assert.ok(observance, `missing ${id} for ${month}`);
-    assert.match(observance.source, new RegExp(`अध्याय ${chapter}(?:\\\\s| —|-)`));
-    assert.doesNotMatch(JSON.stringify(observance), /https?:\\/\\//i);
+    assert.match(observance.source, new RegExp("अध्याय " + chapter + "(?:\\\\s| —|-)"));
+    assert.doesNotMatch(JSON.stringify(observance), /https?:\/\//i);
   }
   const margashirsha = rules.unifiedTithiIndex.tithis.find(x => x.id === "margashirsha-shukla");
   const dharani = margashirsha.observances.find(x => x.id === "standard-margashirsha");
@@ -824,9 +824,9 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   assert.equal(margashirsha.observances.some(x => x.id === "matsya"), false);
   assert.deepEqual(margashirsha.displayNames, ["साध्य-व्रत", "धरणी-व्रत"]);
   const damodara = rules.unifiedTithiIndex.tithis.find(x => x.id === "shravana-shukla").observances.find(x => x.id === "damodara");
-  assert.match(damodara.sourceTextNote, /47\\.1/);
+  assert.match(damodara.sourceTextNote, /47\.1/);
   const kalki = rules.unifiedTithiIndex.tithis.find(x => x.id === "bhadrapada-shukla").observances.find(x => x.id === "kalki");
-  assert.match(kalki.sourceTextNote, /48\\.1/);
+  assert.match(kalki.sourceTextNote, /48\.1/);
 
   for (const year of [2026, 2027, 2028, 2029, 2030]) {
     const annual = JSON.parse(await readFile(resolve(root, `data/references/ohd-dwadashi-${year}-review.json`), "utf8"));
