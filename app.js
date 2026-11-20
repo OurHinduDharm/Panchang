@@ -6885,10 +6885,16 @@ document.getElementById(
 sankalpState.sandhyaType =
   getAutoSandhyaType();
 
-resolveLocationTimeZone(selectedLocation).then(()=>{
+const initialLocation = selectedLocation;
+const initialSelectionVersion = locationSelectionVersion;
+resolveLocationTimeZone(initialLocation).then(()=>{
+  if(selectedLocation !== initialLocation || locationSelectionVersion !== initialSelectionVersion) return;
   if(!requestedDate) dateInput.value = todayString();
+  selectedCity.textContent = "📍 " + selectedLocation.name + " · " + selectedLocation.timeZone;
+  try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
   calculatePanchang();
 }).catch(error=>{
+  if(selectedLocation !== initialLocation || locationSelectionVersion !== initialSelectionVersion) return;
   result.innerHTML = '<div class="error">स्थान का IANA समय क्षेत्र प्राप्त नहीं हो सका। इंटरनेट कनेक्शन जाँचकर पृष्ठ पुनः खोलें।</div>';
   console.warn("Initial location timezone lookup failed:", error);
 });
