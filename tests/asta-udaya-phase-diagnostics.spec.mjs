@@ -183,6 +183,7 @@ test("event deep link applies one observer across the daily page, date changes a
     // Wait for the resolved city estimate to replace the temporary unknown observer.
     await page.waitForFunction(() =>
       JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null")?.elevationStatus === "estimated",
+      null,
       {timeout: 15000}
     );
     await page.reload();
