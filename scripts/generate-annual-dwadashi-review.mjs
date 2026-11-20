@@ -305,7 +305,7 @@ export async function generateYear(year, options = {}) {
     throw new RangeError("Supported years are 2026–2030");
   }
   const rules = JSON.parse(await fs.readFile(path.join(ROOT, "data/dwadashi-vrata-rules.json"), "utf8"));
-  const location = options.location || { name:"पिथौरागढ़", latitude:29.58, longitude:80.22, elevation:1650 };
+  const location = options.location || { name:"पिथौरागढ़", latitude:29.5828, longitude:80.2182, elevation:1650 };
   const observer = new Observer(location.latitude, location.longitude, location.elevation);
   const yearDays = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
   const currentYearDays = [];
