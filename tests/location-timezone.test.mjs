@@ -1,3 +1,4 @@
+import tzLookup from "../vendor/tz-lookup-11.8.0.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -8,6 +9,12 @@ import {
   isValidTimeZone,
   zonedDateTimeToUtc
 } from "../location-timezone.mjs";
+
+test("resolves city coordinates to IANA timezones locally", () => {
+  assert.equal(tzLookup(29.5828, 80.2182), "Asia/Kolkata");
+  assert.equal(tzLookup(51.5072, -0.1276), "Europe/London");
+  assert.equal(tzLookup(40.7128, -74.006), "America/New_York");
+});
 
 test("validates IANA timezone identifiers", () => {
   assert.equal(isValidTimeZone("Asia/Kolkata"), true);
