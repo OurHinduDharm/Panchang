@@ -52,7 +52,9 @@ test("invalid saved provenance cannot be upgraded to provided", () => {
 
 test("daily Panchang blocks unknown observer heights before astronomical calculation", () => {
   const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
-  assert.ok(source.includes('if (!Number.isFinite(selectedLocation.elevation) || selectedLocation.elevationStatus === "unknown")'));
+  assert.ok(source.includes("Math.abs(selectedLocation.lat) > 90 || Math.abs(selectedLocation.lon) > 180"));
+  assert.ok(source.includes("selectedLocation.elevation < -500"));
+  assert.ok(source.includes("selectedLocation.elevation > 9000 || selectedLocation.elevationStatus === \"unknown\""));
   assert.ok(source.includes('result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।"'));
   assert.ok(source.includes("selectedLocation = await resolveCityObserver(gpsLocation)"));
   assert.ok(source.includes("const resolvedLocation = await resolveCityObserver({"));
