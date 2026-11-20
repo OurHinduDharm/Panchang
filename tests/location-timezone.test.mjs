@@ -80,4 +80,6 @@ test("daily and supplementary Panchang use the selected location timezone", asyn
   assert.match(source, /getIsoDateInTimeZone/);
   assert.doesNotMatch(source, /timezoneOffset\s*:\s*330/);
   assert.doesNotMatch(source, /timeZone\s*:\s*"Asia\/Kolkata"/);
+  assert.doesNotMatch(eclipse, /localStorage\.(?:getItem|setItem)/);
+  assert.match(eclipse, /state\.location = normalized/);
 });
