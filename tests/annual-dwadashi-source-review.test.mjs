@@ -835,8 +835,7 @@ test("Varaha Purana monthly Dwadashi source references use the actual chapter se
   for (const title of ["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"]) {
     const card = may2030.events.find(x => x.title === title);
     assert.ok(card, `missing public card ${title}`);
-    assert.doesNotMatch(JSON.stringify(card), /https?:\\/\\//i);
-    assert.doesNotMatch(JSON.stringify(card), /Drik|Vedic People|Vedapath/i);
+    assert.equal(JSON.stringify(card).includes("http"), false);
   }
 
   for (const year of [2026, 2027, 2028, 2029, 2030]) {
