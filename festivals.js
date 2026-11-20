@@ -1,3 +1,4 @@
+import { getTimeZoneOffsetForLocalDay, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 
 /*
@@ -5,47 +6,20 @@ import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js
  * Display every festival returned by the library without name filtering or deduplication.
  */
 
-// Keep this fallback identical to app.js's default Pithoragarh location.
-const DEFAULT_LOCATION = {
-  latitude: 29.5828,
-  longitude: 80.2182,
-  elevation: 1650
-};
-
 function getSelectedDate() {
   return document.getElementById("dateInput")?.value || null;
 }
 
 function getObserver() {
-  try {
-    const saved = typeof window.getPanchangLocation === "function"
-      ? window.getPanchangLocation()
-      : JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
-    if (!saved && typeof window.getPanchangLocation === "function") return null;
-    const latitude = Number(saved?.lat);
-    const longitude = Number(saved?.lon);
-    const elevation = Number(saved?.elevation) || 0;
-
-    if (Number.isFinite(latitude) && latitude >= -90 && latitude <= 90 &&
-        Number.isFinite(longitude) && longitude >= -180 && longitude <= 180) {
-      return new Observer(latitude, longitude, elevation);
-    }
-  } catch (error) {
-    console.warn("Festival card: saved location could not be read.", error);
-  }
-
-  return new Observer(
-    DEFAULT_LOCATION.latitude,
-    DEFAULT_LOCATION.longitude,
-    DEFAULT_LOCATION.elevation
-  );
+  return window.__ohdPanchangLocation ?? null;
 }
 
 function formatHindiDate(dateString) {
-  const date = new Date(dateString + "T12:00:00+05:30");
+  const timeZone = getObserver()?.timeZone || "Asia/Kolkata";
+  const date = zonedDateTimeToUtc(dateString, 12, 0, timeZone);
   if (Number.isNaN(date.getTime())) return dateString;
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
+    timeZone,
     day: "numeric",
     month: "long",
     year: "numeric"
@@ -111,13 +85,15 @@ function updateHinduFestivals() {
 
   const location = getObserver();
   if (!location) return;
-  const renderKey = [dateString, location.latitude, location.longitude, location.height].join("|");
+  const renderKey = [dateString, location.lat, location.lon, location.elevation, location.timeZone].join("|");
   if (renderKey === lastRenderKey && document.getElementById("ohdHinduFestivalsCard")) return;
 
   try {
-    // Use noon in IST to avoid UTC date rollover from YYYY-MM-DD parsing.
-    const date = new Date(dateString + "T12:00:00+05:30");
-    const panchang = getPanchangam(date, location, { timezoneOffset: 330 });
+    const date = zonedDateTimeToUtc(dateString, 12, 0, location.timeZone);
+    const observer = new Observer(location.lat, location.lon, location.elevation);
+    const panchang = getPanchangam(date, observer, {
+      timezoneOffset: getTimeZoneOffsetForLocalDay(date, location.timeZone)
+    });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
     // Display every festival returned by the Panchang library without name/category filtering or deduplication.
     renderFestivalCard(dateString, allFestivals);

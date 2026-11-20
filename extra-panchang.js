@@ -5,6 +5,8 @@ import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 
 import {
   Observer,
@@ -108,18 +110,23 @@ const HORA_DAY_LORD = {
   5: 1, // शुक्र
   6: 4  // शनि
 };
-function formatHoraTime(date){
+function formatHoraTime(date, timeZone = getLocation()?.timeZone || "Asia/Kolkata"){
   if(!date) return "—";
 
-  return new Intl.DateTimeFormat(
-    "hi-IN",
-    {
-      timeZone: "Asia/Kolkata",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true
-    }
-  ).format(date);
+  try{
+    return new Intl.DateTimeFormat(
+      "hi-IN",
+      {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }
+    ).format(date);
+  }catch(error){
+    console.warn("Hora timezone formatting failed:", error);
+    return "—";
+  }
 }
 
 function calculateHoraDetails(
@@ -150,10 +157,9 @@ function calculateHoraDetails(
     };
   }
 
+  // Use the ISO calendar date directly; browser timezone must not alter weekday.
   const weekday =
-    new Date(
-      `${selectedDate}T00:00:00`
-    ).getDay();
+    new Date(selectedDate + "T00:00:00.000Z").getUTCDay();
 
   const firstPlanetIndex =
     HORA_DAY_LORD[weekday];
@@ -258,46 +264,41 @@ function calculateHoraDetails(
    ========================================= */
 
 function getLocation() {
-
   try {
+    // app.js publishes the selected observer in page memory only.
+    const location = window.__ohdPanchangLocation;
+    if (!location || typeof location !== "object") return null;
+    if (location.lat == null || String(location.lat).trim() === "" ||
+        location.lon == null || String(location.lon).trim() === "") return null;
+    const lat = Number(location.lat);
+    const lon = Number(location.lon);
+    if (!Number.isFinite(lat) || lat < -90 || lat > 90 ||
+        !Number.isFinite(lon) || lon < -180 || lon > 180) return null;
 
-    const location = typeof window.getPanchangLocation === "function"
-      ? window.getPanchangLocation()
-      : JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
-    if (!location) return null;
-
-    const lat =
-      Number(location.lat);
-
-    const lon =
-      Number(location.lon);
-
-    const elevation =
-      Number(location.elevation) || 0;
-
-    if (
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lon)
-    ) {
-      return null;
-    }
+    const rawElevation = Number(location.elevation);
+    const elevation = Number.isFinite(rawElevation) && rawElevation >= -500 && rawElevation <= 9000
+      ? rawElevation : 0;
+    const timeZone = tzLookup(lat, lon);
+    if (!isValidTimeZone(timeZone)) return null;
+    const cleanText = value => String(value == null ? "" : value)
+      .replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, 240);
 
     return {
       latitude: lat,
       longitude: lon,
       elevation,
-      name: location.name || "",
-      city: location.city || "",
-      state: location.state || ""
+      name: cleanText(location.name),
+      city: cleanText(location.city),
+      state: cleanText(location.state),
+      elevationStatus: location.elevationStatus,
+      cityProfileKey: typeof location.cityProfileKey === "string" ? location.cityProfileKey : "",
+      cityId: Number.isSafeInteger(location.cityId) && location.cityId > 0 ? location.cityId : null,
+      timeZone,
+      country: cleanText(location.country),
+      countryCode: /^[a-z]{2}$/i.test(String(location.countryCode || "")) ? String(location.countryCode).toLowerCase() : ""
     };
-
   } catch (error) {
-
-    console.error(
-      "Extra Panchang location error:",
-      error
-    );
-
+    console.error("Extra Panchang location error:", error);
     return null;
   }
 }
@@ -324,7 +325,7 @@ function formatEventDateTime(instant) {
   }
 
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
+    timeZone: getLocation()?.timeZone || "Asia/Kolkata",
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -401,7 +402,6 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
       !latestLocation ||
       latestLocation.latitude !== location.latitude ||
       latestLocation.longitude !== location.longitude ||
-      latestLocation.elevation !== location.elevation ||
       latestLocation.city !== location.city ||
       latestLocation.name !== location.name
     ) return;
@@ -420,6 +420,21 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
 /* =========================================
    Card creation
    ========================================= */
+
+// Forward only a verified public city identifier, never private GPS coordinates.
+function annualTaraPageUrl() {
+  const url = new URL("https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html");
+  const location = getLocation();
+  if (location?.cityProfileKey && Object.hasOwn({
+    "pithoragarh-project-target": true, "drikpanchang-almora": true,
+    "drikpanchang-ramnagar": true, delhi: true, dehradun: true
+  }, location.cityProfileKey)) {
+    url.searchParams.set("city", location.cityProfileKey);
+  } else if (location?.cityId) {
+    url.searchParams.set("geoname", String(location.cityId));
+  }
+  return url.href;
+}
 
 function createPlanetCard(data, dailyEvents = {}) {
   const card = document.createElement("div");
@@ -454,7 +469,7 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
+    <p style="margin:12px 0 0"><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
   `;
   return card;
 }
@@ -1038,10 +1053,9 @@ function updatePlanetRiseSet() {
    * =========================================================
    */
 
-  const horaDate =
-    new Date(
-      `${selectedDate}T00:00:00+05:30`
-    );
+  const timeZone = location.timeZone || "Asia/Kolkata";
+  const horaDate = zonedDateTimeToUtc(selectedDate, 0, 0, timeZone);
+  const horaTimezoneOffset = getTimeZoneOffsetForLocalDay(horaDate, timeZone);
 
   const horaObserver =
     new Observer(
@@ -1055,62 +1069,28 @@ function updatePlanetRiseSet() {
       horaDate,
       horaObserver,
       {
-        timezoneOffset: 330
+        timezoneOffset: horaTimezoneOffset
       }
     );
 
-  const nextHoraDate =
-    new Date(horaDate);
-
-  nextHoraDate.setUTCDate(
-    nextHoraDate.getUTCDate() + 1
-  );
+  const nextSelectedHoraDate = addIsoCalendarDays(selectedDate, 1);
+  const nextHoraDate = zonedDateTimeToUtc(nextSelectedHoraDate, 0, 0, timeZone);
+  const nextHoraTimezoneOffset = getTimeZoneOffsetForLocalDay(nextHoraDate, timeZone);
 
   const nextPHora =
     getPanchangam(
       nextHoraDate,
       horaObserver,
       {
-        timezoneOffset: 330
+        timezoneOffset: nextHoraTimezoneOffset
       }
     );
 
 const now =
   new Date();
 
-const indiaDateParts =
-  new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone: "Asia/Kolkata",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }
-  ).formatToParts(now);
-
-const indiaYear =
-  indiaDateParts.find(
-    part => part.type === "year"
-  )?.value;
-
-const indiaMonth =
-  indiaDateParts.find(
-    part => part.type === "month"
-  )?.value;
-
-const indiaDay =
-  indiaDateParts.find(
-    part => part.type === "day"
-  )?.value;
-
-const indiaToday =
-  `${indiaYear}-${indiaMonth}-${indiaDay}`;
-
- const horaReferenceNow =
-  selectedDate === indiaToday
-    ? now
-    : null;
+const localToday = getIsoDateInTimeZone(now, timeZone);
+const horaReferenceNow = selectedDate === localToday ? now : null;
 
 let horaDetails = calculateHoraDetails(
   pHora.sunrise,
@@ -1141,15 +1121,15 @@ if(
 
   try{
 
-    const previousDateObj = new Date(selectedDate + "T12:00:00+05:30");
-    previousDateObj.setUTCDate(previousDateObj.getUTCDate() - 1);
-    const previousSelectedDate = previousDateObj.toISOString().slice(0, 10);
+    const previousSelectedDate = addIsoCalendarDays(selectedDate, -1);
+    const previousDateObj = zonedDateTimeToUtc(previousSelectedDate, 0, 0, timeZone);
+    const previousTimezoneOffset = getTimeZoneOffsetForLocalDay(previousDateObj, timeZone);
 
     const previousPanchang =
       getPanchangam(
         previousDateObj,
         horaObserver,
-        { timezoneOffset:330 }
+        { timezoneOffset:previousTimezoneOffset }
       );
 
     const previousHoraDetails =
@@ -1201,8 +1181,9 @@ if(
 
   // Nivasa is determined from the tithi prevailing at local sunrise,
   // not from the selected date's midnight input instant.
-  const sunrisePanchang = pHora.sunrise
-    ? getPanchangam(new Date(pHora.sunrise), horaObserver, { timezoneOffset: 330 })
+  const sunriseInstant = pHora.sunrise ? new Date(pHora.sunrise) : null;
+  const sunrisePanchang = sunriseInstant
+    ? getPanchangam(sunriseInstant, horaObserver, { timezoneOffset:getTimeZoneOffsetForLocalDay(sunriseInstant, timeZone) })
     : null;
   const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
   __ohdPerfMark("Nivasa calculation and card");
@@ -1312,17 +1293,15 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
       return { available: false, error: "चयनित तिथि अमान्य है।", yogas: [] };
     }
 
-    const p = getPanchangam(
-      new Date(`${selectedDate}T12:00:00+05:30`),
-      observer,
-      { timezoneOffset: 330 }
-    );
-
-    const nextP = getPanchangam(
-      new Date(`${nextDate}T12:00:00+05:30`),
-      observer,
-      { timezoneOffset: 330 }
-    );
+    const timeZone = location.timeZone || "Asia/Kolkata";
+    const selectedDateInstant = zonedDateTimeToUtc(selectedDate, 12, 0, timeZone);
+    const nextDateInstant = zonedDateTimeToUtc(nextDate, 12, 0, timeZone);
+    const p = getPanchangam(selectedDateInstant, observer, {
+      timezoneOffset:getTimeZoneOffsetForLocalDay(selectedDateInstant, timeZone)
+    });
+    const nextP = getPanchangam(nextDateInstant, observer, {
+      timezoneOffset:getTimeZoneOffsetForLocalDay(nextDateInstant, timeZone)
+    });
 
     if (!p?.sunrise || !nextP?.sunrise) {
       return {
@@ -1339,7 +1318,7 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
         const snapshot = getPanchangam(
           new Date(instant),
           observer,
-          { timezoneOffset: 330 }
+          { timezoneOffset:getTimeZoneOffsetForLocalDay(new Date(instant), timeZone) }
         );
         const longitude = snapshot?.planetaryPositions?.sun?.longitude;
         return Number.isFinite(longitude) ? longitude : null;
@@ -1378,7 +1357,7 @@ function formatClassicalYogaDateTime(value) {
   if (!Number.isFinite(date.getTime())) return "—";
 
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
+    timeZone: getLocation()?.timeZone || "Asia/Kolkata",
     day: "numeric",
     month: "long",
     hour: "2-digit",
@@ -1522,17 +1501,9 @@ function initExtraPanchang() {
       const now =
         new Date();
 
-      const indiaToday =
-        new Intl.DateTimeFormat(
-          "en-CA",
-          {
-            timeZone: "Asia/Kolkata"
-          }
-        ).format(now);
+      const localToday = getIsoDateInTimeZone(now, getLocation()?.timeZone || "Asia/Kolkata");
 
-      if (
-        selectedDate === indiaToday
-      ) {
+      if (selectedDate === localToday) {
         updatePlanetRiseSet();
       }
 

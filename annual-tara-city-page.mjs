@@ -226,7 +226,7 @@ if (params.has("geoname")) {
     else status.textContent = "स्थान नहीं मिला। कृपया स्थान चुनें।";
   }).catch(() => { if (selectionVersion === initialVersion) status.textContent = "कृपया स्थान फिर से चुनें।"; });
 } else {
-  if (params.has("city")) city.value = params.get("city");
+  if (params.has("city") && Object.hasOwn(locations, params.get("city"))) city.value = params.get("city");
   if (city.value) calculateSelection(false);
   else status.textContent = "कृपया स्थान चुनें।";
 }

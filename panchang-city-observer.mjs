@@ -36,7 +36,7 @@ export async function resolveCityObserver(location) {
     if (profile.names.includes(city) && distanceKm(location, canonical) <= 3) {
       return {...location, lat: canonical.latitude, lon: canonical.longitude,
         elevation: canonical.elevation, elevationStatus: "provided",
-        elevationSource: "OurHinduDharm canonical city profile"};
+        elevationSource: "OurHinduDharm canonical city profile", cityProfileKey: profile.key};
     }
   }
   try {

@@ -50,28 +50,14 @@ test("invalid saved provenance cannot be upgraded to provided", () => {
   assert.equal(restored.elevationStatus, "unknown");
 });
 
-test("daily Panchang blocks unknown observer heights before astronomical calculation", () => {
+test("daily Panchang persists only public city identifiers and marks GPS elevation unknown", () => {
   const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
-  assert.ok(source.includes("Math.abs(selectedLocation.lat) > 90 || Math.abs(selectedLocation.lon) > 180"));
-  assert.ok(source.includes("selectedLocation.elevation < -500"));
-  assert.ok(source.includes("selectedLocation.elevation > 9000 || selectedLocation.elevationStatus === \"unknown\""));
-  assert.ok(source.includes('result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।"'));
-  assert.ok(source.includes("const resolvedGpsLocation = await resolveCityObserver(gpsLocation)"));
-  assert.ok(source.includes("if (version !== gpsRequest) return;\n      selectedLocation = resolvedGpsLocation;"));
-  assert.ok(source.includes("const resolvedLocation = await resolveCityObserver(pendingLocation)"));
-  const selectStart = source.indexOf("async function selectCity(place)");
-  const selectEnd = source.indexOf("/* =========================================================\n   DEFAULT PITHORAGARH", selectStart);
-  const selectCity = source.slice(selectStart, selectEnd);
-  assert.ok(selectCity.indexOf("selectedLocation = pendingLocation") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
-  assert.ok(selectCity.indexOf("clearEventLocation()") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
-  assert.ok(selectCity.indexOf("result.innerHTML = `<div class=\"loading\">चुने हुए स्थान की गणना हो रही है...</div>`") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
-  assert.ok(selectCity.indexOf("localStorage.setItem(\"ohdPanchangLocation\", JSON.stringify(pendingLocation))") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
-  assert.ok(source.includes("elevation: 0,\n        elevationStatus: \"unknown\","));
-  assert.ok(!source.includes("elevation: position.coords.altitude ?? 0"));
-  assert.ok(source.includes('observerSource: "gps"'));
-  assert.ok(source.includes("async function initializePanchang()"));
-  assert.ok(source.includes('selectedLocation?.elevationStatus === "unknown"'));
-  assert.ok(source.includes("resolveCityObserver(initialLocation)"));
+  assert.match(source, /localStorage\.removeItem\("ohdPanchangLocation"\)/);
+  assert.doesNotMatch(source, /localStorage\.setItem\("ohdPanchangLocation"/);
+  assert.match(source, /localStorage\.setItem\(cityPreferenceKey, "profile:"/);
+  assert.match(source, /localStorage\.setItem\(cityPreferenceKey, "geonames:"/);
+  assert.match(source, /observerSource: "gps"[\s\S]*?elevationStatus: "unknown"/);
+  assert.doesNotMatch(source, /position\.coords\.altitude/);
 });
 
 test("saved GPS observer identity survives elevation restoration", () => {

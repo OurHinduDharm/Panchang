@@ -1,3 +1,4 @@
+import {addIsoCalendarDays,zonedDateTimeToUtc} from "./location-timezone.mjs";
 // Shared helpers for displaying the actual local interval of a tithi used as a festival vyapti.
 const TITHI_NAMES = [
   "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी", "सप्तमी",
@@ -42,10 +43,10 @@ function validDate(value) {
   return Number.isFinite(date.getTime()) ? date : null;
 }
 
-export function findTithiInterval(days, descriptor, dateIso) {
+export function findTithiInterval(days, descriptor, dateIso, timeZone = "Asia/Kolkata") {
   if (!Array.isArray(days) || !descriptor || !/^\d{4}-\d{2}-\d{2}$/.test(String(dateIso || ""))) return null;
-  const dayStart = Date.parse(dateIso + "T00:00:00+05:30");
-  const dayEnd = dayStart + 86400000;
+  const dayStart = zonedDateTimeToUtc(dateIso, 0, 0, timeZone).getTime();
+  const dayEnd = zonedDateTimeToUtc(addIsoCalendarDays(dateIso, 1), 0, 0, timeZone).getTime();
   // Panchang day objects expose tithi pieces clipped to sunrise-to-sunrise.
   // Join adjacent pieces first; otherwise a sunrise boundary is mistaken for
   // the actual tithi transition and the displayed interval develops a false gap.
@@ -83,29 +84,29 @@ export function findTithiInterval(days, descriptor, dateIso) {
   return merged.find(item => item.end.getTime() > dayStart && item.start.getTime() < dayEnd) || null;
 }
 
-function formatClock(value) {
+function formatClock(value, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata", hour: "numeric", minute: "2-digit", hour12: true
+    timeZone, hour: "numeric", minute: "2-digit", hour12: true
   }).format(date) + " बजे";
 }
 
-function formatDate(value) {
+function formatDate(value, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata", day: "numeric", month: "short"
+    timeZone, day: "numeric", month: "short"
   }).format(date);
 }
 
-export function formatTithiPoint(value, eventDate) {
+export function formatTithiPoint(value, eventDate, timeZone = "Asia/Kolkata") {
   const date = validDate(value);
   if (!date) return "";
   const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+    timeZone, year: "numeric", month: "2-digit", day: "2-digit"
   }).formatToParts(date);
   const key = type => (parts.find(part => part.type === type) || {}).value || "";
   const dateKey = key("year") + "-" + key("month") + "-" + key("day");
-  return (dateKey === eventDate ? "" : formatDate(date) + " · ") + formatClock(date);
+  return (dateKey === eventDate ? "" : formatDate(date,timeZone) + " · ") + formatClock(date,timeZone);
 }
