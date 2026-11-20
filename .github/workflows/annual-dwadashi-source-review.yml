@@ -22,15 +22,19 @@ on:
       - ".github/workflows/annual-dwadashi-source-review.yml"
   workflow_dispatch:
 
+# PR validation must never receive repository write permissions.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   generate-review-candidates:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -48,14 +52,27 @@ jobs:
             artifacts/dwadashi-review/*.json
             artifacts/annual-review/*.json
           if-no-files-found: error
+
+  # This separate job runs only for trusted main-branch pushes or manual runs.
+  # It is the only job that receives a write token.
+  publish-review-drafts:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    needs: generate-review-candidates
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download generated review-only JSON files
+        uses: actions/download-artifact@v4
+        with:
+          name: ohd-dwadashi-review-2026-2030
+          path: artifacts
       - name: Push clean annual review draft branch
-        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         run: |
           mkdir -p data/references
           cp artifacts/dwadashi-review/*.json data/references/
           cp artifacts/annual-review/*.json data/
-          rm -rf node_modules
-          rm -f package-lock.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b chore/annual-panchang-review-drafts-2026-2030-v2
