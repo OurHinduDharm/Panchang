@@ -454,7 +454,8 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
+    <p style="margin:10px 0 0;font-size:.93em">अगस्त्य तारा उदय, अस्त एवं अर्घ्य का समय विस्तृत वार्षिक पंचांग में देखें।</p>
+    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">स्थानानुसार गुरु, शुक्र एवं अगस्त्य का विस्तृत वार्षिक पंचांग देखें</a></p>
   `;
   return card;
 }
