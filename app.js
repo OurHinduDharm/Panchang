@@ -3071,6 +3071,8 @@ async function selectCity(place){
   // while the newly selected city is being resolved.
   selectedLocation = pendingLocation;
   clearEventLocation();
+  // Never leave the previous city's sunrise/muhurta visible under the new label.
+  result.innerHTML = `<div class="loading">चुने हुए स्थान की गणना हो रही है...</div>`;
   // Persist the pending observer as unknown so a reload cannot revive the old city.
   try {
     localStorage.setItem("ohdPanchangLocation", JSON.stringify(pendingLocation));
