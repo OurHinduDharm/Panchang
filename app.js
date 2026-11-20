@@ -365,9 +365,7 @@ function getYatraNakshatra(
 
   const baseTime =
     referenceNow ||
-    new Date(
-      dateInput.value + "T12:00:00"
-    );
+    zonedDateTimeToUtc(dateInput.value, 12, 0, selectedLocation?.timeZone || "Asia/Kolkata");
 
   if(
     Array.isArray(p.nakshatras)
@@ -786,9 +784,7 @@ function getYatraShoolaDetails(
   previousPanchang
 ){
   const selectedDate =
-    new Date(
-      dateInput.value + "T00:00:00"
-    );
+    new Date(dateInput.value + "T12:00:00Z");
 
   /*
    * वर्तमान तारीख पर सूर्योदय से पहले,
@@ -808,7 +804,7 @@ function getYatraShoolaDetails(
       ? previousPanchang
       : p;
 
-  let weekday = selectedDate.getDay();
+  let weekday = selectedDate.getUTCDay();
 
   if (isPreSunriseToday && previousPanchang) {
     const weekdayNames = [
@@ -1419,17 +1415,9 @@ const sankalpState = {
    */
   if(!vishtiKarana){
 
-    const selectedDayStart =
-      new Date(
-        dateInput.value + "T00:00:00"
-      );
-
-    const selectedDayEnd =
-      new Date(selectedDayStart);
-
-    selectedDayEnd.setDate(
-      selectedDayEnd.getDate() + 1
-    );
+    const timeZone = selectedLocation?.timeZone || "Asia/Kolkata";
+    const selectedDayStart = zonedDateTimeToUtc(dateInput.value, 0, 0, timeZone);
+    const selectedDayEnd = zonedDateTimeToUtc(addIsoCalendarDays(dateInput.value, 1), 0, 0, timeZone);
 
     vishtiKarana =
       vishtiCandidates.find(
@@ -4886,7 +4874,10 @@ function specialPunyaKaalDateTime(value){
 }
 async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
-  if(!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
+  const isPithoragarh = selectedLocation &&
+    Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
+    Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02;
+  if(!isPithoragarh||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
   const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
