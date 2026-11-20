@@ -216,7 +216,7 @@ const params = new URLSearchParams(window.location.search);
 const currentYear = Number(panchangIsoDate(new Date()).slice(0, 4));
 for (let y = 2021; y <= Math.max(2030, currentYear + 1); y++) year.add(new Option(String(y), String(y)));
 year.value = [...year.options].some(o => o.value === params.get("year")) ? params.get("year") : String(currentYear);
-if (params.has("geoname") && /^\\d+$/.test(params.get("geoname") || "") && Number.isSafeInteger(Number(params.get("geoname"))) && Number(params.get("geoname")) > 0) {
+if (params.has("geoname") && /^\d+$/.test(params.get("geoname") || "") && Number.isSafeInteger(Number(params.get("geoname"))) && Number(params.get("geoname")) > 0) {
   city.value = "";
   status.textContent = "स्थान लोड हो रहा है…";
   const initialVersion = selectionVersion;
