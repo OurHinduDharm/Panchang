@@ -1237,7 +1237,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       date.appendChild(monthName);
       var small=document.createElement("small");
       small.className="weekday";
-      small.textContent=Number.isNaN(dateObj.getTime())?"":["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"][dateObj.getDay()];
+      small.textContent=Number.isNaN(dateObj.getTime())?"":["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"][dateObj.getUTCDay()];
       small.style.cssText="font-size:10px;line-height:1.3;overflow-wrap:normal;word-break:keep-all";
       date.appendChild(small);card.appendChild(date);
 
