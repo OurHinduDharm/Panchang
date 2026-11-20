@@ -1,0 +1,34 @@
+name: City observer regression
+on:
+  pull_request:
+    paths:
+      - 'app.js'
+      - 'panchang-city-observer.mjs'
+      - 'panchang-location-elevation.mjs'
+      - 'annual-tara-place-search.mjs'
+      - 'annual-tara-locations.mjs'
+      - 'panchang-event-links.mjs'
+      - 'tests/panchang-city-observer.test.mjs'
+      - 'tests/panchang-location-elevation.test.mjs'
+      - 'tests/annual-tara-place-search.test.mjs'
+      - 'tests/panchang-event-links.test.mjs'
+      - '.github/workflows/city-observer-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  city-observer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax validation
+        run: |
+          node --check app.js
+          node --check panchang-city-observer.mjs
+          node --check annual-tara-place-search.mjs
+      - name: Location and elevation regression
+        run: |
+          node --test tests/panchang-city-observer.test.mjs tests/panchang-location-elevation.test.mjs tests/annual-tara-place-search.test.mjs
