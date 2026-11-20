@@ -1961,7 +1961,41 @@
           "reviewStatus": "approved",
           "reviewBasis": "नारद पुराण पूर्वार्ध 121.67b–76a में एकादशी-उपवास और रात्रि-जागरण के बाद द्वादशी-प्रातः पूजन, होम और दान का स्पष्ट क्रम है; चुनी तारीख़ पर पिथौरागढ़ के स्थानीय सूर्योदय में द्वादशी विद्यमान है।"
         }
-      ]
+      ],
+      "drikDecisionAnalysis": {
+        "source": "Drik Panchang — Krishna Matsya Dwadashi 2030; Narada Purana, Pūrva-bhāga 121.67b–76a",
+        "sourceUrls": [
+          "https://www.drikpanchang.com/dwadashi/matsya/krishna-matsya-dwadashi-date-time.html?year=2030",
+          "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html"
+        ],
+        "drikNewDelhi": {
+          "observanceDate": "2030-12-21",
+          "dwadashiStart": "2030-12-21T12:32:00+05:30",
+          "dwadashiEnd": "2030-12-22T09:41:00+05:30",
+          "paranaDate": "2030-12-22",
+          "paranaWindow": "07:10–09:14 IST",
+          "sourceTextConflict": "Drik says Dwadashi is over before sunrise on parana day, but its own end time is 09:41 IST; the explicit interval and parana window contradict that sentence."
+        },
+        "pithoragarh": {
+          "dwadashiStart": "2030-12-21T12:33:11.523+05:30",
+          "followingSunrise": "2030-12-22T07:00:33.432+05:30",
+          "dwadashiEnd": "2030-12-22T09:41:50.353+05:30",
+          "sunriseTithi": "द्वादशी",
+          "note": "द्वादशी 21 दिसंबर दोपहर शुरू होकर 22 दिसंबर स्थानीय सूर्योदय पर भी विद्यमान रहती है; 09:41:50 IST पर समाप्त होती है।"
+        },
+        "distinctObservance": {
+          "drikNamedVrata": "कृष्ण मत्स्य द्वादशी",
+          "drikVrataDate": "2030-12-21",
+          "drikParanaDate": "2030-12-22",
+          "naradaNamedVrata": "रूप-व्रत",
+          "naradaVrataDate": "2030-12-21",
+          "naradaMorningWorshipDate": "2030-12-22",
+          "naradaRule": "पूर्व एकादशी को उपवास और रात्रि-जागरण; द्वादशी की सुबह विष्णु-पूजन, होम और दान।",
+          "disposition": "कृष्ण मत्स्य द्वादशी और रूप-व्रत एक ही तिथि-अंतराल से संबंधित अलग named observances हैं; aliases में न मिलाएँ और एक का date rule दूसरे पर न थोपें।"
+        },
+        "approval": "source cross-reference documented; overall tithi/source review remains pending",
+        "autoApproved": false
+      }
     },
     {
       "id": "pausha-shukla",
