@@ -19,7 +19,7 @@ export function restoreSavedElevationStatus(location, saved) {
   }
   if (status === "provided") return restored;
   if (!Number(saved.elevation)) {
-    return {...location, elevation: 0, elevationStatus: "unknown"};
+    return {...restored, elevation: 0, elevationStatus: "unknown"};
   }
-  return location;
+  return restored;
 }
