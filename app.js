@@ -1,5 +1,5 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
-import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetMinutes, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 import { getNightPraharWindows } from "./night-prahar.js";
 import {
@@ -4953,7 +4953,7 @@ function calculatePanchang(){
 
     const timeZone = selectedLocation.timeZone;
     const date = zonedDateTimeToUtc(dateInput.value, 12, 0, timeZone);
-    const dateTimezoneOffset = getTimeZoneOffsetMinutes(date, timeZone);
+    const dateTimezoneOffset = getTimeZoneOffsetForLocalDay(date, timeZone);
     const p = __ohdTimedPanchang("selected date",
       date, observer,
       { timezoneOffset:dateTimezoneOffset, calendarType:"purnimanta" }
@@ -4972,7 +4972,7 @@ function calculatePanchang(){
         sankalpRashiPanchang = __ohdTimedPanchang("current-time sankalp", 
           referenceNow,
           observer,
-          { timezoneOffset:getTimeZoneOffsetMinutes(referenceNow, timeZone), calendarType:"purnimanta" }
+          { timezoneOffset:getTimeZoneOffsetForLocalDay(referenceNow, timeZone), calendarType:"purnimanta" }
         );
       }catch(e){
         console.warn("Sankalp-time Rashi calculation failed:", e);
@@ -4985,7 +4985,7 @@ try{
   const nextDate = zonedDateTimeToUtc(addIsoCalendarDays(dateInput.value, 1), 12, 0, timeZone);
       const nextPanchang = __ohdTimedPanchang("next date",
         nextDate, observer,
-        { timezoneOffset:getTimeZoneOffsetMinutes(nextDate, timeZone), calendarType:"purnimanta" }
+        { timezoneOffset:getTimeZoneOffsetForLocalDay(nextDate, timeZone), calendarType:"purnimanta" }
       );
 
       if(
@@ -5022,7 +5022,7 @@ try{
   previousPanchang =
     __ohdTimedPanchang("previous date",
       previousDate, observer,
-      { timezoneOffset:getTimeZoneOffsetMinutes(previousDate, timeZone), calendarType:"purnimanta" }
+      { timezoneOffset:getTimeZoneOffsetForLocalDay(previousDate, timeZone), calendarType:"purnimanta" }
     );
 
   if(
