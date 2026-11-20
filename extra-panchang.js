@@ -5,6 +5,7 @@ import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, zonedDateTimeToUtc } from "./location-timezone.mjs";
 
 import {
   Observer,
@@ -294,7 +295,8 @@ function getLocation() {
       elevation,
       name: location.name || "",
       city: location.city || "",
-      state: location.state || ""
+      state: location.state || "",
+      timeZone: location.timeZone || null
     };
 
   } catch (error) {
@@ -330,7 +332,7 @@ function formatEventDateTime(instant) {
   }
 
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
+    timeZone: getLocation()?.timeZone || "Asia/Kolkata",
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -1043,10 +1045,9 @@ function updatePlanetRiseSet() {
    * =========================================================
    */
 
-  const horaDate =
-    new Date(
-      `${selectedDate}T00:00:00+05:30`
-    );
+  const timeZone = location.timeZone || "Asia/Kolkata";
+  const horaDate = zonedDateTimeToUtc(selectedDate, 0, 0, timeZone);
+  const horaTimezoneOffset = getTimeZoneOffsetForLocalDay(horaDate, timeZone);
 
   const horaObserver =
     new Observer(
@@ -1060,62 +1061,28 @@ function updatePlanetRiseSet() {
       horaDate,
       horaObserver,
       {
-        timezoneOffset: 330
+        timezoneOffset: horaTimezoneOffset
       }
     );
 
-  const nextHoraDate =
-    new Date(horaDate);
-
-  nextHoraDate.setDate(
-    nextHoraDate.getDate() + 1
-  );
+  const nextSelectedHoraDate = addIsoCalendarDays(selectedDate, 1);
+  const nextHoraDate = zonedDateTimeToUtc(nextSelectedHoraDate, 0, 0, timeZone);
+  const nextHoraTimezoneOffset = getTimeZoneOffsetForLocalDay(nextHoraDate, timeZone);
 
   const nextPHora =
     getPanchangam(
       nextHoraDate,
       horaObserver,
       {
-        timezoneOffset: 330
+        timezoneOffset: nextHoraTimezoneOffset
       }
     );
 
 const now =
   new Date();
 
-const indiaDateParts =
-  new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone: "Asia/Kolkata",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }
-  ).formatToParts(now);
-
-const indiaYear =
-  indiaDateParts.find(
-    part => part.type === "year"
-  )?.value;
-
-const indiaMonth =
-  indiaDateParts.find(
-    part => part.type === "month"
-  )?.value;
-
-const indiaDay =
-  indiaDateParts.find(
-    part => part.type === "day"
-  )?.value;
-
-const indiaToday =
-  `${indiaYear}-${indiaMonth}-${indiaDay}`;
-
- const horaReferenceNow =
-  selectedDate === indiaToday
-    ? now
-    : null;
+const localToday = getIsoDateInTimeZone(now, timeZone);
+const horaReferenceNow = selectedDate === localToday ? now : null;
 
 let horaDetails = calculateHoraDetails(
   pHora.sunrise,
@@ -1146,31 +1113,15 @@ if(
 
   try{
 
-    const previousDateObj =
-      new Date(
-        `${selectedDate}T12:00:00`
-      );
-
-    previousDateObj.setDate(
-      previousDateObj.getDate() - 1
-    );
-
-    const previousSelectedDate =
-      previousDateObj.getFullYear() +
-      "-" +
-      String(
-        previousDateObj.getMonth() + 1
-      ).padStart(2,"0") +
-      "-" +
-      String(
-        previousDateObj.getDate()
-      ).padStart(2,"0");
+    const previousSelectedDate = addIsoCalendarDays(selectedDate, -1);
+    const previousDateObj = zonedDateTimeToUtc(previousSelectedDate, 0, 0, timeZone);
+    const previousTimezoneOffset = getTimeZoneOffsetForLocalDay(previousDateObj, timeZone);
 
     const previousPanchang =
       getPanchangam(
         previousDateObj,
         horaObserver,
-        { timezoneOffset:330 }
+        { timezoneOffset:previousTimezoneOffset }
       );
 
     const previousHoraDetails =
@@ -1222,8 +1173,9 @@ if(
 
   // Nivasa is determined from the tithi prevailing at local sunrise,
   // not from the selected date's midnight input instant.
-  const sunrisePanchang = pHora.sunrise
-    ? getPanchangam(new Date(pHora.sunrise), horaObserver, { timezoneOffset: 330 })
+  const sunriseInstant = pHora.sunrise ? new Date(pHora.sunrise) : null;
+  const sunrisePanchang = sunriseInstant
+    ? getPanchangam(sunriseInstant, horaObserver, { timezoneOffset:getTimeZoneOffsetForLocalDay(sunriseInstant, timeZone) })
     : null;
   const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
   __ohdPerfMark("Nivasa calculation and card");
@@ -1333,17 +1285,15 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
       return { available: false, error: "चयनित तिथि अमान्य है।", yogas: [] };
     }
 
-    const p = getPanchangam(
-      new Date(`${selectedDate}T12:00:00+05:30`),
-      observer,
-      { timezoneOffset: 330 }
-    );
-
-    const nextP = getPanchangam(
-      new Date(`${nextDate}T12:00:00+05:30`),
-      observer,
-      { timezoneOffset: 330 }
-    );
+    const timeZone = location.timeZone || "Asia/Kolkata";
+    const selectedDateInstant = zonedDateTimeToUtc(selectedDate, 12, 0, timeZone);
+    const nextDateInstant = zonedDateTimeToUtc(nextDate, 12, 0, timeZone);
+    const p = getPanchangam(selectedDateInstant, observer, {
+      timezoneOffset:getTimeZoneOffsetForLocalDay(selectedDateInstant, timeZone)
+    });
+    const nextP = getPanchangam(nextDateInstant, observer, {
+      timezoneOffset:getTimeZoneOffsetForLocalDay(nextDateInstant, timeZone)
+    });
 
     if (!p?.sunrise || !nextP?.sunrise) {
       return {
@@ -1360,7 +1310,7 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
         const snapshot = getPanchangam(
           new Date(instant),
           observer,
-          { timezoneOffset: 330 }
+          { timezoneOffset:getTimeZoneOffsetForLocalDay(new Date(instant), timeZone) }
         );
         const longitude = snapshot?.planetaryPositions?.sun?.longitude;
         return Number.isFinite(longitude) ? longitude : null;
@@ -1399,7 +1349,7 @@ function formatClassicalYogaDateTime(value) {
   if (!Number.isFinite(date.getTime())) return "—";
 
   return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
+    timeZone: getLocation()?.timeZone || "Asia/Kolkata",
     day: "numeric",
     month: "long",
     hour: "2-digit",
@@ -1543,17 +1493,9 @@ function initExtraPanchang() {
       const now =
         new Date();
 
-      const indiaToday =
-        new Intl.DateTimeFormat(
-          "en-CA",
-          {
-            timeZone: "Asia/Kolkata"
-          }
-        ).format(now);
+      const localToday = getIsoDateInTimeZone(now, getLocation()?.timeZone || "Asia/Kolkata");
 
-      if (
-        selectedDate === indiaToday
-      ) {
+      if (selectedDate === localToday) {
         updatePlanetRiseSet();
       }
 

@@ -1,0 +1,29 @@
+name: Location timezone validation
+
+on:
+  pull_request:
+    paths:
+      - "app.js"
+      - "extra-panchang.js"
+      - "location-timezone.mjs"
+      - "tests/location-timezone.test.mjs"
+      - ".github/workflows/location-timezone-validation.yml"
+  push:
+    branches:
+      - "fix/location-aware-timezones"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check extra-panchang.js
+          node --check location-timezone.mjs
+      - name: Run timezone tests
+        run: node --test tests/location-timezone.test.mjs
