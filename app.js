@@ -1,5 +1,7 @@
 import { restoreSavedElevationStatus } from "./panchang-location-elevation.mjs";
 import { resolveCityObserver } from "./panchang-city-observer.mjs";
+import { findTaraPlace } from "./annual-tara-place-search.mjs";
+import { locations as annualCityProfiles } from "./annual-tara-locations.mjs";
 import { clearPanchangLinkLocation, hasPanchangLinkLocation, panchangIsoDate, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getNightPraharWindows } from "./night-prahar.js";
@@ -3081,7 +3083,7 @@ async function selectCity(place){
     place.display_name;
   suggestions.innerHTML = "";
 
-  // Coordinates are used in memory only; do not persist location data.
+  rememberPublicCity(selectedLocation);
 
   calculatePanchang();
 }
@@ -3106,10 +3108,58 @@ function clearEventLocation() {
   }
 }
 
-// Clear historical plaintext coordinates saved by older releases.
-// City and GPS selections now remain in memory for this page visit.
+// Persist only an identifier from our PUBLIC city catalogue, never coordinates.
+// Device GPS and unmatched free-form locations are never saved.
+const cityPreferenceKey = "ohdPanchangCityId";
 try { localStorage.removeItem("ohdPanchangLocation"); } catch {}
-function savedPanchangLocation() { return null; }
+function rememberPublicCity(location) {
+  try {
+    if (location.observerSource === "gps") {
+      localStorage.removeItem(cityPreferenceKey);
+    } else if (location.cityProfileKey && Object.hasOwn(annualCityProfiles, location.cityProfileKey)) {
+      localStorage.setItem(cityPreferenceKey, "profile:" + location.cityProfileKey);
+    } else if (Number.isSafeInteger(location.cityId) && location.cityId > 0) {
+      localStorage.setItem(cityPreferenceKey, "geonames:" + location.cityId);
+    } else {
+      localStorage.removeItem(cityPreferenceKey);
+    }
+  } catch {}
+}
+async function restorePublicCity() {
+  let saved;
+  try { saved = localStorage.getItem(cityPreferenceKey); } catch { return; }
+  if (!saved || hasPanchangLinkLocation(locationParams)) return;
+  const version = gpsRequest;
+  let place = null;
+  if (saved.startsWith("profile:")) {
+    const key = saved.slice(8);
+    if (Object.hasOwn(annualCityProfiles, key)) {
+      const p = annualCityProfiles[key];
+      place = {name: p.name || p.city || key, city: p.city || p.name || key,
+        lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+        elevationStatus: "provided", cityProfileKey: key};
+    }
+  } else if (/^geonames:[1-9]\\d*$/.test(saved)) {
+    try {
+      const p = await findTaraPlace(saved.slice(9));
+      if (p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude)) {
+        place = {name: p.name, city: p.city, state: p.admin1,
+          lat: p.latitude, lon: p.longitude, elevation: p.elevation,
+          elevationStatus: p.elevationStatus, elevationSource: p.elevationSource,
+          cityId: p.id};
+      }
+    } catch {}
+  }
+  if (version !== gpsRequest || hasPanchangLinkLocation(locationParams)) return;
+  if (!place) {
+    try { localStorage.removeItem(cityPreferenceKey); } catch {}
+    return;
+  }
+  selectedLocation = place;
+  selectedCity.textContent = "💾 पिछला चुना गया शहर: " + place.name;
+  selectedCity.style.display = "block";
+  calculatePanchang();
+}
 
 // A link is scoped to this tab. Extra Panchang and festivals must use the same
 // observer even when another city is saved, or persistent storage is disabled.
@@ -3118,9 +3168,8 @@ if (hasPanchangLinkLocation(locationParams)) {
   selectedCity.textContent = selectedLocation ? "📍 चुना गया स्थान: " + selectedLocation.name :
     "स्थान की जानकारी सही नहीं है। कृपया स्थान चुनें।";
 } else {
-  selectedLocation = savedPanchangLocation() || defaultPithoragarh;
-  selectedCity.textContent = (selectedLocation === defaultPithoragarh ? "📍 डिफ़ॉल्ट स्थान: " :
-    "💾 पिछला चुना गया स्थान: ") + selectedLocation.name;
+  selectedLocation = defaultPithoragarh;
+  selectedCity.textContent = "📍 डिफ़ॉल्ट स्थान: " + selectedLocation.name;
 }
 selectedCity.style.display = "block";
 window.getPanchangLocation = () => selectedLocation && {...selectedLocation};
@@ -6844,7 +6893,7 @@ window.useMyLocation = function(){
       selectedCity.textContent =
         "📍 वर्तमान स्थान" + locLine;
 
-      // Device coordinates remain in memory only, never persistent storage.
+      // GPS must not overwrite a stored city preference with private coordinates.
 
       calculatePanchang();
     },
@@ -6878,3 +6927,4 @@ sankalpState.sandhyaType =
   getAutoSandhyaType();
 
 calculatePanchang();
+void restorePublicCity();
