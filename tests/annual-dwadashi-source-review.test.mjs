@@ -748,3 +748,19 @@ test("Varaha and Rama-Lakshmana worship precede the next morning's gift during o
     assert.equal(cards[0].sourceUrl, rite.sourceUrl);
   }
 });
+
+test("annual Dwadashi workflow keeps PR validation read-only and scopes writes to trusted main runs", async () => {
+  const workflow = await readFile(
+    new URL("../.github/workflows/annual-dwadashi-source-review.yml", import.meta.url),
+    "utf8"
+  );
+  const generatorJob = workflow.split("  publish-review-drafts:")[0];
+  assert.match(generatorJob, /permissions:\s+contents:\s+read/);
+  assert.doesNotMatch(generatorJob, /contents:\s+write|pull-requests:\s+write/);
+  assert.match(generatorJob, /persist-credentials:\s+false/);
+
+  const publisherJob = workflow.slice(workflow.indexOf("  publish-review-drafts:"));
+  assert.match(publisherJob, /if:.*github\.ref == 'refs\/heads\/main'/);
+  assert.match(publisherJob, /permissions:\s+contents:\s+write/);
+  assert.doesNotMatch(publisherJob, /pull-requests:\s+write/);
+});
