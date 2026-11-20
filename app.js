@@ -6793,9 +6793,10 @@ window.useMyLocation = function(){
         name: "वर्तमान स्थान",
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-        elevation:
-          position.coords.altitude ?? 0,
-        elevationStatus: position.coords.altitude == null ? "unknown" : "provided",
+        // Browser GPS altitude is ellipsoidal and may be vertically imprecise;
+        // resolve a city-database observer instead of treating it as sea-level height.
+        elevation: 0,
+        elevationStatus: "unknown",
         state: "",
         city: ""
       };
