@@ -3057,7 +3057,8 @@ async function selectCity(place){
     ""
   ).trim();
 
-  selectedLocation = {
+  const version = ++gpsRequest;
+  const resolvedLocation = await resolveCityObserver({
     name: place.display_name,
     lat: Number(place.lat),
     lon: Number(place.lon),
@@ -3065,11 +3066,9 @@ async function selectCity(place){
     elevationStatus: "unknown",
     state: state,
     city: city
-  };
-
-  const version = ++gpsRequest;
-  selectedLocation = await resolveCityObserver(selectedLocation);
+  });
   if (version !== gpsRequest) return;
+  selectedLocation = resolvedLocation;
   clearEventLocation();
 
   cityInput.value =
