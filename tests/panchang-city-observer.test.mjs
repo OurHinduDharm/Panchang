@@ -84,3 +84,18 @@ test("same-name city after first 12 search results resolves by nearby coordinate
   assert.equal(selected.id, 910013);
   assert.equal(selected.elevation, 777);
 });
+
+test("invalid coordinates cannot resolve to a city observer", async () => {
+  const selected = await resolveCityObserver({
+    city: "पिथौरागढ़", lat: 129.5, lon: 80.2, elevation: 0,
+    elevationStatus: "unknown"
+  });
+  assert.equal(selected.elevationStatus, "unknown");
+  assert.equal(selected.elevation, 0);
+});
+test("nearest-city matching rejects out-of-range coordinates", () => {
+  const index = {states: {}, districts: {}, cities: [
+    [910100, "Exampletown", "39", "01", 29.5, 79.5, 777, ["उदाहरणनगर"]]
+  ]};
+  assert.equal(matchNearestPlace(index, "उदाहरणनगर", 129.5, 79.5), null);
+});
