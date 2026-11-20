@@ -124,7 +124,17 @@ test("event deep link applies one observer across the daily page, date changes a
       elevation: "216", place: "नई दिल्ली & नगर", city: "नई दिल्ली", state: "दिल्ली"});
     await page.goto(base + "?" + params);
     const sunCard = page.locator("#result .card").filter({has: page.getByText("🌅 सूर्य व 🌙 चंद्र समय", {exact: true})});
-    await sunCard.waitFor({timeout: 90000});
+    try {
+      await sunCard.waitFor({timeout: 90000});
+    } catch (error) {
+      const diagnostics = await page.evaluate(() => ({
+        location: window.getPanchangLocation?.() || null,
+        selectedCity: document.querySelector("#selectedCity")?.innerText || "",
+        result: document.querySelector("#result")?.innerText?.slice(0, 1200) || "",
+        date: document.querySelector("#dateInput")?.value || ""
+      })).catch(() => null);
+      throw new Error(`Daily Panchang card did not render: ${error.message}; diagnostics=${JSON.stringify(diagnostics)}; pageErrors=${errors.join(" | ")}`);
+    }
     const expected = await page.evaluate(async () => {
       const {Observer, getPanchangam} = await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
       const p = getPanchangam(new Date("2027-08-17T12:00:00+05:30"),
