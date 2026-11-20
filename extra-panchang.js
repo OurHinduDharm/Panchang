@@ -279,6 +279,8 @@ function getLocation() {
     const location =
       JSON.parse(saved);
 
+    if (location.lat == null || String(location.lat).trim() === "" ||
+        location.lon == null || String(location.lon).trim() === "") return null;
     const lat = Number(location.lat);
     const lon = Number(location.lon);
     if (!Number.isFinite(lat) || lat < -90 || lat > 90 ||
