@@ -1,0 +1,58 @@
+// Derived from the GeoNames India/cities1000 extracts (CC BY 4.0).
+// Each row stores id, city, state/district codes, lat/lon, height and aliases.
+let indexPromise;
+
+function loadIndex() {
+  if (!indexPromise) {
+    indexPromise = fetch(new URL("./data/tara-india-places.json", import.meta.url))
+      .then(response => {
+        if (!response.ok) throw new Error("Place index unavailable");
+        return response.json();
+      }).catch(error => {
+        indexPromise = undefined;
+        throw error;
+      });
+  }
+  return indexPromise;
+}
+
+function searchKey(text) {
+  // Fold Latin diacritics while preserving Devanagari vowel signs.
+  return text.normalize("NFD").replace(/([a-z])[\u0300-\u036f]+/gi, "$1")
+    .replace(/\u093c/g, "").normalize("NFC").toLowerCase().trim();
+}
+
+function toPlace([id, city, stateCode, districtCode, latitude, longitude, elevation], index) {
+  const admin1 = (index.states[stateCode] || "").replace(/^(State of |Union Territory of )/, "");
+  const admin2 = index.districts[stateCode + "." + districtCode] || "";
+  return {
+    id, city, admin1, admin2, stateCode, countryCode: "IN", timeZone: "Asia/Kolkata",
+    name: [city, admin2, admin1, "भारत"].filter(Boolean).join(", "),
+    latitude, longitude, elevation
+  };
+}
+
+export function matchPlaces(index, query) {
+  const term = searchKey(query);
+  if (term.length < 2 || term.length > 100) return [];
+  const exact = [], prefix = [];
+  for (const row of index.cities) {
+    const names = [row[1], ...row[7]].map(searchKey);
+    if (names.includes(term)) exact.push(row);
+    else if (prefix.length < 12 && names.some(name => name.startsWith(term))) prefix.push(row);
+    if (exact.length === 12) break;
+  }
+  return exact.concat(prefix).slice(0, 12).map(row => toPlace(row, index));
+}
+
+export async function searchTaraPlaces(query) {
+  if (query.trim().length < 2) return [];
+  return matchPlaces(await loadIndex(), query);
+}
+
+export async function findTaraPlace(id) {
+  if (!/^[1-9]\d*$/.test(id)) return null;
+  const index = await loadIndex();
+  const row = index.cities.find(place => String(place[0]) === id);
+  return row ? toPlace(row, index) : null;
+}
