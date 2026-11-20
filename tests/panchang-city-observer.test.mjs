@@ -139,3 +139,13 @@ test("extra Panchang uses the active observer without resurrecting stored GPS co
   assert.match(source, /window\.getPanchangLocation\(\)/);
   assert.doesNotMatch(source, /localStorage\.getItem\(["\x27]ohdPanchangLocation/);
 });
+
+
+test("daily Tara details link forwards only public city identity", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(source, /url\.searchParams\.set\("city", location\.cityProfileKey\)/);
+  assert.match(source, /url\.searchParams\.set\("geoname", String\(location\.cityId\)\)/);
+  assert.doesNotMatch(source, /url\.searchParams\.set\("lat"/);
+  assert.doesNotMatch(source, /url\.searchParams\.set\("lon"/);
+  assert.match(source, /href="\$\{annualTaraPageUrl\(\)\}"/);
+});
