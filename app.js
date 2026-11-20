@@ -3056,6 +3056,8 @@ function resolveLocationTimeZone(location){
 // URL और localStorage दोनों को अविश्वसनीय इनपुट मानकर एक ही validation path से गुजारें।
 function sanitizeLocationRecord(value){
   if(!value || typeof value !== "object" || Array.isArray(value)) return null;
+  if(value.lat == null || String(value.lat).trim() === "" ||
+     value.lon == null || String(value.lon).trim() === "") return null;
   const lat = Number(value.lat);
   const lon = Number(value.lon);
   if(!Number.isFinite(lat) || lat < -90 || lat > 90 ||
