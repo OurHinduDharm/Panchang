@@ -261,9 +261,11 @@ function getLocation() {
 
   try {
 
+    // The daily Panchang owns the current in-memory observer. Never read
+    // the retired localStorage payload containing precise coordinates.
     const location = typeof window.getPanchangLocation === "function"
       ? window.getPanchangLocation()
-      : JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
+      : null;
     if (!location) return null;
 
     const lat =
