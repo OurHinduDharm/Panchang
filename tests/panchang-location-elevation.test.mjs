@@ -40,3 +40,11 @@ test("an estimated zero-meter height keeps its estimate provenance", () => {
   assert.equal(restored.elevation, 0);
   assert.equal(restored.elevationStatus, "estimated");
 });
+
+test("invalid saved provenance cannot be upgraded to provided", () => {
+  const restored = restoreSavedElevationStatus(parsed, {
+    lat: 29, lon: 80, elevation: 1586, elevationStatus: "measured-ish"
+  });
+  assert.equal(restored.elevation, 0);
+  assert.equal(restored.elevationStatus, "unknown");
+});
