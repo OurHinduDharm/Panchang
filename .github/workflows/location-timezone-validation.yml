@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "app.js"
+      - "extra-panchang.js"
       - "location-timezone.mjs"
       - "tests/location-timezone.test.mjs"
       - ".github/workflows/location-timezone-validation.yml"
@@ -22,6 +23,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check app.js
+          node --check extra-panchang.js
           node --check location-timezone.mjs
       - name: Run timezone tests
         run: node --test tests/location-timezone.test.mjs
