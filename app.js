@@ -1,4 +1,5 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetMinutes, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import { getNightPraharWindows } from "./night-prahar.js";
 import {
   Body as AstroBody,
@@ -121,8 +122,12 @@ const result = document.getElementById("result");
 
 /* TODAY */
 function todayString(){
-  const d = new Date();
-  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  const timeZone = selectedLocation?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  try{ return getIsoDateInTimeZone(new Date(), timeZone); }
+  catch(e){
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  }
 }
 
 // आलेखों के ?date=YYYY-MM-DD लिंक से चुनी गई तारीख खोलें।
@@ -3045,7 +3050,47 @@ window.searchCity = debounce(performCitySearch, 500);
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
    ========================================================= */
-function selectCity(place){
+let locationSelectionVersion = 0;
+const locationTimeZoneCache = new Map();
+
+async function resolveLocationTimeZone(location){
+  if(isValidTimeZone(location?.timeZone)) return location.timeZone;
+  const key = `${Number(location.lat).toFixed(4)},${Number(location.lon).toFixed(4)}`;
+  if(locationTimeZoneCache.has(key)){
+    location.timeZone = await locationTimeZoneCache.get(key);
+    return location.timeZone;
+  }
+  const lookup = (async()=>{
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=" +
+      encodeURIComponent(location.lat) + "&longitude=" +
+      encodeURIComponent(location.lon) +
+      "&current=temperature_2m&timezone=auto&forecast_days=1";
+    const response = await fetch(url, {headers:{"Accept":"application/json"}});
+    if(!response.ok) throw new Error("TIMEZONE_LOOKUP_HTTP_" + response.status);
+    const data = await response.json();
+    if(!isValidTimeZone(data?.timezone)) throw new Error("TIMEZONE_LOOKUP_INVALID_RESULT");
+    return data.timezone;
+  })();
+  locationTimeZoneCache.set(key, lookup);
+  try{
+    location.timeZone = await lookup;
+    if(selectedLocation === location){
+      try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(location)); }catch(e){}
+    }
+    return location.timeZone;
+  }catch(error){
+    locationTimeZoneCache.delete(key);
+    const name = String(location.name || "");
+    const isKnownIndia = String(location.countryCode || "").toLowerCase() === "in" ||
+      (/भारत|India/i.test(name) && Number(location.lat) >= 6 && Number(location.lat) <= 38 &&
+       Number(location.lon) >= 68 && Number(location.lon) <= 98);
+    if(isKnownIndia){ location.timeZone = "Asia/Kolkata"; return location.timeZone; }
+    throw error;
+  }
+}
+
+async function selectCity(place){
+  const selectionVersion = ++locationSelectionVersion;
   const addr = place.address || {};
 
   const state = (
@@ -3071,7 +3116,8 @@ function selectCity(place){
     lon: Number(place.lon),
     elevation: 0,
     state: state,
-    city: city
+    city: city,
+    countryCode: String(addr.country_code || "").toLowerCase()
   };
 
   cityInput.value =
@@ -3079,19 +3125,21 @@ function selectCity(place){
     place.display_name;
 
   selectedCity.style.display = "block";
-  selectedCity.textContent =
-    "✅ चुना गया स्थान: " +
-    place.display_name;
+  selectedCity.textContent = "🕒 स्थान का समय क्षेत्र निर्धारित हो रहा है...";
   suggestions.innerHTML = "";
 
   try{
-    localStorage.setItem(
-      "ohdPanchangLocation",
-      JSON.stringify(selectedLocation)
-    );
-  }catch(e){}
-
-  calculatePanchang();
+    await resolveLocationTimeZone(selectedLocation);
+    if(selectionVersion !== locationSelectionVersion) return;
+    selectedCity.textContent = "✅ चुना गया स्थान: " + place.display_name + " · " + selectedLocation.timeZone;
+    try{ localStorage.setItem("ohdPanchangLocation", JSON.stringify(selectedLocation)); }catch(e){}
+    calculatePanchang();
+  }catch(error){
+    if(selectionVersion !== locationSelectionVersion) return;
+    selectedCity.textContent = "⚠️ इस स्थान का समय क्षेत्र प्राप्त नहीं हो सका। पुनः प्रयास करें।";
+    result.innerHTML = '<div class="error">स्थानीय समय क्षेत्र उपलब्ध न होने से सही पंचांग गणना नहीं की जा सकी। इंटरनेट कनेक्शन जाँचकर शहर फिर चुनें।</div>';
+    console.warn("Location timezone lookup failed:", error);
+  }
 }
 
 /* =========================================================
@@ -3103,7 +3151,9 @@ const defaultPithoragarh = {
   lon:80.2182,
   elevation:1650,
   state:"उत्तराखंड",
-  city:"पिथौरागढ़"
+  city:"पिथौरागढ़",
+  countryCode:"in",
+  timeZone:"Asia/Kolkata"
 };
 
 try{
@@ -3150,19 +3200,12 @@ try{
    ========================================================= */
 function formatTime(value){
   if(!value) return "—";
-
   try{
-    return new Date(value).toLocaleTimeString(
-      "hi-IN",
-      {
-        hour:"2-digit",
-        minute:"2-digit",
-        hour12:true
-      }
-    );
-  }catch(e){
-    return "—";
-  }
+    return new Intl.DateTimeFormat("hi-IN", {
+      timeZone:selectedLocation?.timeZone || "Asia/Kolkata",
+      hour:"2-digit", minute:"2-digit", hour12:true
+    }).format(new Date(value));
+  }catch(e){ return "—"; }
 }
 
 function formatTimeRange(start,end){
@@ -3179,24 +3222,13 @@ function formatDateTimeHindi(value){
   try{
     const d = new Date(value);
 
-    const date =
-      d.toLocaleDateString(
-        "hi-IN",
-        {
-          day:"numeric",
-          month:"long"
-        }
-      );
-
-    const time =
-      d.toLocaleTimeString(
-        "hi-IN",
-        {
-          hour:"2-digit",
-          minute:"2-digit",
-          hour12:true
-        }
-      );
+    const timeZone = selectedLocation?.timeZone || "Asia/Kolkata";
+    const date = new Intl.DateTimeFormat("hi-IN", {
+      timeZone, day:"numeric", month:"long"
+    }).format(d);
+    const time = new Intl.DateTimeFormat("hi-IN", {
+      timeZone, hour:"2-digit", minute:"2-digit", hour12:true
+    }).format(d);
 
     return date + ", " + time;
   }catch(e){
@@ -3741,7 +3773,7 @@ function getSandhyaStatusHtml(ctx = null){
   if(!info) return "";
 
   const time = info.start
-    ? info.start.toLocaleTimeString("hi-IN", {hour:"2-digit", minute:"2-digit", hour12:false})
+    ? new Intl.DateTimeFormat("hi-IN", {timeZone:selectedLocation?.timeZone || "Asia/Kolkata", hour:"2-digit", minute:"2-digit", hour12:false}).format(info.start)
     : "";
   const status = info.active
     ? `अभी ${info.label} संध्या का समय है।`
@@ -4958,14 +4990,12 @@ function calculatePanchang(){
       selectedLocation.elevation
     );
 
-    const date = new Date(
-      dateInput.value + "T12:00:00"
-    );
-
-    const p = __ohdTimedPanchang("selected date", 
-      date,
-      observer,
-      { timezoneOffset:330, calendarType:"purnimanta" }
+    const timeZone = selectedLocation.timeZone;
+    const date = zonedDateTimeToUtc(dateInput.value, 12, 0, timeZone);
+    const dateTimezoneOffset = getTimeZoneOffsetMinutes(date, timeZone);
+    const p = __ohdTimedPanchang("selected date",
+      date, observer,
+      { timezoneOffset:dateTimezoneOffset, calendarType:"purnimanta" }
     );
 
     const referenceNow = (
@@ -4981,7 +5011,7 @@ function calculatePanchang(){
         sankalpRashiPanchang = __ohdTimedPanchang("current-time sankalp", 
           referenceNow,
           observer,
-          { timezoneOffset:330, calendarType:"purnimanta" }
+          { timezoneOffset:getTimeZoneOffsetMinutes(referenceNow, timeZone), calendarType:"purnimanta" }
         );
       }catch(e){
         console.warn("Sankalp-time Rashi calculation failed:", e);
@@ -4991,15 +5021,10 @@ let nextSunrise = null;
 let nextMoonset = null;
 
 try{
-  const nextDate = new Date(date);
-      nextDate.setDate(
-        nextDate.getDate() + 1
-      );
-
-      const nextPanchang = __ohdTimedPanchang("next date", 
-        nextDate,
-        observer,
-        { timezoneOffset:330, calendarType:"purnimanta" }
+  const nextDate = zonedDateTimeToUtc(addIsoCalendarDays(dateInput.value, 1), 12, 0, timeZone);
+      const nextPanchang = __ohdTimedPanchang("next date",
+        nextDate, observer,
+        { timezoneOffset:getTimeZoneOffsetMinutes(nextDate, timeZone), calendarType:"purnimanta" }
       );
 
       if(
@@ -5032,18 +5057,11 @@ let previousPanchang = null
 
 try{
 
-  const previousDate =
-    new Date(date);
-
-  previousDate.setDate(
-    previousDate.getDate() - 1
-  );
-
+  const previousDate = zonedDateTimeToUtc(addIsoCalendarDays(dateInput.value, -1), 12, 0, timeZone);
   previousPanchang =
-    __ohdTimedPanchang("previous date", 
-      previousDate,
-      observer,
-      { timezoneOffset:330, calendarType:"purnimanta" }
+    __ohdTimedPanchang("previous date",
+      previousDate, observer,
+      { timezoneOffset:getTimeZoneOffsetMinutes(previousDate, timeZone), calendarType:"purnimanta" }
     );
 
   if(
@@ -5134,26 +5152,13 @@ function displayPanchang(
   previousPanchang,
   sankalpRashiPanchang
 ){
-  const date = new Date(
-    dateInput.value + "T12:00:00"
-  );
-
-  const dateText = date.toLocaleDateString(
-    "hi-IN",
-    {
-      weekday:"long",
-      year:"numeric",
-      month:"long",
-      day:"numeric"
-    }
-  );
-
-  const selectedDateObj = new Date(
-    dateInput.value + "T00:00:00"
-  );
-
-  const isWednesday =
-    selectedDateObj.getDay() === 3;
+  const timeZone = selectedLocation?.timeZone || "Asia/Kolkata";
+  const date = zonedDateTimeToUtc(dateInput.value, 12, 0, timeZone);
+  const dateText = new Intl.DateTimeFormat("hi-IN", {
+    timeZone, weekday:"long", year:"numeric", month:"long", day:"numeric"
+  }).format(date);
+  const selectedDateObj = new Date(dateInput.value + "T12:00:00Z");
+  const isWednesday = selectedDateObj.getUTCDay() === 3;
 
   const paksha = getSimpleHindi(
     p.paksha,
@@ -5460,19 +5465,18 @@ const ghatiPal = getGhatiPal(
    const formatKalaShoolaUpcomingDate = (date) => {
   if (!date || !referenceNow) return "";
 
+  const timeZone = selectedLocation?.timeZone || "Asia/Kolkata";
   const sameDate =
-    date.getFullYear() === referenceNow.getFullYear() &&
-    date.getMonth() === referenceNow.getMonth() &&
-    date.getDate() === referenceNow.getDate();
+    getIsoDateInTimeZone(date, timeZone) === getIsoDateInTimeZone(referenceNow, timeZone);
 
   if (sameDate) {
     return "आज";
   }
 
-  return date.toLocaleDateString("hi-IN", {
-    day: "numeric",
-    month: "long"
-  });
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone:selectedLocation?.timeZone || "Asia/Kolkata",
+    day:"numeric", month:"long"
+  }).format(date);
 };
   let ghatiHtml = "";
 
@@ -5823,15 +5827,8 @@ bhadraPartsHtml += `
     </div>`;
   };
 
-  const selectedDayStart =
-    new Date(dateInput.value + "T00:00:00");
-
-  const selectedDayEnd =
-    new Date(selectedDayStart);
-
-  selectedDayEnd.setDate(
-    selectedDayEnd.getDate() + 1
-  );
+  const selectedDayStart = zonedDateTimeToUtc(dateInput.value, 0, 0, selectedLocation?.timeZone || "Asia/Kolkata");
+  const selectedDayEnd = zonedDateTimeToUtc(addIsoCalendarDays(dateInput.value, 1), 0, 0, selectedLocation?.timeZone || "Asia/Kolkata");
 
   const amritKalamForDate =
     (p.amritKalam || []).filter(item => {
@@ -6763,40 +6760,14 @@ window.today = function(){
 };
 
 window.previousDay = function(){
-  const d = new Date(
-    dateInput.value + "T12:00:00"
-  );
-
-  d.setDate(d.getDate() - 1);
-
-  dateInput.value =
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1)
-      .padStart(2,"0") +
-    "-" +
-    String(d.getDate())
-      .padStart(2,"0");
+  dateInput.value = addIsoCalendarDays(dateInput.value, -1);
   syncDateToUrl();
 
   calculatePanchang();
 };
 
 window.nextDay = function(){
-  const d = new Date(
-    dateInput.value + "T12:00:00"
-  );
-
-  d.setDate(d.getDate() + 1);
-
-  dateInput.value =
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1)
-      .padStart(2,"0") +
-    "-" +
-    String(d.getDate())
-      .padStart(2,"0");
+  dateInput.value = addIsoCalendarDays(dateInput.value, 1);
   syncDateToUrl();
 
   calculatePanchang();
@@ -6923,4 +6894,10 @@ document.getElementById(
 sankalpState.sandhyaType =
   getAutoSandhyaType();
 
-calculatePanchang();
+resolveLocationTimeZone(selectedLocation).then(()=>{
+  if(!requestedDate) dateInput.value = todayString();
+  calculatePanchang();
+}).catch(error=>{
+  result.innerHTML = '<div class="error">स्थान का IANA समय क्षेत्र प्राप्त नहीं हो सका। इंटरनेट कनेक्शन जाँचकर पृष्ठ पुनः खोलें।</div>';
+  console.warn("Initial location timezone lookup failed:", error);
+});
