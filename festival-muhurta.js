@@ -12,6 +12,57 @@ function validDate(value) {
   return Number.isFinite(date.getTime()) ? date : null;
 }
 
+const localTimeFormatterCache = new Map();
+
+function localTimeParts(value, timeZone) {
+  if (!localTimeFormatterCache.has(timeZone)) {
+    localTimeFormatterCache.set(timeZone, new Intl.DateTimeFormat("en-CA-u-ca-iso8601-nu-latn", {
+      timeZone, year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23"
+    }));
+  }
+  const date = validDate(value);
+  if (!date) throw new TypeError("A valid date is required");
+  return Object.fromEntries(localTimeFormatterCache.get(timeZone).formatToParts(date)
+    .filter(part => part.type !== "literal").map(part => [part.type, Number(part.value)]));
+}
+
+function localIsoDate(value, timeZone) {
+  const parts = localTimeParts(value, timeZone);
+  return String(parts.year).padStart(4, "0") + "-" +
+    String(parts.month).padStart(2, "0") + "-" + String(parts.day).padStart(2, "0");
+}
+
+function addLocalIsoDays(isoDate, amount) {
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match || !Number.isInteger(amount)) throw new TypeError("A valid ISO date and integer day offset are required");
+  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]) + amount))
+    .toISOString().slice(0, 10);
+}
+
+function localTimeZoneOffsetMinutes(value, timeZone) {
+  const parts = localTimeParts(value, timeZone);
+  const representedUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+  return Math.round((representedUtc - new Date(value).getTime()) / 60000);
+}
+
+function localDateTimeToUtc(isoDate, hour, minute, timeZone) {
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match || !Number.isInteger(hour) || hour < 0 || hour > 23 ||
+      !Number.isInteger(minute) || minute < 0 || minute > 59) {
+    throw new TypeError("A valid ISO date and local clock time are required");
+  }
+  const nominalUtc = Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), hour, minute);
+  let candidate = new Date(nominalUtc);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const offset = localTimeZoneOffsetMinutes(candidate, timeZone);
+    const corrected = new Date(nominalUtc - offset * 60000);
+    if (corrected.getTime() === candidate.getTime()) break;
+    candidate = corrected;
+  }
+  return candidate;
+}
+
 function interval(startValue, endValue, label, note) {
   const start = validDate(startValue);
   const end = validDate(endValue);
@@ -31,11 +82,11 @@ function fractionInterval(startValue, endValue, from, to, label) {
   );
 }
 
-function localWeekday(dateValue) {
+function localWeekday(dateValue, timeZone = "Asia/Kolkata") {
   const date = validDate(dateValue);
   if (!date) return null;
   const weekday = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Kolkata", weekday: "short"
+    timeZone, weekday: "short"
   }).format(date);
   return ({ Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 })[weekday] ?? null;
 }
@@ -418,7 +469,7 @@ const rules = {
       selected = purnima.map(item => intersectIntervals(pradosh, item, "प्रदोष में सूत्रबंधन")).filter(Boolean).flatMap(subtractBhadra);
       selectedLabel = "रक्षाबंधन — प्रदोष सूत्रबंधन";
     }
-    const format = value => new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true }).format(value);
+    const format = value => new Intl.DateTimeFormat("hi-IN", { timeZone: context.timeZone || "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true }).format(value);
     const relevantBhadra = bhadra.filter(blocked => purnima.some(fullMoon =>
       blocked.start < fullMoon.end && blocked.end > fullMoon.start
     ));
@@ -523,7 +574,7 @@ const rules = {
     // If the avoided period leaves no valid window, use Abhijit only when
     // the complete interval still falls within Pratipada and daylight. This
     // project also suppresses Abhijit on Wednesday.
-    if (localWeekday(context.date) === 3) {
+    if (localWeekday(context.date, context.timeZone) === 3) {
       return {
         label: "घटस्थापना मुहूर्त",
         status: "not-applicable",
@@ -766,7 +817,7 @@ const rules = {
 
     const windows = [];
     const dayDuration = sunset.getTime() - sunrise.getTime();
-    const weekday = localWeekday(context.date);
+    const weekday = localWeekday(context.date, context.timeZone);
     const sequences = [
       ["Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg"],
       ["Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit"],
@@ -815,7 +866,7 @@ const rules = {
     // morning's favourable Choghadiya only for the remaining Trayodashi interval.
     const nextSunset = validDate(context.nextSunset);
     const nextDayDuration = nextSunset && nextSunset.getTime() - nextSunrise.getTime();
-    const nextWeekday = localWeekday(nextSunrise);
+    const nextWeekday = localWeekday(nextSunrise, context.timeZone);
     if (Number.isFinite(nextDayDuration) && nextDayDuration > 0 &&
         Number.isInteger(nextWeekday) && sequences[nextWeekday]) {
       for (let i = 0; i < 8; i++) {
@@ -903,7 +954,7 @@ const rules = {
 
     const windows = [];
     const sunrise = validDate(context.sunrise);
-    const weekday = localWeekday(context.date);
+    const weekday = localWeekday(context.date, context.timeZone);
     const sequences = [
       ["Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg"],
       ["Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit"],
@@ -1022,7 +1073,7 @@ const rules = {
     // supplementary task windows only when Amavasya is actually present.
     if (sunrise && sunset > sunrise) {
       const dayDuration = sunset.getTime() - sunrise.getTime();
-      const weekdayForDayMuhurtas = localWeekday(context.date);
+      const weekdayForDayMuhurtas = localWeekday(context.date, context.timeZone);
       if (weekdayForDayMuhurtas !== 3) {
         const abhijit = windowWithin(
           new Date(sunrise.getTime() + dayDuration * 7 / 15),
@@ -1049,7 +1100,7 @@ const rules = {
     if (pradosh && sunrise && sunset > sunrise && nextSunrise > sunset) {
       const horaPlanets = ["सूर्य","शुक्र","बुध","चन्द्र","शनि","गुरु","मंगल"];
       const dayLordIndex = { 0:0, 1:3, 2:6, 3:2, 4:5, 5:1, 6:4 };
-      const weekdayForHora = localWeekday(context.date);
+      const weekdayForHora = localWeekday(context.date, context.timeZone);
       const firstPlanetIndex = dayLordIndex[weekdayForHora];
       if (Number.isInteger(firstPlanetIndex)) {
         const dayHoraMs = (sunset.getTime() - sunrise.getTime()) / 12;
@@ -1350,7 +1401,7 @@ const rules = {
   },
 
   abhijit(context) {
-    if (localWeekday(context.date) === 3) {
+    if (localWeekday(context.date, context.timeZone) === 3) {
       return {
         label: "अभिजित मुहूर्त",
         status: "not-applicable",
@@ -1786,12 +1837,10 @@ const rules = {
         message: "स्थानीय तिथि, सूर्यास्त और अगले दिन का सूर्योदय उपलब्ध नहीं है; तिथियाँ या अर्घ्य समय अनुमान से नहीं दिखाए जा रहे हैं।"
       };
     }
-    const dateParts = new Intl.DateTimeFormat("en-CA", {
-      timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
-    }).formatToParts(mainDate);
-    const part = type => (dateParts.find(item => item.type === type) || {}).value;
-    const base = new Date(Date.UTC(Number(part("year")), Number(part("month")) - 1, Number(part("day")), 6, 0));
-    const day = offset => new Date(base.getTime() + offset * 86400000);
+    const timeZone = context.timeZone || "Asia/Kolkata";
+    const mainDateKey = localIsoDate(mainDate, timeZone);
+    if (!mainDateKey) return null;
+    const day = offset => localDateTimeToUtc(addLocalIsoDays(mainDateKey, offset), 12, 0, timeZone);
     return {
       label: "छठ महापर्व — चार दिवसीय अनुष्ठान",
       status: "calculated",
@@ -1811,12 +1860,12 @@ const rules = {
     const moonrise = validDate(context.moonrise);
     const date = validDate(context.date);
     if (!moonrise || !date) return null;
-    // Use the selected Panchang date in Asia/Kolkata, not the viewer's
-    // browser timezone. The widget may be opened outside India.
-    const localDate = localDateKey(date, context.timeZone);
+    // The next local midnight can have a different UTC offset after DST.
+    const timeZone = context.timeZone || "Asia/Kolkata";
+    const localDate = localDateKey(date, timeZone);
     if (!localDate) return null;
-    const [year, month, day] = localDate.split("-").map(Number);
-    const midnight = new Date(Date.UTC(year, month - 1, day + 1) - 330 * 60000);
+    const nextLocalDate = addLocalIsoDays(localDate, 1);
+    const midnight = localDateTimeToUtc(nextLocalDate, 0, 0, timeZone);
     const result = interval(moonrise, midnight, "चंद्रमा के उदय से मध्यरात्रि तक");
     return result ? {
       ...result,
@@ -1934,7 +1983,7 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
  * by lunar month/pakṣa. It applies the Aparāhṇa overlap rule and the
  * Sāmaveda-specific fallback order; it does not infer missing astronomy.
  */
-export function getSamavedaUpakarmaDateDecision(days) {
+export function getSamavedaUpakarmaDateDecision(days, timeZone = "Asia/Kolkata") {
   const records = (Array.isArray(days) ? days : [])
     .map(day => ({
       ...day,
@@ -2040,7 +2089,7 @@ export function getSamavedaUpakarmaDateDecision(days) {
     return kalaDosha;
   }
 
-  function chooseHasta(candidates, label) {
+  function chooseHasta(candidates, label, timeZone = "Asia/Kolkata") {
     const sorted = candidates.slice().sort((a, b) => a.date - b.date);
     if (!sorted.length) return null;
     // The śāstric two-day rule compares the Aparāhṇa overlap of the
@@ -2048,7 +2097,7 @@ export function getSamavedaUpakarmaDateDecision(days) {
     // both days -> second; only first -> first; only second/neither -> second.
     for (let i = 0; i < sorted.length - 1; i++) {
       const first = sorted[i], second = sorted[i + 1];
-      const gap = localDateKey(second.date) === localDateKey(new Date(first.date.getTime() + 86400000));
+      const gap = localDateKey(second.date, timeZone) === localDateKey(new Date(first.date.getTime() + 86400000), timeZone);
       if (!gap) continue;
       const firstHas = hasHastaAparahna(first);
       const secondHas = hasHastaAparahna(second);
@@ -2071,20 +2120,20 @@ export function getSamavedaUpakarmaDateDecision(days) {
   const shravanaHastaKarka = shravanaHasta.filter(isKarkaSun);
   const bhadrapadaPanchami = records.filter(day => isBhadrapada(day) && isShukla(day) && isPanchami(day));
   const shravanaPanchami = records.filter(day => isShravana(day) && isShukla(day) && isPanchami(day));
-  const primary = chooseHasta(bhadrapadaHasta, "भाद्रपद शुक्ल हस्त");
+  const primary = chooseHasta(bhadrapadaHasta, "भाद्रपद शुक्ल हस्त", timeZone);
   const ordered = [
     primary,
-    chooseHasta(shravanaHastaRegular, "श्रावण शुक्ल हस्त"),
+    chooseHasta(shravanaHastaRegular, "श्रावण शुक्ल हस्त", timeZone),
     ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
     ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" })),
-    chooseHasta(shravanaHastaKarka, "श्रावण शुक्ल हस्त — कर्कस्थ सूर्य में अंतिम विकल्प")
+    chooseHasta(shravanaHastaKarka, "श्रावण शुक्ल हस्त — कर्कस्थ सूर्य में अंतिम विकल्प", timeZone)
   ].filter(Boolean);
 
   for (const candidate of ordered) {
     if (!hasDosha(candidate.day, candidate !== primary)) {
       return {
         status: "selected",
-        date: localDateKey(candidate.day.date),
+        date: localDateKey(candidate.day.date, timeZone),
         label: candidate.label,
         note: candidate.note,
         requiresShanti: false,
@@ -2096,7 +2145,7 @@ export function getSamavedaUpakarmaDateDecision(days) {
   if (primary) {
     return {
       status: "selected-with-shanti",
-      date: localDateKey(primary.day.date),
+      date: localDateKey(primary.day.date, timeZone),
       label: primary.label,
       note: "सभी उपलब्ध विकल्पों में काल-दोष मिला; मुख्य भाद्रपद हस्त पर शान्ति-विधान सहित निर्णय।",
       requiresShanti: true,

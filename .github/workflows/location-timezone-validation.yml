@@ -12,6 +12,7 @@ on:
       - "location-timezone.mjs"
       - "vendor/tz-lookup-11.8.0.mjs"
       - "tests/monthly-location-timezone.test.mjs"
+      - "tests/monthly-muhurta-timezone-followup.test.mjs"
       - "tests/location-timezone.test.mjs"
       - ".github/workflows/location-timezone-validation.yml"
   push:
@@ -36,4 +37,4 @@ jobs:
           node --check festival-muhurta.js
           node --check tithi-vyapti.js
       - name: Run timezone tests
-        run: node --test tests/location-timezone.test.mjs tests/monthly-location-timezone.test.mjs
+        run: node --test tests/location-timezone.test.mjs tests/monthly-location-timezone.test.mjs tests/monthly-muhurta-timezone-followup.test.mjs
