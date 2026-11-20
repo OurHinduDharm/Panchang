@@ -5137,7 +5137,7 @@ displayPanchang(
       <div class="error">
         ❌ पंचांग की गणना नहीं हो सकी।
         <br><br>
-        <small>${error.message || error}</small>
+        <small>${escapeHtmlAttr(error.message || error)}</small>
       </div>
     `;
   }
@@ -6446,7 +6446,7 @@ bhadraPartsHtml += `
     📍 स्थान
   </div>
         <div class="value">
-          ${selectedLocation.name}
+          ${escapeHtmlAttr(selectedLocation.name)}
         </div>
       </div>
 
