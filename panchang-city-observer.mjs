@@ -15,12 +15,22 @@ export async function resolveCityObserver(location) {
   if (!location || !Number.isFinite(location.lat) || !Number.isFinite(location.lon)) return location;
   const city = norm(location.city);
   if (!city) return location;
-  const canonical = locations["pithoragarh-project-target"];
-  if (["पिथौरागढ़", "पिथौरागढ", "pithoragarh"].includes(city) &&
-      distanceKm(location, canonical) <= 3) {
-    return {...location, lat: canonical.latitude, lon: canonical.longitude,
-      elevation: canonical.elevation, elevationStatus: "provided",
-      elevationSource: "OurHinduDharm canonical city profile"};
+  // Prefer the same city profiles already used by the annual Tara page.
+  // Printed-source research observers are not automatically public city defaults.
+  const profiles = [
+    {key: "pithoragarh-project-target", names: ["पिथौरागढ़", "पिथौरागढ", "pithoragarh"]},
+    {key: "drikpanchang-almora", names: ["अल्मोड़ा", "अल्मोडा", "almora"]},
+    {key: "drikpanchang-ramnagar", names: ["रामनगर", "ramnagar"]},
+    {key: "dehradun", names: ["देहरादून", "dehradun"]},
+    {key: "delhi", names: ["नई दिल्ली", "new delhi"]}
+  ];
+  for (const profile of profiles) {
+    const canonical = locations[profile.key];
+    if (profile.names.includes(city) && distanceKm(location, canonical) <= 3) {
+      return {...location, lat: canonical.latitude, lon: canonical.longitude,
+        elevation: canonical.elevation, elevationStatus: "provided",
+        elevationSource: "OurHinduDharm canonical city profile"};
+    }
   }
   try {
     const candidates = await searchTaraPlaces(location.city);
