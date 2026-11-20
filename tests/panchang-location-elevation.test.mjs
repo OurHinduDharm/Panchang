@@ -69,4 +69,7 @@ test("daily Panchang blocks unknown observer heights before astronomical calcula
   assert.ok(source.includes("elevation: 0,\n        elevationStatus: \"unknown\","));
   assert.ok(!source.includes("elevation: position.coords.altitude ?? 0"));
   assert.ok(source.includes('observerSource: "gps"'));
+  assert.ok(source.includes("async function initializePanchang()"));
+  assert.ok(source.includes('selectedLocation?.elevationStatus === "unknown"'));
+  assert.ok(source.includes("resolveCityObserver(initialLocation)"));
 });
