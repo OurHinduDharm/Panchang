@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {restoreSavedElevationStatus} from "../panchang-location-elevation.mjs";
 
 const parsed = {lat: 29, lon: 80, elevation: 0, elevationStatus: "provided"};
@@ -47,4 +48,12 @@ test("invalid saved provenance cannot be upgraded to provided", () => {
   });
   assert.equal(restored.elevation, 0);
   assert.equal(restored.elevationStatus, "unknown");
+});
+
+test("daily Panchang blocks unknown observer heights before astronomical calculation", () => {
+  const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
+  assert.ok(source.includes('if (!Number.isFinite(selectedLocation.elevation) || selectedLocation.elevationStatus === "unknown")'));
+  assert.ok(source.includes('result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।"'));
+  assert.ok(source.includes("selectedLocation = await resolveCityObserver(gpsLocation)"));
+  assert.ok(source.includes("const resolvedLocation = await resolveCityObserver({"));
 });
