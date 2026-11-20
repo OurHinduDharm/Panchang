@@ -1,6 +1,7 @@
 import tzLookup from "../vendor/tz-lookup-11.8.0.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   addIsoCalendarDays,
   getIsoDateInTimeZone,
@@ -52,4 +53,13 @@ test("uses the offset at the selected local date when crossing a DST boundary", 
   const after = zonedDateTimeToUtc("2026-03-29", 12, 0, "Europe/London");
   assert.equal(getTimeZoneOffsetMinutes(before, "Europe/London"), 0);
   assert.equal(getTimeZoneOffsetMinutes(after, "Europe/London"), 60);
+});
+
+test("supplementary daily Panchang uses the selected location timezone", async () => {
+  const source = await readFile(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(source, /location\.timeZone/);
+  assert.match(source, /getTimeZoneOffsetMinutes/);
+  assert.match(source, /getIsoDateInTimeZone/);
+  assert.doesNotMatch(source, /timezoneOffset\s*:\s*330/);
+  assert.doesNotMatch(source, /timeZone\s*:\s*"Asia\\/Kolkata"/);
 });
