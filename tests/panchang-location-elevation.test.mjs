@@ -67,4 +67,5 @@ test("daily Panchang blocks unknown observer heights before astronomical calcula
   assert.ok(selectCity.indexOf("localStorage.setItem(\"ohdPanchangLocation\", JSON.stringify(pendingLocation))") < selectCity.indexOf("await resolveCityObserver(pendingLocation)"));
   assert.ok(source.includes("elevation: 0,\n        elevationStatus: \"unknown\","));
   assert.ok(!source.includes("elevation: position.coords.altitude ?? 0"));
+  assert.ok(source.includes('observerSource: "gps"'));
 });
