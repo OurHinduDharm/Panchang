@@ -4943,7 +4943,10 @@ function calculatePanchang(){
   }
   // Never feed a fabricated zero-meter fallback to the astronomical engine.
   // Keep the public state neutral; do not expose internal provenance diagnostics.
-  if (!Number.isFinite(selectedLocation.elevation) || selectedLocation.elevationStatus === "unknown") {
+  if (!Number.isFinite(selectedLocation.lat) || !Number.isFinite(selectedLocation.lon) ||
+      Math.abs(selectedLocation.lat) > 90 || Math.abs(selectedLocation.lon) > 180 ||
+      !Number.isFinite(selectedLocation.elevation) || selectedLocation.elevation < -500 ||
+      selectedLocation.elevation > 9000 || selectedLocation.elevationStatus === "unknown") {
     result.textContent = "चुने हुए स्थान के लिए पंचांग उपलब्ध नहीं है।";
     return;
   }
