@@ -62,8 +62,8 @@
           "labels": [
             "एकादशी श्रवण योग द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "not-supported-by-local-dwadashi-shravana-overlap",
           "localDwadashiShravanaOverlapMs": 0,
           "localAssessment": {
@@ -76,7 +76,7 @@
               "end": "2030-03-31T00:42:52.860+05:30"
             },
             "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
-            "evidence": "स्थानीय इंजन में द्वादशी 30 मार्च 00:34 IST पर शुरू होती है; उपलब्ध संदर्भ पंचांग Haldwani दैनिक पंचांग में श्रवण 29 मार्च लगभग 18:06 IST पर समाप्त हो चुका है। अतः दोनों का overlap शून्य है।"
+            "evidence": "स्थानीय इंजन में द्वादशी 30 मार्च 00:34 IST पर शुरू होती है; उपलब्ध Drik Haldwani दैनिक पंचांग में श्रवण 29 मार्च लगभग 18:06 IST पर समाप्त हो चुका है। अतः दोनों का overlap शून्य है।"
           }
         }
       ],
@@ -104,7 +104,7 @@
         "sourceLabel": "एकादशी श्रवण योग द्वादशी",
         "localDwadashiShravanaOverlapMs": 0,
         "minimumRequiredOverlapMs": 2880000,
-        "decision": "यह संदर्भ पंचांग वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
+        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
         "preserveNamedDwadashi": true,
         "publicDateChanged": false,
         "namedDwadashiDateReview": "कृष्ण-नृसिंह द्वादशी का 29 मार्च स्रोत-दिन और 30 मार्च सूर्योदय-दिन अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
@@ -116,7 +116,7 @@
           "sourceReferenceDate": "2030-03-29",
           "selectedDate": "2030-03-30",
           "decisionStatus": "local-sunrise-dwadashi-day-confirmed-source-review-pending",
-          "source": "तुलनात्मक पंचांग 2030 Dwadashi list; PanchangTime Krishna Narasimha Dwadashi 2026–2030",
+          "source": "Drik Panchang 2030 Dwadashi list; PanchangTime Krishna Narasimha Dwadashi 2026–2030",
           "sourceCrossCheck": {
             "drikReferenceDate": "2030-03-29",
             "drikTithiStart": "2030-03-30T00:34:00+05:30",
@@ -143,7 +143,7 @@
           "autoApproved": false
         }
       ],
-      "sourceDateDecisionNote": "संदर्भ पंचांग की annual list में कृष्ण नृसिंह द्वादशी का source-reference 29 मार्च है, पर वास्तविक स्थानीय द्वादशी 30 मार्च 00:34 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न में उपस्थित रहती है। PanchangTime भी 2030 के लिए 30 मार्च को नृसिंह-द्वादशी/पारण-दिन रखता है। इसलिए सार्वजनिक द्वादशी-दिन 30 मार्च है; 29 मार्च पापमोचनी एकादशी-व्रत-दिन है।"
+      "sourceDateDecisionNote": "Drik की annual list में कृष्ण नृसिंह द्वादशी का source-reference 29 मार्च है, पर वास्तविक स्थानीय द्वादशी 30 मार्च 00:34 IST पर शुरू होकर 30 मार्च के सूर्योदय और मध्याह्न में उपस्थित रहती है। PanchangTime भी 2030 के लिए 30 मार्च को नृसिंह-द्वादशी/पारण-दिन रखता है। इसलिए सार्वजनिक द्वादशी-दिन 30 मार्च है; 29 मार्च पापमोचनी एकादशी-व्रत-दिन है।"
     },
     {
       "id": "chaitra-shukla",
@@ -209,7 +209,7 @@
           "deity": "भगवान वामन",
           "shortDetail": "बलि से तीनों लोक प्राप्त करने वाले वामन की पूजा; कमण्डलु, छत्र और पादुका-युक्त प्रतिमा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 43 — वामन-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -303,9 +303,9 @@
           "observanceDate": "2030-05-14",
           "dateRole": "special-observance-date",
           "sourcePage": "dwadashi-dates",
-          "note": "तुलनात्मक पंचांग की 2030 द्वादशी सूची में 14 मई को त्रिस्पर्शा महाद्वादशी तथा परशुराम द्वादशी का संदर्भ है। स्थानीय स्मार्त त्रिस्पर्शा selector से अलग cross-check किया जाए; यह तारीख़ केवल source observation है।",
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "note": "Drik Panchang की 2030 द्वादशी सूची में 14 मई को त्रिस्पर्शा महाद्वादशी तथा परशुराम द्वादशी का संदर्भ है। स्थानीय स्मार्त त्रिस्पर्शा selector से अलग cross-check किया जाए; यह तारीख़ केवल source observation है।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
@@ -330,7 +330,8 @@
           "deity": "भगवान परशुराम",
           "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 44 — जामदग्न्य/परशुराम-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
         }
       ],
       "specialTithiYogas": [
@@ -353,7 +354,7 @@
             "त्रयोदशी"
           ],
           "source": "धर्मसिंधु एवं निर्णयसिंधु",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
           "scriptureSource": {
             "source": "स्कन्द पुराण, प्रभासखण्ड, अध्याय 483, श्लोक 16 एवं 19",
             "sourceUrl": "https://eternalraga.com/en/scriptures/puranas/skanda-purana/7/483",
@@ -383,7 +384,7 @@
           },
           "localDayDecision": "14 मई के सूर्योदय-दिन में द्वादशी 06:22 IST से उपस्थित होकर दिनभर और रात्रि तक रहती है; अगले सूर्योदय 15 मई पर त्रयोदशी है। स्मार्त त्रिस्पर्शा नियम के अनुसार एकादशी और द्वादशी एक ही दिन में आने पर उसी दिन संयुक्त उपवास का विधान लागू होता है।",
           "secondaryRuleSource": "धर्मसिंधु एवं निर्णयसिंधु — त्रिस्पर्शा महाद्वादशी",
-          "secondaryRuleSourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+          "secondaryRuleSourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
           "dateDecisionScope": "observance-date-only",
           "autoApproved": false
         },
@@ -404,8 +405,8 @@
           },
           "localDayDecision": "द्वादशी 14 मई को स्थानीय सूर्योदय के बाद आरम्भ होकर अगले सूर्योदय से पहले समाप्त होती है; इसलिए संकल्प, पूजा और जागरण का व्रत-दिन 14 मई है। ग्रंथानुसार प्रतिमा-दान अगले दिन प्रातः किया जाता है।",
           "followingMorningActionDate": "2030-05-15",
-          "sourceCrossCheck": "तुलनात्मक पंचांग की 2030 द्वादशी सूची 14 मई को परशुराम द्वादशी और त्रिस्पर्शा महाद्वादशी दोनों दिखाती है।",
-          "sourceCrossCheckUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
+          "sourceCrossCheck": "Drik Panchang की 2030 द्वादशी सूची 14 मई को परशुराम द्वादशी और त्रिस्पर्शा महाद्वादशी दोनों दिखाती है।",
+          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
           "dateDecisionScope": "observance-date-only",
           "autoApproved": false
         }
@@ -457,12 +458,12 @@
           "labels": [
             "वंजुली महाद्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "not-supported-by-two-consecutive-sunrise-dwadashi-rule",
           "localAssessment": {
             "ruleId": "mahadwadashi-smarta-vanjuli",
-            "ruleSource": "धर्मसिन्धु एवं निर्णयसिन्धु; तुलनात्मक पंचांग cross-check",
+            "ruleSource": "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check",
             "requiredCondition": "द्वादशी एक ही तिथि के रूप में लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो; व्रत पहले द्वादशी-सूर्योदय वाले दिन।",
             "firstSunrise": {
               "date": "2030-05-28",
@@ -552,7 +553,7 @@
           "deity": "भगवान श्रीराम एवं लक्ष्मण",
           "shortDetail": "श्रीराम और लक्ष्मण की युगल प्रतिमाओं की पूजा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 45 — राम-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [
@@ -685,7 +686,7 @@
           "deity": "भगवान वासुदेव",
           "shortDetail": "चतुर्व्यूह सहित वासुदेव-रूप की पूजा और कलश में स्थापित प्रतिमा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 46 — कृष्ण-द्वादशी-व्रत (वासुदेव एवं व्यूह-पूजन)"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -744,8 +745,8 @@
           "labels": [
             "कृष्ण वासुदेव द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
           "status": "local-tithi-interval-confirmed-source-date-review-pending",
           "localTithiIntervalIST": {
             "start": "2030-07-26T10:02:32.993+05:30",
@@ -758,9 +759,9 @@
             "tithiAtNoonOnVrataDate": true,
             "tithiAtNextSunrise": true,
             "localNextSunrise": "2030-07-27T05:26:16.658+05:30",
-            "sourceReference": "तुलनात्मक पंचांग — Krishna Vasudeva Dwadashi 2030",
-            "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
-            "evidence": "स्थानीय द्वादशी 26 जुलाई 10:02:32.993 IST पर शुरू होकर 27 जुलाई 12:21:52.929 IST तक रहती है। 26 जुलाई को मध्याह्न में द्वादशी उपस्थित है और 27 जुलाई के सूर्योदय पर भी द्वादशी है। संदर्भ पंचांग इस नामित व्रत की तारीख़ 26 जुलाई और अगले दिन पारण बताता है।",
+            "sourceReference": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
+            "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
+            "evidence": "स्थानीय द्वादशी 26 जुलाई 10:02:32.993 IST पर शुरू होकर 27 जुलाई 12:21:52.929 IST तक रहती है। 26 जुलाई को मध्याह्न में द्वादशी उपस्थित है और 27 जुलाई के सूर्योदय पर भी द्वादशी है। Drik इस नामित व्रत की तारीख़ 26 जुलाई और अगले दिन पारण बताता है।",
             "sourceLabelDisposition": "retain-26-july-vrata-date;27-july-is-parana-day-only"
           }
         }
@@ -780,8 +781,8 @@
           "name": "कृष्ण वासुदेव द्वादशी",
           "selectedDate": "2030-07-26",
           "decisionStatus": "named-vrata-date-cross-check-match",
-          "source": "तुलनात्मक पंचांग — Krishna Vasudeva Dwadashi 2030",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
+          "source": "Drik Panchang — Krishna Vasudeva Dwadashi 2030",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/vasudeva/krishna-vasudeva-dwadashi-date-time.html?year=2030",
           "localTithiIntervalIST": {
             "start": "2030-07-26T10:02:32.993+05:30",
             "end": "2030-07-27T12:21:52.929+05:30"
@@ -789,7 +790,7 @@
           "paranaDate": "2030-07-27",
           "nextSunrise": "2030-07-27T05:26:16.658+05:30",
           "autoApproved": false,
-          "note": "संदर्भ पंचांग नामित व्रत के लिए 26 जुलाई को उपवास और 27 जुलाई को पारण-दिन बताता है। स्थानीय द्वादशी अंतराल दोनों से मेल खाता है। सार्वजनिक पारण समय अलग स्थानीय गणना के बिना नहीं जोड़ा जाएगा।"
+          "note": "Drik नामित व्रत के लिए 26 जुलाई को उपवास और 27 जुलाई को पारण-दिन बताता है। स्थानीय द्वादशी अंतराल दोनों से मेल खाता है। सार्वजनिक पारण समय अलग स्थानीय गणना के बिना नहीं जोड़ा जाएगा।"
         }
       ],
       "sourceDateDecisionNote": "कृष्ण वासुदेव द्वादशी का नामित व्रत-दिन 26 जुलाई रखा गया है; स्थानीय द्वादशी 26 जुलाई 10:02 IST से 27 जुलाई 12:21 IST तक है। 27 जुलाई केवल पारण-दिन है। केवल 27 जुलाई के सूर्योदय पर द्वादशी होने के कारण व्रत-दिन को अगले दिन नहीं खिसकाया जाएगा।"
@@ -849,8 +850,7 @@
           "deity": "भगवान दामोदर",
           "shortDetail": "यशोदा द्वारा रस्सी से बाँधे गए बालकृष्ण-दामोदर की पूजा और प्रतिमा-दान का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-पूजन; संस्कृत श्लोक 47.1 में द्वादशी)",
-          "sourceTextNote": "उपलब्ध अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; संस्कृत 47.1 में स्पष्ट 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' है। संस्कृत पाठ को प्राथमिक रखें; अनुवाद-अंतर दर्ज है।"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [
@@ -935,18 +935,18 @@
           "labels": [
             "उन्मीलिनी महाद्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "not-supported-by-arunodaya-dashami-overlap-or-two-sunrise-ekadashi-rule",
           "localAssessment": {
             "ruleId": "mahadwadashi-smarta-unmilini",
             "ruleSources": [
               "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 98–99",
-              "धर्मसिन्धु एवं निर्णयसिन्धु; तुलनात्मक पंचांग cross-check"
+              "धर्मसिन्धु एवं निर्णयसिन्धु; Drik Panchang cross-check"
             ],
             "requiredConditions": [
               "नारद पुराण: अरुणोदय में दशमी से विद्ध एकादशी; उस दिन का व्रत छोड़कर अगले द्वादशी-दिन व्रत।",
-              "धर्मसिन्धु/संदर्भ पंचांग cross-check: विस्तृत एकादशी लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो।"
+              "धर्मसिन्धु/Drik cross-check: विस्तृत एकादशी लगातार दो स्थानीय सूर्योदयों पर उपस्थित हो।"
             ],
             "sunriseSequence": [
               {
@@ -967,7 +967,7 @@
             "nextSunriseDate": "2030-08-25",
             "result": "not-qualified",
             "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-select-unmilini-fast-date",
-            "evidence": "संदर्भ पंचांग 23 अगस्त दैनिक पंचांग में दशमी 24 अगस्त 00:56 IST तक है; 24 अगस्त अरुणोदय इससे बहुत बाद है। संदर्भ पंचांग 24 अगस्त दैनिक पंचांग में एकादशी 25 अगस्त 02:54 IST तक दी है, जो 25 अगस्त स्थानीय सूर्योदय से पहले समाप्त होती है। अतः अरुणोदय-दशमी overlap नहीं और एकादशी दो लगातार सूर्योदयों तक नहीं रहती।",
+            "evidence": "Drik 23 अगस्त दैनिक पंचांग में दशमी 24 अगस्त 00:56 IST तक है; 24 अगस्त अरुणोदय इससे बहुत बाद है। Drik 24 अगस्त दैनिक पंचांग में एकादशी 25 अगस्त 02:54 IST तक दी है, जो 25 अगस्त स्थानीय सूर्योदय से पहले समाप्त होती है। अतः अरुणोदय-दशमी overlap नहीं और एकादशी दो लगातार सूर्योदयों तक नहीं रहती।",
             "decision": "25 अगस्त को द्वादशी और पुनर्वसु का स्थानीय संयोग बना, पर वह उन्मीलिनी नहीं है। जयन्ती के स्रोत-भेद का निर्णय अलग दर्ज है; कृष्ण दामोदर द्वादशी और बछबारस अपने-अपने कार्डों पर बनी रहती हैं।"
           }
         }
@@ -1014,15 +1014,15 @@
             "source": "निर्णय-सिन्धु, पृष्ठ 48 (नारद पुराण पाठांतर)"
           },
           {
-            "id": "संदर्भ पंचांगPanchang",
+            "id": "drikPanchang",
             "criteria": "द्वादशी + पुनर्वसु, दोनों पक्ष",
             "localMatch": true,
-            "reason": "तुलनात्मक पंचांग दोनों पक्षों को सूचीबद्ध करता है, क्योंकि विभिन्न ग्रंथों में मतभेद हैं।",
-            "source": "तुलनात्मक पंचांग — Jayanti Mahadwadashi",
-            "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/mahadwadashi/jayanti-mahadwadashi.html?lang=en"
+            "reason": "Drik Panchang दोनों पक्षों को सूचीबद्ध करता है, क्योंकि विभिन्न ग्रंथों में मतभेद हैं।",
+            "source": "Drik Panchang — Jayanti Mahadwadashi",
+            "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/jayanti-mahadwadashi.html?lang=en"
           }
         ],
-        "decision": "परियोजना की स्मार्त-प्राथमिकता के अनुसार कृष्ण पक्ष का 25 अगस्त संयोग जयन्ती महाद्वादशी के सार्वजनिक कार्ड के लिए स्वीकार नहीं किया जाएगा। संदर्भ पंचांग का दोनों-पक्षीय परिणाम केवल आंतरिक cross-reference रहेगा।",
+        "decision": "परियोजना की स्मार्त-प्राथमिकता के अनुसार कृष्ण पक्ष का 25 अगस्त संयोग जयन्ती महाद्वादशी के सार्वजनिक कार्ड के लिए स्वीकार नहीं किया जाएगा। Drik का दोनों-पक्षीय परिणाम केवल आंतरिक cross-reference रहेगा।",
         "publicCardDecision": "no-additional-jayanti-card",
         "autoApproved": false,
         "reviewScope": "source-profile-conflict-only"
@@ -1085,8 +1085,8 @@
           "labels": [
             "श्रवण योग द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
@@ -1129,15 +1129,14 @@
           "deity": "भगवान कल्कि",
           "shortDetail": "भविष्य में प्रकट होने वाले कल्कि-अवतार की पूजा और कल्कि-प्रतिमा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 48 — कल्कि-द्वादशी-व्रत (संस्कृत श्लोक 48.1)",
-          "sourceTextNote": "संस्कृत 48.1 में 'भाद्रपदे मासि शुक्लपक्षे तु द्वादशीम्' है; उपलब्ध अंग्रेज़ी अनुवाद में Ekadashi लिखा है। संस्कृत मूल द्वादशी-पाठ का समर्थन करता है; अनुवाद-अंतर दर्ज है।"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
       "crossReferences": [
         {
           "name": "विष्णुशृंखला योग द्वादशी",
-          "source": "तुलनात्मक पंचांग",
+          "source": "Drik Panchang",
           "relation": "योग-आधारित कैलेंडर नाम; पुराणोक्त महाद्वादशी से स्वतः समान न मानें",
           "status": "date-condition-required"
         }
@@ -1227,8 +1226,8 @@
             "use": "भाद्रपद शुक्ल द्वादशी का श्रवण-नक्षत्र के साथ व्रत-योग"
           },
           {
-            "name": "तुलनात्मक पंचांग — Shravana Yoga Dwadashi",
-            "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+            "name": "Drik Panchang — Shravana Yoga Dwadashi",
+            "url": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
             "use": "48 मिनट द्वादशी-श्रवण संयोग की secondary timing cross-check; स्मार्त तारीख़ निर्णय का अकेला आधार नहीं"
           },
           {
@@ -1260,8 +1259,8 @@
             "criterion": "द्वादशी और श्रवण नक्षत्र का मध्याह्न में संयोग",
             "localShravanaStarts": "2030-09-08T19:59:00.797+05:30",
             "result": "स्थानीय श्रवण नक्षत्र 8 सितंबर 19:58 IST पर आरम्भ होता है, मध्याह्न के बाद। इसलिए धर्मसिन्धु का वामन-जयंती लक्षण (द्वादशी + श्रवण at Madhyahna) पूरा नहीं होता। नारद पुराण का अलग वामन-द्वादशी पूजन-व्रत 8 सितंबर के द्वादशी-दिवस पर रखा गया है; सार्वजनिक नाम वामन-द्वादशी व्रत होगा, जयंती नहीं।",
-            "drikCrossCheck": "तुलनात्मक पंचांग 2030 Vamana Jayanti page lists 8 September but shows Shravana beginning at 19:58, after madhyahna.",
-            "drikUrl": "https://www.संदर्भ पंचांगpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030",
+            "drikCrossCheck": "Drik Panchang 2030 Vamana Jayanti page lists 8 September but shows Shravana beginning at 19:58, after madhyahna.",
+            "drikUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030",
             "publicDecision": "no-vamana-jayanti-label"
           },
           "autoApproved": false
@@ -1308,8 +1307,8 @@
           },
           "localDayDecision": "8 सितंबर को द्वादशी मध्याह्न में उपस्थित है। 9 सितंबर सूर्योदय के बाद द्वादशी केवल 41 मिनट 53 सेकंड शेष रहती है, इसलिए द्वादशी-दिन का कल्कि-व्रत 8 सितंबर को रखा गया; प्रतिमा-दान 9 सितंबर प्रातः।",
           "followingMorningActionDate": "2030-09-09",
-          "sourceCrossCheck": "तुलनात्मक पंचांग की 2030 सूची 8 सितंबर को कल्कि द्वादशी देती है और तिथि-अन्त 9 सितंबर 06:32 IST दिखाती है।",
-          "sourceCrossCheckUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "sourceCrossCheck": "Drik Panchang की 2030 सूची 8 सितंबर को कल्कि द्वादशी देती है और तिथि-अन्त 9 सितंबर 06:32 IST दिखाती है।",
+          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
           "autoApproved": false
         }
       ],
@@ -1439,8 +1438,8 @@
           "labels": [
             "एकादशी श्रवण योग द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "not-supported-by-local-dwadashi-shravana-overlap",
           "localDwadashiShravanaOverlapMs": 0,
           "localAssessment": {
@@ -1453,7 +1452,7 @@
               "end": "2030-10-08T15:50:29.356+05:30"
             },
             "sourceLabelDisposition": "retain-as-source-cross-reference-only;do-not-use-for-local-date-selection",
-            "evidence": "स्थानीय इंजन में द्वादशी 7 अक्टूबर 16:31 IST पर शुरू होती है; संदर्भ पंचांग Roorkee दैनिक पंचांग में धनिष्ठा 8 अक्टूबर 00:59 तक और उसके बाद शतभिषा है, श्रवण नहीं। अतः दोनों का overlap शून्य है।"
+            "evidence": "स्थानीय इंजन में द्वादशी 7 अक्टूबर 16:31 IST पर शुरू होती है; Drik Roorkee दैनिक पंचांग में धनिष्ठा 8 अक्टूबर 00:59 तक और उसके बाद शतभिषा है, श्रवण नहीं। अतः दोनों का overlap शून्य है।"
           }
         }
       ],
@@ -1478,7 +1477,7 @@
           "deity": "भगवान पद्मनाभ",
           "shortDetail": "नाभि-कमलधारी पद्मनाभ की पूजा और कलश में स्थापित प्रतिमा के दान का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 49 — पद्मनाभ-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -1499,7 +1498,7 @@
         "sourceLabel": "एकादशी श्रवण योग द्वादशी",
         "localDwadashiShravanaOverlapMs": 0,
         "minimumRequiredOverlapMs": 2880000,
-        "decision": "यह संदर्भ पंचांग वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
+        "decision": "यह Drik वार्षिक सूची का स्रोत-संदर्भ है, स्थानीय श्रवण योग-द्वादशी नहीं। इसे व्रत-दिन या द्वादशी तारीख़ चुनने में उपयोग न करें।",
         "preserveNamedDwadashi": true,
         "publicDateChanged": false,
         "namedDwadashiDateReview": "पद्मनाभ-द्वादशी का 7 अक्टूबर स्रोत-दिन और 8 अक्टूबर सूर्योदय candidate अलग सुरक्षित रहें; विशेष श्रवण-योग लेबल इनमें से कोई तारीख़ स्वतः approve नहीं करता।"
@@ -1525,7 +1524,7 @@
           },
           "localDayDecision": "7 अक्टूबर को स्थानीय द्वादशी 16:31:39 IST पर आरम्भ होती है और संध्या/रात्रि-विधान के लिए उपस्थित रहती है। नारद पुराण अध्याय 17 में पद्मनाभ-व्रत के लिए अभिषेक, हवन, रात्रि-जागरण और अगली सुबह पुनः पूजा/मधु-दान का क्रम है। इसलिए 7 अक्टूबर व्रत-आरम्भ दिन और 8 अक्टूबर अगली सुबह का अनुष्ठान-दिन है; केवल 8 अक्टूबर सूर्योदय पर द्वादशी होने के कारण मुख्य व्रत को 8 अक्टूबर पर स्थानांतरित नहीं किया गया।",
           "shravanaYogaStatus": "not-qualified-local-overlap-zero",
-          "sourceCrossReference": "संदर्भ पंचांग की वार्षिक सूची 7 अक्टूबर बताती है; उसका अतिरिक्त 'एकादशी श्रवण योग द्वादशी' लेबल स्थानीय श्रवण-योग से समर्थित नहीं है और तारीख़-चयन में उपयोग नहीं किया गया।",
+          "sourceCrossReference": "Drik की वार्षिक सूची 7 अक्टूबर बताती है; उसका अतिरिक्त 'एकादशी श्रवण योग द्वादशी' लेबल स्थानीय श्रवण-योग से समर्थित नहीं है और तारीख़-चयन में उपयोग नहीं किया गया।",
           "autoApproved": false
         }
       ],
@@ -1579,8 +1578,8 @@
             "गोवत्स द्वादशी",
             "कृष्ण पद्मनाभ द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
@@ -1620,8 +1619,8 @@
           "selectedDate": "2030-10-23",
           "followingMorningDate": "2030-10-24",
           "dateRole": "source-listed-observance-with-overnight-worship",
-          "source": "तुलनात्मक पंचांग, कृष्ण पद्मनाभ द्वादशी, नई दिल्ली",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/padmanabha/krishna-padmanabha-dwadashi-date-time.html?year=2030",
+          "source": "Drik Panchang, कृष्ण पद्मनाभ द्वादशी, नई दिल्ली",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/padmanabha/krishna-padmanabha-dwadashi-date-time.html?year=2030",
           "secondarySourceUrl": "https://panchangtime.com/festivals/krishna-padmanabha-dwadashi/yearly/2030",
           "localDayDecision": "दोनों वार्षिक स्रोत 23 अक्टूबर देते हैं। दृक् इस व्रत की विधि के लिए आश्विन शुक्ल पद्मनाभ-विधान को संदर्भित करता है। पिथौरागढ़ में 23 की रात्रि और 24 की सुबह एक ही द्वादशी में हैं। नारद पुराण, पूर्वार्ध 17.74–78 का प्रत्यक्ष विधान आश्विन शुक्ल के लिए है। कार्तिक कृष्ण के स्वतंत्र दिन-निर्णय का पाठ अभी अपेक्षित है।",
           "autoApproved": false
@@ -1674,20 +1673,20 @@
           "deity": "सहस्रशीर्ष भगवान नारायण",
           "shortDetail": "योगनिद्रा में स्थित सहस्रशीर्ष नारायण की पूजा तथा चार समुद्र-कलश और प्रतिमा के दान का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 50 — धारणी-व्रत (कार्तिक द्वादशी; सहस्रशीर्ष नारायण-पूजन)"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
       "crossReferences": [
         {
           "name": "योगेश्वर द्वादशी",
-          "source": "तुलनात्मक पंचांग",
+          "source": "Drik Panchang",
           "relation": "कार्तिक शुक्ल द्वादशी का कैलेंडर नाम; देवोत्थान एकादशी/द्वादशी से स्वतः समान न मानें",
           "status": "cross-reference"
         },
         {
           "name": "गरुड़ द्वादशी",
-          "source": "तुलनात्मक पंचांग",
+          "source": "Drik Panchang",
           "relation": "उसी तिथि के कैलेंडर में दिया गया नाम; पृथक पुराण-स्रोत न जोड़ा जाए",
           "status": "cross-reference"
         }
@@ -1736,7 +1735,7 @@
       "crossReferences": [
         {
           "name": "कृष्ण-योगेश्वर द्वादशी",
-          "source": "तुलनात्मक पंचांग",
+          "source": "Drik Panchang",
           "relation": "कैलेंडर संदर्भ नाम",
           "status": "cross-reference"
         }
@@ -1781,7 +1780,8 @@
       "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "साध्य-व्रत",
-        "धरणी-व्रत"
+        "सामान्य द्वादशी-व्रत",
+        "मत्स्य द्वादशी"
       ],
       "observances": [
         {
@@ -1794,12 +1794,11 @@
         },
         {
           "id": "standard-margashirsha",
-          "name": "धरणी-व्रत",
-          "deity": "भगवान विष्णु एवं धरणी",
-          "shortDetail": "मार्गशीर्ष द्वादशी पर भगवान विष्णु और धरणी की पूजा, कलश-स्थापन तथा मत्स्य-रूप स्वर्ण-प्रतिमा के दान का विधान है।",
+          "name": "सामान्य द्वादशी-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "वराह पुराण के इस मासिक क्रम में मार्गशीर्ष के लिए अलग अवतार-नाम नहीं दिया गया; इसे सामान्य द्वादशी-व्रत के रूप में रखा गया है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 39 — धरणी-व्रत",
-          "sourceTextNote": "अध्याय 39 के उपलब्ध पाठ में धरणी-व्रत की विधि है और मत्स्य-रूप प्रतिमा का विधान आता है; अध्याय-शीर्षक और पाठ-शरीर में नामांतर है। इसे अलग मत्स्य-द्वादशी observance के रूप में नहीं जोड़ा गया है।"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -1859,8 +1858,8 @@
       "crossReferences": [
         {
           "name": "कृष्ण मत्स्य द्वादशी",
-          "source": "तुलनात्मक पंचांग",
-          "relation": "संदर्भ पंचांग की 1 जनवरी सूची-प्रविष्टि; इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
+          "source": "Drik Panchang",
+          "relation": "Drik की 1 जनवरी सूची-प्रविष्टि; इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
           "status": "cross-reference"
         }
       ],
@@ -1921,9 +1920,9 @@
             "कृष्ण मत्स्य द्वादशी"
           ],
           "sourcePage": "dwadashi-dates",
-          "note": "संदर्भ पंचांग की 2030 सूची में कृष्ण मत्स्य द्वादशी 21 दिसंबर को है। पिथौरागढ़ में द्वादशी 21 दिसंबर 12:33 IST पर आरम्भ होकर 22 दिसंबर 09:41 IST तक चलती है; यह 21 दिसंबर सूर्योदय से 22 दिसंबर अगले सूर्योदय तक के पंचांग-दिन में आती है। यह रूप-व्रत का पर्याय नहीं है और पूरे पौष कृष्ण रिकॉर्ड की तारीख़ नहीं बदलती। स्थानीय पंचांग-व्याप्ति अलग से दर्ज की जाती है।",
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "note": "Drik की 2030 सूची में कृष्ण मत्स्य द्वादशी 21 दिसंबर को है। पिथौरागढ़ में द्वादशी 21 दिसंबर 12:33 IST पर आरम्भ होकर 22 दिसंबर 09:41 IST तक चलती है; यह 21 दिसंबर सूर्योदय से 22 दिसंबर अगले सूर्योदय तक के पंचांग-दिन में आती है। यह रूप-व्रत का पर्याय नहीं है और पूरे पौष कृष्ण रिकॉर्ड की तारीख़ नहीं बदलती। स्थानीय पंचांग-व्याप्ति अलग से दर्ज की जाती है।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review",
           "localPanchangObservation": {
             "date": "2030-12-21",
@@ -1955,8 +1954,8 @@
       "crossReferences": [
         {
           "name": "कृष्ण मत्स्य द्वादशी",
-          "source": "तुलनात्मक पंचांग",
-          "relation": "संदर्भ पंचांग का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
+          "source": "Drik Panchang",
+          "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
           "status": "cross-reference"
         }
       ],
@@ -2064,7 +2063,7 @@
           "deity": "भगवान कूर्म",
           "shortDetail": "समुद्र-मंथन में कूर्म-रूप धारण करने वाले विष्णु की पूजा और कूर्म-प्रतिमा सहित कलश का दान बताया गया है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 40 — कूर्म-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -2162,7 +2161,7 @@
           "deity": "भगवान वराह",
           "shortDetail": "भूदेवी के उद्धारकर्ता वराह-रूप की पूजा; स्वर्ण-वराह प्रतिमा और बीजों से भरे पात्र का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 41 — वराह-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -2227,8 +2226,8 @@
           "labels": [
             "श्रवण योग द्वादशी"
           ],
-          "source": "तुलनात्मक पंचांग",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
           "status": "local-48-minute-overlap-confirmed-source-review-pending",
           "localDwadashiShravanaOverlapMs": 3027927,
           "localAssessment": {
@@ -2246,7 +2245,7 @@
               "end": "2030-03-01T13:05:25.632+05:30"
             },
             "sourceLabelDisposition": "locally-supported-cross-reference;keep-with-the-same-krishna-bhishma-dwadashi-card",
-            "evidence": "स्थानीय इंजन में द्वादशी सूर्योदय पर उपस्थित थी और 1 मार्च को 12:14:57.705 से 13:05:25.632 IST तक श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का संयोग बना। यह एक मुहूर्त (48 मिनट) से अधिक है। संदर्भ पंचांग का समय भी लगभग 12:14 से 13:04 बताता है।"
+            "evidence": "स्थानीय इंजन में द्वादशी सूर्योदय पर उपस्थित थी और 1 मार्च को 12:14:57.705 से 13:05:25.632 IST तक श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का संयोग बना। यह एक मुहूर्त (48 मिनट) से अधिक है। Drik का समय भी लगभग 12:14 से 13:04 बताता है।"
           }
         }
       ],
@@ -2274,8 +2273,8 @@
           "name": "कृष्ण भीष्म द्वादशी",
           "selectedDate": "2030-03-01",
           "decisionStatus": "local-tithi-and-shravana-overlap-candidate",
-          "source": "तुलनात्मक पंचांग — Krishna Bhishma Dwadashi and Shravana Yoga Dwadashi",
-          "sourceUrl": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/bhishma/krishna-bhishma-dwadashi-date-time.html?year=2030",
+          "source": "Drik Panchang — Krishna Bhishma Dwadashi and Shravana Yoga Dwadashi",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/bhishma/krishna-bhishma-dwadashi-date-time.html?year=2030",
           "localTithiIntervalIST": {
             "start": "2030-02-28T14:05:08.714+05:30",
             "end": "2030-03-01T13:05:25.632+05:30"
@@ -2289,7 +2288,7 @@
           "note": "यह स्थानीय एक-मुहूर्त श्रवण-संयोग का स्रोत-समीक्षा उम्मीदवार है; अलग श्रवण योग कार्ड नहीं बनेगा।"
         }
       ],
-      "sourceDateDecisionNote": "1 मार्च 2030 को फाल्गुन कृष्ण द्वादशी सूर्योदय पर उपस्थित है और श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का स्थानीय संयोग बनता है। अतः संदर्भ पंचांग का श्रवण योग द्वादशी cross-reference स्थानीय 48-मिनट नियम से मेल खाता है; इसे कृष्ण भीष्म द्वादशी के साथ एक ही कार्ड में रखा जाए, अलग डुप्लिकेट नहीं। शुक्र प्रदोष अलग त्रयोदशी-व्रत और अलग कार्ड है।"
+      "sourceDateDecisionNote": "1 मार्च 2030 को फाल्गुन कृष्ण द्वादशी सूर्योदय पर उपस्थित है और श्रवण नक्षत्र से 50 मिनट 27.927 सेकंड का स्थानीय संयोग बनता है। अतः Drik का श्रवण योग द्वादशी cross-reference स्थानीय 48-मिनट नियम से मेल खाता है; इसे कृष्ण भीष्म द्वादशी के साथ एक ही कार्ड में रखा जाए, अलग डुप्लिकेट नहीं। शुक्र प्रदोष अलग त्रयोदशी-व्रत और अलग कार्ड है।"
     },
     {
       "id": "phalguna-shukla",
@@ -2346,7 +2345,7 @@
           "deity": "भगवान नृसिंह",
           "shortDetail": "हिरण्यकशिपु-वध करने वाले नृसिंह की पूजा और नृसिंह-प्रतिमा के दान का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 42 — नृसिंह-द्वादशी-व्रत"
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
         }
       ],
       "conditionalObservances": [],
@@ -3141,8 +3140,8 @@
   "sourceReview": {
     "status": "pending-manual-cross-check",
     "primary": {
-      "name": "तुलनात्मक पंचांग — Dwadashi Dates",
-      "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+      "name": "Drik Panchang — Dwadashi Dates",
+      "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
       "location": "Pithoragarh, Uttarakhand, India",
       "compare": [
         "tithi interval",
@@ -3173,14 +3172,14 @@
       "status": "date-match-location-and-vrata-rule-review-still-required",
       "sources": [
         {
-          "name": "तुलनात्मक पंचांग",
+          "name": "Drik Panchang",
           "location": "Muhammadabad",
-          "url": "https://www.संदर्भ पंचांगpanchang.com/festivals/month/festivals-july.html?year=2030"
+          "url": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030"
         },
         {
-          "name": "तुलनात्मक पंचांग",
+          "name": "Drik Panchang",
           "location": "Lucknow",
-          "url": "https://www.संदर्भ पंचांगpanchang.com/panchang/month-panchang.html?date=26%2F07%2F2030"
+          "url": "https://www.drikpanchang.com/panchang/month-panchang.html?date=26%2F07%2F2030"
         }
       ]
     },
@@ -3190,9 +3189,9 @@
       "status": "date-match-location-and-vrata-rule-review-still-required",
       "sources": [
         {
-          "name": "तुलनात्मक पंचांग",
+          "name": "Drik Panchang",
           "location": "New Delhi",
-          "url": "https://www.संदर्भ पंचांगpanchang.com/panchang/month-panchang.html?date=17%2F11%2F2030"
+          "url": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F11%2F2030"
         },
         {
           "name": "Hindu Calculator",
@@ -3214,51 +3213,51 @@
         "date": "2030-07-11",
         "tithi": "आषाढ़ शुक्ल एकादशी",
         "rule": "उदयव्यापिनी स्मार्त एकादशी",
-        "source": "तुलनात्मक पंचांग — Devshayani Ekadashi / Ekadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/ekadashis/devshayani/devshayani-ekadashi-date-time.html?lang=en&year=2030"
+        "source": "Drik Panchang — Devshayani Ekadashi / Ekadashi Dates",
+        "url": "https://www.drikpanchang.com/ekadashis/devshayani/devshayani-ekadashi-date-time.html?lang=en&year=2030"
       },
       {
         "boundary": "shak-end",
         "date": "2030-08-10",
         "tithi": "श्रावण शुक्ल द्वादशी",
         "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "तुलनात्मक पंचांग — Dwadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       },
       {
         "boundary": "dahi-end",
         "date": "2030-09-09",
         "tithi": "भाद्रपद शुक्ल द्वादशी",
         "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "तुलनात्मक पंचांग — Dwadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       },
       {
         "boundary": "doodh-end",
         "date": "2030-10-08",
         "tithi": "आश्विन शुक्ल द्वादशी",
         "rule": "स्थानीय सूर्योदय पर द्वादशी",
-        "source": "तुलनात्मक पंचांग — Dwadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       },
       {
         "boundary": "end",
         "date": "2030-11-05",
         "tithi": "कार्तिक शुक्ल एकादशी",
         "rule": "स्मार्त देवोत्थानी एकादशी",
-        "source": "तुलनात्मक पंचांग — Hindu Calendar / Ekadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+        "source": "Drik Panchang — Hindu Calendar / Ekadashi Dates",
+        "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
       },
       {
         "boundary": "completion",
         "date": "2030-11-06",
         "tithi": "कार्तिक शुक्ल द्वादशी",
         "rule": "द्वादशी उदयव्याप्ति पर चातुर्मास समापन",
-        "source": "तुलनात्मक पंचांग — Dwadashi Dates",
-        "url": "https://www.संदर्भ पंचांगpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
       }
     ],
-    "chaturmasBoundaryCrossChecksNote": "संदर्भ पंचांग तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; संदर्भ पंचांग सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।",
+    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।",
     "canonicalObserverAudit": {
       "location": {
         "latitude": 29.5828,
@@ -3281,7 +3280,7 @@
   "generalDwadashiYogaReview": {
     "ruleId": "shravana-yoga-dwadashi",
     "name": "श्रवण योग द्वादशी",
-    "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; तुलनात्मक पंचांग cross-check",
+    "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
     "criterion": "स्थानीय द्वादशी और श्रवण नक्षत्र का उसी सूर्योदय-दिन से अगले सूर्योदय तक कम-से-कम एक मुहूर्त (48 मिनट) संयोग; शुक्ल एवं कृष्ण दोनों पक्ष",
     "calculation": {
       "engine": "@ishubhamx/panchangam-js@3.0.0",
