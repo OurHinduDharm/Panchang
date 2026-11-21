@@ -39,4 +39,5 @@ test("unknown elevation can be approximated only by explicit opt-in", async () =
   assert.equal(result.observer.elevation, 0);
   assert.equal(result.elevationApproximate, true);
   assert.equal(resolveTaraLocation({...location, elevation: 0, elevationStatus: "provided"}).elevationApproximate, false);
+  assert.equal(resolveTaraLocation({...location, elevation: 120, elevationStatus: "estimated"}).elevationSourceApproximate, true);
 });
