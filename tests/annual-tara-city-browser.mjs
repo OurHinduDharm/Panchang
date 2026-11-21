@@ -65,6 +65,20 @@ try {
   await page.selectOption("#city", "delhi");
   assert.equal(await page.locator("#city-events").innerText(), delhi);
   assert.equal(await page.locator(".planet").count(), 3);
+  const yearOptions = await page.locator("#forecast-year option").evaluateAll(options => options.map(option => option.value));
+  assert.equal(yearOptions[0], "2021");
+  assert.equal(yearOptions.at(-1), "2035");
+  await page.selectOption("#forecast-year", "2035");
+  await page.locator("#city-events .planet").first().waitFor();
+  const year2035 = await page.locator("#city-events").innerText();
+  assert.equal(await page.locator(".planet").count(), 3);
+  const year2035Links = await page.locator("#city-events .event-link").evaluateAll(links =>
+    links.map(link => new URL(link.href).searchParams.get("date")));
+  assert.equal(year2035Links.length, 6);
+  assert.ok(year2035Links.every(date => date?.startsWith("2035-")), JSON.stringify(year2035Links));
+  await page.selectOption("#forecast-year", "2027");
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.equal(await page.locator("#city-events").innerText(), delhi);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   const annualUrl = new URL(page.url());
   assert.equal(annualUrl.searchParams.get("city"), "delhi");
@@ -83,6 +97,9 @@ try {
   const recorded = await arghya.innerText();
   assert.match(recorded, /अगस्त्य अर्घ्य — 7 सितंबर 2026/);
   assert.match(recorded, /प्रातः 04:44 बजे से प्रातः 05:49 बजे/);
+  assert.match(recorded, /उदय — 6 सितंबर/);
+  assert.match(recorded, /अस्त — 16 अप्रैल/);
+  assert.match(recorded, /पारंपरिक पिथौरागढ़ संदर्भ/);
   await page.locator("#place-search").fill("पिथौरागढ़");
   await page.locator("#place-search").press("Enter");
   await page.getByRole("button", {name: /Pithoragarh.*Uttarakhand/}).click();
@@ -92,7 +109,7 @@ try {
   await page.reload();
   await arghya.waitFor();
   assert.equal(await arghya.innerText(), recorded);
-  const setUrl = new URL(await arghya.getByRole("link", {name: /अगस्त्य अस्त/}).getAttribute("href"));
+  const setUrl = new URL(await arghya.getByRole("link", {name: "पारंपरिक अगस्त्य अस्त का पंचांग देखें", exact: true}).getAttribute("href"));
   assert.deepEqual(["date", "lat", "lon", "elevation"].map(key => setUrl.searchParams.get(key)),
     ["2026-04-15", "29.5828", "80.2182", "1650"]);
 

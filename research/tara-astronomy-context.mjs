@@ -21,30 +21,29 @@ export function createTaraAstronomyContext({ location, Observer, year }) {
  * Consume the existing location selection; no city lookup or silent fallback.
  * The caller owns persistence and supplies the already-selected location.
  */
-export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year, options = {}) {
-  const {observer, elevationApproximate} = resolveTaraLocation(selectedLocation, options);
+export function createTaraContextFromPanchangLocation(selectedLocation, Observer, year) {
+  const {observer, elevationSourceApproximate} = resolveTaraLocation(selectedLocation);
   const context = createTaraAstronomyContext({ location: observer, Observer, year });
-  return Object.freeze({...context, elevationApproximate});
+  return Object.freeze({...context, elevationSourceApproximate});
 }
 
-export function resolveTaraLocation(selectedLocation, options = {}) {
-  if (!selectedLocation || typeof selectedLocation !== "object" || Array.isArray(selectedLocation)) throw new Error("Select a Panchang location before calculating Tara events");
+export function resolveTaraLocation(selectedLocation) {
+  if (!selectedLocation || typeof selectedLocation !== "object" || Array.isArray(selectedLocation)) {
+    throw new Error("Select a city with coordinates and elevation before calculating Tara events");
+  }
   const latitude = numericField(selectedLocation.lat ?? selectedLocation.latitude);
   const longitude = numericField(selectedLocation.lon ?? selectedLocation.longitude);
-  const rawElevation = selectedLocation.elevation;
-  const elevation = numericField(rawElevation);
-  // Historical app.js selections store a placeholder zero for missing altitudes.
-  const legacyZero = ("lat" in selectedLocation || "lon" in selectedLocation) &&
-    elevation === 0 && selectedLocation.elevationStatus !== "provided";
-  const missing = rawElevation == null || (typeof rawElevation === "string" && !rawElevation.trim()) ||
-    selectedLocation.elevationStatus === "unknown" || legacyZero;
-  if (missing && options.allowSeaLevelApproximation !== true) {
-    throw new Error("Elevation unavailable; explicitly opt in to sea-level approximation");
+  const elevation = numericField(selectedLocation.elevation);
+  if (!Number.isFinite(elevation)) {
+    throw new Error("Selected city elevation is missing; repair the city profile instead of using a fallback");
   }
   const observer = requireTaraElevation({
-    latitude, longitude, elevation: missing ? 0 : elevation, name: selectedLocation.name
+    latitude, longitude, elevation, name: selectedLocation.name
   });
-  return {observer, elevationApproximate: missing};
+  return {
+    observer,
+    elevationSourceApproximate: selectedLocation.elevationStatus === "estimated"
+  };
 }
 
 function numericField(value) {
