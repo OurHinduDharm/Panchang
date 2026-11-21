@@ -18,6 +18,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
 import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
+import { classifyMahapataGeometry } from "../research/paatadhikar/mahapata-math.mjs";
 
 const require = createRequire(import.meta.url);
 const astronomyEntry = require.resolve("astronomy-engine");
@@ -31,7 +32,13 @@ const HOUR_MS = 3600000;
 const MINUTE_MS = 60000;
 const IST_OFFSET_MS = 330 * MINUTE_MS;
 const DAY_MS = 86400000;
-const YEARS = [2026, 2027, 2028, 2029, 2030];
+const yearArgument = process.argv.find(value => value.startsWith("--years="));
+const YEARS = yearArgument
+  ? yearArgument.slice("--years=".length).split(",").map(Number)
+  : [2026, 2027, 2028, 2029, 2030];
+if (!YEARS.length || YEARS.some(year => !Number.isInteger(year) || year < 1 || year > 9998)) {
+  throw new RangeError("--years must be a comma-separated list of valid years");
+}
 const cache = new Map();
 
 function toIST(value) {
@@ -107,8 +114,8 @@ function rootsFor(fn, start, end, step) {
   });
 }
 
-const scanStart = Date.UTC(2025, 11, 30);
-const scanEnd = Date.UTC(2031, 0, 2);
+const scanStart = Date.UTC(Math.min(...YEARS) - 1, 11, 30);
+const scanEnd = Date.UTC(Math.max(...YEARS) + 1, 0, 2);
 const meanPatas = [];
 for (const target of [180, 0]) {
   const roots = rootsFor(
@@ -125,7 +132,8 @@ for (const target of [180, 0]) {
       year,
       type: target === 180 ? "व्यतीपात महापात" : "वैधृति महापात",
       relationKey: target === 180 ? "vyatipataRelation" : "vaidhritiRelation",
-      clearanceKey: target === 180 ? "vyatipataClearance" : "vaidhritiClearance"
+      clearanceKey: target === 180 ? "vyatipataClearance" : "vaidhritiClearance",
+      eventClassKey: target === 180 ? "Vyatipata" : "Vaidhriti"
     });
   }
 }
@@ -136,19 +144,35 @@ const reviewItems = [];
 for (const mean of meanPatas) {
   const searchStart = mean.time - 3 * DAY_MS;
   const searchEnd = mean.time + 3 * DAY_MS;
-  const trueRoots = rootsFor(
+  const equalDeclinationRoots = rootsFor(
     time => positions(time)[mean.relationKey],
     searchStart,
     searchEnd,
     HOUR_MS
   );
+  const classifiedRoots = equalDeclinationRoots.map(time => {
+    const position = positions(time);
+    const geometry = classifyMahapataGeometry({
+      sunLongitudeDeg: position.sunLongitude,
+      moonLongitudeDeg: position.moonLongitude,
+      sunDeclinationDeg: position.sunDeclination,
+      moonDeclinationDeg: position.moonDeclination
+    });
+    return { time, eventClass: geometry.eventClass };
+  });
+  const trueRoots = classifiedRoots
+    .filter(root => root.eventClass === mean.eventClassKey)
+    .map(root => root.time);
   if (!trueRoots.length) {
     reviewItems.push({
       meanPataYear: mean.year,
       type: mean.type,
       meanPata: new Date(mean.time).toISOString(),
       meanPataIST: toIST(mean.time),
-      status: "no-true-crossing-within-three-day-search"
+      equalDeclinationCrossings: classifiedRoots.map(root => ({
+        timeIST: toIST(root.time), eventClass: root.eventClass
+      })),
+      status: "no-class-compatible-true-crossing-within-three-day-search"
     });
     continue;
   }
@@ -209,6 +233,9 @@ for (const mean of meanPatas) {
       status: "research-only-not-approved"
     },
     otherTrueCrossings: trueRoots.filter(time => time !== chosen).map(time => toIST(time)),
+    rejectedEqualDeclinationCrossings: classifiedRoots
+      .filter(root => root.eventClass !== mean.eventClassKey)
+      .map(root => ({ timeIST: toIST(root.time), eventClass: root.eventClass })),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
     model: "drik-style-geocentric-apparent-declination-band-overlap",
     note: "Primary event window uses apparent declination-band contacts; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
