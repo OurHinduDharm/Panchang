@@ -8,6 +8,14 @@
 
 यह आधुनिक geocentric apparent ephemeris पर आधारित **Drik-style** विधि है; इसे किसी एक प्रकाशित पंचांग के आंतरिक कोड का हूबहू पुनरुत्पादन न कहें। ताराप्रसाद का दृक्-आधारित डेटा और Drik Panchang windows स्वतंत्र cross-check हैं। पंचांगों में प्रयुक्त ग्रह-स्थिति/स्पर्श-मोक्ष नियम अलग हों तो उनका अंतर स्पष्ट दर्ज होगा, उन्हें fit करके नहीं मिटाया जाएगा।
 
+## ताराप्रसाद की contact-definition का सुधार
+
+`--contact-model=taraprasad-30-arcmin` अब 30 कला = 0.5° की स्पष्ट सीमा पर स्पर्श-मोक्ष निकालता है। 61 उपलब्ध मुद्रित endpoints में 55 का implied क्रान्ति-अन्तर 30 कला से 0.5 कला के भीतर है। यह source-data से निकला convention inference है; ताराप्रसाद के मूल सूत्र की स्वतंत्र पुष्टि अभी बाकी है। कोई प्रति-तिथि offset या coefficient optimization नहीं।
+
+`node scripts/audit-mahapat-references.mjs` इस profile को चुनकर apparent-disks baseline से तुलना करता है। 30 पूरे records में 24 के दोनों समय 1 मिनट और 26 के 3 मिनट के भीतर हैं; median absolute अन्तर 0.374/0.281 मिनट। पंक्तियाँ 1 (अधूरी), 3, 9, 25, 26 review में हैं। जनवरी 2024 का लगभग 20 मिनट का एकतरफा अन्तर भी अब स्पष्ट दर्ज है। नीचे पुराना 6.77/7.66 मिनट वाला आँकड़ा apparent-disks baseline का है। पूरी नई सारणी `taraprasad-reference-audit.md` में है।
+
+Default `apparent-disks` का boundary definition और पुराने Drik fixtures अपरिवर्तित हैं। नया profile अलग स्रोत के 30-कला नियम को स्पष्ट करता है; यह दो सार्वजनिक विधियों का UI नहीं है।
+
 ## गणना क्रम
 
 1. एक ही UTC क्षण पर सूर्य और चन्द्र के apparent geocentric tropical ecliptic longitude/latitude और true obliquity लें। चन्द्र की ecliptic latitude शामिल हो; उससे apparent equatorial declinations निकालें।
@@ -42,4 +50,5 @@ node scripts/compare-mahapat-ephemeris.mjs
 node scripts/compare-mahapat-ephemeris.mjs --years=2023,2024
 node scripts/compare-mahapat-ephemeris.mjs --audit --audit-step-minutes=30
 node scripts/audit-mahapat-references.mjs
+node scripts/compare-mahapat-ephemeris.mjs --years=2023,2024 --contact-model=taraprasad-30-arcmin
 ```
