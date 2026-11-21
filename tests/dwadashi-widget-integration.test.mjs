@@ -141,6 +141,43 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
 });
 
+test("monthly widget renders every individually approved 2030 Dwadashi observance on its selected date", async () => {
+  const annual = JSON.parse(await read("data/dwadashi/2030.json"));
+  const widget = await read("monthly-vrat-parv-widget.js");
+  const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
+  const end = widget.indexOf("\n\n  async function loadMonth", start);
+  assert.ok(start >= 0 && end > start);
+  const source = widget.slice(start, end).trim();
+  const mergeAnnualDwadashiEvents = new Function("return (" + source + ")")();
+  const expected = annual.tithis.flatMap(record => {
+    const observances = [...(record.observances || []), ...(record.conditionalObservances || [])];
+    return (record.observanceDateReviews || []).filter(review => review.reviewStatus === "approved").map(review => {
+      const observance = observances.find(item => item.id === review.observanceId);
+      assert.ok(observance, "approved review must resolve to a public observance");
+      return {date:review.selectedDate,month:Number(review.selectedDate.slice(5,7)),title:observance.name};
+    });
+  });
+  assert.equal(expected.length,27);
+  for (const month of [...new Set(expected.map(item => item.month))]) {
+    const events = mergeAnnualDwadashiEvents({events:[]},annual,2030,month).events;
+    for (const item of expected.filter(entry => entry.month === month)) {
+      assert.ok(events.some(event => event.date === item.date && (event.title === item.title || (event.dwadashiAliases || []).includes(item.title))),
+        "missing rendered observance: "+item.date+" "+item.title);
+    }
+  }
+  const octoberWithPadmanabha = mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events;
+  const padmanabhaCards = octoberWithPadmanabha.filter(event => event.date === "2030-10-07" &&
+    ((event.title || "").includes("पद्मनाभ") || (event.dwadashiAliases || []).some(name=>name.includes("पद्मनाभ"))));
+  assert.equal(padmanabhaCards.length,1,"same-tithi Padmanabha forms should share one card with aliases");
+  assert.deepEqual(padmanabhaCards[0].dwadashiAliases,["पद्मनाभ-द्वादशी व्रत","पद्मनाभ-द्वादशी"]);
+  const march = mergeAnnualDwadashiEvents({events:[]},annual,2030,3).events;
+  assert.equal(march.some(event => /नृसिंह-द्वादशी|श्रीहरि-द्वादशी/.test(event.title || "")),false,
+    "boundary-sensitive Phalguna approvals must stay unpublished");
+  const october = mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events;
+  assert.ok(october.some(event => event.date === "2030-10-23" && event.title === "गोवत्स द्वादशी"));
+  assert.equal(october.some(event => event.date === "2030-10-23" && /पद्मनाभ/.test(event.title || "")),false);
+});
+
 test("annual review package opens only when at least one real publishable record is approved", async () => {
   const html = await read("festival-year-review.html");
   const start = html.indexOf("function syncDwadashiPackageStatus(){");
