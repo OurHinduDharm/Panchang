@@ -30,5 +30,6 @@ jobs:
           node --check tests/paatadhikar-mahapata-math.test.mjs
           node --check tests/surya-siddhanta-paatadhikar.test.mjs
           node --check tests/paatadhikar-astronomy-engine.integration.mjs
+          node --check tests/mahapat-taraprasad-backtest.test.mjs
       - name: Unit and ephemeris smoke tests
-        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapat-reference-check.test.mjs
+        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapat-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs
