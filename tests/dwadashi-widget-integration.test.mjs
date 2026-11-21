@@ -132,6 +132,8 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(findReview("margashirsha-shukla","sadhya").selectedDate,"2030-12-06");
   assert.equal(findReview("margashirsha-shukla","dwadashaditya").selectedDate,"2030-12-06");
   assert.equal(findReview("margashirsha-shukla","standard-margashirsha").selectedDate,"2030-12-06");
+  assert.equal(annual.tithis.find(record=>record.id==="kartika-shukla").observances.find(item=>item.id==="sahasrashirsha").name,"धरणी-व्रत (सहस्रशीर्ष नारायण पूजन)");
+  assert.equal(annual.tithis.find(record=>record.id==="margashirsha-shukla").observances.find(item=>item.id==="standard-margashirsha").name,"धरणी-व्रत (मत्स्य-प्रतिमा पूजन)");
   assert.equal(findReview("phalguna-shukla","narasimha"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
   assert.equal(findReview("phalguna-shukla","phalguna-hari"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
   assert.equal(findReview("kartika-krishna","krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
