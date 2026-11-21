@@ -30,3 +30,13 @@ test("distinct city observers have distinct cache keys", () => {
   assert.notEqual(taraObserverKey({latitude:29.5828,longitude:80.2182,elevation:1650}),
     taraObserverKey({latitude:29.58349,longitude:80.20947,elevation:1586}));
 });
+
+test("unknown elevation can be approximated only by explicit opt-in", async () => {
+  const { resolveTaraLocation } = await import("../research/tara-astronomy-context.mjs");
+  const location = {lat: 29.58, lon: 80.22, name: "Test location"};
+  assert.throws(() => resolveTaraLocation(location), /Elevation unavailable/);
+  const result = resolveTaraLocation(location, {allowSeaLevelApproximation: true});
+  assert.equal(result.observer.elevation, 0);
+  assert.equal(result.elevationApproximate, true);
+  assert.equal(resolveTaraLocation({...location, elevation: 0, elevationStatus: "provided"}).elevationApproximate, false);
+});
