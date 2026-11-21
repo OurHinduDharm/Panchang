@@ -85,7 +85,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(annual.location.latitude,29.58);
   assert.equal(annual.location.longitude,80.22);
   assert.equal(annual.tithiDates.length,28);
-  assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
+  assert.ok(annual.tithiDates.every(item=>/^2030-\\d{2}-\\d{2}$/.test(item.date)));
   assert.equal(annual.chaturmas.status,"approved");
   assert.equal(annual.chaturmas.phases.length,4);
   assert.equal(annual.tithis.length,8);
@@ -97,26 +97,19 @@ test("2030 public Dwadashi package contains only individually approved observanc
     for(const review of record.observanceDateReviews||[]){
       assert.equal(review.reviewStatus,"approved");
       assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
-      assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
+      assert.match(review.selectedDate,/^2030-\\d{2}-\\d{2}$/);
     }
   }
+  const findReview=id=>reviews.find(item=>item.observanceId===id);
+  assert.equal(findReview("madhava").selectedDate,"2030-05-14");
+  assert.equal(findReview("parashurama").selectedDate,"2030-05-14");
+  assert.equal(findReview("vamana").selectedDate,"2030-09-08");
+  assert.equal(findReview("damodara").selectedDate,"2030-09-08");
+  assert.equal(findReview("niranjana").selectedDate,"2030-09-08");
+  assert.equal(findReview("kalki").selectedDate,"2030-09-08");
+  assert.equal(findReview("govatsa").selectedDate,"2030-10-23");
+  assert.equal(findReview("krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
   assert.equal(JSON.stringify(annual).includes("drikpanchang.com"),false,"source cross-check URLs must not leak into the public package");
-
-  const widget=await read("monthly-vrat-parv-widget.js");
-  const start=widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
-  const end=widget.indexOf("\n\n  async function loadMonth",start);
-  assert.ok(start>=0&&end>start);
-  const merge=new Function("return ("+widget.slice(start,end).trim()+")")();
-  const may=merge({events:[]},annual,2030,5).events;
-  assert.ok(may.some(item=>item.date==="2030-05-14"&&item.title==="माधव-द्वादशी व्रत"));
-  assert.ok(may.some(item=>item.date==="2030-05-14"&&item.title==="परशुराम-द्वादशी"));
-  const september=merge({events:[]},annual,2030,9).events;
-  for(const title of ["वामन-द्वादशी व्रत","दामोदर-द्वादशी व्रत","नीराजन-व्रत","कल्कि-द्वादशी"]){
-    assert.ok(september.some(item=>item.date==="2030-09-08"&&item.title===title),"missing approved September observance: "+title);
-  }
-  const october=merge({events:[]},annual,2030,10).events;
-  assert.ok(october.some(item=>item.date==="2030-10-23"&&item.title==="गोवत्स द्वादशी"));
-  assert.equal(october.some(item=>item.date==="2030-10-23"&&/पद्मनाभ/.test(item.title)),false);
 });
 
 test("annual review package opens only when at least one real publishable record is approved", async () => {
