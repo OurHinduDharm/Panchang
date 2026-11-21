@@ -4,6 +4,8 @@ import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
+import { compareReferences, median } from "../scripts/audit-mahapat-references.mjs";
+
 const repoRoot = fileURLToPath(new URL("../", import.meta.url));
 const calculator = fileURLToPath(new URL("../scripts/compare-mahapat-ephemeris.mjs", import.meta.url));
 const reference = JSON.parse(await readFile(
@@ -12,10 +14,7 @@ const reference = JSON.parse(await readFile(
 ));
 
 function ms(value) { return Date.parse(value); }
-function median(values) {
-  const ordered = values.slice().sort((a, b) => a - b);
-  return ordered[Math.floor(ordered.length / 2)];
-}
+
 
 test("Drik-style candidate windows backtest against all timed Tara Prasad 2023-24 rows", () => {
   const output = execFileSync(process.execPath, [calculator, "--years=2023,2024"], {
@@ -23,6 +22,19 @@ test("Drik-style candidate windows backtest against all timed Tara Prasad 2023-2
     encoding: "utf8"
   });
   const calculated = JSON.parse(output);
+  const report = compareReferences(reference, calculated);
+  assert.equal(report.summary.sourceRows, 31);
+  assert.equal(report.summary.completePairs, 30);
+  assert.equal(report.summary.partialPairs, 1);
+  assert.equal(report.summary.unresolvedRows, 0);
+  assert.deepEqual(report.unpairedCalculatedWithinSourceSpan, []);
+  // Explicitly retain known discrepancies; association must not imply accuracy.
+  assert.equal(report.summary.bothEndpointsWithin10Minutes, 21);
+  assert.equal(report.summary.bothEndpointsWithin30Minutes, 27);
+  assert.deepEqual(report.summary.over30MinuteRows, [1, 3, 9, 26]);
+  assert.equal(report.rows[0].startDeltaMinutes, null);
+  assert.ok(report.rows[0].endDeltaMinutes < -200);
+
   const complete = reference.events.filter(row => row.touchTimeIST && row.releaseTimeIST);
   const unused = calculated.events.slice();
   const pairs = [];
@@ -57,4 +69,19 @@ test("Drik-style candidate windows backtest against all timed Tara Prasad 2023-2
   assert.ok(June21.matched.rejectedEqualDeclinationCrossings.some(root =>
     root.timeIST.startsWith("2023-06-16") && root.eventClass === null
   ));
+});
+
+
+test("reference association rejects ambiguous matches and preserves partial endpoints", () => {
+  const source = { type: "vyatipata", touchTimeIST: null, releaseTimeIST: "2023-04-04T16:58:00+05:30" };
+  const event = { type: "व्यतीपात महापात", startTimeIST: "2023-04-04T13:01:00+05:30", endTimeIST: source.releaseTimeIST };
+  const partial = compareReferences({ events: [source] }, { events: [event] });
+  assert.equal(partial.rows[0].status, "partial");
+  assert.equal(partial.rows[0].startDeltaMinutes, null);
+  assert.equal(partial.rows[0].endDeltaMinutes, 0);
+  const ambiguous = compareReferences({ events: [source] }, { events: [event, { ...event }] });
+  assert.equal(ambiguous.rows[0].status, "ambiguous");
+  const duplicate = compareReferences({ events: [source, source] }, { events: [event] });
+  assert.equal(duplicate.rows[1].status, "duplicate-association");
+  assert.equal(median([1, 2, 8, 10]), 5);
 });
