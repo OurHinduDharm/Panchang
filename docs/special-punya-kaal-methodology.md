@@ -309,3 +309,12 @@ The Smarta Kālanirṇaya-sindhu profile is the public rule profile for the Varu
 The 2026 Tuesday conjunction is deliberately **not** upgraded to Mahavaruni; that upgrade requires Saturday under the chosen Smarta profile. The 2028 interval is displayed as a continuous conjunction beginning on 23 March and ending on 24 March; no separate sunrise-observance date is asserted. The 2029 scan has no conjunction under this profile.
 
 The public code requires both the approved Smarta rule profile and one of the four explicit dates above. It does not expose future research candidates automatically. Mahavaruni/Mahamahavaruni remain available in the rule engine but no qualifying approved dates occur in this 2026–2030 release. Mahapata and Mahodaya remain hidden and are not implied to be approved by the Varuni release.
+
+
+## Tara Prasad 30-arcminute contact convention (22 November 2026)
+
+The source endpoints expose a contact-definition mismatch: 55 of 61 printed endpoints imply a declination relation within 0.5 arcminute of 30 arcminutes. Actual apparent disk radii sum to a variable value (roughly 30.5–32.7 arcminutes in this sample), widening most intervals. The explicit `taraprasad-30-arcmin` profile solves `|δMoon − δSun| = 0.5°` for Vyatipata and `|δMoon + δSun| = 0.5°` for Vaidhriti around the same class-correct middle. This is an inferred source convention, not a publisher-confirmed formula or a universal definition of Drik Mahapata.
+
+The fixed 30-arcminute profile improves the 30 complete reference pairs to 24 with both endpoints within one minute and 26 within three minutes; median absolute start/end deltas are 0.374/0.281 minutes. All 31 rows remain accounted for. Source rows 1, 3, 9, 25 and 26 require reconciliation, including the partial release-only row. The residual pattern is not a common timezone offset: April has a whole-window shift, while June/January/February have one-sided discrepancies.
+
+Use `node scripts/audit-mahapat-references.mjs` for the dual-definition report, with source-implied angular boundaries, midpoint/duration deltas and raw records. Primary general scanner default remains `apparent-disks`; request `--contact-model=taraprasad-30-arcmin` explicitly for the inferred Tara Prasad convention. No date-specific corrections or numerical coefficient fitting are used. Details: `research/paatadhikar/taraprasad-reference-audit.md`; unresolved work: #482.
