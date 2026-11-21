@@ -246,7 +246,7 @@ test("all twelve 2029 solar ingress dates have one named Sankranti card", () => 
 
 test("2029 monthly festival records remain in chronological civil-date order", () => {
   for (let month = 1; month <= 12; month++) {
-    const monthEvents = JSON.parse(fs.readFileSync(new URL(`../data/festivals/2029-${String(month).padStart(2, "0")}.json`, import.meta.url))).events;
+    const monthEvents = JSON.parse(readFileSync(join(folder, "2029-" + String(month).padStart(2, "0") + ".json"), "utf8")).events;
     const dates = monthEvents.map(event => event.date);
     assert.deepEqual(dates, [...dates].sort(), `2029 month ${month} event order`);
   }
