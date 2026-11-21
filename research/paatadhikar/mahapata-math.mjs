@@ -61,6 +61,28 @@ function validateCoordinates(coordinates, name) {
   finite(`${name} latitude`, coordinates.latitudeDeg);
 }
 
+/** Classify an equal-declination candidate using its ayana and gola. */
+export function classifyMahapataGeometry({
+  sunLongitudeDeg, moonLongitudeDeg,
+  sunDeclinationDeg, moonDeclinationDeg
+}) {
+  finite("Sun longitude", sunLongitudeDeg);
+  finite("Moon longitude", moonLongitudeDeg);
+  finite("Sun declination", sunDeclinationDeg);
+  finite("Moon declination", moonDeclinationDeg);
+  const sunGola = signWithBoundary(sunDeclinationDeg);
+  const moonGola = signWithBoundary(moonDeclinationDeg);
+  // cos(tropical longitude) changes sign at the two solstices.
+  const sunAyana = signWithBoundary(Math.cos(sunLongitudeDeg * RAD), 1e-10);
+  const moonAyana = signWithBoundary(Math.cos(moonLongitudeDeg * RAD), 1e-10);
+  let eventClass = null;
+  if (sunGola && moonGola && sunAyana && moonAyana) {
+    if (sunAyana !== moonAyana && sunGola === moonGola) eventClass = "Vyatipata";
+    if (sunAyana === moonAyana && sunGola !== moonGola) eventClass = "Vaidhriti";
+  }
+  return { eventClass, sunAyana, moonAyana, sunGola, moonGola };
+}
+
 /**
  * Event diagnostic at one instant. A longitude-sum proximity is reported
  * independently, not imposed as a second exact equality: nonzero lunar
@@ -75,16 +97,13 @@ export function diagnoseMahapata({ sun, moon, obliquityDeg }) {
   const moonDeclinationDeg = declinationFromEcliptic({
     ...moon, obliquityDeg
   });
-  const sunGola = signWithBoundary(sunDeclinationDeg);
-  const moonGola = signWithBoundary(moonDeclinationDeg);
-  // cos(tropical longitude) changes sign at the two solstices.
-  const sunAyana = signWithBoundary(Math.cos(sun.longitudeDeg * RAD), 1e-10);
-  const moonAyana = signWithBoundary(Math.cos(moon.longitudeDeg * RAD), 1e-10);
-  let eventClass = null;
-  if (sunGola && moonGola && sunAyana && moonAyana) {
-    if (sunAyana !== moonAyana && sunGola === moonGola) eventClass = "Vyatipata";
-    if (sunAyana === moonAyana && sunGola !== moonGola) eventClass = "Vaidhriti";
-  }
+  const geometry = classifyMahapataGeometry({
+    sunLongitudeDeg: sun.longitudeDeg,
+    moonLongitudeDeg: moon.longitudeDeg,
+    sunDeclinationDeg,
+    moonDeclinationDeg
+  });
+  const { eventClass, sunAyana, moonAyana, sunGola, moonGola } = geometry;
   const longitudeSumDeg = normalizeDegrees(sun.longitudeDeg + moon.longitudeDeg);
   return {
     eventClass,
