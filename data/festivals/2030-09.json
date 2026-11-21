@@ -119,7 +119,7 @@
       "dateLabel": "8 सितंबर",
       "title": "वामन-द्वादशी व्रत",
       "description": "भाद्रपद शुक्ल द्वादशी पर भगवान वामन का पूजन करें। बारह ब्राह्मणों को खीर का भोजन कराने और स्वर्ण-दक्षिणा देने का विधान है।",
-      "category": "जयंती",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
@@ -135,7 +135,6 @@
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
       "sourceName": "वराह पुराण, अध्याय 48, श्लोक 1–5 — कल्कि-द्वादशी व्रत",
-      "sourceUrl": "https://vedapath.app/en/varaha-purana/48",
       "followingMorningActionDate": "2030-09-09"
     },
     {
@@ -147,8 +146,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
-      "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38",
-      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html"
+      "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38"
     },
     {
       "date": "2030-09-08",
@@ -160,7 +158,6 @@
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
       "sourceName": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 39–43",
-      "sourceUrl": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
       "ritualTime": "रात्रि-संध्या"
     },
     {
