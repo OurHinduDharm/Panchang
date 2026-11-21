@@ -161,10 +161,15 @@ test("monthly widget renders every individually approved 2030 Dwadashi observanc
   for (const month of [...new Set(expected.map(item => item.month))]) {
     const events = mergeAnnualDwadashiEvents({events:[]},annual,2030,month).events;
     for (const item of expected.filter(entry => entry.month === month)) {
-      assert.ok(events.some(event => event.date === item.date && event.title === item.title),
+      assert.ok(events.some(event => event.date === item.date && (event.title === item.title || (event.dwadashiAliases || []).includes(item.title)),
         "missing rendered observance: "+item.date+" "+item.title);
     }
   }
+  const october = mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events;
+  const padmanabhaCards = october.filter(event => event.date === "2030-10-07" &&
+    ((event.title || "").includes("पद्मनाभ") || (event.dwadashiAliases || []).some(name=>name.includes("पद्मनाभ"))));
+  assert.equal(padmanabhaCards.length,1,"same-tithi Padmanabha forms should share one card with aliases");
+  assert.deepEqual(padmanabhaCards[0].dwadashiAliases,["पद्मनाभ-द्वादशी व्रत","पद्मनाभ-द्वादशी"]);
   const march = mergeAnnualDwadashiEvents({events:[]},annual,2030,3).events;
   assert.equal(march.some(event => /नृसिंह-द्वादशी|श्रीहरि-द्वादशी/.test(event.title || "")),false,
     "boundary-sensitive Phalguna approvals must stay unpublished");
