@@ -6,11 +6,12 @@
  *    or 360°/0° (Vaidhriti).
  * 2. Search three days either side for true equal-declination instants:
  *    same side of equator for Vyatipata, opposite sides for Vaidhriti.
- * 3. Apply Surya Siddhanta XI.14-15 to compute its half-duration and
- *    beginning/end. Also calculate a nonlinear declination-band interval
- *    as an explicitly separate modern comparator.
+ * 3. Find sparsha/moksha directly from apparent declination-band contacts
+ *    of the Sun and Moon discs.
+ * 4. Keep the Surya Siddhanta XI.14-15 duration as a separate classical
+ *    comparison; it never controls the primary Drik-style result.
  *
- * This modern geocentric model is for comparison only. It is not the final
+ * Research-only Drik-style geocentric apparent-position model.
  * Karana-Kutuhala shara-khanda implementation.
  */
 import { createRequire } from "node:module";
@@ -176,10 +177,11 @@ for (const mean of meanPatas) {
   const overlapExists = sample[mean.clearanceKey] < 0 && before !== undefined && after !== undefined;
 
   const comparatorYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
-  const displayYear = new Date(suryaSiddhantaInterval.startUtcMs + IST_OFFSET_MS).getUTCFullYear();
+  const displayYear = comparatorYear;
+  const suryaSiddhantaYear = new Date(suryaSiddhantaInterval.startUtcMs + IST_OFFSET_MS).getUTCFullYear();
   const eventRecord = {
     year: displayYear,
-    declinationBandComparatorYear: comparatorYear,
+    suryaSiddhantaComparisonYear: suryaSiddhantaYear,
     meanPataYear: mean.year,
     type: mean.type,
     meanPata: new Date(mean.time).toISOString(),
@@ -194,7 +196,7 @@ for (const mean of meanPatas) {
     moonDeclinationAtTruePata: Number(sample.moonDeclination.toFixed(8)),
     declinationResidualDegrees: Number(sample[mean.relationKey].toFixed(10)),
     semidiameterSumDegrees: Number(sample.semidiameterSum.toFixed(8)),
-    suryaSiddhantaXI: {
+    suryaSiddhantaComparison: {
       startTime: new Date(suryaSiddhantaInterval.startUtcMs).toISOString(),
       endTime: new Date(suryaSiddhantaInterval.endUtcMs).toISOString(),
       startTimeIST: toIST(suryaSiddhantaInterval.startUtcMs),
@@ -208,9 +210,8 @@ for (const mean of meanPatas) {
     },
     otherTrueCrossings: trueRoots.filter(time => time !== chosen).map(time => toIST(time)),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
-    model: "suryasiddhanta-xi-middle-and-half-duration",
-    comparatorModel: "geocentric-apparent-declination-disk-band-overlap",
-    note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
+    model: "drik-style-geocentric-apparent-declination-band-overlap",
+    note: "Primary event window uses apparent declination-band contacts; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
   };
   if (YEARS.includes(displayYear)) {
     if (overlapExists) events.push(eventRecord);
@@ -223,7 +224,7 @@ console.log(JSON.stringify({
   status: "research-only-not-approved",
   years: YEARS,
   engine: "astronomy-engine@2.1.19",
-  model: "Surya Siddhanta XI.1-15 numerical adaptation: mean-pata seed -> true declination-equality middle -> XI.14-15 motion-based half-duration; nonlinear declination-band overlap retained as comparator",
+  model: "Drik-style apparent geocentric positions: mean-pata seed -> true declination-equality middle -> nonlinear apparent declination-band contacts; Surya Siddhanta XI.14-15 retained only as a separate comparison",
   searchDaysAroundMeanPata: 3,
   sampleStepHours: 1,
   meanPataCount: meanPatas.length,
