@@ -77,6 +77,35 @@ test("monthly widget enriches separate Dwadashi cards without merging distinct o
   assert.deepEqual(padmanabha.dwadashiAliases,["कृष्ण-पद्मनाभ द्वादशी"]);
 });
 
+test("monthly widget publishes only individually approved observances from a needs-review parent", async () => {
+  const widget = await read("monthly-vrat-parv-widget.js");
+  const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
+  const end = widget.indexOf("\n\n  async function loadMonth", start);
+  assert.ok(start >= 0 && end > start);
+  const source = widget.slice(start, end).trim();
+  const mergeAnnualDwadashiEvents = new Function("return (" + source + ")")();
+  const annual = {status:"approved",year:2030,tithis:[{
+    id:"bhadrapada-shukla",status:"needs-review",selectedDate:null,
+    month:"भाद्रपद",paksha:"शुक्ल",
+    observances:[
+      {id:"vamana",name:"वामन-द्वादशी व्रत",deity:"वामन",shortDetail:"वामन-पूजन"},
+      {id:"damodara",name:"दामोदर-द्वादशी व्रत",deity:"दामोदर",shortDetail:"दामोदर-पूजन"}
+    ],
+    observanceDateReviews:[
+      {observanceId:"vamana",selectedDate:"2030-09-08",reviewStatus:"approved"},
+      {observanceId:"damodara",selectedDate:"2030-09-08",reviewStatus:"needs-review"},
+      {observanceId:"niranjana",selectedDate:"2030-09-08",reviewStatus:"approved"}
+    ]
+  }]};
+  const september = mergeAnnualDwadashiEvents({events:[]},annual,2030,9);
+  assert.equal(september.events.length,1,"unmatched and unapproved observances must not leak into the public list");
+  assert.equal(september.events[0].title,"वामन-द्वादशी व्रत");
+  assert.equal(september.events[0].date,"2030-09-08");
+  assert.equal(september.events[0].reviewStatus,"approved");
+  assert.equal(september.events[0].calculationStatus,"individually-reviewed-observance");
+  assert.equal(mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events.length,0);
+});
+
 test("upcoming festival widget prefers approved annual Chaturmas phases and retains legacy fallback", async () => {
   const widget = await read("festival-widget.js");
   assert.match(widget, /\.\.\/dwadashi\/.*year.*json/);
