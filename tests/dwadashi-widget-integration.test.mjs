@@ -85,7 +85,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(annual.location.latitude,29.58);
   assert.equal(annual.location.longitude,80.22);
   assert.equal(annual.tithiDates.length,28);
-  assert.ok(annual.tithiDates.every(item=>/^2030-\\d{2}-\\d{2}$/.test(item.date)));
+  assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
   assert.equal(annual.chaturmas.status,"approved");
   assert.equal(annual.chaturmas.phases.length,4);
   assert.equal(annual.tithis.length,8);
@@ -97,14 +97,14 @@ test("2030 public Dwadashi package contains only individually approved observanc
     for(const review of record.observanceDateReviews||[]){
       assert.equal(review.reviewStatus,"approved");
       assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
-      assert.match(review.selectedDate,/^2030-\\d{2}-\\d{2}$/);
+      assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
     }
   }
   assert.equal(JSON.stringify(annual).includes("drikpanchang.com"),false,"source cross-check URLs must not leak into the public package");
 
   const widget=await read("monthly-vrat-parv-widget.js");
   const start=widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
-  const end=widget.indexOf("\\n\\n  async function loadMonth",start);
+  const end=widget.indexOf("\n\n  async function loadMonth",start);
   assert.ok(start>=0&&end>start);
   const merge=new Function("return ("+widget.slice(start,end).trim()+")")();
   const may=merge({events:[]},annual,2030,5).events;
