@@ -8070,7 +8070,8 @@ rituPlain +
       </b:section>
     </div>
 
-    <!-- OHD TEST: Rockpool template script disabled in isolated no-rockpool test branch. -->
+    <!-- Restore Blogger's native Rockpool theme interactions. -->
+    <b:template-script async='true' name='rockpool' version='1.0.0'/>
 
   
 <script>//<![CDATA[
