@@ -271,3 +271,14 @@ test("2029 Pithoragarh Sharad Navratri combines Katyayani and Kalaratri on the S
   assert.equal(has("2029-10-13", /^शारदीय नवरात्र सप्तमी — माँ कालरात्रि$/), undefined);
   assert.ok(has("2029-10-14", /^दुर्गाष्टमी \/ माँ महागौरी पूजन$/));
 });
+
+
+test("2029 monthly catalog inventory remains 312 event cards with 30 November entries", () => {
+  let total = 0;
+  for (let month = 1; month <= 12; month++) {
+    const monthEvents = JSON.parse(readFileSync(join(folder, "2029-" + String(month).padStart(2, "0") + ".json"), "utf8")).events;
+    total += monthEvents.length;
+    if (month === 11) assert.equal(monthEvents.length, 30);
+  }
+  assert.equal(total, 312);
+});
