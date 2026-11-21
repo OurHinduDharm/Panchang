@@ -80,7 +80,7 @@ test("monthly widget enriches separate Dwadashi cards without merging distinct o
 test("annual review package opens only when at least one real publishable record is approved", async () => {
   const html = await read("festival-year-review.html");
   const start = html.indexOf("function syncDwadashiPackageStatus(){");
-  const end = html.indexOf("\\nfunction renderDwadashiReview", start);
+  const end = html.indexOf("\nfunction renderDwadashiReview", start);
   assert.ok(start >= 0 && end > start);
   const source = html.slice(start, end);
   const sync = new Function("dwadashiPackage", source + "; syncDwadashiPackageStatus(); return dwadashiPackage.status;");
