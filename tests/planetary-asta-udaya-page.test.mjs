@@ -290,7 +290,7 @@ test("unknown city elevation uses an explicitly labeled approximation", () => {
   assert.ok(source.includes("link.href = buildPanchangEventUrl(dailyPage, date, location)"));
   assert.ok(source.includes("link.remove()"));
   assert.doesNotMatch(source, /ऊँचाई सत्यापित नहीं है|उदय-अस्त गणना नहीं की जा सकती/);
-  assert.ok(source.includes("ऊँचाई उपलब्ध नहीं थी; गणना समुद्र-तल (0 मीटर) मानकर अनुमानित की गई है。"));
+  assert.ok(source.includes("ऊँचाई उपलब्ध नहीं थी; गणना समुद्र-तल (0 मीटर) मानकर अनुमानित की गई है।"));
   const worker = readFileSync(new URL("../annual-tara-city-worker.mjs", import.meta.url), "utf8");
   assert.ok(worker.includes("{allowSeaLevelApproximation: true}"));
   assert.ok(worker.includes("elevationApproximate: result.elevationApproximate"));
