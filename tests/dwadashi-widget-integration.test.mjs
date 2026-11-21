@@ -161,7 +161,7 @@ test("monthly widget renders every individually approved 2030 Dwadashi observanc
   for (const month of [...new Set(expected.map(item => item.month))]) {
     const events = mergeAnnualDwadashiEvents({events:[]},annual,2030,month).events;
     for (const item of expected.filter(entry => entry.month === month)) {
-      assert.ok(events.some(event => event.date === item.date && (event.title === item.title || (event.dwadashiAliases || []).includes(item.title)),
+      assert.ok(events.some(event => event.date === item.date && (event.title === item.title || (event.dwadashiAliases || []).includes(item.title))),
         "missing rendered observance: "+item.date+" "+item.title);
     }
   }
