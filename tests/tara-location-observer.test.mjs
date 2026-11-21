@@ -44,7 +44,6 @@ test("selected city elevations are used directly and missing elevation is reject
 
 test("every city in the bundled India city index has coordinates and elevation", async () => {
   const { readFile } = await import("node:fs/promises");
-  const { fileURLToPath } = await import("node:url");
   const index = JSON.parse(await readFile(new URL("../data/tara-india-places.json", import.meta.url), "utf8"));
   assert.ok(index.cities.length >= 7000);
   for (const row of index.cities) {
