@@ -157,7 +157,7 @@ The Drik Kranti-Samya page independently confirms that:
 - mantra and tantra practice are permitted during the interval;
 - its published windows are local-time display values.
 
-The new `scripts/compare-mahapat-ephemeris.mjs` computes a research-only geocentric apparent declination-band overlap using the Astronomy Engine vectors and apparent solar/lunar semidiameters. It is a numerical comparison model, not yet the accepted classical engine. Its output is archived separately and must be compared against the Karana-Kutuhala shara-khanda method and the Drik 2026–2030 windows. Do not expose its output publicly or use it as final times until the classical contact definition is reconciled.
+`scripts/compare-mahapat-ephemeris.mjs` is the primary Drik-style candidate calculator: modern geocentric apparent positions identify equal-declination midpoints and apparent solar/lunar declination-band contacts define sparsha/moksha. The Surya Siddhanta XI.14–15 interval is an optional classical comparison only. Keep all candidates research-only until the listed Drik-style reference checks and edge cases are resolved.
 
 
 ### Numerical comparison: separate the two ayana relations
@@ -166,7 +166,7 @@ The research comparison now keeps the two contact functions separate rather than
 - **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 - **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 
-The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for the nearest **true pāta** where the appropriate declinations agree. Vyatipata uses same-side declinations; Vaidhriti uses opposite-side declinations. For the source-led interval, apply Sūrya Siddhānta XI.14–15: derive sthityardha from the half-sum of disc measures and the difference of daily motions, then subtract/add it from the true middle. The nonlinear apparent declination-band interval is retained only as a separate comparator; neither is silently substituted for the other.
+The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for the nearest **true pāta** where the appropriate declinations agree. Vyatipata uses same-side declinations; Vaidhriti uses opposite-side declinations. For the primary Drik-style interval, solve the apparent declination-band contact roots around the true middle: same-sign declinations use `δMoon − δSun`, opposite-sign declinations use `δMoon + δSun`, and contact occurs when the absolute relation equals the sum of apparent semidiameters. Surya Siddhanta XI.14–15 remains a separately labelled classical comparison only.
 
 
 ## Mean pāta vs true pāta — calculation boundary
@@ -175,7 +175,7 @@ Do not calculate Mahapata by scanning every apparent declination-band overlap in
 - tropical sum 180° → Vyatipata mean pāta; true declinations equal on the same side of the equator;
 - tropical sum 360°/0° → Vaidhriti mean pāta; true declinations equal on opposite sides of the equator.
 
-The research script implements the mean-pāta seed and searches ±3 days for the nearest true crossing, preserving additional crossings for review. It now calculates the source-led XI.14–15 interval and stores the nonlinear band-overlap boundaries separately. This is a modern numerical adaptation, not a transcription of the historical sine-table arithmetic.
+The research script uses the mean-pāta longitude sum only as a search seed, searches ±3 days for the nearest true declination equality, then solves the primary Drik-style apparent band-contact boundaries. The optional Surya Siddhanta XI.14–15 interval is stored separately and never overrides those boundaries.
 
 
 ## Mahapata 2026–2030 comparison-model scan — internal only
@@ -196,7 +196,7 @@ Cross-check status:
 - 2029: one Vaidhriti overlap spans approximately 19 December 02:40 to 21 December 07:46 IST and contains two true declination crossings. This is an unusual extended window and requires independent confirmation before publication.
 - 2030: four mean pātās (16 June, 29 June, 12 December, 24 December) have no true crossing within the ±3-day search. They are review items, not public events.
 
-Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. These remain comparator-only findings. The source-led XI.14–15 times are research-only until the independent 2023–24 Ramnagar Panchang table and selected Drik windows have been compared.
+Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. The apparent band-contact windows remain research candidates. Tara Prasad is a Drik-based cross-method reference; it is useful for checking the same general visual framework, while any difference must be examined against each Panchang’s precise calculation conventions. The Surya Siddhanta duration output is not used to classify these primary candidate windows.
 
 
 ## महोदय — प्राथमिक शोध-प्रोफाइल
