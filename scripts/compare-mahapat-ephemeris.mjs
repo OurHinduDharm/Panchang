@@ -12,7 +12,7 @@
  *    comparison; it never controls the primary Drik-style result.
  *
  * Research-only Drik-style geocentric apparent-position model.
- * Karana-Kutuhala shara-khanda implementation.
+ * This is not a reconstruction of the Karana-Kutuhala tables.
  */
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -38,6 +38,11 @@ const YEARS = yearArgument
   : [2026, 2027, 2028, 2029, 2030];
 if (!YEARS.length || YEARS.some(year => !Number.isInteger(year) || year < 1 || year > 9998)) {
   throw new RangeError("--years must be a comma-separated list of valid years");
+}
+const auditStepArgument = process.argv.find(value => value.startsWith("--audit-step-minutes="));
+const auditStepMinutes = auditStepArgument ? Number(auditStepArgument.split("=")[1]) : 60;
+if (![15, 30, 60].includes(auditStepMinutes)) {
+  throw new RangeError("--audit-step-minutes must be 15, 30, or 60");
 }
 const cache = new Map();
 
@@ -246,7 +251,52 @@ for (const mean of meanPatas) {
   }
 }
 
-events.sort((a, b) => a.meanPata.localeCompare(b.meanPata));
+events.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+// Independent discovery audit: do not limit equality searches to longitude seeds.
+// This reports completeness of sampled sign changes, not unsampled tangencies.
+let discoveryAudit;
+if (process.argv.includes("--audit")) {
+  const allRoots = [];
+  for (const [relationKey, eventClass, type] of [
+    ["vyatipataRelation", "Vyatipata", "व्यतीपात महापात"],
+    ["vaidhritiRelation", "Vaidhriti", "वैधृति महापात"]
+  ]) {
+    for (const time of rootsFor(t => positions(t)[relationKey], scanStart, scanEnd, auditStepMinutes * MINUTE_MS)) {
+      const p = positions(time);
+      const geometry = classifyMahapataGeometry({
+        sunLongitudeDeg: p.sunLongitude, moonLongitudeDeg: p.moonLongitude,
+        sunDeclinationDeg: p.sunDeclination, moonDeclinationDeg: p.moonDeclination
+      });
+      if (geometry.eventClass !== eventClass ||
+          !YEARS.includes(new Date(time + IST_OFFSET_MS).getUTCFullYear())) continue;
+      const represented = events.some(event => event.type === type &&
+        (Math.abs(Date.parse(event.truePata) - time) < 1000 ||
+         event.otherTrueCrossings.some(value => Math.abs(Date.parse(value) - time) < 1000)));
+      const nearestSeed = meanPatas.filter(mean => mean.type === type)
+        .sort((a, b) => Math.abs(a.time - time) - Math.abs(b.time - time))[0];
+      allRoots.push({ type, truePataIST: toIST(time), represented,
+        nearestSeedIST: nearestSeed ? toIST(nearestSeed.time) : null,
+        seedDistanceDays: nearestSeed ? Math.abs(nearestSeed.time - time) / DAY_MS : null });
+    }
+  }
+  const duplicateIntervals = events.filter((event, index) => events.slice(0, index).some(previous =>
+    previous.type === event.type &&
+    Math.abs(Date.parse(previous.startTime) - Date.parse(event.startTime)) < 1000 &&
+    Math.abs(Date.parse(previous.endTime) - Date.parse(event.endTime)) < 1000));
+  discoveryAudit = {
+    method: "independent-full-range-classified-equality-sign-change-scan",
+    sampleStepHours: auditStepMinutes / 60,
+    limitations: "Unsampled tangencies or two crossings inside one sample step are not guaranteed; this is not external astronomical validation.",
+    rootCount: allRoots.length,
+    unrepresentedRoots: allRoots.filter(root => !root.represented),
+    duplicateIntervals: duplicateIntervals.map(event => ({ type: event.type, startTimeIST: event.startTimeIST })),
+    longIntervals: events.filter(event => Date.parse(event.endTime) - Date.parse(event.startTime) > DAY_MS)
+      .map(event => ({ type: event.type, startTimeIST: event.startTimeIST, endTimeIST: event.endTimeIST })),
+    roots: allRoots
+  };
+}
+
 console.log(JSON.stringify({
   status: "research-only-not-approved",
   years: YEARS,
@@ -258,5 +308,6 @@ console.log(JSON.stringify({
   eventCount: events.length,
   reviewItemCount: reviewItems.length,
   events,
-  reviewItems
+  reviewItems,
+  ...(discoveryAudit ? { discoveryAudit } : {})
 }, null, 2));
