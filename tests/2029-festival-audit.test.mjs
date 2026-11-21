@@ -102,6 +102,14 @@ test("2029 annual review snapshot agrees with the public Smarta Ram Navami card"
   assert.equal(reviewApril[0].date, publicApril[0].date);
   assert.equal(reviewApril[0].dateLabel, "22 अप्रैल");
   assert.equal(publicApril[0].hinduTithi, "चैत्र शुक्ल नवमी (मध्याह्न-व्याप्ति)");
+
+  const publicDecember = months[11].events.find(event => /उत्पन्ना एकादशी/.test(event.title || ""));
+  const reviewDecember = annual.catalog.find(event => event.title === "उत्पन्ना एकादशी");
+  assert.ok(publicDecember);
+  assert.ok(reviewDecember);
+  assert.equal(publicDecember.date, "2029-12-01");
+  assert.equal(reviewDecember.date, publicDecember.date);
+  assert.equal(reviewDecember.dateLabel, "1 दिसंबर");
 });
 
 test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
