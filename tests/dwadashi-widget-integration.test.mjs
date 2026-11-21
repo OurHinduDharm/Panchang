@@ -145,7 +145,7 @@ test("monthly widget renders every individually approved 2030 Dwadashi observanc
   const annual = JSON.parse(await read("data/dwadashi/2030.json"));
   const widget = await read("monthly-vrat-parv-widget.js");
   const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
-  const end = widget.indexOf("\\n\\n  async function loadMonth", start);
+  const end = widget.indexOf("\n\n  async function loadMonth", start);
   assert.ok(start >= 0 && end > start);
   const source = widget.slice(start, end).trim();
   const mergeAnnualDwadashiEvents = new Function("return (" + source + ")")();
