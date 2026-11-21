@@ -15,7 +15,8 @@ self.onmessage = ({data: {location, city, year}}) => {
     self.postMessage({
       events, unavailable, year: result.year,
       observer: result.observer,
-      elevationApproximate: result.elevationApproximate
+      elevationApproximate: result.elevationApproximate,
+      elevationSourceApproximate: result.elevationSourceApproximate
     });
   } catch (error) {
     self.postMessage({error: error instanceof Error ? error.message : "Calculation failed"});
