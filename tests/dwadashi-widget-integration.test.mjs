@@ -111,7 +111,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.ok(may.some(item=>item.date==="2030-05-14"&&item.title==="माधव-द्वादशी व्रत"));
   assert.ok(may.some(item=>item.date==="2030-05-14"&&item.title==="परशुराम-द्वादशी"));
   const september=merge({events:[]},annual,2030,9).events;
-  for(const title of ["वामन-द्वादशी व्रत","दामोदर-द्वादशी व्रत","नीराजन-व्रत","कल्कि-द्वादशी व्रत"]){
+  for(const title of ["वामन-द्वादशी व्रत","दामोदर-द्वादशी व्रत","नीराजन-व्रत","कल्कि-द्वादशी"]){
     assert.ok(september.some(item=>item.date==="2030-09-08"&&item.title===title),"missing approved September observance: "+title);
   }
   const october=merge({events:[]},annual,2030,10).events;
