@@ -109,11 +109,12 @@ async function show({events, unavailable = [], elevationApproximate, elevationSo
     fragment.append(card);
   }
   cards.replaceChildren(fragment);
-  status.textContent = elevationApproximate
+  const elevationNote = elevationApproximate
     ? "ऊँचाई उपलब्ध नहीं थी; गणना समुद्र-तल (0 मीटर) मानकर अनुमानित की गई है।"
     : elevationSourceApproximate
-      ? "स्थान की ऊँचाई भौगोलिक अनुमान पर आधारित है; परिणाम उसी अनुमान के अनुसार हैं।"
-      : "गणना चुने हुए स्थान की दर्ज ऊँचाई के आधार पर की गई है।";
+      ? "स्थान की ऊँचाई भौगोलिक अनुमान पर आधारित है।"
+      : "स्थान की दर्ज ऊँचाई का उपयोग किया गया है।";
+  status.textContent = "परिणाम खगोलीय मॉडल की गणना हैं; स्रोत-सत्यापन जहाँ उपलब्ध है, अलग है। " + elevationNote;
   cards.setAttribute("aria-busy", "false");
 }
 
