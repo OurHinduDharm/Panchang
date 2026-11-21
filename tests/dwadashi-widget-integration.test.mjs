@@ -77,6 +77,37 @@ test("monthly widget enriches separate Dwadashi cards without merging distinct o
   assert.deepEqual(padmanabha.dwadashiAliases,["कृष्ण-पद्मनाभ द्वादशी"]);
 });
 
+test("annual review package opens only when at least one real publishable record is approved", async () => {
+  const html = await read("festival-year-review.html");
+  const start = html.indexOf("function syncDwadashiPackageStatus(){");
+  const end = html.indexOf("\\nfunction renderDwadashiReview", start);
+  assert.ok(start >= 0 && end > start);
+  const source = html.slice(start, end);
+  const sync = new Function("dwadashiPackage", source + "; syncDwadashiPackageStatus(); return dwadashiPackage.status;");
+  const individual = {
+    tithis:[{
+      status:"needs-review",selectedDate:null,
+      observances:[{id:"vamana"}],
+      observanceDateReviews:[{observanceId:"vamana",selectedDate:"2030-09-08",reviewStatus:"approved"}]
+    }],
+    chaturmas:{status:"needs-review",phases:[]}
+  };
+  assert.equal(sync(individual),"approved");
+  assert.equal(individual.tithis[0].status,"needs-review","package approval must not approve the parent tithi");
+  const pending = {
+    tithis:[{
+      status:"needs-review",observances:[{id:"vamana"}],
+      observanceDateReviews:[
+        {observanceId:"vamana",selectedDate:"2030-09-08",reviewStatus:"needs-review"},
+        {observanceId:"unknown",selectedDate:"2030-09-08",reviewStatus:"approved"},
+        {observanceId:"vamana",selectedDate:"2030-02-31",reviewStatus:"approved"}
+      ]
+    }],
+    chaturmas:{status:"needs-review",phases:[]}
+  };
+  assert.equal(sync(pending),"needs-review","pending, unmatched and invalid-date reviews must not open publication");
+});
+
 test("monthly widget publishes only individually approved observances from a needs-review parent", async () => {
   const widget = await read("monthly-vrat-parv-widget.js");
   const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
