@@ -109,7 +109,8 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(findReview("kalki").selectedDate,"2030-09-08");
   assert.equal(findReview("govatsa").selectedDate,"2030-10-23");
   assert.equal(findReview("krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
-  assert.equal(JSON.stringify(annual).includes("drikpanchang.com"),false,"source cross-check URLs must not leak into the public package");
+  assert.equal(Object.hasOwn(annual,"sourceReview"),false,"research-only source review metadata must stay private");
+  assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
 });
 
 test("annual review package opens only when at least one real publishable record is approved", async () => {
