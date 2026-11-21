@@ -166,7 +166,7 @@ The research comparison now keeps the two contact functions separate rather than
 - **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 - **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 
-The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for the nearest **true pāta** where the appropriate declinations agree. Vyatipata uses same-side declinations; Vaidhriti uses opposite-side declinations. For the primary Drik-style interval, solve the apparent declination-band contact roots around the true middle: same-sign declinations use `δMoon − δSun`, opposite-sign declinations use `δMoon + δSun`, and contact occurs when the absolute relation equals the sum of apparent semidiameters. Surya Siddhanta XI.14–15 remains a separately labelled classical comparison only.
+The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for all **true pāta** roots where the appropriate declinations agree, and retain only roots with the required ayana/gola class. Vyatipata uses opposite ayanas and same-side declinations; Vaidhriti uses the same ayana and opposite-side declinations. For the primary Drik-style interval, solve the apparent declination-band contact roots around the true middle: same-sign declinations use `δMoon − δSun`, opposite-sign declinations use `δMoon + δSun`, and contact occurs when the absolute relation equals the sum of apparent semidiameters. Surya Siddhanta XI.14–15 remains a separately labelled classical comparison only.
 
 
 ## Mean pāta vs true pāta — calculation boundary
@@ -175,28 +175,28 @@ Do not calculate Mahapata by scanning every apparent declination-band overlap in
 - tropical sum 180° → Vyatipata mean pāta; true declinations equal on the same side of the equator;
 - tropical sum 360°/0° → Vaidhriti mean pāta; true declinations equal on opposite sides of the equator.
 
-The research script uses the mean-pāta longitude sum only as a search seed, searches ±3 days for the nearest true declination equality, then solves the primary Drik-style apparent band-contact boundaries. The optional Surya Siddhanta XI.14–15 interval is stored separately and never overrides those boundaries.
+The research script uses the mean-pāta longitude sum only as a search seed, searches ±3 days for true declination equalities, filters every root by the required ayana/gola class, then solves the primary Drik-style apparent band-contact boundaries around the nearest valid root. The optional Surya Siddhanta XI.14–15 interval is stored separately and never overrides those boundaries.
 
 
 ## Mahapata 2026–2030 comparison-model scan — internal only
 
-The mean-pāta → nearest true-pāta → disk-overlap model generated the following research-only windows by local overlap year:
+The class-validated mean-pāta → true-pāta → apparent disk-contact model generated the following research-only windows by local contact-start year:
 
 | Year | Windows found | Review items |
 |---|---:|---:|
-| 2026 | 28 | 0 |
+| 2026 | 27 | 1 |
 | 2027 | 29 | 0 |
-| 2028 | 29 | 0 |
-| 2029 | 28 | 0 |
-| 2030 | 25 | 4 mean pātās without a true declination crossing within ±3 days |
+| 2028 | 28 | 1 |
+| 2029 | 27 | 1 |
+| 2030 | 24 | 5 |
 
 Cross-check status:
 - 2026: the model matches the Drik windows within a few minutes for the shared dates. Two additional windows (19 March and 25 December) need source reconciliation; do not silently omit or publish them.
 - 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
 - 2029: one Vaidhriti overlap spans approximately 19 December 02:40 to 21 December 07:46 IST and contains two true declination crossings. This is an unusual extended window and requires independent confirmation before publication.
-- 2030: four mean pātās (16 June, 29 June, 12 December, 24 December) have no true crossing within the ±3-day search. They are review items, not public events.
+- Class validation rejects equal-declination roots that have the wrong ayana/gola relation. Across 2026–2030 there are 8 review items: 4 seeds have no equal-declination root within ±3 days, while 4 have roots but none has the required Vyatipata/Vaidhriti geometry. The 2030 review set has 5 items; only four of those have no root at all.
 
-Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. The apparent band-contact windows remain research candidates. Tara Prasad is a Drik-based cross-method reference; it is useful for checking the same general visual framework, while any difference must be examined against each Panchang’s precise calculation conventions. The Surya Siddhanta duration output is not used to classify these primary candidate windows.
+Automated tests pin representative 2026–2028 windows, preserve all 8 review items, and run the complete 2023–24 Tara Prasad backtest. The corrected class filter now matches all 30 Tara Prasad rows with both touch and release times; median absolute start/end differences are about 6.8/8.2 minutes. On 21 June 2023 it rejects an earlier equal-declination root with the wrong ayana relation and selects the later class-correct event. This is evidence for the Drik-style candidate model, not proof that every Panchang uses identical conventions. All events remain research-only pending review of the remaining 2026, 2029 and 2030 edge cases.
 
 
 ## महोदय — प्राथमिक शोध-प्रोफाइल
