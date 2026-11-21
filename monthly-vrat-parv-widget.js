@@ -1458,6 +1458,71 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         });
       });
     });
+
+    // किसी parent तिथि का पूरा समूह needs-review हो सकता है, जबकि उसके
+    // कुछ नामित observances अलग से स्रोत/काल-नियम के आधार पर approved हों।
+    // ऐसे में केवल उन्हीं व्यक्तिगत स्वीकृतियों को प्रकाशित करें।
+    (Array.isArray(annual.tithis)?annual.tithis:[]).forEach(function(record){
+      if(!record||record.status==="approved")return;
+      var reviews=Array.isArray(record.observanceDateReviews)?record.observanceDateReviews:[];
+      var observances=[]
+        .concat(Array.isArray(record.observances)?record.observances:[])
+        .concat(Array.isArray(record.conditionalObservances)?record.conditionalObservances:[]);
+      reviews.forEach(function(review){
+        if(!review||review.reviewStatus!=="approved")return;
+        var date=String(review.selectedDate||"");
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return;
+        if(Number(date.slice(0,4))!==Number(year)||Number(date.slice(5,7))!==Number(month))return;
+        var observance=observances.find(function(item){
+          return item&&String(item.id||"")===String(review.observanceId||"");
+        });
+        if(!observance)return;
+        var name=String(observance.name||review.name||"").trim();
+        if(!name)return;
+        var paksha=String(record.paksha||"");
+        var masa=String(record.month||"");
+        if(!masa||!/^(शुक्ल|कृष्ण)$/.test(paksha))return;
+        var tithiLabel=masa+" "+paksha+" द्वादशी";
+        var details=[observance.name,observance.deity,observance.shortDetail].filter(Boolean).join(" — ");
+        var matches=events.filter(function(item){
+          return String(item.date||"")===date&&
+            String(item.hinduTithi||"").includes(masa)&&
+            String(item.hinduTithi||"").includes(paksha)&&
+            /द्वादशी/.test(String(item.hinduTithi||""))&&
+            !/एकादशी|पारण|parana/i.test(String(item.title||""));
+        });
+        function normalizeName(value){
+          return String(value||"").normalize("NFC")
+            .replace(/[\s\-–—।|\/.,:;()]+/g,"")
+            .toLocaleLowerCase("hi");
+        }
+        var key=normalizeName(name);
+        var existing=matches.find(function(item){return normalizeName(item.title)===key;});
+        if(!existing){
+          var partial=matches.filter(function(item){return normalizeName(item.title).includes(key);});
+          if(partial.length===1)existing=partial[0];
+        }
+        if(existing){
+          if(details&&!String(existing.description||"").includes(details)){
+            existing.description=[existing.description,details].filter(Boolean).join("\n\n");
+          }
+          if(!Array.isArray(existing.dwadashiAliases))existing.dwadashiAliases=[];
+          if(!existing.dwadashiAliases.includes(name))existing.dwadashiAliases.push(name);
+          return;
+        }
+        events.push({
+          date:date,
+          title:name,
+          description:details,
+          category:"द्वादशी व्रत",
+          reviewStatus:"approved",
+          calculationStatus:"individually-reviewed-observance",
+          hinduTithi:tithiLabel,
+          dwadashiAliases:[name],
+          dwadashiDateRole:String(review.dateRole||"")
+        });
+      });
+    });
     return Object.assign({},data,{events:events});
   }
 
