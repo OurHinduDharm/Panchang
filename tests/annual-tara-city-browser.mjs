@@ -83,6 +83,9 @@ try {
   const recorded = await arghya.innerText();
   assert.match(recorded, /अगस्त्य अर्घ्य — 7 सितंबर 2026/);
   assert.match(recorded, /प्रातः 04:44 बजे से प्रातः 05:49 बजे/);
+  assert.match(recorded, /उदय — 6 सितंबर/);
+  assert.match(recorded, /अस्त — 16 अप्रैल/);
+  assert.match(recorded, /पारंपरिक पिथौरागढ़ संदर्भ/);
   await page.locator("#place-search").fill("पिथौरागढ़");
   await page.locator("#place-search").press("Enter");
   await page.getByRole("button", {name: /Pithoragarh.*Uttarakhand/}).click();
