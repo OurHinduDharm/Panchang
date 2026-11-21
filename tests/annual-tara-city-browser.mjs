@@ -71,8 +71,11 @@ try {
   await page.selectOption("#forecast-year", "2035");
   await page.locator("#city-events .planet").first().waitFor();
   const year2035 = await page.locator("#city-events").innerText();
-  assert.match(year2035, /2035/);
   assert.equal(await page.locator(".planet").count(), 3);
+  const year2035Links = await page.locator("#city-events .event-link").evaluateAll(links =>
+    links.map(link => new URL(link.href).searchParams.get("date")));
+  assert.equal(year2035Links.length, 6);
+  assert.ok(year2035Links.every(date => date?.startsWith("2035-")), JSON.stringify(year2035Links));
   await page.selectOption("#forecast-year", "2027");
   await page.locator("#city-events .planet").first().waitFor();
   assert.equal(await page.locator("#city-events").innerText(), delhi);
