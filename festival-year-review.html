@@ -243,9 +243,26 @@ function downloadCatalogReview(){const reviews={};catalog.forEach(f=>{const r=ge
 async function importCatalogReview(){const file=$("catalogReviewFile").files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!data||typeof data!=="object"||(!data.reviews&&!Array.isArray(data.proposedAdditions)))throw new Error("इस JSON में reviews या proposedAdditions डेटा नहीं मिला।");const byId=new Map(catalog.map(f=>[f.id,f]));const entries=Object.entries(data.reviews||{}).filter(([id,r])=>byId.has(id)&&r&&typeof r==="object");const incoming=Array.isArray(data.proposedAdditions)?data.proposedAdditions.filter(p=>{if(!p||typeof p!=="object"||!p.id||typeof p.title!=="string"||!p.title.trim())return false;const target=Number(p.targetYear),source=Number(p.sourceYear),hasSource=Number.isInteger(source)&&source>=1900&&source<=2200;return Number.isInteger(target)&&target>=1900&&target<=2200&&hasSource&&target>source}):[];if(!entries.length&&!incoming.length)throw new Error("मेल खाने वाली समीक्षा या प्रस्ताव नहीं मिला।");if(!confirm(entries.length+" रिकॉर्ड की समीक्षा और "+incoming.length+" पुराने पर्व के प्रस्ताव आयात करें?"))return;let imported=0;entries.forEach(([id,r])=>{const f=byId.get(id),safe={};if(["pending","checked","approved","fix"].includes(r.status))safe.status=r.status;if(typeof r.note==="string")safe.note=r.note.slice(0,2000);if(Object.keys(safe).length){safe.updatedAt=new Date().toISOString();localStorage.setItem(catalogReviewKey(f),JSON.stringify(safe));imported++}});if(incoming.length){const current=getProposals(),keys=new Set(current.map(p=>p.id));incoming.forEach(p=>{if(!keys.has(p.id)){current.push(p);keys.add(p.id)}});saveProposals(current);renderProposals()}if(selected)renderFestivalYears(selected);$("status").textContent=imported+" रिकॉर्ड की समीक्षा और "+incoming.length+" प्रस्ताव JSON से पढ़े गए।";alert(imported+" रिकॉर्ड की समीक्षा और "+incoming.length+" प्रस्ताव आयात किए गए।")}catch(e){alert("JSON आयात नहीं हुआ: "+(e?.message||String(e)))}finally{$("catalogReviewFile").value=""}}
 function syncDwadashiPackageStatus(){
  if(!dwadashiPackage)return;
- const hasApprovedTithi=(dwadashiPackage.tithis||[]).some(item=>item.status==="approved"&&item.selectedDate);
+ const tithis=Array.isArray(dwadashiPackage.tithis)?dwadashiPackage.tithis:[];
+ const hasApprovedTithi=tithis.some(item=>item.status==="approved"&&item.selectedDate);
+ const hasApprovedObservance=tithis.some(record=>{
+  const ids=new Set([]
+   .concat(Array.isArray(record.observances)?record.observances:[])
+   .concat(Array.isArray(record.conditionalObservances)?record.conditionalObservances:[])
+   .map(item=>String(item&&item.id||"")).filter(Boolean));
+  return (Array.isArray(record.observanceDateReviews)?record.observanceDateReviews:[]).some(review=>{
+   if(!review||review.reviewStatus!=="approved"||!ids.has(String(review.observanceId||"")))return false;
+   const date=String(review.selectedDate||"");
+   if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(date))return false;
+   const parts=date.split("-").map(Number);
+   const check=new Date(Date.UTC(parts[0],parts[1]-1,parts[2]));
+   return check.getUTCFullYear()===parts[0]&&check.getUTCMonth()===parts[1]-1&&check.getUTCDate()===parts[2];
+  });
+ });
  const chaturmasApproved=dwadashiPackage.chaturmas&&dwadashiPackage.chaturmas.status==="approved"&&dwadashiPackage.chaturmas.phases?.length===4;
- dwadashiPackage.status=hasApprovedTithi||chaturmasApproved?"approved":"needs-review";
+ // Package-level approval means at least one publishable item exists;
+ // each tithi/observance still retains its own independent status.
+ dwadashiPackage.status=hasApprovedTithi||hasApprovedObservance||chaturmasApproved?"approved":"needs-review";
 }
 function renderDwadashiReview(){
  const box=$("dwadashiReview");box.replaceChildren();
@@ -320,7 +337,7 @@ function renderDwadashiReview(){
  }else{chCard.textContent="चातुर्मास डेटा उपलब्ध नहीं है।"}
  box.appendChild(chCard);
  syncDwadashiPackageStatus();
- const publication=document.createElement("p");publication.className="muted";publication.textContent="वार्षिक फ़ाइल की प्रकाशन स्थिति: "+(dwadashiPackage.status==="approved"?"कुछ द्वादशी/चातुर्मास रिकॉर्ड स्वीकृत हैं; केवल स्वीकृत रिकॉर्ड दिखेंगे।":"अभी कोई रिकॉर्ड स्वीकृत नहीं है।");box.appendChild(publication);
+ const publication=document.createElement("p");publication.className="muted";publication.textContent="वार्षिक फ़ाइल की प्रकाशन स्थिति: "+(dwadashiPackage.status==="approved"?"कम-से-कम एक द्वादशी-व्रत या चातुर्मास रिकॉर्ड स्वीकृत है; शेष लंबित रिकॉर्ड सार्वजनिक सूची में नहीं दिखेंगे।":"अभी कोई रिकॉर्ड स्वीकृत नहीं है।");box.appendChild(publication);
 }
 function downloadDwadashi(){if(!dwadashiPackage||!meta)return;syncDwadashiPackageStatus();const output={...dwadashiPackage,generatedAt:new Date().toISOString(),sourceTool:"ohd-annual-panchang-review",sourceLibrary:"@ishubhamx/panchangam-js@3.0.0",note:"स्वीकृत तिथियाँ और चातुर्मास चरण समीक्षा नियंत्रणों से तय किए गए हैं; केवल approved रिकॉर्ड सार्वजनिक विजेट में दिखेंगे।"};const blob=new Blob([JSON.stringify(output,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-dwadashi-"+meta.year+"-review.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function download(){if(!days.length||!meta)return;renderSamavedaDecision();const reviews={};days.forEach(d=>{let r=getReview(d);if(Object.keys(r).length)reviews[d.date]=r});const output={schemaVersion:2,tool:"ohd-general-annual-festival-review",generatedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",year:meta.year,location:{name:meta.city,latitude:meta.lat,longitude:meta.lon,elevation:meta.elev,timezone:"Asia/Kolkata",timezoneOffset:330},library:"@ishubhamx/panchangam-js@3.0.0",catalog:catalog.map(f=>({...f,reviewCategory:categoryOf(f)})),dailyPanchang:days,dwadashiCalendar:dwadashiPackage,samavedaUpakarma:samavedaAnnual,reviews};const blob=new Blob([JSON.stringify(output,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-annual-panchang-review-"+meta.year+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
