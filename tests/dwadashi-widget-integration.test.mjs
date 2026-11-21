@@ -88,9 +88,9 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
   assert.equal(annual.chaturmas.status,"approved");
   assert.equal(annual.chaturmas.phases.length,4);
-  assert.equal(annual.tithis.length,11);
+  assert.equal(annual.tithis.length,14);
   const reviews=annual.tithis.flatMap(record=>record.observanceDateReviews||[]);
-  assert.equal(reviews.length,20);
+  assert.equal(reviews.length,27);
   assert.ok(annual.tithis.every(record=>record.status==="needs-review"),"partial package must not approve parent tithi records");
   for(const record of annual.tithis){
     const ids=new Set([...(record.observances||[]),...(record.conditionalObservances||[])].map(item=>item.id));
@@ -125,6 +125,15 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(findReview("pausha-krishna","rupa").selectedDate,"2030-01-01");
   assert.equal(findReview("pausha-krishna-occurrence-2","rupa").selectedDate,"2030-12-22");
   assert.equal(findReview("magha-shukla","varaha").selectedDate,"2030-02-14");
+  assert.equal(findReview("pausha-shukla","sujanna").selectedDate,"2030-01-16");
+  assert.equal(findReview("pausha-shukla","kurma").selectedDate,"2030-01-16");
+  assert.equal(findReview("kartika-shukla","sahasrashirsha").selectedDate,"2030-11-06");
+  assert.equal(findReview("kartika-shukla","damodara").selectedDate,"2030-11-06");
+  assert.equal(findReview("margashirsha-shukla","sadhya").selectedDate,"2030-12-06");
+  assert.equal(findReview("margashirsha-shukla","dwadashaditya").selectedDate,"2030-12-06");
+  assert.equal(findReview("margashirsha-shukla","standard-margashirsha").selectedDate,"2030-12-06");
+  assert.equal(findReview("phalguna-shukla","narasimha"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
+  assert.equal(findReview("phalguna-shukla","phalguna-hari"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
   assert.equal(findReview("kartika-krishna","krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
   assert.equal(Object.hasOwn(annual,"sourceReview"),false,"research-only source review metadata must stay private");
   assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
