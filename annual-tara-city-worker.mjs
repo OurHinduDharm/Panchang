@@ -4,9 +4,20 @@ import { profiles } from "./research/annual-tara-profiles.mjs";
 import { locations } from "./annual-tara-locations.mjs";
 
 self.onmessage = ({data: {location, city, year}}) => {
-  const result = calculateAnnualTara(engine, location ?? locations[city], year, profiles);
-  const unavailable = new Set(result.canopusIssues.map(issue => issue.event));
-  const events = result.events.filter(e => e.body !== "Star1" || !unavailable.has(e.event))
-    .map(({body, event, utcMilliseconds}) => ({body, event, utcMilliseconds}));
-  self.postMessage({events, unavailable: [...unavailable]});
+  try {
+    const result = calculateAnnualTara(
+      engine, location ?? locations[city], year, profiles,
+      {allowSeaLevelApproximation: true}
+    );
+    const unavailable = result.canopusIssues;
+    const events = result.events.map(({body, event, utcMilliseconds, model}) =>
+      ({body, event, utcMilliseconds, model: model ?? "solar-altitude-threshold"}));
+    self.postMessage({
+      events, unavailable, year: result.year,
+      observer: result.observer,
+      elevationApproximate: result.elevationApproximate
+    });
+  } catch (error) {
+    self.postMessage({error: error instanceof Error ? error.message : "Calculation failed"});
+  }
 };
