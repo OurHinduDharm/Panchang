@@ -386,7 +386,9 @@
           "secondaryRuleSource": "धर्मसिंधु एवं निर्णयसिंधु — त्रिस्पर्शा महाद्वादशी",
           "secondaryRuleSourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
           "dateDecisionScope": "observance-date-only",
-          "autoApproved": false
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण, पूर्वार्ध 121.15–16 में वैशाख शुक्ल द्वादशी पर उपवास, इन्द्रिय-संयम और माधव-पूजन तथा मधुर पक्वान्न और जल-कुम्भ दान का स्पष्ट विधान है। पिथौरागढ़ में स्थानीय द्वादशी 14 मई 06:22:43 IST पर शुरू होकर 15 मई 03:32:44 IST पर समाप्त होती है; 14 मई को दिन के मुख्य भाग में द्वादशी व्याप्त है। इसलिए माधव-द्वादशी-व्रत का observance date 14 मई 2030 है।"
         },
         {
           "observanceId": "parashurama",
@@ -408,7 +410,9 @@
           "sourceCrossCheck": "Drik Panchang की 2030 द्वादशी सूची 14 मई को परशुराम द्वादशी और त्रिस्पर्शा महाद्वादशी दोनों दिखाती है।",
           "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=12hour&year=2030",
           "dateDecisionScope": "observance-date-only",
-          "autoApproved": false
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "वराह पुराण अध्याय 44.1–7 वैशाख मास की द्वादशी पर जामदग्न्य/परशुराम-पूजन, रात्रि-जागरण और अगले दिन प्रभात में प्रतिमा-दान का स्पष्ट क्रम देता है। पिथौरागढ़ में द्वादशी 14 मई 06:22:43 IST पर शुरू होकर 15 मई 03:32:44 IST पर समाप्त होती है; 14 मई को दिन और रात्रि-विधान के लिए पर्याप्त समय तक रहती है। इसलिए संकल्प, पूजा और जागरण 14 मई को तथा प्रतिमा-दान 15 मई प्रभात में है।"
         }
       ],
       "observanceDateDecisionNote": "माधव-द्वादशी और परशुराम-द्वादशी के 14 मई 2030 दिन-निर्णय अलग-अलग स्रोत-विधान और स्थानीय त्रिस्पर्शा क्रम से जाँचे गए हैं। यह केवल इन दो observances की तारीख़ की समीक्षा है; वैशाख शुक्ल द्वादशी occurrence तथा अन्य सभी वार्षिक द्वादशी रिकॉर्ड का needs-review/sourceReview status यथावत है।"
