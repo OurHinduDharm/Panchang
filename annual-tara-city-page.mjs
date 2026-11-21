@@ -101,7 +101,9 @@ async function show({events, unavailable = [], elevationApproximate}, selectedYe
       addText(card, "p", "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd));
       addText(card, "p", "अवधि — " + agastya.duration);
       addText(card, "p", "पारंपरिक तारा उदय — " + formatClock(agastya.taraRise));
+      eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
       addText(card, "p", "पारंपरिक तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
+      eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
       addText(card, "p", "यह पारंपरिक अर्घ्य-संदर्भ है; ऊपर दी गई स्थानीय खगोलीय गणना से अलग रखा गया है।");
     }
     fragment.append(card);
