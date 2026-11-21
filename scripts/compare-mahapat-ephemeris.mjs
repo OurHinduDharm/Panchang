@@ -6,15 +6,20 @@
  *    or 360°/0° (Vaidhriti).
  * 2. Search three days either side for true equal-declination instants:
  *    same side of equator for Vyatipata, opposite sides for Vaidhriti.
- * 3. Around the selected true pata, find the interval in which the apparent
- *    declination bands of the Sun and Moon disks overlap.
+ * 3. Find sparsha/moksha directly from apparent declination-band contacts
+ *    of the Sun and Moon discs.
+ * 4. Keep the Surya Siddhanta XI.14-15 duration as a separate classical
+ *    comparison; it never controls the primary Drik-style result.
  *
- * This modern geocentric model is for comparison only. It is not the final
- * Karana-Kutuhala shara-khanda implementation.
+ * Research-only Drik-style geocentric apparent-position model.
+ * This is not a reconstruction of the Karana-Kutuhala tables.
  */
 import { createRequire } from "node:module";
 import path from "node:path";
 import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
+import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
+import { contactModel, contactBoundaryDegrees } from "../research/paatadhikar/contact-boundary.mjs";
+import { classifyMahapataGeometry } from "../research/paatadhikar/mahapata-math.mjs";
 
 const require = createRequire(import.meta.url);
 const astronomyEntry = require.resolve("astronomy-engine");
@@ -28,7 +33,20 @@ const HOUR_MS = 3600000;
 const MINUTE_MS = 60000;
 const IST_OFFSET_MS = 330 * MINUTE_MS;
 const DAY_MS = 86400000;
-const YEARS = [2026, 2027, 2028, 2029, 2030];
+const yearArgument = process.argv.find(value => value.startsWith("--years="));
+const YEARS = yearArgument
+  ? yearArgument.slice("--years=".length).split(",").map(Number)
+  : [2026, 2027, 2028, 2029, 2030];
+if (!YEARS.length || YEARS.some(year => !Number.isInteger(year) || year < 1 || year > 9998)) {
+  throw new RangeError("--years must be a comma-separated list of valid years");
+}
+const auditStepArgument = process.argv.find(value => value.startsWith("--audit-step-minutes="));
+const auditStepMinutes = auditStepArgument ? Number(auditStepArgument.split("=")[1]) : 60;
+if (![15, 30, 60].includes(auditStepMinutes)) {
+  throw new RangeError("--audit-step-minutes must be 15, 30, or 60");
+}
+const contactArgument = process.argv.find(value => value.startsWith("--contact-model="));
+const selectedContactModel = contactModel(contactArgument?.split("=")[1]);
 const cache = new Map();
 
 function toIST(value) {
@@ -49,6 +67,12 @@ function circularDifference(value, target) {
 function angularDistance(value, target) {
   return Math.abs(circularDifference(value, target));
 }
+function dailyLongitudeMotion(timeMs, longitudeKey) {
+  const halfSpanMs = 30 * MINUTE_MS;
+  const before = positions(timeMs - halfSpanMs)[longitudeKey];
+  const after = positions(timeMs + halfSpanMs)[longitudeKey];
+  return circularDifference(after, before) / ((2 * halfSpanMs) / DAY_MS);
+}
 function positions(timeMs) {
   const cached = cache.get(timeMs);
   if (cached) return cached;
@@ -68,20 +92,24 @@ function positions(timeMs) {
   const sunRadius = Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI;
   const moonRadius = Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI;
   const semidiameterSum = sunRadius + moonRadius;
+  const contactBoundary = contactBoundaryDegrees(selectedContactModel.id, semidiameterSum);
   const longitudeSum = (vectorLongitude(sunEcliptic) + vectorLongitude(moonEcliptic)) % 360;
   const declinationDifference = moonDeclination - sunDeclination;
   const declinationSum = moonDeclination + sunDeclination;
   const value = {
+    sunLongitude: vectorLongitude(sunEcliptic),
+    moonLongitude: vectorLongitude(moonEcliptic),
     sunDeclination,
     moonDeclination,
     declinationDifference,
     declinationSum,
     longitudeSum,
     semidiameterSum,
+    contactBoundary,
     vyatipataRelation: declinationDifference,
     vaidhritiRelation: declinationSum,
-    vyatipataClearance: Math.abs(declinationDifference) - semidiameterSum,
-    vaidhritiClearance: Math.abs(declinationSum) - semidiameterSum
+    vyatipataClearance: Math.abs(declinationDifference) - contactBoundary,
+    vaidhritiClearance: Math.abs(declinationSum) - contactBoundary
   };
   cache.set(timeMs, value);
   return value;
@@ -96,8 +124,8 @@ function rootsFor(fn, start, end, step) {
   });
 }
 
-const scanStart = Date.UTC(2025, 11, 30);
-const scanEnd = Date.UTC(2031, 0, 2);
+const scanStart = Date.UTC(Math.min(...YEARS) - 1, 11, 30);
+const scanEnd = Date.UTC(Math.max(...YEARS) + 1, 0, 2);
 const meanPatas = [];
 for (const target of [180, 0]) {
   const roots = rootsFor(
@@ -114,7 +142,8 @@ for (const target of [180, 0]) {
       year,
       type: target === 180 ? "व्यतीपात महापात" : "वैधृति महापात",
       relationKey: target === 180 ? "vyatipataRelation" : "vaidhritiRelation",
-      clearanceKey: target === 180 ? "vyatipataClearance" : "vaidhritiClearance"
+      clearanceKey: target === 180 ? "vyatipataClearance" : "vaidhritiClearance",
+      eventClassKey: target === 180 ? "Vyatipata" : "Vaidhriti"
     });
   }
 }
@@ -125,25 +154,52 @@ const reviewItems = [];
 for (const mean of meanPatas) {
   const searchStart = mean.time - 3 * DAY_MS;
   const searchEnd = mean.time + 3 * DAY_MS;
-  const trueRoots = rootsFor(
+  const equalDeclinationRoots = rootsFor(
     time => positions(time)[mean.relationKey],
     searchStart,
     searchEnd,
     HOUR_MS
   );
+  const classifiedRoots = equalDeclinationRoots.map(time => {
+    const position = positions(time);
+    const geometry = classifyMahapataGeometry({
+      sunLongitudeDeg: position.sunLongitude,
+      moonLongitudeDeg: position.moonLongitude,
+      sunDeclinationDeg: position.sunDeclination,
+      moonDeclinationDeg: position.moonDeclination
+    });
+    return { time, eventClass: geometry.eventClass };
+  });
+  const trueRoots = classifiedRoots
+    .filter(root => root.eventClass === mean.eventClassKey)
+    .map(root => root.time);
   if (!trueRoots.length) {
     reviewItems.push({
       meanPataYear: mean.year,
       type: mean.type,
       meanPata: new Date(mean.time).toISOString(),
       meanPataIST: toIST(mean.time),
-      status: "no-true-crossing-within-three-day-search"
+      equalDeclinationCrossings: classifiedRoots.map(root => ({
+        timeIST: toIST(root.time), eventClass: root.eventClass
+      })),
+      status: "no-class-compatible-true-crossing-within-three-day-search"
     });
     continue;
   }
 
   const chosen = trueRoots.slice().sort((a, b) => Math.abs(a - mean.time) - Math.abs(b - mean.time))[0];
   const sample = positions(chosen);
+  const sunMotionDegPerDay = dailyLongitudeMotion(chosen, "sunLongitude");
+  const moonMotionDegPerDay = dailyLongitudeMotion(chosen, "moonLongitude");
+  const sunDistance = vectorLength(GeoVector(Body.Sun, new Date(chosen), true));
+  const moonDistance = vectorLength(GeoVector(Body.Moon, new Date(chosen), true));
+  const suryaSiddhantaInterval = suryaSiddhantaWindow({
+    middleUtcMs: chosen,
+    sunSemidiameterDeg: Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI,
+    moonSemidiameterDeg: Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI,
+    sunMotionDegPerDay,
+    moonMotionDegPerDay
+  });
   const contactRoots = rootsFor(
     time => positions(time)[mean.clearanceKey],
     chosen - 3 * DAY_MS,
@@ -154,9 +210,12 @@ for (const mean of meanPatas) {
   const after = contactRoots.find(time => time > chosen);
   const overlapExists = sample[mean.clearanceKey] < 0 && before !== undefined && after !== undefined;
 
-  const displayYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
+  const comparatorYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
+  const displayYear = comparatorYear;
+  const suryaSiddhantaYear = new Date(suryaSiddhantaInterval.startUtcMs + IST_OFFSET_MS).getUTCFullYear();
   const eventRecord = {
     year: displayYear,
+    suryaSiddhantaComparisonYear: suryaSiddhantaYear,
     meanPataYear: mean.year,
     type: mean.type,
     meanPata: new Date(mean.time).toISOString(),
@@ -171,10 +230,29 @@ for (const mean of meanPatas) {
     moonDeclinationAtTruePata: Number(sample.moonDeclination.toFixed(8)),
     declinationResidualDegrees: Number(sample[mean.relationKey].toFixed(10)),
     semidiameterSumDegrees: Number(sample.semidiameterSum.toFixed(8)),
+    contactModel: selectedContactModel,
+    contactBoundaryDegrees: sample.contactBoundary,
+    suryaSiddhantaComparison: {
+      startTime: new Date(suryaSiddhantaInterval.startUtcMs).toISOString(),
+      endTime: new Date(suryaSiddhantaInterval.endUtcMs).toISOString(),
+      startTimeIST: toIST(suryaSiddhantaInterval.startUtcMs),
+      endTimeIST: toIST(suryaSiddhantaInterval.endUtcMs),
+      halfDurationNadi: Number(suryaSiddhantaInterval.halfDurationNadi.toFixed(8)),
+      sunMotionDegPerDay: Number(sunMotionDegPerDay.toFixed(8)),
+      moonMotionDegPerDay: Number(moonMotionDegPerDay.toFixed(8)),
+      relativeMotionDegPerDay: Number(suryaSiddhantaInterval.relativeMotionDegPerDay.toFixed(8)),
+      method: suryaSiddhantaInterval.method,
+      status: "research-only-not-approved"
+    },
     otherTrueCrossings: trueRoots.filter(time => time !== chosen).map(time => toIST(time)),
+    rejectedEqualDeclinationCrossings: classifiedRoots
+      .filter(root => root.eventClass !== mean.eventClassKey)
+      .map(root => ({ timeIST: toIST(root.time), eventClass: root.eventClass })),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
-    model: "geocentric-apparent-declination-disk-band-overlap",
-    note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
+    model: selectedContactModel.id === "apparent-disks"
+      ? "drik-style-geocentric-apparent-declination-band-overlap"
+      : "drik-style-geocentric-fixed-30-arcmin-declination-boundary",
+    note: "Primary event window uses the explicitly selected contact definition; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
   };
   if (YEARS.includes(displayYear)) {
     if (overlapExists) events.push(eventRecord);
@@ -182,17 +260,64 @@ for (const mean of meanPatas) {
   }
 }
 
-events.sort((a, b) => a.meanPata.localeCompare(b.meanPata));
+events.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+// Independent discovery audit: do not limit equality searches to longitude seeds.
+// This reports completeness of sampled sign changes, not unsampled tangencies.
+let discoveryAudit;
+if (process.argv.includes("--audit")) {
+  const allRoots = [];
+  for (const [relationKey, eventClass, type] of [
+    ["vyatipataRelation", "Vyatipata", "व्यतीपात महापात"],
+    ["vaidhritiRelation", "Vaidhriti", "वैधृति महापात"]
+  ]) {
+    for (const time of rootsFor(t => positions(t)[relationKey], scanStart, scanEnd, auditStepMinutes * MINUTE_MS)) {
+      const p = positions(time);
+      const geometry = classifyMahapataGeometry({
+        sunLongitudeDeg: p.sunLongitude, moonLongitudeDeg: p.moonLongitude,
+        sunDeclinationDeg: p.sunDeclination, moonDeclinationDeg: p.moonDeclination
+      });
+      if (geometry.eventClass !== eventClass ||
+          !YEARS.includes(new Date(time + IST_OFFSET_MS).getUTCFullYear())) continue;
+      const represented = events.some(event => event.type === type &&
+        (Math.abs(Date.parse(event.truePata) - time) < 1000 ||
+         event.otherTrueCrossings.some(value => Math.abs(Date.parse(value) - time) < 1000)));
+      const nearestSeed = meanPatas.filter(mean => mean.type === type)
+        .sort((a, b) => Math.abs(a.time - time) - Math.abs(b.time - time))[0];
+      allRoots.push({ type, truePataIST: toIST(time), represented,
+        nearestSeedIST: nearestSeed ? toIST(nearestSeed.time) : null,
+        seedDistanceDays: nearestSeed ? Math.abs(nearestSeed.time - time) / DAY_MS : null });
+    }
+  }
+  const duplicateIntervals = events.filter((event, index) => events.slice(0, index).some(previous =>
+    previous.type === event.type &&
+    Math.abs(Date.parse(previous.startTime) - Date.parse(event.startTime)) < 1000 &&
+    Math.abs(Date.parse(previous.endTime) - Date.parse(event.endTime)) < 1000));
+  discoveryAudit = {
+    method: "independent-full-range-classified-equality-sign-change-scan",
+    sampleStepHours: auditStepMinutes / 60,
+    limitations: "Unsampled tangencies or two crossings inside one sample step are not guaranteed; this is not external astronomical validation.",
+    rootCount: allRoots.length,
+    unrepresentedRoots: allRoots.filter(root => !root.represented),
+    duplicateIntervals: duplicateIntervals.map(event => ({ type: event.type, startTimeIST: event.startTimeIST })),
+    longIntervals: events.filter(event => Date.parse(event.endTime) - Date.parse(event.startTime) > DAY_MS)
+      .map(event => ({ type: event.type, startTimeIST: event.startTimeIST, endTimeIST: event.endTimeIST })),
+    roots: allRoots
+  };
+}
+
 console.log(JSON.stringify({
   status: "research-only-not-approved",
   years: YEARS,
   engine: "astronomy-engine@2.1.19",
-  model: "mean tropical longitude-sum pata -> nearest true declination equality -> apparent disk overlap",
+  contactModel: selectedContactModel,
+  model: "Drik-style apparent geocentric positions: mean-pata seed -> true declination-equality middle -> nonlinear contacts using the declared contactModel; Surya Siddhanta XI.14-15 retained only as a separate comparison",
   searchDaysAroundMeanPata: 3,
   sampleStepHours: 1,
   meanPataCount: meanPatas.length,
   eventCount: events.length,
   reviewItemCount: reviewItems.length,
   events,
-  reviewItems
+  reviewItems,
+  ...(discoveryAudit ? { discoveryAudit } : {})
 }, null, 2));
