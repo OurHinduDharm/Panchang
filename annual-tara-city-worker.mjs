@@ -6,8 +6,7 @@ import { locations } from "./annual-tara-locations.mjs";
 self.onmessage = ({data: {location, city, year}}) => {
   try {
     const result = calculateAnnualTara(
-      engine, location ?? locations[city], year, profiles,
-      {allowSeaLevelApproximation: true}
+      engine, location ?? locations[city], year, profiles
     );
     const unavailable = result.canopusIssues;
     const events = result.events.map(({body, event, utcMilliseconds, model}) =>
@@ -15,7 +14,6 @@ self.onmessage = ({data: {location, city, year}}) => {
     self.postMessage({
       events, unavailable, year: result.year,
       observer: result.observer,
-      elevationApproximate: result.elevationApproximate,
       elevationSourceApproximate: result.elevationSourceApproximate
     });
   } catch (error) {
