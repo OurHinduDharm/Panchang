@@ -163,8 +163,8 @@ The Drik Kranti-Samya page independently confirms that:
 ### Numerical comparison: separate the two ayana relations
 
 The research comparison now keeps the two contact functions separate rather than classifying every disk-band overlap by longitude sum:
-- **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
-- **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+- **वैधृति relation (same ayana, opposite gola):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+- **व्यतीपात relation (opposite ayana, same gola):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 
 The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for all **true pāta** roots where the appropriate declinations agree, and retain only roots with the required ayana/gola class. Vyatipata uses opposite ayanas and same-side declinations; Vaidhriti uses the same ayana and opposite-side declinations. For the primary Drik-style interval, solve the apparent declination-band contact roots around the true middle: same-sign declinations use `δMoon − δSun`, opposite-sign declinations use `δMoon + δSun`, and contact occurs when the absolute relation equals the sum of apparent semidiameters. Surya Siddhanta XI.14–15 remains a separately labelled classical comparison only.
 
@@ -191,12 +191,14 @@ The class-validated mean-pāta → true-pāta → apparent disk-contact model ge
 | 2030 | 24 | 5 |
 
 Cross-check status:
-- 2026: the model matches the Drik windows within a few minutes for the shared dates. Two additional windows (19 March and 25 December) need source reconciliation; do not silently omit or publish them.
+- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March window needs source reconciliation. The former 25 December window was removed by class filtering.
 - 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
-- 2029: one Vaidhriti overlap spans approximately 19 December 02:40 to 21 December 07:46 IST and contains two true declination crossings. This is an unusual extended window and requires independent confirmation before publication.
+- The previously reported 19–21 December 2029 extended overlap belonged to the unfiltered model and is absent after ayana/gola classification. The current 2026–2030 output has no interval exceeding 24 hours.
 - Class validation rejects equal-declination roots that have the wrong ayana/gola relation. Across 2026–2030 there are 8 review items: 4 seeds have no equal-declination root within ±3 days, while 4 have roots but none has the required Vyatipata/Vaidhriti geometry. The 2030 review set has 5 items; only four of those have no root at all.
 
-Automated tests pin representative 2026–2028 windows, preserve all 8 review items, and run the complete 2023–24 Tara Prasad backtest. The corrected class filter now matches all 30 Tara Prasad rows with both touch and release times; median absolute start/end differences are about 6.8/8.2 minutes. On 21 June 2023 it rejects an earlier equal-declination root with the wrong ayana relation and selects the later class-correct event. This is evidence for the Drik-style candidate model, not proof that every Panchang uses identical conventions. All events remain research-only pending review of the remaining 2026, 2029 and 2030 edge cases.
+Automated tests pin representative 2026–2028 windows, preserve all 8 review items, and run the complete 2023–24 Tara Prasad backtest. The corrected class filter now matches all 30 Tara Prasad rows with both touch and release times; median absolute start/end differences are about 6.77/7.66 minutes (even-sized median averages the two middle values). On 21 June 2023 it rejects an earlier equal-declination root with the wrong ayana relation and selects the later class-correct event. This is evidence for the Drik-style candidate model, not proof that every Panchang uses identical conventions. All events remain research-only. Only 21/30 complete rows have both endpoints within 10 minutes; 27/30 within 30 minutes. The partial 22 March 2023 record has a release delta of −203.88 minutes and requires reconciliation, as do three complete rows with >30-minute differences. See `research/paatadhikar/taraprasad-reference-audit.md`.
+
+An independent full-range equality scan (`--audit`) at 60- and 30-minute sampling finds the same 135 class-compatible roots in 2026–2030, with no unrepresented roots or duplicate intervals. The eight unresolved longitude seeds do not imply eight missing events. This is an internal numerical completeness check, not independent physical validation; unsampled tangencies are not guaranteed.
 
 
 ## महोदय — प्राथमिक शोध-प्रोफाइल
