@@ -44,7 +44,11 @@ export function resolveTaraLocation(selectedLocation, options = {}) {
   const observer = requireTaraElevation({
     latitude, longitude, elevation: missing ? 0 : elevation, name: selectedLocation.name
   });
-  return {observer, elevationApproximate: missing};
+  return {
+    observer,
+    elevationApproximate: missing,
+    elevationSourceApproximate: !missing && selectedLocation.elevationStatus === "estimated"
+  };
 }
 
 function numericField(value) {
