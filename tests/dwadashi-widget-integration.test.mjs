@@ -85,7 +85,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(annual.location.latitude,29.58);
   assert.equal(annual.location.longitude,80.22);
   assert.equal(annual.tithiDates.length,28);
-  assert.ok(annual.tithiDates.every(item=>/^2030-\\d{2}-\\d{2}$/.test(item.date)));
+  assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
   assert.equal(annual.chaturmas.status,"approved");
   assert.equal(annual.chaturmas.phases.length,4);
   assert.equal(annual.tithis.length,11);
@@ -97,7 +97,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
     for(const review of record.observanceDateReviews||[]){
       assert.equal(review.reviewStatus,"approved");
       assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
-      assert.match(review.selectedDate,/^2030-\\d{2}-\\d{2}$/);
+      assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
     }
     const approvedIds=new Set((record.observanceDateReviews||[]).map(item=>item.observanceId));
     for(const item of [...(record.observances||[]),...(record.conditionalObservances||[])]){
