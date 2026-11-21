@@ -1011,3 +1011,31 @@ test("2030 Bhadrapada Shukla Dwadashi approves four observance dates without app
   const vamanaCard = september.events.find(x => x.date === "2030-09-08" && x.title === "वामन-द्वादशी व्रत");
   assert.equal(vamanaCard.category, "व्रत");
 });
+
+
+test("2030 Vaishakha Shukla Madhava and Parashurama Dwadashi dates follow their Purana observance sequences without approving the parent tithi", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "vaishakha-shukla");
+  assert.equal(record.selectedDate, "2030-05-14");
+  assert.equal(record.status, "needs-review");
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required");
+  for (const id of ["madhava", "parashurama"]) {
+    const item = record.observanceDateReviews.find(x => x.observanceId === id);
+    assert.equal(item.selectedDate, "2030-05-14");
+    assert.equal(item.reviewStatus, "approved");
+    assert.equal(item.autoApproved, false);
+    assert.ok(item.reviewBasis.length > 100);
+    assert.match(item.localDayDecision, /14 मई/);
+  }
+  const parashurama = record.observanceDateReviews.find(x => x.observanceId === "parashurama");
+  assert.equal(parashurama.followingMorningActionDate, "2030-05-15");
+  assert.match(parashurama.reviewBasis, /44\.1–7/);
+  const may = JSON.parse(await readFile(resolve(root, "data/festivals/2030-05.json"), "utf8"));
+  assert.equal(may.events.find(x => x.title === "माधव-द्वादशी व्रत").date, "2030-05-14");
+  assert.equal(may.events.find(x => x.title === "परशुराम-द्वादशी").date, "2030-05-14");
+  assert.equal(may.events.some(x => /गौण|वैष्णव/.test(x.title || "")), false);
+});
