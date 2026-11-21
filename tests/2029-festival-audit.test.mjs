@@ -92,6 +92,18 @@ test("2029 Ekadashi cards follow the Smarta sunrise rule and omit Vaishnava dupl
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
 
+test("2029 annual review snapshot agrees with the public Smarta Ram Navami card", () => {
+  const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
+  const publicApril = months[3].events.filter(event => /राम नवमी/.test(event.title || ""));
+  const reviewApril = annual.catalog.filter(event => /राम नवमी/.test(event.title || ""));
+  assert.equal(publicApril.length, 1);
+  assert.equal(reviewApril.length, 1);
+  assert.equal(publicApril[0].date, "2029-04-22");
+  assert.equal(reviewApril[0].date, publicApril[0].date);
+  assert.equal(reviewApril[0].dateLabel, "22 अप्रैल");
+  assert.equal(publicApril[0].hinduTithi, "चैत्र शुक्ल नवमी (मध्याह्न-व्याप्ति)");
+});
+
 test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
   const janmashtami = events.find(event => event.date === "2029-08-31" && event.title === "श्रीकृष्ण जन्माष्टमी (स्मार्त)");
   assert.ok(janmashtami);
