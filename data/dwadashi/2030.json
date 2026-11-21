@@ -634,6 +634,62 @@
   ],
   "tithis": [
     {
+      "id": "chaitra-shukla",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "status": "needs-review",
+      "selectedDate": "2030-04-15",
+      "displayNames": [
+        "मदन द्वादशी",
+        "भर्तृ द्वादशी",
+        "वामन-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "madana",
+          "name": "मदन द्वादशी",
+          "deity": "कामरूपी भगवान अच्युत",
+          "shortDetail": "कलश, श्वेत अक्षत, गन्ने, फल और श्वेत चंदन से सजाकर कामरूपी अच्युत की पूजा की जाती है। अगले दिन दान और ब्राह्मण-भोजन का विधान है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceProfile": "naradaPurana"
+        },
+        {
+          "id": "bhartr",
+          "name": "भर्तृ द्वादशी",
+          "deity": "श्री-हरि एवं लक्ष्मी",
+          "shortDetail": "पुष्प-मंडप से सजी शय्या पर लक्ष्मी-हरि की पूजा, रात्रि-जागरण तथा अगले दिन शय्या और प्रतिमा के दान का विधान है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceProfile": "naradaPurana"
+        },
+        {
+          "id": "vamana",
+          "name": "वामन-द्वादशी",
+          "deity": "भगवान वामन",
+          "shortDetail": "बलि से तीनों लोक प्राप्त करने वाले वामन की पूजा; कमण्डलु, छत्र और पादुका-युक्त प्रतिमा का विधान है।",
+          "source": "वराह पुराण, अध्याय 43 — वामन-द्वादशी-व्रत",
+          "sourceProfile": "varahaPurana"
+        }
+      ],
+      "conditionalObservances": [],
+      "observanceDateReviews": [
+        {
+          "observanceId": "madana",
+          "selectedDate": "2030-04-15",
+          "reviewStatus": "approved"
+        },
+        {
+          "observanceId": "bhartr",
+          "selectedDate": "2030-04-15",
+          "reviewStatus": "approved"
+        },
+        {
+          "observanceId": "vamana",
+          "selectedDate": "2030-04-15",
+          "reviewStatus": "approved"
+        }
+      ]
+    },
+    {
       "id": "vaishakha-shukla",
       "month": "वैशाख",
       "paksha": "शुक्ल",
@@ -682,9 +738,18 @@
       "status": "needs-review",
       "selectedDate": "2030-06-13",
       "displayNames": [
+        "त्रिविक्रम-द्वादशी व्रत",
         "राम-द्वादशी"
       ],
       "observances": [
+        {
+          "id": "trivikrama",
+          "name": "त्रिविक्रम-द्वादशी व्रत",
+          "deity": "भगवान त्रिविक्रम",
+          "shortDetail": "त्रिविक्रम की गंध-पुष्पादि से पूजा, जल-पात्र और मधुर भोजन का दान तथा एकभुक्त का उल्लेख है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceProfile": "naradaPurana"
+        },
         {
           "id": "rama",
           "name": "राम-द्वादशी",
@@ -701,6 +766,81 @@
           "selectedDate": "2030-06-12",
           "reviewStatus": "approved",
           "dateRole": "dwadashi-worship-before-following-morning-gift"
+        },
+        {
+          "observanceId": "trivikrama",
+          "selectedDate": "2030-06-13",
+          "reviewStatus": "approved"
+        }
+      ]
+    },
+    {
+      "id": "ashadha-shukla",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "status": "needs-review",
+      "selectedDate": "2030-07-12",
+      "displayNames": [
+        "वासुदेव-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "vasudeva",
+          "name": "वासुदेव-द्वादशी",
+          "deity": "भगवान वासुदेव",
+          "shortDetail": "चतुर्व्यूह सहित वासुदेव-रूप की पूजा और कलश में स्थापित प्रतिमा का विधान है।",
+          "source": "वराह पुराण, अध्याय 46 — कृष्ण-द्वादशी-व्रत (वासुदेव एवं व्यूह-पूजन)",
+          "sourceProfile": "varahaPurana"
+        }
+      ],
+      "conditionalObservances": [],
+      "observanceDateReviews": [
+        {
+          "observanceId": "vasudeva",
+          "selectedDate": "2030-07-12",
+          "reviewStatus": "approved"
+        }
+      ]
+    },
+    {
+      "id": "shravana-shukla",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "status": "needs-review",
+      "selectedDate": "2030-08-10",
+      "displayNames": [
+        "श्रीधर-द्वादशी व्रत",
+        "दामोदर-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "sridhara",
+          "name": "श्रीधर-द्वादशी व्रत",
+          "deity": "भगवान श्रीधर",
+          "shortDetail": "श्रीधर-पूजन, दही सहित भोजन का दान और दक्षिणा का विधान बताया गया है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceProfile": "naradaPurana"
+        },
+        {
+          "id": "damodara",
+          "name": "दामोदर-द्वादशी",
+          "deity": "भगवान दामोदर",
+          "shortDetail": "यशोदा द्वारा रस्सी से बाँधे गए बालकृष्ण-दामोदर की पूजा और प्रतिमा-दान का विधान है।",
+          "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-पूजन; संस्कृत श्लोक 47.1 में द्वादशी)",
+          "sourceProfile": "varahaPurana"
+        }
+      ],
+      "conditionalObservances": [],
+      "observanceDateReviews": [
+        {
+          "observanceId": "sridhara",
+          "selectedDate": "2030-08-10",
+          "reviewStatus": "approved"
+        },
+        {
+          "observanceId": "damodara",
+          "selectedDate": "2030-08-10",
+          "reviewStatus": "approved"
         }
       ]
     },
@@ -1095,5 +1235,5 @@
     "completionTithi": "कार्तिक शुक्ल द्वादशी",
     "completionDetail": "त्यागी गई दालों का दान करके चातुर्मास्य व्रत पूर्ण करें।"
   },
-  "note": "पिथौरागढ़ के लिए गणित द्वादशी-तिथि-दिन, अलग से स्वीकृत नामित व्रत और स्वीकृत चातुर्मास चरण। जिन मास-पक्ष रिकॉर्डों का status needs-review है, वे स्वयं स्वीकृत नहीं हैं; केवल observanceDateReviews में approved नामित व्रत ही जोड़े जाएँ।"
+  "note": "पिथौरागढ़ के लिए 28 गणित द्वादशी-तिथि-दिन, 20 अलग से स्वीकृत नामित व्रत और चार स्वीकृत चातुर्मास चरण। सभी 11 शामिल parent मास-पक्ष records स्वयं needs-review हैं; केवल observanceDateReviews में approved नामित व्रत प्रकाशित हैं।"
 }

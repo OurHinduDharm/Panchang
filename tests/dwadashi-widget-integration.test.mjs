@@ -88,9 +88,9 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
   assert.equal(annual.chaturmas.status,"approved");
   assert.equal(annual.chaturmas.phases.length,4);
-  assert.equal(annual.tithis.length,8);
+  assert.equal(annual.tithis.length,11);
   const reviews=annual.tithis.flatMap(record=>record.observanceDateReviews||[]);
-  assert.equal(reviews.length,13);
+  assert.equal(reviews.length,20);
   assert.ok(annual.tithis.every(record=>record.status==="needs-review"),"partial package must not approve parent tithi records");
   for(const record of annual.tithis){
     const ids=new Set([...(record.observances||[]),...(record.conditionalObservances||[])].map(item=>item.id));
@@ -99,16 +99,33 @@ test("2030 public Dwadashi package contains only individually approved observanc
       assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
       assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
     }
+    const approvedIds=new Set((record.observanceDateReviews||[]).map(item=>item.observanceId));
+    for(const item of [...(record.observances||[]),...(record.conditionalObservances||[])]){
+      assert.ok(approvedIds.has(item.id),"pending observance must not leak into public package: "+item.id);
+    }
   }
-  const findReview=id=>reviews.find(item=>item.observanceId===id);
-  assert.equal(findReview("madhava").selectedDate,"2030-05-14");
-  assert.equal(findReview("parashurama").selectedDate,"2030-05-14");
-  assert.equal(findReview("vamana").selectedDate,"2030-09-08");
-  assert.equal(findReview("damodara").selectedDate,"2030-09-08");
-  assert.equal(findReview("niranjana").selectedDate,"2030-09-08");
-  assert.equal(findReview("kalki").selectedDate,"2030-09-08");
-  assert.equal(findReview("govatsa").selectedDate,"2030-10-23");
-  assert.equal(findReview("krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
+  const findReview=(recordId,id)=>(annual.tithis.find(record=>record.id===recordId)?.observanceDateReviews||[]).find(item=>item.observanceId===id);
+  assert.equal(findReview("chaitra-shukla","madana").selectedDate,"2030-04-15");
+  assert.equal(findReview("chaitra-shukla","bhartr").selectedDate,"2030-04-15");
+  assert.equal(findReview("chaitra-shukla","vamana").selectedDate,"2030-04-15");
+  assert.equal(findReview("vaishakha-shukla","madhava").selectedDate,"2030-05-14");
+  assert.equal(findReview("vaishakha-shukla","parashurama").selectedDate,"2030-05-14");
+  assert.equal(findReview("jyeshtha-shukla","rama").selectedDate,"2030-06-12");
+  assert.equal(findReview("jyeshtha-shukla","trivikrama").selectedDate,"2030-06-13");
+  assert.equal(findReview("ashadha-shukla","vasudeva").selectedDate,"2030-07-12");
+  assert.equal(findReview("shravana-shukla","sridhara").selectedDate,"2030-08-10");
+  assert.equal(findReview("shravana-shukla","damodara").selectedDate,"2030-08-10");
+  assert.equal(findReview("bhadrapada-shukla","vamana").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","damodara").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","niranjana").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","kalki").selectedDate,"2030-09-08");
+  assert.equal(findReview("ashwin-shukla","padmanabha-narada").selectedDate,"2030-10-07");
+  assert.equal(findReview("ashwin-shukla","padmanabha-varaha").selectedDate,"2030-10-07");
+  assert.equal(findReview("kartika-krishna","govatsa").selectedDate,"2030-10-23");
+  assert.equal(findReview("pausha-krishna","rupa").selectedDate,"2030-01-01");
+  assert.equal(findReview("pausha-krishna-occurrence-2","rupa").selectedDate,"2030-12-22");
+  assert.equal(findReview("magha-shukla","varaha").selectedDate,"2030-02-14");
+  assert.equal(findReview("kartika-krishna","krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
   assert.equal(Object.hasOwn(annual,"sourceReview"),false,"research-only source review metadata must stay private");
   assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
 });
