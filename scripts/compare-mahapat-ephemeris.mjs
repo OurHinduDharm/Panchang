@@ -18,6 +18,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
 import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
+import { contactModel, contactBoundaryDegrees } from "../research/paatadhikar/contact-boundary.mjs";
 import { classifyMahapataGeometry } from "../research/paatadhikar/mahapata-math.mjs";
 
 const require = createRequire(import.meta.url);
@@ -44,6 +45,8 @@ const auditStepMinutes = auditStepArgument ? Number(auditStepArgument.split("=")
 if (![15, 30, 60].includes(auditStepMinutes)) {
   throw new RangeError("--audit-step-minutes must be 15, 30, or 60");
 }
+const contactArgument = process.argv.find(value => value.startsWith("--contact-model="));
+const selectedContactModel = contactModel(contactArgument?.split("=")[1]);
 const cache = new Map();
 
 function toIST(value) {
@@ -89,6 +92,7 @@ function positions(timeMs) {
   const sunRadius = Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI;
   const moonRadius = Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI;
   const semidiameterSum = sunRadius + moonRadius;
+  const contactBoundary = contactBoundaryDegrees(selectedContactModel.id, semidiameterSum);
   const longitudeSum = (vectorLongitude(sunEcliptic) + vectorLongitude(moonEcliptic)) % 360;
   const declinationDifference = moonDeclination - sunDeclination;
   const declinationSum = moonDeclination + sunDeclination;
@@ -101,10 +105,11 @@ function positions(timeMs) {
     declinationSum,
     longitudeSum,
     semidiameterSum,
+    contactBoundary,
     vyatipataRelation: declinationDifference,
     vaidhritiRelation: declinationSum,
-    vyatipataClearance: Math.abs(declinationDifference) - semidiameterSum,
-    vaidhritiClearance: Math.abs(declinationSum) - semidiameterSum
+    vyatipataClearance: Math.abs(declinationDifference) - contactBoundary,
+    vaidhritiClearance: Math.abs(declinationSum) - contactBoundary
   };
   cache.set(timeMs, value);
   return value;
@@ -225,6 +230,8 @@ for (const mean of meanPatas) {
     moonDeclinationAtTruePata: Number(sample.moonDeclination.toFixed(8)),
     declinationResidualDegrees: Number(sample[mean.relationKey].toFixed(10)),
     semidiameterSumDegrees: Number(sample.semidiameterSum.toFixed(8)),
+    contactModel: selectedContactModel,
+    contactBoundaryDegrees: sample.contactBoundary,
     suryaSiddhantaComparison: {
       startTime: new Date(suryaSiddhantaInterval.startUtcMs).toISOString(),
       endTime: new Date(suryaSiddhantaInterval.endUtcMs).toISOString(),
@@ -242,8 +249,10 @@ for (const mean of meanPatas) {
       .filter(root => root.eventClass !== mean.eventClassKey)
       .map(root => ({ timeIST: toIST(root.time), eventClass: root.eventClass })),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
-    model: "drik-style-geocentric-apparent-declination-band-overlap",
-    note: "Primary event window uses apparent declination-band contacts; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
+    model: selectedContactModel.id === "apparent-disks"
+      ? "drik-style-geocentric-apparent-declination-band-overlap"
+      : "drik-style-geocentric-fixed-30-arcmin-declination-boundary",
+    note: "Primary event window uses the explicitly selected contact definition; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
   };
   if (YEARS.includes(displayYear)) {
     if (overlapExists) events.push(eventRecord);
@@ -301,7 +310,8 @@ console.log(JSON.stringify({
   status: "research-only-not-approved",
   years: YEARS,
   engine: "astronomy-engine@2.1.19",
-  model: "Drik-style apparent geocentric positions: mean-pata seed -> true declination-equality middle -> nonlinear apparent declination-band contacts; Surya Siddhanta XI.14-15 retained only as a separate comparison",
+  contactModel: selectedContactModel,
+  model: "Drik-style apparent geocentric positions: mean-pata seed -> true declination-equality middle -> nonlinear contacts using the declared contactModel; Surya Siddhanta XI.14-15 retained only as a separate comparison",
   searchDaysAroundMeanPata: 3,
   sampleStepHours: 1,
   meanPataCount: meanPatas.length,
