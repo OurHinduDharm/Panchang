@@ -96,13 +96,13 @@ async function show({events, unavailable = [], elevationApproximate}, selectedYe
       }
     }
     if (body === "Star1" && agastya) {
-      addText(card, "h3", "पिथौरागढ़ का पारंपरिक अगस्त्य अर्घ्य संदर्भ");
+      addText(card, "h3", "अगस्त्य अर्घ्य — पारंपरिक पिथौरागढ़ संदर्भ");
       addText(card, "strong", "अर्घ्य तिथि — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
       addText(card, "p", "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd));
       addText(card, "p", "अवधि — " + agastya.duration);
-      addText(card, "p", "पारंपरिक तारा उदय — " + formatClock(agastya.taraRise));
+      addText(card, "p", "अगस्त्य तारा उदय — " + formatClock(agastya.taraRise));
       eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
-      addText(card, "p", "पारंपरिक तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
+      addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
       eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
       addText(card, "p", "यह पारंपरिक अर्घ्य-संदर्भ है; ऊपर दी गई स्थानीय खगोलीय गणना से अलग रखा गया है।");
     }
