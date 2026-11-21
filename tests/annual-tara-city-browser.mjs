@@ -65,6 +65,17 @@ try {
   await page.selectOption("#city", "delhi");
   assert.equal(await page.locator("#city-events").innerText(), delhi);
   assert.equal(await page.locator(".planet").count(), 3);
+  const yearOptions = await page.locator("#forecast-year option").evaluateAll(options => options.map(option => option.value));
+  assert.equal(yearOptions[0], "2021");
+  assert.equal(yearOptions.at(-1), "2035");
+  await page.selectOption("#forecast-year", "2035");
+  await page.locator("#city-events .planet").first().waitFor();
+  const year2035 = await page.locator("#city-events").innerText();
+  assert.match(year2035, /2035/);
+  assert.equal(await page.locator(".planet").count(), 3);
+  await page.selectOption("#forecast-year", "2027");
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.equal(await page.locator("#city-events").innerText(), delhi);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   const annualUrl = new URL(page.url());
   assert.equal(annualUrl.searchParams.get("city"), "delhi");
