@@ -225,7 +225,7 @@ year.onchange = retry.onclick = () => calculateSelection();
 
 const params = new URLSearchParams(window.location.search);
 const currentYear = Number(panchangIsoDate(new Date()).slice(0, 4));
-for (let y = 2021; y <= Math.max(2030, currentYear + 1); y++) year.add(new Option(String(y), String(y)));
+for (let y = 2021; y <= 2035; y++) year.add(new Option(String(y), String(y)));
 year.value = [...year.options].some(o => o.value === params.get("year")) ? params.get("year") : String(currentYear);
 if (params.has("geoname")) {
   city.value = "";
