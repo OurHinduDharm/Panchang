@@ -8,15 +8,14 @@
     2030
   ],
   "engine": "astronomy-engine@2.1.19",
-  "model": "Drik-style geocentric apparent-declination contacts; Surya Siddhanta XI.14-15 retained only as a separate comparison",
+  "model": "Drik-style apparent geocentric positions: mean-pata seed -> true declination-equality middle -> nonlinear apparent declination-band contacts; Surya Siddhanta XI.14-15 retained only as a separate comparison",
   "events": [
     {
       "year": 2026,
+      "suryaSiddhantaComparisonYear": 2026,
       "type": "व्यतीपात महापात",
       "startTimeIST": "2026-01-13T00:16:15.695+05:30",
       "endTimeIST": "2026-01-13T06:29:57.253+05:30",
-      "status": "research-only-not-approved",
-      "suryaSiddhantaComparisonYear": 2026,
       "suryaSiddhantaComparison": {
         "startTime": "2026-01-12T20:41:45.787Z",
         "endTime": "2026-01-12T22:59:13.392Z",
@@ -29,15 +28,15 @@
         "method": "surya-siddhanta-xi-14-15-numerical-adaptation",
         "status": "research-only-not-approved"
       },
+      "status": "research-only-not-approved",
       "model": "drik-style-geocentric-apparent-declination-band-overlap"
     },
     {
       "year": 2026,
+      "suryaSiddhantaComparisonYear": 2026,
       "type": "वैधृति महापात",
       "startTimeIST": "2026-11-02T20:16:47.995+05:30",
       "endTimeIST": "2026-11-03T00:39:38.869+05:30",
-      "status": "research-only-not-approved",
-      "suryaSiddhantaComparisonYear": 2026,
       "suryaSiddhantaComparison": {
         "startTime": "2026-11-02T15:58:22.044Z",
         "endTime": "2026-11-02T17:59:29.195Z",
@@ -50,15 +49,15 @@
         "method": "surya-siddhanta-xi-14-15-numerical-adaptation",
         "status": "research-only-not-approved"
       },
+      "status": "research-only-not-approved",
       "model": "drik-style-geocentric-apparent-declination-band-overlap"
     },
     {
       "year": 2027,
+      "suryaSiddhantaComparisonYear": 2027,
       "type": "व्यतीपात महापात",
       "startTimeIST": "2027-01-03T04:07:15.168+05:30",
       "endTimeIST": "2027-01-03T11:23:18.449+05:30",
-      "status": "research-only-not-approved",
-      "suryaSiddhantaComparisonYear": 2027,
       "suryaSiddhantaComparison": {
         "startTime": "2027-01-03T01:03:19.137Z",
         "endTime": "2027-01-03T03:17:29.788Z",
@@ -71,15 +70,15 @@
         "method": "surya-siddhanta-xi-14-15-numerical-adaptation",
         "status": "research-only-not-approved"
       },
+      "status": "research-only-not-approved",
       "model": "drik-style-geocentric-apparent-declination-band-overlap"
     },
     {
       "year": 2028,
+      "suryaSiddhantaComparisonYear": 2028,
       "type": "वैधृति महापात",
       "startTimeIST": "2028-03-24T17:37:19.562+05:30",
       "endTimeIST": "2028-03-24T21:58:06.291+05:30",
-      "status": "research-only-not-approved",
-      "suryaSiddhantaComparisonYear": 2028,
       "suryaSiddhantaComparison": {
         "startTime": "2028-03-24T13:10:08.377Z",
         "endTime": "2028-03-24T15:25:27.803Z",
@@ -92,50 +91,40 @@
         "method": "surya-siddhanta-xi-14-15-numerical-adaptation",
         "status": "research-only-not-approved"
       },
-      "model": "drik-style-geocentric-apparent-declination-band-overlap"
-    },
-    {
-      "year": 2028,
-      "type": "वैधृति महापात",
-      "startTimeIST": "2028-12-31T19:54:22.829+05:30",
-      "endTimeIST": "2029-01-01T06:29:39.895+05:30",
       "status": "research-only-not-approved",
-      "suryaSiddhantaComparisonYear": 2029,
-      "suryaSiddhantaComparison": {
-        "startTime": "2028-12-31T19:00:55.182Z",
-        "endTime": "2028-12-31T21:02:35.755Z",
-        "startTimeIST": "2029-01-01T00:30:55.182+05:30",
-        "endTimeIST": "2029-01-01T02:32:35.755+05:30",
-        "halfDurationNadi": 2.53492126,
-        "sunMotionDegPerDay": 1.01884772,
-        "moonMotionDegPerDay": 13.68125778,
-        "relativeMotionDegPerDay": 12.66241006,
-        "method": "surya-siddhanta-xi-14-15-numerical-adaptation",
-        "status": "research-only-not-approved"
-      },
       "model": "drik-style-geocentric-apparent-declination-band-overlap"
     }
   ],
   "reviewItems": [
     {
-      "type": "वैधृति महापात",
+      "meanPataIST": "2030-06-04T11:20:49.035+05:30",
+      "status": "no-class-compatible-true-crossing-within-three-day-search",
+      "equalDeclinationCrossings": [
+        {
+          "timeIST": "2030-06-03T00:41:15.439+05:30",
+          "eventClass": null
+        }
+      ]
+    },
+    {
       "meanPataIST": "2030-06-16T16:02:45.344+05:30",
-      "status": "no-true-crossing-within-three-day-search"
+      "status": "no-class-compatible-true-crossing-within-three-day-search",
+      "equalDeclinationCrossings": []
     },
     {
-      "type": "व्यतीपात महापात",
       "meanPataIST": "2030-06-29T17:07:40.876+05:30",
-      "status": "no-true-crossing-within-three-day-search"
+      "status": "no-class-compatible-true-crossing-within-three-day-search",
+      "equalDeclinationCrossings": []
     },
     {
-      "type": "वैधृति महापात",
       "meanPataIST": "2030-12-12T01:27:06.965+05:30",
-      "status": "no-true-crossing-within-three-day-search"
+      "status": "no-class-compatible-true-crossing-within-three-day-search",
+      "equalDeclinationCrossings": []
     },
     {
-      "type": "व्यतीपात महापात",
       "meanPataIST": "2030-12-24T14:20:42.663+05:30",
-      "status": "no-true-crossing-within-three-day-search"
+      "status": "no-class-compatible-true-crossing-within-three-day-search",
+      "equalDeclinationCrossings": []
     }
   ]
 }
