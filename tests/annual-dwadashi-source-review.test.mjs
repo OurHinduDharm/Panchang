@@ -1071,3 +1071,27 @@ test("2030 Ashwin Padmanabha Dwadashi source observances use the evening tithi-e
   assert.ok(card);
   assert.equal(card.followingMorningActionDate, "2030-10-08");
 });
+
+test("2030 Kartika Krishna Govatsa Dwadashi selects the first Pradosha-vyapini day without approving the parent tithi", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "kartika-krishna");
+  assert.equal(record.status, "needs-review");
+  assert.equal(record.selectedDate, "2030-10-23");
+  const item = record.observanceDateReviews.find(x => x.observanceId === "govatsa");
+  assert.equal(item.selectedDate, "2030-10-23");
+  assert.equal(item.dateRole, "pradosha-worship");
+  assert.equal(item.reviewStatus, "approved");
+  assert.equal(item.autoApproved, false);
+  assert.match(item.reviewBasis, /1\.4\.121\.27b–35a/);
+  assert.match(item.reviewBasis, /भविष्योत्तर पुराण/);
+  assert.match(item.localDayDecision, /23 अक्टूबर/);
+  const october = JSON.parse(await readFile(resolve(root, "data/festivals/2030-10.json"), "utf8"));
+  const card = october.events.find(x => x.date === "2030-10-23" && x.title === "गोवत्स द्वादशी");
+  assert.ok(card);
+  assert.equal(card.muhurtaRule, "govatsa-dwadashi-pradosh-kala");
+  assert.equal(card.sourceUrl, "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030");
+});
