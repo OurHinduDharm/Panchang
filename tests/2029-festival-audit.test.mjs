@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getFestivalMuhurta, getFestivalMuhurtaContext } from "../festival-muhurta.js";
 
 const folder = join(process.cwd(), "data", "festivals");
 const months = Array.from({ length: 12 }, (_, i) =>
@@ -129,6 +130,39 @@ test("2029 annual review snapshot agrees with approved public dates for key loca
     assert.equal(reviewEvent.date,publicEvent.date);
     assert.equal(reviewEvent.dateLabel,label);
   }
+});
+
+test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day Purnima is under three muhurtas", () => {
+  const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
+  const day = date => annual.dailyPanchang.find(item => item.date === date);
+  const toPanchang = item => ({
+    sunrise:new Date(item.sunrise),
+    sunset:new Date(item.sunset),
+    tithis:(item.tithiIntervals||[]).map(interval=>({...interval,start:new Date(interval.start),end:new Date(interval.end)})),
+    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,start:new Date(interval.start),end:new Date(interval.end)}))
+  });
+  const first=day("2029-08-23"),second=day("2029-08-24");
+  assert.ok(first&&second);
+  const firstPanchang=toPanchang(first),secondPanchang=toPanchang(second);
+  const context=getFestivalMuhurtaContext(firstPanchang,secondPanchang,new Date("2029-08-23T00:00:00Z"),
+    {latitude:29.58,longitude:80.22,elevation:1650},()=>null,"Asia/Kolkata");
+  const muhurta=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},context);
+  assert.equal(muhurta.status,"calculated");
+  assert.equal(muhurta.windows.length,1);
+  const window=muhurta.windows[0];
+  const bhadra=(first.karanaIntervals||[]).find(item=>/विष्टि|vishti/i.test(item.karana||""));
+  assert.ok(bhadra);
+  const bhadraEnd=new Date(bhadra.end);
+  assert.ok(window.start>=bhadraEnd,"Rakhi window must begin after Bhadra ends");
+  const sunset=new Date(first.sunset),nextSunrise=new Date(second.sunrise);
+  const pradoshEnd=new Date(sunset.getTime()+(nextSunrise.getTime()-sunset.getTime())/5);
+  assert.ok(window.start>sunset,"when Aparahna is blocked, selected window is in Pradosh");
+  assert.ok(window.end<=pradoshEnd,"selected window must remain inside Pradosh");
+  const purnimaEnd=new Date("2029-08-24T01:51:10.000Z");
+  const threeMuhurtas=3*48*60*1000;
+  assert.ok(purnimaEnd.getTime()-nextSunrise.getTime()<threeMuhurtas,
+    "next-day Purnima lasts less than three muhurtas after sunrise, so previous-day Pradosh rule applies");
+  assert.equal(has("2029-08-23",/रक्षाबंधन/).muhurtaRule,"raksha-bandhan-thread");
 });
 
 test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
