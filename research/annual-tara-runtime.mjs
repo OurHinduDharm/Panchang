@@ -99,6 +99,7 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles, op
   }
   return {
     observer: context.observer, elevationApproximate: context.elevationApproximate,
+    elevationSourceApproximate: context.elevationSourceApproximate,
     year, events, starScans, canopusIssues
   };
 }
