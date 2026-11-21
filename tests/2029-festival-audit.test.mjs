@@ -138,8 +138,8 @@ test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day P
   const toPanchang = item => ({
     sunrise:new Date(item.sunrise),
     sunset:new Date(item.sunset),
-    tithis:(item.tithiIntervals||[]).map(interval=>({...interval,start:new Date(interval.start),end:new Date(interval.end)})),
-    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,start:new Date(interval.start),end:new Date(interval.end)}))
+    tithis:(item.tithiIntervals||[]).map(interval=>({...interval,name:interval.tithi,start:new Date(interval.start),end:new Date(interval.end)})),
+    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,name:interval.karana,start:new Date(interval.start),end:new Date(interval.end)}))
   });
   const first=day("2029-08-23"),second=day("2029-08-24");
   assert.ok(first&&second);
