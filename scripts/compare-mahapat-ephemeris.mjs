@@ -6,8 +6,9 @@
  *    or 360°/0° (Vaidhriti).
  * 2. Search three days either side for true equal-declination instants:
  *    same side of equator for Vyatipata, opposite sides for Vaidhriti.
- * 3. Around the selected true pata, find the interval in which the apparent
- *    declination bands of the Sun and Moon disks overlap.
+ * 3. Apply Surya Siddhanta XI.14-15 to compute its half-duration and
+ *    beginning/end. Also calculate a nonlinear declination-band interval
+ *    as an explicitly separate modern comparator.
  *
  * This modern geocentric model is for comparison only. It is not the final
  * Karana-Kutuhala shara-khanda implementation.
@@ -15,6 +16,7 @@
 import { createRequire } from "node:module";
 import path from "node:path";
 import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
+import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
 
 const require = createRequire(import.meta.url);
 const astronomyEntry = require.resolve("astronomy-engine");
@@ -49,6 +51,12 @@ function circularDifference(value, target) {
 function angularDistance(value, target) {
   return Math.abs(circularDifference(value, target));
 }
+function dailyLongitudeMotion(timeMs, longitudeKey) {
+  const halfSpanMs = 30 * MINUTE_MS;
+  const before = positions(timeMs - halfSpanMs)[longitudeKey];
+  const after = positions(timeMs + halfSpanMs)[longitudeKey];
+  return circularDifference(after, before) / ((2 * halfSpanMs) / DAY_MS);
+}
 function positions(timeMs) {
   const cached = cache.get(timeMs);
   if (cached) return cached;
@@ -72,6 +80,8 @@ function positions(timeMs) {
   const declinationDifference = moonDeclination - sunDeclination;
   const declinationSum = moonDeclination + sunDeclination;
   const value = {
+    sunLongitude: vectorLongitude(sunEcliptic),
+    moonLongitude: vectorLongitude(moonEcliptic),
     sunDeclination,
     moonDeclination,
     declinationDifference,
@@ -144,6 +154,17 @@ for (const mean of meanPatas) {
 
   const chosen = trueRoots.slice().sort((a, b) => Math.abs(a - mean.time) - Math.abs(b - mean.time))[0];
   const sample = positions(chosen);
+  const sunMotionDegPerDay = dailyLongitudeMotion(chosen, "sunLongitude");
+  const moonMotionDegPerDay = dailyLongitudeMotion(chosen, "moonLongitude");
+  const sunDistance = vectorLength(GeoVector(Body.Sun, new Date(chosen), true));
+  const moonDistance = vectorLength(GeoVector(Body.Moon, new Date(chosen), true));
+  const suryaSiddhantaInterval = suryaSiddhantaWindow({
+    middleUtcMs: chosen,
+    sunSemidiameterDeg: Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI,
+    moonSemidiameterDeg: Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI,
+    sunMotionDegPerDay,
+    moonMotionDegPerDay
+  });
   const contactRoots = rootsFor(
     time => positions(time)[mean.clearanceKey],
     chosen - 3 * DAY_MS,
@@ -154,9 +175,11 @@ for (const mean of meanPatas) {
   const after = contactRoots.find(time => time > chosen);
   const overlapExists = sample[mean.clearanceKey] < 0 && before !== undefined && after !== undefined;
 
-  const displayYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
+  const comparatorYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
+  const displayYear = new Date(suryaSiddhantaInterval.startUtcMs + IST_OFFSET_MS).getUTCFullYear();
   const eventRecord = {
     year: displayYear,
+    declinationBandComparatorYear: comparatorYear,
     meanPataYear: mean.year,
     type: mean.type,
     meanPata: new Date(mean.time).toISOString(),
@@ -171,9 +194,22 @@ for (const mean of meanPatas) {
     moonDeclinationAtTruePata: Number(sample.moonDeclination.toFixed(8)),
     declinationResidualDegrees: Number(sample[mean.relationKey].toFixed(10)),
     semidiameterSumDegrees: Number(sample.semidiameterSum.toFixed(8)),
+    suryaSiddhantaXI: {
+      startTime: new Date(suryaSiddhantaInterval.startUtcMs).toISOString(),
+      endTime: new Date(suryaSiddhantaInterval.endUtcMs).toISOString(),
+      startTimeIST: toIST(suryaSiddhantaInterval.startUtcMs),
+      endTimeIST: toIST(suryaSiddhantaInterval.endUtcMs),
+      halfDurationNadi: Number(suryaSiddhantaInterval.halfDurationNadi.toFixed(8)),
+      sunMotionDegPerDay: Number(sunMotionDegPerDay.toFixed(8)),
+      moonMotionDegPerDay: Number(moonMotionDegPerDay.toFixed(8)),
+      relativeMotionDegPerDay: Number(suryaSiddhantaInterval.relativeMotionDegPerDay.toFixed(8)),
+      method: suryaSiddhantaInterval.method,
+      status: "research-only-not-approved"
+    },
     otherTrueCrossings: trueRoots.filter(time => time !== chosen).map(time => toIST(time)),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
-    model: "geocentric-apparent-declination-disk-band-overlap",
+    model: "suryasiddhanta-xi-middle-and-half-duration",
+    comparatorModel: "geocentric-apparent-declination-disk-band-overlap",
     note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
   };
   if (YEARS.includes(displayYear)) {
@@ -187,7 +223,7 @@ console.log(JSON.stringify({
   status: "research-only-not-approved",
   years: YEARS,
   engine: "astronomy-engine@2.1.19",
-  model: "mean tropical longitude-sum pata -> nearest true declination equality -> apparent disk overlap",
+  model: "Surya Siddhanta XI.1-15 numerical adaptation: mean-pata seed -> true declination-equality middle -> XI.14-15 motion-based half-duration; nonlinear declination-band overlap retained as comparator",
   searchDaysAroundMeanPata: 3,
   sampleStepHours: 1,
   meanPataCount: meanPatas.length,
