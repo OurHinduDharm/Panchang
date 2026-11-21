@@ -8070,8 +8070,7 @@ rituPlain +
       </b:section>
     </div>
 
-    <!-- Restore Blogger's native Rockpool theme interactions. -->
-    <b:template-script async='true' name='rockpool' version='1.0.0'/>
+    <!-- Native Blogger Rockpool theme interactions are restored at the end of body. -->
 
   
 <script>//<![CDATA[
@@ -8180,5 +8179,6 @@ document.addEventListener("DOMContentLoaded", function() {
 //]]>
 </script>
 
+  <b:template-script async='true' name='rockpool' version='1.0.0'/>
 </body>
 </html>
