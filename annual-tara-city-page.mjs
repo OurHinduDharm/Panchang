@@ -67,7 +67,7 @@ function reasonText(reason) {
   })[reason] || "इस घटना का एक निश्चित परिणाम नहीं निकला।";
 }
 
-async function show({events, unavailable = [], elevationApproximate, elevationSourceApproximate}, selectedYear, location, version) {
+async function show({events, unavailable = [], elevationSourceApproximate}, selectedYear, location, version) {
   const records = isProjectPithoragarh(location) ? await regionalRecords() : null;
   if (version !== selectionVersion) return;
   const agastya = records?.years?.find(item => item.year === selectedYear &&
@@ -109,11 +109,9 @@ async function show({events, unavailable = [], elevationApproximate, elevationSo
     fragment.append(card);
   }
   cards.replaceChildren(fragment);
-  const elevationNote = elevationApproximate
-    ? "ऊँचाई उपलब्ध नहीं थी; गणना समुद्र-तल (0 मीटर) मानकर अनुमानित की गई है।"
-    : elevationSourceApproximate
-      ? "स्थान की ऊँचाई भौगोलिक अनुमान पर आधारित है।"
-      : "स्थान की दर्ज ऊँचाई का उपयोग किया गया है।";
+  const elevationNote = elevationSourceApproximate
+    ? "शहर की उपलब्ध मानक ऊँचाई का उपयोग किया गया है।"
+    : "शहर की दर्ज ऊँचाई का उपयोग किया गया है।";
   status.textContent = "परिणाम खगोलीय मॉडल की गणना हैं; स्रोत-सत्यापन जहाँ उपलब्ध है, अलग है। " + elevationNote;
   cards.setAttribute("aria-busy", "false");
 }
