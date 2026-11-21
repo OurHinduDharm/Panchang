@@ -1060,6 +1060,8 @@ test("2030 Ashwin Padmanabha Dwadashi source observances use the evening tithi-e
   }
   const varaha = record.observanceDateReviews.find(x => x.observanceId === "padmanabha-varaha");
   assert.match(varaha.reviewBasis, /49\.1–4/);
+  assert.match(varaha.localDayDecision, /वराह पुराण अध्याय 49/);
+  assert.doesNotMatch(varaha.localDayDecision, /नारद पुराण/);
   const narada = record.observanceDateReviews.find(x => x.observanceId === "padmanabha-narada");
   assert.match(narada.reviewBasis, /17\.74–78/);
   assert.equal(record.shravanaLabelDecision.status, "rejected-as-local-yoga");
