@@ -115,14 +115,14 @@ test("2029 annual review snapshot agrees with the public Smarta Ram Navami card"
 test("2029 annual review snapshot agrees with approved public dates for key local observances", () => {
   const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
   const monthly = (month,title) => months[month-1].events.find(event=>event.title===title);
-  const reviewed = title => annual.catalog.find(event=>event.title===title);
+  const reviewed = (month,title) => annual.catalog.find(event=>event.title===title&&event.date.startsWith("2029-"+String(month).padStart(2,"0")+"-"));
   for(const [month,title,date,label] of [
     [6,"ज्येष्ठ पूर्णिमा","2029-06-25","25 जून"],
     [10,"मासिक स्कन्द षष्ठी","2029-10-13","13 अक्टूबर"],
     [10,"पापांकुशा एकादशी","2029-10-17","17 अक्टूबर"]
   ]){
     const publicEvent=monthly(month,title);
-    const reviewEvent=reviewed(title);
+    const reviewEvent=reviewed(month,title);
     assert.ok(publicEvent,"missing public event: "+title);
     assert.ok(reviewEvent,"missing annual review event: "+title);
     assert.equal(publicEvent.date,date);
