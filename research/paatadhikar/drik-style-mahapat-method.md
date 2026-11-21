@@ -1,6 +1,6 @@
 # दृक्-आधारित पाताधिकार गणना
 
-स्थिति: 2026–2030 के लिए शोध-उम्मीदवार; अभी सार्वजनिक पंचांग में नहीं।
+स्थिति: 2026–2030 के लिए शोध-उम्मीदवार; अभी सार्वजनिक पंचांग में नहीं। सक्रिय कार्य: https://github.com/OurHinduDharm/Panchang/issues/482 ; implementation PR #478।
 
 ## मुख्य निर्णय
 
@@ -22,12 +22,14 @@
 
 - जनवरी 2026 के नमूने में apparent-band candidate 13 जनवरी 00:16–06:30 IST है; समान मध्य के आसपास सूर्यसिद्धान्त XI.14–15 comparator 02:12–04:29 IST देता है। दोनों अलग fields में हैं।
 - 2026 के साझा Drik windows नमूनों में कुछ मिनट तक मिलते हैं; 2027–2028 के स्वतंत्र full-year संदर्भों से भी जांच हुई है।
-- 2026 में दो अतिरिक्त apparent-band windows (19 मार्च और 25 दिसम्बर) की source reconciliation बाकी है।
-- 2029 में एक Vaidhriti interval लगभग 19 दिसम्बर 02:40 से 21 दिसम्बर 07:46 IST तक फैलता है और इसमें दो true-declination crossings हैं; स्वतंत्र पुष्टि जरूरी है।
+- 2026 में 19 मार्च के apparent-band window की source reconciliation बाकी है। पुराने मॉडल का 25 दिसम्बर वाला window class-filter के बाद हट चुका है।
+- पुराने बिना class-filter वाले मॉडल का 19–21 दिसम्बर 2029 का लम्बा interval वर्तमान मॉडल में नहीं है। पुराने दस्तावेज़ का यह दावा हटाया गया है।
 - 2026–2030 में कुल 8 review items हैं: 4 में ±3 दिन के भीतर कोई equal-declination root नहीं मिला; 4 में roots थे पर सभी गलत ayana/gola वर्ग के थे। 2030 के पाँच review items में एक wrong-class roots वाला और चार no-root seeds हैं।
-- उपयोगकर्ता द्वारा दिए ताराप्रसाद रामनगर 2023–24 के 30 पूरे touch/release intervals के backtest में 30/30 का उसी event-class का candidate 24 घंटे के भीतर मिला। Median absolute आरम्भ-अंतर 6.8 मिनट और अन्त-अंतर 8.2 मिनट है।
+- उपयोगकर्ता द्वारा दिए ताराप्रसाद रामनगर 2023–24 के 30 पूरे touch/release intervals के backtest में 30/30 का उसी event-class का candidate 24 घंटे के भीतर मिला। Median absolute आरम्भ-अंतर 6.77 मिनट और अन्त-अंतर 7.66 मिनट (सम संख्या में बीच के दोनों मानों का औसत) है।
 - 21 जून 2023 उदाहरण में निकटतम समान-क्रान्ति root 16 जून था, पर उसका eventClass `null` (अयन-शर्त असफल) है। Class filter के बाद 21 जून 13:25 IST candidate चुना गया; Tara Prasad आरम्भ 13:29 IST देता है। यही संदर्भ बताता है कि केवल nearest declination root चुनना गलत था।
-- यह मजबूत backtest है, सर्वव्यापी प्रमाण नहीं। 2026 के अतिरिक्त windows, 2029 का लम्बा interval और 2030 review items अभी जाँचने हैं।
+- 30 पूरे records में केवल 21 के दोनों endpoints 10 मिनट के भीतर और 27 के 30 मिनट के भीतर हैं। सबसे बड़ा पूरा-record अन्तर 61.65 मिनट है। एक अधूरे record (22 मार्च 2023, केवल मोक्ष उपलब्ध) का मोक्ष-अन्तर −203.88 मिनट है; इसे पहले backtest में छोड़ दिया गया था। यह reference/model discrepancy है, किसी स्रोत की गलती सिद्ध नहीं।
+- `--audit` पूरे वर्ष में longitude seeds से स्वतंत्र equality-root search करता है। 2026–2030 में 60 और 30 मिनट sampling दोनों पर 135 class-correct roots मिले; सभी primary output में हैं, कोई duplicate या 24 घंटे से बड़ा interval नहीं। यह sampled numerical completeness है, बाहरी पंचांग का प्रमाण या unsampled tangency की गारंटी नहीं।
+- प्रत्येक source row का signed delta, partial/missing/ambiguous status और बड़े अन्तर `research/paatadhikar/taraprasad-reference-audit.md` में हैं। गणना: `node scripts/audit-mahapat-references.mjs`।
 
 इसलिए सभी परिणाम `research-only` हैं। Public UI से जोड़ने से पहले अतिरिक्त वर्षों, अतिरिक्त Drik/Tara Prasad नमूनों और 2029/2030 edge cases की जांच चाहिए। कोई missing root अनुमान से नहीं बनाया जाएगा।
 
@@ -38,4 +40,6 @@ npm install --no-save astronomy-engine@2.1.19
 node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapata-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs
 node scripts/compare-mahapat-ephemeris.mjs
 node scripts/compare-mahapat-ephemeris.mjs --years=2023,2024
+node scripts/compare-mahapat-ephemeris.mjs --audit --audit-step-minutes=30
+node scripts/audit-mahapat-references.mjs
 ```
