@@ -46,20 +46,21 @@ test("2028-03-24 Vaidhriti overlap agrees with the independent full-year table",
   near(item.endTimeIST, "2028-03-24T21:58:00+05:30", 2);
 });
 
-test("Surya Siddhanta XI.14-15 interval is stored separately from nonlinear disk overlap", () => {
+test("Drik-style apparent contact interval remains primary; Surya Siddhanta is separate", () => {
   const item = event("व्यतीपात महापात", "2026-01-13");
-  assert.equal(item.suryaSiddhantaXI.method,
+  assert.equal(item.model, "drik-style-geocentric-apparent-declination-band-overlap");
+  assert.equal(item.suryaSiddhantaComparison.method,
     "surya-siddhanta-xi-14-15-numerical-adaptation");
-  near(item.suryaSiddhantaXI.startTimeIST, "2026-01-13T02:11:45+05:30", 1);
-  near(item.suryaSiddhantaXI.endTimeIST, "2026-01-13T04:29:13+05:30", 1);
-  assert.notEqual(item.suryaSiddhantaXI.startTimeIST, item.startTimeIST);
-  assert.equal(item.suryaSiddhantaXI.status, "research-only-not-approved");
+  near(item.suryaSiddhantaComparison.startTimeIST, "2026-01-13T02:11:45+05:30", 1);
+  near(item.suryaSiddhantaComparison.endTimeIST, "2026-01-13T04:29:13+05:30", 1);
+  assert.notEqual(item.suryaSiddhantaComparison.startTimeIST, item.startTimeIST);
+  assert.equal(item.suryaSiddhantaComparison.status, "research-only-not-approved");
 });
 
-test("annual grouping follows the Surya Siddhanta interval start across year boundaries", () => {
-  assert.ok(data.events.every(item =>
-    item.year === Number(item.suryaSiddhantaXI.startTimeIST.slice(0, 4))
-  ));
+test("annual grouping follows the Drik-style apparent-contact start", () => {
+  assert.ok(data.events.every(item => item.year === Number(item.startTimeIST.slice(0, 4))));
+  const crossYear = data.events.find(item => item.suryaSiddhantaComparisonYear !== item.year);
+  assert.ok(crossYear, "fixture includes different years for the primary and comparison methods");
 });
 
 test("2030 mean patas without a true crossing remain review items, never public events", () => {
