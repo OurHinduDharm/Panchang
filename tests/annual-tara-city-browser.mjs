@@ -95,7 +95,7 @@ try {
   await page.reload();
   await arghya.waitFor();
   assert.equal(await arghya.innerText(), recorded);
-  const setUrl = new URL(await arghya.getByRole("link", {name: /अगस्त्य अस्त/}).getAttribute("href"));
+  const setUrl = new URL(await arghya.getByRole("link", {name: "पारंपरिक अगस्त्य अस्त का पंचांग देखें", exact: true}).getAttribute("href"));
   assert.deepEqual(["date", "lat", "lon", "elevation"].map(key => setUrl.searchParams.get(key)),
     ["2026-04-15", "29.5828", "80.2182", "1650"]);
 
