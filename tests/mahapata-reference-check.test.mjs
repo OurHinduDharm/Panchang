@@ -1,9 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 
-const path = "data/reviews/mahapata-geocentric-comparison-2026-2030.json";
-const data = JSON.parse(fs.readFileSync(path, "utf8"));
+const data = JSON.parse(await readFile(
+  new URL("../data/reviews/mahapata-fixtures-2026-2030.json", import.meta.url),
+  "utf8"
+));
 
 function event(type, datePrefix) {
   const found = data.events.find(item =>
@@ -42,6 +44,22 @@ test("2028-03-24 Vaidhriti overlap agrees with the independent full-year table",
   const item = event("वैधृति महापात", "2028-03-24");
   near(item.startTimeIST, "2028-03-24T17:37:00+05:30", 2);
   near(item.endTimeIST, "2028-03-24T21:58:00+05:30", 2);
+});
+
+test("Surya Siddhanta XI.14-15 interval is stored separately from nonlinear disk overlap", () => {
+  const item = event("व्यतीपात महापात", "2026-01-13");
+  assert.equal(item.suryaSiddhantaXI.method,
+    "surya-siddhanta-xi-14-15-numerical-adaptation");
+  near(item.suryaSiddhantaXI.startTimeIST, "2026-01-13T02:11:45+05:30", 1);
+  near(item.suryaSiddhantaXI.endTimeIST, "2026-01-13T04:29:13+05:30", 1);
+  assert.notEqual(item.suryaSiddhantaXI.startTimeIST, item.startTimeIST);
+  assert.equal(item.suryaSiddhantaXI.status, "research-only-not-approved");
+});
+
+test("annual grouping follows the Surya Siddhanta interval start across year boundaries", () => {
+  assert.ok(data.events.every(item =>
+    item.year === Number(item.suryaSiddhantaXI.startTimeIST.slice(0, 4))
+  ));
 });
 
 test("2030 mean patas without a true crossing remain review items, never public events", () => {
