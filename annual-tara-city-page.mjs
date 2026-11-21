@@ -54,13 +54,20 @@ function eventLink(card, label, date, location) {
     link.href = buildPanchangEventUrl(dailyPage, date, location);
     if (embedded) link.target = "_top";
   } catch {
-    // Keep the annual result; omit only a daily link whose observer is invalid.
-    // Do not expose internal elevation-validation details in the public UI.
     link.remove();
   }
 }
 
-async function show({events, unavailable}, selectedYear, location, version) {
+function reasonText(reason) {
+  return ({
+    "no-fitted-profile": "इस घटना के लिए अभी उपयुक्त गणना-प्रोफाइल उपलब्ध नहीं है।",
+    "no-consecutive-horizon-samples": "इस स्थान पर आवश्यक क्षितिज-नमूने नहीं मिल पाए।",
+    "multiple-seasonal-crossings": "एक से अधिक संभावित सीमाएँ मिलीं; एक तारीख चुनना उचित नहीं होगा।",
+    "no-seasonal-threshold-crossing": "इस वर्ष मॉडल की दृश्यता-सीमा पार नहीं हुई।"
+  })[reason] || "इस घटना का एक निश्चित परिणाम नहीं निकला।";
+}
+
+async function show({events, unavailable = [], elevationApproximate}, selectedYear, location, version) {
   const records = isProjectPithoragarh(location) ? await regionalRecords() : null;
   if (version !== selectionVersion) return;
   const agastya = records?.years?.find(item => item.year === selectedYear &&
@@ -70,39 +77,44 @@ async function show({events, unavailable}, selectedYear, location, version) {
     const card = document.createElement("section");
     card.className = "planet";
     addText(card, "h2", name);
+    const bodyEvents = events.filter(e => e.body === body);
+    for (const event of bodyEvents) {
+      const label = event.event === "Udaya" ? "उदय" : "अस्त";
+      const instant = new Date(Math.round(event.utcMilliseconds / 60000) * 60000);
+      const row = document.createElement("div");
+      row.className = "event";
+      addText(row, "p", label + " — " + dateTime.format(instant) + " · " + formatClock(clock.format(instant)));
+      eventLink(row, name + " " + label, panchangIsoDate(instant), location);
+      card.append(row);
+    }
+    if (!bodyEvents.length) {
+      const issue = body === "Star1" ? unavailable.filter(item => item.event === "Udaya" || item.event === "Asta") : [];
+      if (issue.length) {
+        for (const item of issue) addText(card, "p", (item.event === "Udaya" ? "उदय" : "अस्त") + " — " + reasonText(item.reason));
+      } else {
+        addText(card, "p", "इस वर्ष इस गणना-मॉडल से कोई घटना नहीं निकली।");
+      }
+    }
     if (body === "Star1" && agastya) {
-      addText(card, "strong", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
+      addText(card, "h3", "पिथौरागढ़ का पारंपरिक अगस्त्य अर्घ्य संदर्भ");
+      addText(card, "strong", "अर्घ्य तिथि — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
       addText(card, "p", "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd));
       addText(card, "p", "अवधि — " + agastya.duration);
-      addText(card, "p", "अगस्त्य तारा उदय — " + formatClock(agastya.taraRise));
-      eventLink(card, "अगस्त्य उदय", agastya.arghyaDate, location);
-      addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
-      eventLink(card, "अगस्त्य अस्त", agastya.taraSetDate, location);
-    } else {
-      for (const event of events.filter(e => e.body === body)) {
-        const label = event.event === "Udaya" ? "उदय" : "अस्त";
-        const instant = new Date(Math.round(event.utcMilliseconds / 60000) * 60000);
-        const row = document.createElement("div");
-        row.className = "event";
-        addText(row, "p", label + " — " + dateTime.format(instant) + " · " + formatClock(clock.format(instant)));
-        eventLink(row, name + " " + label, panchangIsoDate(instant), location);
-        card.append(row);
-      }
-      if (body === "Star1") {
-        for (const event of unavailable) addText(card, "p", (event === "Udaya" ? "उदय" : "अस्त") + " — गणना अनुपलब्ध");
-      }
-      if (card.childElementCount === 1) addText(card, "p", "चुने वर्ष में कोई घटना उपलब्ध नहीं है।");
+      addText(card, "p", "पारंपरिक तारा उदय — " + formatClock(agastya.taraRise));
+      addText(card, "p", "पारंपरिक तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
+      addText(card, "p", "यह पारंपरिक अर्घ्य-संदर्भ है; ऊपर दी गई स्थानीय खगोलीय गणना से अलग रखा गया है।");
     }
     fragment.append(card);
   }
   cards.replaceChildren(fragment);
-  status.textContent = "";
+  status.textContent = elevationApproximate
+    ? "ऊँचाई उपलब्ध नहीं थी; गणना समुद्र-तल (0 मीटर) मानकर अनुमानित की गई है।"
+    : "गणना चुने हुए स्थान की दर्ज ऊँचाई के आधार पर की गई है।";
   cards.setAttribute("aria-busy", "false");
 }
 
 function calculateSelection(sync = true) {
   const location = chosenPlace || locations[city.value];
-  // A year change during URL restoration applies to the city once it resolves.
   if (!location) return;
   const version = ++selectionVersion;
   worker?.terminate();
@@ -121,23 +133,19 @@ function calculateSelection(sync = true) {
     url.searchParams.set("year", selectedYear);
     history.replaceState(null, "", url);
   }
-  function failed() {
+  function failed(message) {
     if (version !== selectionVersion) return;
     worker?.terminate();
     worker = undefined;
-    status.textContent = "गणना लोड नहीं हो पाई।";
+    status.textContent = message || "गणना लोड नहीं हो पाई।";
     cards.setAttribute("aria-busy", "false");
     retry.hidden = false;
   }
-  // A numeric fallback must not make an explicitly unknown observer appear valid.
-  if (!Number.isFinite(location.elevation) || location.elevationStatus === "unknown") {
-    status.textContent = "चुने हुए स्थान के लिए गणना उपलब्ध नहीं है।";
-    cards.setAttribute("aria-busy", "false");
-    retry.hidden = true;
-    return;
-  }
   const key = taraObserverKey(location) + "/" + selectedYear;
-  const render = data => show(data, selectedYear, location, version).catch(failed);
+  const render = data => {
+    if (data.error) return failed("गणना पूरी नहीं हो सकी: " + data.error);
+    show(data, selectedYear, location, version).catch(() => failed("गणना परिणाम दिखाने में समस्या आई।"));
+  };
   if (cache.has(key)) return render(cache.get(key));
   try {
     worker = new Worker(new URL("./annual-tara-city-worker.mjs", import.meta.url), {type: "module"});
@@ -149,7 +157,7 @@ function calculateSelection(sync = true) {
       cache.set(key, data);
       render(data);
     };
-    worker.onerror = failed;
+    worker.onerror = () => failed();
     worker.postMessage({location, year: selectedYear});
   } catch { failed(); }
 }
