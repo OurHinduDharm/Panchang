@@ -77,6 +77,42 @@ test("monthly widget enriches separate Dwadashi cards without merging distinct o
   assert.deepEqual(padmanabha.dwadashiAliases,["कृष्ण-पद्मनाभ द्वादशी"]);
 });
 
+test("2030 public Dwadashi package contains only individually approved observances plus approved Chaturmas", async () => {
+  const annual = JSON.parse(await read("data/dwadashi/2030.json"));
+  assert.equal(annual.year,2030);
+  assert.equal(annual.status,"approved");
+  assert.equal(annual.location.name,"पिथौरागढ़");
+  assert.equal(annual.location.latitude,29.58);
+  assert.equal(annual.location.longitude,80.22);
+  assert.equal(annual.tithiDates.length,28);
+  assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
+  assert.equal(annual.chaturmas.status,"approved");
+  assert.equal(annual.chaturmas.phases.length,4);
+  assert.equal(annual.tithis.length,8);
+  const reviews=annual.tithis.flatMap(record=>record.observanceDateReviews||[]);
+  assert.equal(reviews.length,13);
+  assert.ok(annual.tithis.every(record=>record.status==="needs-review"),"partial package must not approve parent tithi records");
+  for(const record of annual.tithis){
+    const ids=new Set([...(record.observances||[]),...(record.conditionalObservances||[])].map(item=>item.id));
+    for(const review of record.observanceDateReviews||[]){
+      assert.equal(review.reviewStatus,"approved");
+      assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
+      assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
+    }
+  }
+  const findReview=id=>reviews.find(item=>item.observanceId===id);
+  assert.equal(findReview("madhava").selectedDate,"2030-05-14");
+  assert.equal(findReview("parashurama").selectedDate,"2030-05-14");
+  assert.equal(findReview("vamana").selectedDate,"2030-09-08");
+  assert.equal(findReview("damodara").selectedDate,"2030-09-08");
+  assert.equal(findReview("niranjana").selectedDate,"2030-09-08");
+  assert.equal(findReview("kalki").selectedDate,"2030-09-08");
+  assert.equal(findReview("govatsa").selectedDate,"2030-10-23");
+  assert.equal(findReview("krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
+  assert.equal(Object.hasOwn(annual,"sourceReview"),false,"research-only source review metadata must stay private");
+  assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
+});
+
 test("annual review package opens only when at least one real publishable record is approved", async () => {
   const html = await read("festival-year-review.html");
   const start = html.indexOf("function syncDwadashiPackageStatus(){");
