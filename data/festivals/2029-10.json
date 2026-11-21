@@ -157,16 +157,6 @@
       "articleLabel": "माँ कूष्माण्डा"
     },
     {
-      "date": "2029-10-13",
-      "dateLabel": "13 अक्टूबर",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी"
-    },
-    {
       "date": "2029-10-12",
       "dateLabel": "12 अक्टूबर",
       "title": "शारदीय नवरात्र पंचमी — माँ स्कन्दमाता",
@@ -177,6 +167,16 @@
       "hinduTithi": "आश्विन शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
       "articleLabel": "माँ स्कन्दमाता"
+    },
+    {
+      "date": "2029-10-13",
+      "dateLabel": "13 अक्टूबर",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल षष्ठी"
     },
     {
       "date": "2029-10-13",
