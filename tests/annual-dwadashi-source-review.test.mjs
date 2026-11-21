@@ -980,3 +980,34 @@ test("2030 Rama Lakshmana Dwadashi worship date and following-morning donation m
   assert.equal(card.sourceName, "वराह पुराण, अध्याय 45, श्लोक 1–5");
   assert.equal(card.sourceUrl, undefined);
 });
+
+
+test("2030 Bhadrapada Shukla Dwadashi approves four observance dates without approving the parent tithi or mislabeling Vamana Jayanti", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"));
+  const record = review.tithis.find(x => x.id === "bhadrapada-shukla");
+  assert.equal(record.selectedDate, null);
+  assert.equal(record.status, "needs-review");
+  for (const id of ["vamana", "damodara", "niranjana", "kalki"]) {
+    const item = record.observanceDateReviews.find(x => x.observanceId === id);
+    assert.equal(item.selectedDate, "2030-09-08");
+    assert.equal(item.reviewStatus, "approved");
+    assert.equal(item.autoApproved, false);
+    assert.ok(item.reviewBasis.length > 80);
+    assert.match(item.localDayDecision, /8 सितंबर/);
+  }
+  const vamana = record.observanceDateReviews.find(x => x.observanceId === "vamana");
+  assert.match(vamana.reviewBasis, /जयंती नहीं/);
+  assert.match(vamana.jayantiRuleConflict.result, /मध्याह्न के बाद/);
+  const september = JSON.parse(await readFile(resolve(root, "data/festivals/2030-09.json"), "utf8"));
+  for (const title of ["वामन-द्वादशी व्रत", "कल्कि द्वादशी", "दामोदर-द्वादशी व्रत", "नीराजन-व्रत"]) {
+    const card = september.events.find(x => x.date === "2030-09-08" && x.title === title);
+    assert.ok(card, "missing card: " + title);
+    assert.equal(card.sourceUrl, undefined);
+  }
+  const vamanaCard = september.events.find(x => x.date === "2030-09-08" && x.title === "वामन-द्वादशी व्रत");
+  assert.equal(vamanaCard.category, "व्रत");
+});
