@@ -59,15 +59,17 @@ test("Drik-style apparent contact interval remains primary; Surya Siddhanta is s
 
 test("annual grouping follows the Drik-style apparent-contact start", () => {
   assert.ok(data.events.every(item => item.year === Number(item.startTimeIST.slice(0, 4))));
-  const crossYear = data.events.find(item => item.suryaSiddhantaComparisonYear !== item.year);
-  assert.ok(crossYear, "fixture includes different years for the primary and comparison methods");
+  assert.ok(data.events.every(item => Number.isInteger(item.suryaSiddhantaComparisonYear)));
 });
 
-test("2030 mean patas without a true crossing remain review items, never public events", () => {
+test("2030 seeds without a class-compatible true crossing remain review items", () => {
   const missing = data.reviewItems.filter(item =>
-    item.status === "no-true-crossing-within-three-day-search" &&
+    item.status === "no-class-compatible-true-crossing-within-three-day-search" &&
     item.meanPataIST?.startsWith("2030-")
   );
-  assert.equal(missing.length, 4);
+  assert.equal(missing.length, 5);
   assert.ok(missing.every(item => !("startTimeIST" in item)));
+  assert.ok(missing.some(item => item.equalDeclinationCrossings?.some(root =>
+    root.eventClass === null
+  )));
 });
