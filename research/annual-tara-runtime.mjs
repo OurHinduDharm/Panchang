@@ -22,9 +22,14 @@ function isNightCrossing(event) {
 }
 
 // The scan receives fitted profiles and a location. There is no target-date input.
-export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
+// Unknown elevation is explicitly approximated at sea level for a usable live
+// forecast; the returned flag must remain visible to the user.
+export function calculateAnnualTara(engine, selectedLocation, year, profiles, options = {}) {
   const {Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon} = engine;
-  const context = createTaraContextFromPanchangLocation(selectedLocation, Observer, year);
+  const context = createTaraContextFromPanchangLocation(
+    selectedLocation, Observer, year,
+    {allowSeaLevelApproximation: options.allowSeaLevelApproximation === true}
+  );
   const observer = context.astronomyObserver;
   const startLocalDayUtc = Date.parse(`${year}-01-01T00:00:00+05:30`);
   const endLocalDayUtc = Date.parse(`${year + 1}-01-01T00:00:00+05:30`);
@@ -43,8 +48,8 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
       if (!Object.keys(astaProfiles).length && !Object.keys(udayaProfiles).length) continue;
       const scan = scanDrikSolarAltitudeTransitions({
         SearchRiseSet, SearchAltitude, Equator, Horizon, body, observer, branch,
-        // The preceding sample lets a crossing on January 1 belong to this year.
-        startLocalDayUtc: startLocalDayUtc - DAY_MS, days: (endLocalDayUtc - startLocalDayUtc) / DAY_MS + 1,
+        startLocalDayUtc: startLocalDayUtc - DAY_MS,
+        days: (endLocalDayUtc - startLocalDayUtc) / DAY_MS + 1,
         astaSunAltitudeDeg: astaProfiles,
         udayaSunAltitudeDeg: udayaProfiles,
         motionStateAt: (targetBody, instantUtcMs) =>
@@ -67,8 +72,6 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
     let scan = scanDrikStarAzimuthTransitions(starOptions);
     let nightEvents = scan.events.filter(isNightCrossing);
     let model = "azimuth-linear";
-    // The Almora azimuth fit can extrapolate to daylight at other latitudes.
-    // With no night crossing, try the measured median for this event and branch.
     if (!nightEvents.length && profile.medianSunAltitudeDeg < 0 &&
         Number.isFinite(profile.medianSunAltitudeDeg)) {
       scan = scanDrikStarAzimuthTransitions({
@@ -94,5 +97,8 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
     } else if (count > 1) reason = "multiple-seasonal-crossings";
     canopusIssues.push({ event, branch, count, reason });
   }
-  return { observer: context.observer, year, events, starScans, canopusIssues };
+  return {
+    observer: context.observer, elevationApproximate: context.elevationApproximate,
+    year, events, starScans, canopusIssues
+  };
 }
