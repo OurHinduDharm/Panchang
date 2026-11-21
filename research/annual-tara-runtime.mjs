@@ -21,14 +21,12 @@ function isNightCrossing(event) {
   return event.thresholdSunAltitudeDeg + event.afterResidualDeg < 0;
 }
 
-// The scan receives fitted profiles and a location. There is no target-date input.
-// Unknown elevation is explicitly approximated at sea level for a usable live
-// forecast; the returned flag must remain visible to the user.
-export function calculateAnnualTara(engine, selectedLocation, year, profiles, options = {}) {
+// The scan receives fitted profiles and the selected city's fixed observer profile.
+// There is no target-date input or elevation fallback.
+export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
   const {Observer, SearchRiseSet, SearchAltitude, DefineStar, Equator, Horizon} = engine;
   const context = createTaraContextFromPanchangLocation(
-    selectedLocation, Observer, year,
-    {allowSeaLevelApproximation: options.allowSeaLevelApproximation === true}
+    selectedLocation, Observer, year
   );
   const observer = context.astronomyObserver;
   const startLocalDayUtc = Date.parse(`${year}-01-01T00:00:00+05:30`);
@@ -98,7 +96,7 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles, op
     canopusIssues.push({ event, branch, count, reason });
   }
   return {
-    observer: context.observer, elevationApproximate: context.elevationApproximate,
+    observer: context.observer,
     elevationSourceApproximate: context.elevationSourceApproximate,
     year, events, starScans, canopusIssues
   };
