@@ -923,7 +923,7 @@ test("2030 Varaha Dwadashi follows the Varaha Purana Ekadashi-to-dawn sequence w
   assert.match(card.description, /एकादशी-दिन संकल्प/);
   assert.match(card.description, /15 फरवरी सूर्योदय/);
   assert.equal(card.sourceName, "वराह पुराण, अध्याय 41, श्लोक 1–13");
-  assert.equal(card.sourceUrl, "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030");
+  assert.equal(card.sourceUrl, undefined);
 });
 
 
@@ -1093,5 +1093,5 @@ test("2030 Kartika Krishna Govatsa Dwadashi selects the first Pradosha-vyapini d
   const card = october.events.find(x => x.date === "2030-10-23" && x.title === "गोवत्स द्वादशी");
   assert.ok(card);
   assert.equal(card.muhurtaRule, "govatsa-dwadashi-pradosh-kala");
-  assert.equal(card.sourceUrl, undefined);
+  assert.equal(card.sourceUrl, "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030");
 });
