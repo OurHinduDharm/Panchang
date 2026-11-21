@@ -116,8 +116,16 @@ test("2029 annual review snapshot agrees with approved public dates for key loca
   const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
   const monthly = (month,title) => months[month-1].events.find(event=>event.title===title);
   const reviewed = (month,title) => annual.catalog.find(event=>event.title===title&&event.date.startsWith("2029-"+String(month).padStart(2,"0")+"-"));
+  const vatPurnima=months[5].events.find(event=>event.title==="वट पूर्णिमा व्रत");
+  assert.ok(vatPurnima);
+  assert.equal(vatPurnima.date,"2029-06-25","Vat Purnima keeps its special previous-day decision");
+  const juneReview=JSON.parse(readFileSync(join(process.cwd(),"data","ohd-annual-panchang-review-2029.json"),"utf8"));
+  const junePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-25");
+  const nextJunePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-26");
+  assert.equal(junePurnima.sunriseTithi,"चतुर्दशी");
+  assert.equal(nextJunePurnima.sunriseTithi,"पूर्णिमा");
   for(const [month,title,date,label] of [
-    [6,"ज्येष्ठ पूर्णिमा","2029-06-25","25 जून"],
+    [6,"ज्येष्ठ पूर्णिमा","2029-06-26","26 जून"],
     [10,"मासिक स्कन्द षष्ठी","2029-10-13","13 अक्टूबर"],
     [10,"पापांकुशा एकादशी","2029-10-17","17 अक्टूबर"]
   ]){
