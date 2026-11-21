@@ -923,7 +923,7 @@ test("2030 Varaha Dwadashi follows the Varaha Purana Ekadashi-to-dawn sequence w
   assert.match(card.description, /एकादशी-दिन संकल्प/);
   assert.match(card.description, /15 फरवरी सूर्योदय/);
   assert.equal(card.sourceName, "वराह पुराण, अध्याय 41, श्लोक 1–13");
-  assert.equal(card.sourceUrl, undefined);
+  assert.equal(card.sourceUrl, "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030");
 });
 
 
