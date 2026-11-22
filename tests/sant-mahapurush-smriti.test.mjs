@@ -36,7 +36,14 @@ test("Sant-Mahapurush remembrance cards exist independently for 2026–2030", ()
     assert.equal(event.date, date, title + " date mismatch in " + month);
     assert.equal(event.category, "संत-महापुरुष स्मृति");
     assert.ok((event.description || "").length >= 80, title + " needs descriptive copy");
-    assert.doesNotMatch(event.description, /अन्नदान|दान करें|दान करें।/);
+    if (title === "बाबा नीब करौरी जयंती") {
+      assert.match(event.description, /महाराज का श्रद्धापूर्वक स्मरण/);
+      assert.match(event.description, /श्रीराम और श्रीहनुमान जी के भजन/);
+      assert.match(event.description, /‘श्रीराम’ नाम का जप/);
+      assert.match(event.description, /श्रीराम और श्रीहनुमान जी के नाम पर अन्नदान/);
+    } else {
+      assert.doesNotMatch(event.description, /अन्नदान|दान करें|दान करें।/);
+    }
   }
 });
 
