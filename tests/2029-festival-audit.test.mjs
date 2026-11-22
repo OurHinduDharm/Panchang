@@ -211,9 +211,11 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-10-30", /^राधाकुण्ड स्नान$/));
   assert.ok(has("2029-11-16", /देवोत्थानी एकादशी \(स्मार्त\)/));
   assert.ok(has("2029-12-02", /कृष्ण योगेश्वर द्वादशी/));
-  assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती एवं सूरदास जयंती/));
+  assert.ok(has("2029-05-18", /^आदि शंकराचार्य जयंती$/));
+  assert.ok(has("2029-05-18", /^सूरदास जयंती$/));
   assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
-  assert.ok(has("2029-10-22", /वाल्मीकि जयंती एवं मीराबाई जयंती/));
+  assert.ok(has("2029-10-22", /^वाल्मीकि जयंती$/));
+  assert.ok(has("2029-10-22", /^मीराबाई जयंती$/));
   assert.ok(has("2029-12-13", /बाबा नीब करौरी जयंती/));
   assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
@@ -312,12 +314,12 @@ test("2029 Pithoragarh Sharad Navratri combines Katyayani and Kalaratri on the S
 });
 
 
-test("2029 monthly catalog inventory remains 312 event cards with 30 November entries", () => {
+test("2029 monthly catalog inventory remains 318 event cards with 31 November entries", () => {
   let total = 0;
   for (let month = 1; month <= 12; month++) {
     const monthEvents = JSON.parse(readFileSync(join(folder, "2029-" + String(month).padStart(2, "0") + ".json"), "utf8")).events;
     total += monthEvents.length;
-    if (month === 11) assert.equal(monthEvents.length, 30);
+    if (month === 11) assert.equal(monthEvents.length, 31);
   }
-  assert.equal(total, 312);
+  assert.equal(total, 318);
 });
