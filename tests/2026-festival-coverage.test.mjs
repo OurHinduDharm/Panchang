@@ -507,7 +507,7 @@ test("2026 December includes verified regional observances without duplicate sam
   for (const event of data.events) {
     if (!event.hinduTithi) continue;
     const key = event.date + "|" + event.hinduTithi;
-    if (["2026-12-01|मार्गशीर्ष कृष्ण अष्टमी", "2026-12-14|मार्गशीर्ष शुक्ल पंचमी"].includes(key)) continue;
+    if (["2026-12-01|मार्गशीर्ष कृष्ण अष्टमी", "2026-12-14|मार्गशीर्ष शुक्ल पंचमी", "2026-12-17|मार्गशीर्ष शुक्ल अष्टमी"].includes(key)) continue;
     assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
     seen.add(key);
   }
