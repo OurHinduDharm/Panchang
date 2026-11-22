@@ -61,6 +61,7 @@ test("2030 catalog keeps distinct same-date observances on separate cards", () =
     ["2030-10-19|कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["अहोई अष्टमी", "राधाकुण्ड स्नान", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-11-18|मार्गशीर्ष कृष्ण अष्टमी", new Set(["कालभैरव जयंती", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-12-02|मार्गशीर्ष शुक्ल अष्टमी", new Set(["मासिक दुर्गाष्टमी", "बाबा नीब करौरी जयंती"])],
+    ["2030-05-08|वैशाख शुक्ल पंचमी / षष्ठी", new Set(["आदि शंकराचार्य जयंती", "सूरदास जयंती", "मासिक स्कन्द षष्ठी"])],
     
     ["2030-12-17|पौष कृष्ण सप्तमी (अष्टमी व्याप्ति)", new Set(["मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
     ["2030-02-24|फाल्गुन कृष्ण सप्तमी / अष्टमी", new Set(["भानु सप्तमी", "शबरी जयंती", "मासिक कालाष्टमी", "मासिक कृष्ण जन्माष्टमी"])],
@@ -453,6 +454,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-09", /^त्रिपुरभैरवी महाविद्या जयंती$/));
   assert.ok(at(dec, "2030-12-09", /^अन्नपूर्णा जयंती$/));
   assert.ok(at(dec, "2030-12-09", /^त्रिपुरभैरवी महाविद्या जयंती$/));
+  assert.ok(at(dec, "2030-12-09", /^त्रिपुरभैरवी महाविद्या जयंती$/));
   assert.equal(at(dec, "2030-12-17", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
   assert.equal(at(dec, "2030-12-17", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
@@ -467,7 +469,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
     assert.equal(event.sourceName, undefined);
     assert.equal(event.sourceUrl, undefined);
   }
-  assert.equal(events.length, 342);
+  assert.equal(events.length, 343);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
