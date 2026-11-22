@@ -70,7 +70,8 @@ test("2030 catalog keeps distinct same-date observances on separate cards", () =
     ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])],
     ["2030-05-14|वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])],
     ["2030-03-01|फाल्गुन कृष्ण द्वादशी", new Set(["कृष्ण भीष्म द्वादशी"])],
-    ["2030-03-01|फाल्गुन कृष्ण त्रयोदशी", new Set(["शुक्र प्रदोष व्रत"])]
+    ["2030-03-01|फाल्गुन कृष्ण त्रयोदशी", new Set(["शुक्र प्रदोष व्रत"])],
+    ["2030-03-02|फाल्गुन कृष्ण चतुर्दशी", new Set(["महाशिवरात्रि / मासिक शिवरात्रि", "साधक बामाखेपा आविर्भाव तिथि"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -397,7 +398,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 32);
-  assert.equal(months[2].events.length, 30);
+  assert.equal(months[2].events.length, 31);
   assert.equal(months[8].events.length, 34);
   assert.equal(oct.length, 44);
   assert.equal(nov.length, 27);
