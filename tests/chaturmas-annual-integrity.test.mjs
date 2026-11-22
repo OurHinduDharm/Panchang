@@ -81,6 +81,8 @@ test("10-day widget gives precedence to Smarta Devutthana Ekadashi over Gauna/Va
   assert.ok(widget.includes("/देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i"),
     "the actual approved Smarta title must be recognized when locating the Chaturmas end date");
   assert.ok(widget.includes("cardVisibleThroughDate"));
+  assert.ok(widget.includes("if (todayKey < startKey) return null;"),
+    "next year's card must remain hidden until its own Harishayani start date");
   assert.ok(widget.includes("chaturmasConfig.completionTithi"));
   assert.ok(widget.includes("व्रत-समापन · "));
 });
