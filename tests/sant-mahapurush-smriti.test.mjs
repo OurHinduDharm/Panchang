@@ -86,7 +86,7 @@ test("Datia Swami Ji Maharaj has one official Gregorian Mahaparinirvan remembran
     assert.ok(event, String(year) + " is missing Datia Swamiji remembrance");
     assert.equal(event.date, String(year) + "-06-03");
     assert.equal(event.category, "संत-महापुरुष स्मृति");
-    assert.match(event.sourceUrl || "", /pitambarapeethdatia\\.in/);
+    assert.match(event.sourceUrl || "", /pitambarapeethdatia\.in/);
     assert.doesNotMatch(event.hinduTithi || "", /कृष्ण|शुक्ल/);
   }
 });
