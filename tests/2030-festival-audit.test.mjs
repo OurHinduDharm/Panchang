@@ -70,7 +70,10 @@ test("2030 catalog keeps distinct same-date observances on separate cards", () =
     ["2030-10-23|कार्तिक कृष्ण द्वादशी", new Set(["गोवत्स द्वादशी", "कृष्ण पद्मनाभ द्वादशी"])],
     ["2030-05-14|वैशाख शुक्ल द्वादशी (त्रिस्पर्शा)", new Set(["माधव-द्वादशी व्रत", "परशुराम-द्वादशी"])],
     ["2030-03-01|फाल्गुन कृष्ण द्वादशी", new Set(["कृष्ण भीष्म द्वादशी"])],
-    ["2030-03-01|फाल्गुन कृष्ण त्रयोदशी", new Set(["शुक्र प्रदोष व्रत"])]
+    ["2030-03-01|फाल्गुन कृष्ण त्रयोदशी", new Set(["शुक्र प्रदोष व्रत"])],
+    ["2030-03-02|फाल्गुन कृष्ण चतुर्दशी", new Set(["महाशिवरात्रि / मासिक शिवरात्रि", "साधक बामाखेपा आविर्भाव तिथि"])],
+    ["2030-07-30|श्रावण कृष्ण अमावस्या", new Set(["हरियाली अमावस्या / श्रावण अमावस्या / दर्श अमावस्या / तृतीय मंगला गौरी व्रत", "स्वामी अखण्डानन्द सरस्वती जयंती"])],
+    ["2030-08-01|श्रावण शुक्ल द्वितीया", new Set(["चन्द्र दर्शन", "धर्मसम्राट करपात्री जी महाराज जयंती"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -397,8 +400,8 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 32);
-  assert.equal(months[2].events.length, 30);
-  assert.equal(months[8].events.length, 34);
+  assert.equal(months[2].events.length, 31);
+  assert.equal(months[8].events.length, 35);
   assert.equal(oct.length, 44);
   assert.equal(nov.length, 27);
   assert.equal(dec.length, 26);
@@ -469,7 +472,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
     assert.equal(event.sourceName, undefined);
     assert.equal(event.sourceUrl, undefined);
   }
-  assert.equal(events.length, 343);
+  assert.equal(events.length, 349);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");
