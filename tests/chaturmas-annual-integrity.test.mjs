@@ -4,6 +4,7 @@ import { readdir, readFile } from "node:fs/promises";
 
 const dataDir = new URL("../data/chaturmas/", import.meta.url);
 const widget = await readFile(new URL("../festival-widget.js", import.meta.url), "utf8");
+const generator = await readFile(new URL("../scripts/generate-annual-dwadashi-review.mjs", import.meta.url), "utf8");
 
 function validDate(value) {
   if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(value || ""))) return false;
@@ -81,6 +82,8 @@ test("10-day widget gives precedence to Smarta Devutthana Ekadashi over Gauna/Va
   assert.ok(widget.includes("/देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i"),
     "the actual approved Smarta title must be recognized when locating the Chaturmas end date");
   assert.ok(widget.includes("cardVisibleThroughDate"));
+  assert.ok(widget.includes("if (todayKey < startKey) return null;"),
+    "the Chaturmas card must remain hidden until the annual Panchang-derived start date");
   assert.ok(widget.includes("chaturmasConfig.completionTithi"));
   assert.ok(widget.includes("व्रत-समापन · "));
 });
@@ -101,4 +104,15 @@ test("2029 and 2030 Chaturmas boundaries use local sunrise Dwadashi and next-day
     assert.equal(config.completionTithi, "कार्तिक शुक्ल द्वादशी");
     assert.ok(config.completionDetail.includes("दालों"));
   }
+});
+
+
+
+test("annual Panchang generator is not hard-limited to the 2026–2030 data window", () => {
+  assert.ok(generator.includes("year > 2199"));
+  assert.ok(generator.includes("CHATURMAS_START_REFERENCES[year] || null"));
+  assert.ok(generator.includes("CHATURMAS_END_REFERENCES[year] || null"));
+  assert.ok(generator.includes("no-configured-reference-manual-cross-check-required"));
+  assert.ok(generator.includes("catalogMonthsMissing"));
+  assert.ok(generator.includes('error.code === "ENOENT"'));
 });
