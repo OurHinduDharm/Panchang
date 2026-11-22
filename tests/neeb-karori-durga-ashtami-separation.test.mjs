@@ -25,6 +25,6 @@ test("Neem Karoli Jayanti and monthly Durga Ashtami remain separate cards on sha
     assert.equal(baba[0].category, "जयंती");
     assert.equal(durga[0].hinduTithi, "मार्गशीर्ष शुक्ल अष्टमी");
     assert.equal(baba[0].hinduTithi, "मार्गशीर्ष शुक्ल अष्टमी");
-    assert.doesNotMatch(sameDate.map(event => event.title).join(" "), /मासिक दुर्गाष्टमी\\s*\\/\\s*बाबा नीब करौरी/);
+    assert.equal(sameDate.some(event => event.title === "मासिक दुर्गाष्टमी / बाबा नीब करौरी जयंती"), false);
   }
 });
