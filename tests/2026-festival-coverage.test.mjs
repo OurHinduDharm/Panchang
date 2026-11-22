@@ -32,7 +32,8 @@ test("2026 April restores Akshaya Tritiya and both original article links", asyn
 
 test("2026 April separates Shankaracharya-Surdas and Ramanuja Jayantis", async () => {
   const data = await month("04");
-  assert.ok(find(data, "2026-04-21", /शंकराचार्य.*सूरदास/));
+  assert.ok(find(data, "2026-04-21", /^आदि शंकराचार्य जयंती$/));
+  assert.ok(find(data, "2026-04-21", /^सूरदास जयंती$/));
   assert.ok(find(data, "2026-04-22", /रामानुजाचार्य/));
 });
 
@@ -482,7 +483,8 @@ test("2026 December descriptions do not repeat the same article URL", async () =
 test("2026 December includes verified regional observances without duplicate same-date/tithi cards", async () => {
   const data = await month("12");
   const checks = [
-    ["2026-12-14", /विवाह पंचमी \/ नाग पंचमी/, "मार्गशीर्ष शुक्ल पंचमी"],
+    ["2026-12-14", /^विवाह पंचमी$/, "मार्गशीर्ष शुक्ल पंचमी"],
+    ["2026-12-14", /^नाग पंचमी \(तेलुगु परंपरा\)$/, "मार्गशीर्ष शुक्ल पंचमी"],
     ["2026-12-22", /हनुमान जयंती \(कन्नड़ परंपरा\)/, "मार्गशीर्ष शुक्ल त्रयोदशी"],
     ["2026-12-27", /मंडल पूजा \(सबरीमला\)/, undefined]
   ];
