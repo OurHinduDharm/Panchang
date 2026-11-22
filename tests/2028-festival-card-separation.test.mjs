@@ -119,9 +119,11 @@ test("2028 has no duplicate same-date cards or placeholder descriptions", () => 
 test("2028 retains the requested saint jayantis and excludes explicitly unwanted modern public figures", () => {
   const events = Array.from({length:12}, (_,i) => month(i+1)).flatMap(data => data.events);
   assert.ok(events.some(e => /तैलंग स्वामी जयंती/.test(e.title || "")));
-  assert.ok(events.some(e => /आदि शंकराचार्य जयंती एवं सूरदास जयंती/.test(e.title || "")));
+  assert.ok(events.some(e => /^आदि शंकराचार्य जयंती$/.test(e.title || "")));
+  assert.ok(events.some(e => /^सूरदास जयंती$/.test(e.title || "")));
   assert.ok(events.some(e => /गोस्वामी तुलसीदास जयंती/.test(e.title || "")));
-  assert.ok(events.some(e => /वाल्मीकि जयंती एवं मीराबाई जयंती/.test(e.title || "")));
+  assert.ok(events.some(e => /^वाल्मीकि जयंती$/.test(e.title || "")));
+  assert.ok(events.some(e => /^मीराबाई जयंती$/.test(e.title || "")));
   assert.ok(events.some(e => /बाबा नीब करौरी जयंती/.test(e.title || "")));
   assert.equal(events.some(e => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(e.title || "")), false);
 });
