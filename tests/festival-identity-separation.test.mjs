@@ -57,7 +57,7 @@ test("independent observances sharing a date retain separate cards", () => {
 test("independent saint jayantis are not merged with each other or Purnima", () => {
   const shankaraSurdas = [
     [2026, 4, "2026-04-21"], [2027, 5, "2027-05-10"], [2028, 4, "2028-04-29"],
-    [2029, 5, "2029-05-18"], [2030, 5, "2030-05-18"]
+    [2029, 5, "2029-05-18"], [2030, 5, "2030-05-08"]
   ];
   for (const [year, monthNumber, date] of shankaraSurdas) {
     const events = month(year, monthNumber);
