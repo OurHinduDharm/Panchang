@@ -78,3 +78,15 @@ test("Four additional saints have independent 2026–2030 remembrance cards", ()
     assert.ok((event.description || "").length >= 80);
   }
 });
+
+ 
+test("Datia Swami Ji Maharaj has one official Gregorian Mahaparinirvan remembrance date", () => {
+  for (const year of [2026, 2027, 2028, 2029, 2030]) {
+    const event = find(String(year) + "-06", "पूज्यपाद श्री स्वामी जी महाराज महानिर्वाण दिवस");
+    assert.ok(event, String(year) + " is missing Datia Swamiji remembrance");
+    assert.equal(event.date, String(year) + "-06-03");
+    assert.equal(event.category, "संत-महापुरुष स्मृति");
+    assert.match(event.sourceUrl || "", /pitambarapeethdatia\\.in/);
+    assert.doesNotMatch(event.hinduTithi || "", /कृष्ण|शुक्ल/);
+  }
+});
