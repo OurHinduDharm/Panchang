@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate location-specific Dwadashi/Chaturmas review candidates for 2026–2030.
+ * Generate location-specific Dwadashi/Chaturmas review candidates for 2026 onward.
  * This deliberately writes review-only files; it never approves dates.
  */
 import fs from "node:fs/promises";
@@ -290,19 +290,26 @@ function computeSankrantiTimes(scanDays, observer) {
 
 async function loadYearCatalog(year) {
   const records = [];
+  const missingMonths = [];
   for (let month = 1; month <= 12; month += 1) {
     const mm = String(month).padStart(2,"0");
     const file = path.join(ROOT,"data","festivals",year+"-"+mm+".json");
-    const data = JSON.parse(await fs.readFile(file,"utf8"));
+    let data;
+    try {
+      data = JSON.parse(await fs.readFile(file,"utf8"));
+    } catch (error) {
+      if (error && error.code === "ENOENT") { missingMonths.push(`${year}-${mm}`); continue; }
+      throw error;
+    }
     const events = Array.isArray(data.events) ? data.events : Array.isArray(data.festivals) ? data.festivals : [];
     events.forEach(event => records.push({ ...event, reviewCategory:event.category || event.type || "अन्य" }));
   }
-  return records;
+  return { records, missingMonths };
 }
 
 export async function generateYear(year, options = {}) {
-  if (!Number.isInteger(year) || year < 2026 || year > 2030) {
-    throw new RangeError("Supported years are 2026–2030");
+  if (!Number.isInteger(year) || year < 2026 || year > 2199) {
+    throw new RangeError("Supported years are 2026–2199");
   }
   const rules = JSON.parse(await fs.readFile(path.join(ROOT, "data/dwadashi-vrata-rules.json"), "utf8"));
   const location = options.location || { name:"पिथौरागढ़", latitude:29.5828, longitude:80.2182, elevation:1650 };
@@ -351,20 +358,20 @@ export async function generateYear(year, options = {}) {
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
   result.sourceReview.engineDiagnostics = engineDiagnostics;
   const chaturmasStart = result.chaturmas.boundaries?.find(item => item.id === "start")?.selectedDate || null;
-  const chaturmasStartReference = CHATURMAS_START_REFERENCES[year];
+  const chaturmasStartReference = CHATURMAS_START_REFERENCES[year] || null;
   result.sourceReview.chaturmasStartCrossCheck = {
     generatedDate:chaturmasStart,
-    referenceDate:chaturmasStartReference.date,
-    status:chaturmasStart === chaturmasStartReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasStart ? "date-mismatch-review-required" : "engine-date-missing",
-    sources:chaturmasStartReference.sources
+    referenceDate:chaturmasStartReference?.date || null,
+    status:!chaturmasStartReference ? "no-configured-reference-manual-cross-check-required" : chaturmasStart === chaturmasStartReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasStart ? "date-mismatch-review-required" : "engine-date-missing",
+    sources:chaturmasStartReference?.sources || []
   };
   const chaturmasEnd = result.chaturmas.boundaries?.find(item => item.id === "end")?.selectedDate || null;
-  const chaturmasReference = CHATURMAS_END_REFERENCES[year];
+  const chaturmasReference = CHATURMAS_END_REFERENCES[year] || null;
   result.sourceReview.chaturmasEndCrossCheck = {
     generatedDate:chaturmasEnd,
-    referenceDate:chaturmasReference.date,
-    status:chaturmasEnd === chaturmasReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasEnd ? "date-mismatch-review-required" : "engine-date-missing",
-    sources:chaturmasReference.sources
+    referenceDate:chaturmasReference?.date || null,
+    status:!chaturmasReference ? "no-configured-reference-manual-cross-check-required" : chaturmasEnd === chaturmasReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasEnd ? "date-mismatch-review-required" : "engine-date-missing",
+    sources:chaturmasReference?.sources || []
   };
   result.sourceReview.calendar = "Purnimanta";
   result.sourceReview.timezone = "Asia/Kolkata";
@@ -378,7 +385,7 @@ export async function generateYear(year, options = {}) {
   result.tithis = result.tithis.map(item => ({ ...item, status:item.status === "needs-observation" ? item.status : "needs-review" }));
   result.chaturmas.status = result.chaturmas.status === "incomplete" ? "incomplete" : "needs-review";
 
-  const catalog = await loadYearCatalog(year);
+  const catalogResult = await loadYearCatalog(year);
   const samaveda = resolveSamavedaAnnualDecision(annualDays);
   samaveda.calculationStatus = "calculated-needs-source-review";
   samaveda.reviewStatus = "needs-review";
@@ -391,7 +398,7 @@ export async function generateYear(year, options = {}) {
     year,
     location:{name:location.name,latitude:location.latitude,longitude:location.longitude,elevation:location.elevation,timezone:"Asia/Kolkata",timezoneOffset:330},
     library:"@ishubhamx/panchangam-js@3.0.0",
-    catalog,
+    catalog:catalogResult.records,
     dailyPanchang:annualDays,
     dwadashiCalendar:result,
     samavedaUpakarma:samaveda,
@@ -401,6 +408,7 @@ export async function generateYear(year, options = {}) {
       annualFestivalDates:"pending-manual-Drik-and-independent-Panchang-cross-check",
       localEclipseVisibility:"not-calculated-in-this-review-generator",
       localSankrantiTransitions:"calculated-from-sun-rashi-transitions",
+      catalogMonthsMissing:catalogResult.missingMonths,
       sankrantiCount:sankrantis.filter(item => item.date.startsWith(String(year) + "-")).length,
       followingYearSankrantiCount:sankrantis.filter(item => !item.date.startsWith(String(year) + "-")).length,
       note:"Daily Panchanga and Dwadashi candidates are calculated for Pithoragarh. This is a research draft, not an approved annual festival calendar."
