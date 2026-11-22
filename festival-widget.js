@@ -133,6 +133,10 @@
     const startKey = dateKey(startDate);
     const endKey = dateKey(endDate);
 
+    // Do not publish next year's card before Harishayani Ekadashi.
+    // Once started, keep it visible through the reviewed Dwadashi date.
+    if (todayKey < startKey) return null;
+
     // Card visibility is independent from the actual festival/end date.
     // Use the reviewed annual Dwadashi date; otherwise retain the two-day fallback.
     let visibleThrough = chaturmasConfig && parseDate(chaturmasConfig.cardVisibleThroughDate);
