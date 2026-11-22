@@ -132,10 +132,21 @@
     {
       "date": "2026-12-17",
       "dateLabel": "17 दिसंबर",
-      "title": "मासिक दुर्गाष्टमी / बाबा नीब करौरी जयंती",
-      "description": "मार्गशीर्ष शुक्ल अष्टमी को मासिक दुर्गाष्टमी के साथ बाबा नीब करौरी महाराज के प्राकट्य दिवस का स्मरण किया जाता है।",
-      "category": "जयंती एवं व्रत",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा का पूजन, दुर्गा सप्तशती पाठ, मंत्र-जप और सामर्थ्य के अनुसार दान करें।",
+      "category": "व्रत",
       "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-12-17",
+      "dateLabel": "17 दिसंबर",
+      "title": "बाबा नीब करौरी जयंती",
+      "description": "बाबा नीब करौरी महाराज के प्राकट्य दिवस पर उनका स्मरण, भजन, सेवा और अन्नदान करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी",
       "sourceName": "Hinduism Today — Neem Karoli Baba",
       "sourceUrl": "https://www.hinduismtoday.com/magazine/april-may-june-2024/educational-insight-neem-karoli-baba/"
