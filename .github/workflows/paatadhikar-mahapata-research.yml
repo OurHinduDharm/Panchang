@@ -38,10 +38,10 @@ jobs:
           node --check tests/mahapat-taraprasad-backtest.test.mjs
           node --check scripts/audit-mahapat-references.mjs
           node --check research/paatadhikar/contact-boundary.mjs
-          node --check tests/mahapat-contact-model.test.mjs tests/mahapat-exception-report.test.mjs tests/mahapat-exception-diagnostics.test.mjs
+          node --check tests/mahapat-contact-model.test.mjs
           node --check tests/mahapat-discovery-audit.test.mjs
           node --check scripts/diagnose-mahapat-exceptions.mjs
           node --check tests/mahapat-exception-report.test.mjs
           node --check tests/mahapat-exception-diagnostics.test.mjs
       - name: Unit and ephemeris smoke tests
-        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapata-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs tests/mahapat-discovery-audit.test.mjs tests/mahapat-contact-model.test.mjs
+        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapata-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs tests/mahapat-discovery-audit.test.mjs tests/mahapat-contact-model.test.mjs tests/mahapat-exception-report.test.mjs tests/mahapat-exception-diagnostics.test.mjs
