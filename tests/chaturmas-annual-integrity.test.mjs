@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
+import { generateYear } from "../scripts/generate-annual-dwadashi-review.mjs";
 
 const dataDir = new URL("../data/chaturmas/", import.meta.url);
 const widget = await readFile(new URL("../festival-widget.js", import.meta.url), "utf8");
@@ -103,4 +104,18 @@ test("2029 and 2030 Chaturmas boundaries use local sunrise Dwadashi and next-day
     assert.equal(config.completionTithi, "कार्तिक शुक्ल द्वादशी");
     assert.ok(config.completionDetail.includes("दालों"));
   }
+});
+
+
+test("annual Panchang review generator supports future years without inventing cross-check references", async () => {
+  const result = await generateYear(2031);
+  assert.equal(result.annualReview.year, 2031);
+  assert.equal(result.annualReview.calculationStatus, "research-only-not-approved");
+  assert.equal(result.sourceReview.chaturmasStartCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+  assert.equal(result.sourceReview.chaturmasEndCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+  assert.deepEqual(result.sourceReview.chaturmasStartCrossCheck.sources, []);
+  assert.deepEqual(result.sourceReview.chaturmasEndCrossCheck.sources, []);
+  assert.equal(result.annualReview.catalog.length, 0);
+  assert.equal(result.annualReview.sourceReview.catalogMonthsMissing.length, 12);
+  assert.equal(result.annualReview.dailyPanchang.length, 365);
 });
