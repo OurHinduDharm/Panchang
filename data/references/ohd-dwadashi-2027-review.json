@@ -5,8 +5,8 @@
   "calculationStatus": "panchang-engine-calculated-needs-source-review",
   "location": {
     "name": "पिथौरागढ़",
-    "latitude": 29.58,
-    "longitude": 80.22,
+    "latitude": 29.5828,
+    "longitude": 80.2182,
     "elevation": 1650,
     "timezone": "Asia/Kolkata",
     "timezoneOffset": 330
@@ -19,6 +19,7 @@
   "tithis": [
     {
       "id": "chaitra-krishna",
+      "occurrence": 1,
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -32,36 +33,49 @@
       "sunriseObservations": [
         {
           "date": "2027-04-03",
-          "sunrise": "2027-04-03T00:27:25.126Z",
-          "tithiStartTime": "2027-04-02T21:22:22.342Z",
-          "tithiEndTime": "2027-04-03T22:56:57.274Z"
+          "sunrise": "2027-04-03T00:27:25.472Z",
+          "tithiStartTime": "2027-04-02T21:22:22.358Z",
+          "tithiEndTime": "2027-04-03T22:56:57.290Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-04-03",
-          "tithiStartTime": "2027-04-03T00:27:25.126Z",
-          "tithiEndTime": "2027-04-03T22:56:57.274Z"
+          "tithiStartTime": "2027-04-03T00:27:25.472Z",
+          "tithiEndTime": "2027-04-03T22:56:57.290Z"
         }
       ],
       "candidateDates": [
         "2027-04-03"
       ],
-      "referenceDate": "2027-04-02",
+      "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "एकादशी श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
           "month": "चैत्र",
           "paksha": "कृष्ण",
           "adhika": false,
-          "referenceDate": "2027-04-02",
           "labels": [
             "एकादशी श्रवण योग द्वादशी"
           ],
+          "observanceDate": "2027-04-02",
+          "dateRole": "special-observance-date",
+          "note": "तिथि-अंतराल और स्थानीय सूर्योदय का परीक्षण अलग से करें; व्रत/विशेष observance की संदर्भ-तिथि Drik Panchang के अनुसार ही रखें।",
+          "localPanchangObservation": {
+            "date": "2027-04-02",
+            "intervalStart": "2027-04-02T21:22:22.358Z",
+            "intervalEnd": "2027-04-03T22:56:57.290Z",
+            "sunriseDayStart": "2027-04-02T00:28:36.036Z",
+            "sunriseDayEnd": "2027-04-03T00:27:25.472Z",
+            "basis": "daily-tithi-interval",
+            "source": "local-panchang-sunrise-to-next-sunrise"
+          },
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review"
@@ -73,12 +87,14 @@
         "कृष्ण-नृसिंह द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "chaitra-shukla",
+      "occurrence": 1,
       "month": "चैत्र",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -92,28 +108,50 @@
       "sunriseObservations": [
         {
           "date": "2027-04-18",
-          "sunrise": "2027-04-18T00:10:32.927Z",
-          "tithiStartTime": "2027-04-17T03:58:14.040Z",
-          "tithiEndTime": "2027-04-18T02:12:33.446Z"
+          "sunrise": "2027-04-18T00:10:33.185Z",
+          "tithiStartTime": "2027-04-17T03:58:14.133Z",
+          "tithiEndTime": "2027-04-18T02:12:33.375Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-04-17",
-          "tithiStartTime": "2027-04-17T03:59:14.059Z",
-          "tithiEndTime": "2027-04-18T00:10:32.927Z"
+          "tithiStartTime": "2027-04-17T03:59:14.157Z",
+          "tithiEndTime": "2027-04-18T00:10:33.185Z"
         }
       ],
       "candidateDates": [
         "2027-04-17",
         "2027-04-18"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2027-04-17",
+      "sourceReferenceObservation": null,
+      "drikLabels": [
+        "वामन द्वादशी",
+        "मदन द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
+        {
+          "year": 2027,
+          "month": "चैत्र",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "referenceDate": "2027-04-17",
+          "labels": [
+            "वामन द्वादशी",
+            "मदन द्वादशी"
+          ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2027-04-17",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "मदन द्वादशी",
         "भर्तृ द्वादशी",
@@ -145,12 +183,14 @@
           "source": "वराह पुराण, अध्याय 43 — वामन-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "vaishakha-krishna",
+      "occurrence": 1,
       "month": "वैशाख",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -164,24 +204,26 @@
       "sunriseObservations": [
         {
           "date": "2027-05-03",
-          "sunrise": "2027-05-02T23:56:08.384Z",
-          "tithiStartTime": "2027-05-02T14:22:17.890Z",
-          "tithiEndTime": "2027-05-03T14:34:32.106Z"
+          "sunrise": "2027-05-02T23:56:08.559Z",
+          "tithiStartTime": "2027-05-02T14:22:17.900Z",
+          "tithiEndTime": "2027-05-03T14:34:32.116Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-05-03",
-          "tithiStartTime": "2027-05-02T23:56:08.384Z",
-          "tithiEndTime": "2027-05-03T14:34:32.106Z"
+          "tithiStartTime": "2027-05-02T23:56:08.559Z",
+          "tithiEndTime": "2027-05-03T14:34:32.116Z"
         }
       ],
       "candidateDates": [
         "2027-05-03"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-05-03",
       "dateSelection": "single-observation-candidate-review-required",
@@ -189,12 +231,14 @@
         "कृष्ण-वामन द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "vaishakha-shukla",
+      "occurrence": 1,
       "month": "वैशाख",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -208,24 +252,26 @@
       "sunriseObservations": [
         {
           "date": "2027-05-17",
-          "sunrise": "2027-05-16T23:46:08.503Z",
-          "tithiStartTime": "2027-05-16T11:43:51.502Z",
-          "tithiEndTime": "2027-05-17T10:58:36.725Z"
+          "sunrise": "2027-05-16T23:46:08.612Z",
+          "tithiStartTime": "2027-05-16T11:43:51.611Z",
+          "tithiEndTime": "2027-05-17T10:58:36.669Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-05-17",
-          "tithiStartTime": "2027-05-16T23:46:08.503Z",
-          "tithiEndTime": "2027-05-17T10:58:36.725Z"
+          "tithiStartTime": "2027-05-16T23:46:08.612Z",
+          "tithiEndTime": "2027-05-17T10:58:36.669Z"
         }
       ],
       "candidateDates": [
         "2027-05-17"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-05-17",
       "dateSelection": "single-observation-candidate-review-required",
@@ -251,69 +297,14 @@
           "source": "वराह पुराण, अध्याय 44 — जामदग्न्य/परशुराम-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
-      "id": "jyeshtha-krishna-adhika",
-      "month": "ज्येष्ठ",
-      "paksha": "कृष्ण",
-      "adhika": true,
-      "tithi": "द्वादशी",
-      "sunriseDates": [],
-      "noonDates": [],
-      "sunriseObservations": [],
-      "noonObservations": [],
-      "candidateDates": [],
-      "referenceDate": null,
-      "drikLabels": [],
-      "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "no-observation-in-scan-window",
-      "displayNames": [
-        "अधिक कृष्ण रामलक्ष्मण द्वादशी"
-      ],
-      "observances": [],
-      "conditionalObservances": [],
-      "crossReferences": [],
-      "status": "needs-observation"
-    },
-    {
-      "id": "jyeshtha-shukla-adhika",
-      "month": "ज्येष्ठ",
-      "paksha": "शुक्ल",
-      "adhika": true,
-      "tithi": "द्वादशी",
-      "sunriseDates": [],
-      "noonDates": [],
-      "sunriseObservations": [],
-      "noonObservations": [],
-      "candidateDates": [],
-      "referenceDate": null,
-      "drikLabels": [],
-      "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "no-observation-in-scan-window",
-      "displayNames": [
-        "अधिक रामलक्ष्मण द्वादशी"
-      ],
-      "observances": [],
-      "conditionalObservances": [
-        {
-          "id": "unmilini",
-          "name": "उन्मीलिनी महाद्वादशी",
-          "ruleRef": "mahaDwadashi.types.unmilini",
-          "status": "condition-required"
-        }
-      ],
-      "crossReferences": [],
-      "status": "needs-observation"
-    },
-    {
       "id": "jyeshtha-krishna",
+      "occurrence": 1,
       "month": "ज्येष्ठ",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -327,38 +318,60 @@
       "sunriseObservations": [
         {
           "date": "2027-06-02",
-          "sunrise": "2027-06-01T23:39:50.677Z",
-          "tithiStartTime": "2027-06-01T04:10:12.538Z",
-          "tithiEndTime": "2027-06-02T02:59:05.888Z"
+          "sunrise": "2027-06-01T23:39:50.729Z",
+          "tithiStartTime": "2027-06-01T04:10:12.590Z",
+          "tithiEndTime": "2027-06-02T02:59:05.775Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-06-01",
-          "tithiStartTime": "2027-06-01T04:11:12.535Z",
-          "tithiEndTime": "2027-06-01T23:39:50.677Z"
+          "tithiStartTime": "2027-06-01T04:11:12.590Z",
+          "tithiEndTime": "2027-06-01T23:39:50.729Z"
         }
       ],
       "candidateDates": [
         "2027-06-01",
         "2027-06-02"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2027-06-01",
+      "sourceReferenceObservation": null,
+      "drikLabels": [
+        "कृष्ण परशुराम द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
+        {
+          "year": 2027,
+          "month": "ज्येष्ठ",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "referenceDate": "2027-06-01",
+          "labels": [
+            "कृष्ण परशुराम द्वादशी"
+          ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2027-06-01",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण परशुराम द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "jyeshtha-shukla",
+      "occurrence": 1,
       "month": "ज्येष्ठ",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -372,26 +385,28 @@
       "sunriseObservations": [
         {
           "date": "2027-06-15",
-          "sunrise": "2027-06-14T23:39:04.913Z",
-          "tithiStartTime": "2027-06-14T20:38:25.964Z",
-          "tithiEndTime": "2027-06-15T21:01:18.762Z"
+          "sunrise": "2027-06-14T23:39:04.943Z",
+          "tithiStartTime": "2027-06-14T20:38:25.994Z",
+          "tithiEndTime": "2027-06-15T21:01:18.792Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-06-15",
-          "tithiStartTime": "2027-06-14T23:39:04.913Z",
-          "tithiEndTime": "2027-06-15T21:01:18.762Z"
+          "tithiStartTime": "2027-06-14T23:39:04.943Z",
+          "tithiEndTime": "2027-06-15T21:01:18.792Z"
         }
       ],
       "candidateDates": [
         "2027-06-15"
       ],
       "referenceDate": "2027-06-15",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "पक्षवर्द्धिनी महाद्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
@@ -408,7 +423,7 @@
         }
       ],
       "selectedDate": "2027-06-15",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "त्रिविक्रम-द्वादशी व्रत",
         "राम-द्वादशी",
@@ -433,6 +448,27 @@
           "source": "वराह पुराण, अध्याय 45 — राम-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-smarta-pakshavardhini",
+          "name": "पक्षवर्द्धिनी महाद्वादशी",
+          "sourceProfile": "smartaDharmaSindhu",
+          "source": "नारद पुराण एवं धर्मसिंधु; Drik Panchang cross-check",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/pakshavarddhini-mahadwadashi.html",
+          "month": "ज्येष्ठ",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "fortnightTithi": "पूर्णिमा",
+          "firstBoundarySunriseDate": "2027-06-18",
+          "secondBoundarySunriseDate": "2027-06-19",
+          "firstSunriseTime": "2027-06-17T23:39:25.646Z",
+          "secondSunriseTime": "2027-06-18T23:39:34.988Z",
+          "boundaryTithiStartTime": "2027-06-17T23:05:09.062Z",
+          "boundaryTithiEndTime": "2027-06-19T00:44:17.771Z",
+          "observanceDate": "2027-06-15",
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [
         {
           "id": "pakshavardhini",
@@ -446,6 +482,7 @@
     },
     {
       "id": "ashadha-krishna",
+      "occurrence": 1,
       "month": "आषाढ़",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -459,24 +496,26 @@
       "sunriseObservations": [
         {
           "date": "2027-07-01",
-          "sunrise": "2027-06-30T23:42:54.103Z",
-          "tithiStartTime": "2027-06-30T15:01:10.921Z",
-          "tithiEndTime": "2027-07-01T12:45:03.740Z"
+          "sunrise": "2027-06-30T23:42:54.136Z",
+          "tithiStartTime": "2027-06-30T15:01:10.954Z",
+          "tithiEndTime": "2027-07-01T12:45:03.773Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-01",
-          "tithiStartTime": "2027-06-30T23:42:54.103Z",
-          "tithiEndTime": "2027-07-01T12:45:03.740Z"
+          "tithiStartTime": "2027-06-30T23:42:54.136Z",
+          "tithiEndTime": "2027-07-01T12:45:03.773Z"
         }
       ],
       "candidateDates": [
         "2027-07-01"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-07-01",
       "dateSelection": "single-observation-candidate-review-required",
@@ -484,6 +523,7 @@
         "कृष्ण रामलक्ष्मण द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [
         {
           "id": "trishprisha",
@@ -497,6 +537,7 @@
     },
     {
       "id": "ashadha-shukla",
+      "occurrence": 1,
       "month": "आषाढ़",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -510,24 +551,26 @@
       "sunriseObservations": [
         {
           "date": "2027-07-15",
-          "sunrise": "2027-07-14T23:49:22.172Z",
-          "tithiStartTime": "2027-07-14T07:40:32.191Z",
-          "tithiEndTime": "2027-07-15T09:10:54.492Z"
+          "sunrise": "2027-07-14T23:49:22.236Z",
+          "tithiStartTime": "2027-07-14T07:40:32.255Z",
+          "tithiEndTime": "2027-07-15T09:10:54.556Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-15",
-          "tithiStartTime": "2027-07-14T23:49:22.172Z",
-          "tithiEndTime": "2027-07-15T09:10:54.492Z"
+          "tithiStartTime": "2027-07-14T23:49:22.236Z",
+          "tithiEndTime": "2027-07-15T09:10:54.556Z"
         }
       ],
       "candidateDates": [
         "2027-07-15"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-07-15",
       "dateSelection": "single-observation-candidate-review-required",
@@ -553,12 +596,14 @@
           "source": "वराह पुराण, अध्याय 46 — कृष्ण-द्वादशी-व्रत (वासुदेव एवं व्यूह-पूजन)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "shravana-krishna",
+      "occurrence": 1,
       "month": "श्रावण",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -572,24 +617,26 @@
       "sunriseObservations": [
         {
           "date": "2027-07-30",
-          "sunrise": "2027-07-29T23:57:51.428Z",
-          "tithiStartTime": "2027-07-29T23:43:24.880Z",
-          "tithiEndTime": "2027-07-30T20:48:41.012Z"
+          "sunrise": "2027-07-29T23:57:51.548Z",
+          "tithiStartTime": "2027-07-29T23:43:24.835Z",
+          "tithiEndTime": "2027-07-30T20:48:40.967Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-30",
-          "tithiStartTime": "2027-07-29T23:57:51.428Z",
-          "tithiEndTime": "2027-07-30T20:48:41.012Z"
+          "tithiStartTime": "2027-07-29T23:57:51.548Z",
+          "tithiEndTime": "2027-07-30T20:48:40.967Z"
         }
       ],
       "candidateDates": [
         "2027-07-30"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-07-30",
       "dateSelection": "single-observation-candidate-review-required",
@@ -597,12 +644,14 @@
         "कृष्ण-वासुदेव द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "shravana-shukla",
+      "occurrence": 1,
       "month": "श्रावण",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -616,24 +665,26 @@
       "sunriseObservations": [
         {
           "date": "2027-08-13",
-          "sunrise": "2027-08-13T00:06:04.165Z",
-          "tithiStartTime": "2027-08-12T21:29:59.307Z",
-          "tithiEndTime": "2027-08-13T23:51:32.398Z"
+          "sunrise": "2027-08-13T00:06:04.353Z",
+          "tithiStartTime": "2027-08-12T21:29:59.330Z",
+          "tithiEndTime": "2027-08-13T23:51:32.421Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-08-13",
-          "tithiStartTime": "2027-08-13T00:06:04.165Z",
-          "tithiEndTime": "2027-08-13T23:51:32.398Z"
+          "tithiStartTime": "2027-08-13T00:06:04.353Z",
+          "tithiEndTime": "2027-08-13T23:51:32.421Z"
         }
       ],
       "candidateDates": [
         "2027-08-13"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-08-13",
       "dateSelection": "single-observation-candidate-review-required",
@@ -657,9 +708,10 @@
           "shortDetail": "यशोदा द्वारा रस्सी से बाँधे गए बालकृष्ण-दामोदर की पूजा और प्रतिमा-दान का विधान है।",
           "sourceProfile": "varahaPurana",
           "source": "वराह पुराण, अध्याय 47 — बुद्ध-द्वादशी-व्रत (दामोदर-पूजन; संस्कृत श्लोक 47.1 में द्वादशी)",
-          "sourceTextNote": "उपलब्ध अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; संस्कृत 47.1 में स्पष्ट 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' है। संस्कृत पाठ को प्राथमिक रखें; अनुवाद-अंतर दर्ज है।"
+          "sourceTextNote": "उपलब्ध अंग्रेज़ी अनुवाद में 47.1 पर Ekadashi लिखा है; संस्कृत मूल के 47.1 में स्पष्ट 'श्रावणस्य तु मासस्य शुक्लपक्षे तु द्वादशी' है। संस्कृत पाठ को प्राथमिक रखें; अनुवाद-अंतर दर्ज है।"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [
         {
           "id": "vanjuli",
@@ -673,6 +725,7 @@
     },
     {
       "id": "bhadrapada-krishna",
+      "occurrence": 1,
       "month": "भाद्रपद",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -684,9 +737,9 @@
       "sunriseObservations": [
         {
           "date": "2027-08-29",
-          "sunrise": "2027-08-29T00:14:58.138Z",
-          "tithiStartTime": "2027-08-28T07:12:37.127Z",
-          "tithiEndTime": "2027-08-29T04:05:58.213Z"
+          "sunrise": "2027-08-29T00:14:58.415Z",
+          "tithiStartTime": "2027-08-28T07:12:37.074Z",
+          "tithiEndTime": "2027-08-29T04:05:58.161Z"
         }
       ],
       "noonObservations": [],
@@ -694,8 +747,10 @@
         "2027-08-29"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-08-29",
       "dateSelection": "single-observation-candidate-review-required",
@@ -703,12 +758,14 @@
         "कृष्ण-दामोदर द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "bhadrapada-shukla",
+      "occurrence": 1,
       "month": "भाद्रपद",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -722,26 +779,28 @@
       "sunriseObservations": [
         {
           "date": "2027-09-12",
-          "sunrise": "2027-09-12T00:22:20.849Z",
-          "tithiStartTime": "2027-09-11T14:06:31.630Z",
-          "tithiEndTime": "2027-09-12T16:43:17.354Z"
+          "sunrise": "2027-09-12T00:22:21.208Z",
+          "tithiStartTime": "2027-09-11T14:06:31.659Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-09-12",
-          "tithiStartTime": "2027-09-12T00:22:20.849Z",
-          "tithiEndTime": "2027-09-12T16:43:17.354Z"
+          "tithiStartTime": "2027-09-12T00:22:21.208Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z"
         }
       ],
       "candidateDates": [
         "2027-09-12"
       ],
       "referenceDate": "2027-09-12",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "विजया महाद्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
@@ -758,7 +817,7 @@
         }
       ],
       "selectedDate": "2027-09-12",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "वामन-द्वादशी व्रत",
         "दामोदर-द्वादशी व्रत",
@@ -800,6 +859,52 @@
           "sourceTextNote": "संस्कृत 48.1 में 'भाद्रपदे मासि शुक्लपक्षे तु द्वादशीम्' है; उपलब्ध अंग्रेज़ी अनुवाद में Ekadashi लिखा है। संस्कृत मूल द्वादशी-पाठ का समर्थन करता है; अनुवाद-अंतर दर्ज है।"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-naradaPurana-vijaya",
+          "name": "विजया महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "भाद्रपद",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2027-09-12",
+          "nakshatra": "श्रवण",
+          "tithiStartTime": "2027-09-12T00:22:21.208Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z",
+          "nakshatraStartTime": "2027-09-12T00:22:21.208Z",
+          "nakshatraEndTime": "2027-09-13T00:22:52.325Z",
+          "overlapStartTime": "2027-09-12T00:22:21.208Z",
+          "overlapEndTime": "2027-09-12T16:43:17.218Z",
+          "overlapMinutes": 980.9335,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": true,
+          "status": "candidate-needs-manual-review"
+        },
+        {
+          "id": "mahadwadashi-drikPanchang-vijaya",
+          "name": "विजया महाद्वादशी",
+          "sourceProfile": "drikPanchang",
+          "source": "Drik Panchang — महाद्वादशी के नक्षत्र-संयोग",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/mahadwadashi.html?lang=hi",
+          "month": "भाद्रपद",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2027-09-12",
+          "nakshatra": "श्रवण",
+          "tithiStartTime": "2027-09-12T00:22:21.208Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z",
+          "nakshatraStartTime": "2027-09-12T00:22:21.208Z",
+          "nakshatraEndTime": "2027-09-13T00:22:52.325Z",
+          "overlapStartTime": "2027-09-12T00:22:21.208Z",
+          "overlapEndTime": "2027-09-12T12:48:19.644Z",
+          "overlapMinutes": 745.9739333333333,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": true,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -813,6 +918,7 @@
     },
     {
       "id": "ashwin-krishna",
+      "occurrence": 1,
       "month": "आश्विन",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -826,24 +932,26 @@
       "sunriseObservations": [
         {
           "date": "2027-09-27",
-          "sunrise": "2027-09-27T00:30:14.374Z",
-          "tithiStartTime": "2027-09-26T14:19:50.294Z",
-          "tithiEndTime": "2027-09-27T11:25:38.726Z"
+          "sunrise": "2027-09-27T00:30:14.824Z",
+          "tithiStartTime": "2027-09-26T14:19:50.250Z",
+          "tithiEndTime": "2027-09-27T11:25:38.682Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-09-27",
-          "tithiStartTime": "2027-09-27T00:30:14.374Z",
-          "tithiEndTime": "2027-09-27T11:25:38.726Z"
+          "tithiStartTime": "2027-09-27T00:30:14.824Z",
+          "tithiEndTime": "2027-09-27T11:25:38.682Z"
         }
       ],
       "candidateDates": [
         "2027-09-27"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-09-27",
       "dateSelection": "single-observation-candidate-review-required",
@@ -851,12 +959,14 @@
         "कृष्ण-कल्कि द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "ashwin-shukla",
+      "occurrence": 1,
       "month": "आश्विन",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -870,26 +980,36 @@
       "sunriseObservations": [
         {
           "date": "2027-10-12",
-          "sunrise": "2027-10-12T00:38:50.905Z",
-          "tithiStartTime": "2027-10-11T08:38:57.990Z",
-          "tithiEndTime": "2027-10-12T10:44:09.068Z"
+          "sunrise": "2027-10-12T00:38:51.445Z",
+          "tithiStartTime": "2027-10-11T08:38:58.036Z",
+          "tithiEndTime": "2027-10-12T10:44:09.113Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-10-12",
-          "tithiStartTime": "2027-10-12T00:38:50.905Z",
-          "tithiEndTime": "2027-10-12T10:44:09.068Z"
+          "tithiStartTime": "2027-10-12T00:38:51.445Z",
+          "tithiEndTime": "2027-10-12T10:44:09.113Z"
         }
       ],
       "candidateDates": [
         "2027-10-12"
       ],
       "referenceDate": "2027-10-11",
+      "sourceReferenceObservation": {
+        "date": "2027-10-11",
+        "intervalStart": "2027-10-11T08:38:58.036Z",
+        "intervalEnd": "2027-10-12T10:44:09.113Z",
+        "sunriseDayStart": "2027-10-11T00:38:14.995Z",
+        "sunriseDayEnd": "2027-10-12T00:38:51.445Z",
+        "basis": "daily-tithi-interval",
+        "source": "local-panchang-sunrise-to-next-sunrise"
+      },
       "drikLabels": [
         "एकादशी श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
@@ -900,13 +1020,22 @@
           "labels": [
             "एकादशी श्रवण योग द्वादशी"
           ],
+          "localPanchangObservation": {
+            "date": "2027-10-11",
+            "intervalStart": "2027-10-11T08:38:58.036Z",
+            "intervalEnd": "2027-10-12T10:44:09.113Z",
+            "sunriseDayStart": "2027-10-11T00:38:14.995Z",
+            "sunriseDayEnd": "2027-10-12T00:38:51.445Z",
+            "basis": "daily-tithi-interval",
+            "source": "local-panchang-sunrise-to-next-sunrise"
+          },
           "source": "Drik Panchang",
           "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
-      "selectedDate": "2027-10-12",
-      "dateSelection": "single-observation-candidate-review-required",
+      "selectedDate": "2027-10-11",
+      "dateSelection": "source-reference-date-tithi-overlap-review-required",
       "displayNames": [
         "पद्मनाभ-द्वादशी व्रत",
         "पद्मनाभ-द्वादशी"
@@ -929,12 +1058,14 @@
           "source": "वराह पुराण, अध्याय 49 — पद्मनाभ-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "kartika-krishna",
+      "occurrence": 1,
       "month": "कार्तिक",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -948,24 +1079,26 @@
       "sunriseObservations": [
         {
           "date": "2027-10-26",
-          "sunrise": "2027-10-26T00:48:02.081Z",
-          "tithiStartTime": "2027-10-25T21:52:32.454Z",
-          "tithiEndTime": "2027-10-26T19:33:53.001Z"
+          "sunrise": "2027-10-26T00:48:02.703Z",
+          "tithiStartTime": "2027-10-25T21:52:32.416Z",
+          "tithiEndTime": "2027-10-26T19:33:53.129Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-10-26",
-          "tithiStartTime": "2027-10-26T00:48:02.081Z",
-          "tithiEndTime": "2027-10-26T19:33:53.001Z"
+          "tithiStartTime": "2027-10-26T00:48:02.703Z",
+          "tithiEndTime": "2027-10-26T19:33:53.129Z"
         }
       ],
       "candidateDates": [
         "2027-10-26"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-10-26",
       "dateSelection": "single-observation-candidate-review-required",
@@ -983,12 +1116,14 @@
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "kartika-shukla",
+      "occurrence": 1,
       "month": "कार्तिक",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1002,28 +1137,50 @@
       "sunriseObservations": [
         {
           "date": "2027-11-11",
-          "sunrise": "2027-11-11T01:00:08.500Z",
-          "tithiStartTime": "2027-11-10T03:41:36.243Z",
-          "tithiEndTime": "2027-11-11T04:37:33.994Z"
+          "sunrise": "2027-11-11T01:00:09.206Z",
+          "tithiStartTime": "2027-11-10T03:41:36.290Z",
+          "tithiEndTime": "2027-11-11T04:37:34.041Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-11-10",
-          "tithiStartTime": "2027-11-10T03:42:36.302Z",
-          "tithiEndTime": "2027-11-11T01:00:08.500Z"
+          "tithiStartTime": "2027-11-10T03:42:36.345Z",
+          "tithiEndTime": "2027-11-11T01:00:09.206Z"
         }
       ],
       "candidateDates": [
         "2027-11-10",
         "2027-11-11"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2027-11-10",
+      "sourceReferenceObservation": null,
+      "drikLabels": [
+        "योगेश्वर द्वादशी",
+        "गरुड़ द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
+        {
+          "year": 2027,
+          "month": "कार्तिक",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "referenceDate": "2027-11-10",
+          "labels": [
+            "योगेश्वर द्वादशी",
+            "गरुड़ द्वादशी"
+          ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2027-11-10",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "सहस्रशीर्ष नारायण द्वादशी"
       ],
@@ -1037,6 +1194,7 @@
           "source": "वराह पुराण, अध्याय 50 — धारणी-व्रत (कार्तिक द्वादशी; सहस्रशीर्ष नारायण-पूजन)"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1056,6 +1214,7 @@
     },
     {
       "id": "margashirsha-krishna",
+      "occurrence": 1,
       "month": "मार्गशीर्ष",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1067,9 +1226,9 @@
       "sunriseObservations": [
         {
           "date": "2027-11-25",
-          "sunrise": "2027-11-25T01:11:33.081Z",
-          "tithiStartTime": "2027-11-24T06:41:43.351Z",
-          "tithiEndTime": "2027-11-25T05:21:19.530Z"
+          "sunrise": "2027-11-25T01:11:33.849Z",
+          "tithiStartTime": "2027-11-24T06:41:43.296Z",
+          "tithiEndTime": "2027-11-25T05:21:19.474Z"
         }
       ],
       "noonObservations": [],
@@ -1077,13 +1236,16 @@
         "2027-11-25"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-11-25",
       "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [
         {
@@ -1097,6 +1259,7 @@
     },
     {
       "id": "margashirsha-shukla",
+      "occurrence": 1,
       "month": "मार्गशीर्ष",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1110,24 +1273,26 @@
       "sunriseObservations": [
         {
           "date": "2027-12-10",
-          "sunrise": "2027-12-10T01:23:08.712Z",
-          "tithiStartTime": "2027-12-09T21:50:16.719Z",
-          "tithiEndTime": "2027-12-10T21:23:37.934Z"
+          "sunrise": "2027-12-10T01:23:09.523Z",
+          "tithiStartTime": "2027-12-09T21:50:16.706Z",
+          "tithiEndTime": "2027-12-10T21:23:37.921Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-12-10",
-          "tithiStartTime": "2027-12-10T01:23:08.712Z",
-          "tithiEndTime": "2027-12-10T21:23:37.934Z"
+          "tithiStartTime": "2027-12-10T01:23:09.523Z",
+          "tithiEndTime": "2027-12-10T21:23:37.921Z"
         }
       ],
       "candidateDates": [
         "2027-12-10"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-12-10",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1154,60 +1319,50 @@
           "sourceTextNote": "अध्याय 39 के उपलब्ध पाठ में धरणी-व्रत की विधि है और मत्स्य-रूप प्रतिमा का विधान आता है; अध्याय-शीर्षक और पाठ-शरीर में नामांतर है। इसे अलग मत्स्य-द्वादशी observance के रूप में नहीं जोड़ा गया है।"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "pausha-krishna",
+      "occurrence": 1,
       "month": "पौष",
       "paksha": "कृष्ण",
       "adhika": false,
       "tithi": "द्वादशी",
       "sunriseDates": [
-        "2027-01-04",
-        "2027-12-24"
+        "2027-01-04"
       ],
       "noonDates": [
-        "2027-01-04",
-        "2027-12-24"
+        "2027-01-04"
       ],
       "sunriseObservations": [
         {
           "date": "2027-01-04",
-          "sunrise": "2027-01-04T01:35:00.546Z",
-          "tithiStartTime": "2027-01-03T10:38:44.116Z",
-          "tithiEndTime": "2027-01-04T12:46:02.580Z"
-        },
-        {
-          "date": "2027-12-24",
-          "sunrise": "2027-12-24T01:31:23.373Z",
-          "tithiStartTime": "2027-12-23T17:42:04.809Z",
-          "tithiEndTime": "2027-12-24T17:38:45.132Z"
+          "sunrise": "2027-01-04T01:35:01.354Z",
+          "tithiStartTime": "2027-01-03T10:38:44.100Z",
+          "tithiEndTime": "2027-01-04T12:46:02.564Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-01-04",
-          "tithiStartTime": "2027-01-04T01:35:00.546Z",
-          "tithiEndTime": "2027-01-04T12:46:02.580Z"
-        },
-        {
-          "date": "2027-12-24",
-          "tithiStartTime": "2027-12-24T01:31:23.373Z",
-          "tithiEndTime": "2027-12-24T17:38:45.132Z"
+          "tithiStartTime": "2027-01-04T01:35:01.354Z",
+          "tithiEndTime": "2027-01-04T12:46:02.564Z"
         }
       ],
       "candidateDates": [
-        "2027-01-04",
-        "2027-12-24"
+        "2027-01-04"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "selectedDate": "2027-01-04",
+      "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1221,12 +1376,85 @@
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
-      "crossReferences": [],
+      "crossReferences": [
+        {
+          "name": "कृष्ण मत्स्य द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
+          "status": "cross-reference"
+        }
+      ],
+      "status": "needs-review"
+    },
+    {
+      "id": "pausha-krishna-occurrence-2",
+      "occurrence": 2,
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2027-12-24"
+      ],
+      "noonDates": [
+        "2027-12-24"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2027-12-24",
+          "sunrise": "2027-12-24T01:31:24.195Z",
+          "tithiStartTime": "2027-12-23T17:42:04.806Z",
+          "tithiEndTime": "2027-12-24T17:38:45.130Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2027-12-24",
+          "tithiStartTime": "2027-12-24T01:31:24.195Z",
+          "tithiEndTime": "2027-12-24T17:38:45.130Z"
+        }
+      ],
+      "candidateDates": [
+        "2027-12-24"
+      ],
+      "referenceDate": null,
+      "sourceReferenceObservation": null,
+      "drikLabels": [],
+      "drik2026Labels": [],
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [],
+      "selectedDate": "2027-12-24",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "रूप-व्रत"
+      ],
+      "observances": [
+        {
+          "id": "rupa",
+          "name": "रूप-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "दशमी से तैयारी, एकादशी-उपवास और जागरण; द्वादशी प्रातः विष्णु-पूजन, तिल-घृत से होम तथा पायस-भोजन और दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        }
+      ],
+      "specialTithiYogas": [],
+      "conditionalObservances": [],
+      "crossReferences": [
+        {
+          "name": "कृष्ण मत्स्य द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "Drik का 21 दिसंबर का अलग observance-संदर्भ; स्थानीय द्वादशी 21 दिसंबर 12:33 IST से शुरू होकर 22 दिसंबर सूर्योदय तक रहती है। इसे नारद पुराण के रूप-व्रत का पर्याय न मानें और रूप-व्रत की तारीख़ इससे न बदलें।",
+          "status": "cross-reference"
+        }
+      ],
       "status": "needs-review"
     },
     {
       "id": "pausha-shukla",
+      "occurrence": 1,
       "month": "पौष",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1239,18 +1467,20 @@
       "noonObservations": [
         {
           "date": "2027-01-19",
-          "tithiStartTime": "2027-01-19T02:20:52.120Z",
-          "tithiEndTime": "2027-01-19T23:11:43.517Z"
+          "tithiStartTime": "2027-01-19T02:20:52.224Z",
+          "tithiEndTime": "2027-01-19T23:11:43.621Z"
         }
       ],
       "candidateDates": [
         "2027-01-19"
       ],
       "referenceDate": "2027-01-19",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "त्रिस्पर्शा महाद्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
@@ -1267,7 +1497,7 @@
         }
       ],
       "selectedDate": "2027-01-19",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "सुजन्न-द्वादशी",
         "कूर्म-द्वादशी"
@@ -1290,12 +1520,64 @@
           "source": "वराह पुराण, अध्याय 40 — कूर्म-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "trisparsha",
+          "name": "त्रिस्पर्शा महाद्वादशी",
+          "tradition": "smarta",
+          "month": "पौष",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2027-01-19",
+          "followingSunriseDate": "2027-01-20",
+          "firstSunriseTime": "2027-01-19T01:34:39.372Z",
+          "dwadashiStartTime": "2027-01-19T02:20:52.224Z",
+          "dwadashiEndTime": "2027-01-19T23:11:43.621Z",
+          "followingSunriseTime": "2027-01-20T01:34:24.625Z",
+          "tithiSequence": [
+            "एकादशी",
+            "द्वादशी",
+            "त्रयोदशी"
+          ],
+          "source": "धर्मसिंधु एवं निर्णयसिंधु",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+          "scriptureSource": {
+            "source": "स्कन्द पुराण, प्रभासखण्ड, अध्याय 483, श्लोक 16 एवं 19",
+            "sourceUrl": "https://eternalraga.com/en/scriptures/puranas/skanda-purana/7/483",
+            "note": "श्लोक 16 वैशाख शुक्ल पक्ष की त्रिस्पर्शा द्वादशी का उल्लेख करता है; श्लोक 19 आरम्भ में अल्प एकादशी, मध्य में पूर्ण द्वादशी और अन्त में त्रयोदशी का लक्षण देता है।"
+          },
+          "status": "candidate-needs-manual-review"
+        },
+        {
+          "id": "mahadwadashi-naradaPurana-jayanti",
+          "name": "जयन्ती महाद्वादशी",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121",
+          "month": "पौष",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2027-01-19",
+          "nakshatra": "रोहिणी",
+          "tithiStartTime": "2027-01-19T02:20:52.224Z",
+          "tithiEndTime": "2027-01-19T23:11:43.621Z",
+          "nakshatraStartTime": "2027-01-19T01:34:39.372Z",
+          "nakshatraEndTime": "2027-01-19T13:24:05.075Z",
+          "overlapStartTime": "2027-01-19T02:20:52.224Z",
+          "overlapEndTime": "2027-01-19T13:24:05.075Z",
+          "overlapMinutes": 663.2141833333334,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "magha-krishna",
+      "occurrence": 1,
       "month": "माघ",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1310,43 +1592,65 @@
       "sunriseObservations": [
         {
           "date": "2027-02-03",
-          "sunrise": "2027-02-03T01:28:13.823Z",
-          "tithiStartTime": "2027-02-02T05:40:39.573Z",
-          "tithiEndTime": "2027-02-03T08:20:36.955Z"
+          "sunrise": "2027-02-03T01:28:14.518Z",
+          "tithiStartTime": "2027-02-02T05:40:39.609Z",
+          "tithiEndTime": "2027-02-03T08:20:36.991Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-02-02",
-          "tithiStartTime": "2027-02-02T05:41:39.543Z",
-          "tithiEndTime": "2027-02-03T01:28:13.823Z"
+          "tithiStartTime": "2027-02-02T05:41:39.583Z",
+          "tithiEndTime": "2027-02-03T01:28:14.518Z"
         },
         {
           "date": "2027-02-03",
-          "tithiStartTime": "2027-02-03T01:28:13.823Z",
-          "tithiEndTime": "2027-02-03T08:20:36.955Z"
+          "tithiStartTime": "2027-02-03T01:28:14.518Z",
+          "tithiEndTime": "2027-02-03T08:20:36.991Z"
         }
       ],
       "candidateDates": [
         "2027-02-02",
         "2027-02-03"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2027-02-02",
+      "sourceReferenceObservation": null,
+      "drikLabels": [
+        "कृष्ण कूर्म द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
+        {
+          "year": 2027,
+          "month": "माघ",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "referenceDate": "2027-02-02",
+          "labels": [
+            "कृष्ण कूर्म द्वादशी"
+          ],
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2027-02-02",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण-कूर्म द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "magha-shukla",
+      "occurrence": 1,
       "month": "माघ",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1360,27 +1664,29 @@
       "sunriseObservations": [
         {
           "date": "2027-02-18",
-          "sunrise": "2027-02-18T01:16:41.210Z",
-          "tithiStartTime": "2027-02-17T12:02:13.564Z",
-          "tithiEndTime": "2027-02-18T08:58:04.283Z"
+          "sunrise": "2027-02-18T01:16:41.822Z",
+          "tithiStartTime": "2027-02-17T12:02:13.681Z",
+          "tithiEndTime": "2027-02-18T08:58:04.236Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-02-18",
-          "tithiStartTime": "2027-02-18T01:16:41.210Z",
-          "tithiEndTime": "2027-02-18T08:58:04.283Z"
+          "tithiStartTime": "2027-02-18T01:16:41.822Z",
+          "tithiEndTime": "2027-02-18T08:58:04.236Z"
         }
       ],
       "candidateDates": [
         "2027-02-18"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-02-18",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "trisparsha-mahadwadashi-candidate-review-required",
       "displayNames": [
         "वराह-द्वादशी",
         "भीष्म द्वादशी"
@@ -1395,12 +1701,37 @@
           "source": "वराह पुराण, अध्याय 41 — वराह-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [
+        {
+          "id": "mahadwadashi-nirnayaSindhu-jayanti",
+          "name": "जयन्ती महाद्वादशी",
+          "sourceProfile": "nirnayaSindhu",
+          "source": "निर्णय-सिन्धु (उद्धृत पाठांतर)",
+          "sourceUrl": null,
+          "month": "माघ",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2027-02-18",
+          "nakshatra": "पुनर्वसु",
+          "tithiStartTime": "2027-02-18T01:16:41.822Z",
+          "tithiEndTime": "2027-02-18T08:58:04.236Z",
+          "nakshatraStartTime": "2027-02-18T01:16:41.822Z",
+          "nakshatraEndTime": "2027-02-18T15:35:33.523Z",
+          "overlapStartTime": "2027-02-18T01:16:41.822Z",
+          "overlapEndTime": "2027-02-18T08:58:04.236Z",
+          "overlapMinutes": 461.37356666666665,
+          "meetsOneMuhurta": true,
+          "coversFullDaylight": false,
+          "status": "candidate-needs-manual-review"
+        }
+      ],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "phalguna-krishna",
+      "occurrence": 1,
       "month": "फाल्गुन",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1414,16 +1745,16 @@
       "sunriseObservations": [
         {
           "date": "2027-03-05",
-          "sunrise": "2027-03-05T01:01:25.585Z",
-          "tithiStartTime": "2027-03-04T01:54:34.805Z",
-          "tithiEndTime": "2027-03-05T04:24:20.137Z"
+          "sunrise": "2027-03-05T01:01:26.108Z",
+          "tithiStartTime": "2027-03-04T01:54:34.668Z",
+          "tithiEndTime": "2027-03-05T04:24:20.166Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-03-04",
-          "tithiStartTime": "2027-03-04T01:55:34.731Z",
-          "tithiEndTime": "2027-03-05T01:01:25.585Z"
+          "tithiStartTime": "2027-03-04T01:55:34.764Z",
+          "tithiEndTime": "2027-03-05T01:01:26.108Z"
         }
       ],
       "candidateDates": [
@@ -1431,11 +1762,13 @@
         "2027-03-05"
       ],
       "referenceDate": "2027-03-05",
+      "sourceReferenceObservation": null,
       "drikLabels": [
         "उन्मीलिनी महाद्वादशी",
         "श्रवण योग द्वादशी"
       ],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [
         {
           "year": 2027,
@@ -1452,18 +1785,20 @@
           "status": "source-cross-reference-needs-local-rule-review"
         }
       ],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "selectedDate": "2027-03-05",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण-भीष्म द्वादशी"
       ],
       "observances": [],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
     },
     {
       "id": "phalguna-shukla",
+      "occurrence": 1,
       "month": "फाल्गुन",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1477,24 +1812,26 @@
       "sunriseObservations": [
         {
           "date": "2027-03-19",
-          "sunrise": "2027-03-19T00:45:16.441Z",
-          "tithiStartTime": "2027-03-18T20:21:33.930Z",
-          "tithiEndTime": "2027-03-19T17:47:43.327Z"
+          "sunrise": "2027-03-19T00:45:16.878Z",
+          "tithiStartTime": "2027-03-18T20:21:33.872Z",
+          "tithiEndTime": "2027-03-19T17:47:43.270Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-03-19",
-          "tithiStartTime": "2027-03-19T00:45:16.441Z",
-          "tithiEndTime": "2027-03-19T17:47:43.327Z"
+          "tithiStartTime": "2027-03-19T00:45:16.878Z",
+          "tithiEndTime": "2027-03-19T17:47:43.270Z"
         }
       ],
       "candidateDates": [
         "2027-03-19"
       ],
       "referenceDate": null,
+      "sourceReferenceObservation": null,
       "drikLabels": [],
       "drik2026Labels": [],
+      "drik2026SourceUrl": null,
       "drikSpecialObservances": [],
       "selectedDate": "2027-03-19",
       "dateSelection": "single-observation-candidate-review-required",
@@ -1520,6 +1857,7 @@
           "source": "वराह पुराण, अध्याय 42 — नृसिंह-द्वादशी-व्रत"
         }
       ],
+      "specialTithiYogas": [],
       "conditionalObservances": [],
       "crossReferences": [],
       "status": "needs-review"
@@ -1537,16 +1875,16 @@
       "sunriseObservations": [
         {
           "date": "2027-01-04",
-          "sunrise": "2027-01-04T01:35:00.546Z",
-          "tithiStartTime": "2027-01-03T10:38:44.116Z",
-          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+          "sunrise": "2027-01-04T01:35:01.354Z",
+          "tithiStartTime": "2027-01-03T10:38:44.100Z",
+          "tithiEndTime": "2027-01-04T12:46:02.564Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-01-04",
-          "tithiStartTime": "2027-01-04T01:35:00.546Z",
-          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+          "tithiStartTime": "2027-01-04T01:35:01.354Z",
+          "tithiEndTime": "2027-01-04T12:46:02.564Z"
         }
       ]
     },
@@ -1562,8 +1900,8 @@
       "noonObservations": [
         {
           "date": "2027-01-19",
-          "tithiStartTime": "2027-01-19T02:20:52.120Z",
-          "tithiEndTime": "2027-01-19T23:11:43.517Z"
+          "tithiStartTime": "2027-01-19T02:20:52.224Z",
+          "tithiEndTime": "2027-01-19T23:11:43.621Z"
         }
       ]
     },
@@ -1579,8 +1917,8 @@
       "noonObservations": [
         {
           "date": "2027-02-02",
-          "tithiStartTime": "2027-02-02T05:41:39.543Z",
-          "tithiEndTime": "2027-02-03T01:28:13.823Z"
+          "tithiStartTime": "2027-02-02T05:41:39.583Z",
+          "tithiEndTime": "2027-02-03T01:28:14.518Z"
         }
       ]
     },
@@ -1595,16 +1933,16 @@
       "sunriseObservations": [
         {
           "date": "2027-02-03",
-          "sunrise": "2027-02-03T01:28:13.823Z",
-          "tithiStartTime": "2027-02-02T05:40:39.573Z",
-          "tithiEndTime": "2027-02-03T08:20:36.955Z"
+          "sunrise": "2027-02-03T01:28:14.518Z",
+          "tithiStartTime": "2027-02-02T05:40:39.609Z",
+          "tithiEndTime": "2027-02-03T08:20:36.991Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-02-03",
-          "tithiStartTime": "2027-02-03T01:28:13.823Z",
-          "tithiEndTime": "2027-02-03T08:20:36.955Z"
+          "tithiStartTime": "2027-02-03T01:28:14.518Z",
+          "tithiEndTime": "2027-02-03T08:20:36.991Z"
         }
       ]
     },
@@ -1619,16 +1957,16 @@
       "sunriseObservations": [
         {
           "date": "2027-02-18",
-          "sunrise": "2027-02-18T01:16:41.210Z",
-          "tithiStartTime": "2027-02-17T12:02:13.564Z",
-          "tithiEndTime": "2027-02-18T08:58:04.283Z"
+          "sunrise": "2027-02-18T01:16:41.822Z",
+          "tithiStartTime": "2027-02-17T12:02:13.681Z",
+          "tithiEndTime": "2027-02-18T08:58:04.236Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-02-18",
-          "tithiStartTime": "2027-02-18T01:16:41.210Z",
-          "tithiEndTime": "2027-02-18T08:58:04.283Z"
+          "tithiStartTime": "2027-02-18T01:16:41.822Z",
+          "tithiEndTime": "2027-02-18T08:58:04.236Z"
         }
       ]
     },
@@ -1644,8 +1982,8 @@
       "noonObservations": [
         {
           "date": "2027-03-04",
-          "tithiStartTime": "2027-03-04T01:55:34.731Z",
-          "tithiEndTime": "2027-03-05T01:01:25.585Z"
+          "tithiStartTime": "2027-03-04T01:55:34.764Z",
+          "tithiEndTime": "2027-03-05T01:01:26.108Z"
         }
       ]
     },
@@ -1660,9 +1998,9 @@
       "sunriseObservations": [
         {
           "date": "2027-03-05",
-          "sunrise": "2027-03-05T01:01:25.585Z",
-          "tithiStartTime": "2027-03-04T01:54:34.805Z",
-          "tithiEndTime": "2027-03-05T04:24:20.137Z"
+          "sunrise": "2027-03-05T01:01:26.108Z",
+          "tithiStartTime": "2027-03-04T01:54:34.668Z",
+          "tithiEndTime": "2027-03-05T04:24:20.166Z"
         }
       ],
       "noonObservations": []
@@ -1678,16 +2016,16 @@
       "sunriseObservations": [
         {
           "date": "2027-03-19",
-          "sunrise": "2027-03-19T00:45:16.441Z",
-          "tithiStartTime": "2027-03-18T20:21:33.930Z",
-          "tithiEndTime": "2027-03-19T17:47:43.327Z"
+          "sunrise": "2027-03-19T00:45:16.878Z",
+          "tithiStartTime": "2027-03-18T20:21:33.872Z",
+          "tithiEndTime": "2027-03-19T17:47:43.270Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-03-19",
-          "tithiStartTime": "2027-03-19T00:45:16.441Z",
-          "tithiEndTime": "2027-03-19T17:47:43.327Z"
+          "tithiStartTime": "2027-03-19T00:45:16.878Z",
+          "tithiEndTime": "2027-03-19T17:47:43.270Z"
         }
       ]
     },
@@ -1702,16 +2040,16 @@
       "sunriseObservations": [
         {
           "date": "2027-04-03",
-          "sunrise": "2027-04-03T00:27:25.126Z",
-          "tithiStartTime": "2027-04-02T21:22:22.342Z",
-          "tithiEndTime": "2027-04-03T22:56:57.274Z"
+          "sunrise": "2027-04-03T00:27:25.472Z",
+          "tithiStartTime": "2027-04-02T21:22:22.358Z",
+          "tithiEndTime": "2027-04-03T22:56:57.290Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-04-03",
-          "tithiStartTime": "2027-04-03T00:27:25.126Z",
-          "tithiEndTime": "2027-04-03T22:56:57.274Z"
+          "tithiStartTime": "2027-04-03T00:27:25.472Z",
+          "tithiEndTime": "2027-04-03T22:56:57.290Z"
         }
       ]
     },
@@ -1727,8 +2065,8 @@
       "noonObservations": [
         {
           "date": "2027-04-17",
-          "tithiStartTime": "2027-04-17T03:59:14.059Z",
-          "tithiEndTime": "2027-04-18T00:10:32.927Z"
+          "tithiStartTime": "2027-04-17T03:59:14.157Z",
+          "tithiEndTime": "2027-04-18T00:10:33.185Z"
         }
       ]
     },
@@ -1743,9 +2081,9 @@
       "sunriseObservations": [
         {
           "date": "2027-04-18",
-          "sunrise": "2027-04-18T00:10:32.927Z",
-          "tithiStartTime": "2027-04-17T03:58:14.040Z",
-          "tithiEndTime": "2027-04-18T02:12:33.446Z"
+          "sunrise": "2027-04-18T00:10:33.185Z",
+          "tithiStartTime": "2027-04-17T03:58:14.133Z",
+          "tithiEndTime": "2027-04-18T02:12:33.375Z"
         }
       ],
       "noonObservations": []
@@ -1761,16 +2099,16 @@
       "sunriseObservations": [
         {
           "date": "2027-05-03",
-          "sunrise": "2027-05-02T23:56:08.384Z",
-          "tithiStartTime": "2027-05-02T14:22:17.890Z",
-          "tithiEndTime": "2027-05-03T14:34:32.106Z"
+          "sunrise": "2027-05-02T23:56:08.559Z",
+          "tithiStartTime": "2027-05-02T14:22:17.900Z",
+          "tithiEndTime": "2027-05-03T14:34:32.116Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-05-03",
-          "tithiStartTime": "2027-05-02T23:56:08.384Z",
-          "tithiEndTime": "2027-05-03T14:34:32.106Z"
+          "tithiStartTime": "2027-05-02T23:56:08.559Z",
+          "tithiEndTime": "2027-05-03T14:34:32.116Z"
         }
       ]
     },
@@ -1785,16 +2123,16 @@
       "sunriseObservations": [
         {
           "date": "2027-05-17",
-          "sunrise": "2027-05-16T23:46:08.503Z",
-          "tithiStartTime": "2027-05-16T11:43:51.502Z",
-          "tithiEndTime": "2027-05-17T10:58:36.725Z"
+          "sunrise": "2027-05-16T23:46:08.612Z",
+          "tithiStartTime": "2027-05-16T11:43:51.611Z",
+          "tithiEndTime": "2027-05-17T10:58:36.669Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-05-17",
-          "tithiStartTime": "2027-05-16T23:46:08.503Z",
-          "tithiEndTime": "2027-05-17T10:58:36.725Z"
+          "tithiStartTime": "2027-05-16T23:46:08.612Z",
+          "tithiEndTime": "2027-05-17T10:58:36.669Z"
         }
       ]
     },
@@ -1810,8 +2148,8 @@
       "noonObservations": [
         {
           "date": "2027-06-01",
-          "tithiStartTime": "2027-06-01T04:11:12.535Z",
-          "tithiEndTime": "2027-06-01T23:39:50.677Z"
+          "tithiStartTime": "2027-06-01T04:11:12.590Z",
+          "tithiEndTime": "2027-06-01T23:39:50.729Z"
         }
       ]
     },
@@ -1826,9 +2164,9 @@
       "sunriseObservations": [
         {
           "date": "2027-06-02",
-          "sunrise": "2027-06-01T23:39:50.677Z",
-          "tithiStartTime": "2027-06-01T04:10:12.538Z",
-          "tithiEndTime": "2027-06-02T02:59:05.888Z"
+          "sunrise": "2027-06-01T23:39:50.729Z",
+          "tithiStartTime": "2027-06-01T04:10:12.590Z",
+          "tithiEndTime": "2027-06-02T02:59:05.775Z"
         }
       ],
       "noonObservations": []
@@ -1844,16 +2182,16 @@
       "sunriseObservations": [
         {
           "date": "2027-06-15",
-          "sunrise": "2027-06-14T23:39:04.913Z",
-          "tithiStartTime": "2027-06-14T20:38:25.964Z",
-          "tithiEndTime": "2027-06-15T21:01:18.762Z"
+          "sunrise": "2027-06-14T23:39:04.943Z",
+          "tithiStartTime": "2027-06-14T20:38:25.994Z",
+          "tithiEndTime": "2027-06-15T21:01:18.792Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-06-15",
-          "tithiStartTime": "2027-06-14T23:39:04.913Z",
-          "tithiEndTime": "2027-06-15T21:01:18.762Z"
+          "tithiStartTime": "2027-06-14T23:39:04.943Z",
+          "tithiEndTime": "2027-06-15T21:01:18.792Z"
         }
       ]
     },
@@ -1868,16 +2206,16 @@
       "sunriseObservations": [
         {
           "date": "2027-07-01",
-          "sunrise": "2027-06-30T23:42:54.103Z",
-          "tithiStartTime": "2027-06-30T15:01:10.921Z",
-          "tithiEndTime": "2027-07-01T12:45:03.740Z"
+          "sunrise": "2027-06-30T23:42:54.136Z",
+          "tithiStartTime": "2027-06-30T15:01:10.954Z",
+          "tithiEndTime": "2027-07-01T12:45:03.773Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-01",
-          "tithiStartTime": "2027-06-30T23:42:54.103Z",
-          "tithiEndTime": "2027-07-01T12:45:03.740Z"
+          "tithiStartTime": "2027-06-30T23:42:54.136Z",
+          "tithiEndTime": "2027-07-01T12:45:03.773Z"
         }
       ]
     },
@@ -1892,16 +2230,16 @@
       "sunriseObservations": [
         {
           "date": "2027-07-15",
-          "sunrise": "2027-07-14T23:49:22.172Z",
-          "tithiStartTime": "2027-07-14T07:40:32.191Z",
-          "tithiEndTime": "2027-07-15T09:10:54.492Z"
+          "sunrise": "2027-07-14T23:49:22.236Z",
+          "tithiStartTime": "2027-07-14T07:40:32.255Z",
+          "tithiEndTime": "2027-07-15T09:10:54.556Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-15",
-          "tithiStartTime": "2027-07-14T23:49:22.172Z",
-          "tithiEndTime": "2027-07-15T09:10:54.492Z"
+          "tithiStartTime": "2027-07-14T23:49:22.236Z",
+          "tithiEndTime": "2027-07-15T09:10:54.556Z"
         }
       ]
     },
@@ -1916,16 +2254,16 @@
       "sunriseObservations": [
         {
           "date": "2027-07-30",
-          "sunrise": "2027-07-29T23:57:51.428Z",
-          "tithiStartTime": "2027-07-29T23:43:24.880Z",
-          "tithiEndTime": "2027-07-30T20:48:41.012Z"
+          "sunrise": "2027-07-29T23:57:51.548Z",
+          "tithiStartTime": "2027-07-29T23:43:24.835Z",
+          "tithiEndTime": "2027-07-30T20:48:40.967Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-07-30",
-          "tithiStartTime": "2027-07-29T23:57:51.428Z",
-          "tithiEndTime": "2027-07-30T20:48:41.012Z"
+          "tithiStartTime": "2027-07-29T23:57:51.548Z",
+          "tithiEndTime": "2027-07-30T20:48:40.967Z"
         }
       ]
     },
@@ -1940,16 +2278,16 @@
       "sunriseObservations": [
         {
           "date": "2027-08-13",
-          "sunrise": "2027-08-13T00:06:04.165Z",
-          "tithiStartTime": "2027-08-12T21:29:59.307Z",
-          "tithiEndTime": "2027-08-13T23:51:32.398Z"
+          "sunrise": "2027-08-13T00:06:04.353Z",
+          "tithiStartTime": "2027-08-12T21:29:59.330Z",
+          "tithiEndTime": "2027-08-13T23:51:32.421Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-08-13",
-          "tithiStartTime": "2027-08-13T00:06:04.165Z",
-          "tithiEndTime": "2027-08-13T23:51:32.398Z"
+          "tithiStartTime": "2027-08-13T00:06:04.353Z",
+          "tithiEndTime": "2027-08-13T23:51:32.421Z"
         }
       ]
     },
@@ -1964,9 +2302,9 @@
       "sunriseObservations": [
         {
           "date": "2027-08-29",
-          "sunrise": "2027-08-29T00:14:58.138Z",
-          "tithiStartTime": "2027-08-28T07:12:37.127Z",
-          "tithiEndTime": "2027-08-29T04:05:58.213Z"
+          "sunrise": "2027-08-29T00:14:58.415Z",
+          "tithiStartTime": "2027-08-28T07:12:37.074Z",
+          "tithiEndTime": "2027-08-29T04:05:58.161Z"
         }
       ],
       "noonObservations": []
@@ -1982,16 +2320,16 @@
       "sunriseObservations": [
         {
           "date": "2027-09-12",
-          "sunrise": "2027-09-12T00:22:20.849Z",
-          "tithiStartTime": "2027-09-11T14:06:31.630Z",
-          "tithiEndTime": "2027-09-12T16:43:17.354Z"
+          "sunrise": "2027-09-12T00:22:21.208Z",
+          "tithiStartTime": "2027-09-11T14:06:31.659Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-09-12",
-          "tithiStartTime": "2027-09-12T00:22:20.849Z",
-          "tithiEndTime": "2027-09-12T16:43:17.354Z"
+          "tithiStartTime": "2027-09-12T00:22:21.208Z",
+          "tithiEndTime": "2027-09-12T16:43:17.218Z"
         }
       ]
     },
@@ -2006,16 +2344,16 @@
       "sunriseObservations": [
         {
           "date": "2027-09-27",
-          "sunrise": "2027-09-27T00:30:14.374Z",
-          "tithiStartTime": "2027-09-26T14:19:50.294Z",
-          "tithiEndTime": "2027-09-27T11:25:38.726Z"
+          "sunrise": "2027-09-27T00:30:14.824Z",
+          "tithiStartTime": "2027-09-26T14:19:50.250Z",
+          "tithiEndTime": "2027-09-27T11:25:38.682Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-09-27",
-          "tithiStartTime": "2027-09-27T00:30:14.374Z",
-          "tithiEndTime": "2027-09-27T11:25:38.726Z"
+          "tithiStartTime": "2027-09-27T00:30:14.824Z",
+          "tithiEndTime": "2027-09-27T11:25:38.682Z"
         }
       ]
     },
@@ -2030,16 +2368,16 @@
       "sunriseObservations": [
         {
           "date": "2027-10-12",
-          "sunrise": "2027-10-12T00:38:50.905Z",
-          "tithiStartTime": "2027-10-11T08:38:57.990Z",
-          "tithiEndTime": "2027-10-12T10:44:09.068Z"
+          "sunrise": "2027-10-12T00:38:51.445Z",
+          "tithiStartTime": "2027-10-11T08:38:58.036Z",
+          "tithiEndTime": "2027-10-12T10:44:09.113Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-10-12",
-          "tithiStartTime": "2027-10-12T00:38:50.905Z",
-          "tithiEndTime": "2027-10-12T10:44:09.068Z"
+          "tithiStartTime": "2027-10-12T00:38:51.445Z",
+          "tithiEndTime": "2027-10-12T10:44:09.113Z"
         }
       ]
     },
@@ -2054,16 +2392,16 @@
       "sunriseObservations": [
         {
           "date": "2027-10-26",
-          "sunrise": "2027-10-26T00:48:02.081Z",
-          "tithiStartTime": "2027-10-25T21:52:32.454Z",
-          "tithiEndTime": "2027-10-26T19:33:53.001Z"
+          "sunrise": "2027-10-26T00:48:02.703Z",
+          "tithiStartTime": "2027-10-25T21:52:32.416Z",
+          "tithiEndTime": "2027-10-26T19:33:53.129Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-10-26",
-          "tithiStartTime": "2027-10-26T00:48:02.081Z",
-          "tithiEndTime": "2027-10-26T19:33:53.001Z"
+          "tithiStartTime": "2027-10-26T00:48:02.703Z",
+          "tithiEndTime": "2027-10-26T19:33:53.129Z"
         }
       ]
     },
@@ -2079,8 +2417,8 @@
       "noonObservations": [
         {
           "date": "2027-11-10",
-          "tithiStartTime": "2027-11-10T03:42:36.302Z",
-          "tithiEndTime": "2027-11-11T01:00:08.500Z"
+          "tithiStartTime": "2027-11-10T03:42:36.345Z",
+          "tithiEndTime": "2027-11-11T01:00:09.206Z"
         }
       ]
     },
@@ -2095,9 +2433,9 @@
       "sunriseObservations": [
         {
           "date": "2027-11-11",
-          "sunrise": "2027-11-11T01:00:08.500Z",
-          "tithiStartTime": "2027-11-10T03:41:36.243Z",
-          "tithiEndTime": "2027-11-11T04:37:33.994Z"
+          "sunrise": "2027-11-11T01:00:09.206Z",
+          "tithiStartTime": "2027-11-10T03:41:36.290Z",
+          "tithiEndTime": "2027-11-11T04:37:34.041Z"
         }
       ],
       "noonObservations": []
@@ -2113,9 +2451,9 @@
       "sunriseObservations": [
         {
           "date": "2027-11-25",
-          "sunrise": "2027-11-25T01:11:33.081Z",
-          "tithiStartTime": "2027-11-24T06:41:43.351Z",
-          "tithiEndTime": "2027-11-25T05:21:19.530Z"
+          "sunrise": "2027-11-25T01:11:33.849Z",
+          "tithiStartTime": "2027-11-24T06:41:43.296Z",
+          "tithiEndTime": "2027-11-25T05:21:19.474Z"
         }
       ],
       "noonObservations": []
@@ -2131,16 +2469,16 @@
       "sunriseObservations": [
         {
           "date": "2027-12-10",
-          "sunrise": "2027-12-10T01:23:08.712Z",
-          "tithiStartTime": "2027-12-09T21:50:16.719Z",
-          "tithiEndTime": "2027-12-10T21:23:37.934Z"
+          "sunrise": "2027-12-10T01:23:09.523Z",
+          "tithiStartTime": "2027-12-09T21:50:16.706Z",
+          "tithiEndTime": "2027-12-10T21:23:37.921Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-12-10",
-          "tithiStartTime": "2027-12-10T01:23:08.712Z",
-          "tithiEndTime": "2027-12-10T21:23:37.934Z"
+          "tithiStartTime": "2027-12-10T01:23:09.523Z",
+          "tithiEndTime": "2027-12-10T21:23:37.921Z"
         }
       ]
     },
@@ -2155,18 +2493,1388 @@
       "sunriseObservations": [
         {
           "date": "2027-12-24",
-          "sunrise": "2027-12-24T01:31:23.373Z",
-          "tithiStartTime": "2027-12-23T17:42:04.809Z",
-          "tithiEndTime": "2027-12-24T17:38:45.132Z"
+          "sunrise": "2027-12-24T01:31:24.195Z",
+          "tithiStartTime": "2027-12-23T17:42:04.806Z",
+          "tithiEndTime": "2027-12-24T17:38:45.130Z"
         }
       ],
       "noonObservations": [
         {
           "date": "2027-12-24",
-          "tithiStartTime": "2027-12-24T01:31:23.373Z",
-          "tithiEndTime": "2027-12-24T17:38:45.132Z"
+          "tithiStartTime": "2027-12-24T01:31:24.195Z",
+          "tithiEndTime": "2027-12-24T17:38:45.130Z"
         }
       ]
+    }
+  ],
+  "dwadashiYogas": [
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-01-03",
+      "vrataDayStart": "2027-01-03T01:34:49.747Z",
+      "vrataDayEnd": "2027-01-04T01:35:01.354Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-01-03T10:39:44.084Z",
+          "end": "2027-01-04T01:35:01.354Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-01-04",
+      "vrataDayStart": "2027-01-04T01:35:01.354Z",
+      "vrataDayEnd": "2027-01-05T01:35:11.383Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-01-04T01:35:01.354Z",
+          "end": "2027-01-04T12:46:02.564Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-01-19",
+      "vrataDayStart": "2027-01-19T01:34:39.372Z",
+      "vrataDayEnd": "2027-01-20T01:34:24.625Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-01-19T02:20:52.224Z",
+          "end": "2027-01-19T23:11:43.621Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-02-02",
+      "vrataDayStart": "2027-02-02T01:28:50.526Z",
+      "vrataDayEnd": "2027-02-03T01:28:14.518Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-02-02T05:41:39.583Z",
+          "end": "2027-02-03T01:28:14.518Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-02-03",
+      "vrataDayStart": "2027-02-03T01:28:14.518Z",
+      "vrataDayEnd": "2027-02-04T01:27:37.135Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-02-03T01:28:14.518Z",
+          "end": "2027-02-03T08:20:36.991Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-02-17",
+      "vrataDayStart": "2027-02-17T01:17:36.044Z",
+      "vrataDayEnd": "2027-02-18T01:16:41.822Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-02-17T12:03:13.575Z",
+          "end": "2027-02-18T01:16:41.822Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-02-18",
+      "vrataDayStart": "2027-02-18T01:16:41.822Z",
+      "vrataDayEnd": "2027-02-19T01:15:46.603Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-02-18T01:16:41.822Z",
+          "end": "2027-02-18T08:58:04.236Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-03-04",
+      "vrataDayStart": "2027-03-04T01:02:32.066Z",
+      "vrataDayEnd": "2027-03-05T01:01:26.108Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-03-04T01:55:34.764Z",
+          "end": "2027-03-05T01:01:26.108Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2027-03-04T20:06:26.857Z",
+          "end": "2027-03-05T01:01:26.108Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2027-03-04T20:06:26.857Z",
+          "end": "2027-03-05T01:01:26.108Z"
+        }
+      ],
+      "overlapMs": 17699251,
+      "overlapMinutes": 294.9875166666667,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-03-05",
+      "vrataDayStart": "2027-03-05T01:01:26.108Z",
+      "vrataDayEnd": "2027-03-06T01:00:19.600Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-03-05T01:01:26.108Z",
+          "end": "2027-03-05T04:24:20.166Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2027-03-05T01:01:26.108Z",
+          "end": "2027-03-05T22:50:28.191Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2027-03-05T01:01:26.108Z",
+          "end": "2027-03-05T04:24:20.166Z"
+        }
+      ],
+      "overlapMs": 12174058,
+      "overlapMinutes": 202.90096666666668,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-03-18",
+      "vrataDayStart": "2027-03-18T00:46:28.112Z",
+      "vrataDayEnd": "2027-03-19T00:45:16.878Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-03-18T20:22:33.971Z",
+          "end": "2027-03-19T00:45:16.878Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-03-19",
+      "vrataDayStart": "2027-03-19T00:45:16.878Z",
+      "vrataDayEnd": "2027-03-20T00:44:05.479Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-03-19T00:45:16.878Z",
+          "end": "2027-03-19T17:47:43.270Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-04-02",
+      "vrataDayStart": "2027-04-02T00:28:36.036Z",
+      "vrataDayEnd": "2027-04-03T00:27:25.472Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-04-02T21:23:22.280Z",
+          "end": "2027-04-03T00:27:25.472Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2027-04-02T00:28:36.036Z",
+          "end": "2027-04-02T06:46:10.558Z"
+        }
+      ],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-04-03",
+      "vrataDayStart": "2027-04-03T00:27:25.472Z",
+      "vrataDayEnd": "2027-04-04T00:26:15.177Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-04-03T00:27:25.472Z",
+          "end": "2027-04-03T22:56:57.290Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-04-17",
+      "vrataDayStart": "2027-04-17T00:11:37.095Z",
+      "vrataDayEnd": "2027-04-18T00:10:33.185Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-04-17T03:59:14.157Z",
+          "end": "2027-04-18T00:10:33.185Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-04-18",
+      "vrataDayStart": "2027-04-18T00:10:33.185Z",
+      "vrataDayEnd": "2027-04-19T00:09:29.929Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-04-18T00:10:33.185Z",
+          "end": "2027-04-18T02:12:33.375Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-05-02",
+      "vrataDayStart": "2027-05-01T23:56:59.790Z",
+      "vrataDayEnd": "2027-05-02T23:56:08.559Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-05-02T14:23:17.769Z",
+          "end": "2027-05-02T23:56:08.559Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-05-03",
+      "vrataDayStart": "2027-05-02T23:56:08.559Z",
+      "vrataDayEnd": "2027-05-03T23:55:18.368Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-05-02T23:56:08.559Z",
+          "end": "2027-05-03T14:34:32.116Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-05-16",
+      "vrataDayStart": "2027-05-15T23:46:43.687Z",
+      "vrataDayEnd": "2027-05-16T23:46:08.612Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-05-16T11:44:51.640Z",
+          "end": "2027-05-16T23:46:08.612Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-05-17",
+      "vrataDayStart": "2027-05-16T23:46:08.612Z",
+      "vrataDayEnd": "2027-05-17T23:45:34.816Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-05-16T23:46:08.612Z",
+          "end": "2027-05-17T10:58:36.669Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-06-01",
+      "vrataDayStart": "2027-05-31T23:40:03.858Z",
+      "vrataDayEnd": "2027-06-01T23:39:50.729Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-01T04:11:12.590Z",
+          "end": "2027-06-01T23:39:50.729Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-06-02",
+      "vrataDayStart": "2027-06-01T23:39:50.729Z",
+      "vrataDayEnd": "2027-06-02T23:39:39.011Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-01T23:39:50.729Z",
+          "end": "2027-06-02T02:59:05.775Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-06-14",
+      "vrataDayStart": "2027-06-13T23:39:00.535Z",
+      "vrataDayEnd": "2027-06-14T23:39:04.943Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-14T20:39:25.927Z",
+          "end": "2027-06-14T23:39:04.943Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-06-15",
+      "vrataDayStart": "2027-06-14T23:39:04.943Z",
+      "vrataDayEnd": "2027-06-15T23:39:10.607Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-14T23:39:04.943Z",
+          "end": "2027-06-15T21:01:18.792Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-06-30",
+      "vrataDayStart": "2027-06-29T23:42:31.937Z",
+      "vrataDayEnd": "2027-06-30T23:42:54.136Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-30T15:02:10.893Z",
+          "end": "2027-06-30T23:42:54.136Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-07-01",
+      "vrataDayStart": "2027-06-30T23:42:54.136Z",
+      "vrataDayEnd": "2027-07-01T23:43:17.224Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-06-30T23:42:54.136Z",
+          "end": "2027-07-01T12:45:03.773Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-07-14",
+      "vrataDayStart": "2027-07-13T23:48:50.763Z",
+      "vrataDayEnd": "2027-07-14T23:49:22.236Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-07-14T07:41:32.146Z",
+          "end": "2027-07-14T23:49:22.236Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-07-15",
+      "vrataDayStart": "2027-07-14T23:49:22.236Z",
+      "vrataDayEnd": "2027-07-15T23:49:54.131Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-07-14T23:49:22.236Z",
+          "end": "2027-07-15T09:10:54.556Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-07-29",
+      "vrataDayStart": "2027-07-28T23:57:16.224Z",
+      "vrataDayEnd": "2027-07-29T23:57:51.548Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-07-29T23:44:24.846Z",
+          "end": "2027-07-29T23:57:51.548Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-07-30",
+      "vrataDayStart": "2027-07-29T23:57:51.548Z",
+      "vrataDayEnd": "2027-07-30T23:58:26.945Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-07-29T23:57:51.548Z",
+          "end": "2027-07-30T20:48:40.967Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-08-12",
+      "vrataDayStart": "2027-08-12T00:05:29.765Z",
+      "vrataDayEnd": "2027-08-13T00:06:04.353Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-08-12T21:30:59.404Z",
+          "end": "2027-08-13T00:06:04.353Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-08-13",
+      "vrataDayStart": "2027-08-13T00:06:04.353Z",
+      "vrataDayEnd": "2027-08-14T00:06:38.796Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-08-13T00:06:04.353Z",
+          "end": "2027-08-13T23:51:32.421Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-08-28",
+      "vrataDayStart": "2027-08-28T00:14:26.012Z",
+      "vrataDayEnd": "2027-08-29T00:14:58.415Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-08-28T07:13:37.191Z",
+          "end": "2027-08-29T00:14:58.415Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-08-29",
+      "vrataDayStart": "2027-08-29T00:14:58.415Z",
+      "vrataDayEnd": "2027-08-30T00:15:30.699Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-08-29T00:14:58.415Z",
+          "end": "2027-08-29T04:05:58.161Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-09-11",
+      "vrataDayStart": "2027-09-11T00:21:50.068Z",
+      "vrataDayEnd": "2027-09-12T00:22:21.208Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-09-11T14:07:31.554Z",
+          "end": "2027-09-12T00:22:21.208Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2027-09-11T21:29:24.750Z",
+          "end": "2027-09-12T00:22:21.208Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2027-09-11T21:29:24.750Z",
+          "end": "2027-09-12T00:22:21.208Z"
+        }
+      ],
+      "overlapMs": 10376458,
+      "overlapMinutes": 172.94096666666667,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-09-12",
+      "vrataDayStart": "2027-09-12T00:22:21.208Z",
+      "vrataDayEnd": "2027-09-13T00:22:52.325Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-09-12T00:22:21.208Z",
+          "end": "2027-09-12T16:43:17.218Z"
+        }
+      ],
+      "shravanaIntervals": [
+        {
+          "start": "2027-09-12T00:22:21.208Z",
+          "end": "2027-09-13T00:22:52.325Z"
+        }
+      ],
+      "overlapIntervals": [
+        {
+          "start": "2027-09-12T00:22:21.208Z",
+          "end": "2027-09-12T16:43:17.218Z"
+        }
+      ],
+      "overlapMs": 58856010,
+      "overlapMinutes": 980.9335,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": true,
+      "status": "candidate-needs-manual-review",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-09-26",
+      "vrataDayStart": "2027-09-26T00:29:42.319Z",
+      "vrataDayEnd": "2027-09-27T00:30:14.824Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-09-26T14:20:50.264Z",
+          "end": "2027-09-27T00:30:14.824Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-09-27",
+      "vrataDayStart": "2027-09-27T00:30:14.824Z",
+      "vrataDayEnd": "2027-09-28T00:30:47.530Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-09-27T00:30:14.824Z",
+          "end": "2027-09-27T11:25:38.682Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-10-11",
+      "vrataDayStart": "2027-10-11T00:38:14.995Z",
+      "vrataDayEnd": "2027-10-12T00:38:51.445Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-10-11T08:39:57.896Z",
+          "end": "2027-10-12T00:38:51.445Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-10-12",
+      "vrataDayStart": "2027-10-12T00:38:51.445Z",
+      "vrataDayEnd": "2027-10-13T00:39:28.238Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-10-12T00:38:51.445Z",
+          "end": "2027-10-12T10:44:09.113Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-10-25",
+      "vrataDayStart": "2027-10-25T00:47:20.564Z",
+      "vrataDayEnd": "2027-10-26T00:48:02.703Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-10-25T21:53:32.355Z",
+          "end": "2027-10-26T00:48:02.703Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-10-26",
+      "vrataDayStart": "2027-10-26T00:48:02.703Z",
+      "vrataDayEnd": "2027-10-27T00:48:45.273Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-10-26T00:48:02.703Z",
+          "end": "2027-10-26T19:33:53.129Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-11-10",
+      "vrataDayStart": "2027-11-10T00:59:21.416Z",
+      "vrataDayEnd": "2027-11-11T01:00:09.206Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-11-10T03:42:36.345Z",
+          "end": "2027-11-11T01:00:09.206Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-11-11",
+      "vrataDayStart": "2027-11-11T01:00:09.206Z",
+      "vrataDayEnd": "2027-11-12T01:00:57.233Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-11-11T01:00:09.206Z",
+          "end": "2027-11-11T04:37:34.041Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-11-24",
+      "vrataDayStart": "2027-11-24T01:10:44.755Z",
+      "vrataDayEnd": "2027-11-25T01:11:33.849Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-11-24T06:42:43.365Z",
+          "end": "2027-11-25T01:11:33.849Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-11-25",
+      "vrataDayStart": "2027-11-25T01:11:33.849Z",
+      "vrataDayEnd": "2027-11-26T01:12:22.807Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-11-25T01:11:33.849Z",
+          "end": "2027-11-25T05:21:19.474Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-12-09",
+      "vrataDayStart": "2027-12-09T01:22:27.070Z",
+      "vrataDayEnd": "2027-12-10T01:23:09.523Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-12-09T21:51:16.661Z",
+          "end": "2027-12-10T01:23:09.523Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "observanceDate": "2027-12-10",
+      "vrataDayStart": "2027-12-10T01:23:09.523Z",
+      "vrataDayEnd": "2027-12-11T01:23:51.189Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-12-10T01:23:09.523Z",
+          "end": "2027-12-10T21:23:37.921Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-12-23",
+      "vrataDayStart": "2027-12-23T01:30:56.172Z",
+      "vrataDayEnd": "2027-12-24T01:31:24.195Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-12-23T17:43:04.689Z",
+          "end": "2027-12-24T01:31:24.195Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
+    },
+    {
+      "id": "shravana-yoga-dwadashi",
+      "name": "श्रवण योग द्वादशी",
+      "source": "धर्मसिंधु — सामान्य श्रवण-द्वादशी नियम; Drik Panchang cross-check",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "observanceDate": "2027-12-24",
+      "vrataDayStart": "2027-12-24T01:31:24.195Z",
+      "vrataDayEnd": "2027-12-25T01:31:50.911Z",
+      "dwadashiIntervals": [
+        {
+          "start": "2027-12-24T01:31:24.195Z",
+          "end": "2027-12-24T17:38:45.130Z"
+        }
+      ],
+      "shravanaIntervals": [],
+      "overlapIntervals": [],
+      "overlapMs": 0,
+      "overlapMinutes": 0,
+      "minimumOverlapMs": 2880000,
+      "meetsOneMuhurta": false,
+      "status": "not-qualified",
+      "dateSelection": "evidence-only-no-fast-date-selected",
+      "autoApproved": false
     }
   ],
   "chaturmas": {
@@ -2177,8 +3885,8 @@
     "rulesArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
     "location": {
       "name": "पिथौरागढ़",
-      "latitude": 29.58,
-      "longitude": 80.22,
+      "latitude": 29.5828,
+      "longitude": 80.2182,
       "elevation": 1650,
       "timezone": "Asia/Kolkata",
       "timezoneOffset": 330
@@ -2193,9 +3901,9 @@
           {
             "date": "2027-07-14",
             "basis": "sunrise-tithi",
-            "sunrise": "2027-07-13T23:48:50.703Z",
-            "tithiStartTime": "2027-07-13T06:39:11.338Z",
-            "tithiEndTime": "2027-07-14T07:40:32.251Z"
+            "sunrise": "2027-07-13T23:48:50.763Z",
+            "tithiStartTime": "2027-07-13T06:39:11.233Z",
+            "tithiEndTime": "2027-07-14T07:40:32.146Z"
           }
         ],
         "observedDates": [
@@ -2213,9 +3921,9 @@
           {
             "date": "2027-08-13",
             "basis": "sunrise-tithi",
-            "sunrise": "2027-08-13T00:06:04.165Z",
-            "tithiStartTime": "2027-08-12T21:29:59.307Z",
-            "tithiEndTime": "2027-08-13T23:51:32.398Z"
+            "sunrise": "2027-08-13T00:06:04.353Z",
+            "tithiStartTime": "2027-08-12T21:29:59.330Z",
+            "tithiEndTime": "2027-08-13T23:51:32.421Z"
           }
         ],
         "observedDates": [
@@ -2233,9 +3941,9 @@
           {
             "date": "2027-09-12",
             "basis": "sunrise-tithi",
-            "sunrise": "2027-09-12T00:22:20.849Z",
-            "tithiStartTime": "2027-09-11T14:06:31.630Z",
-            "tithiEndTime": "2027-09-12T16:43:17.354Z"
+            "sunrise": "2027-09-12T00:22:21.208Z",
+            "tithiStartTime": "2027-09-11T14:06:31.659Z",
+            "tithiEndTime": "2027-09-12T16:43:17.218Z"
           }
         ],
         "observedDates": [
@@ -2253,9 +3961,9 @@
           {
             "date": "2027-10-12",
             "basis": "sunrise-tithi",
-            "sunrise": "2027-10-12T00:38:50.905Z",
-            "tithiStartTime": "2027-10-11T08:38:57.990Z",
-            "tithiEndTime": "2027-10-12T10:44:09.068Z"
+            "sunrise": "2027-10-12T00:38:51.445Z",
+            "tithiStartTime": "2027-10-11T08:38:58.036Z",
+            "tithiEndTime": "2027-10-12T10:44:09.113Z"
           }
         ],
         "observedDates": [
@@ -2273,9 +3981,9 @@
           {
             "date": "2027-11-10",
             "basis": "sunrise-tithi",
-            "sunrise": "2027-11-10T00:59:20.714Z",
-            "tithiStartTime": "2027-11-09T02:04:55.795Z",
-            "tithiEndTime": "2027-11-10T03:41:36.302Z"
+            "sunrise": "2027-11-10T00:59:21.416Z",
+            "tithiStartTime": "2027-11-09T02:04:55.838Z",
+            "tithiEndTime": "2027-11-10T03:41:36.345Z"
           }
         ],
         "observedDates": [
@@ -2288,7 +3996,7 @@
     "missingBoundaries": [],
     "startDate": "2027-07-14",
     "endDate": "2027-11-10",
-    "completionDate": "2027-11-12",
+    "completionDate": "2027-11-11",
     "cardVisibleThroughDate": "2027-11-12",
     "phases": [
       {
@@ -2322,7 +4030,7 @@
         "id": "dal",
         "title": "दालों का त्याग",
         "startDate": "2027-10-12",
-        "endDate": "2027-11-11",
+        "endDate": "2027-11-10",
         "startTithi": "आश्विन शुक्ल द्वादशी",
         "endTithi": "कार्तिक शुक्ल एकादशी",
         "detail": "आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।"
