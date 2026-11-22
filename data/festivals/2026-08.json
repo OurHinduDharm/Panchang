@@ -97,6 +97,18 @@
       "timingType": "eclipse-visibility"
     },
     {
+      "date": "2026-08-12",
+      "dateLabel": "12 अगस्त",
+      "title": "स्वामी अखण्डानन्द सरस्वती जयंती",
+      "description": "स्वामी अखण्डानन्द सरस्वती जी श्रीमद्भागवत और वेदांत के प्रख्यात प्रवक्ता थे। उन्होंने कथा, प्रवचन और साहित्य के माध्यम से भक्ति एवं ज्ञान का संदेश जनसामान्य तक पहुँचाया।",
+      "category": "संत-महापुरुष स्मृति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
+      "sourceName": "आनन्द वृन्दावन आश्रम — संक्षिप्त परिचय",
+      "sourceUrl": "https://www.pujyamaharajshri.org/hi/pujaymaharajji.html"
+    },
+    {
       "date": "2026-08-14",
       "dateLabel": "14 अगस्त",
       "title": "चन्द्र दर्शन",
@@ -104,6 +116,18 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल द्वितीया"
+    },
+    {
+      "date": "2026-08-14",
+      "dateLabel": "14 अगस्त",
+      "title": "धर्मसम्राट करपात्री जी महाराज जयंती",
+      "description": "धर्मसम्राट स्वामी करपात्री जी महाराज वेद-वेदांग, मीमांसा, न्याय और धर्मशास्त्र के प्रकांड विद्वान संन्यासी थे। उन्होंने सनातन धर्म की शास्त्रीय परंपरा, धर्मशिक्षा और गौ-संरक्षण के लिए अपना जीवन समर्पित किया।",
+      "category": "संत-महापुरुष स्मृति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वितीया",
+      "sourceName": "स्वामी करपात्री जी महाराज — आधिकारिक जीवनी",
+      "sourceUrl": "https://swamikarpatriji.com/index.php"
     },
     {
       "date": "2026-08-15",
