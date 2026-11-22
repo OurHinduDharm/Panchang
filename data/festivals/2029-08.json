@@ -70,6 +70,18 @@
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
     },
     {
+      "date": "2029-08-10",
+      "dateLabel": "10 अगस्त",
+      "title": "स्वामी अखण्डानन्द सरस्वती जयंती",
+      "description": "स्वामी अखण्डानन्द सरस्वती जी श्रीमद्भागवत और वेदांत के प्रख्यात प्रवक्ता थे। उन्होंने कथा, प्रवचन और साहित्य के माध्यम से भक्ति एवं ज्ञान का संदेश जनसामान्य तक पहुँचाया।",
+      "category": "संत-महापुरुष स्मृति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
+      "sourceName": "आनन्द वृन्दावन आश्रम — संक्षिप्त परिचय",
+      "sourceUrl": "https://www.pujyamaharajshri.org/hi/pujaymaharajji.html"
+    },
+    {
       "date": "2029-08-11",
       "dateLabel": "11 अगस्त",
       "title": "चन्द्र दर्शन",
@@ -78,6 +90,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-08-11",
+      "dateLabel": "11 अगस्त",
+      "title": "धर्मसम्राट करपात्री जी महाराज जयंती",
+      "description": "धर्मसम्राट स्वामी करपात्री जी महाराज वेद-वेदांग, मीमांसा, न्याय और धर्मशास्त्र के प्रकांड विद्वान संन्यासी थे। उन्होंने सनातन धर्म की शास्त्रीय परंपरा, धर्मशिक्षा और गौ-संरक्षण के लिए अपना जीवन समर्पित किया।",
+      "category": "संत-महापुरुष स्मृति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वितीया",
+      "sourceName": "स्वामी करपात्री जी महाराज — आधिकारिक जीवनी",
+      "sourceUrl": "https://swamikarpatriji.com/index.php"
     },
     {
       "date": "2029-08-12",
@@ -348,6 +372,17 @@
       "secondarySourceUrl": "https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?year=2029",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
       "articleLabel": "श्रीकृष्ण जन्माष्टमी एवं दशाफल व्रत की विधि पढ़ें"
+    },
+    {
+      "date": "2029-08-31",
+      "dateLabel": "31 अगस्त",
+      "title": "श्री उड़िया बाबा जयंती",
+      "description": "श्री उड़िया बाबा जी महाराज अद्वैत वेदांत के विरक्त संत एवं परमहंस संन्यासी थे। उन्होंने साधना, आत्मज्ञान और वेदांत के उपदेश द्वारा अनेक साधकों का मार्गदर्शन किया।",
+      "category": "संत-महापुरुष स्मृति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी",
+      "sourceName": "पावन प्रसंग — उड़िया बाबा जीवनचरित्र"
     }
   ]
 }
