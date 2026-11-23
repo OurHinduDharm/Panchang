@@ -54,6 +54,30 @@ test("independent observances sharing a date retain separate cards", () => {
   }
 });
 
+test("split Shankara and Meera cards do not retain unrelated source attributions", () => {
+  const shankaraSurdas = [
+    [2026, 4, "2026-04-21"], [2027, 5, "2027-05-10"], [2028, 4, "2028-04-29"],
+    [2029, 5, "2029-05-18"], [2030, 5, "2030-05-08"]
+  ];
+  for (const [year, monthNumber, date] of shankaraSurdas) {
+    const event = month(year, monthNumber).find(item => item.date === date && item.title === "आदि शंकराचार्य जयंती");
+    assert.ok(event, "missing Shankara Jayanti " + year);
+    assert.doesNotMatch(event.sourceUrl || "", /surdas|surdas-jayanti|telugu-day-panchanga/i);
+    assert.doesNotMatch(event.sourceName || "", /Surdas|सूरदास/i);
+  }
+
+  const valmikiMeera = [
+    [2026, 10, "2026-10-26"], [2027, 10, "2027-10-15"], [2028, 10, "2028-10-03"],
+    [2029, 10, "2029-10-22"], [2030, 10, "2030-10-11"]
+  ];
+  for (const [year, monthNumber, date] of valmikiMeera) {
+    const event = month(year, monthNumber).find(item => item.date === date && item.title === "मीराबाई जयंती");
+    assert.ok(event, "missing Meera Jayanti " + year);
+    assert.doesNotMatch(event.sourceUrl || "", /valmiki/i);
+    assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i);
+  }
+});
+
 test("independent saint jayantis are not merged with each other or Purnima", () => {
   const shankaraSurdas = [
     [2026, 4, "2026-04-21"], [2027, 5, "2027-05-10"], [2028, 4, "2028-04-29"],
