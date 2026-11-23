@@ -73,7 +73,7 @@ test("split Shankara and Meera cards do not retain unrelated source attributions
   for (const [year, monthNumber, date] of valmikiMeera) {
     const event = month(year, monthNumber).find(item => item.date === date && item.title === "मीराबाई जयंती");
     assert.ok(event, "missing Meera Jayanti " + year);
-    assert.match(event.sourceUrl || "", new RegExp("meerabai-jayanti\\\\.html\\\\?year=" + year));
+    assert.match(event.sourceUrl || "", new RegExp("meerabai-jayanti\\.html\\?year=" + year));
     assert.match(event.sourceName || "", /Meera Bai Jayanti/);
     assert.doesNotMatch(event.sourceUrl || "", /valmiki/i);
     assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i);
