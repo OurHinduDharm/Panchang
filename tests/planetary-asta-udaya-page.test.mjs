@@ -121,7 +121,7 @@ test("city calculator displays independently calculated Agastya Arghya", () => {
   assert.ok(page.includes("अगस्त्य अर्घ्य — "));
   assert.ok(page.includes("अर्घ्य देने का समय — "));
   assert.ok(!page.includes("agastya-arghya-pithoragarh.json"));
-  assert.ok(worker.includes('engine.SearchRiseSet("Sun", observer, +1, start, 1)'));
+  assert.ok(worker.includes("calculateAgastyaArghyaWindows"));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
