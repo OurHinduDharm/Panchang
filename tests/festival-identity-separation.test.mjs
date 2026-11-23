@@ -54,7 +54,7 @@ test("independent observances sharing a date retain separate cards", () => {
   }
 });
 
-test("split Shankara and Meera cards do not retain unrelated source attributions", () => {
+test("festival cards do not store source URLs or unrelated source attributions", () => {
   const shankaraSurdas = [
     [2026, 4, "2026-04-21"], [2027, 5, "2027-05-10"], [2028, 4, "2028-04-29"],
     [2029, 5, "2029-05-18"], [2030, 5, "2030-05-08"]
@@ -73,8 +73,8 @@ test("split Shankara and Meera cards do not retain unrelated source attributions
   for (const [year, monthNumber, date] of valmikiMeera) {
     const event = month(year, monthNumber).find(item => item.date === date && item.title === "मीराबाई जयंती");
     assert.ok(event, "missing Meera Jayanti " + year);
-    assert.match(event.sourceUrl || "", new RegExp("meerabai-jayanti\\.html\\?year=" + year));
-    assert.match(event.sourceName || "", /Meera Bai Jayanti/);
+    assert.equal(event.sourceUrl, undefined, "Meera Jayanti must not store source URLs " + year);
+    assert.equal(event.sourceName, undefined, "Meera Jayanti must not store source labels " + year);
     assert.doesNotMatch(event.sourceUrl || "", /valmiki/i);
     assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i);
     const purnima = month(year, monthNumber).find(item => item.date === date && item.title === "आश्विन पूर्णिमा");
