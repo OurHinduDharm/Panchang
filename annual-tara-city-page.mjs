@@ -78,6 +78,10 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
     card.className = "planet";
     addText(card, "h2", name);
     const bodyEvents = events.filter(e => e.body === body);
+    if (body === "Star1" && agastya && bodyEvents.length) {
+      addText(card, "h3", "स्वतंत्र खगोलीय गणना");
+      addText(card, "p", "नीचे दिए गए गणना-परिणाम पारंपरिक अर्घ्य-संदर्भ से अलग हैं।");
+    }
     for (const event of bodyEvents) {
       const label = event.event === "Udaya" ? "उदय" : "अस्त";
       const instant = new Date(Math.round(event.utcMilliseconds / 60000) * 60000);
@@ -88,7 +92,7 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
       card.append(row);
     }
     if (body === "Star1" && agastya) {
-      addText(card, "h3", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
+      addText(card, "h3", "पारंपरिक अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
       addText(card, "p", "स्थान — पिथौरागढ़ · भारतीय मानक समय");
       addText(card, "p", "अर्घ्य देने का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd) + " तक");
       addText(card, "p", "अगस्त्य तारा उदय — " + formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise));
@@ -98,11 +102,11 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
       addText(card, "p", "इस समय-अवधि के भीतर परंपरानुसार अगस्त्य तारा को अर्घ्य अर्पित करें।");
       addText(card, "p", "ये पिथौरागढ़ के पारंपरिक अर्घ्य समय हैं; अन्य शहरों के लिए इन्हें लागू नहीं किया गया है।");
     }
-    if (!bodyEvents.length && !(body === "Star1" && agastya)) {
+    if (!bodyEvents.length) {
       const issue = body === "Star1" ? unavailable.filter(item => item.event === "Udaya" || item.event === "Asta") : [];
       if (issue.length) {
         for (const item of issue) addText(card, "p", (item.event === "Udaya" ? "उदय" : "अस्त") + " — " + reasonText(item.reason));
-      } else {
+      } else if (!(body === "Star1" && agastya)) {
         addText(card, "p", "इस वर्ष इस गणना-मॉडल से कोई घटना नहीं निकली।");
       }
     }
