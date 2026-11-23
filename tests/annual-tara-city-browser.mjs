@@ -116,7 +116,7 @@ try {
   await town.focus();
   await town.press("Enter");
   await page.locator(".planet").first().waitFor();
-  assert.equal(await arghya.count(), 0);
+  assert.equal(await arghya.count(), 1);
   assert.equal(await page.locator(".planet").count(), 3);
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector("#city-events"))
     .gridTemplateColumns.trim().split(/ +/).length), 3);
