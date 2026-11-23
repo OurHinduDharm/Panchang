@@ -11,8 +11,19 @@ self.onmessage = ({data: {location, city, year}}) => {
     const unavailable = result.canopusIssues;
     const events = result.events.map(({body, event, utcMilliseconds, model}) =>
       ({body, event, utcMilliseconds, model: model ?? "solar-altitude-threshold"}));
+    // Independent Arghya window: calculated Canopus heliacal rise until local sunrise.
+    // Never substitute a reference table for a missing astronomical event.
+    const arghya = events.filter(item => item.body === "Star1" && item.event === "Udaya")
+      .map(item => {
+        const start = new Date(item.utcMilliseconds);
+        const observer = new engine.Observer(result.observer.latitude, result.observer.longitude, result.observer.elevation);
+        const sunrise = engine.SearchRiseSet("Sun", observer, +1, start, 1);
+        const end = sunrise?.date?.getTime();
+        return Number.isFinite(end) && end > start.getTime() && end - start.getTime() < 12 * 3600_000
+          ? {startUtcMilliseconds: start.getTime(), endUtcMilliseconds: end} : null;
+      }).filter(Boolean);
     self.postMessage({
-      events, unavailable, year: result.year,
+      events, arghya, unavailable, year: result.year,
       observer: result.observer,
       elevationSourceApproximate: result.elevationSourceApproximate
     });
