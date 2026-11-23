@@ -92,7 +92,8 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
       card.append(row);
     }
     if (body === "Star1" && agastya) {
-      addText(card, "h3", "पारंपरिक अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
+      addText(card, "p", "पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ");
+      addText(card, "h3", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
       addText(card, "p", "स्थान — पिथौरागढ़ · भारतीय मानक समय");
       addText(card, "p", "अर्घ्य देने का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd) + " तक");
       addText(card, "p", "अगस्त्य तारा उदय — " + formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise));
