@@ -1,4 +1,4 @@
-import { isProjectPithoragarh, resolvePithoragarhSearch } from "./annual-tara-pithoragarh-identity.mjs";
+import { resolvePithoragarhSearch } from "./annual-tara-pithoragarh-identity.mjs";
 import { buildPanchangEventUrl, panchangIsoDate } from "./panchang-event-links.mjs";
 import { findTaraPlace, searchTaraPlaces } from "./annual-tara-place-search.mjs";
 import { locations } from "./annual-tara-locations.mjs";
@@ -13,7 +13,7 @@ const embedded = window.top !== window.self;
 const dailyPage = embedded ? "https://ourhindudharm.blogspot.com/p/panchang-today.html" : new URL("./", document.baseURI);
 const cache = new Map();
 let selectionVersion = 0, searchVersion = 0;
-let chosenPlace, worker, searchDelay, agastyaPromise;
+let chosenPlace, worker, searchDelay;
 const timeZone = "Asia/Kolkata";
 const dateTime = new Intl.DateTimeFormat("hi-IN", {timeZone, day: "numeric", month: "long"});
 const dateOnly = new Intl.DateTimeFormat("hi-IN", {timeZone, day: "numeric", month: "long", year: "numeric"});
@@ -23,21 +23,6 @@ function formatClock(value) {
   const [hours, minutes] = value.split(":").map(Number);
   const period = hours < 4 ? "रात्रि" : hours < 12 ? "प्रातः" : hours < 16 ? "दोपहर" : hours < 20 ? "सायं" : "रात्रि";
   return period + " " + String(hours % 12 || 12).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + " बजे";
-}
-
-function formatDate(value) {
-  return dateOnly.format(new Date(value + "T12:00:00+05:30"));
-}
-
-function regionalRecords() {
-  if (!agastyaPromise) {
-    agastyaPromise = fetch(new URL("./data/agastya-arghya-pithoragarh.json", import.meta.url))
-      .then(response => {
-        if (!response.ok) throw new Error("Regional records unavailable");
-        return response.json();
-      }).catch(() => { agastyaPromise = undefined; return null; });
-  }
-  return agastyaPromise;
 }
 
 function addText(parent, tag, value) {
@@ -58,30 +43,14 @@ function eventLink(card, label, date, location) {
   }
 }
 
-function reasonText(reason) {
-  return ({
-    "no-fitted-profile": "इस घटना के लिए अभी उपयुक्त गणना-प्रोफाइल उपलब्ध नहीं है।",
-    "no-consecutive-horizon-samples": "इस स्थान पर आवश्यक क्षितिज-नमूने नहीं मिल पाए।",
-    "multiple-seasonal-crossings": "एक से अधिक संभावित सीमाएँ मिलीं; एक तारीख चुनना उचित नहीं होगा।",
-    "no-seasonal-threshold-crossing": "इस वर्ष मॉडल की दृश्यता-सीमा पार नहीं हुई।"
-  })[reason] || "इस घटना का एक निश्चित परिणाम नहीं निकला।";
-}
-
-async function show({events, unavailable = [], elevationSourceApproximate}, selectedYear, location, version) {
-  const records = isProjectPithoragarh(location) ? await regionalRecords() : null;
+async function show({events, arghya = [], elevationSourceApproximate}, selectedYear, location, version) {
   if (version !== selectionVersion) return;
-  const agastya = records?.years?.find(item => item.year === selectedYear &&
-    item.source?.status === "source-page-identity-and-arghya-fields-captured");
   const fragment = document.createDocumentFragment();
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
     const card = document.createElement("section");
     card.className = "planet";
     addText(card, "h2", name);
     const bodyEvents = events.filter(e => e.body === body);
-    if (body === "Star1" && agastya && bodyEvents.length) {
-      addText(card, "h3", "स्वतंत्र खगोलीय गणना");
-      addText(card, "p", "नीचे दिए गए गणना-परिणाम पारंपरिक अर्घ्य-संदर्भ से अलग हैं।");
-    }
     for (const event of bodyEvents) {
       const label = event.event === "Udaya" ? "उदय" : "अस्त";
       const instant = new Date(Math.round(event.utcMilliseconds / 60000) * 60000);
@@ -91,24 +60,12 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
       eventLink(row, name + " " + label, panchangIsoDate(instant), location);
       card.append(row);
     }
-    if (body === "Star1" && agastya) {
-      addText(card, "p", "पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ");
-      addText(card, "h3", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
-      addText(card, "p", "स्थान — पिथौरागढ़ · भारतीय मानक समय");
-      addText(card, "p", "अर्घ्य देने का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd) + " तक");
-      addText(card, "p", "अगस्त्य तारा उदय — " + formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise));
-      eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
-      addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
-      eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
-      addText(card, "p", "इस समय-अवधि के भीतर परंपरानुसार अगस्त्य तारा को अर्घ्य अर्पित करें।");
-      addText(card, "p", "ये पिथौरागढ़ के पारंपरिक अर्घ्य समय हैं; अन्य शहरों के लिए इन्हें लागू नहीं किया गया है।");
-    }
-    if (!bodyEvents.length) {
-      const issue = body === "Star1" ? unavailable.filter(item => item.event === "Udaya" || item.event === "Asta") : [];
-      if (issue.length) {
-        for (const item of issue) addText(card, "p", (item.event === "Udaya" ? "उदय" : "अस्त") + " — " + reasonText(item.reason));
-      } else if (!(body === "Star1" && agastya)) {
-        addText(card, "p", "इस वर्ष इस गणना-मॉडल से कोई घटना नहीं निकली।");
+    if (body === "Star1") {
+      for (const window of arghya) {
+        const start = new Date(window.startUtcMilliseconds);
+        const end = new Date(window.endUtcMilliseconds);
+        addText(card, "h3", "अगस्त्य अर्घ्य — " + dateOnly.format(start));
+        addText(card, "p", "अर्घ्य देने का समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
       }
     }
     fragment.append(card);
@@ -117,7 +74,7 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
   const elevationNote = elevationSourceApproximate
     ? "शहर की उपलब्ध मानक ऊँचाई का उपयोग किया गया है।"
     : "शहर की दर्ज ऊँचाई का उपयोग किया गया है।";
-  status.textContent = "परिणाम खगोलीय मॉडल की गणना हैं; स्रोत-सत्यापन जहाँ उपलब्ध है, अलग है। " + elevationNote;
+  status.textContent = elevationNote;
   cards.setAttribute("aria-busy", "false");
 }
 
@@ -151,7 +108,7 @@ function calculateSelection(sync = true) {
   }
   const key = taraObserverKey(location) + "/" + selectedYear;
   const render = data => {
-    if (data.error) return failed("गणना पूरी नहीं हो सकी: " + data.error);
+    if (data.error) return failed("अभी परिणाम उपलब्ध नहीं हैं। कृपया दोबारा प्रयास करें।");
     show(data, selectedYear, location, version).catch(() => failed("गणना परिणाम दिखाने में समस्या आई।"));
   };
   if (cache.has(key)) return render(cache.get(key));
