@@ -77,6 +77,10 @@ test("split Shankara and Meera cards do not retain unrelated source attributions
     assert.match(event.sourceName || "", /Meera Bai Jayanti/);
     assert.doesNotMatch(event.sourceUrl || "", /valmiki/i);
     assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i);
+    const purnima = month(year, monthNumber).find(item => item.date === date && item.title === "आश्विन पूर्णिमा");
+    assert.ok(purnima, "missing Ashwin Purnima " + year);
+    assert.doesNotMatch(purnima.sourceUrl || "", /valmiki/i);
+    assert.doesNotMatch(purnima.sourceName || "", /Valmiki|वाल्मीकि/i);
   }
 });
 
