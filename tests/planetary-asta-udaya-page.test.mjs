@@ -119,8 +119,7 @@ test("city calculator renders Agastya Arghya in a friendly card", () => {
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(source.includes("./data/agastya-arghya-pithoragarh.json"));
   assert.ok(source.includes("अगस्त्य अर्घ्य — "));
-  assert.ok(source.includes("अर्घ्य का समय — "));
-  assert.ok(source.includes("अवधि — "));
+  assert.ok(source.includes("अर्घ्य देने का समय — "));
   assert.ok(source.includes("अगस्त्य तारा उदय — "));
   assert.ok(source.includes("अगस्त्य तारा अस्त — "));
   assert.ok(source.includes('isProjectPithoragarh(location)'));
@@ -304,4 +303,6 @@ test("Agastya Arghya card identifies Pithoragarh, includes the rise date and hid
   assert.ok(source.includes('formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise)'));
   assert.ok(source.includes('!bodyEvents.length && !(body === "Star1" && agastya)'));
   assert.ok(source.includes('अन्य शहरों के लिए इन्हें लागू नहीं किया गया है'));
+  assert.ok(source.includes('इस समय-अवधि के भीतर परंपरानुसार'));
+  assert.ok(!source.includes('"अवधि — " + agastya.duration'));
 });
