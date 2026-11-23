@@ -115,14 +115,13 @@ test("Pithoragarh Agastya Arghya records preserve supplied annual dates and loca
   assert.equal(agastya.location.timeZone, "Asia/Kolkata");
 });
 
-test("city calculator renders Agastya Arghya in a friendly card", () => {
-  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes("./data/agastya-arghya-pithoragarh.json"));
-  assert.ok(source.includes("अगस्त्य अर्घ्य — "));
-  assert.ok(source.includes("अर्घ्य देने का समय — "));
-  assert.ok(source.includes("अगस्त्य तारा उदय — "));
-  assert.ok(source.includes("अगस्त्य तारा अस्त — "));
-  assert.ok(source.includes('isProjectPithoragarh(location)'));
+test("city calculator displays independently calculated Agastya Arghya", () => {
+  const page = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  const worker = readFileSync(new URL("../annual-tara-city-worker.mjs", import.meta.url), "utf8");
+  assert.ok(page.includes("अगस्त्य अर्घ्य — "));
+  assert.ok(page.includes("अर्घ्य देने का समय — "));
+  assert.ok(!page.includes("agastya-arghya-pithoragarh.json"));
+  assert.ok(worker.includes('engine.SearchRiseSet("Sun", observer, +1, start, 1)'));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
@@ -297,15 +296,7 @@ test("city calculator uses city profile elevation without a sea-level fallback",
   assert.doesNotMatch(context, /sea-level approximation/i);
 });
 
-test("Agastya Arghya card identifies Pithoragarh, includes the rise date and hides an empty-model warning", () => {
+test("annual public card excludes reference and diagnostic details", () => {
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes('स्थान — पिथौरागढ़ · भारतीय मानक समय'));
-  assert.ok(source.includes('formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise)'));
-  assert.ok(source.includes('if (!bodyEvents.length)'));
-  assert.ok(source.includes('else if (!(body === "Star1" && agastya))'));
-  assert.ok(source.includes('स्वतंत्र खगोलीय गणना'));
-  assert.ok(source.includes('पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ'));
-  assert.ok(source.includes('अन्य शहरों के लिए इन्हें लागू नहीं किया गया है'));
-  assert.ok(source.includes('इस समय-अवधि के भीतर परंपरानुसार'));
-  assert.ok(!source.includes('"अवधि — " + agastya.duration'));
+  assert.doesNotMatch(source, /पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ|reasonText|regionalRecords/);
 });
