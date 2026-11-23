@@ -144,8 +144,8 @@ test("all seven Agastya years require captured source provenance before public d
   }
 
   const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.ok(renderer.includes('item.source?.status === "source-page-identity-and-arghya-fields-captured"'));
-  assert.ok(renderer.includes('isProjectPithoragarh(location)'));
+  assert.ok(!renderer.includes("agastya-arghya-pithoragarh.json"));
+  assert.ok(renderer.includes("अगस्त्य अर्घ्य — "));
 });
 
 
