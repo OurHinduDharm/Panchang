@@ -90,12 +90,12 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
     if (body === "Star1" && agastya) {
       addText(card, "h3", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
       addText(card, "p", "स्थान — पिथौरागढ़ · भारतीय मानक समय");
-      addText(card, "p", "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd));
-      addText(card, "p", "अवधि — " + agastya.duration);
+      addText(card, "p", "अर्घ्य देने का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd) + " तक");
       addText(card, "p", "अगस्त्य तारा उदय — " + formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise));
       eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
       addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
       eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
+      addText(card, "p", "इस समय-अवधि के भीतर परंपरानुसार अगस्त्य तारा को अर्घ्य अर्पित करें।");
       addText(card, "p", "ये पिथौरागढ़ के पारंपरिक अर्घ्य समय हैं; अन्य शहरों के लिए इन्हें लागू नहीं किया गया है।");
     }
     if (!bodyEvents.length && !(body === "Star1" && agastya)) {
