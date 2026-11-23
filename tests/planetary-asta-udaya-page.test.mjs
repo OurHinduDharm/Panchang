@@ -297,3 +297,11 @@ test("city calculator uses city profile elevation without a sea-level fallback",
   assert.ok(context.includes("Selected city elevation is missing"));
   assert.doesNotMatch(context, /sea-level approximation/i);
 });
+
+test("Agastya Arghya card identifies Pithoragarh, includes the rise date and hides an empty-model warning", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.ok(source.includes('स्थान — पिथौरागढ़ · भारतीय मानक समय'));
+  assert.ok(source.includes('formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise)'));
+  assert.ok(source.includes('!bodyEvents.length && !(body === "Star1" && agastya)'));
+  assert.ok(source.includes('अन्य शहरों के लिए इन्हें लागू नहीं किया गया है'));
+});
