@@ -301,7 +301,10 @@ test("Agastya Arghya card identifies Pithoragarh, includes the rise date and hid
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(source.includes('स्थान — पिथौरागढ़ · भारतीय मानक समय'));
   assert.ok(source.includes('formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise)'));
-  assert.ok(source.includes('!bodyEvents.length && !(body === "Star1" && agastya)'));
+  assert.ok(source.includes('if (!bodyEvents.length)'));
+  assert.ok(source.includes('else if (!(body === "Star1" && agastya))'));
+  assert.ok(source.includes('स्वतंत्र खगोलीय गणना'));
+  assert.ok(source.includes('पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ'));
   assert.ok(source.includes('अन्य शहरों के लिए इन्हें लागू नहीं किया गया है'));
   assert.ok(source.includes('इस समय-अवधि के भीतर परंपरानुसार'));
   assert.ok(!source.includes('"अवधि — " + agastya.duration'));
