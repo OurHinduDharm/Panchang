@@ -87,24 +87,24 @@ async function show({events, unavailable = [], elevationSourceApproximate}, sele
       eventLink(row, name + " " + label, panchangIsoDate(instant), location);
       card.append(row);
     }
-    if (!bodyEvents.length) {
+    if (body === "Star1" && agastya) {
+      addText(card, "h3", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
+      addText(card, "p", "स्थान — पिथौरागढ़ · भारतीय मानक समय");
+      addText(card, "p", "अर्घ्य देने का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd) + " तक");
+      addText(card, "p", "अगस्त्य तारा उदय — " + formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise));
+      eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
+      addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
+      eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
+      addText(card, "p", "इस समय-अवधि के भीतर परंपरानुसार अगस्त्य तारा को अर्घ्य अर्पित करें।");
+      addText(card, "p", "ये पिथौरागढ़ के पारंपरिक अर्घ्य समय हैं; अन्य शहरों के लिए इन्हें लागू नहीं किया गया है।");
+    }
+    if (!bodyEvents.length && !(body === "Star1" && agastya)) {
       const issue = body === "Star1" ? unavailable.filter(item => item.event === "Udaya" || item.event === "Asta") : [];
       if (issue.length) {
         for (const item of issue) addText(card, "p", (item.event === "Udaya" ? "उदय" : "अस्त") + " — " + reasonText(item.reason));
       } else {
         addText(card, "p", "इस वर्ष इस गणना-मॉडल से कोई घटना नहीं निकली।");
       }
-    }
-    if (body === "Star1" && agastya) {
-      addText(card, "h3", "पारंपरिक पिथौरागढ़ संदर्भ");
-      addText(card, "strong", "अगस्त्य अर्घ्य — " + formatDate(agastya.arghyaDate) + " (" + agastya.weekday + ")");
-      addText(card, "p", "अर्घ्य का समय — " + formatClock(agastya.arghyaStart) + " से " + formatClock(agastya.arghyaEnd));
-      addText(card, "p", "अवधि — " + agastya.duration);
-      addText(card, "p", "अगस्त्य तारा उदय — " + formatClock(agastya.taraRise));
-      eventLink(card, "पारंपरिक अगस्त्य उदय", agastya.arghyaDate, location);
-      addText(card, "p", "अगस्त्य तारा अस्त — " + formatDate(agastya.taraSetDate) + " · " + formatClock(agastya.taraSet));
-      eventLink(card, "पारंपरिक अगस्त्य अस्त", agastya.taraSetDate, location);
-      addText(card, "p", "यह पारंपरिक अर्घ्य-संदर्भ है; ऊपर दी गई स्थानीय खगोलीय गणना से अलग रखा गया है।");
     }
     fragment.append(card);
   }

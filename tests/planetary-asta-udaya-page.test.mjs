@@ -119,8 +119,7 @@ test("city calculator renders Agastya Arghya in a friendly card", () => {
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(source.includes("./data/agastya-arghya-pithoragarh.json"));
   assert.ok(source.includes("अगस्त्य अर्घ्य — "));
-  assert.ok(source.includes("अर्घ्य का समय — "));
-  assert.ok(source.includes("अवधि — "));
+  assert.ok(source.includes("अर्घ्य देने का समय — "));
   assert.ok(source.includes("अगस्त्य तारा उदय — "));
   assert.ok(source.includes("अगस्त्य तारा अस्त — "));
   assert.ok(source.includes('isProjectPithoragarh(location)'));
@@ -296,4 +295,14 @@ test("city calculator uses city profile elevation without a sea-level fallback",
   const context = readFileSync(new URL("../research/tara-astronomy-context.mjs", import.meta.url), "utf8");
   assert.ok(context.includes("Selected city elevation is missing"));
   assert.doesNotMatch(context, /sea-level approximation/i);
+});
+
+test("Agastya Arghya card identifies Pithoragarh, includes the rise date and hides an empty-model warning", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.ok(source.includes('स्थान — पिथौरागढ़ · भारतीय मानक समय'));
+  assert.ok(source.includes('formatDate(agastya.arghyaDate) + " · " + formatClock(agastya.taraRise)'));
+  assert.ok(source.includes('!bodyEvents.length && !(body === "Star1" && agastya)'));
+  assert.ok(source.includes('अन्य शहरों के लिए इन्हें लागू नहीं किया गया है'));
+  assert.ok(source.includes('इस समय-अवधि के भीतर परंपरानुसार'));
+  assert.ok(!source.includes('"अवधि — " + agastya.duration'));
 });

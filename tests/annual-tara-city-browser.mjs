@@ -99,7 +99,9 @@ try {
   assert.match(recorded, /प्रातः 04:44 बजे से प्रातः 05:49 बजे/);
   assert.match(recorded, /उदय — 6 सितंबर/);
   assert.match(recorded, /अस्त — 16 अप्रैल/);
-  assert.match(recorded, /पारंपरिक पिथौरागढ़ संदर्भ/);
+  assert.match(recorded, /स्थान — पिथौरागढ़ · भारतीय मानक समय/);
+  assert.match(recorded, /अर्घ्य देने का समय — प्रातः 04:44 बजे से प्रातः 05:49 बजे तक/);
+  assert.doesNotMatch(recorded, /अवधि — 01 घंटा/);
   await page.locator("#place-search").fill("पिथौरागढ़");
   await page.locator("#place-search").press("Enter");
   await page.getByRole("button", {name: /Pithoragarh.*Uttarakhand/}).click();
