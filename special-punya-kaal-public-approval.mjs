@@ -61,7 +61,9 @@ export function publicSpecialPunyaKaalMonth(calculation, year, month, records = 
     if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start ||
         new Date(start).toISOString() !== record.start || new Date(end).toISOString() !== record.end ||
         end <= monthStart || start >= monthEnd) continue;
-    events.push({ type: record.type, labels: [label], startTime: record.start, endTime: record.end,
+    const middle = Date.parse(record.middle);
+    const middleTime = Number.isFinite(middle) && middle >= start && middle <= end && new Date(middle).toISOString() === record.middle ? record.middle : null;
+    events.push({ type: record.type, labels: [label], startTime: record.start, endTime: record.end, middleTime,
       date: new Date(start + 330 * 60000).toISOString().slice(0, 10), isMahapata: true });
   }
   return events.sort((a, b) => Date.parse(a.startTime) - Date.parse(b.startTime));
