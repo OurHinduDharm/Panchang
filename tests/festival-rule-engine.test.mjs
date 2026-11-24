@@ -153,3 +153,51 @@ test("annual adapter leaves missing moonrise unresolved instead of substituting 
   assert.equal(result.status, "insufficient-data");
   assert.equal(result.selectedDate, null);
 });
+
+
+test("annual adapter scopes repeated Ekadashi profile to the explicit target tithi", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "shattila-ekadashi-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    targetTithiIndex: 10
+  }, 2031, [
+    {
+      date: "2031-01-01", masa: "माघ",
+      sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+      tithiIntervals: [{ index: 10, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+    },
+    {
+      date: "2031-01-02", masa: "माघ",
+      sunrise: "2031-01-02T06:00:00Z", sunset: "2031-01-02T18:00:00Z",
+      tithiIntervals: [{ index: 25, startTime: "2031-01-02T05:00:00Z", endTime: "2031-01-02T07:00:00Z" }]
+    }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-01-01");
+  assert.equal(result.evaluations.length, 1);
+});
+
+test("annual adapter rejects a target tithi outside the selected rule profile", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "invalid-ekadashi",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    targetTithiIndex: 11
+  }, 2031, [{
+    date: "2031-01-01", masa: "माघ",
+    sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+    tithiIntervals: [{ index: 11, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+  }]);
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("target-tithi-selector-outside-rule-profile"));
+});
+
+test("indexed tithi intervals derive paksha when the source omits it", () => {
+  const contexts = buildFestivalRuleContexts([{
+    date: "2031-01-01", masa: "माघ",
+    sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+    tithiIntervals: [{ index: 25, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+  }]);
+  assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
+});
