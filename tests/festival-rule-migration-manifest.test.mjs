@@ -106,3 +106,11 @@ test("2027 candidate mappings are explicit, source-linked, and review-only", asy
   assert.ok(manifest2027.excludedOrDeferred.some(item => item.title === "बंगाल विजयादशमी"));
   assert.ok(manifest2027.excludedOrDeferred.some(item => item.title === "मैसूर दशहरा"));
 });
+
+test("2027 Karwa Chauth remains separate from the coincident Sankashti record", () => {
+  const sankashti = manifest2027.mappings.find(item => item.date === "2027-10-18" && item.ruleId === "sankashti-moonrise");
+  assert.ok(sankashti);
+  assert.equal(sankashti.coincidentObservance, "2027-10-18::करक चतुर्थी / करवा चौथ");
+  assert.match(sankashti.reason, /अलग वक्रतुण्ड संकष्टी रिकॉर्ड/);
+  assert.ok(manifest2027.excludedOrDeferred.some(item => item.date === "2027-10-18" && item.title === "करक चतुर्थी / करवा चौथ"));
+});
