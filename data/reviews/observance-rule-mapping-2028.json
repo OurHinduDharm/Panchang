@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 105,
-    "distinctRuleIds": 21,
-    "unmappedRegisteredProfiles": 4,
-    "mappedRecords": 105,
-    "distinctObservanceIds": 105,
+    "mappedOccurrences": 106,
+    "distinctRuleIds": 22,
+    "unmappedRegisteredProfiles": 3,
+    "mappedRecords": 106,
+    "distinctObservanceIds": 106,
     "possibleDuplicateRecords": 0
   },
   "mappings": [
@@ -592,6 +592,19 @@
       "lunarMonth": "ज्येष्ठ",
       "paksha": "कृष्ण पक्ष",
       "targetTithiIndex": 28
+    },
+    {
+      "date": "2028-05-24",
+      "title": "शनि जयंती",
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
+      "observanceId": "shani-jayanti-amavasya-review-2028-05-24",
+      "ruleId": "shani-jayanti-amavasya-review",
+      "classification": "manual-review",
+      "reason": "ज्येष्ठ अमावस्या पर शनि जयंती की क्षेत्रीय परंपरा और मूल स्रोत का सत्यापन आवश्यक।",
+      "recordKey": "2028-05-24::शनि जयंती",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 29
     },
     {
       "date": "2028-06-03",
