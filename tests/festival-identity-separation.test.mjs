@@ -73,10 +73,12 @@ test("festival cards do not store source URLs or unrelated source attributions",
   for (const [year, monthNumber, date] of valmikiMeera) {
     const event = month(year, monthNumber).find(item => item.date === date && item.title === "मीराबाई जयंती");
     assert.ok(event, "missing Meera Jayanti " + year);
-    assert.equal(event.sourceUrl, undefined, "Meera Jayanti must not store source URLs " + year);
-    assert.equal(event.sourceName, undefined, "Meera Jayanti must not store source labels " + year);
-    assert.doesNotMatch(event.sourceUrl || "", /valmiki/i);
-    assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i);
+    assert.doesNotMatch(event.sourceUrl || "", /valmiki/i, "Meera Jayanti must not use Valmiki's source " + year);
+    assert.doesNotMatch(event.sourceName || "", /Valmiki|वाल्मीकि/i, "Meera Jayanti must not use Valmiki's source label " + year);
+    if (year === 2027) {
+      assert.match(event.sourceUrl || "", /meerabai-jayanti/i, "retain the directly relevant Meera Bai source " + year);
+      assert.match(event.sourceName || "", /Meera Bai Jayanti/i, "retain the directly relevant Meera Bai source label " + year);
+    }
     const purnima = month(year, monthNumber).find(item => item.date === date && item.title === "आश्विन पूर्णिमा");
     assert.ok(purnima, "missing Ashwin Purnima " + year);
     assert.doesNotMatch(purnima.sourceUrl || "", /valmiki/i);
