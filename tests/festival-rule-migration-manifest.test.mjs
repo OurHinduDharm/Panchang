@@ -150,3 +150,8 @@ test("2028 candidate mappings are explicit, source-linked, and review-only", asy
   assert.ok(manifest2028.excludedOrDeferred.some(item => item.title === "गौरी गणेश चतुर्थी / गणेश जयंती"));
   assert.ok(manifest2028.excludedOrDeferred.some(item => item.date === "2028-08-10" && item.title === "नाग पंचमी"));
 });
+
+test("2028 regional Bengal Vijayadashami is not mapped to the general rule", () => {
+  assert.ok(!manifest2028.mappings.some(item => item.recordKey === "2028-09-28::बंगाल विजयादशमी"));
+  assert.ok(manifest2028.excludedOrDeferred.some(item => item.date === "2028-09-28" && item.title === "बंगाल विजयादशमी"));
+});
