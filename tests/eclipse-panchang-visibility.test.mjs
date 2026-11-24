@@ -157,3 +157,13 @@ test("GPS-only location does not leave a stale saved city", () => {
   tools.rememberCity({ name: "वर्तमान स्थान", lat: 28.6, lon: 77.2, city: "", state: "" });
   assert.equal(storage.has("ohdEclipsePanchangCity"), false);
 });
+
+
+test("first-time Grahan Panchang visitor gets Pithoragarh as default", async () => {
+  const location = await tools.getInitialLocation();
+  assert.equal(location.city, "पिथौरागढ़");
+  assert.equal(location.state, "उत्तराखंड");
+  assert.equal(location.lat, 29.58);
+  assert.equal(location.lon, 80.22);
+  assert.equal(location.elevation, 1650);
+});
