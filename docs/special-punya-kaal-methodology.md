@@ -191,7 +191,7 @@ The class-validated mean-pāta → true-pāta → apparent disk-contact model ge
 | 2030 | 24 | 5 |
 
 Cross-check status:
-- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March window needs source reconciliation. The former 25 December window was removed by class filtering.
+- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March release agrees with the Rajasthan Patrika bulletin to its printed minute. The Drik annual list omits that event. See [the independent audit](../research/paatadhikar/independent-contact-audit.md). The former 25 December window was removed by class filtering.
 - 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
 - The previously reported 19–21 December 2029 extended overlap belonged to the unfiltered model and is absent after ayana/gola classification. The current 2026–2030 output has no interval exceeding 24 hours.
 - Class validation rejects equal-declination roots that have the wrong ayana/gola relation. Across 2026–2030 there are 8 review items: 4 seeds have no equal-declination root within ±3 days, while 4 have roots but none has the required Vyatipata/Vaidhriti geometry. The 2030 review set has 5 items; only four of those have no root at all.

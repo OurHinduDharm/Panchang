@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { compareReferences, median } from "../scripts/audit-mahapat-references.mjs";
@@ -84,4 +85,20 @@ test("reference association rejects ambiguous matches and preserves partial endp
   const duplicate = compareReferences({ events: [source, source] }, { events: [event] });
   assert.equal(duplicate.rows[1].status, "duplicate-association");
   assert.equal(median([1, 2, 8, 10]), 5);
+});
+
+test("independent 2025 annual table retains unmatched model events and measured errors", () => {
+  const source = JSON.parse(readFileSync(new URL("../data/reviews/mahapat-2025-independent.json", import.meta.url)));
+  const run = model => JSON.parse(execFileSync(process.execPath,
+    [calculator, "--years=2025", "--contact-model=" + model], { encoding: "utf8" }));
+  for (const [model, count] of [["apparent-disks", 8], ["taraprasad-30-arcmin", 0]]) {
+    const annual = run(model);
+    const result = compareReferences(source, annual);
+    assert.equal(result.summary.completePairs, 26);
+    assert.equal(result.summary.unresolvedRows, 0);
+    assert.equal(result.summary.bothEndpointsWithin3Minutes, count);
+    const paired = new Set(result.rows.map(row => row.computedStartIST));
+    assert.deepEqual(annual.events.filter(e => !paired.has(e.startTimeIST))
+      .map(e => e.startTimeIST.slice(0, 10)), ["2025-09-21", "2025-12-31"]);
+  }
 });

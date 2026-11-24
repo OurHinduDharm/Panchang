@@ -5042,9 +5042,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     }
     const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
-    if(resultData.calculationStatus!=="complete")return;
-    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
-      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
+    const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
     if(!events.length)return;
     const card=document.createElement("section");card.className="card full special-punya-kaal-card";
     const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
@@ -5055,7 +5053,10 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
-      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
+      const times=item.isMahapata
+        ? "स्पर्श "+specialPunyaKaalDateTime(item.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(item.endTime)
+        : "संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime);
+      detail.appendChild(document.createTextNode(times));
       card.appendChild(detail);
     });
     const link=document.createElement("a");

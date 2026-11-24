@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   isApprovedSpecialPunyaKaalCandidate,
-  SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL
+  SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL, publicSpecialPunyaKaalMonth
 } from "../special-punya-kaal-public-approval.mjs";
 
 const candidate = (overrides = {}) => ({
@@ -26,4 +26,26 @@ test("unapproved rule profiles, labels and invalid intervals fail closed", () =>
   assert.equal(isApprovedSpecialPunyaKaalCandidate(candidate({ ruleProfile: "unreviewed" })), false);
   assert.equal(isApprovedSpecialPunyaKaalCandidate(candidate({ labels: ["महोदय योग"] })), false);
   assert.equal(isApprovedSpecialPunyaKaalCandidate(candidate({ endTime: "2027-04-03T22:00:00Z" })), false);
+});
+
+test("both calendars receive only individually approved Mahapata intervals, including IST year rollover", () => {
+  const record = { status: "approved", type: "vaidhriti-mahapat",
+    ruleProfile: "drik-geocentric-apparent-disks", start: "2026-12-31T17:00:00.000Z",
+    end: "2026-12-31T20:00:00.000Z" };
+  const dormant = { calculationStatus: "not-applicable", candidates: [] };
+  for (const [year, month] of [[2026, 12], [2027, 1]]) {
+    const approved = publicSpecialPunyaKaalMonth(dormant, year, month, [record]);
+    assert.equal(approved.length, 1);
+    assert.equal(approved[0].labels[0], "वैधृति महापात");
+    assert.equal(approved[0].date, "2026-12-31");
+    assert.equal(approved[0].endTime, record.end);
+  }
+  assert.deepEqual(publicSpecialPunyaKaalMonth(dormant, 2027, 1), []);
+  assert.deepEqual(publicSpecialPunyaKaalMonth(dormant, 2027, 1, [
+    { ...record, status: "research-only-not-approved" }, { ...record, type: "varuni" },
+    { ...record, ruleProfile: "taraprasad-30-arcmin" }, { ...record, start: record.end },
+    { ...record, start: "2026-12-31T17:00:00" }, { ...record, end: "2026-12-31T18:30:00.000Z" }
+  ]), []);
+  assert.deepEqual(publicSpecialPunyaKaalMonth({ calculationStatus: "incomplete",
+    candidates: [candidate()] }, 2027, 4), []);
 });

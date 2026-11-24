@@ -12,10 +12,10 @@ test("monthly special punya-kaal section calculates lazily and stays hidden with
   assert.match(monthly, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
   assert.match(monthly, /IntersectionObserver/);
   assert.match(monthly, /Number\(a\.elevation\)-Number\(b\.elevation\)/);
-  assert.match(monthly, /data\.calculationStatus!=="complete"\|\|!sameObserver/);
+  assert.match(monthly, /!sameObserver/);
   assert.match(monthly, /if\(!approved\.length\)return/);
   assert.match(monthly, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
-  assert.match(monthly, /engine\.approval\.isApprovedSpecialPunyaKaalCandidate/);
+  assert.match(monthly, /engine\.approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
   assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
 });
 
@@ -38,10 +38,8 @@ test("Varuni-only public cards do not display Mahapat-specific instructions", ()
 });
 
 test("daily Panchang calculates its month lazily and links only for the approved Smarta profile", () => {
-  assert.match(daily, /resultData\.calculationStatus!=="complete"/);
   assert.match(daily, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
-  assert.match(daily, /approval\.isApprovedSpecialPunyaKaalCandidate/);
-  assert.match(daily, /approval\.isApprovedSpecialPunyaKaalCandidate/);
+  assert.match(daily, /approval\.publicSpecialPunyaKaalMonth\(resultData,year,month\)/);
   assert.match(daily, /monthly-vrat-parv\.html\?year=/);
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
   assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);

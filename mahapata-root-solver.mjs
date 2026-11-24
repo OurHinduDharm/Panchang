@@ -70,3 +70,63 @@ export function scanBracketedRoots(fn, startValue, endValue, stepValue, options 
   const tolerance = options.dedupTolerance ?? (options.timeTolerance ?? 0.25) * 2;
   return roots.filter((root, index) => index === 0 || root - roots[index - 1] > tolerance);
 }
+
+// A smooth declination relation can turn between two like-signed samples.
+// Split at resolved extrema before bisection. Near-zero extrema without a
+// transverse crossing are diagnostics, not established contact intervals.
+export function scanSmoothRoots(fn, start, end, step, options = {}) {
+  const timeTolerance = options.timeTolerance ?? 0.25;
+  const valueTolerance = options.valueTolerance ?? 1e-12;
+  if (![start, end, step, timeTolerance, valueTolerance].every(Number.isFinite) ||
+      !(end > start && step > 0 && timeTolerance > 0 && valueTolerance >= 0) ||
+      start + step === start) throw new RangeError("invalid smooth scan range or tolerance");
+  const samples = [];
+  const sample = t => ({ t, y: finiteNumber(fn(t), "smooth function value") });
+  for (let t = start; t < end; t += step) samples.push(sample(t));
+  samples.push(sample(end));
+  const points = [...samples];
+
+  function addExtremum(left, right, direction) {
+    let lo = left.t, hi = right.t;
+    for (let n = 0; n < 100 && hi - lo > timeTolerance / 4; n++) {
+      const third = (hi - lo) / 3;
+      const a = sample(lo + third), b = sample(hi - third);
+      if (direction * a.y < direction * b.y) hi = b.t;
+      else lo = a.t;
+    }
+    const extremum = sample((lo + hi) / 2);
+    if (direction * extremum.y < Math.min(direction * left.y, direction * right.y)) {
+      points.push(extremum);
+    }
+  }
+  for (let i = 1; i + 1 < samples.length; i++) {
+    const [a, b, d] = [samples[i - 1], samples[i], samples[i + 1]];
+    const incoming = b.y - a.y, outgoing = d.y - b.y;
+    if (incoming < 0 && outgoing >= 0) addExtremum(a, d, 1);
+    if (incoming > 0 && outgoing <= 0) addExtremum(a, d, -1);
+  }
+  // A turning point next to the beginning/end can lack a bounding triple.
+  const edgeIndices = new Set([0, samples.length - 2]);
+  for (const i of edgeIndices) {
+    addExtremum(samples[i], samples[i + 1], 1);
+    addExtremum(samples[i], samples[i + 1], -1);
+  }
+  points.sort((a, b) => a.t - b.t);
+  const crossings = [], grazing = [], boundaryZeros = [];
+  let previous = null, closestZero = null;
+  for (const p of points) {
+    if (Math.abs(p.y) <= valueTolerance) {
+      if (!closestZero || Math.abs(p.y) < Math.abs(closestZero.y)) closestZero = p;
+      continue;
+    }
+    if (previous && Math.sign(previous.y) !== Math.sign(p.y)) {
+      crossings.push(closestZero?.t ?? bisectRoot(fn, previous.t, p.t, options));
+    } else if (closestZero) {
+      (previous ? grazing : boundaryZeros).push(closestZero.t);
+    }
+    closestZero = null;
+    previous = p;
+  }
+  if (closestZero) boundaryZeros.push(closestZero.t);
+  return { crossings, grazing, boundaryZeros };
+}

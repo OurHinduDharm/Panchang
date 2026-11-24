@@ -974,19 +974,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       }
       var data=await calculation;
       if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
-      if(data.calculationStatus!=="complete"||!sameObserver(location,getLocalLocation()))return;
+      if(!sameObserver(location,getLocalLocation()))return;
       var engine=await getSpecialPunyaKaalEngine();
-      var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(engine.approval.isApprovedSpecialPunyaKaalCandidate)
-        .sort(function(a,b){return a.startTime.localeCompare(b.startTime);});
+      var approved=engine.approval.publicSpecialPunyaKaalMonth(data,year,month);
       if(!approved.length)return;
       approved.forEach(function(item){
         var card=document.createElement("article");card.className="special-kaal-card";
         var title=document.createElement("div");title.className="special-kaal-title";title.textContent=item.labels[0];card.appendChild(title);
         var date=document.createElement("div");date.className="special-kaal-date";
-        date.textContent="संयोग की तिथि: "+new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(item.date+"T12:00:00+05:30"));
+        date.textContent=(item.isMahapata?"स्पर्श की तिथि ":"संयोग की तिथि: ")+new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(item.date+"T12:00:00+05:30"));
         card.appendChild(date);
         var time=document.createElement("div");time.className="special-kaal-time";
-        time.textContent="संयोग आरंभ : "+formatSpecialPunyaKaalDateTime(item.startTime)+" · संयोग समाप्ति : "+formatSpecialPunyaKaalDateTime(item.endTime);
+        time.textContent=(item.isMahapata?"स्पर्श ":"संयोग आरंभ : ")+formatSpecialPunyaKaalDateTime(item.startTime)
+          +(item.isMahapata?" · मोक्ष ":" · संयोग समाप्ति : ")+formatSpecialPunyaKaalDateTime(item.endTime);
         card.appendChild(time);
         content.appendChild(card);
       });

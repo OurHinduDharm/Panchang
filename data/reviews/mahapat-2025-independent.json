@@ -1,0 +1,32 @@
+{
+  "source": "Drik Panchang, Kranti Samya Dosha, New Delhi, 2025, published minute precision",
+  "url": "https://www.drikpanchang.com/astrology/mahapata/kranti-samya-dosha.html?time-format=24hour&year=2025",
+  "events": [
+    {"type": "vaidhrti", "touchTimeIST": "2025-01-09T14:02:00+05:30", "releaseTimeIST": "2025-01-09T19:23:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-01-22T23:21:00+05:30", "releaseTimeIST": "2025-01-23T04:46:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-02-04T15:16:00+05:30", "releaseTimeIST": "2025-02-04T19:22:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-02-17T16:44:00+05:30", "releaseTimeIST": "2025-02-17T21:10:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-03-02T12:49:00+05:30", "releaseTimeIST": "2025-03-02T16:12:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-03-15T06:09:00+05:30", "releaseTimeIST": "2025-03-15T10:11:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-03-28T13:11:00+05:30", "releaseTimeIST": "2025-03-28T16:28:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-04-09T18:53:00+05:30", "releaseTimeIST": "2025-04-09T23:01:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-04-23T12:40:00+05:30", "releaseTimeIST": "2025-04-23T16:31:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-05-05T10:12:00+05:30", "releaseTimeIST": "2025-05-05T14:50:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-05-19T10:19:00+05:30", "releaseTimeIST": "2025-05-19T15:24:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-05-31T11:57:00+05:30", "releaseTimeIST": "2025-05-31T17:35:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-06-14T18:03:00+05:30", "releaseTimeIST": "2025-06-15T00:40:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-06-22T21:52:00+05:30", "releaseTimeIST": "2025-06-23T03:45:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-07-06T08:59:00+05:30", "releaseTimeIST": "2025-07-06T15:40:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-07-19T14:15:00+05:30", "releaseTimeIST": "2025-07-19T19:09:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-08-01T12:38:00+05:30", "releaseTimeIST": "2025-08-01T17:48:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-08-14T14:49:00+05:30", "releaseTimeIST": "2025-08-14T18:44:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-08-27T07:04:00+05:30", "releaseTimeIST": "2025-08-27T11:19:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-09-09T12:50:00+05:30", "releaseTimeIST": "2025-09-09T16:14:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-10-05T12:13:00+05:30", "releaseTimeIST": "2025-10-05T15:40:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-10-17T12:45:00+05:30", "releaseTimeIST": "2025-10-17T16:50:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-10-31T09:34:00+05:30", "releaseTimeIST": "2025-10-31T13:46:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-11-12T04:48:00+05:30", "releaseTimeIST": "2025-11-12T09:27:00+05:30"},
+    {"type": "vyatipata", "touchTimeIST": "2025-11-26T05:26:00+05:30", "releaseTimeIST": "2025-11-26T11:08:00+05:30"},
+    {"type": "vaidhrti", "touchTimeIST": "2025-12-08T09:48:00+05:30", "releaseTimeIST": "2025-12-08T15:34:00+05:30"}
+  ]
+}
