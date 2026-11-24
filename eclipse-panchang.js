@@ -2110,6 +2110,11 @@ function renderLocalVisibilityDetails(visibility) {
      ECLIPSE CARD
      ============================================================ */
 
+  function isEclipseRitualApplicable(g, visibility) {
+    return Boolean(g && visibility && visibility.localVisible &&
+      String(g.subtype || '').trim().toLowerCase() !== 'penumbral');
+  }
+
   function renderEclipseCard(
     item,
     observer,
@@ -2225,8 +2230,22 @@ var weekdayStr = getHindiWeekday(
   }
 }
 
+    /*
+     * Panchang is calculated ONLY here,
+     * after a real eclipse is confirmed.
+     */
+    try {
+      var eclipseDays = getEclipseDayPanchangs(
+        eclipseDate,
+        observer,
+        api
+      );
+      var dayPanchang = eclipseDays[1];
+      var visibility = getLocalVisibility(g, eclipseDays);
+
+      var ritualApplicable = isEclipseRitualApplicable(g, visibility);
  if (
-  g.sutakKaal &&
+  ritualApplicable && g.sutakKaal &&
   g.sutakKaal.start &&
   g.sutakKaal.end
 ) {
@@ -2249,7 +2268,7 @@ var weekdayStr = getHindiWeekday(
 }
 
 if (
-  g.punyaKala &&
+  ritualApplicable && g.punyaKala &&
   g.punyaKala.start &&
   g.punyaKala.end
 ) {
@@ -2271,18 +2290,6 @@ if (
     '</p>';
 }
 
-    /*
-     * Panchang is calculated ONLY here,
-     * after a real eclipse is confirmed.
-     */
-    try {
-      var eclipseDays = getEclipseDayPanchangs(
-        eclipseDate,
-        observer,
-        api
-      );
-      var dayPanchang = eclipseDays[1];
-      var visibility = getLocalVisibility(g, eclipseDays);
 
       html += renderVisibility(visibility, location);
       html += renderLocalVisibilityDetails(visibility);
@@ -3087,6 +3094,7 @@ if (
   window.__OHDEclipsePanchangTools = {
     discoverEclipses: discoverEclipses,
     getLocalVisibility: getLocalVisibility,
+    isEclipseRitualApplicable: isEclipseRitualApplicable,
     getEclipseDayPanchangs: getEclipseDayPanchangs
   };
 
