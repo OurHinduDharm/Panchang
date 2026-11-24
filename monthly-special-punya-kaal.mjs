@@ -18,7 +18,12 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
   function formatSpecialPunyaKaalDateTime(value){
     var date=new Date(value);
     if(Number.isNaN(date.getTime()))return "";
-    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+    var parts=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",hourCycle:"h23",numberingSystem:"latn"}).formatToParts(date);
+    var values=Object.fromEntries(parts.map(function(part){return [part.type,part.value];}));
+    var hour=Number(values.hour);
+    var period=hour<4?"रात्रि":hour<12?"प्रातः":hour<16?"अपराह्ण":hour<19?"सायं":"रात्रि";
+    if(hour===12)period="मध्याह्न";
+    return values.day+" "+values.month+", "+period+" "+(hour%12||12)+":"+values.minute+" बजे";
   }
   function sameObserver(a,b){
     if(!a||!b)return false;
