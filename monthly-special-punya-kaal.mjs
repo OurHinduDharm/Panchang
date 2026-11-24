@@ -94,6 +94,12 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
           +(item.isMahapata?" · मोक्ष ":" · संयोग समाप्ति : ")+formatSpecialPunyaKaalDateTime(item.endTime);
         card.appendChild(time);
         if(item.isMahapata){
+          if(item.middleTime){
+            var middle=document.createElement("div");
+            middle.className="special-kaal-middle";
+            middle.textContent="मध्यकाल : "+formatSpecialPunyaKaalDateTime(item.middleTime);
+            card.appendChild(middle);
+          }
           var minutes=Math.round((Date.parse(item.endTime)-Date.parse(item.startTime))/60000);
           if(Number.isFinite(minutes)&&minutes>=0){
             var duration=document.createElement("div");
