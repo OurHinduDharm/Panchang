@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 106,
+    "mappedOccurrences": 105,
     "distinctRuleIds": 22,
     "unmappedRegisteredProfiles": 3,
-    "mappedRecords": 106,
-    "distinctObservanceIds": 106,
+    "mappedRecords": 105,
+    "distinctObservanceIds": 105,
     "possibleDuplicateRecords": 0
   },
   "mappings": [
@@ -1096,19 +1096,6 @@
       "classification": "manual-review",
       "reason": "आश्विन शुक्ल दशमी अपराह्न-व्याप्ति candidate; नवमी/दशमी संयुक्त व्याप्ति और नवरात्रि-पारण होने पर पूर्ण interval की manual समीक्षा आवश्यक।",
       "recordKey": "2028-09-27::विजयादशमी / नवरात्रि पारण",
-      "lunarMonth": "आश्विन",
-      "paksha": "शुक्ल पक्ष",
-      "targetTithiIndex": 9
-    },
-    {
-      "date": "2028-09-28",
-      "title": "बंगाल विजयादशमी",
-      "hinduTithi": "आश्विन शुक्ल दशमी",
-      "observanceId": "vijayadashami-aparahna-2028-09-28",
-      "ruleId": "vijayadashami-aparahna",
-      "classification": "manual-review",
-      "reason": "आश्विन शुक्ल दशमी अपराह्न-व्याप्ति candidate; नवमी/दशमी संयुक्त व्याप्ति और नवरात्रि-पारण होने पर पूर्ण interval की manual समीक्षा आवश्यक।",
-      "recordKey": "2028-09-28::बंगाल विजयादशमी",
       "lunarMonth": "आश्विन",
       "paksha": "शुक्ल पक्ष",
       "targetTithiIndex": 9
