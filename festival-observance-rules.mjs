@@ -329,7 +329,7 @@ export function evaluateObservanceRule(ruleId, context) {
     };
   }
   if (profile.reviewOnly) return {
-    status: "manual-review", ruleId: profile.id, ruleVersion: "0.2.0",
+    status: "manual-review", ruleId: profile.id, ruleVersion: "0.3.0",
     date: day ?? null, label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis, sourceReview: profile.sourceReview,
     reviewNote: profile.reviewNote,
@@ -438,7 +438,7 @@ export function evaluateObservanceRule(ruleId, context) {
     : [];
   return {
     status: evidence.length && allRequired ? "candidate-supported" : "candidate-not-supported",
-    ruleId: profile.id, ruleVersion: "0.2.0", date: day,
+    ruleId: profile.id, ruleVersion: "0.3.0", date: day,
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,

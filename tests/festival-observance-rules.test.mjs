@@ -76,6 +76,7 @@ test("profile metadata makes the pending source-review boundary explicit", () =>
   assert.equal(profile.label, "महाशिवरात्रि");
   assert.equal(profile.sourceReview, "primary-text-consulted-two-night-tie-break-pending");
   assert.equal(profile.tradition, "smarta-review-default");
+  assert.equal(profile.ruleVersion, "0.3.0");
   assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
   assert.equal(getObservanceRuleProfile("ekadashi").id, "ekadashi-smarta-udaya");
 });
