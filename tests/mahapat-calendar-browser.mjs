@@ -11,7 +11,10 @@ const root = resolve(".");
 const origin = "https://calendar.test";
 const panchang = await build({
   stdin: { contents: 'export { getPanchangam } from "@ishubhamx/panchangam-js/dist/core/panchangam.js"; export { Observer } from "astronomy-engine";', resolveDir: root },
-  bundle: true, write: false, platform: "browser", format: "esm"
+  bundle: true, write: false, platform: "browser", format: "esm",
+  plugins: [{ name: "shared-observer", setup(build) {
+    build.onResolve({ filter: /^astronomy-engine$/ }, () => ({ path: "https://esm.sh/astronomy-engine@2.1.19", external: true }));
+  } }]
 });
 const bloggerCdn = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@main";
 const approvalPath = "/special-punya-kaal-public-approval.mjs";
