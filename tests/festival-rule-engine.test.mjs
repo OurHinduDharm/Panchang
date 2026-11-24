@@ -128,6 +128,16 @@ test("annual Panchanga adapter resolves a tithi observance without copying yearl
 });
 
 test("annual adapter leaves missing moonrise unresolved instead of substituting sunrise", () => {
+  const contexts = buildFestivalRuleContexts([{
+    date: "2031-09-10", masa: "भाद्रपद", paksha: "कृष्ण पक्ष",
+    sunrise: "2031-09-10T00:00:00Z", sunset: "2031-09-10T12:00:00Z",
+    tithiIntervals: [{
+      tithi: "चतुर्थी", paksha: "कृष्ण पक्ष",
+      startTime: "2031-09-10T04:00:00Z", endTime: "2031-09-10T18:00:00Z"
+    }]
+  }]);
+  assert.equal(contexts[0].tithis[0].index, 18);
+  assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
   const result = resolveFestivalObservanceFromAnnualPanchang({
     id: "sankashti",
     dateType: "tithi",
