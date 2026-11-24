@@ -239,3 +239,45 @@ test("annual adapter resolves Sankashti when local moonrise is supplied", () => 
   assert.equal(result.selectedDate, "2031-09-10");
   assert.equal(result.evaluations[0].evidence[0].decisionMoment, "moonrise");
 });
+
+test("annual adapter scopes recurring tithis to an explicit lunar month and paksha", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "phalguna-ekadashi-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "फाल्गुन",
+    paksha: "शुक्ल पक्ष",
+    targetTithiIndex: 10
+  }, 2031, [
+    {
+      date: "2031-01-01", masa: "माघ", paksha: "शुक्ल पक्ष",
+      sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+      tithiIntervals: [{ index: 10, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+    },
+    {
+      date: "2031-02-01", masa: "फाल्गुन", paksha: "शुक्ल पक्ष",
+      sunrise: "2031-02-01T06:00:00Z", sunset: "2031-02-01T18:00:00Z",
+      tithiIntervals: [{ index: 10, startTime: "2031-02-01T05:00:00Z", endTime: "2031-02-01T07:00:00Z" }]
+    }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-02-01");
+  assert.equal(result.evaluations.length, 1);
+});
+
+test("annual adapter accepts an explicit Adhika lunar month but normalizes allowed-month checks", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "adhika-chaturthi-2031",
+    dateType: "tithi",
+    ruleId: "vinayaka-chaturthi-madhyahna",
+    lunarMonth: "अधिक चैत्र",
+    paksha: "शुक्ल पक्ष",
+    targetTithiIndex: 3
+  }, 2031, [{
+    date: "2031-05-01", masa: "अधिक चैत्र", paksha: "शुक्ल पक्ष",
+    sunrise: "2031-05-01T00:00:00Z", sunset: "2031-05-01T12:00:00Z",
+    tithiIntervals: [{ index: 3, startTime: "2031-05-01T04:00:00Z", endTime: "2031-05-01T06:00:00Z" }]
+  }]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-05-01");
+});
