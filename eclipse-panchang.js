@@ -385,7 +385,7 @@ function getEclipseTypeHindi(g) {
         window.localStorage.removeItem(SAVED_CITY_KEY);
         return;
       }
-      window.localStorage.setItem(SAVED_CITY_KEY, [city, stateName, 'भारत'].filter(Boolean).join(', '));
+      window.localStorage.setItem(SAVED_CITY_KEY, [city, stateName, 'India'].filter(Boolean).join(', '));
     } catch (e) {
       log('City preference could not be saved:', e);
     }
