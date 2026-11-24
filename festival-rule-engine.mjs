@@ -195,7 +195,10 @@ export function resolveFestivalObservance(observance, year, candidateContexts = 
       ruleVersion: profile.ruleVersion
     });
   }
-  const resolved = resolveObservanceCandidates(profile.id, candidateContexts);
+  const resolved = resolveObservanceCandidates(profile.id, candidateContexts, {
+    targetTithiIndex: observance.targetTithiIndex,
+    targetTithiIndices: observance.targetTithiIndices
+  });
   return {
     engineVersion: FESTIVAL_RULE_ENGINE_VERSION,
     observanceId: observance.id,
