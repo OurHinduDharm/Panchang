@@ -189,3 +189,42 @@ test("2029 candidate mappings are explicit, source-linked, and review-only", asy
   assert.ok(manifest2029.excludedOrDeferred.some(item => item.title === "करवा चौथ"));
   assert.ok(manifest2029.excludedOrDeferred.some(item => item.title === "गौरी गणेश चतुर्थी / गणेश जयंती"));
 });
+
+const manifest2030 = JSON.parse(await readFile(new URL("../data/reviews/observance-rule-mapping-2030.json", import.meta.url), "utf8"));
+
+test("2030 candidate mappings are explicit, source-linked, and review-only", async () => {
+  const profiles = new Map(listObservanceRuleProfiles().map(profile => [profile.id, profile]));
+  const months = await Promise.all(Array.from({ length: 12 }, (_, index) =>
+    readFile(new URL(`../data/festivals/2030-${String(index + 1).padStart(2, "0")}.json`, import.meta.url), "utf8").then(JSON.parse)
+  ));
+  const sourceKeys = new Set(months.flatMap(month => month.events.map(event => `${event.date}::${event.title}`)));
+  assert.equal(manifest2030.status, "review-only-not-approved");
+  assert.equal(manifest2030.year, 2030);
+  assert.equal(manifest2030.mappings.length, manifest2030.counts.mappedRecords);
+  assert.equal(new Set(manifest2030.mappings.map(item => item.recordKey)).size, manifest2030.mappings.length);
+  assert.equal(new Set(manifest2030.mappings.map(item => item.observanceId)).size, manifest2030.counts.distinctObservanceIds);
+  assert.equal(new Set(manifest2030.mappings.map(item => item.ruleId)).size, manifest2030.counts.distinctRuleIds);
+  for (const item of manifest2030.mappings) {
+    const profile = profiles.get(item.ruleId);
+    assert.ok(profile, `unknown ruleId: ${item.ruleId}`);
+    const selectors = Number.isInteger(item.targetTithiIndex) ? [item.targetTithiIndex] : item.targetTithiIndices;
+    assert.ok(Array.isArray(selectors) && selectors.length > 0);
+    for (const selector of selectors) assert.ok(profile.tithiIndices.includes(selector), `invalid tithi selector: ${item.title}`);
+    assert.ok(sourceKeys.has(item.recordKey), `missing source record: ${item.recordKey}`);
+    assert.ok(item.reason && item.classification);
+    assert.notEqual(item.classification, "approved");
+  }
+  assert.ok(manifest2030.mappings.every(item => !("finalDate" in item) && !("publishable" in item)));
+  assert.ok(manifest2030.mappings.filter(item => item.ruleId === "sankashti-moonrise").every(item => item.classification === "blocked-awaiting-annual-panchang-input"));
+  assert.ok(manifest2030.mappings.some(item => item.recordKey === "2030-08-20::श्रीकृष्ण जन्माष्टमी (स्मार्त)" && item.targetTithiIndex === 22));
+  assert.ok(!manifest2030.mappings.some(item => /मासिक कृष्ण जन्माष्टमी/.test(item.title)));
+  assert.ok(manifest2030.mappings.some(item => item.recordKey === "2030-04-07::चैत्र नवरात्र चतुर्थी — माँ कूष्माण्डा" && Array.isArray(item.targetTithiIndices)));
+  assert.ok(manifest2030.mappings.some(item => item.recordKey === "2030-06-28::शुक्र प्रदोष व्रत / मासिक शिवरात्रि" && item.ruleId === "pradosh-trayodashi" && item.coincidentObservance === "मासिक शिवरात्रि"));
+  assert.ok(manifest2030.mappings.some(item => item.recordKey === "2030-10-15::वक्रतुण्ड संकष्टी चतुर्थी" && item.coincidentObservance === "करवा चौथ"));
+  assert.ok(!manifest2030.mappings.some(item => /शनि जयंती/.test(item.title)));
+  assert.ok(manifest2030.excludedOrDeferred.some(item => item.date === "2030-05-31" && /शनि जयंती/.test(item.title)));
+  assert.ok(manifest2030.excludedOrDeferred.some(item => item.date === "2030-06-01" && /शनि जयंती/.test(item.title)));
+  assert.ok(manifest2030.excludedOrDeferred.some(item => item.title === "करवा चौथ"));
+  assert.ok(manifest2030.excludedOrDeferred.some(item => item.title === "चन्द्र दर्शन / माघ गुप्त नवरात्र प्रारंभ — माँ शैलपुत्री"));
+  assert.ok(manifest2030.excludedOrDeferred.some(item => item.title === "आषाढ़ गुप्त नवरात्र प्रारंभ — माँ शैलपुत्री"));
+});
