@@ -40,7 +40,7 @@ function normalizeTithiInterval(row) {
   return { ...row, index, paksha };
 }
 
-const DATE_RE = /^\\d{4}-\\d{2}-\\d{2}$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 function validIsoDate(value) {
   if (typeof value !== "string" || !DATE_RE.test(value)) return false;
@@ -114,7 +114,7 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   }
   const candidateContexts = contexts.filter(context => {
     if (profile.allowedMonths?.length) {
-      const month = String(context.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+      const month = String(context.masa ?? "").replace(/^अधिक\s+/, "").trim();
       if (!profile.allowedMonths.includes(month)) return false;
     }
     return context.tithis.some(row => profile.tithiIndices.includes(row.index));
