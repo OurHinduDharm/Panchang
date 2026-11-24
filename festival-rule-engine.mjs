@@ -30,7 +30,11 @@ function normalizePaksha(value) {
 
 function normalizeTithiInterval(row) {
   if (!row || typeof row !== "object") return null;
-  if (Number.isInteger(Number(row.index))) return { ...row, index: Number(row.index) };
+  if (Number.isInteger(Number(row.index))) {
+    const index = Number(row.index);
+    const paksha = normalizePaksha(row.paksha) ?? (index >= 15 ? "कृष्ण पक्ष" : "शुक्ल पक्ष");
+    return { ...row, index, paksha };
+  }
   const name = String(row.tithi ?? row.name ?? "").trim();
   const ordinal = TITHI_ORDINAL.get(name);
   if (ordinal === undefined) return null;
