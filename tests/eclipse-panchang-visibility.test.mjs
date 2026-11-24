@@ -92,3 +92,11 @@ test("ritual applicability excludes penumbral and locally invisible eclipses", (
   }
   assert.equal(tools.isEclipseRitualApplicable({subtype:"Total"}, null), false);
 });
+
+test("public eclipse card suppresses locally invisible and penumbral events", () => {
+  const api = {getPanchangam: () => ({})};
+  const contact = {firstContact:d("2026-03-03T04:00:00Z"),lastContact:d("2026-03-03T06:00:00Z"),peak:d("2026-03-03T05:00:00Z")};
+  for (const subtype of ["Partial","Penumbral"]) {
+    assert.equal(tools.renderEclipseCard({date:contact.peak,grahan:{type:"Chandra Grahan",subtype,isVisible:false,contact}}, {}, api, {}), "");
+  }
+});
