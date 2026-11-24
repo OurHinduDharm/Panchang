@@ -7,13 +7,18 @@
   "policy": "This manifest maps selected existing 2026 records to shared rule IDs for audit and resolver testing only. It does not modify publication JSON, select or approve dates, or make any record publishable.",
   "fieldPolicy": {
     "ruleId": "Shared year-independent observance decision profile.",
-    "observanceId": "Stable semantic occurrence key for the identified 2026 observance.",
-    "muhurtaRule": "Untouched; never used as a substitute for ruleId."
+    "observanceId": "Unique occurrence/record ID for this year; the shared ruleId is the cross-year reusable decision logic.",
+    "muhurtaRule": "Untouched; never used as a substitute for ruleId.",
+    "targetTithiIndex": "Explicit zero-based tithi selector derived from the catalogue Hindu tithi; it narrows one occurrence when a rule profile supports multiple tithis.",
+    "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
     "mappedOccurrences": 106,
     "distinctRuleIds": 21,
-    "unmappedRegisteredProfiles": 4
+    "unmappedRegisteredProfiles": 4,
+    "mappedRecords": 106,
+    "distinctObservanceIds": 106,
+    "possibleDuplicateRecords": 1
   },
   "mappings": [
     {
@@ -23,7 +28,11 @@
       "observanceId": "pradosh-trayodashi-2026-01-01",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-01-01::गुरु प्रदोष व्रत",
+      "lunarMonth": "पौष",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-01-14",
@@ -32,7 +41,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-01-14",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-01-14::षट्तिला एकादशी",
+      "lunarMonth": "माघ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-01-16",
@@ -41,7 +54,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-01-16",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-01-16::मासिक शिवरात्रि",
+      "lunarMonth": "माघ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-01-16",
@@ -50,7 +67,11 @@
       "observanceId": "pradosh-trayodashi-2026-01-16",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-01-16::शुक्र प्रदोष व्रत",
+      "lunarMonth": "माघ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-01-22",
@@ -59,7 +80,11 @@
       "observanceId": "vinayaka-chaturthi-madhyahna-2026-01-22",
       "ruleId": "vinayaka-chaturthi-madhyahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।"
+      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।",
+      "recordKey": "2026-01-22::गौरी गणेश चतुर्थी / गणेश जयंती",
+      "lunarMonth": "माघ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-01-25",
@@ -68,7 +93,11 @@
       "observanceId": "ratha-saptami-review-2026-01-25",
       "ruleId": "ratha-saptami-review",
       "classification": "manual-review",
-      "reason": "अरुणोदय-व्याप्ति, दो अरुणोदय और क्षय-तिथि अपवाद; मूल interval से दो-दिवसीय जाँच आवश्यक।"
+      "reason": "अरुणोदय-व्याप्ति, दो अरुणोदय और क्षय-तिथि अपवाद; मूल interval से दो-दिवसीय जाँच आवश्यक।",
+      "recordKey": "2026-01-25::रथ सप्तमी / भानु सप्तमी",
+      "lunarMonth": "माघ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 6
     },
     {
       "date": "2026-01-29",
@@ -77,7 +106,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-01-29",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-01-29::जया एकादशी",
+      "lunarMonth": "माघ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-01-30",
@@ -86,7 +119,11 @@
       "observanceId": "pradosh-trayodashi-2026-01-30",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-01-30::शुक्र प्रदोष व्रत",
+      "lunarMonth": "माघ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-02-05",
@@ -95,7 +132,11 @@
       "observanceId": "sankashti-moonrise-2026-02-05",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-02-05::द्विजप्रिय संकष्टी चतुर्थी",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-02-13",
@@ -104,7 +145,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-02-13",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-02-13::विजया एकादशी",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-02-14",
@@ -113,7 +158,11 @@
       "observanceId": "pradosh-trayodashi-2026-02-14",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-02-14::शनि प्रदोष व्रत",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-02-15",
@@ -122,7 +171,11 @@
       "observanceId": "mahashivaratri-nishita-2026-02-15",
       "ruleId": "mahashivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "फाल्गुन कृष्ण चतुर्दशी और निशीथ निर्णय; दो-रात्रि अपवाद तथा प्राथमिक स्रोत की स्वीकृति लंबित।"
+      "reason": "फाल्गुन कृष्ण चतुर्दशी और निशीथ निर्णय; दो-रात्रि अपवाद तथा प्राथमिक स्रोत की स्वीकृति लंबित।",
+      "recordKey": "2026-02-15::महाशिवरात्रि / मासिक शिवरात्रि व्रत",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-02-27",
@@ -131,7 +184,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-02-27",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-02-27::आमलकी एकादशी",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-03-01",
@@ -140,7 +197,11 @@
       "observanceId": "pradosh-trayodashi-2026-03-01",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-03-01::रवि प्रदोष व्रत",
+      "lunarMonth": "फाल्गुन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-03-06",
@@ -149,7 +210,11 @@
       "observanceId": "sankashti-moonrise-2026-03-06",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-03-06::भालचन्द्र संकष्टी चतुर्थी",
+      "lunarMonth": "चैत्र",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-03-15",
@@ -158,7 +223,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-03-15",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-03-15::पापमोचनी एकादशी",
+      "lunarMonth": "चैत्र",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-03-16",
@@ -167,7 +236,11 @@
       "observanceId": "pradosh-trayodashi-2026-03-16",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-03-16::सोम प्रदोष व्रत",
+      "lunarMonth": "चैत्र",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-03-17",
@@ -176,7 +249,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-03-17",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-03-17::मासिक शिवरात्रि",
+      "lunarMonth": "चैत्र",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-03-19",
@@ -185,7 +262,11 @@
       "observanceId": "navratri-udaya-2026-03-19",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-19::चैत्र नवरात्रि प्रारंभ",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 0
     },
     {
       "date": "2026-03-20",
@@ -194,7 +275,11 @@
       "observanceId": "navratri-udaya-2026-03-20",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-20::नवरात्रि द्वितीय - ब्रह्मचारिणी",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 1
     },
     {
       "date": "2026-03-21",
@@ -203,7 +288,11 @@
       "observanceId": "navratri-udaya-2026-03-21",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-21::नवरात्रि तृतीय - चन्द्रघंटा",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 2
     },
     {
       "date": "2026-03-22",
@@ -212,7 +301,11 @@
       "observanceId": "navratri-udaya-2026-03-22",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-22::नवरात्रि चतुर्थ - कूष्माण्डा",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-03-23",
@@ -221,7 +314,11 @@
       "observanceId": "navratri-udaya-2026-03-23",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-23::नवरात्रि पंचम - स्कन्दमाता",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 4
     },
     {
       "date": "2026-03-24",
@@ -230,7 +327,11 @@
       "observanceId": "navratri-udaya-2026-03-24",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-24::नवरात्रि षष्ठ - कात्यायनी",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 5
     },
     {
       "date": "2026-03-25",
@@ -239,7 +340,11 @@
       "observanceId": "navratri-udaya-2026-03-25",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-03-25::नवरात्रि सप्तम - कालरात्रि (महासप्तमी)",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 6
     },
     {
       "date": "2026-03-26",
@@ -248,7 +353,11 @@
       "observanceId": "navratri-maha-ashtami-2026-03-26",
       "ruleId": "navratri-maha-ashtami",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन शुक्ल अष्टमी; सप्तमी-वेध और सूर्योदय-व्याप्ति की जाँच आवश्यक।"
+      "reason": "चैत्र/आश्विन शुक्ल अष्टमी; सप्तमी-वेध और सूर्योदय-व्याप्ति की जाँच आवश्यक।",
+      "recordKey": "2026-03-26::नवरात्रि अष्टमी - महागौरी एवं अन्नपूर्णा",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 7
     },
     {
       "date": "2026-03-26",
@@ -257,7 +366,11 @@
       "observanceId": "ram-navami-madhyahna-2026-03-26",
       "ruleId": "ram-navami-madhyahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त रामनवमी; मध्याह्न-व्याप्ति और अष्टमी-वेध की जाँच आवश्यक।"
+      "reason": "स्मार्त रामनवमी; मध्याह्न-व्याप्ति और अष्टमी-वेध की जाँच आवश्यक।",
+      "recordKey": "2026-03-26::श्रीरामनवमी (स्मार्त)",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 8
     },
     {
       "date": "2026-03-27",
@@ -266,7 +379,11 @@
       "observanceId": "navratri-navami-udaya-2026-03-27",
       "ruleId": "navratri-navami-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "नवमी उदयव्याप्ति candidate; अष्टमी-वेध और नवरात्रि-पारण संबंधी नियमों से तुलना आवश्यक。"
+      "reason": "नवमी उदयव्याप्ति candidate; अष्टमी-वेध और नवरात्रि-पारण संबंधी नियमों से तुलना आवश्यक。",
+      "recordKey": "2026-03-27::चैत्र नवरात्र नवमी - सिद्धिदात्री पूजन",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 8
     },
     {
       "date": "2026-03-29",
@@ -275,7 +392,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-03-29",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-03-29::कामदा एकादशी",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-03-30",
@@ -284,7 +405,11 @@
       "observanceId": "pradosh-trayodashi-2026-03-30",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-03-30::सोम प्रदोष व्रत",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-04-02",
@@ -293,7 +418,11 @@
       "observanceId": "hanuman-jayanti-chaitra-review-2026-04-02",
       "ruleId": "hanuman-jayanti-chaitra-review",
       "classification": "manual-review",
-      "reason": "उत्तर भारतीय चैत्र पूर्णिमा परंपरा; क्षेत्रीय तिथि-भेद के कारण स्रोत/परंपरा समीक्षा आवश्यक।"
+      "reason": "उत्तर भारतीय चैत्र पूर्णिमा परंपरा; क्षेत्रीय तिथि-भेद के कारण स्रोत/परंपरा समीक्षा आवश्यक।",
+      "recordKey": "2026-04-02::श्री हनुमान जयंती",
+      "lunarMonth": "चैत्र",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 14
     },
     {
       "date": "2026-04-05",
@@ -302,7 +431,11 @@
       "observanceId": "sankashti-moonrise-2026-04-05",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-04-05::विकट संकष्टी चतुर्थी",
+      "lunarMonth": "वैशाख",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-04-13",
@@ -311,7 +444,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-04-13",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-04-13::वरुथिनी एकादशी",
+      "lunarMonth": "वैशाख",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-04-15",
@@ -320,7 +457,11 @@
       "observanceId": "pradosh-trayodashi-2026-04-15",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-04-15::बुध प्रदोष व्रत",
+      "lunarMonth": "वैशाख",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-04-15",
@@ -329,7 +470,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-04-15",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-04-15::मासिक शिवरात्रि",
+      "lunarMonth": "वैशाख",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-04-19",
@@ -338,7 +483,11 @@
       "observanceId": "parashurama-jayanti-pradosha-review-2026-04-19",
       "ruleId": "parashurama-jayanti-pradosha-review",
       "classification": "manual-review",
-      "reason": "वैशाख शुक्ल तृतीया प्रदोष-व्याप्ति और दो-दिवसीय निर्णय; स्रोत स्वीकृति लंबित।"
+      "reason": "वैशाख शुक्ल तृतीया प्रदोष-व्याप्ति और दो-दिवसीय निर्णय; स्रोत स्वीकृति लंबित।",
+      "recordKey": "2026-04-19::परशुराम जयंती",
+      "lunarMonth": "वैशाख",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 2
     },
     {
       "date": "2026-04-27",
@@ -347,7 +496,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-04-27",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-04-27::मोहिनी एकादशी",
+      "lunarMonth": "वैशाख",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-04-28",
@@ -356,7 +509,11 @@
       "observanceId": "pradosh-trayodashi-2026-04-28",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-04-28::भौम प्रदोष व्रत",
+      "lunarMonth": "वैशाख",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-04-30",
@@ -365,7 +522,11 @@
       "observanceId": "narasimha-jayanti-smarta-review-2026-04-30",
       "ruleId": "narasimha-jayanti-smarta-review",
       "classification": "manual-review",
-      "reason": "वैशाख शुक्ल चतुर्दशी प्रदोष-व्याप्ति तथा द्विदिवसीय fallback की जाँच आवश्यक।"
+      "reason": "वैशाख शुक्ल चतुर्दशी प्रदोष-व्याप्ति तथा द्विदिवसीय fallback की जाँच आवश्यक।",
+      "recordKey": "2026-04-30::नृसिंह जयंती / नृसिंह चतुर्दशी व्रत",
+      "lunarMonth": "वैशाख",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 13
     },
     {
       "date": "2026-05-05",
@@ -374,7 +535,11 @@
       "observanceId": "sankashti-moonrise-2026-05-05",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-05-05::एकदन्त संकष्टी चतुर्थी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-05-13",
@@ -383,7 +548,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-05-13",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-05-13::अपरा एकादशी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-05-14",
@@ -392,7 +561,11 @@
       "observanceId": "pradosh-trayodashi-2026-05-14",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-05-14::गुरु प्रदोष व्रत",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-05-15",
@@ -401,7 +574,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-05-15",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-05-15::मासिक शिवरात्रि",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-05-27",
@@ -410,7 +587,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-05-27",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-05-27::पद्मिनी एकादशी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-05-28",
@@ -419,7 +600,11 @@
       "observanceId": "pradosh-trayodashi-2026-05-28",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-05-28::गुरु प्रदोष व्रत",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-06-03",
@@ -428,7 +613,11 @@
       "observanceId": "sankashti-moonrise-2026-06-03",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-06-03::विभुवन संकष्टी चतुर्थी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-06-11",
@@ -437,7 +626,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-06-11",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-06-11::परमा एकादशी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-06-12",
@@ -446,7 +639,11 @@
       "observanceId": "pradosh-trayodashi-2026-06-12",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-06-12::प्रदोष व्रत",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-06-13",
@@ -455,7 +652,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-06-13",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-06-13::मासिक शिवरात्रि",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-06-18",
@@ -464,7 +665,11 @@
       "observanceId": "vinayaka-chaturthi-madhyahna-2026-06-18",
       "ruleId": "vinayaka-chaturthi-madhyahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।"
+      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।",
+      "recordKey": "2026-06-18::प्रद्युम्न चतुर्थी / विनायक चतुर्थी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-06-25",
@@ -473,7 +678,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-06-25",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-06-25::निर्जला एकादशी",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-06-27",
@@ -482,7 +691,11 @@
       "observanceId": "pradosh-trayodashi-2026-06-27",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-06-27::शनि प्रदोष व्रत",
+      "lunarMonth": "ज्येष्ठ",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-07-03",
@@ -491,7 +704,11 @@
       "observanceId": "sankashti-moonrise-2026-07-03",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-07-03::कृष्णपिङ्गल संकष्टी चतुर्थी",
+      "lunarMonth": "आषाढ़",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-07-10",
@@ -500,7 +717,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-07-10",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-07-10::योगिनी एकादशी",
+      "lunarMonth": "आषाढ़",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-07-12",
@@ -509,7 +730,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-07-12",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-07-12::मासिक शिवरात्रि",
+      "lunarMonth": "आषाढ़",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-07-12",
@@ -518,7 +743,11 @@
       "observanceId": "pradosh-trayodashi-2026-07-12",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-07-12::रवि प्रदोष व्रत",
+      "lunarMonth": "आषाढ़",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-07-25",
@@ -527,7 +756,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-07-25",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-07-25::देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ",
+      "lunarMonth": "आषाढ़",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-07-26",
@@ -536,7 +769,11 @@
       "observanceId": "pradosh-trayodashi-2026-07-26",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-07-26::रवि प्रदोष व्रत",
+      "lunarMonth": "आषाढ़",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-08-02",
@@ -545,7 +782,11 @@
       "observanceId": "sankashti-moonrise-2026-08-02",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-08-02::गजानन संकष्टी चतुर्थी",
+      "lunarMonth": "श्रावण",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-08-09",
@@ -554,7 +795,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-08-09",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-08-09::कामिका एकादशी",
+      "lunarMonth": "श्रावण",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-08-10",
@@ -563,7 +808,11 @@
       "observanceId": "pradosh-trayodashi-2026-08-10",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-08-10::सोम प्रदोष व्रत",
+      "lunarMonth": "श्रावण",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-08-11",
@@ -572,7 +821,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-08-11",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-08-11::मासिक शिवरात्रि",
+      "lunarMonth": "श्रावण",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-08-17",
@@ -581,7 +834,11 @@
       "observanceId": "nag-panchami-special-review-2026-08-17",
       "ruleId": "nag-panchami-special-review",
       "classification": "manual-review",
-      "reason": "धर्मसिंधु के तीन-मुहूर्त, पूर्वदिन चतुर्थी-वेध और सीमांत अपवाद; स्वचालित प्रकाशन निषिद्ध।"
+      "reason": "धर्मसिंधु के तीन-मुहूर्त, पूर्वदिन चतुर्थी-वेध और सीमांत अपवाद; स्वचालित प्रकाशन निषिद्ध।",
+      "recordKey": "2026-08-17::नाग पंचमी / नाग पंचमी व्रत",
+      "lunarMonth": "श्रावण",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 4
     },
     {
       "date": "2026-08-23",
@@ -590,7 +847,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-08-23",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-08-23::श्रावण पुत्रदा एकादशी",
+      "lunarMonth": "श्रावण",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-08-25",
@@ -599,7 +860,11 @@
       "observanceId": "pradosh-trayodashi-2026-08-25",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-08-25::भौम प्रदोष व्रत",
+      "lunarMonth": "श्रावण",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-08-31",
@@ -608,7 +873,11 @@
       "observanceId": "sankashti-moonrise-2026-08-31",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-08-31::हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-09-04",
@@ -617,7 +886,11 @@
       "observanceId": "janmashtami-smarta-nishita-2026-09-04",
       "ruleId": "janmashtami-smarta-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मुख्य भाद्रपद कृष्ण जन्माष्टमी; निशीथ, रोहिणी-सहायक साक्ष्य और दो-रात्रि निर्णय की समीक्षा आवश्यक।"
+      "reason": "मुख्य भाद्रपद कृष्ण जन्माष्टमी; निशीथ, रोहिणी-सहायक साक्ष्य और दो-रात्रि निर्णय की समीक्षा आवश्यक।",
+      "recordKey": "2026-09-04::श्रीकृष्ण जन्माष्टमी / श्रीकृष्ण जयंती",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 22
     },
     {
       "date": "2026-09-07",
@@ -626,7 +899,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-09-07",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-09-07::अजा एकादशी",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-09-08",
@@ -635,7 +912,11 @@
       "observanceId": "pradosh-trayodashi-2026-09-08",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-09-08::भौम प्रदोष व्रत",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-09-09",
@@ -644,7 +925,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-09-09",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-09-09::मासिक शिवरात्रि",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-09-14",
@@ -653,7 +938,11 @@
       "observanceId": "vinayaka-chaturthi-madhyahna-2026-09-14",
       "ruleId": "vinayaka-chaturthi-madhyahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।"
+      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।",
+      "recordKey": "2026-09-14::श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-09-19",
@@ -662,7 +951,11 @@
       "observanceId": "radha-ashtami-madhyahna-review-2026-09-19",
       "ruleId": "radha-ashtami-madhyahna-review",
       "classification": "manual-review",
-      "reason": "मध्याह्न-व्याप्ति और सप्तमी-वेध का निर्णय; स्रोत/परंपरा समीक्षा आवश्यक।"
+      "reason": "मध्याह्न-व्याप्ति और सप्तमी-वेध का निर्णय; स्रोत/परंपरा समीक्षा आवश्यक।",
+      "recordKey": "2026-09-19::राधाष्टमी | श्री राधा जयन्ती",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 7
     },
     {
       "date": "2026-09-22",
@@ -671,7 +964,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-09-22",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-09-22::पार्श्व / परिवर्तिनी एकादशी",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-09-23",
@@ -680,7 +977,11 @@
       "observanceId": "vamana-jayanti-madhyahna-review-2026-09-23",
       "ruleId": "vamana-jayanti-madhyahna-review",
       "classification": "manual-review",
-      "reason": "द्वादशी मध्याह्न-व्याप्ति, श्रवण नक्षत्र और एकादशी-वेध का निर्णय आवश्यक।"
+      "reason": "द्वादशी मध्याह्न-व्याप्ति, श्रवण नक्षत्र और एकादशी-वेध का निर्णय आवश्यक।",
+      "recordKey": "2026-09-23::श्री वामनावतार भगवान का प्राकट्य",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 11
     },
     {
       "date": "2026-09-24",
@@ -689,7 +990,11 @@
       "observanceId": "pradosh-trayodashi-2026-09-24",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-09-24::गुरु प्रदोष व्रत",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-09-29",
@@ -698,7 +1003,11 @@
       "observanceId": "sankashti-moonrise-2026-09-29",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-09-29::विघ्नराज संकष्टी चतुर्थी",
+      "lunarMonth": "आश्विन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-10-06",
@@ -707,7 +1016,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-10-06",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-10-06::इंदिरा एकादशी",
+      "lunarMonth": "आश्विन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-10-08",
@@ -716,7 +1029,11 @@
       "observanceId": "pradosh-trayodashi-2026-10-08",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-10-08::गुरु प्रदोष व्रत",
+      "lunarMonth": "आश्विन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-10-08",
@@ -725,7 +1042,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-10-08",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-10-08::मासिक शिवरात्रि",
+      "lunarMonth": "आश्विन",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-10-11",
@@ -734,7 +1055,11 @@
       "observanceId": "navratri-udaya-2026-10-11",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-11::शारदीय नवरात्र प्रारम्भ",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 0
     },
     {
       "date": "2026-10-12",
@@ -743,7 +1068,11 @@
       "observanceId": "navratri-udaya-2026-10-12",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-12::शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 1
     },
     {
       "date": "2026-10-13",
@@ -752,16 +1081,27 @@
       "observanceId": "navratri-udaya-2026-10-13",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-13::शारदीय नवरात्र तृतीया — माँ चन्द्रघंटा",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 2
     },
     {
       "date": "2026-10-13",
       "title": "शारदीय नवरात्र तृतीया — माँ चन्द्रघण्टा",
       "hinduTithi": "आश्विन शुक्ल तृतीया",
-      "observanceId": "navratri-udaya-2026-10-13",
+      "observanceId": "navratri-udaya-2026-10-13-2",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-13::शारदीय नवरात्र तृतीया — माँ चन्द्रघण्टा",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 2,
+      "recordDisposition": "possible-duplicate",
+      "duplicateOfRecordKey": "2026-10-13::शारदीय नवरात्र तृतीया — माँ चन्द्रघंटा",
+      "duplicateNote": "इसी तिथि पर समान देवी/लेख लिंक के साथ दूसरा तृतीया रिकॉर्ड है; सामग्री की तुलना कर एक ही कार्ड रखने की समीक्षा करें।"
     },
     {
       "date": "2026-10-14",
@@ -770,7 +1110,11 @@
       "observanceId": "navratri-udaya-2026-10-14",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-14::शारदीय नवरात्र चतुर्थी — माँ कूष्माण्डा",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-10-15",
@@ -779,7 +1123,11 @@
       "observanceId": "navratri-udaya-2026-10-15",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-15::शारदीय नवरात्र पंचमी — माँ स्कन्दमाता",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 4
     },
     {
       "date": "2026-10-16",
@@ -788,7 +1136,11 @@
       "observanceId": "navratri-udaya-2026-10-16",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-16::शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 5
     },
     {
       "date": "2026-10-17",
@@ -797,7 +1149,11 @@
       "observanceId": "navratri-udaya-2026-10-17",
       "ruleId": "navratri-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।"
+      "reason": "चैत्र/आश्विन नवरात्रि की दिन-गणना; तिथि-क्षय/वृद्धि और प्रथम उदयव्याप्ति का सत्यापन आवश्यक।",
+      "recordKey": "2026-10-17::शारदीय नवरात्र सप्तमी — माँ कालरात्रि",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 6
     },
     {
       "date": "2026-10-19",
@@ -806,7 +1162,14 @@
       "observanceId": "navratri-navami-ashtami-viddha-2026-10-19",
       "ruleId": "navratri-navami-ashtami-viddha",
       "classification": "manual-review",
-      "reason": "अष्टमी पर नवमी-व्याप्ति का विशेष निर्णय; छह घटिका/संधि नियम का मूल पंचांग-डेटा से पुनः सत्यापन आवश्यक।"
+      "reason": "अष्टमी पर नवमी-व्याप्ति का विशेष निर्णय; छह घटिका/संधि नियम का मूल पंचांग-डेटा से पुनः सत्यापन आवश्यक।",
+      "recordKey": "2026-10-19::शारदीय नवरात्र महानवमी — माँ सिद्धिदात्री",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndices": [
+        7,
+        8
+      ]
     },
     {
       "date": "2026-10-19",
@@ -815,7 +1178,11 @@
       "observanceId": "navratri-maha-ashtami-2026-10-19",
       "ruleId": "navratri-maha-ashtami",
       "classification": "candidate-needs-source-approval",
-      "reason": "चैत्र/आश्विन शुक्ल अष्टमी; सप्तमी-वेध और सूर्योदय-व्याप्ति की जाँच आवश्यक।"
+      "reason": "चैत्र/आश्विन शुक्ल अष्टमी; सप्तमी-वेध और सूर्योदय-व्याप्ति की जाँच आवश्यक।",
+      "recordKey": "2026-10-19::शारदीय नवरात्र महाष्टमी — माँ महागौरी",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 7
     },
     {
       "date": "2026-10-20",
@@ -824,7 +1191,11 @@
       "observanceId": "vijayadashami-aparahna-2026-10-20",
       "ruleId": "vijayadashami-aparahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "आश्विन शुक्ल दशमी; अपराह्न-व्याप्ति और श्रवण नक्षत्र की सहायक भूमिका जाँचनी है।"
+      "reason": "आश्विन शुक्ल दशमी; अपराह्न-व्याप्ति और श्रवण नक्षत्र की सहायक भूमिका जाँचनी है।",
+      "recordKey": "2026-10-20::दशहरा / विजयादशमी",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 9
     },
     {
       "date": "2026-10-22",
@@ -833,7 +1204,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-10-22",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-10-22::पापांकुशा एकादशी",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-10-23",
@@ -842,7 +1217,11 @@
       "observanceId": "pradosh-trayodashi-2026-10-23",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-10-23::शुक्र प्रदोष व्रत",
+      "lunarMonth": "आश्विन",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-11-05",
@@ -851,7 +1230,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-11-05",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-11-05::रमा एकादशी व्रत",
+      "lunarMonth": "कार्तिक",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-11-06",
@@ -860,7 +1243,11 @@
       "observanceId": "pradosh-trayodashi-2026-11-06",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-11-06::शुक्र प्रदोष व्रत",
+      "lunarMonth": "कार्तिक",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-11-07",
@@ -869,7 +1256,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-11-07",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-11-07::मासिक शिवरात्रि",
+      "lunarMonth": "कार्तिक",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-11-15",
@@ -878,7 +1269,11 @@
       "observanceId": "chhath-kartika-review-2026-11-15",
       "ruleId": "chhath-kartika-review",
       "classification": "manual-review",
-      "reason": "संध्या अर्घ्य और अगले दिन उषाकालीन अर्घ्य की क्षेत्रीय परंपरा; एकल सार्वत्रिक तिथि-चयन नियम अभी स्वीकृत नहीं।"
+      "reason": "संध्या अर्घ्य और अगले दिन उषाकालीन अर्घ्य की क्षेत्रीय परंपरा; एकल सार्वत्रिक तिथि-चयन नियम अभी स्वीकृत नहीं।",
+      "recordKey": "2026-11-15::छठ पूजा",
+      "lunarMonth": "कार्तिक",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 5
     },
     {
       "date": "2026-11-20",
@@ -887,7 +1282,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-11-20",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-11-20::देवोत्थानी एकादशी (स्मार्त)",
+      "lunarMonth": "कार्तिक",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-11-22",
@@ -896,7 +1295,11 @@
       "observanceId": "pradosh-trayodashi-2026-11-22",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-11-22::रवि प्रदोष व्रत",
+      "lunarMonth": "कार्तिक",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-11-27",
@@ -905,7 +1308,11 @@
       "observanceId": "sankashti-moonrise-2026-11-27",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-11-27::गणाधिप संकष्टी चतुर्थी",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-12-04",
@@ -914,7 +1321,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-12-04",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-12-04::उत्पन्ना एकादशी",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 25
     },
     {
       "date": "2026-12-06",
@@ -923,7 +1334,11 @@
       "observanceId": "pradosh-trayodashi-2026-12-06",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-12-06::प्रदोष व्रत",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 27
     },
     {
       "date": "2026-12-07",
@@ -932,7 +1347,11 @@
       "observanceId": "masik-shivaratri-nishita-2026-12-07",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
-      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।"
+      "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
+      "recordKey": "2026-12-07::मासिक शिवरात्रि / श्री बाला सिद्धविद्या जयंती",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 28
     },
     {
       "date": "2026-12-13",
@@ -941,7 +1360,11 @@
       "observanceId": "vinayaka-chaturthi-madhyahna-2026-12-13",
       "ruleId": "vinayaka-chaturthi-madhyahna",
       "classification": "candidate-needs-source-approval",
-      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।"
+      "reason": "शुक्ल चतुर्थी मध्याह्न-व्याप्ति; गणेश चतुर्थी/स्थानीय नाम-भेद की पहचान और स्रोत स्वीकृति आवश्यक।",
+      "recordKey": "2026-12-13::कृच्छ्र चतुर्थी / विनायक चतुर्थी",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 3
     },
     {
       "date": "2026-12-20",
@@ -950,7 +1373,11 @@
       "observanceId": "ekadashi-smarta-udaya-2026-12-20",
       "ruleId": "ekadashi-smarta-udaya",
       "classification": "candidate-needs-source-approval",
-      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।"
+      "reason": "स्मार्त उदयव्यापिनी एकादशी प्रोफ़ाइल; लगातार दो सूर्योदय, वृद्धि/क्षय और संबंधित निर्णय की गणितीय जाँच आवश्यक।",
+      "recordKey": "2026-12-20::मोक्षदा एकादशी / गीता जयंती",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 10
     },
     {
       "date": "2026-12-21",
@@ -959,7 +1386,11 @@
       "observanceId": "pradosh-trayodashi-2026-12-21",
       "ruleId": "pradosh-trayodashi",
       "classification": "candidate-needs-source-approval",
-      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।"
+      "reason": "त्रयोदशी और प्रदोष-व्रत पहचान स्पष्ट; प्रदोषकाल की वास्तविक व्याप्ति और प्राथमिक स्रोत की स्वीकृति आवश्यक।",
+      "recordKey": "2026-12-21::सोम प्रदोष व्रत",
+      "lunarMonth": "मार्गशीर्ष",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2026-12-27",
@@ -968,7 +1399,11 @@
       "observanceId": "sankashti-moonrise-2026-12-27",
       "ruleId": "sankashti-moonrise",
       "classification": "blocked-missing-moonrise",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।"
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; वर्तमान वार्षिक rule-context adapter में चन्द्रोदय उपलब्ध न होने से तारीख़ चयन अभी नहीं।",
+      "recordKey": "2026-12-27::अखुरथ संकष्टी चतुर्थी",
+      "lunarMonth": "पौष",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     }
   ],
   "registeredProfilesWithout2026Mapping": [
