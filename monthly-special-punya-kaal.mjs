@@ -88,6 +88,12 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
         time.textContent=(item.isMahapata?"स्पर्श ":"संयोग आरंभ : ")+formatSpecialPunyaKaalDateTime(item.startTime)
           +(item.isMahapata?" · मोक्ष ":" · संयोग समाप्ति : ")+formatSpecialPunyaKaalDateTime(item.endTime);
         card.appendChild(time);
+        if(item.isMahapata){
+          var guidance=document.createElement("p");
+          guidance.className="special-kaal-guidance";
+          guidance.textContent="महापात काल में विवाहादि मांगलिक कार्य वर्जित माने गए हैं, किन्तु स्नान, दान, जप, तप एवं होम का विशेष महत्त्व है। इस पुण्यकाल में साधक अपने इष्टदेव की स्तोत्रात्मक उपासना भी कर सकते हैं।";
+          card.appendChild(guidance);
+        }
         content.appendChild(card);
       });
       section.hidden=false;
