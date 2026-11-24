@@ -2244,7 +2244,12 @@ var weekdayStr = getHindiWeekday(
       var visibility = getLocalVisibility(g, eclipseDays);
 
       var ritualApplicable = isEclipseRitualApplicable(g, visibility);
-      if (!ritualApplicable) return '';
+      if (!ritualApplicable) {
+        if (String(g.subtype || '').trim().toLowerCase() === 'penumbral') return '';
+        return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
+          ' — ' + esc(getEclipseTypeHindi(g)) +
+          '</h3><p>चयनित स्थान पर अदृश्य। सूतक मान्य नहीं है।</p></div>';
+      }
  if (
   ritualApplicable && g.sutakKaal &&
   g.sutakKaal.start &&
