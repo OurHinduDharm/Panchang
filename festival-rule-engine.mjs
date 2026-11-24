@@ -78,11 +78,11 @@ export function buildFestivalRuleContexts(dailyPanchang) {
       date: day?.date ?? null,
       masa: day?.masa ?? null,
       paksha: day?.paksha ?? null,
-      sunrise: day?.sunrise ?? null,
-      sunset: day?.sunset ?? null,
-      moonrise: day?.moonrise ?? null,
-      nextSunrise: next?.sunrise ?? null,
-      previousSunrise: previous?.sunrise ?? null,
+      sunrise: day?.sunrise ?? undefined,
+      sunset: day?.sunset ?? undefined,
+      moonrise: day?.moonrise ?? undefined,
+      nextSunrise: next?.sunrise ?? undefined,
+      previousSunrise: previous?.sunrise ?? undefined,
       tithis: (Array.isArray(day?.tithiIntervals) ? day.tithiIntervals : [])
         .map(normalizeTithiInterval).filter(Boolean),
       previousTithis: (Array.isArray(previous?.tithiIntervals) ? previous.tithiIntervals : [])
