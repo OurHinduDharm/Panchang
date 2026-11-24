@@ -302,6 +302,11 @@ export function getObservanceRuleProfile(ruleId) {
   });
 }
 
+/** Return a stable, read-only snapshot of every registered observance profile. */
+export function listObservanceRuleProfiles() {
+  return Object.keys(PROFILES).sort().map(id => getObservanceRuleProfile(id));
+}
+
 /**
  * Evaluate one day against an explicit profile. A match is only candidate
  * evidence; source review and festival-specific exceptions remain separate.
