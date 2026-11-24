@@ -1741,12 +1741,12 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   var initialDate=getIndiaCalendarDate();
   var requestedYear=Number(pageParams.get("year"));
   var requestedMonth=Number(pageParams.get("month"));
-  var validRequestedMonth=Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2030&&
+  var validRequestedMonth=Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2031&&
     Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12;
   if(validRequestedMonth){
     initialDate=new Date(Date.UTC(requestedYear,requestedMonth-1,1,12,0,0));
   }
-  var initialYear=Math.min(2030,Math.max(2026,initialDate.getUTCFullYear()));
+  var initialYear=Math.min(2031,Math.max(2026,initialDate.getUTCFullYear()));
   if(initialYear!==initialDate.getUTCFullYear())initialDate=new Date(Date.UTC(initialYear,initialDate.getUTCMonth(),1,12,0,0));
   ensureYearOption(initialYear);
   yearSelect.value=String(initialYear);
