@@ -126,13 +126,23 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
       targetIndices.some(index => !Number.isInteger(index) || !profile.tithiIndices.includes(index))) {
     return fail("manual-review", observance, ["target-tithi-selector-outside-rule-profile"]);
   }
+  const requestedMonth = String(observance.lunarMonth ?? "").trim();
+  const requestedPaksha = String(observance.paksha ?? "").trim();
+  if (requestedPaksha && !["शुक्ल पक्ष", "कृष्ण पक्ष"].includes(requestedPaksha)) {
+    return fail("manual-review", observance, ["invalid-paksha-selector"]);
+  }
+  if (requestedPaksha && profile.paksha && requestedPaksha !== profile.paksha) {
+    return fail("manual-review", observance, ["paksha-selector-outside-rule-profile"]);
+  }
   const candidateContexts = contexts.filter(context => {
-    if (profile.allowedMonths?.length) {
-      const month = String(context.masa ?? "").replace(/^अधिक\s+/, "").trim();
-      if (!profile.allowedMonths.includes(month)) return false;
-    }
+    const rawMonth = String(context.masa ?? "").trim();
+    const normalizedMonth = rawMonth.replace(/^अधिक\s+/, "").trim();
+    if (requestedMonth && requestedMonth !== rawMonth && requestedMonth !== normalizedMonth) return false;
+    if (profile.allowedMonths?.length && !profile.allowedMonths.includes(normalizedMonth)) return false;
     return targetIndices.every(index => context.tithis.some(row =>
-      row.index === index && (!profile.paksha || !row.paksha || row.paksha === profile.paksha)
+      row.index === index &&
+      (!profile.paksha || !row.paksha || row.paksha === profile.paksha) &&
+      (!requestedPaksha || row.paksha === requestedPaksha)
     ));
   });
   if (!candidateContexts.length) {
