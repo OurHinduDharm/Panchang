@@ -1142,3 +1142,11 @@ test("2031 Dwadashi and Chaturmas review remains pending source verification", a
   assert.equal(review.sourceReview.chaturmasStartCrossCheck.status, "no-configured-reference-manual-cross-check-required");
   assert.equal(review.sourceReview.chaturmasEndCrossCheck.status, "no-configured-reference-manual-cross-check-required");
 });
+
+
+test("annual review draft publishing never overwrites existing hand-reviewed Dwadashi files", async () => {
+  const workflow = await readFile(new URL("../.github/workflows/annual-dwadashi-source-review.yml", import.meta.url), "utf8");
+  assert.match(workflow, /for file in artifacts\/dwadashi-review\/\*\.json/);
+  assert.match(workflow, /if \[ ! -f "\$target" \]; then[\s\S]*cp "\$file" "\$target"/);
+  assert.doesNotMatch(workflow, /cp artifacts\/dwadashi-review\/\*\.json data\/references\//);
+});
