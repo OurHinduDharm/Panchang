@@ -3135,7 +3135,9 @@ if (
     getLocalVisibility: getLocalVisibility,
     renderEclipseCard: renderEclipseCard,
     isEclipseRitualApplicable: isEclipseRitualApplicable,
-    getEclipseDayPanchangs: getEclipseDayPanchangs
+    getEclipseDayPanchangs: getEclipseDayPanchangs,
+    rememberCity: rememberCity,
+    restoreRememberedCity: restoreRememberedCity
   };
 
   window.initEclipsePanchang = initEclipsePanchang;
