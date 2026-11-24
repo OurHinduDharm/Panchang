@@ -140,7 +140,7 @@ test("selected city name persists without storing exact coordinates", async () =
   };
   tools.rememberCity(location);
   const saved = storage.get("ohdEclipsePanchangCity");
-  assert.equal(saved, "Pithoragarh, Uttarakhand, भारत");
+  assert.equal(saved, "Pithoragarh, Uttarakhand, India");
   assert.doesNotMatch(saved, /29\.58|80\.22|1650/);
 });
 
