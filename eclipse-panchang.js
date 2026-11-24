@@ -35,6 +35,16 @@
   // Persist only a public city name, never exact coordinates.
   var SAVED_CITY_KEY = 'ohdEclipsePanchangCity';
 
+  // Site-wide default observer for first-time Grahan Panchang visitors.
+  var DEFAULT_LOCATION = {
+    name: 'पिथौरागढ़, उत्तराखंड, भारत',
+    city: 'पिथौरागढ़',
+    state: 'उत्तराखंड',
+    lat: 29.58,
+    lon: 80.22,
+    elevation: 1650
+  };
+
   var TZ_OFFSET = 330;
   var YEAR_MIN = 2026;
   var YEAR_MAX = 2050;
@@ -410,6 +420,19 @@ function getEclipseTypeHindi(g) {
       logErr('Remembered city restore failed:', e);
     }
     return null;
+  }
+
+  function getInitialLocation() {
+    return restoreRememberedCity().then(function (remembered) {
+      if (remembered) return remembered;
+
+      var shared = readLocation();
+      if (shared) return shared;
+
+      var fallback = normalizeLocation(DEFAULT_LOCATION);
+      saveLocation(fallback);
+      return fallback;
+    });
   }
 
   function locationDisplayName(location) {
@@ -3023,8 +3046,7 @@ if (
        * This lets a previous Mini Panchang/location
        * selection be picked up.
        */
-      var savedLocation = await restoreRememberedCity();
-      if (!savedLocation) savedLocation = readLocation();
+      var savedLocation = await getInitialLocation();
 
       existing.attach(container);
 
@@ -3090,8 +3112,7 @@ if (
     /*
      * Read shared saved location.
      */
-    var location = await restoreRememberedCity();
-    if (!location) location = readLocation();
+    var location = await getInitialLocation();
 
     if (!location) {
       renderError(
@@ -3137,7 +3158,8 @@ if (
     isEclipseRitualApplicable: isEclipseRitualApplicable,
     getEclipseDayPanchangs: getEclipseDayPanchangs,
     rememberCity: rememberCity,
-    restoreRememberedCity: restoreRememberedCity
+    restoreRememberedCity: restoreRememberedCity,
+    getInitialLocation: getInitialLocation
   };
 
   window.initEclipsePanchang = initEclipsePanchang;
