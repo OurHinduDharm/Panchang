@@ -65,11 +65,18 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
           specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
         }
       }
-      var data=await calculation;
+      // Reviewed geocentric Mahapata windows do not depend on the local Varuni scan.
+      // A failed local scan must not suppress independently approved windows.
+      var data=await calculation.catch(function(error){
+        console.warn("Local special calendar calculation unavailable",error);
+        return null;
+      });
       if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       if(!sameObserver(location,getLocalLocation()))return;
-      var engine=await getSpecialPunyaKaalEngine();
-      var approved=engine.approval.publicSpecialPunyaKaalMonth(data,year,month);
+      var approval=await specialPunyaKaalApprovalPromise;
+      if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
+      if(!sameObserver(location,getLocalLocation()))return;
+      var approved=approval.publicSpecialPunyaKaalMonth(data,year,month);
       if(!approved.length)return;
       approved.forEach(function(item){
         var card=document.createElement("article");card.className="special-kaal-card";
@@ -89,6 +96,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
         window.requestAnimationFrame(function(){section.scrollIntoView({block:"start",behavior:"smooth"});});
       }
     }catch(error){
+      console.warn("Special calendar rendering unavailable",error);
       if(token===specialPunyaKaalRequest)section.hidden=true;
     }
   }
