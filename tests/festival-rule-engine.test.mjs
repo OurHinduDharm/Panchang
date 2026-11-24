@@ -25,6 +25,8 @@ test("engine exposes a stable version and resolves an explicit tithi rule year-i
   assert.equal(result.status, "date-selected-needs-source-approval");
   assert.equal(result.selectedDate, "2031-09-10");
   assert.equal(result.ruleId, "vinayaka-chaturthi-madhyahna");
+  assert.equal(result.sourceReview, "pending-primary-source-review");
+  assert.equal(result.selectionPolicy, "unique-karmakala-match-only");
   assert.equal(result.autoApproved, false);
   assert.equal(result.publishable, false);
 });
