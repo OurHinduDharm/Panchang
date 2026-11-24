@@ -150,7 +150,6 @@ test("annual adapter leaves missing moonrise unresolved instead of substituting 
       startTime: "2031-09-10T04:00:00Z", endTime: "2031-09-10T18:00:00Z"
     }]
   }]);
-  console.log("MOONRISE_RULE_DEBUG", JSON.stringify(result));
   assert.equal(result.status, "insufficient-data");
   assert.equal(result.selectedDate, null);
 });
