@@ -2245,7 +2245,11 @@ var weekdayStr = getHindiWeekday(
 
       var ritualApplicable = isEclipseRitualApplicable(g, visibility);
       if (!ritualApplicable) {
-        if (String(g.subtype || '').trim().toLowerCase() === 'penumbral') return '';
+        if (String(g.subtype || '').trim().toLowerCase() === 'penumbral') {
+          return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
+            ' — ' + esc(getEclipseTypeHindi(g)) +
+            '</h3><p>उपच्छाया ग्रहण में सूतक एवं ग्रहण संबंधी धार्मिक नियम लागू नहीं होते।</p></div>';
+        }
         return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
           ' — ' + esc(getEclipseTypeHindi(g)) +
           '</h3><p>चयनित स्थान पर अदृश्य। सूतक मान्य नहीं है।</p></div>';
