@@ -116,13 +116,18 @@ test("public eclipse card suppresses locally invisible and penumbral events", ()
   const api = {getPanchangam: () => ({})};
   const contact = {firstContact:d("2026-03-03T04:00:00Z"),lastContact:d("2026-03-03T06:00:00Z"),peak:d("2026-03-03T05:00:00Z")};
   for (const subtype of ["Partial","Penumbral"]) {
-    const html = tools.renderEclipseCard({date:contact.peak,grahan:{type:"Chandra Grahan",subtype,isVisible:false,contact}}, {}, api, {});
+    const html = tools.renderEclipseCard(
+      {date:contact.peak,grahan:{type:"Chandra Grahan",subtype,isVisible:false,contact}},
+      {},
+      api,
+      {city:"दिल्ली",state:"दिल्ली",name:"दिल्ली, दिल्ली, भारत"}
+    );
     if (subtype === "Penumbral") {
       assert.match(html, /उपच्छाया ग्रहण में सूतक/);
       assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
     }
     else {
-      assert.match(html, /अदृश्य/);
+      assert.match(html, /दिल्ली में अदृश्य/);
       assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
     }
   }
@@ -160,7 +165,19 @@ test("GPS-only location does not leave a stale saved city", () => {
 
 
 test("first-time Grahan Panchang visitor gets Pithoragarh as default", async () => {
-  const location = await tools.getInitialLocation();
+  const freshSandbox = {
+    window: {
+      localStorage: {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {}
+      }
+    },
+    fetch: async () => ({ok:true,json:async()=>[]}),
+    console, Date, setTimeout, clearTimeout
+  };
+  vm.runInNewContext(source, freshSandbox, {filename:"eclipse-panchang-default.test.js"});
+  const location = await freshSandbox.window.__OHDEclipsePanchangTools.getInitialLocation();
   assert.equal(location.city, "पिथौरागढ़");
   assert.equal(location.state, "उत्तराखंड");
   assert.equal(location.lat, 29.58);

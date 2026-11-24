@@ -1250,8 +1250,11 @@ function getHindiWeekday(date, tzOffsetMin) {
       ),
       '</h2>',
 
-      '<div class="ohd-eclipse-location-subtitle">',
-      'इसी स्थान के अक्षांश-देशांतर के आधार पर ग्रहण की गणना',
+      '<div class="ohd-eclipse-location-subtitle" id="ohd-eclipse-location-subtitle">',
+      esc(
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना'
+      ),
       '</div>',
 
       '</div>',
@@ -1264,6 +1267,7 @@ function getHindiWeekday(date, tzOffsetMin) {
       '<input',
       ' id="ohd-eclipse-location-input"',
       ' type="search"',
+      ' value="' + esc(location && (location.city || location.name) || '') + '"',
       ' placeholder="शहर / स्थान खोजें..."',
       ' autocomplete="off">',
       '<button',
@@ -1349,6 +1353,26 @@ function getHindiWeekday(date, tzOffsetMin) {
     el.textContent = locationDisplayName(
       location
     );
+
+    /* Keep the explanatory details synchronized with the active city. */
+    var subtitle = app.querySelector(
+      '#ohd-eclipse-location-subtitle'
+    );
+    if (subtitle) {
+      subtitle.textContent =
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना';
+    }
+
+    /* Keep the search field synchronized with the active city. */
+    var input = app.querySelector(
+      '#ohd-eclipse-location-input'
+    );
+    if (input) {
+      input.value = String(
+        location && (location.city || location.name) || ''
+      );
+    }
   }
 
   /* ============================================================
@@ -2311,9 +2335,13 @@ var weekdayStr = getHindiWeekday(
             ' — ' + esc(getEclipseTypeHindi(g)) +
             '</h3><p>उपच्छाया ग्रहण में सूतक एवं ग्रहण संबंधी धार्मिक नियम लागू नहीं होते।</p></div>';
         }
+        var invisibleCity = String(
+          location && (location.city || location.name) || 'चयनित स्थान'
+        ).trim();
         return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
           ' — ' + esc(getEclipseTypeHindi(g)) +
-          '</h3><p>चयनित स्थान पर अदृश्य। सूतक मान्य नहीं है।</p></div>';
+          '</h3><p>' + esc(invisibleCity) +
+          ' में अदृश्य। सूतक मान्य नहीं है।</p></div>';
       }
  if (
   ritualApplicable && g.sutakKaal &&
