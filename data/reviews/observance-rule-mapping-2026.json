@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 106,
-    "distinctRuleIds": 21,
-    "unmappedRegisteredProfiles": 4,
-    "mappedRecords": 106,
-    "distinctObservanceIds": 106,
+    "mappedOccurrences": 107,
+    "distinctRuleIds": 22,
+    "unmappedRegisteredProfiles": 3,
+    "mappedRecords": 107,
+    "distinctObservanceIds": 107,
     "possibleDuplicateRecords": 1
   },
   "mappings": [
@@ -1276,6 +1276,19 @@
       "targetTithiIndex": 5
     },
     {
+      "date": "2026-11-15",
+      "title": "मासिक स्कन्द षष्ठी",
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी",
+      "observanceId": "skanda-shashthi-kartika-review-2026-11-15",
+      "recordKey": "2026-11-15::मासिक स्कन्द षष्ठी",
+      "lunarMonth": "कार्तिक",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 5,
+      "ruleId": "skanda-shashthi-kartika-review",
+      "classification": "manual-review",
+      "reason": "कार्तिक शुक्ल षष्ठी और स्कन्द षष्ठी दोनों पहचानें मेल खाती हैं; फिर भी यह रिकॉर्ड केवल मासिक व्रत है या विशेष कार्तिक स्कन्द षष्ठी, क्षेत्रीय परंपरा और स्रोत से पुष्टि आवश्यक।"
+    },
+    {
       "date": "2026-11-20",
       "title": "देवोत्थानी एकादशी (स्मार्त)",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
@@ -1410,10 +1423,6 @@
     {
       "ruleId": "navratri-sandhi-puja",
       "reason": "No standalone Sandhi Puja event record exists in the monthly catalogue; treat as a timed sub-observance, not a fabricated date card."
-    },
-    {
-      "ruleId": "skanda-shashthi-kartika-review",
-      "reason": "The matching Kartika Shukla Shashthi record is currently labelled monthly Skanda Shashthi; confirm whether this is the specific Kartika observance before assigning the special regional profile."
     },
     {
       "ruleId": "shravana-yoga-dwadashi-review",
