@@ -1264,6 +1264,7 @@ function getHindiWeekday(date, tzOffsetMin) {
       '<input',
       ' id="ohd-eclipse-location-input"',
       ' type="search"',
+      ' value="' + esc(location && (location.city || location.name) || '') + '"',
       ' placeholder="शहर / स्थान खोजें..."',
       ' autocomplete="off">',
       '<button',
@@ -1349,6 +1350,16 @@ function getHindiWeekday(date, tzOffsetMin) {
     el.textContent = locationDisplayName(
       location
     );
+
+    /* Keep the search field synchronized with the active city. */
+    var input = app.querySelector(
+      '#ohd-eclipse-location-input'
+    );
+    if (input) {
+      input.value = String(
+        location && (location.city || location.name) || ''
+      );
+    }
   }
 
   /* ============================================================
