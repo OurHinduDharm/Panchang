@@ -201,3 +201,18 @@ test("indexed tithi intervals derive paksha when the source omits it", () => {
   }]);
   assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
 });
+
+
+test("annual adapter rejects null, out-of-range, and contradictory indexed tithis", () => {
+  const contexts = buildFestivalRuleContexts([{
+    date: "2031-01-01", masa: "माघ",
+    tithiIntervals: [
+      { index: null, startTime: "2031-01-01T00:00:00Z", endTime: "2031-01-01T01:00:00Z" },
+      { index: 30, startTime: "2031-01-01T01:00:00Z", endTime: "2031-01-01T02:00:00Z" },
+      { index: 25, paksha: "शुक्ल पक्ष", startTime: "2031-01-01T02:00:00Z", endTime: "2031-01-01T03:00:00Z" },
+      { index: 25, startTime: "2031-01-01T03:00:00Z", endTime: "2031-01-01T04:00:00Z" }
+    ]
+  }]);
+  assert.deepEqual(contexts[0].tithis.map(row => row.index), [25]);
+  assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
+});
