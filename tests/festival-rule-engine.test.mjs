@@ -216,3 +216,26 @@ test("annual adapter rejects null, out-of-range, and contradictory indexed tithi
   assert.deepEqual(contexts[0].tithis.map(row => row.index), [25]);
   assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
 });
+
+
+test("annual adapter resolves Sankashti when local moonrise is supplied", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "sankashti-2031",
+    dateType: "tithi",
+    ruleId: "sankashti-moonrise",
+    targetTithiIndex: 18
+  }, 2031, [{
+    date: "2031-09-10", masa: "भाद्रपद", paksha: "कृष्ण पक्ष",
+    sunrise: "2031-09-10T00:00:00Z",
+    sunset: "2031-09-10T12:00:00Z",
+    moonrise: "2031-09-10T14:00:00Z",
+    tithiIntervals: [{
+      index: 18,
+      startTime: "2031-09-10T13:00:00Z",
+      endTime: "2031-09-10T15:00:00Z"
+    }]
+  }]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-09-10");
+  assert.equal(result.evaluations[0].evaluations[0].evidence[0].decisionMoment, "moonrise");
+});
