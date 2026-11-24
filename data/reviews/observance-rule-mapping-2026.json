@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 107,
+    "mappedOccurrences": 108,
     "distinctRuleIds": 22,
     "unmappedRegisteredProfiles": 3,
-    "mappedRecords": 107,
-    "distinctObservanceIds": 107,
+    "mappedRecords": 108,
+    "distinctObservanceIds": 108,
     "possibleDuplicateRecords": 1
   },
   "mappings": [
@@ -33,6 +33,19 @@
       "lunarMonth": "पौष",
       "paksha": "शुक्ल पक्ष",
       "targetTithiIndex": 12
+    },
+    {
+      "date": "2026-01-06",
+      "title": "संकट चौथ",
+      "hinduTithi": "माघ कृष्ण चतुर्थी",
+      "observanceId": "sankashti-moonrise-2026-01-06",
+      "ruleId": "sankashti-moonrise",
+      "classification": "blocked-awaiting-annual-panchang-input",
+      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; मासिक पर्व-सूची में दैनिक चन्द्रोदय समय नहीं होता। वार्षिक खगोलीय डेटा में स्थानीय चन्द्रोदय सहित resolver चलाकर ही तारीख़ चुनी जाएगी।",
+      "recordKey": "2026-01-06::संकट चौथ",
+      "lunarMonth": "माघ",
+      "paksha": "कृष्ण पक्ष",
+      "targetTithiIndex": 18
     },
     {
       "date": "2026-01-14",
@@ -1411,8 +1424,8 @@
       "hinduTithi": "पौष कृष्ण चतुर्थी",
       "observanceId": "sankashti-moonrise-2026-12-27",
       "ruleId": "sankashti-moonrise",
-      "classification": "blocked-awaiting-annual-panchang-input",
-      "reason": "चन्द्रोदय पर कृष्ण चतुर्थी का निर्णय; मासिक पर्व-सूची में दैनिक चन्द्रोदय समय नहीं होता। वार्षिक खगोलीय डेटा में स्थानीय चन्द्रोदय सहित resolver चलाकर ही तारीख़ चुनी जाएगी।",
+      "classification": "manual-review",
+      "reason": "स्थानीय पंचांग के गणितीय परीक्षण में 27 दिसंबर को चन्द्रोदय पर कृष्ण चतुर्थी नहीं मिलती, जबकि वर्तमान प्रकाशित रिकॉर्ड Drik Panchang के आधार पर स्वीकृत है। इस स्रोत-विसंगति का स्वतंत्र समाधान आवश्यक है; प्रकाशित तारीख़ को स्वतः न बदलें।",
       "recordKey": "2026-12-27::अखुरथ संकष्टी चतुर्थी",
       "lunarMonth": "पौष",
       "paksha": "कृष्ण पक्ष",
