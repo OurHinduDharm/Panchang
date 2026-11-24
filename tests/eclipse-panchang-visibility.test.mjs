@@ -164,12 +164,23 @@ test("GPS-only location does not leave a stale saved city", () => {
 });
 
 
-test("initial location retains the previously resolved Pithoragarh city", async () => {
-  // The earlier remembered-city test populated this module's in-memory observer.
-  const location = await tools.getInitialLocation();
-  assert.equal(location.city, "Pithoragarh");
-  assert.equal(location.state, "Uttarakhand");
+test("first-time Grahan Panchang visitor gets Pithoragarh as default", async () => {
+  const freshSandbox = {
+    window: {
+      localStorage: {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {}
+      }
+    },
+    fetch: async () => ({ok:true,json:async()=>[]}),
+    console, Date, setTimeout, clearTimeout
+  };
+  vm.runInNewContext(source, freshSandbox, {filename:"eclipse-panchang-default.test.js"});
+  const location = await freshSandbox.window.__OHDEclipsePanchangTools.getInitialLocation();
+  assert.equal(location.city, "पिथौरागढ़");
+  assert.equal(location.state, "उत्तराखंड");
   assert.equal(location.lat, 29.58);
   assert.equal(location.lon, 80.22);
-  assert.equal(location.elevation, 0);
+  assert.equal(location.elevation, 1650);
 });
