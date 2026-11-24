@@ -6,11 +6,14 @@ import { listObservanceRuleProfiles } from "../festival-observance-rules.mjs";
 const manifest = JSON.parse(await readFile(new URL("../data/reviews/observance-rule-mapping-2026.json", import.meta.url), "utf8"));
 
 test("2026 observance mapping references only registered shared rule IDs", () => {
-  const registered = new Set(listObservanceRuleProfiles().map(profile => profile.id));
+  const profiles = new Map(listObservanceRuleProfiles().map(profile => [profile.id, profile]));
   for (const item of manifest.mappings) {
     assert.ok(item.observanceId, "each mapped occurrence needs an explicit observanceId");
     assert.ok(Number.isInteger(item.targetTithiIndex) || Array.isArray(item.targetTithiIndices), `missing explicit tithi selector: ${item.title}`);
-    assert.ok(registered.has(item.ruleId), `unknown ruleId: ${item.ruleId}`);
+    assert.ok(profiles.has(item.ruleId), `unknown ruleId: ${item.ruleId}`);
+    const profile = profiles.get(item.ruleId);
+    const targetIndices = item.targetTithiIndices ?? [item.targetTithiIndex];
+    assert.ok(targetIndices.every(index => profile.tithiIndices.includes(index)), `tithi selector is outside ${item.ruleId}: ${item.title}`);
     assert.ok(item.date && /^2026-\d{2}-\d{2}$/.test(item.date));
     assert.ok(item.hinduTithi, `missing Hindu tithi: ${item.title}`);
     assert.ok(item.classification);
