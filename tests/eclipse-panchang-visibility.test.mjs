@@ -81,3 +81,30 @@ test("lunar eclipse uses local moonrise and moonset rather than solar horizon", 
   assert.equal(result.visibleStart.toISOString(), "2026-03-03T13:00:00.000Z");
   assert.equal(result.visibleEnd.toISOString(), "2026-03-03T15:00:00.000Z");
 });
+
+test("ritual applicability excludes penumbral and locally invisible eclipses", () => {
+  for (const subtype of ["Penumbral", " penumbral "]) {
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:true}), false);
+  }
+  for (const subtype of ["Total", "Partial", "Annular"]) {
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:false}), false);
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:true}), true);
+  }
+  assert.equal(tools.isEclipseRitualApplicable({subtype:"Total"}, null), false);
+});
+
+test("public eclipse card suppresses locally invisible and penumbral events", () => {
+  const api = {getPanchangam: () => ({})};
+  const contact = {firstContact:d("2026-03-03T04:00:00Z"),lastContact:d("2026-03-03T06:00:00Z"),peak:d("2026-03-03T05:00:00Z")};
+  for (const subtype of ["Partial","Penumbral"]) {
+    const html = tools.renderEclipseCard({date:contact.peak,grahan:{type:"Chandra Grahan",subtype,isVisible:false,contact}}, {}, api, {});
+    if (subtype === "Penumbral") {
+      assert.match(html, /उपच्छाया ग्रहण में सूतक/);
+      assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
+    }
+    else {
+      assert.match(html, /अदृश्य/);
+      assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
+    }
+  }
+});
