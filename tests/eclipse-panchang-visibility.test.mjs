@@ -98,7 +98,10 @@ test("public eclipse card suppresses locally invisible and penumbral events", ()
   const contact = {firstContact:d("2026-03-03T04:00:00Z"),lastContact:d("2026-03-03T06:00:00Z"),peak:d("2026-03-03T05:00:00Z")};
   for (const subtype of ["Partial","Penumbral"]) {
     const html = tools.renderEclipseCard({date:contact.peak,grahan:{type:"Chandra Grahan",subtype,isVisible:false,contact}}, {}, api, {});
-    if (subtype === "Penumbral") assert.equal(html, "");
+    if (subtype === "Penumbral") {
+      assert.match(html, /उपच्छाया ग्रहण में सूतक/);
+      assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
+    }
     else {
       assert.match(html, /अदृश्य/);
       assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
