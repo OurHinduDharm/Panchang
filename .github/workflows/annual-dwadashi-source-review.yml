@@ -71,7 +71,13 @@ jobs:
       - name: Push clean annual review draft branch
         run: |
           mkdir -p data/references
-          cp artifacts/dwadashi-review/*.json data/references/
+          # Never overwrite hand-reviewed source decisions with regenerated drafts.
+          for file in artifacts/dwadashi-review/*.json; do
+            target="data/references/$(basename "$file")"
+            if [ ! -f "$target" ]; then
+              cp "$file" "$target"
+            fi
+          done
           cp artifacts/annual-review/*.json data/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
