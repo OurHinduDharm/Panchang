@@ -228,6 +228,7 @@ export function extractAnnualPanchangDay(panchang, date, instant) {
     tithiTimeRange:base.tithiStartTime && base.tithiEndTime ? base.tithiStartTime + " से " + base.tithiEndTime : "समय उपलब्ध नहीं",
     karanaIntervals,
     sunset:iso(panchang.sunset),
+    moonrise:iso(panchang.moonrise),
     nakshatraEndTime:iso(panchang.nakshatraEndTime),
     nakshatraIntervals,
     sankrantiTimes:[],

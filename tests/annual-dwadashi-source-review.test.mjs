@@ -58,6 +58,7 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   const result = extractAnnualPanchangDay({
     tithi:9, paksha:"Shukla", masa:{name:"Kartika",isAdhika:false},
     sunrise:"2026-11-01T00:52:00.000Z", sunset:"2026-11-01T11:53:00.000Z",
+    moonrise:"2026-11-01T14:20:00.000Z",
     tithiStartTime:"2026-10-31T23:00:00.000Z", tithiEndTime:"2026-11-01T09:00:00.000Z",
     nakshatra:12, yoga:14, sunRashi:7, nakshatraEndTime:"2026-11-01T10:00:00.000Z",
     nakshatras:[{index:12,name:"Hasta",startTime:new Date("2026-10-31T22:00:00.000Z"),endTime:new Date("2026-11-01T10:00:00.000Z")}],
@@ -70,6 +71,7 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   assert.equal(result.nakshatra,"हस्त");
   assert.equal(result.yoga,"वज्र");
   assert.equal(result.sunRashi,"वृश्चिक");
+  assert.equal(result.moonrise,"2026-11-01T14:20:00.000Z");
   assert.equal(result.karana,"बव");
   assert.equal(result.nakshatraIntervals.length,1);
   assert.deepEqual(result.grahanaTimes,[]);
@@ -1102,6 +1104,7 @@ test("generates a 2031 local Panchang and Chaturmas review draft without hard-co
   assert.equal(result.annualReview.year, 2031);
   assert.equal(result.annualReview.calculationStatus, "research-only-not-approved");
   assert.equal(result.annualReview.dailyPanchang.length, 365);
+  assert.ok(result.annualReview.dailyPanchang.filter(day => day.moonrise).length > 300, "2031 annual Panchang must include local moonrise on most days");
   assert.equal(result.sourceReview.chaturmasStartCrossCheck.status, "no-configured-reference-manual-cross-check-required");
   assert.equal(result.sourceReview.chaturmasEndCrossCheck.status, "no-configured-reference-manual-cross-check-required");
   assert.deepEqual(result.sourceReview.chaturmasStartCrossCheck.sources, []);
