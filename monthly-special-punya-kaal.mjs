@@ -109,7 +109,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
           }
           var guidance=document.createElement("p");
           guidance.className="special-kaal-guidance";
-          guidance.textContent="महापात काल में विवाहादि मांगलिक कार्य वर्जित माने गए हैं, किन्तु स्नान, दान, जप, तप एवं होम का विशेष महत्त्व है। इस पुण्यकाल में साधक अपने इष्टदेव की स्तोत्रात्मक उपासना भी कर सकते हैं।";
+          guidance.textContent="महापात काल में विवाहादि मांगलिक कार्य वर्जित माने गए हैं, किन्तु स्नान, दान, जप, तप एवं होम का विशेष महत्त्व है। इस पुण्यकाल में साधक अपनी श्रद्धा एवं रुचि के अनुसार किसी भी देवी-देवता की स्तोत्रात्मक उपासना भी कर सकते हैं।";
           var verse=document.createElement("blockquote");
           verse.className="special-kaal-verse";
           verse.textContent="स्नानदानजपश्राद्धव्रतहोमादिकर्मभिः । प्राप्यते सुमहच्छ्रेयस्तत्कालज्ञानतस्तथा ॥";
