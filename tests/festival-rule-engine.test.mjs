@@ -237,5 +237,5 @@ test("annual adapter resolves Sankashti when local moonrise is supplied", () => 
   }]);
   assert.equal(result.status, "date-selected-needs-source-approval");
   assert.equal(result.selectedDate, "2031-09-10");
-  assert.equal(result.evaluations[0].evaluations[0].evidence[0].decisionMoment, "moonrise");
+  assert.equal(result.evaluations[0].evidence[0].decisionMoment, "moonrise");
 });
