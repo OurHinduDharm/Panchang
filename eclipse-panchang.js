@@ -2335,9 +2335,13 @@ var weekdayStr = getHindiWeekday(
             ' — ' + esc(getEclipseTypeHindi(g)) +
             '</h3><p>उपच्छाया ग्रहण में सूतक एवं ग्रहण संबंधी धार्मिक नियम लागू नहीं होते।</p></div>';
         }
+        var invisibleCity = String(
+          location && (location.city || location.name) || 'चयनित स्थान'
+        ).trim();
         return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
           ' — ' + esc(getEclipseTypeHindi(g)) +
-          '</h3><p>चयनित स्थान पर अदृश्य। सूतक मान्य नहीं है।</p></div>';
+          '</h3><p>' + esc(invisibleCity) +
+          ' में अदृश्य। सूतक मान्य नहीं है।</p></div>';
       }
  if (
   ritualApplicable && g.sutakKaal &&
