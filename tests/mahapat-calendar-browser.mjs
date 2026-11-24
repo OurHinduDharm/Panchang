@@ -12,6 +12,8 @@ const origin = "https://calendar.test";
 const panchang = await build({
   stdin: { contents: 'export { getPanchangam } from "@ishubhamx/panchangam-js/dist/core/panchangam.js"; export { Observer } from "astronomy-engine";', resolveDir: root },
   bundle: true, write: false, platform: "browser", format: "esm",
+  // The dependency uses CommonJS require; provide a synchronous ESM namespace shim.
+  banner: { js: 'import * as sharedAstronomy from "https://esm.sh/astronomy-engine@2.1.19"; const require = name => { if (name === "https://esm.sh/astronomy-engine@2.1.19") return sharedAstronomy; throw new Error("Unexpected require: " + name); };' },
   plugins: [{ name: "shared-observer", setup(build) {
     build.onResolve({ filter: /^astronomy-engine$/ }, () => ({ path: "https://esm.sh/astronomy-engine@2.1.19", external: true }));
   } }]
