@@ -128,6 +128,9 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   }
   const requestedMonth = String(observance.lunarMonth ?? "").trim();
   const requestedPaksha = String(observance.paksha ?? "").trim();
+  if (observance.monthKind != null && !["regular", "adhika", "any"].includes(observance.monthKind)) {
+    return fail("manual-review", observance, ["invalid-month-kind-selector"]);
+  }
   if (requestedPaksha && !["शुक्ल पक्ष", "कृष्ण पक्ष"].includes(requestedPaksha)) {
     return fail("manual-review", observance, ["invalid-paksha-selector"]);
   }
@@ -137,6 +140,13 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   const candidateContexts = contexts.filter(context => {
     const rawMonth = String(context.masa ?? "").trim();
     const normalizedMonth = rawMonth.replace(/^अधिक\s+/, "").trim();
+    // Ordinary named festivals must not silently match an intercalary month.
+    // Explicit adhika observances retain their exact month selector.
+    const isAdhika = /^अधिक\s+/.test(rawMonth);
+    const requestsAdhika = /^अधिक\s+/.test(requestedMonth);
+    const monthKind = observance.monthKind ?? (requestsAdhika ? "adhika" : requestedMonth ? "regular" : "any");
+    if (monthKind === "regular" && isAdhika) return false;
+    if (monthKind === "adhika" && !isAdhika) return false;
     if (requestedMonth && requestedMonth !== rawMonth && requestedMonth !== normalizedMonth) return false;
     if (profile.allowedMonths?.length && !profile.allowedMonths.includes(normalizedMonth)) return false;
     return targetIndices.every(index => context.tithis.some(row =>
