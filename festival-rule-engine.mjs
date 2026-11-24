@@ -14,6 +14,32 @@ import {
 
 export const FESTIVAL_RULE_ENGINE_VERSION = "1.0.0";
 
+const TITHI_ORDINAL = new Map([
+  ["प्रतिपदा", 0], ["द्वितीया", 1], ["द्वितिया", 1], ["तृतीया", 2],
+  ["चतुर्थी", 3], ["पञ्चमी", 4], ["पंचमी", 4], ["षष्ठी", 5], ["सप्तमी", 6],
+  ["अष्टमी", 7], ["नवमी", 8], ["दशमी", 9], ["एकादशी", 10],
+  ["द्वादशी", 11], ["त्रयोदशी", 12], ["चतुर्दशी", 13], ["पूर्णिमा", 14], ["अमावस्या", 14]
+]);
+
+function normalizePaksha(value) {
+  const text = String(value ?? "");
+  if (/कृष्ण|krishna/i.test(text)) return "कृष्ण पक्ष";
+  if (/शुक्ल|shukla/i.test(text)) return "शुक्ल पक्ष";
+  return null;
+}
+
+function normalizeTithiInterval(row) {
+  if (!row || typeof row !== "object") return null;
+  if (Number.isInteger(Number(row.index))) return { ...row, index: Number(row.index) };
+  const name = String(row.tithi ?? row.name ?? "").trim();
+  const ordinal = TITHI_ORDINAL.get(name);
+  if (ordinal === undefined) return null;
+  const paksha = normalizePaksha(row.paksha);
+  const index = name === "अमावस्या" ? 29 :
+    name === "पूर्णिमा" ? 14 : ordinal + (paksha === "कृष्ण पक्ष" ? 15 : 0);
+  return { ...row, index, paksha };
+}
+
 const DATE_RE = /^\\d{4}-\\d{2}-\\d{2}$/;
 
 function validIsoDate(value) {
@@ -35,6 +61,68 @@ function fail(status, observance, warnings, extra = {}) {
     warnings,
     ...extra
   };
+}
+
+/**
+ * Adapt the annual Panchanga generator's daily records to rule-engine
+ * contexts. The source records carry Hindi tithi names; this adapter maps
+ * them to the zero-based tithi indices used by the existing rule profiles.
+ */
+export function buildFestivalRuleContexts(dailyPanchang) {
+  if (!Array.isArray(dailyPanchang)) return [];
+  const days = dailyPanchang.slice().sort((a, b) => String(a?.date ?? "").localeCompare(String(b?.date ?? "")));
+  return days.map((day, index) => {
+    const previous = days[index - 1];
+    const next = days[index + 1];
+    return {
+      date: day?.date ?? null,
+      masa: day?.masa ?? null,
+      paksha: day?.paksha ?? null,
+      sunrise: day?.sunrise ?? null,
+      sunset: day?.sunset ?? null,
+      moonrise: day?.moonrise ?? null,
+      nextSunrise: next?.sunrise ?? null,
+      previousSunrise: previous?.sunrise ?? null,
+      tithis: (Array.isArray(day?.tithiIntervals) ? day.tithiIntervals : [])
+        .map(normalizeTithiInterval).filter(Boolean),
+      previousTithis: (Array.isArray(previous?.tithiIntervals) ? previous.tithiIntervals : [])
+        .map(normalizeTithiInterval).filter(Boolean),
+      nakshatraIntervals: Array.isArray(day?.nakshatraIntervals) ? day.nakshatraIntervals : []
+    };
+  });
+}
+
+/**
+ * Resolve directly from the annual generator output. Candidate days are
+ * selected only by the explicit profile's tithi/month constraints; the
+ * observance rule still makes the actual date decision.
+ */
+export function resolveFestivalObservanceFromAnnualPanchang(observance, year, dailyPanchang) {
+  if (observance?.dateType === "fixed-gregorian") {
+    return resolveFestivalObservance(observance, year, []);
+  }
+  if (!observance?.ruleId) {
+    return fail("manual-review", observance, ["explicit-observance-rule-id-required"]);
+  }
+  const profile = getObservanceRuleProfile(observance.ruleId);
+  if (!profile) {
+    return fail("manual-review", observance, ["unknown-or-unregistered-rule-id"]);
+  }
+  const contexts = buildFestivalRuleContexts(dailyPanchang);
+  if (!contexts.length) {
+    return fail("insufficient-data", observance, ["annual-daily-panchang-data-required"]);
+  }
+  const candidateContexts = contexts.filter(context => {
+    if (profile.allowedMonths?.length) {
+      const month = String(context.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+      if (!profile.allowedMonths.includes(month)) return false;
+    }
+    return context.tithis.some(row => profile.tithiIndices.includes(row.index));
+  });
+  if (!candidateContexts.length) {
+    return fail("candidate-not-supported", observance, ["no-annual-day-contains-the-profile-tithi"]);
+  }
+  return resolveFestivalObservance(observance, year, candidateContexts);
 }
 
 /**
