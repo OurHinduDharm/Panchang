@@ -77,6 +77,107 @@ test("monthly widget enriches separate Dwadashi cards without merging distinct o
   assert.deepEqual(padmanabha.dwadashiAliases,["कृष्ण-पद्मनाभ द्वादशी"]);
 });
 
+test("2030 public Dwadashi package contains only individually approved observances plus approved Chaturmas", async () => {
+  const annual = JSON.parse(await read("data/dwadashi/2030.json"));
+  assert.equal(annual.year,2030);
+  assert.equal(annual.status,"approved");
+  assert.equal(annual.location.name,"पिथौरागढ़");
+  assert.equal(annual.location.latitude,29.58);
+  assert.equal(annual.location.longitude,80.22);
+  assert.equal(annual.tithiDates.length,28);
+  assert.ok(annual.tithiDates.every(item=>/^2030-\d{2}-\d{2}$/.test(item.date)));
+  assert.equal(annual.chaturmas.status,"approved");
+  assert.equal(annual.chaturmas.phases.length,4);
+  assert.equal(annual.tithis.length,14);
+  const reviews=annual.tithis.flatMap(record=>record.observanceDateReviews||[]);
+  assert.equal(reviews.length,27);
+  assert.ok(annual.tithis.every(record=>record.status==="needs-review"),"partial package must not approve parent tithi records");
+  for(const record of annual.tithis){
+    const ids=new Set([...(record.observances||[]),...(record.conditionalObservances||[])].map(item=>item.id));
+    for(const review of record.observanceDateReviews||[]){
+      assert.equal(review.reviewStatus,"approved");
+      assert.ok(ids.has(review.observanceId),"every approval must match an actual observance");
+      assert.match(review.selectedDate,/^2030-\d{2}-\d{2}$/);
+    }
+    const approvedIds=new Set((record.observanceDateReviews||[]).map(item=>item.observanceId));
+    for(const item of [...(record.observances||[]),...(record.conditionalObservances||[])]){
+      assert.ok(approvedIds.has(item.id),"pending observance must not leak into public package: "+item.id);
+    }
+  }
+  const findReview=(recordId,id)=>(annual.tithis.find(record=>record.id===recordId)?.observanceDateReviews||[]).find(item=>item.observanceId===id);
+  assert.equal(findReview("chaitra-shukla","madana").selectedDate,"2030-04-15");
+  assert.equal(findReview("chaitra-shukla","bhartr").selectedDate,"2030-04-15");
+  assert.equal(findReview("chaitra-shukla","vamana").selectedDate,"2030-04-15");
+  assert.equal(findReview("vaishakha-shukla","madhava").selectedDate,"2030-05-14");
+  assert.equal(findReview("vaishakha-shukla","parashurama").selectedDate,"2030-05-14");
+  assert.equal(findReview("jyeshtha-shukla","rama").selectedDate,"2030-06-12");
+  assert.equal(findReview("jyeshtha-shukla","trivikrama").selectedDate,"2030-06-13");
+  assert.equal(findReview("ashadha-shukla","vasudeva").selectedDate,"2030-07-12");
+  assert.equal(findReview("shravana-shukla","sridhara").selectedDate,"2030-08-10");
+  assert.equal(findReview("shravana-shukla","damodara").selectedDate,"2030-08-10");
+  assert.equal(findReview("bhadrapada-shukla","vamana").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","damodara").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","niranjana").selectedDate,"2030-09-08");
+  assert.equal(findReview("bhadrapada-shukla","kalki").selectedDate,"2030-09-08");
+  assert.equal(findReview("ashwin-shukla","padmanabha-narada").selectedDate,"2030-10-07");
+  assert.equal(findReview("ashwin-shukla","padmanabha-varaha").selectedDate,"2030-10-07");
+  assert.equal(findReview("kartika-krishna","govatsa").selectedDate,"2030-10-23");
+  assert.equal(findReview("pausha-krishna","rupa").selectedDate,"2030-01-01");
+  assert.equal(findReview("pausha-krishna-occurrence-2","rupa").selectedDate,"2030-12-22");
+  assert.equal(findReview("magha-shukla","varaha").selectedDate,"2030-02-14");
+  assert.equal(findReview("pausha-shukla","sujanna").selectedDate,"2030-01-16");
+  assert.equal(findReview("pausha-shukla","kurma").selectedDate,"2030-01-16");
+  assert.equal(findReview("kartika-shukla","sahasrashirsha").selectedDate,"2030-11-06");
+  assert.equal(findReview("kartika-shukla","damodara").selectedDate,"2030-11-06");
+  assert.equal(findReview("margashirsha-shukla","sadhya").selectedDate,"2030-12-06");
+  assert.equal(findReview("margashirsha-shukla","dwadashaditya").selectedDate,"2030-12-06");
+  assert.equal(findReview("margashirsha-shukla","standard-margashirsha").selectedDate,"2030-12-06");
+  assert.equal(annual.tithis.find(record=>record.id==="kartika-shukla").observances.find(item=>item.id==="sahasrashirsha").name,"धरणी-व्रत (सहस्रशीर्ष नारायण पूजन)");
+  assert.equal(annual.tithis.find(record=>record.id==="margashirsha-shukla").observances.find(item=>item.id==="standard-margashirsha").name,"धरणी-व्रत (मत्स्य-प्रतिमा पूजन)");
+  assert.equal(findReview("phalguna-shukla","narasimha"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
+  assert.equal(findReview("phalguna-shukla","phalguna-hari"),undefined,"boundary-sensitive Phalguna Dwadashi stays pending");
+  assert.equal(findReview("kartika-krishna","krishna-padmanabha"),undefined,"unapproved Kartika observance must not enter the public package");
+  assert.equal(Object.hasOwn(annual,"sourceReview"),false,"research-only source review metadata must stay private");
+  assert.ok(reviews.every(item=>!Object.hasOwn(item,"sourceUrl")&&!Object.hasOwn(item,"sourceCrossCheckUrl")),"review links must not leak into the public package");
+});
+
+test("monthly widget renders every individually approved 2030 Dwadashi observance on its selected date", async () => {
+  const annual = JSON.parse(await read("data/dwadashi/2030.json"));
+  const widget = await read("monthly-vrat-parv-widget.js");
+  const start = widget.indexOf("function mergeAnnualDwadashiEvents(data,annual,year,month){");
+  const end = widget.indexOf("\n  }", start) + "\n  }".length;
+  assert.ok(start >= 0 && end > start);
+  const source = widget.slice(start, end).trim();
+  const mergeAnnualDwadashiEvents = new Function("return (" + source + ")")();
+  const expected = annual.tithis.flatMap(record => {
+    const observances = [...(record.observances || []), ...(record.conditionalObservances || [])];
+    return (record.observanceDateReviews || []).filter(review => review.reviewStatus === "approved").map(review => {
+      const observance = observances.find(item => item.id === review.observanceId);
+      assert.ok(observance, "approved review must resolve to a public observance");
+      return {date:review.selectedDate,month:Number(review.selectedDate.slice(5,7)),title:observance.name};
+    });
+  });
+  assert.equal(expected.length,27);
+  for (const month of [...new Set(expected.map(item => item.month))]) {
+    const events = mergeAnnualDwadashiEvents({events:[]},annual,2030,month).events;
+    for (const item of expected.filter(entry => entry.month === month)) {
+      assert.ok(events.some(event => event.date === item.date && (event.title === item.title || (event.dwadashiAliases || []).includes(item.title))),
+        "missing rendered observance: "+item.date+" "+item.title);
+    }
+  }
+  const octoberWithPadmanabha = mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events;
+  const padmanabhaCards = octoberWithPadmanabha.filter(event => event.date === "2030-10-07" &&
+    ((event.title || "").includes("पद्मनाभ") || (event.dwadashiAliases || []).some(name=>name.includes("पद्मनाभ"))));
+  assert.equal(padmanabhaCards.length,1,"same-tithi Padmanabha forms should share one card with aliases");
+  assert.deepEqual(padmanabhaCards[0].dwadashiAliases,["पद्मनाभ-द्वादशी व्रत","पद्मनाभ-द्वादशी"]);
+  const march = mergeAnnualDwadashiEvents({events:[]},annual,2030,3).events;
+  assert.equal(march.some(event => /नृसिंह-द्वादशी|श्रीहरि-द्वादशी/.test(event.title || "")),false,
+    "boundary-sensitive Phalguna approvals must stay unpublished");
+  const october = mergeAnnualDwadashiEvents({events:[]},annual,2030,10).events;
+  assert.ok(october.some(event => event.date === "2030-10-23" && event.title === "गोवत्स द्वादशी"));
+  assert.equal(october.some(event => event.date === "2030-10-23" && /पद्मनाभ/.test(event.title || "")),false);
+});
+
 test("annual review package opens only when at least one real publishable record is approved", async () => {
   const html = await read("festival-year-review.html");
   const start = html.indexOf("function syncDwadashiPackageStatus(){");
