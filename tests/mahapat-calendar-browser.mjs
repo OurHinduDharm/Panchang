@@ -54,6 +54,9 @@ try {
       await route.fulfill({ headers, contentType: mime[extname(file)] ?? "application/octet-stream", body });
     });
     const page = await context.newPage();
+    page.on("pageerror", error => console.error("Calendar page error:", error));
+    page.on("console", message => { if (["warning", "error"].includes(message.type())) console.error("Calendar console:", message.text()); });
+    page.on("response", response => { if (response.status() >= 400) console.error("Calendar HTTP:", response.status(), response.url()); });
     await page.goto(origin + "/monthly-vrat-parv.html?year=2026&month=03#special-punya-kaal");
     await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
     const monthly = await page.locator("#specialPunyaKaalContent").innerText();
