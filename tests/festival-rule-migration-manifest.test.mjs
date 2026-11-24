@@ -37,3 +37,21 @@ test("muhurtaRule remains explicitly separate from observance rule mapping", () 
   assert.match(manifest.fieldPolicy.muhurtaRule, /never used as a substitute/);
   assert.ok(manifest.mappings.every(item => !("muhurtaRule" in item)));
 });
+
+
+test("2026 manifest counts and record keys match all twelve source catalogues", async () => {
+  const months = await Promise.all(Array.from({ length: 12 }, (_, index) =>
+    readFile(new URL(`../data/festivals/2026-${String(index + 1).padStart(2, "0")}.json`, import.meta.url), "utf8")
+      .then(JSON.parse)
+  ));
+  const sourceKeys = new Set(months.flatMap(month =>
+    month.events.map(event => `${event.date}::${event.title}`)
+  ));
+  const manifestKeys = manifest.mappings.map(item => item.recordKey);
+  assert.equal(new Set(manifestKeys).size, manifestKeys.length);
+  assert.ok(manifestKeys.every(key => sourceKeys.has(key)), "every mapping must reference an existing source record");
+  assert.equal(manifest.counts.mappedRecords, manifest.mappings.length);
+  assert.equal(manifest.counts.mappedOccurrences, manifest.mappings.length);
+  assert.equal(manifest.counts.distinctObservanceIds, new Set(manifest.mappings.map(item => item.observanceId)).size);
+  assert.equal(manifest.counts.distinctRuleIds, new Set(manifest.mappings.map(item => item.ruleId)).size);
+});
