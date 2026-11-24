@@ -2,7 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   FESTIVAL_RULE_ENGINE_VERSION,
-  resolveFestivalObservance
+  buildFestivalRuleContexts,
+  resolveFestivalObservance,
+  resolveFestivalObservanceFromAnnualPanchang
 } from "../festival-rule-engine.mjs";
 
 const interval = (index, startTime, endTime, paksha) => ({ index, startTime, endTime, paksha });
@@ -76,4 +78,66 @@ test("fixed Gregorian exceptions reject missing provenance and impossible leap d
 test("unrecognized date types and invalid years fail closed", () => {
   assert.equal(resolveFestivalObservance({id:"x",dateType:"unknown"},2031).status, "manual-review");
   assert.equal(resolveFestivalObservance({id:"x",dateType:"tithi",ruleId:"ekadashi"},0).status, "insufficient-data");
+});
+
+
+test("annual Panchanga Hindi tithi intervals are adapted to rule-engine indices", () => {
+  const contexts = buildFestivalRuleContexts([
+    {
+      date: "2031-09-10", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      sunrise: "2031-09-10T00:00:00Z", sunset: "2031-09-10T12:00:00Z",
+      tithiIntervals: [{
+        tithi: "चतुर्थी", paksha: "शुक्ल पक्ष",
+        startTime: "2031-09-10T04:00:00Z", endTime: "2031-09-10T06:00:00Z"
+      }]
+    },
+    {
+      date: "2031-09-11", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      sunrise: "2031-09-11T00:01:00Z", sunset: "2031-09-11T12:01:00Z",
+      tithiIntervals: [{
+        tithi: "पञ्चमी", paksha: "शुक्ल पक्ष",
+        startTime: "2031-09-10T22:00:00Z", endTime: "2031-09-11T20:00:00Z"
+      }]
+    }
+  ]);
+  assert.equal(contexts[0].tithis[0].index, 3);
+  assert.equal(contexts[1].tithis[0].index, 4);
+  assert.equal(contexts[1].previousSunrise, "2031-09-10T00:00:00Z");
+  assert.equal(contexts[1].previousTithis[0].index, 3);
+});
+
+test("annual Panchanga adapter resolves a tithi observance without copying yearly dates", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "ganesh-chaturthi",
+    dateType: "tithi",
+    ruleId: "vinayaka-chaturthi-madhyahna"
+  }, 2031, [{
+    date: "2031-09-10", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+    sunrise: "2031-09-10T00:00:00Z", sunset: "2031-09-10T12:00:00Z",
+    tithiIntervals: [{
+      tithi: "चतुर्थी", paksha: "शुक्ल पक्ष",
+      startTime: "2031-09-10T04:00:00Z", endTime: "2031-09-10T06:00:00Z"
+    }]
+  }]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-09-10");
+  assert.equal(result.autoApproved, false);
+  assert.equal(result.publishable, false);
+});
+
+test("annual adapter leaves missing moonrise unresolved instead of substituting sunrise", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "sankashti",
+    dateType: "tithi",
+    ruleId: "sankashti-moonrise"
+  }, 2031, [{
+    date: "2031-09-10", masa: "भाद्रपद", paksha: "कृष्ण पक्ष",
+    sunrise: "2031-09-10T00:00:00Z", sunset: "2031-09-10T12:00:00Z",
+    tithiIntervals: [{
+      tithi: "चतुर्थी", paksha: "कृष्ण पक्ष",
+      startTime: "2031-09-10T04:00:00Z", endTime: "2031-09-10T18:00:00Z"
+    }]
+  }]);
+  assert.equal(result.status, "insufficient-data");
+  assert.equal(result.selectedDate, null);
 });
