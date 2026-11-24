@@ -81,3 +81,14 @@ test("lunar eclipse uses local moonrise and moonset rather than solar horizon", 
   assert.equal(result.visibleStart.toISOString(), "2026-03-03T13:00:00.000Z");
   assert.equal(result.visibleEnd.toISOString(), "2026-03-03T15:00:00.000Z");
 });
+
+test("ritual applicability excludes penumbral and locally invisible eclipses", () => {
+  for (const subtype of ["Penumbral", " penumbral "]) {
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:true}), false);
+  }
+  for (const subtype of ["Total", "Partial", "Annular"]) {
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:false}), false);
+    assert.equal(tools.isEclipseRitualApplicable({subtype}, {localVisible:true}), true);
+  }
+  assert.equal(tools.isEclipseRitualApplicable({subtype:"Total"}, null), false);
+});
