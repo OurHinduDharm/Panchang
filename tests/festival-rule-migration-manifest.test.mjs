@@ -10,7 +10,7 @@ test("2026 observance mapping references only registered shared rule IDs", () =>
   for (const item of manifest.mappings) {
     assert.ok(item.observanceId, "each mapped occurrence needs an explicit observanceId");
     assert.ok(registered.has(item.ruleId), `unknown ruleId: ${item.ruleId}`);
-    assert.ok(item.date && /^2026-\\d{2}-\\d{2}$/.test(item.date));
+    assert.ok(item.date && /^2026-\d{2}-\d{2}$/.test(item.date));
     assert.ok(item.hinduTithi, `missing Hindu tithi: ${item.title}`);
     assert.ok(item.classification);
     assert.ok(item.reason);
