@@ -2244,6 +2244,7 @@ var weekdayStr = getHindiWeekday(
       var visibility = getLocalVisibility(g, eclipseDays);
 
       var ritualApplicable = isEclipseRitualApplicable(g, visibility);
+      if (!ritualApplicable) return '';
  if (
   ritualApplicable && g.sutakKaal &&
   g.sutakKaal.start &&
@@ -2298,18 +2299,7 @@ if (
 
     } catch (e) {
       logErr('Day Panchang failed:', e);
-      html += [
-        '<details class="ohd-eclipse-panchang-details">',
-        '<summary>',
-        '📅 इस ग्रहण-दिन का पंचांग देखें',
-        '</summary>',
-        '<div class="ohd-eclipse-panchang-inner">',
-        '<p>',
-        'इस दिन का पंचांग उपलब्ध नहीं हो सका।',
-        '</p>',
-        '</div>',
-        '</details>'
-      ].join('');
+      throw e;
     }
 
     html += '</div>';
@@ -2401,29 +2391,6 @@ if (
     location,
     api
   ) {
-    if (!eclipses || eclipses.length === 0) {
-      setResults(
-        container,
-        [
-          '<p class="ohd-eclipse-none">',
-          'वर्ष ',
-          esc(
-            String(
-              state.controller
-                ? state.controller.year
-                : ''
-            )
-          ),
-          ' में ',
-          esc(locationDisplayName(location)),
-          ' के लिए कोई खगोलीय ग्रहण ',
-          'इस गणना से प्राप्त नहीं हुआ।',
-          '</p>'
-        ].join('')
-      );
-      return;
-    }
-
     var Observer =
       api.Observer ||
       (api.module && api.module.Observer);
@@ -2442,7 +2409,7 @@ if (
 
     var html = '';
 
-    eclipses.forEach(function (item) {
+    (eclipses || []).forEach(function (item) {
       html += renderEclipseCard(
         item,
         observer,
@@ -2450,6 +2417,29 @@ if (
   location
       );
     });
+
+    if (!html) {
+      setResults(
+        container,
+        [
+          '<p class="ohd-eclipse-none">',
+          'वर्ष ',
+          esc(
+            String(
+              state.controller
+                ? state.controller.year
+                : ''
+            )
+          ),
+          ' में ',
+          esc(locationDisplayName(location)),
+          ' में कोई मान्य दृश्य ग्रहण ',
+          'नहीं है।',
+          '</p>'
+        ].join('')
+      );
+      return;
+    }
 
     html += renderPurashcharanaCard();
 
@@ -3094,6 +3084,7 @@ if (
   window.__OHDEclipsePanchangTools = {
     discoverEclipses: discoverEclipses,
     getLocalVisibility: getLocalVisibility,
+    renderEclipseCard: renderEclipseCard,
     isEclipseRitualApplicable: isEclipseRitualApplicable,
     getEclipseDayPanchangs: getEclipseDayPanchangs
   };
