@@ -32,6 +32,8 @@
 
   var CONTAINER_ID = 'ohd-eclipse-panchang';
   var APP_CONTAINER_ID = 'ohd-eclipse-app';
+  // Persist only a public city name, never exact coordinates.
+  var SAVED_CITY_KEY = 'ohdEclipsePanchangCity';
 
   var TZ_OFFSET = 330;
   var YEAR_MIN = 2026;
@@ -372,6 +374,42 @@ function getEclipseTypeHindi(g) {
     // overwriting the main Panchang's richer shared observer object.
     state.location = normalized;
     return true;
+  }
+
+  function rememberCity(location) {
+    try {
+      var city = String(location && location.city || '').trim();
+      var stateName = String(location && location.state || '').trim();
+      if (!city) {
+        // GPS/unnamed locations are deliberately not persisted.
+        window.localStorage.removeItem(SAVED_CITY_KEY);
+        return;
+      }
+      window.localStorage.setItem(SAVED_CITY_KEY, [city, stateName, 'भारत'].filter(Boolean).join(', '));
+    } catch (e) {
+      log('City preference could not be saved:', e);
+    }
+  }
+
+  async function restoreRememberedCity() {
+    var query = '';
+    try { query = String(window.localStorage.getItem(SAVED_CITY_KEY) || '').trim(); }
+    catch (e) { return null; }
+    if (!query) return null;
+    try {
+      var results = await searchLocation(query);
+      if (!Array.isArray(results) || !results.length) return null;
+      for (var i = 0; i < results.length; i++) {
+        var location = resultToLocation(results[i]);
+        if (location) {
+          saveLocation(location);
+          return location;
+        }
+      }
+    } catch (e) {
+      logErr('Remembered city restore failed:', e);
+    }
+    return null;
   }
 
   function locationDisplayName(location) {
@@ -2883,6 +2921,7 @@ if (
        * Save first.
        */
       saveLocation(normalized);
+      rememberCity(normalized);
 
       /*
        * Update active controller immediately.
@@ -2984,7 +3023,8 @@ if (
        * This lets a previous Mini Panchang/location
        * selection be picked up.
        */
-      var savedLocation = readLocation();
+      var savedLocation = await restoreRememberedCity();
+      if (!savedLocation) savedLocation = readLocation();
 
       existing.attach(container);
 
@@ -3050,7 +3090,8 @@ if (
     /*
      * Read shared saved location.
      */
-    var location = readLocation();
+    var location = await restoreRememberedCity();
+    if (!location) location = readLocation();
 
     if (!location) {
       renderError(
