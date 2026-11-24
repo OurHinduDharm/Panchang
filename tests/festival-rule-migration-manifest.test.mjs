@@ -55,3 +55,21 @@ test("2026 manifest counts and record keys match all twelve source catalogues", 
   assert.equal(manifest.counts.distinctObservanceIds, new Set(manifest.mappings.map(item => item.observanceId)).size);
   assert.equal(manifest.counts.distinctRuleIds, new Set(manifest.mappings.map(item => item.ruleId)).size);
 });
+
+
+test("all 2026 Sankashti records except the Karwa Chauth-specific record are explicitly mapped", async () => {
+  const months = await Promise.all(Array.from({ length: 12 }, (_, index) =>
+    readFile(new URL(`../data/festivals/2026-${String(index + 1).padStart(2, "0")}.json`, import.meta.url), "utf8")
+      .then(JSON.parse)
+  ));
+  const sourceRecords = months.flatMap(month => month.events)
+    .filter(event => /संकष्टी|संकट चौथ/i.test(String(event.title || "")));
+  const expected = sourceRecords.filter(event => !/करकचतुर्थी/i.test(String(event.title || "")));
+  const mapped = new Set(manifest.mappings.map(item => item.recordKey));
+  for (const event of expected) {
+    assert.ok(mapped.has(`${event.date}::${event.title}`), `unmapped Sankashti record: ${event.date} ${event.title}`);
+  }
+  const karwa = sourceRecords.find(event => /करकचतुर्थी/i.test(String(event.title || "")));
+  assert.ok(karwa);
+  assert.ok(manifest.excludedOrDeferred.some(item => item.date === karwa.date && item.title === karwa.title));
+});
