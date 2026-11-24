@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 102,
+    "mappedOccurrences": 103,
     "distinctRuleIds": 21,
     "unmappedRegisteredProfiles": 4,
-    "mappedRecords": 102,
-    "distinctObservanceIds": 102,
+    "mappedRecords": 103,
+    "distinctObservanceIds": 103,
     "possibleDuplicateRecords": 0
   },
   "mappings": [
@@ -943,6 +943,19 @@
       "lunarMonth": "भाद्रपद",
       "paksha": "शुक्ल पक्ष",
       "targetTithiIndex": 10
+    },
+    {
+      "date": "2029-09-19",
+      "title": "बुध प्रदोष व्रत",
+      "hinduTithi": "भाद्रपद शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
+      "observanceId": "pradosh-trayodashi-2029-09-19",
+      "ruleId": "pradosh-trayodashi",
+      "classification": "manual-review",
+      "reason": "द्वादशी/त्रयोदशी संयुक्त व्याप्ति; प्रदोषकाल में त्रयोदशी के वास्तविक interval और व्रत-निर्णय का manual सत्यापन आवश्यक।",
+      "recordKey": "2029-09-19::बुध प्रदोष व्रत",
+      "lunarMonth": "भाद्रपद",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 12
     },
     {
       "date": "2029-09-19",
