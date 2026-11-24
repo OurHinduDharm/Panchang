@@ -1250,8 +1250,11 @@ function getHindiWeekday(date, tzOffsetMin) {
       ),
       '</h2>',
 
-      '<div class="ohd-eclipse-location-subtitle">',
-      'इसी स्थान के अक्षांश-देशांतर के आधार पर ग्रहण की गणना',
+      '<div class="ohd-eclipse-location-subtitle" id="ohd-eclipse-location-subtitle">',
+      esc(
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना'
+      ),
       '</div>',
 
       '</div>',
@@ -1350,6 +1353,16 @@ function getHindiWeekday(date, tzOffsetMin) {
     el.textContent = locationDisplayName(
       location
     );
+
+    /* Keep the explanatory details synchronized with the active city. */
+    var subtitle = app.querySelector(
+      '#ohd-eclipse-location-subtitle'
+    );
+    if (subtitle) {
+      subtitle.textContent =
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना';
+    }
 
     /* Keep the search field synchronized with the active city. */
     var input = app.querySelector(
