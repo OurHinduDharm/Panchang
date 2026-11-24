@@ -104,7 +104,7 @@ test("2029 annual review snapshot agrees with the public Smarta Ram Navami card"
   assert.equal(publicApril[0].hinduTithi, "चैत्र शुक्ल नवमी (मध्याह्न-व्याप्ति)");
 
   const publicDecember = months[11].events.find(event => /उत्पन्ना एकादशी/.test(event.title || ""));
-  const reviewDecember = annual.catalog.find(event => event.title === "उत्पन्ना एकादशी");
+  const reviewDecember = annual.catalog.find(event => event.title === publicDecember?.title);
   assert.ok(publicDecember);
   assert.ok(reviewDecember);
   assert.equal(publicDecember.date, "2029-12-01");
