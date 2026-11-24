@@ -255,6 +255,11 @@ test("annual adapter scopes recurring tithis to an explicit lunar month and paks
       tithiIntervals: [{ index: 10, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
     },
     {
+      date: "2031-01-31", masa: "फाल्गुन", paksha: "शुक्ल पक्ष",
+      sunrise: "2031-01-31T06:00:00Z", sunset: "2031-01-31T18:00:00Z",
+      tithiIntervals: [{ index: 9, startTime: "2031-01-31T05:00:00Z", endTime: "2031-01-31T07:00:00Z" }]
+    },
+    {
       date: "2031-02-01", masa: "फाल्गुन", paksha: "शुक्ल पक्ष",
       sunrise: "2031-02-01T06:00:00Z", sunset: "2031-02-01T18:00:00Z",
       tithiIntervals: [{ index: 10, startTime: "2031-02-01T05:00:00Z", endTime: "2031-02-01T07:00:00Z" }]
