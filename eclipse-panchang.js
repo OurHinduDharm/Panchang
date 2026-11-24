@@ -2274,22 +2274,21 @@ var weekdayStr = getHindiWeekday(
 }
 
 if (
-  ritualApplicable && g.punyaKala &&
-  g.punyaKala.start &&
-  g.punyaKala.end
+  ritualApplicable && visibility.visibleStart &&
+  visibility.visibleEnd
 ) {
   html +=
     '<p><strong>पुण्य काल:</strong><br>' +
     esc(
       fmtDateTime(
-        g.punyaKala.start,
+        visibility.visibleStart,
         TZ_OFFSET
       )
     ) +
     '<br>से<br>' +
     esc(
       fmtDateTime(
-        g.punyaKala.end,
+        visibility.visibleEnd,
         TZ_OFFSET
       )
     ) +
