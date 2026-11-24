@@ -112,12 +112,20 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   if (!contexts.length) {
     return fail("insufficient-data", observance, ["annual-daily-panchang-data-required"]);
   }
+  const targetIndices = observance.targetTithiIndices ??
+    (Number.isInteger(observance.targetTithiIndex) ? [observance.targetTithiIndex] : profile.tithiIndices);
+  if (!Array.isArray(targetIndices) || !targetIndices.length ||
+      targetIndices.some(index => !Number.isInteger(index) || !profile.tithiIndices.includes(index))) {
+    return fail("manual-review", observance, ["target-tithi-selector-outside-rule-profile"]);
+  }
   const candidateContexts = contexts.filter(context => {
     if (profile.allowedMonths?.length) {
       const month = String(context.masa ?? "").replace(/^अधिक\s+/, "").trim();
       if (!profile.allowedMonths.includes(month)) return false;
     }
-    return context.tithis.some(row => profile.tithiIndices.includes(row.index));
+    return targetIndices.every(index => context.tithis.some(row =>
+      row.index === index && (!profile.paksha || !row.paksha || row.paksha === profile.paksha)
+    ));
   });
   if (!candidateContexts.length) {
     return fail("candidate-not-supported", observance, ["no-annual-day-contains-the-profile-tithi"]);
