@@ -1,5 +1,11 @@
 name: India eclipse independent audit
 on:
+  push:
+    paths:
+      - 'eclipse-panchang.js'
+      - 'tests/eclipse-panchang-visibility.test.mjs'
+      - 'scripts/audit-india-eclipse.mjs'
+      - '.github/workflows/india-eclipse-audit.yml'
   pull_request:
     paths:
       - 'eclipse-panchang.js'
