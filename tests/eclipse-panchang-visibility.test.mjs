@@ -4,7 +4,26 @@ import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 
 const source = await readFile(new URL("../eclipse-panchang.js", import.meta.url), "utf8");
-const sandbox = { window: {}, console, Date, setTimeout, clearTimeout };
+const storage = new Map();
+const sandbox = {
+  window: {
+    localStorage: {
+      getItem: key => storage.has(key) ? storage.get(key) : null,
+      setItem: (key, value) => storage.set(key, String(value)),
+      removeItem: key => storage.delete(key)
+    }
+  },
+  fetch: async url => ({
+    ok: true,
+    json: async () => [{
+      lat: "29.58",
+      lon: "80.22",
+      address: { city: "Pithoragarh", state: "Uttarakhand" },
+      display_name: "Pithoragarh, Uttarakhand, India"
+    }]
+  }),
+  console, Date, setTimeout, clearTimeout
+};
 vm.runInNewContext(source, sandbox, { filename: "eclipse-panchang.js" });
 const tools = sandbox.window.__OHDEclipsePanchangTools;
 assert.ok(tools, "shared local eclipse visibility API must be exposed");
@@ -107,4 +126,34 @@ test("public eclipse card suppresses locally invisible and penumbral events", ()
       assert.doesNotMatch(html, /प्रथम स्पर्श|पुण्य काल:|सूतक काल:/);
     }
   }
+});
+
+
+test("selected city name persists without storing exact coordinates", async () => {
+  const location = {
+    name: "Pithoragarh, Uttarakhand, भारत",
+    city: "Pithoragarh",
+    state: "Uttarakhand",
+    lat: 29.58,
+    lon: 80.22,
+    elevation: 1650
+  };
+  tools.rememberCity(location);
+  const saved = storage.get("ohdEclipsePanchangCity");
+  assert.equal(saved, "Pithoragarh, Uttarakhand, भारत");
+  assert.doesNotMatch(saved, /29\.58|80\.22|1650/);
+});
+
+test("remembered city is geocoded again into a usable observer", async () => {
+  const location = await tools.restoreRememberedCity();
+  assert.equal(location.city, "Pithoragarh");
+  assert.equal(location.state, "Uttarakhand");
+  assert.equal(location.lat, 29.58);
+  assert.equal(location.lon, 80.22);
+  assert.equal(location.elevation, 0);
+});
+
+test("GPS-only location does not leave a stale saved city", () => {
+  tools.rememberCity({ name: "वर्तमान स्थान", lat: 28.6, lon: 77.2, city: "", state: "" });
+  assert.equal(storage.has("ohdEclipsePanchangCity"), false);
 });
