@@ -17,7 +17,9 @@ test("monthly special punya-kaal section calculates lazily and stays hidden with
   assert.match(component, /!sameObserver/);
   assert.match(component, /if\(!approved\.length\)return/);
   assert.match(component, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
-  assert.match(component, /engine\.approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
+  assert.match(component, /approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
+  assert.match(component, /var data=await calculation\.catch/);
+  assert.match(component, /var approval=await specialPunyaKaalApprovalPromise/);
   assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
 });
 
