@@ -3,27 +3,29 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const monthly = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+const component = await readFile(new URL("../monthly-special-punya-kaal.mjs", import.meta.url), "utf8");
+const blogger = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
 const daily = await readFile(new URL("../app.js", import.meta.url), "utf8");
 const schema = JSON.parse(await readFile(new URL("../data/special-punya-kaal/schema.json", import.meta.url), "utf8"));
 
 test("monthly special punya-kaal section calculates lazily and stays hidden without approved candidates", () => {
   assert.match(monthly, /id="special-punya-kaal"[^>]*hidden/);
-  assert.match(monthly, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
-  assert.match(monthly, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
-  assert.match(monthly, /IntersectionObserver/);
-  assert.match(monthly, /Number\(a\.elevation\)-Number\(b\.elevation\)/);
-  assert.match(monthly, /!sameObserver/);
-  assert.match(monthly, /if\(!approved\.length\)return/);
-  assert.match(monthly, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
-  assert.match(monthly, /engine\.approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
+  assert.match(component, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
+  assert.match(component, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
+  assert.match(component, /IntersectionObserver/);
+  assert.match(component, /Number\(a\.elevation\)-Number\(b\.elevation\)/);
+  assert.match(component, /!sameObserver/);
+  assert.match(component, /if\(!approved\.length\)return/);
+  assert.match(component, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
+  assert.match(component, /engine\.approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
   assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
 });
 
 test("monthly section uses the selected year/month from its navigation URL", () => {
   assert.match(monthly, /pageParams\.get\("year"\)/);
   assert.match(monthly, /pageParams\.get\("month"\)/);
-  assert.match(monthly, /window\.location\.hash==="#special-punya-kaal"/);
-  assert.match(monthly, /section\.scrollIntoView\(\{block:"start",behavior:"smooth"\}\)/);
+  assert.match(component, /window\.location\.hash==="#special-punya-kaal"/);
+  assert.match(component, /section\.scrollIntoView\(\{block:"start",behavior:"smooth"\}\)/);
 });
 
 test("monthly special section uses the approved practice-focused title", () => {
@@ -40,7 +42,7 @@ test("Varuni-only public cards do not display Mahapat-specific instructions", ()
 test("daily Panchang calculates its month lazily and links only for the approved Smarta profile", () => {
   assert.match(daily, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
   assert.match(daily, /approval\.publicSpecialPunyaKaalMonth\(resultData,year,month\)/);
-  assert.match(daily, /monthly-vrat-parv\.html\?year=/);
+  assert.match(daily, /masik-vrat-parv\.html/);
   assert.match(daily, /विशेष पुण्यकाल देखें →/);
   assert.match(daily, /विशेष साधना काल एवं पुण्यकाल/);
   assert.doesNotMatch(daily, /data\/special-punya-kaal\//);
@@ -62,4 +64,11 @@ test("public data schema permits only reviewed special punya-kaal types, never S
   ]);
   assert.equal(schema.properties.events.items.properties.status.const, "approved");
   assert.match(schema.properties.events.items.properties.start.pattern, /Z\|\[\+\-\]/);
+});
+
+test("Blogger and GitHub Pages schedule the same monthly component", () => {
+  for (const host of [monthly, blogger]) {
+    assert.match(host, /import\("\.\/monthly-special-punya-kaal\.mjs"\)/);
+    assert.match(host, /scheduleSpecialPunyaKaal\(year,month\);/);
+  }
 });

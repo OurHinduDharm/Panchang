@@ -12,6 +12,8 @@ on:
       - 'special-punya-kaal-public-approval.mjs'
       - 'app.js'
       - 'monthly-vrat-parv.html'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-special-punya-kaal.mjs'
       - 'mahapata-root-solver.mjs'
       - 'data/reviews/mahapat*.json'
       - '.github/workflows/paatadhikar-mahapata-research.yml'
@@ -72,7 +74,7 @@ jobs:
           path: ${{ runner.temp }}/independent-mahapata.json
 
   calendar-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4

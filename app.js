@@ -5060,7 +5060,8 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    const monthlyPage=window.location.pathname==="/p/panchang-today.html" ? "/p/masik-vrat-parv.html" : "monthly-vrat-parv.html";
+    link.href=monthlyPage+"?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);

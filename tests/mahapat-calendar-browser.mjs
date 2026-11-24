@@ -13,6 +13,7 @@ const panchang = await build({
   stdin: { contents: 'export { getPanchangam } from "@ishubhamx/panchangam-js/dist/core/panchangam.js"; export { Observer } from "astronomy-engine";', resolveDir: root },
   bundle: true, write: false, platform: "browser", format: "esm"
 });
+const bloggerCdn = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@main";
 const approvalPath = "/special-punya-kaal-public-approval.mjs";
 const reviewWindow = { status: "approved", type: "vaidhriti-mahapat", ruleProfile: "drik-geocentric-apparent-disks",
   start: "2026-03-18T22:17:04.035Z", end: "2026-03-19T01:55:18.200Z" };
@@ -32,12 +33,18 @@ try {
         pathname = "/node_modules/astronomy-engine/esm/astronomy.js";
       } else if (url.origin === "https://ourhindudharm.github.io" && pathname.startsWith("/Panchang/")) {
         pathname = pathname.slice("/Panchang".length);
+      } else if (url.href.startsWith(bloggerCdn + "/")) {
+        pathname = url.href.slice(bloggerCdn.length);
       } else if (url.origin !== origin) return route.abort();
+      const bloggerDaily = pathname === "/p/panchang-today.html";
+      if (bloggerDaily) pathname = "/index.html";
+      if (pathname === "/p/masik-vrat-parv.html") pathname = "/docs/monthly-vrat-parv-blogger-snippet.html";
       const file = resolve(root, "." + pathname);
       if (!file.startsWith(root + sep)) return route.abort();
       let body;
       try { body = await readFile(file); }
       catch { return route.fulfill({ status: 404 }); }
+      if (bloggerDaily) body = body.toString().replace('src="app.js"', 'src="' + bloggerCdn + '/app.js"');
       if (staged && pathname === approvalPath) {
         const source = body.toString();
         const declaration = "const reviewedMahapata = Object.freeze([]);";
@@ -58,6 +65,15 @@ try {
     const daily = await page.locator(".special-punya-kaal-card").innerText();
     assert.equal(daily.includes("वैधृति महापात"), staged);
     if (staged) assert.match(daily, /स्पर्श [^\n]+मोक्ष /);
+    await page.goto(origin + "/p/panchang-today.html?date=2026-03-19");
+    await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
+    const href = await page.locator(".special-punya-kaal-card a").getAttribute("href");
+    assert.equal(href, "/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal");
+    await page.goto(new URL(href, origin).href);
+    await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
+    const bloggerMonth = await page.locator("#specialPunyaKaalContent").innerText();
+    assert.match(bloggerMonth, /वारुणी/);
+    assert.equal(bloggerMonth.includes("वैधृति महापात"), staged);
     await context.close();
   }
 } finally {
