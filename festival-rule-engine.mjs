@@ -30,7 +30,15 @@ function normalizePaksha(value) {
 
 function normalizeTithiInterval(row) {
   if (!row || typeof row !== "object") return null;
-  if (Number.isInteger(Number(row.index))) return { ...row, index: Number(row.index) };
+  if (row.index !== undefined && row.index !== null && row.index !== "" &&
+      Number.isInteger(Number(row.index))) {
+    const index = Number(row.index);
+    if (index < 0 || index > 29) return null;
+    const suppliedPaksha = normalizePaksha(row.paksha);
+    const expectedPaksha = index >= 15 ? "कृष्ण पक्ष" : "शुक्ल पक्ष";
+    if (suppliedPaksha && suppliedPaksha !== expectedPaksha) return null;
+    return { ...row, index, paksha: suppliedPaksha ?? expectedPaksha };
+  }
   const name = String(row.tithi ?? row.name ?? "").trim();
   const ordinal = TITHI_ORDINAL.get(name);
   if (ordinal === undefined) return null;
@@ -112,12 +120,20 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   if (!contexts.length) {
     return fail("insufficient-data", observance, ["annual-daily-panchang-data-required"]);
   }
+  const targetIndices = observance.targetTithiIndices ??
+    (Number.isInteger(observance.targetTithiIndex) ? [observance.targetTithiIndex] : profile.tithiIndices);
+  if (!Array.isArray(targetIndices) || !targetIndices.length ||
+      targetIndices.some(index => !Number.isInteger(index) || !profile.tithiIndices.includes(index))) {
+    return fail("manual-review", observance, ["target-tithi-selector-outside-rule-profile"]);
+  }
   const candidateContexts = contexts.filter(context => {
     if (profile.allowedMonths?.length) {
       const month = String(context.masa ?? "").replace(/^अधिक\s+/, "").trim();
       if (!profile.allowedMonths.includes(month)) return false;
     }
-    return context.tithis.some(row => profile.tithiIndices.includes(row.index));
+    return targetIndices.every(index => context.tithis.some(row =>
+      row.index === index && (!profile.paksha || !row.paksha || row.paksha === profile.paksha)
+    ));
   });
   if (!candidateContexts.length) {
     return fail("candidate-not-supported", observance, ["no-annual-day-contains-the-profile-tithi"]);
@@ -195,7 +211,10 @@ export function resolveFestivalObservance(observance, year, candidateContexts = 
       ruleVersion: profile.ruleVersion
     });
   }
-  const resolved = resolveObservanceCandidates(profile.id, candidateContexts);
+  const resolved = resolveObservanceCandidates(profile.id, candidateContexts, {
+    targetTithiIndex: observance.targetTithiIndex,
+    targetTithiIndices: observance.targetTithiIndices
+  });
   return {
     engineVersion: FESTIVAL_RULE_ENGINE_VERSION,
     observanceId: observance.id,

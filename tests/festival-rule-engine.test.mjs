@@ -153,3 +153,89 @@ test("annual adapter leaves missing moonrise unresolved instead of substituting 
   assert.equal(result.status, "insufficient-data");
   assert.equal(result.selectedDate, null);
 });
+
+
+test("annual adapter scopes repeated Ekadashi profile to the explicit target tithi", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "shattila-ekadashi-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    targetTithiIndex: 10
+  }, 2031, [
+    {
+      date: "2031-01-01", masa: "माघ",
+      sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+      tithiIntervals: [{ index: 10, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+    },
+    {
+      date: "2031-01-02", masa: "माघ",
+      sunrise: "2031-01-02T06:00:00Z", sunset: "2031-01-02T18:00:00Z",
+      tithiIntervals: [{ index: 25, startTime: "2031-01-02T05:00:00Z", endTime: "2031-01-02T07:00:00Z" }]
+    }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-01-01");
+  assert.equal(result.evaluations.length, 1);
+});
+
+test("annual adapter rejects a target tithi outside the selected rule profile", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "invalid-ekadashi",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    targetTithiIndex: 11
+  }, 2031, [{
+    date: "2031-01-01", masa: "माघ",
+    sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+    tithiIntervals: [{ index: 11, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+  }]);
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("target-tithi-selector-outside-rule-profile"));
+});
+
+test("indexed tithi intervals derive paksha when the source omits it", () => {
+  const contexts = buildFestivalRuleContexts([{
+    date: "2031-01-01", masa: "माघ",
+    sunrise: "2031-01-01T06:00:00Z", sunset: "2031-01-01T18:00:00Z",
+    tithiIntervals: [{ index: 25, startTime: "2031-01-01T05:00:00Z", endTime: "2031-01-01T07:00:00Z" }]
+  }]);
+  assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
+});
+
+
+test("annual adapter rejects null, out-of-range, and contradictory indexed tithis", () => {
+  const contexts = buildFestivalRuleContexts([{
+    date: "2031-01-01", masa: "माघ",
+    tithiIntervals: [
+      { index: null, startTime: "2031-01-01T00:00:00Z", endTime: "2031-01-01T01:00:00Z" },
+      { index: 30, startTime: "2031-01-01T01:00:00Z", endTime: "2031-01-01T02:00:00Z" },
+      { index: 25, paksha: "शुक्ल पक्ष", startTime: "2031-01-01T02:00:00Z", endTime: "2031-01-01T03:00:00Z" },
+      { index: 25, startTime: "2031-01-01T03:00:00Z", endTime: "2031-01-01T04:00:00Z" }
+    ]
+  }]);
+  assert.deepEqual(contexts[0].tithis.map(row => row.index), [25]);
+  assert.equal(contexts[0].tithis[0].paksha, "कृष्ण पक्ष");
+});
+
+
+test("annual adapter resolves Sankashti when local moonrise is supplied", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "sankashti-2031",
+    dateType: "tithi",
+    ruleId: "sankashti-moonrise",
+    targetTithiIndex: 18
+  }, 2031, [{
+    date: "2031-09-10", masa: "भाद्रपद", paksha: "कृष्ण पक्ष",
+    sunrise: "2031-09-10T00:00:00Z",
+    sunset: "2031-09-10T12:00:00Z",
+    moonrise: "2031-09-10T14:00:00Z",
+    tithiIntervals: [{
+      index: 18,
+      startTime: "2031-09-10T13:00:00Z",
+      endTime: "2031-09-10T15:00:00Z"
+    }]
+  }]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-09-10");
+  assert.equal(result.evaluations[0].evidence[0].decisionMoment, "moonrise");
+});
