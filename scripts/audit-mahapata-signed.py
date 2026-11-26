@@ -38,11 +38,48 @@ def julian(text):
     return date.timestamp() / 86400 + 2440587.5
 
 
-def endpoint(t, kind, model):
+def directed_contact(f, t, entering):
+    # One-minute sampling within the existing local search window.
+    # Reject ambiguous candidates rather than choosing a convenient root.
+    samples = np.linspace(t - .04, t + .04, 117)
+    values = [f(x) for x in samples]
+    candidates = []
+    for i in range(len(samples) - 1):
+        left, right = values[i:i+2]
+        if left * right < 0:
+            candidates.append(brentq(f, samples[i], samples[i+1], xtol=1e-9))
+    for i in range(1, len(samples) - 1):
+        if values[i] == 0 and values[i-1] * values[i+1] < 0:
+            candidates.append(samples[i])
+    if len(candidates) != 1:
+        raise ValueError('missing or ambiguous local contact')
+    root = candidates[0]
+    before, after = f(root - 1/86400), f(root + 1/86400)
+    if not (before > 0 > after if entering else before < 0 < after):
+        raise ValueError('incorrect contact direction')
+    return root
+
+
+def endpoint(t, kind, model, entering):
     def f(jd):
         return abs(relation(jd, kind)) - (coordinates(jd)[2] if model == 'disks' else float(model))
-    # Local audit only. Does not guarantee unique root in interval.
-    return brentq(f, t - .04, t + .04, xtol=1e-9)
+    return directed_contact(f, t, entering)
+
+
+def self_test():
+    # Synthetic checks: exact sampled zero, ingress/egress, ambiguity,
+    # and tangent contact (not a sign-changing ingress or egress).
+    for f, entering in ((lambda x: -x, True), (lambda x: x, False)):
+        assert abs(directed_contact(f, 0, entering)) < 1e-8
+    for f, entering in ((lambda x: x, True),
+                        (lambda x: x*x, True),
+                        (lambda x: (x-.01)*(x+.01), True)):
+        try:
+            directed_contact(f, 0, entering)
+        except ValueError:
+            continue
+        raise AssertionError('invalid contact accepted')
+    print('directed-contact self-tests passed')
 
 
 def run(path):
@@ -50,6 +87,8 @@ def run(path):
         rows = [(r['kind'], julian(r['start']), julian(r['end'])) for r in csv.DictReader(stream)]
     if not rows:
         raise ValueError('no reference pairs')
+    if any(kind not in ('vyatipata', 'vaidhrti') for kind, _, _ in rows):
+        raise ValueError('unknown event kind in CSV')
     if any(b <= a for _, a, b in rows):
         raise ValueError('end must follow start')
     print('Swiss library', swe.version, 'reference pairs', len(rows), 'flags', coordinates(rows[0][1])[3:])
@@ -57,7 +96,11 @@ def run(path):
         errors = []
         for kind, a, b in rows:
             try:
-                errors.append([(endpoint(t, kind, model) - t) * 1440 for t in (a, b)])
+                start = endpoint(a, kind, model, True)
+                end = endpoint(b, kind, model, False)
+                if start >= end:
+                    raise ValueError('reversed computed contact pair')
+                errors.append([(start-a)*1440, (end-b)*1440])
             except ValueError:
                 errors.append([np.inf, np.inf])
         e = np.array(errors)
@@ -66,4 +109,7 @@ def run(path):
 
 
 if __name__ == '__main__':
-    run(sys.argv[1])
+    if sys.argv[1:] == ['--self-test']:
+        self_test()
+    else:
+        run(sys.argv[1])
