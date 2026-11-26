@@ -71,3 +71,21 @@ python3 scripts/audit-mahapat-independent.py /path/to/libswe.so --verify
 ```
 
 Swiss C स्रोत का निश्चित commit, निर्माण command और Python जाँच PR workflow में हैं। Swiss library केवल शोध-परीक्षण के लिए बनती है। वेबसाइट पर इसे लोड नहीं किया जाता।
+
+
+## 26 नवंबर 2026 — दोनों स्रोतों का संयुक्त पुनर्परीक्षण और प्राथमिक नीति
+
+Swiss/Moshier 2.10.03 पर 80 Drik Ramnagar 2025–27 pairs और 27 VS 2084 rows का स्थानीय स्वतंत्र पुनर्परीक्षण। स्रोत प्रतिलिपियाँ अपरिवर्तित। दोनों endpoints ≤3 मिनट: Drik 30′ 0/80, 31′ 80/80, apparent-disks 21/80; VS 2084 class-compatible 25 pairs में 30′ 0/25, 31′ 10/25, apparent-disks 25/25। स्रोत-विशिष्ट मिलान और स्वतंत्र खगोलीय नियम अलग हैं।
+
+Drik 2026 26 pairs, 31′: median signed start/end +1.494/+1.687 min; midpoint bias +1.574 min, duration bias +0.054 min। Geometric TRUEPOS 31′ plus diagnostic extra subtraction of ΔT gives median absolute residual 0.198/0.274 min, but this is NOT a justified UTC conversion or a publisher-confirmed reconstruction. For 2025 and 2027 the same diagnostic gives 0.293/0.328 and 0.322/0.379 min. VS 2084 disks median signed −1.159/−1.173 min, duration bias +0.032 min; diagnostic addition of ΔT gives median absolute 0.190/0.199 min. Opposite timing biases are evidence for different conventions, not permission to alter true civil time.
+
+Two unmatched VS 2084 rows have ordinary equal-signed-declination crossings with **same ayana and same gola**, not class-compatible Mahapata under the current rule:
+
+| Source row | Independent apparent-disks window IST | Middle | Sun/Moon tropical longitude | Declination |
+|---|---|---|---|---|
+| 14, Sep 29 2027 | 14:42:44–18:52:07 | 16:47:16 | 186.097°/177.431° | −2.421° both |
+| 27, Mar 25 2028 | 10:40:54–15:42:34 | 13:11:40 | 5.186°/355.586° | +2.060° both |
+
+Thus their timings also fit actual disk contacts, but their source classification requires separate textual clarification. Keep both source rows, reject them from the current primary classification. Do not infer a printing error. The four extra class-compatible roots absent from Drik remain separate review items; absence from a comparator is not grounds for suppression. March 19 2026 has independent published comparator support.
+
+**Primary proposed public rule:** class-compatible signed declination equality with instantaneous apparent geocentric solar/lunar semidiameter sum; calculate the physical boundaries in UT/UTC, then display IST. No empirical offsets, no location-dependent topocentric declination, no source lookup at runtime. Fixed 30′ and 31′ remain diagnostic models only. Preserve full intervals and actual middle(s); no fabricated events. Existing public approval gate remains closed until review and CI. The audit script now reproduces the timing-hypothesis and rejected-row diagnostics. No change to public data or existing Varuni results.
