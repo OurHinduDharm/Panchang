@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   MAHAPATA_RESEARCH_ONLY, normalizeDegrees, angularDistanceDegrees,
-  declinationFromEcliptic, diagnoseMahapata, bisectSignChange,
+  declinationFromEcliptic, diagnoseMahapata, classifyMahapataGeometry, bisectSignChange,
   scanMahapataCandidates
 } from "../research/paatadhikar/mahapata-math.mjs";
 
@@ -109,4 +109,21 @@ test("scan never emits ordinary equal-hemisphere same-ayana equality", () => {
       input(coord(30), coord(20 + (date.getTime() - start) / 3600000 * 10))
   });
   assert.deepEqual(result, []);
+});
+
+
+test("VS 2084 two same-ayana same-gola reference exceptions are not classified as Mahapata", () => {
+  // Independent Swiss/Moshier equal-declination roots, rounded for classification only.
+  for (const [sunLongitudeDeg, moonLongitudeDeg, declination] of [
+    [186.097, 177.431, -2.421], // 2027-09-29 16:47 IST
+    [5.186, 355.586, 2.060]    // 2028-03-25 13:11 IST
+  ]) {
+    const geometry = classifyMahapataGeometry({
+      sunLongitudeDeg, moonLongitudeDeg,
+      sunDeclinationDeg: declination, moonDeclinationDeg: declination
+    });
+    assert.equal(geometry.sunAyana, geometry.moonAyana);
+    assert.equal(geometry.sunGola, geometry.moonGola);
+    assert.equal(geometry.eventClass, null);
+  }
 });
