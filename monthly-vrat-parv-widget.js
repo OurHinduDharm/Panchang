@@ -1529,7 +1529,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   let specialCalendar;
   async function scheduleSpecialPunyaKaal(year,month){
     try{
-      const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs");
+      const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs").catch(()=>import("https://ourhindudharm.github.io/Panchang/monthly-special-punya-kaal.mjs"));
       if(Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       specialCalendar??=createMonthlySpecialCalendar(getLocalLocation,yearSelect,monthSelect,eventsEl);
       specialCalendar(year,month);
