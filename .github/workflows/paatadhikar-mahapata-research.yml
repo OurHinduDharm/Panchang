@@ -9,6 +9,7 @@ on:
       - 'tests/surya-siddhanta-paatadhikar.test.mjs'
       - 'scripts/*mahapat*.mjs'
       - 'scripts/audit-mahapat-independent.py'
+      - 'scripts/audit-mahapat-contact-conventions.py'
       - 'special-punya-kaal-public-approval.mjs'
       - 'app.js'
       - 'monthly-vrat-parv.html'
@@ -72,6 +73,22 @@ jobs:
         with:
           name: independent-mahapata
           path: ${{ runner.temp }}/independent-mahapata.json
+
+  contact-conventions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyswisseph==2.10.3.2 scipy numpy
+      - name: Verify both reference conventions
+        run: python scripts/audit-mahapat-contact-conventions.py > "$RUNNER_TEMP/contact-conventions.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mahapata-contact-conventions
+          path: ${{ runner.temp }}/contact-conventions.json
 
   calendar-browser:
     runs-on: ubuntu-24.04
