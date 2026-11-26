@@ -117,3 +117,31 @@ test("daily special calendar links are canonical Blogger URLs and no empty month
   assert.match(daily,/if\(!visible\.length\)return/);
   assert.match(daily,/link\.hidden=Boolean\(upcoming&&upcoming\.href===link\.href\)/);
 });
+
+
+test("pre-sunrise travel directions use one effective weekday, including safe list",()=>{
+  const start=daily.indexOf("function getYatraShoolaDetails(");
+  const end=daily.indexOf("const gowriHindi",start);
+  assert.ok(start>=0&&end>start);
+  const source=daily.slice(start,end);
+  const directionHindi={East:"पूर्व",West:"पश्चिम",North:"उत्तर",South:"दक्षिण"};
+  const dateInput={value:"2026-11-27"};
+  const fn=new Function("dateInput","todayString","getVara","directionHindi","getYatraNakshatra","nakshatraHindi","nakshatraShoolaByDirection","getKalaShoolaDetails","varShoolaRemedy",source+"\nreturn getYatraShoolaDetails;")(
+    dateInput,()=>dateInput.value,p=>p.varaName,directionHindi,()=>"आर्द्रा",["आर्द्रा"],{},()=>({}),{4:"दही",5:"जौ"});
+  const prior={varaName:"गुरुवार",dishaShoola:{inauspiciousDirection:"South",safeDirections:["East","West","North","South"]}};
+  const selected={varaName:"शुक्रवार",sunrise:"2026-11-27T01:13:00Z",dishaShoola:{inauspiciousDirection:"West",safeDirections:["East","North","South"]}};
+  const before=fn(selected,null,new Date("2026-11-26T20:00:00Z"),prior);
+  assert.equal(before.direction,"South");
+  assert.deepEqual(before.safeDirections,["East","West","North"]);
+  assert.equal(before.remedy,"दही");
+  const after=fn(selected,null,new Date("2026-11-27T02:00:00Z"),prior);
+  assert.equal(after.direction,"West");
+  assert.deepEqual(after.safeDirections,["East","North","South"]);
+  assert.equal(after.remedy,"जौ");
+  const unknown=fn({sunrise:selected.sunrise},null,null,null);
+  assert.equal(unknown.nakshatraShoolaActive,false);
+  assert.deepEqual(unknown.safeDirections,[]);
+  assert.match(daily,/yatraShoola\.safeDirections\.map/);
+  assert.match(daily,/वर्तमान वार \(सूर्योदय तक\)/);
+  assert.match(daily,/पिछले दिन की रात्रि/);
+});
