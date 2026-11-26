@@ -8,6 +8,7 @@ test("source boundary is fixed at 30 arcminutes, physical disks retain their cha
   for (const radius of [0.49, 0.51, 0.55]) {
     assert.equal(contactBoundaryDegrees("taraprasad-30-arcmin", radius), 0.5);
     assert.equal(contactBoundaryDegrees("apparent-disks", radius), radius);
+    assert.equal(contactBoundaryDegrees("drik-31-arcmin", radius), 31 / 60);
   }
   assert.equal(contactModel().id, "apparent-disks");
   assert.match(contactModel("taraprasad-30-arcmin").status, /inferred/);
