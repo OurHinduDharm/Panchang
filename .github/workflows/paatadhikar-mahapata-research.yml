@@ -10,6 +10,7 @@ on:
       - 'scripts/*mahapat*.mjs'
       - 'scripts/audit-mahapat-independent.py'
       - 'scripts/audit-mahapat-contact-conventions.py'
+      - 'scripts/audit-mahapata-annual-release.py'
       - 'special-punya-kaal-public-approval.mjs'
       - 'app.js'
       - 'monthly-vrat-parv.html'
@@ -17,6 +18,7 @@ on:
       - 'monthly-special-punya-kaal.mjs'
       - 'mahapata-root-solver.mjs'
       - 'data/reviews/mahapat*.json'
+      - 'data/special-punya-kaal/mahapata-*.mjs'
       - '.github/workflows/paatadhikar-mahapata-research.yml'
   workflow_dispatch:
 
@@ -49,6 +51,9 @@ jobs:
           node --check tests/mahapat-discovery-audit.test.mjs
       - name: Unit and ephemeris smoke tests
         run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapata-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs tests/mahapat-discovery-audit.test.mjs tests/mahapat-contact-model.test.mjs
+
+      - name: Verify every public Mahapata interval against independent JS calculation
+        run: node scripts/verify-mahapata-public-release.mjs
 
   independent-ephemeris:
     runs-on: ubuntu-latest
@@ -83,6 +88,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pyswisseph==2.10.3.2 scipy numpy
+      - name: Recompute every published interval independently
+        run: python scripts/audit-mahapata-annual-release.py --verify > "$RUNNER_TEMP/annual-mahapata.json"
       - name: Verify both reference conventions
         run: python scripts/audit-mahapat-contact-conventions.py > "$RUNNER_TEMP/contact-conventions.json"
       - uses: actions/upload-artifact@v4

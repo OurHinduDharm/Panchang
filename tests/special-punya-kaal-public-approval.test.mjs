@@ -40,14 +40,14 @@ test("both calendars receive only individually approved Mahapata intervals, incl
     assert.equal(approved[0].date, "2026-12-31");
     assert.equal(approved[0].endTime, record.end);
   }
-  assert.deepEqual(publicSpecialPunyaKaalMonth(dormant, 2027, 1), []);
+  assert.deepEqual(publicSpecialPunyaKaalMonth(dormant, 2027, 1, []), []);
   assert.deepEqual(publicSpecialPunyaKaalMonth(dormant, 2027, 1, [
     { ...record, status: "research-only-not-approved" }, { ...record, type: "varuni" },
     { ...record, ruleProfile: "taraprasad-30-arcmin" }, { ...record, start: record.end },
     { ...record, start: "2026-12-31T17:00:00" }, { ...record, end: "2026-12-31T18:30:00.000Z" }
   ]), []);
   assert.deepEqual(publicSpecialPunyaKaalMonth({ calculationStatus: "incomplete",
-    candidates: [candidate()] }, 2027, 4), []);
+    candidates: [candidate()] }, 2027, 4, []), []);
 });
 
 
@@ -67,7 +67,7 @@ test("upcoming Mahapata changes from upcoming to today to active to next across 
   assert.equal(at(first.end).phase,"upcoming");
   assert.equal(at(next.end),null);
   assert.equal(nextApprovedMahapata(NaN,rows),null);
-  assert.equal(nextApprovedMahapata(Date.parse(first.start)),null);
+  assert.equal(nextApprovedMahapata(Date.parse(first.start),[]),null);
   assert.equal(publicSpecialPunyaKaalMonth(null,2026,12,rows).length,1);
   assert.equal(publicSpecialPunyaKaalMonth(null,2027,1,rows).length,2);
 });
