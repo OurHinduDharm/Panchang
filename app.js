@@ -3885,8 +3885,6 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
     ...(nightMuhurtaMs ? [{ type:"sayam", start:sunsetMs, end:sunsetMs + nightMuhurtaMs }] : [])
   ].filter(item => Number.isFinite(item.start) && Number.isFinite(item.end) && item.end > item.start);
 
-  intervals.push(...uniqueTuriyaIntervals);
-
   // देव्यथर्वशीर्ष में तुरीय संध्या का समय "निशीथे" कहा गया है।
   // निशीथ को रात्रि के 15 मुहूर्तों में आठवाँ मुहूर्त मानकर
   // उसी पूर्ण खण्ड को स्थानीय रात्रिमान के आधार पर निकालें।
@@ -3915,6 +3913,8 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
   const uniqueTuriyaIntervals = [...new Map(
     turiyaIntervals.map(item => [`${item.start}:${item.end}`, item])
   ).values()];
+
+  intervals.push(...uniqueTuriyaIntervals);
 
   // अगली प्रातः संध्या के लिए उपलब्ध अगले सूर्योदय का उपयोग करें।
   if(nightMuhurtaMs && nextSunriseMs && nextSunriseMs > sunsetMs){
