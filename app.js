@@ -3855,42 +3855,81 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
   const nowMs = referenceNow.getTime();
-  if(!Number.isFinite(sunrise.getTime()) || !Number.isFinite(sunset.getTime()) ||
-     !Number.isFinite(nowMs) || sunset <= sunrise) return null;
+  const sunriseMs = sunrise.getTime();
+  const sunsetMs = sunset.getTime();
+  if(!Number.isFinite(sunriseMs) || !Number.isFinite(sunsetMs) ||
+     !Number.isFinite(nowMs) || sunsetMs <= sunriseMs) return null;
 
-  const autoType = getAutoSandhyaType(p, praharData, referenceNow);
-  const labels = { pratah: "प्रातः", madhyahna: "मध्याह्न", sayam: "सायं" };
-  if(autoType && labels[autoType]){
-    return { type: autoType, active: true, start: null, label: labels[autoType] };
-  }
+  const labels = { pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं", turiya:"तुरीय" };
+  const nextSunrise = nextSunriseValue ? new Date(nextSunriseValue) : null;
+  const nextSunriseMs = nextSunrise && Number.isFinite(nextSunrise.getTime())
+    ? nextSunrise.getTime() : null;
 
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
+  let nightStartMs = null;
+  let nightEndMs = null;
   if(Array.isArray(night) && night.length === 4 && night[0]?.start && night[3]?.end){
-    const nightMs = new Date(night[3].end).getTime() - new Date(night[0].start).getTime();
+    nightStartMs = new Date(night[0].start).getTime();
+    nightEndMs = new Date(night[3].end).getTime();
+    const nightMs = nightEndMs - nightStartMs;
     if(Number.isFinite(nightMs) && nightMs > 0) nightMuhurtaMs = nightMs / 15;
   }
 
-  const sunriseMs = sunrise.getTime();
-  const sunsetMs = sunset.getTime();
   const dayMs = sunsetMs - sunriseMs;
-  const candidates = [
-    ...(nightMuhurtaMs ? [{type:"pratah", start:sunriseMs-nightMuhurtaMs}] : []),
-    {type:"madhyahna", start:sunriseMs + dayMs/2 - dayMs/30},
-    {type:"sayam", start:sunsetMs}
-  ];
+  const dayMuhurtaMs = dayMs / 15;
+  const intervals = [
+    { type:"pratah", start:sunriseMs - (nightMuhurtaMs || 0), end:sunriseMs },
+    { type:"madhyahna", start:sunriseMs + dayMs/2 - dayMuhurtaMs/2,
+      end:sunriseMs + dayMs/2 + dayMuhurtaMs/2 },
+    ...(nightMuhurtaMs ? [{ type:"sayam", start:sunsetMs, end:sunsetMs + nightMuhurtaMs }] : [])
+  ].filter(item => Number.isFinite(item.start) && Number.isFinite(item.end) && item.end > item.start);
 
-  // If the next sunrise is explicitly available, it is safer than guessing tomorrow's sunrise.
-  const nextSunrise = nextSunriseValue ? new Date(nextSunriseValue) : null;
-  if(nightMuhurtaMs && nextSunrise && Number.isFinite(nextSunrise.getTime()) &&
-     nextSunrise.getTime() > sunsetMs){
-    candidates.push({type:"pratah", start:nextSunrise.getTime()-nightMuhurtaMs});
+  // तुरीय संध्या अर्द्धरात्रि में कही गई है। इसे अवधि न मानकर
+  // सूर्यास्त और अगले सूर्योदय के ठीक मध्य का समय दिखाया जाता है।
+  const turiyaTimes = [];
+  if(Number.isFinite(nightStartMs) && Number.isFinite(nightEndMs) && nightEndMs > nightStartMs){
+    turiyaTimes.push((nightStartMs + nightEndMs) / 2);
+  }
+  if(nextSunriseMs && nextSunriseMs > sunsetMs){
+    turiyaTimes.push((sunsetMs + nextSunriseMs) / 2);
+  }
+  const uniqueTuriyaTimes = [...new Set(turiyaTimes)]
+    .filter(time => Number.isFinite(time) && time > nowMs);
+
+  // अगली प्रातः संध्या के लिए उपलब्ध अगले सूर्योदय का उपयोग करें।
+  if(nightMuhurtaMs && nextSunriseMs && nextSunriseMs > sunsetMs){
+    intervals.push({
+      type:"pratah",
+      start:nextSunriseMs - nightMuhurtaMs,
+      end:nextSunriseMs
+    });
   }
 
-  const next = candidates
-    .filter(item => item.start > nowMs)
-    .sort((left,right) => left.start-right.start)[0];
-  return next ? {type:next.type, active:false, start:new Date(next.start), label:labels[next.type]} : null;
+  const active = intervals
+    .filter(item => nowMs >= item.start && nowMs < item.end)
+    .sort((a,b) => a.end-b.end)[0];
+  if(active){
+    return {
+      type:active.type, active:true,
+      start:new Date(active.start), end:new Date(active.end),
+      label:labels[active.type]
+    };
+  }
+
+  const candidates = [
+    ...intervals.filter(item => item.start > nowMs)
+      .map(item => ({ type:item.type, start:item.start, end:item.end })),
+    ...uniqueTuriyaTimes.map(time => ({ type:"turiya", start:time, end:null }))
+  ].sort((a,b) => a.start-b.start);
+
+  const next = candidates[0];
+  return next ? {
+    type:next.type, active:false,
+    start:new Date(next.start),
+    end:next.end ? new Date(next.end) : null,
+    label:labels[next.type]
+  } : null;
 }
 
 function getSandhyaStatusHtml(ctx = null){
@@ -3898,12 +3937,17 @@ function getSandhyaStatusHtml(ctx = null){
   const info = getSandhyaStatusInfo(ctx.panchang, ctx.praharData, ctx.referenceNow, ctx.nextSunrise);
   if(!info) return "";
 
-  const time = info.start
-    ? new Intl.DateTimeFormat("hi-IN", {timeZone:selectedLocation?.timeZone || "Asia/Kolkata", hour:"2-digit", minute:"2-digit", hour12:false}).format(info.start)
-    : "";
+  const formatter = new Intl.DateTimeFormat("hi-IN", {
+    timeZone:selectedLocation?.timeZone || "Asia/Kolkata",
+    hour:"2-digit", minute:"2-digit", hour12:false
+  });
+  const startTime = info.start ? formatter.format(info.start) : "";
+  const endTime = info.end ? formatter.format(info.end) : "";
   const status = info.active
-    ? `अभी ${info.label} संध्या का समय है।`
-    : `अगली संध्या ${info.label} ${time} बजे से।`;
+    ? `अभी ${info.label} संध्या का समय है — ${startTime} से ${endTime} बजे तक।`
+    : info.type === "turiya"
+      ? `अगली तुरीय संध्या अर्द्धरात्रि ${startTime} बजे।`
+      : `अगली संध्या ${info.label} ${startTime} बजे से।`;
 
   const shlokas = `
     <div style="margin-top:6px;line-height:1.7;">
@@ -3933,10 +3977,17 @@ function getSandhyaStatusHtml(ctx = null){
   return `
     <div style="margin-top:8px;padding:7px 9px;border-radius:6px;background:rgba(127,127,127,.08);font-size:13px;line-height:1.5;">
       <div>${status}</div>
-      <details style="margin-top:4px;">
-        <summary style="cursor:pointer;display:inline-block;">शास्त्रीय श्लोक (उत्तम, मध्यम, अधम)</summary>
+      <details class="sandhya-shloka-details" style="margin-top:4px;">
+        <summary style="cursor:pointer;display:flex;align-items:center;justify-content:flex-start;gap:6px;list-style:none;">
+          <span>शास्त्रीय श्लोक (उत्तम, मध्यम, अधम)</span>
+          <span class="sandhya-shloka-chevron" aria-hidden="true" style="display:inline-block;transition:transform .15s ease;">⌄</span>
+        </summary>
         ${shlokas}
       </details>
+      <style>
+        .sandhya-shloka-details summary::-webkit-details-marker{display:none}
+        .sandhya-shloka-details[open] .sandhya-shloka-chevron{transform:rotate(180deg)}
+      </style>
     </div>`;
 }
 
