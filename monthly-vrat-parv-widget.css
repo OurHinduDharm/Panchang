@@ -132,3 +132,9 @@
     gap:9px;
   }
 }
+
+#ohd-monthly-festivals #special-punya-kaal[hidden]{display:none}
+#ohd-monthly-festivals .special-calendar{margin:1rem 0}
+#ohd-monthly-festivals .special-calendar summary{cursor:pointer;font-weight:700}
+#ohd-monthly-festivals .special-kaal-card{padding:.65rem 0}
+#ohd-monthly-festivals .special-kaal-title{font-weight:700}

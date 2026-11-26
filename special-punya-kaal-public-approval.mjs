@@ -35,3 +35,36 @@ export const SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL = Object.freeze({
   dates: Object.freeze([...APPROVED_DATES]),
   labels: Object.freeze([...APPROVED_LABELS])
 });
+
+// Populate only after a calculated interval and its rule receive publication
+// approval in #482. Never import the research fixtures into a public page.
+const reviewedMahapata = Object.freeze([]);
+const mahapataLabels = new Map([
+  ["vyatipata-mahapat", "व्यतीपात महापात"],
+  ["vaidhriti-mahapat", "वैधृति महापात"]
+]);
+
+export function publicSpecialPunyaKaalMonth(calculation, year, month, records = reviewedMahapata) {
+  if (!Number.isInteger(year) || year < 1000 || year > 9999 ||
+      !Number.isInteger(month) || month < 1 || month > 12) return [];
+  const monthStart = Date.parse(String(year) + "-" + String(month).padStart(2, "0") + "-01T00:00:00+05:30");
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const monthEnd = monthStart + daysInMonth * 86400000;
+  const events = calculation?.calculationStatus === "complete" && Array.isArray(calculation.candidates)
+    ? calculation.candidates.filter(isApprovedSpecialPunyaKaalCandidate) : [];
+  for (const record of records) {
+    const label = mahapataLabels.get(record?.type);
+    if (!label || record.status !== "approved" || record.ruleProfile !== "drik-geocentric-apparent-disks") continue;
+    // Generated public times are canonical UTC instants. Reject local strings,
+    // normalized invalid dates, incomplete windows, and research-only records.
+    const start = Date.parse(record.start), end = Date.parse(record.end);
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start ||
+        new Date(start).toISOString() !== record.start || new Date(end).toISOString() !== record.end ||
+        end <= monthStart || start >= monthEnd) continue;
+    const middle = Date.parse(record.middle);
+    const middleTime = Number.isFinite(middle) && middle >= start && middle <= end && new Date(middle).toISOString() === record.middle ? record.middle : null;
+    events.push({ type: record.type, labels: [label], startTime: record.start, endTime: record.end, middleTime,
+      date: new Date(start + 330 * 60000).toISOString().slice(0, 10), isMahapata: true });
+  }
+  return events.sort((a, b) => Date.parse(a.startTime) - Date.parse(b.startTime));
+}

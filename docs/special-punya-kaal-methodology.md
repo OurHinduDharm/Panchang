@@ -157,16 +157,16 @@ The Drik Kranti-Samya page independently confirms that:
 - mantra and tantra practice are permitted during the interval;
 - its published windows are local-time display values.
 
-The new `scripts/compare-mahapat-ephemeris.mjs` computes a research-only geocentric apparent declination-band overlap using the Astronomy Engine vectors and apparent solar/lunar semidiameters. It is a numerical comparison model, not yet the accepted classical engine. Its output is archived separately and must be compared against the Karana-Kutuhala shara-khanda method and the Drik 2026–2030 windows. Do not expose its output publicly or use it as final times until the classical contact definition is reconciled.
+`scripts/compare-mahapat-ephemeris.mjs` is the primary Drik-style candidate calculator: modern geocentric apparent positions identify equal-declination midpoints and apparent solar/lunar declination-band contacts define sparsha/moksha. The Surya Siddhanta XI.14–15 interval is an optional classical comparison only. Keep all candidates research-only until the listed Drik-style reference checks and edge cases are resolved.
 
 
 ### Numerical comparison: separate the two ayana relations
 
 The research comparison now keeps the two contact functions separate rather than classifying every disk-band overlap by longitude sum:
-- **वैधृति relation (same ayana):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
-- **व्यतीपात relation (opposite ayana):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+- **वैधृति relation (same ayana, opposite gola):** `|चन्द्र-क्रान्ति + सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
+- **व्यतीपात relation (opposite ayana, same gola):** `|चन्द्र-क्रान्ति − सूर्य-क्रान्ति|` compared with the sum of apparent semidiameters.
 
-The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for the nearest **true pāta** where the appropriate declinations agree. Vyatipata uses same-side declinations; Vaidhriti uses opposite-side declinations. The sparsha/moksha interval is then the interval around that selected true pāta during which the relevant declination difference is smaller than the sum of the apparent disk radii. This is a modern comparison model; the final event window must still be reconciled with the *Karaṇa-kutūhala* shara-khaṇḍa and sparsha/moksha corrections.
+The numerical workflow now follows the two-stage distinction described in the source research: first find the **mean pāta** when tropical Sun–Moon longitude sum reaches 180° (Vyatipata) or 360° (Vaidhriti); then search three days either side for all **true pāta** roots where the appropriate declinations agree, and retain only roots with the required ayana/gola class. Vyatipata uses opposite ayanas and same-side declinations; Vaidhriti uses the same ayana and opposite-side declinations. For the primary Drik-style interval, solve the apparent declination-band contact roots around the true middle: same-sign declinations use `δMoon − δSun`, opposite-sign declinations use `δMoon + δSun`, and contact occurs when the absolute relation equals the sum of apparent semidiameters. Surya Siddhanta XI.14–15 remains a separately labelled classical comparison only.
 
 
 ## Mean pāta vs true pāta — calculation boundary
@@ -175,28 +175,30 @@ Do not calculate Mahapata by scanning every apparent declination-band overlap in
 - tropical sum 180° → Vyatipata mean pāta; true declinations equal on the same side of the equator;
 - tropical sum 360°/0° → Vaidhriti mean pāta; true declinations equal on opposite sides of the equator.
 
-The research script now implements this sequence, searches ±3 days for the nearest true crossing, preserves additional crossings for review, and finds the disk-overlap start/end around the selected true pāta. This matches the methodological distinction described in the 2026–2028 independent calculation notes. The script is still a modern comparison, not the final classical-table implementation.
+The research script uses the mean-pāta longitude sum only as a search seed, searches ±3 days for true declination equalities, filters every root by the required ayana/gola class, then solves the primary Drik-style apparent band-contact boundaries around the nearest valid root. The optional Surya Siddhanta XI.14–15 interval is stored separately and never overrides those boundaries.
 
 
 ## Mahapata 2026–2030 comparison-model scan — internal only
 
-The mean-pāta → nearest true-pāta → disk-overlap model generated the following research-only windows by local overlap year:
+The class-validated mean-pāta → true-pāta → apparent disk-contact model generated the following research-only windows by local contact-start year:
 
 | Year | Windows found | Review items |
 |---|---:|---:|
-| 2026 | 28 | 0 |
+| 2026 | 27 | 1 |
 | 2027 | 29 | 0 |
-| 2028 | 29 | 0 |
-| 2029 | 28 | 0 |
-| 2030 | 25 | 4 mean pātās without a true declination crossing within ±3 days |
+| 2028 | 28 | 1 |
+| 2029 | 27 | 1 |
+| 2030 | 24 | 5 |
 
 Cross-check status:
-- 2026: the model matches the Drik windows within a few minutes for the shared dates. Two additional windows (19 March and 25 December) need source reconciliation; do not silently omit or publish them.
+- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March release agrees with the Rajasthan Patrika bulletin to its printed minute. The Drik annual list omits that event. See [the independent audit](../research/paatadhikar/independent-contact-audit.md). The former 25 December window was removed by class filtering.
 - 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
-- 2029: one Vaidhriti overlap spans approximately 19 December 02:40 to 21 December 07:46 IST and contains two true declination crossings. This is an unusual extended window and requires independent confirmation before publication.
-- 2030: four mean pātās (16 June, 29 June, 12 December, 24 December) have no true crossing within the ±3-day search. They are review items, not public events.
+- The previously reported 19–21 December 2029 extended overlap belonged to the unfiltered model and is absent after ayana/gola classification. The current 2026–2030 output has no interval exceeding 24 hours.
+- Class validation rejects equal-declination roots that have the wrong ayana/gola relation. Across 2026–2030 there are 8 review items: 4 seeds have no equal-declination root within ±3 days, while 4 have roots but none has the required Vyatipata/Vaidhriti geometry. The 2030 review set has 5 items; only four of those have no root at all.
 
-Automated reference regression tests now pin representative 2026, 2027 and 2028 overlap windows and ensure 2030 no-crossing mean pātās remain out of public event data. The comparison model remains research-only until the 2026 extra windows, 2029 extended overlap, 2030 no-crossings and the exact *Karaṇa-kutūhala* contact corrections are reviewed.
+Automated tests pin representative 2026–2028 windows, preserve all 8 review items, and run the complete 2023–24 Tara Prasad backtest. The corrected class filter now matches all 30 Tara Prasad rows with both touch and release times; median absolute start/end differences are about 6.77/7.66 minutes (even-sized median averages the two middle values). On 21 June 2023 it rejects an earlier equal-declination root with the wrong ayana relation and selects the later class-correct event. This is evidence for the Drik-style candidate model, not proof that every Panchang uses identical conventions. All events remain research-only. Only 21/30 complete rows have both endpoints within 10 minutes; 27/30 within 30 minutes. The partial 22 March 2023 record has a release delta of −203.88 minutes and requires reconciliation, as do three complete rows with >30-minute differences. See `research/paatadhikar/taraprasad-reference-audit.md`.
+
+An independent full-range equality scan (`--audit`) at 60- and 30-minute sampling finds the same 135 class-compatible roots in 2026–2030, with no unrepresented roots or duplicate intervals. The eight unresolved longitude seeds do not imply eight missing events. This is an internal numerical completeness check, not independent physical validation; unsampled tangencies are not guaranteed.
 
 
 ## महोदय — प्राथमिक शोध-प्रोफाइल
@@ -226,9 +228,9 @@ Automated reference regression tests now pin representative 2026, 2027 and 2028 
 The Pithoragarh/Purnimanta scan covered all 1,826 days in 2026–2030 with no missing sunrise, sunset, tithi, nakshatra or yoga intervals. Under the specific Somavati profile (Pausha/Magha Amavasya + Monday + Shravana + Vyatipata, all overlapping in daylight), it found **zero** candidates in these five years. Therefore the Mahodaya section must remain hidden for this range; do not manufacture an entry from the rejected “one factor missing” interpretation. The rule engine and synthetic boundary tests are present so future years can be scanned consistently.
 
 
-## करणकुतूहल पाताधिकार — source-based implementation requirements
+## करणकुतूहल पाताधिकार — पुराना शोध-निर्णय (अब लागू नहीं)
 
-The primary computational reference is **भास्कराचार्यकृत करणकुतूहल, पाताधिकार (अध्याय 9)**, not the ordinary nitya-yoga calculation. The checked Hindi/Sanskrit edition gives these distinct steps:
+यह नीचे दिया गया खण्ड पहले *करणकुतूहलम्* की सारणी-विधि को अनिवार्य implementation gate मानता था। उपयोगकर्ता के निर्देश के बाद यह निर्णय हटाया गया है। वर्तमान गणितीय आधार सूर्यसिद्धान्त अध्याय 11 है; नवीन विधि और सीमाएँ [`research/paatadhikar/surya-siddhanta-xi-implementation.md`](../research/paatadhikar/surya-siddhanta-xi-implementation.md) में हैं। नीचे का पाठ केवल पुराने शोध-इतिहास के लिए सुरक्षित है। पूर्व प्राथमिक गणना-स्रोत का नाम *करणकुतूहलम्*, पाताधिकार (अध्याय 9) था:
 
 1. **Mean pāta and type:** tropical Sun–Moon longitude sum of 6 rāśis (180°) → Vyatipata; 12 rāśis (360°) → Vaidhriti. A true pāta is possible only when the corrected declinations reach equality.
 2. **True pāta correction:** use the 24-position signed kranti-khanda and shara-khanda sequences. The six base kranti values are 362, 349, 299, 236, 150, 52; the six base shara values are 70, 65, 54, 43, 29, 19. Expand each forward/reverse with the prescribed dhan/ṛṇa signs; do not use a plain longitude-sum timestamp as the true midpoint.
@@ -236,7 +238,7 @@ The primary computational reference is **भास्कराचार्यक
 4. **Sparsha–moksha sthiti:** derive the duration from the अशुद्ध शरखण्ड using the exact coefficient/unit established from the printed shloka 11 and worked example; the 1991 Sudhakara commentary derives an approximate 2203 numerator; preserve the printed sexagesimal units and do not use a decimal shortcut until the denominator transcription is resolved. Apply the result symmetrically before and after the true midpoint. The shloka 12–14 shuddha-khanda tests must be applied; if the shara threshold is exceeded, mark no pāta rather than forcing a time.
 5. **Modern comparison only:** the current Astronomy Engine model independently finds the apparent disk-overlap interval and is useful for regression checks, but it must not replace the above table-based method in the final public calculator.
 
-This is the acceptance target for the next Mahapata implementation pass. The current model's 2026–2030 candidate windows remain research-only until the classical table method is implemented and reconciled.
+यह पुराना acceptance target निरस्त है। अब पाताधिकार का कार्यशील आधार और संख्यात्मक अनुकूलन सूर्यसिद्धान्त XI.1–15 है; पुराने 2026–2030 परिणाम सार्वजनिक स्वीकृत समय नहीं हैं।
 
 ## प्राथमिक ग्रन्थ का प्रत्यक्ष पाठ-परीक्षण — 15 नवम्बर 2026
 
@@ -307,3 +309,23 @@ The Smarta Kālanirṇaya-sindhu profile is the public rule profile for the Varu
 The 2026 Tuesday conjunction is deliberately **not** upgraded to Mahavaruni; that upgrade requires Saturday under the chosen Smarta profile. The 2028 interval is displayed as a continuous conjunction beginning on 23 March and ending on 24 March; no separate sunrise-observance date is asserted. The 2029 scan has no conjunction under this profile.
 
 The public code requires both the approved Smarta rule profile and one of the four explicit dates above. It does not expose future research candidates automatically. Mahavaruni/Mahamahavaruni remain available in the rule engine but no qualifying approved dates occur in this 2026–2030 release. Mahapata and Mahodaya remain hidden and are not implied to be approved by the Varuni release.
+
+
+## Tara Prasad 30-arcminute contact convention (22 November 2026)
+
+The source endpoints expose a contact-definition mismatch: 55 of 61 printed endpoints imply a declination relation within 0.5 arcminute of 30 arcminutes. Actual apparent disk radii sum to a variable value (roughly 30.5–32.7 arcminutes in this sample), widening most intervals. The explicit `taraprasad-30-arcmin` profile solves `|δMoon − δSun| = 0.5°` for Vyatipata and `|δMoon + δSun| = 0.5°` for Vaidhriti around the same class-correct middle. This is an inferred source convention, not a publisher-confirmed formula or a universal definition of Drik Mahapata.
+
+The fixed 30-arcminute profile improves the 30 complete reference pairs to 24 with both endpoints within one minute and 26 within three minutes; median absolute start/end deltas are 0.374/0.281 minutes. All 31 rows remain accounted for. Source rows 1, 3, 9, 25 and 26 require reconciliation, including the partial release-only row. The residual pattern is not a common timezone offset: April has a whole-window shift, while June/January/February have one-sided discrepancies.
+
+Use `node scripts/audit-mahapat-references.mjs` for the dual-definition report, with source-implied angular boundaries, midpoint/duration deltas and raw records. Primary general scanner default remains `apparent-disks`; request `--contact-model=taraprasad-30-arcmin` explicitly for the inferred Tara Prasad convention. No date-specific corrections or numerical coefficient fitting are used. Details: `research/paatadhikar/taraprasad-reference-audit.md`; unresolved work: #482.
+
+
+## 26 नवंबर 2026 — स्वीकृत गणना दिशा (प्रकाशन अनुमोदन अलग)
+
+User selected the classical physical contact definition, using modern apparent geocentric ephemeris. Surya Siddhanta XI.1–2 defines ayana/longitude-related classes; XI.14–15 uses half the sum of disk diameters in its own classical duration algorithm. Vatesvara Siddhanta, Spashtadhikara, Pata 22–23 and the commentary explicitly explain declination-limb equality at contacts. The modern algorithm implements this geometry, not a literal historical tabular calculation.
+- Signed relations in degrees: Vyatipata = Moon declination minus Sun declination; Vaidhriti = Moon plus Sun. Validate ayana/gola and longitude seed around true middle; unresolved class cases remain withheld.
+- Primary boundary = asin(Rsun/dsun) + asin(Rmoon/dmoon), evaluated at each instant, with apparent geocentric distances and consistent angular units.
+- Find F=0 middle(s), and the two signed limb roots F=±B bounding the continuous overlap. Preserve full intervals, multiple middles and date rollovers. No empirical clock shifts or fixed 30/31 arcminute publication rule.
+- Implementation: research/paatadhikar/contact-boundary.mjs exports PRIMARY_CONTACT_MODEL and pataContactState; annual scripts/compare-mahapat-ephemeris.mjs calls this shared function. Fixed models are research-only comparators.
+- References: https://karmasakha.com/texts/surya-siddhanta (XI.1–2,14–15); https://sa.wikisource.org/wiki/वटेश्वरसिद्धान्तः_(रामस्वरूप_शर्मणा_सम्पादितः)/स्पष्टाधिकारः (Pata 22–23, commentary).
+- This records the chosen method, not approval of all annual records. CI, review of unmatched roots and public release remain pending. No public approval gate bypass.

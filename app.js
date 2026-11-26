@@ -5111,13 +5111,14 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
     Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02 &&
     Math.abs(Number(selectedLocation.elevation) - 1650) < 100;
-  if(!isPithoragarh||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
+  if(!selectedLocation||selectedLocation.timeZone!=="Asia/Kolkata"||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
   const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
   try{
-    let calculation=specialPunyaKaalMonthCache.get(key);
-    if(!calculation){
+    // Mahapata is geocentric. Only the existing local Varuni scan is limited to Pithoragarh.
+    let calculation=isPithoragarh?specialPunyaKaalMonthCache.get(key):Promise.resolve(null);
+    if(isPithoragarh&&!calculation){
       calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
         const observer=new Observer(location.lat,location.lon,location.elevation);
         return module.calculateSpecialPunyaKaalMonth({
@@ -5133,11 +5134,10 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
         specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
       }
     }
-    const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
+    // A local calculation failure must not hide approved geocentric intervals.
+    const [resultData,approval]=await Promise.all([calculation.catch(()=>null),specialPunyaKaalApprovalPromise]);
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
-    if(resultData.calculationStatus!=="complete")return;
-    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
-      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
+    const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
     if(!events.length)return;
     const card=document.createElement("section");card.className="card full special-punya-kaal-card";
     const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
@@ -5148,11 +5148,19 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
-      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
+      const times=item.isMahapata
+        ? "स्पर्श "+specialPunyaKaalDateTime(item.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(item.endTime)
+        : "संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime);
+      detail.appendChild(document.createTextNode(times));
+      if(item.isMahapata){
+        const warning=document.createElement("div");warning.className="special-kaal-guidance";
+        warning.textContent="इस काल में मांगलिक कार्य वर्जित";detail.appendChild(warning);
+      }
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    const monthlyPage=window.location.pathname==="/p/panchang-today.html" ? "/p/masik-vrat-parv.html" : "monthly-vrat-parv.html";
+    link.href=monthlyPage+"?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);

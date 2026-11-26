@@ -1526,6 +1526,15 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     return Object.assign({},data,{events:events});
   }
 
+  let specialCalendar;
+  async function scheduleSpecialPunyaKaal(year,month){
+    try{
+      const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs");
+      if(Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
+      specialCalendar??=createMonthlySpecialCalendar(getLocalLocation,yearSelect,monthSelect,eventsEl);
+      specialCalendar(year,month);
+    }catch(error){console.warn("Special calendar unavailable",error);}
+  }
   async function loadMonth(preserveViewportAnchor){
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
@@ -1544,6 +1553,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     activeMonthRequest=controller;
     var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    scheduleSpecialPunyaKaal(year,month);
     syncMonthNavigationButtons();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
