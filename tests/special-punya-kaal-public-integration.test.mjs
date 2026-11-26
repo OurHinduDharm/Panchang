@@ -74,3 +74,13 @@ test("Blogger and GitHub Pages schedule the same monthly component", () => {
     assert.match(host, /scheduleSpecialPunyaKaal\(year,month\);/);
   }
 });
+
+
+test("daily approved geocentric Mahapata is not restricted to the local Varuni observer", () => {
+  const section = daily.slice(daily.indexOf("async function appendSpecialPunyaKaalMonthLink("), daily.indexOf("function scheduleSpecialPunyaKaalMonthLink("));
+  assert.doesNotMatch(section, /if\(!isPithoragarh\|\|/);
+  assert.match(section, /selectedLocation\.timeZone!=="Asia\/Kolkata"/);
+  assert.match(section, /isPithoragarh\?specialPunyaKaalMonthCache\.get\(key\):Promise\.resolve\(null\)/);
+  assert.match(section, /calculation\.catch\(\(\)=>null\)/);
+  assert.match(section, /if\(item\.isMahapata\)\{[\s\S]*?इस काल में मांगलिक कार्य वर्जित/);
+});
