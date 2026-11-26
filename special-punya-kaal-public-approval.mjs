@@ -1,3 +1,5 @@
+import { mahapataPublicRecords } from "./data/special-punya-kaal/mahapata-2026-2030.mjs";
+
 /**
  * Explicit public approval gate for special sadhana punya-kaal candidates.
  *
@@ -36,9 +38,9 @@ export const SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL = Object.freeze({
   labels: Object.freeze([...APPROVED_LABELS])
 });
 
-// Populate only after a calculated interval and its rule receive publication
-// approval in #482. Never import the research fixtures into a public page.
-const reviewedMahapata = Object.freeze([]);
+// Generated primary-model intervals; release gated by independent cross-engine CI.
+// Reference tables and research diagnostics are never imported into the public page.
+const reviewedMahapata = mahapataPublicRecords;
 const mahapataLabels = new Map([
   ["vyatipata-mahapat", "व्यतीपात महापात"],
   ["vaidhriti-mahapat", "वैधृति महापात"]
