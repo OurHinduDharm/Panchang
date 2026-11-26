@@ -3964,6 +3964,7 @@ function getSandhyaStatusHtml(ctx = null){
       उत्तमा सूर्यसहिता मध्यमा लुप्ततारका।<br/>
       अधमा तारकोपेता सायंसन्ध्या त्रिधा मता॥
       <div style="margin:3px 0 0;padding-left:9px;font-size:12px;line-height:1.6;">
+        <strong>संक्षिप्त अर्थ:</strong><br/>
         <strong>उत्तम:</strong> सूर्यास्त के समय, जब सूर्य क्षितिज पर हो।<br/>
         <strong>मध्यम:</strong> सूर्यास्त के बाद, जब तारे अभी दिखाई न दिए हों।<br/>
         <strong>अधम:</strong> जब तारे स्पष्ट दिखाई देने लगें।
