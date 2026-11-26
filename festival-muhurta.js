@@ -1933,6 +1933,16 @@ export function formatFestivalMuhurtaTime(value, timeZone = "Asia/Kolkata") {
   }).format(date);
 }
 
+export function formatFestivalMuhurtaInterval(result, timeZone = "Asia/Kolkata") {
+  const start = formatFestivalMuhurtaTime(result.start, timeZone);
+  const end = formatFestivalMuhurtaTime(result.end, timeZone);
+  if (localDateKey(result.start, timeZone) !== localDateKey(result.end, timeZone)) {
+    return formatDateLabel(result.start, timeZone) + " · " + start + " – " +
+      formatDateLabel(result.end, timeZone) + " · " + end;
+  }
+  return (result.dateLabel ? result.dateLabel + " · " : "") + start + " – " + end;
+}
+
 export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location, getFollowingPanchang, timeZone = "Asia/Kolkata") {
   return {
     timeZone,
