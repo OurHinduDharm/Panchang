@@ -3816,9 +3816,33 @@ function getAutoSandhyaType(
   const sunsetMs = sunset.getTime();
 
   /*
-   * केवल पहचानी गई संध्या-विंडो में स्वतः चयन करें।
-   * किसी भी संध्या-विंडो के बाहर null लौटाएँ ताकि
-   * कोई विकल्प (विशेषकर तुरीय) अपने-आप चयनित न हो।
+   * तुरीय संध्या: निशीथ का आठवाँ रात्रि-मुहूर्त।
+   * रात्रि-प्रहरों से वर्तमान रात्रि की वास्तविक सीमा लें।
+   */
+  if(
+    Array.isArray(night) &&
+    night.length === 4 &&
+    night[0]?.start &&
+    night[3]?.end
+  ){
+    const nightStartMs = new Date(night[0].start).getTime();
+    const nightEndMs = new Date(night[3].end).getTime();
+    const nightDurationMs = nightEndMs - nightStartMs;
+
+    if(Number.isFinite(nightDurationMs) && nightDurationMs > 0){
+      const nightMuhurtaMs = nightDurationMs / 15;
+      const nishithaStartMs = nightStartMs + nightMuhurtaMs * 7;
+      const nishithaEndMs = nightStartMs + nightMuhurtaMs * 8;
+
+      if(nowMs >= nishithaStartMs && nowMs < nishithaEndMs){
+        return "turiya";
+      }
+    }
+  }
+
+  /*
+   * केवल चल रही संध्या में स्वतः चयन करें।
+   * सभी संध्या-अवधियों के बाहर null लौटाएँ।
    */
   if(nowMs < sunriseMs){
     return (
