@@ -833,6 +833,14 @@ function getYatraShoolaDetails(
     directionHindi[direction] ||
     "—";
 
+  // Both lists must describe the same sunrise-based weekday.
+  const safeDirections = directionHindi[direction]
+    ? [...new Set((Array.isArray(effectivePanchang.dishaShoola?.safeDirections)
+        ? effectivePanchang.dishaShoola.safeDirections
+        : Object.keys(directionHindi))
+        .filter(d => directionHindi[d] && d !== direction))]
+    : [];
+
   const nakshatraName =
     getYatraNakshatra(
       p,
@@ -861,8 +869,8 @@ function getYatraShoolaDetails(
       : null;
 
   const nakshatraShoolaActive =
-    nakshatraShoolaDirection ===
-    direction;
+    !!nakshatraShoolaDirection &&
+    nakshatraShoolaDirection === direction;
 
   const kalaShoola =
     getKalaShoolaDetails(
@@ -876,6 +884,7 @@ function getYatraShoolaDetails(
     weekday,
     direction,
     directionHindiName,
+    safeDirections,
     nakshatraName,
     nakshatraShoola,
     nakshatraShoolaDirection,
@@ -1032,6 +1041,7 @@ function renderCollapsibleTimePeriods(
           background:${currentBg};
           border:1px solid ${currentBorder};
         ">
+          <div style="font-size:11px;margin-bottom:3px;">वर्तमान कालखंड${!list.includes(current) ? " (पिछले दिन की रात्रि)" : ""}</div>
           <div class="time-row" style="
             margin:0;
             font-weight:600;
@@ -6193,8 +6203,11 @@ bhadraPartsHtml += `
           वार
         </div>
         <div class="value">
-          ${vara}
+          ${getVara(p)}
         </div>
+        ${isPreSunriseToday && previousPanchang
+          ? `<div class="end-time">वर्तमान वार (सूर्योदय तक): ${vara}</div>`
+          : ""}
       </div>
 
       <div class="card">
@@ -6488,15 +6501,8 @@ bhadraPartsHtml += `
       <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
       <span>
         ${
-          Array.isArray(
-            p.dishaShoola?.safeDirections
-          )
-            ? p.dishaShoola.safeDirections
-                .map(
-                  d =>
-                    directionHindi[d] || d
-                )
-                .join(", ")
+          yatraShoola.safeDirections.length
+            ? yatraShoola.safeDirections.map(d => directionHindi[d]).join(", ")
             : "—"
         }
       </span>
