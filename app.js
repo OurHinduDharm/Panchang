@@ -3885,17 +3885,36 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
     ...(nightMuhurtaMs ? [{ type:"sayam", start:sunsetMs, end:sunsetMs + nightMuhurtaMs }] : [])
   ].filter(item => Number.isFinite(item.start) && Number.isFinite(item.end) && item.end > item.start);
 
-  // तुरीय संध्या अर्द्धरात्रि में कही गई है। इसे अवधि न मानकर
-  // सूर्यास्त और अगले सूर्योदय के ठीक मध्य का समय दिखाया जाता है।
-  const turiyaTimes = [];
-  if(Number.isFinite(nightStartMs) && Number.isFinite(nightEndMs) && nightEndMs > nightStartMs){
-    turiyaTimes.push((nightStartMs + nightEndMs) / 2);
-  }
+  intervals.push(...uniqueTuriyaIntervals);
+
+  // देव्यथर्वशीर्ष में तुरीय संध्या का समय "निशीथे" कहा गया है।
+  // निशीथ को रात्रि के 15 मुहूर्तों में आठवाँ मुहूर्त मानकर
+  // उसी पूर्ण खण्ड को स्थानीय रात्रिमान के आधार पर निकालें।
+  const turiyaIntervals = [];
+  const addTuriyaNishitha = (startMs, endMs) => {
+    if(!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) return;
+    const nightMuhurta = (endMs - startMs) / 15;
+    const nishithaStart = startMs + nightMuhurta * 7;
+    const nishithaEnd = startMs + nightMuhurta * 8;
+    turiyaIntervals.push({
+      type:"turiya",
+      start:nishithaStart,
+      end:nishithaEnd
+    });
+  };
+
+  // वर्तमान रात्रि: सूर्योदय-पूर्व में पिछला सूर्यास्त से आज का सूर्योदय,
+  // अन्यथा आज का सूर्यास्त से अगला सूर्योदय।
+  addTuriyaNishitha(nightStartMs, nightEndMs);
+  // अगले सूर्यास्त-सूर्योदय की रात्रि भी जोड़ें, ताकि दिन के समय
+  // अगली तुरीय संध्या का समय पहले से दिख सके।
   if(nextSunriseMs && nextSunriseMs > sunsetMs){
-    turiyaTimes.push((sunsetMs + nextSunriseMs) / 2);
+    addTuriyaNishitha(sunsetMs, nextSunriseMs);
   }
-  const uniqueTuriyaTimes = [...new Set(turiyaTimes)]
-    .filter(time => Number.isFinite(time) && time > nowMs);
+
+  const uniqueTuriyaIntervals = [...new Map(
+    turiyaIntervals.map(item => [`${item.start}:${item.end}`, item])
+  ).values()];
 
   // अगली प्रातः संध्या के लिए उपलब्ध अगले सूर्योदय का उपयोग करें।
   if(nightMuhurtaMs && nextSunriseMs && nextSunriseMs > sunsetMs){
@@ -3917,11 +3936,10 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
     };
   }
 
-  const candidates = [
-    ...intervals.filter(item => item.start > nowMs)
-      .map(item => ({ type:item.type, start:item.start, end:item.end })),
-    ...uniqueTuriyaTimes.map(time => ({ type:"turiya", start:time, end:null }))
-  ].sort((a,b) => a.start-b.start);
+  const candidates = intervals
+    .filter(item => item.start > nowMs)
+    .map(item => ({ type:item.type, start:item.start, end:item.end }))
+    .sort((a,b) => a.start-b.start);
 
   const next = candidates[0];
   return next ? {
@@ -3946,7 +3964,7 @@ function getSandhyaStatusHtml(ctx = null){
   const status = info.active
     ? `अभी ${info.label} संध्या का समय है — ${startTime} से ${endTime} बजे तक।`
     : info.type === "turiya"
-      ? `अगली तुरीय संध्या अर्द्धरात्रि ${startTime} बजे।`
+      ? `अगली तुरीय संध्या (निशीथ) ${startTime} से ${endTime} बजे तक।`
       : `अगली संध्या ${info.label} ${startTime} बजे से।`;
 
   const shlokas = `
