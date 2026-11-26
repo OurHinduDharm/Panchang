@@ -84,3 +84,14 @@ test("daily approved geocentric Mahapata is not restricted to the local Varuni o
   assert.match(section, /calculation\.catch\(\(\)=>null\)/);
   assert.match(section, /if\(item\.isMahapata\)\{[\s\S]*?इस काल में मांगलिक कार्य वर्जित/);
 });
+
+
+test("upcoming daily card is current-date only and links to the event month", () => {
+  const section=daily.slice(daily.indexOf("function scheduleUpcomingMahapata("),daily.indexOf("function scheduleSpecialPunyaKaalMonthLink("));
+  assert.match(section,/dateString===todayString\(\)/);
+  assert.match(section,/approval\.nextApprovedMahapata\(now\)/);
+  assert.match(section,/event\.phase==="active"\?"अभी महापात पुण्यकाल":event\.phase==="today"\?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल"/);
+  assert.match(section,/event\.nextTransition,midnight/);
+  assert.match(section,/linkDate\.slice\(0,4\)/);
+  assert.match(daily,/scheduleUpcomingMahapata\(dateString,request,resultGrid\)/);
+});
