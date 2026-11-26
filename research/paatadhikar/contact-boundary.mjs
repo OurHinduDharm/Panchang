@@ -5,6 +5,12 @@ export const CONTACT_MODELS = Object.freeze({
     provenance: "sum-of-apparent-solar-and-lunar-semidiameters",
     status: "research-only-not-approved"
   }),
+  "drik-31-arcmin": Object.freeze({
+    id: "drik-31-arcmin",
+    boundaryDegrees: 31 / 60,
+    provenance: "inferred-from-80-drik-ramnagar-2025-2027-pairs",
+    status: "source-convention-inferred-not-publisher-confirmed"
+  }),
   "taraprasad-30-arcmin": Object.freeze({
     id: "taraprasad-30-arcmin",
     boundaryDegrees: 0.5,
