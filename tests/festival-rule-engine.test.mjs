@@ -372,3 +372,37 @@ test("annual adapter fails closed for an unknown monthKind selector", () => {
   assert.equal(result.selectedDate, null);
   assert.equal(result.publishable, false);
 });
+
+
+test("explicit regular or adhika monthKind requires a named lunar month", () => {
+  for (const monthKind of ["regular", "adhika"]) {
+    const result = resolveFestivalObservanceFromAnnualPanchang({
+      id: "missing-lunar-month-" + monthKind,
+      dateType: "tithi",
+      ruleId: "ekadashi-smarta-udaya",
+      monthKind,
+      targetTithiIndex: 25
+    }, 2031, annual2031MonthDays);
+    assert.equal(result.status, "manual-review");
+    assert.ok(result.warnings.includes("lunar-month-required-for-month-kind-selector"));
+    assert.equal(result.selectedDate, null);
+    assert.equal(result.publishable, false);
+  }
+});
+
+test("an explicit regular or any selector cannot contradict an Adhika-prefixed month name", () => {
+  for (const monthKind of ["regular", "any"]) {
+    const result = resolveFestivalObservanceFromAnnualPanchang({
+      id: "conflicting-month-selector-" + monthKind,
+      dateType: "tithi",
+      ruleId: "ekadashi-smarta-udaya",
+      lunarMonth: "अधिक भाद्रपद",
+      monthKind,
+      targetTithiIndex: 25
+    }, 2031, annual2031MonthDays);
+    assert.equal(result.status, "manual-review");
+    assert.ok(result.warnings.includes("conflicting-month-kind-and-prefixed-lunar-month"));
+    assert.equal(result.selectedDate, null);
+    assert.equal(result.publishable, false);
+  }
+});
