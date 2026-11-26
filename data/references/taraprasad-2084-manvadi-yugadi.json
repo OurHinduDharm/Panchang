@@ -1,0 +1,153 @@
+{
+  "source": "ताराप्रसाद दिव्य पंचांग संवत् 2084, पृष्ठ 15",
+  "status": "reference-only",
+  "monthConvention": "unverified",
+  "decisionWindow": "unverified",
+  "significance": "मन्वादि तिथियों व युगादि तिथियों में श्राद्ध करना पितरों के लिए अनन्त तृप्तिकारक है।",
+  "records": [
+    {
+      "kind": "manvadi",
+      "name": "स्वायम्भुव",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "tithi": 3,
+      "printedTithi": "3"
+    },
+    {
+      "kind": "manvadi",
+      "name": "स्वरोचिष",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "tithi": 15,
+      "printedTithi": "पूर्णिमा"
+    },
+    {
+      "kind": "manvadi",
+      "name": "वैवस्वत",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "tithi": 15,
+      "printedTithi": "पूर्णिमा"
+    },
+    {
+      "kind": "manvadi",
+      "name": "रैवत",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "tithi": 10,
+      "printedTithi": "10"
+    },
+    {
+      "kind": "manvadi",
+      "name": "चाक्षुष",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "tithi": 15,
+      "printedTithi": "पूर्णिमा"
+    },
+    {
+      "kind": "manvadi",
+      "name": "इन्द्रसावर्णि",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "tithi": 8,
+      "printedTithi": "8"
+    },
+    {
+      "kind": "manvadi",
+      "name": "देवसावर्णि",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "tithi": 15,
+      "printedTithi": "अमावस्या"
+    },
+    {
+      "kind": "manvadi",
+      "name": "रुद्रसावर्णि",
+      "month": "भाद्र",
+      "paksha": "शुक्ल",
+      "tithi": 3,
+      "printedTithi": "3"
+    },
+    {
+      "kind": "manvadi",
+      "name": "दक्षसावर्णि",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "tithi": 9,
+      "printedTithi": "9"
+    },
+    {
+      "kind": "manvadi",
+      "name": "तामस",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "tithi": 12,
+      "printedTithi": "12"
+    },
+    {
+      "kind": "manvadi",
+      "name": "औत्तम",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "tithi": 15,
+      "printedTithi": "पूर्णिमा"
+    },
+    {
+      "kind": "manvadi",
+      "name": "धर्मसावर्णि",
+      "month": "पौष",
+      "paksha": "शुक्ल",
+      "tithi": 11,
+      "printedTithi": "11"
+    },
+    {
+      "kind": "manvadi",
+      "name": "ब्रह्मसावर्णि",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "tithi": 7,
+      "printedTithi": "7"
+    },
+    {
+      "kind": "manvadi",
+      "name": "सावर्णि",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "tithi": 15,
+      "printedTithi": "पूर्णिमा"
+    },
+    {
+      "kind": "yugadi",
+      "name": "सत्ययुग",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "tithi": 3,
+      "printedTithi": "3"
+    },
+    {
+      "kind": "yugadi",
+      "name": "त्रेतायुग",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "tithi": 9,
+      "printedTithi": "9"
+    },
+    {
+      "kind": "yugadi",
+      "name": "द्वापरयुग",
+      "month": "भाद्र",
+      "paksha": "कृष्ण",
+      "tithi": 13,
+      "printedTithi": "13"
+    },
+    {
+      "kind": "yugadi",
+      "name": "कलियुग",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "tithi": 15,
+      "printedTithi": "अमावस्या"
+    }
+  ]
+}
