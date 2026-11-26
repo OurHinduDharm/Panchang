@@ -44,17 +44,17 @@ def references():
     return drik, tara
 
 @lru_cache(maxsize=200000)
-def positions(t):
-    a, af = swe.calc_ut(t, swe.SUN, swe.FLG_SWIEPH | swe.FLG_EQUATORIAL)
-    b, bf = swe.calc_ut(t, swe.MOON, swe.FLG_SWIEPH | swe.FLG_EQUATORIAL)
-    la = swe.calc_ut(t, swe.SUN, swe.FLG_SWIEPH)[0][0]
-    lb = swe.calc_ut(t, swe.MOON, swe.FLG_SWIEPH)[0][0]
-    radius = sum(swe.pheno_ut(t, p, swe.FLG_SWIEPH)[3] * 30
+def positions(t, flags=swe.FLG_SWIEPH):
+    a, af = swe.calc_ut(t, swe.SUN, flags | swe.FLG_EQUATORIAL)
+    b, bf = swe.calc_ut(t, swe.MOON, flags | swe.FLG_EQUATORIAL)
+    la = swe.calc_ut(t, swe.SUN, flags)[0][0]
+    lb = swe.calc_ut(t, swe.MOON, flags)[0][0]
+    radius = sum(swe.pheno_ut(t, p, flags)[3] * 30
                  for p in (swe.SUN, swe.MOON))
     return 60*a[1], 60*b[1], radius, math.cos(math.radians(la))*math.cos(math.radians(lb)), af, bf
 
-def relation(t, kind):
-    a, b, *_ = positions(t)
+def relation(t, kind, flags=swe.FLG_SWIEPH):
+    a, b, *_ = positions(t, flags)
     return a-b if kind == "V" else a+b
 
 def roots(fn, a, b):
@@ -70,17 +70,17 @@ def roots(fn, a, b):
         found.append(float(xs[-1]))
     return found
 
-def audit(rows, model):
+def audit(rows, model, flags=swe.FLG_SWIEPH):
     matches, missing = [], []
     for i, kind, a, b in rows:
-        rr = [r for r in roots(lambda t: relation(t, kind), a-.25, b+.25)
-              if (positions(r)[3] < 0) == (kind == "V") and a-.1 < r < b+.1]
+        rr = [r for r in roots(lambda t: relation(t, kind, flags), a-.25, b+.25)
+              if (positions(r, flags)[3] < 0) == (kind == "V") and a-.1 < r < b+.1]
         if len(rr) != 1:
             missing.append(i)
             continue
         r = rr[0]
-        c = roots(lambda t: abs(relation(t, kind)) -
-                  (positions(t)[2] if model == "disks" else model), r-1, r+1)
+        c = roots(lambda t: abs(relation(t, kind, flags)) -
+                  (positions(t, flags)[2] if model == "disks" else model), r-1, r+1)
         starts, ends = [x for x in c if x<r], [x for x in c if x>r]
         if not starts or not ends:
             missing.append(i)
@@ -90,20 +90,54 @@ def audit(rows, model):
         matches.append({"row":i, "errorMinutes":[(st-a)*1440,(en-b)*1440],
                         "ifTTDisplayedAsUTMinutes":[(st+swe.deltat(st)-a)*1440,
                                                     (en+swe.deltat(en)-b)*1440],
-                        "sourceBoundaryArcmin":[abs(relation(a,kind)),abs(relation(b,kind))]})
+                        "ifExtraDeltaTSubtractedMinutes":[(st-swe.deltat(st)-a)*1440,
+                                                         (en-swe.deltat(en)-b)*1440],
+                        "sourceBoundaryArcmin":[abs(relation(a,kind,flags)),abs(relation(b,kind,flags))]})
     e = np.array([x["errorMinutes"] for x in matches])
-    return {"model":model,"matched":len(matches),"missing":missing,
+    return {"model":model,"requestedFlags":flags,"matched":len(matches),"missing":missing,
+            "medianMidpointBiasMinutes":float(np.median(e.mean(axis=1))),
+            "medianDurationBiasMinutes":float(np.median(e[:,1]-e[:,0])),
+            "medianAbsIfTTDisplayedAsUT":np.median(abs(np.array([x["ifTTDisplayedAsUTMinutes"] for x in matches])),axis=0).tolist(),
+            "medianAbsIfExtraDeltaTSubtracted":np.median(abs(np.array([x["ifExtraDeltaTSubtractedMinutes"] for x in matches])),axis=0).tolist(),
             "bothWithin3":int(sum(np.max(abs(e),axis=1)<=3)),
             "medianSignedMinutes":np.median(e,axis=0).tolist(),
             "medianAbsoluteMinutes":np.median(abs(e),axis=0).tolist(),
             "matches":matches}
+
+def explain_same_gola_rows(rows):
+    """Diagnose rejected printed rows without changing their source labels."""
+    findings = []
+    for i, printed_kind, a, b in rows:
+        if i not in (14, 27):
+            continue
+        rr = roots(lambda t: relation(t, "V"), a-.1, b+.1)
+        if len(rr) != 1:
+            raise AssertionError(f"ambiguous same-declination crossing in row {i}")
+        r = rr[0]
+        sun, moon, radius, ayana_product, *_ = positions(r)
+        cc = roots(lambda t: abs(relation(t, "V"))-positions(t)[2],r-1,r+1)
+        st = max(x for x in cc if x<r)
+        en = min(x for x in cc if x>r)
+        findings.append({"row":i,"printedKind":printed_kind,
+            "status":"same-ayana-same-gola-not-class-compatible",
+            "sunDeclinationDeg":sun/60,"moonDeclinationDeg":moon/60,
+            "ayanaProduct":ayana_product,
+            "computedIST":[dt.datetime.fromtimestamp((t-2440587.5)*86400,IST).isoformat(timespec="seconds") for t in (st,r,en)],
+            "errorMinutes":[(st-a)*1440,(en-b)*1440]})
+        assert sun*moon>0 and ayana_product>0
+        assert max(abs((st-a)*1440),abs((en-b)*1440))<3
+    return findings
+
 
 if __name__ == "__main__":
     drik, tara = references()
     result = {name:[audit(rows, model) for model in (30,31,"disks")]
               for name,rows in (("drik",drik),("tara2084",tara))}
     print(json.dumps({"version":swe.version,"flags":positions(drik[0][2])[-2:],
-                      "status":"research-only","reports":result},indent=2))
+                      "status":"research-only","reports":result,
+                      "diagnosticGeometricDrik31":audit(drik,31,swe.FLG_SWIEPH | swe.FLG_TRUEPOS),
+                      "rejectedSameGolaRows":explain_same_gola_rows(tara),
+                      "warning":"Time shifts and geometric flags are diagnostics only; public model remains apparent geocentric disks in UT."},indent=2))
     assert [x["bothWithin3"] for x in result["drik"]] == [0,80,21]
     assert [x["bothWithin3"] for x in result["tara2084"]] == [0,10,25]
     assert result["tara2084"][2]["missing"] == [14,27]
