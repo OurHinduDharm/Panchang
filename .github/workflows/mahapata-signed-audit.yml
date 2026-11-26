@@ -23,6 +23,8 @@ jobs:
       - name: Install pinned research dependencies
         run: python -m pip install pyswisseph==2.10.3.2 numpy==2.2.6 scipy==1.15.3
       - name: Compile research scripts
-        run: python -m py_compile scripts/audit-mahapata-signed.py scripts/audit-mahapata-swiss.py
+        run: python -m py_compile scripts/audit-mahapata-signed.py scripts/audit-mahapata-swiss.py scripts/scan-mahapata-signed.py
       - name: Check directed contacts
         run: python scripts/audit-mahapata-signed.py --self-test
+      - name: Compare annual signed roots at two resolutions
+        run: python scripts/scan-mahapata-signed.py
