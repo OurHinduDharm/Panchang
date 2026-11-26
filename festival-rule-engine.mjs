@@ -131,6 +131,14 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   if (observance.monthKind != null && !["regular", "adhika", "any"].includes(observance.monthKind)) {
     return fail("manual-review", observance, ["invalid-month-kind-selector"]);
   }
+  const requestsAdhika = /^अधिक\s+/.test(requestedMonth);
+  if (observance.monthKind != null && observance.monthKind !== "any" && !requestedMonth) {
+    return fail("manual-review", observance, ["lunar-month-required-for-month-kind-selector"]);
+  }
+  if (observance.monthKind != null && observance.monthKind !== "adhika" && requestsAdhika) {
+    return fail("manual-review", observance, ["conflicting-month-kind-and-prefixed-lunar-month"]);
+  }
+  const monthKind = observance.monthKind ?? (requestsAdhika ? "adhika" : requestedMonth ? "regular" : "any");
   if (requestedPaksha && !["शुक्ल पक्ष", "कृष्ण पक्ष"].includes(requestedPaksha)) {
     return fail("manual-review", observance, ["invalid-paksha-selector"]);
   }
@@ -143,8 +151,6 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
     // Ordinary named festivals must not silently match an intercalary month.
     // Explicit adhika observances retain their exact month selector.
     const isAdhika = /^अधिक\s+/.test(rawMonth);
-    const requestsAdhika = /^अधिक\s+/.test(requestedMonth);
-    const monthKind = observance.monthKind ?? (requestsAdhika ? "adhika" : requestedMonth ? "regular" : "any");
     if (monthKind === "regular" && isAdhika) return false;
     if (monthKind === "adhika" && !isAdhika) return false;
     if (requestedMonth && requestedMonth !== rawMonth && requestedMonth !== normalizedMonth) return false;
