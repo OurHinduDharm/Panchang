@@ -202,9 +202,14 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       locationSearchBtn.textContent="खोजें";
     }
   }
-  function getDatePanchang(dateIso){
+  async function getDatePanchang(dateIso){
     var location=getLocalLocation();
-    var cacheKey=[dateIso,location.lat,location.lon,location.elevation].join("|");
+    var nextIso=addIsoCalendarDays(dateIso,1);
+    var [today,tomorrow]=await Promise.all([getDayPanchang(dateIso,location),getDayPanchang(nextIso,location)]);
+    return Object.assign({},today,{next:tomorrow.p});
+  }
+  function getDayPanchang(dateIso,location){
+    var cacheKey=[dateIso,location.lat,location.lon,location.elevation,location.timeZone].join("|");
     if(panchangCache.has(cacheKey)) return panchangCache.get(cacheKey);
     var promise=Promise.resolve().then(async function(){
       // Blogger के mini-panchang ने लाइब्रेरी पहले से उपलब्ध करा दी हो,
@@ -224,14 +229,12 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       }
       var timeZone=location.timeZone||"Asia/Kolkata";
       var date=zonedDateTimeToUtc(dateIso,12,0,timeZone);
-      var nextDate=zonedDateTimeToUtc(addIsoCalendarDays(dateIso,1),12,0,timeZone);
       var offsetFor=function(instant){return getTimeZoneOffsetForLocalDay(instant,timeZone);};
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:offsetFor(date),calendarType:"purnimanta"});
-      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:offsetFor(nextDate),calendarType:"purnimanta"});
-      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:offsetFor(instant),calendarType:"purnimanta"});}};
+      return {p:p,location:location,date:date,panchangLib:panchangLib,observer:observer,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:offsetFor(instant),calendarType:"purnimanta"});}};
     }).catch(function(error){
       // अस्थायी CDN/API विफलता को cache में स्थायी न रखें; अगली कोशिश दोबारा लोड कर सके।
-      panchangCache.delete(cacheKey);
+      if(panchangCache.get(cacheKey)===promise)panchangCache.delete(cacheKey);
       throw error;
     });
     panchangCache.set(cacheKey,promise);
@@ -302,17 +305,17 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     console.warn("Eclipse visibility module unavailable:",error);return null;
   });
   var locationEclipseCache=new Map();
-  function istDateKey(value){
+  function istDateKey(value,timeZone){
     var date=value instanceof Date?value:new Date(value);
     if(!Number.isFinite(date.getTime()))return "";
-    var parts=new Intl.DateTimeFormat("en-CA",{timeZone:getLocationTimeZone(),year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
+    var parts=new Intl.DateTimeFormat("en-CA",{timeZone:timeZone,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
     var get=function(type){return (parts.find(function(part){return part.type===type;})||{}).value||"";};
     return get("year")+"-"+get("month")+"-"+get("day");
   }
-  function formatGrahanDateTime(value){
+  function formatGrahanDateTime(value,timeZone){
     var date=value instanceof Date?value:new Date(value);
     if(!Number.isFinite(date.getTime()))return "";
-    return new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+    return new Intl.DateTimeFormat("hi-IN",{timeZone:timeZone,day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
   }
   function getGrahanTitle(grahan){
     var type=String(grahan&&grahan.type||"").toLowerCase();
@@ -324,10 +327,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   }
   async function buildLocationEclipseEvents(year,month,token){
     var location=getLocalLocation();
-    var cacheKey=[year,location.lat,location.lon,location.elevation].join("|");
+    var cacheKey=[year,month,location.lat,location.lon,location.elevation,location.timeZone].join("|");
     if(locationEclipseCache.has(cacheKey)){
-      var cachedEvents=await locationEclipseCache.get(cacheKey);
-      return cachedEvents.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
+      return locationEclipseCache.get(cacheKey);
     }
     var task=(async function(){
       var tools=await eclipseToolsPromise;
@@ -339,28 +341,28 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       }
       // getDatePanchang supplies the same pinned Panchang API and observer
       // already used by the monthly muhurta calculations.
-      var values=await getDatePanchang(String(year)+"-01-01");
-      var eclipses=await tools.discoverEclipses(year,values.location,values.panchangLib);
+      var values=await getDayPanchang(String(year)+"-"+String(month).padStart(2,"0")+"-01",location);
+      var eclipses=await tools.discoverEclipses(year,values.location,values.panchangLib,month);
       var events=[];
       (Array.isArray(eclipses)?eclipses:[]).forEach(function(item){
         var grahan=item&&item.grahan;
         if(!grahan)return;
         var firstContact=grahan.contact&&grahan.contact.firstContact;
         var eclipseDate=firstContact||item.date;
-        var dateKey=istDateKey(eclipseDate);
-        if(!dateKey||Number(dateKey.slice(0,4))!==year)return;
-        var visibilityDate=zonedDateTimeToUtc(dateKey,12,0,getLocationTimeZone());
+        var dateKey=istDateKey(eclipseDate,location.timeZone);
+        if(!dateKey||Number(dateKey.slice(0,4))!==year||Number(dateKey.slice(5,7))!==month)return;
+        var visibilityDate=zonedDateTimeToUtc(dateKey,12,0,location.timeZone);
         var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib,values.location.timeZone);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
         if(!visibility||visibility.localVisible!==true)return;
         var description="स्थान: "+String(values.location.name||values.location.city||"चयनित स्थान")+" में यह ग्रहण दृश्य है।";
         var sutak=grahan.sutakKaal;
         if(sutak&&sutak.start&&sutak.end){
-          description+=" सूतक काल: "+formatGrahanDateTime(sutak.start)+" से "+formatGrahanDateTime(sutak.end)+"।";
+          description+=" सूतक काल: "+formatGrahanDateTime(sutak.start,location.timeZone)+" से "+formatGrahanDateTime(sutak.end,location.timeZone)+"।";
         }
         events.push({
           date:dateKey,
-          dateLabel:new Intl.DateTimeFormat("hi-IN",{timeZone:getLocationTimeZone(),day:"numeric",month:"long"}).format(zonedDateTimeToUtc(dateKey,12,0,getLocationTimeZone())),
+          dateLabel:new Intl.DateTimeFormat("hi-IN",{timeZone:location.timeZone,day:"numeric",month:"long"}).format(zonedDateTimeToUtc(dateKey,12,0,location.timeZone)),
           title:getGrahanTitle(grahan),
           category:"ग्रहण",
           description:description,
@@ -378,8 +380,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       console.warn("Location-based eclipse discovery failed:",error);return [];
     });
     locationEclipseCache.set(cacheKey,task);
-    var result=await task;
-    return result.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
+    return task;
   }
 
   function getSankrantiRashiIndex(item){
@@ -405,17 +406,25 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     if(!Number.isFinite(dayStart))return null;
     var start=dayStart-36*60*60*1000,end=dayStart+36*60*60*1000,step=30*60*1000;
     function signAt(ms){try{return getInstantSunRashiIndex(values.at(new Date(ms)));}catch(_){return null;}}
-    var previousTime=start,previousSign=signAt(start);
-    for(var time=start+step;time<=end;time+=step){
-      var sign=signAt(time);
-      if(sign===target&&previousSign!==null&&previousSign!==target){
-        var left=previousTime,right=time;
-        while(right-left>30000){var middle=Math.floor((left+right)/2);if(signAt(middle)===target)right=middle;else left=middle;}
-        return new Date(right);
-      }
-      previousTime=time;previousSign=sign;
+    // A single solar sign ingress can occur in this 72-hour window. Bisect
+    // the original half-hour grid, then refine the same interval as before.
+    var firstSign=signAt(start),lastSign=signAt(end);
+    if(firstSign===null||firstSign===target||lastSign!==target)return null;
+    var low=0,high=(end-start)/step;
+    while(high-low>1){
+      var index=Math.floor((low+high)/2);
+      var sign=signAt(start+index*step);
+      if(sign===null)return null;
+      if(sign===target)high=index;else low=index;
     }
-    return null;
+    var left=start+low*step,right=start+high*step;
+    while(right-left>30000){
+      var middle=Math.floor((left+right)/2);
+      var middleSign=signAt(middle);
+      if(middleSign===null)return null;
+      if(middleSign===target)right=middle;else left=middle;
+    }
+    return new Date(right);
   }
   function getLagnaIndex(p){
     var value=p&&(p.udayaLagna??p.lagna??p.ascendant);
@@ -448,6 +457,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     function signAt(ms){
       var instant=new Date(ms);
       try{
+        // Use the same instantaneous ascendant as getKundli in the pinned engine.
+        if(typeof lib.getUdayaLagna==="function"&&typeof lib.getAyanamsa==="function"){
+          var longitude=lib.getUdayaLagna(instant,observer,lib.getAyanamsa(instant));
+          if(Number.isFinite(longitude)&&longitude>=0&&longitude<360)return Math.floor(longitude/30);
+        }
         var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:getTimeZoneOffsetForLocalDay(instant,timeZone||getLocationTimeZone())});
         var index=getLagnaIndex(panchang);
         if(index!==null)return index;
@@ -514,7 +528,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         timeBox.appendChild(timeText);content.appendChild(timeBox);
       }
     }
-    var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
+    var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules.slice():(item.muhurtaRule?[item.muhurtaRule]:[]);
     // मासिक शिवरात्रि में निशीथ के साथ चारों रात्रि-प्रहर भी दिखाएँ।
     if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/महाशिवरात्रि|महा\s*शिवरात्रि/i.test(String(item.title||""))){
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1) ruleIds.push("masik-shivaratri-nishita");
@@ -681,7 +695,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start,values.location.timeZone)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end,values.location.timeZone);
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaInterval(result,values.location.timeZone);
         }else{
           return;
         }
@@ -1158,16 +1172,12 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   function applyFilters(){
     var query=normalizeSearch(searchInput.value);
     var cards=Array.from(eventsEl.querySelectorAll(".event"));
-    var matches=[],others=[];
+    var visible=0,total=cards.length;
     cards.forEach(function(card){
-      var haystack=normalizeSearch(card.dataset.search||"");
-      var isMatch=!query||haystack.includes(query);
-      card.hidden=!!query&&!isMatch;
-      (isMatch?matches:others).push(card);
+      var hide=Boolean(query)&&!card.dataset.search.includes(query);
+      if(card.hidden!==hide)card.hidden=hide;
+      if(!hide)visible++;
     });
-    // मिलान वाली प्रविष्टि सूची में सबसे ऊपर; बाकी खोज के दौरान छिपी रहती हैं।
-    matches.concat(others).forEach(function(card){eventsEl.appendChild(card);});
-    var visible=matches.length,total=cards.length;
     countEl.textContent=query?visible+" / "+total+" पर्व":total+" पर्व";
     var empty=eventsEl.querySelector(".filter-empty");
     if(query&&!visible&&total){
@@ -1197,6 +1207,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       }).map(function(entry){return entry.item;});
   }
 
+  var renderedCards=new WeakMap();
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     if(reviewMode&&data&&data.status&&data.status!=="approved"){
@@ -1219,13 +1230,18 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     list=sortFestivalEvents(list);
     countEl.textContent=list.length+" प्रविष्टियाँ";
-    searchInput.value="";
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
       eventsEl.appendChild(empty);return;
     }
     list.forEach(function(item){
+      var signature=JSON.stringify(item);
+      var previous=renderedCards.get(item);
+      if(previous&&previous.signature===signature){
+        eventsEl.appendChild(previous.card);
+        return;
+      }
       var card=document.createElement("article");card.className="event";
       card.dataset.date=String(item.date||"");
       card.dataset.eventTitle=String(item.title||"");
@@ -1244,7 +1260,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       small.style.cssText="font-size:10px;line-height:1.3;overflow-wrap:normal;word-break:keep-all";
       date.appendChild(small);card.appendChild(date);
 
-      card.dataset.search=[item.title,item.hinduTithi,item.description,item.category].join(" ");
+      card.dataset.search=normalizeSearch([item.title,item.hinduTithi,item.description,item.category].join(" "));
       card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
@@ -1334,6 +1350,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         content.appendChild(status);
       }
       card.appendChild(content);eventsEl.appendChild(card);
+      renderedCards.set(item,{signature:signature,card:card});
     });
     applyFilters();
     if(locationEclipseCalculationFailed&&!document.getElementById("ohd-eclipse-calculation-note")){
@@ -1546,7 +1563,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
+    searchInput.value="";
     var token=++requestToken;
+    renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
     var controller=new AbortController();

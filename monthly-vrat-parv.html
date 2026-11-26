@@ -416,20 +416,27 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       locationSearchBtn.textContent="खोजें";
     }
   }
-  function getDatePanchang(dateIso){
+  async function getDatePanchang(dateIso){
     var location=getLocalLocation();
+    var nextIso=new Date(Date.parse(dateIso+"T12:00:00Z")+86400000).toISOString().slice(0,10);
+    var [today,tomorrow]=await Promise.all([getDayPanchang(dateIso,location),getDayPanchang(nextIso,location)]);
+    return Object.assign({},today,{next:tomorrow.p});
+  }
+  function getDayPanchang(dateIso,location){
     var cacheKey=[dateIso,location.lat,location.lon,location.elevation].join("|");
     if(panchangCache.has(cacheKey)) return panchangCache.get(cacheKey);
     var promise=Promise.resolve().then(async function(){
       var panchangLib=await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
       var date=new Date(dateIso+"T12:00:00+05:30");
-      var nextDate=new Date(date.getTime()+24*60*60*1000);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
-      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer};
+      return {p:p,location:location,date:date,panchangLib:panchangLib,observer:observer};
+    }).catch(function(error){
+      if(panchangCache.get(cacheKey)===promise)panchangCache.delete(cacheKey);
+      throw error;
     });
     panchangCache.set(cacheKey,promise);
+    if(panchangCache.size>90)panchangCache.delete(panchangCache.keys().next().value);
     return promise;
   }
 
@@ -510,6 +517,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     function signAt(ms){
       var instant=new Date(ms);
       try{
+        // Use the same instantaneous ascendant as getKundli in the pinned engine.
+        if(typeof lib.getUdayaLagna==="function"&&typeof lib.getAyanamsa==="function"){
+          var longitude=lib.getUdayaLagna(instant,observer,lib.getAyanamsa(instant));
+          if(Number.isFinite(longitude)&&longitude>=0&&longitude<360)return Math.floor(longitude/30);
+        }
         var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
         var index=getLagnaIndex(panchang);
         if(index!==null)return index;
@@ -678,7 +690,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaInterval(result);
         }else{
           return;
         }
@@ -773,16 +785,12 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   function applyFilters(){
     var query=normalizeSearch(searchInput.value);
     var cards=Array.from(eventsEl.querySelectorAll(".event"));
-    var matches=[],others=[];
+    var visible=0,total=cards.length;
     cards.forEach(function(card){
-      var haystack=normalizeSearch(card.dataset.search||"");
-      var isMatch=!query||haystack.includes(query);
-      card.hidden=!!query&&!isMatch;
-      (isMatch?matches:others).push(card);
+      var hide=Boolean(query)&&!card.dataset.search.includes(query);
+      if(card.hidden!==hide)card.hidden=hide;
+      if(!hide)visible++;
     });
-    // मिलान वाली प्रविष्टि सूची में सबसे ऊपर; बाकी खोज के दौरान छिपी रहती हैं।
-    matches.concat(others).forEach(function(card){eventsEl.appendChild(card);});
-    var visible=matches.length,total=cards.length;
     countEl.textContent=query?visible+" / "+total+" पर्व":total+" पर्व";
     var empty=eventsEl.querySelector(".filter-empty");
     if(query&&!visible&&total){
@@ -829,7 +837,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     }
     list=sortFestivalEvents(list);
     countEl.textContent=list.length+" प्रविष्टियाँ";
-    searchInput.value="";
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
@@ -846,7 +853,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
 
-      card.dataset.search=[item.title,item.hinduTithi,item.description,item.category].join(" ");
+      card.dataset.search=normalizeSearch([item.title,item.hinduTithi,item.description,item.category].join(" "));
       card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
@@ -941,6 +948,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
+    searchInput.value="";
     var token=++requestToken;
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
     scheduleSpecialPunyaKaal(year,month);

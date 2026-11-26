@@ -21,5 +21,5 @@ test("monthly eclipse card links to both detailed Blogger resources", () => {
 
 test("Sutak is shown only when both complete boundaries are available", () => {
   assert.match(source, /if\(sutak&&sutak\.start&&sutak\.end\)/);
-  assert.match(source, /formatGrahanDateTime\(sutak\.start\).*formatGrahanDateTime\(sutak\.end\)/);
+  assert.match(source, /formatGrahanDateTime\(sutak\.start,location\.timeZone\).*formatGrahanDateTime\(sutak\.end,location\.timeZone\)/);
 });

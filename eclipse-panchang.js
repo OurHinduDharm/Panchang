@@ -1611,7 +1611,8 @@ function getHindiWeekday(date, tzOffsetMin) {
   async function discoverEclipses(
     year,
     location,
-    api
+    api,
+    month
   ) {
     var module = api && (api.module || api);
     if (!module) {
@@ -1646,19 +1647,17 @@ function getHindiWeekday(date, tzOffsetMin) {
       );
     }
 
-    /*
-     * Safe IST year window.
-     */
-    var start = new Date(
-      Date.UTC(year, 0, 1) -
-        TZ_OFFSET * 60000 -
-        86400000
-    );
-    var end = new Date(
-      Date.UTC(year + 1, 0, 1) -
-        TZ_OFFSET * 60000 +
-        86400000
-    );
+    // Monthly cards are assigned by local first contact. Include adjacent IST
+    // days for eclipses crossing midnight or an international month boundary.
+    var monthly = month !== undefined;
+    if (monthly && (!Number.isInteger(month) || month < 1 || month > 12)) {
+      throw new RangeError('Expected a month from 1 to 12');
+    }
+    var firstMonth = monthly ? month - 1 : 0;
+    var afterMonth = monthly ? month : 12;
+    var padding = (monthly ? 2 : 1) * 86400000;
+    var start = new Date(Date.UTC(year, firstMonth, 1) - TZ_OFFSET * 60000 - padding);
+    var end = new Date(Date.UTC(year, afterMonth, 1) - TZ_OFFSET * 60000 + padding);
 
     log(
       'Discovery:',
@@ -1701,7 +1700,9 @@ function getHindiWeekday(date, tzOffsetMin) {
         return;
       }
 
-      if (candidate.yearIst !== year) {
+      // findTithiTransitions clips its final row to the search endpoint.
+      if ((!monthly && candidate.yearIst !== year) ||
+          (monthly && toDate(transition.endTime).getTime() === end.getTime())) {
         return;
       }
 
