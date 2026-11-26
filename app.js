@@ -5144,7 +5144,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
     const selectedDayEnd=selectedDayStart+86400000;
     const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
-    todays.forEach(item=>{
+    todays.filter(item=>!item.isMahapata||dateString!==todayString()).forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
@@ -5168,10 +5168,52 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     // Missing, incomplete or unapproved calculations must not create a public link.
   }
 }
+let upcomingMahapataTimer = null;
+function scheduleUpcomingMahapata(dateString, request, resultGrid){
+  if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
+  const current=()=>request===specialPunyaKaalMonthRequest&&resultGrid.isConnected&&
+    dateInput.value===dateString&&selectedLocation?.timeZone==="Asia/Kolkata"&&dateString===todayString();
+  if(!current())return;
+  const card=document.createElement("section");
+  card.className="card full upcoming-mahapata-card";
+  card.hidden=true;
+  resultGrid.appendChild(card);
+  const render=async()=>{
+    if(!current()){card.remove();return;}
+    try{
+      const approval=await specialPunyaKaalApprovalPromise;
+      if(!current()){card.remove();return;}
+      const now=Date.now();
+      const event=approval.nextApprovedMahapata(now);
+      if(!event){card.hidden=true;card.replaceChildren();return;}
+      const heading=document.createElement("div");heading.className="label";
+      heading.textContent=event.phase==="active"?"अभी महापात पुण्यकाल":event.phase==="today"?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल";
+      const name=document.createElement("strong");name.textContent=event.labels[0];
+      const date=document.createElement("div");date.className="value";
+      date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date(event.startTime));
+      const times=document.createElement("div");times.className="value";
+      times.textContent="स्पर्श "+specialPunyaKaalDateTime(event.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(event.endTime);
+      const guidance=document.createElement("div");
+      guidance.textContent="मंत्र-जप, साधना एवं देवोपासना के लिए विशेष पुण्यकाल। इस अवधि में मांगलिक कार्य वर्जित।";
+      const link=document.createElement("a");
+      const monthlyPage=window.location.pathname==="/p/panchang-today.html"?"/p/masik-vrat-parv.html":"monthly-vrat-parv.html";
+      // An active window may have begun in the previous month; link to the month displaying it today.
+      const linkDate=event.phase==="active"?dateString:event.date;
+      link.href=monthlyPage+"?year="+linkDate.slice(0,4)+"&month="+linkDate.slice(5,7)+"#special-punya-kaal";
+      link.textContent="समय एवं धार्मिक महत्त्व देखें →";
+      card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
+      const midnight=Date.parse(dateString+"T00:00:00+05:30")+86400000;
+      upcomingMahapataTimer=setTimeout(render,Math.max(50,Math.min(event.nextTransition,midnight)-now+25));
+    }catch(error){card.hidden=true;card.replaceChildren();}
+  };
+  void render();
+}
+
 function scheduleSpecialPunyaKaalMonthLink(dateString){
   const resultGrid=result.querySelector(".grid");
   if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
   const request=++specialPunyaKaalMonthRequest;
+  scheduleUpcomingMahapata(dateString,request,resultGrid);
   const sentinel=document.createElement("div");
   sentinel.className="special-punya-kaal-sentinel";
   sentinel.style.cssText="grid-column:1/-1;height:1px";
