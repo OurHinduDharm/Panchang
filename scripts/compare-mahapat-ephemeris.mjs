@@ -18,7 +18,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { scanBracketedRoots, scanSmoothRoots } from "../mahapata-root-solver.mjs";
 import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
-import { contactModel, contactBoundaryDegrees } from "../research/paatadhikar/contact-boundary.mjs";
+import { contactModel, pataContactState } from "../research/paatadhikar/contact-boundary.mjs";
 import { classifyMahapataGeometry } from "../research/paatadhikar/mahapata-math.mjs";
 
 const require = createRequire(import.meta.url);
@@ -89,27 +89,18 @@ function positions(timeMs) {
   const moonDistance = vectorLength(moon);
   const sunDeclination = vectorDeclination(sunEqd);
   const moonDeclination = vectorDeclination(moonEqd);
-  const sunRadius = Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI;
-  const moonRadius = Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI;
-  const semidiameterSum = sunRadius + moonRadius;
-  const contactBoundary = contactBoundaryDegrees(selectedContactModel.id, semidiameterSum);
+  const contact = pataContactState({ sunDeclination, moonDeclination,
+    sunDistanceAU: sunDistance, moonDistanceAU: moonDistance, model: selectedContactModel.id });
   const longitudeSum = (vectorLongitude(sunEcliptic) + vectorLongitude(moonEcliptic)) % 360;
-  const declinationDifference = moonDeclination - sunDeclination;
-  const declinationSum = moonDeclination + sunDeclination;
   const value = {
     sunLongitude: vectorLongitude(sunEcliptic),
     moonLongitude: vectorLongitude(moonEcliptic),
     sunDeclination,
     moonDeclination,
-    declinationDifference,
-    declinationSum,
+    declinationDifference: contact.vyatipataRelation,
+    declinationSum: contact.vaidhritiRelation,
     longitudeSum,
-    semidiameterSum,
-    contactBoundary,
-    vyatipataRelation: declinationDifference,
-    vaidhritiRelation: declinationSum,
-    vyatipataClearance: Math.abs(declinationDifference) - contactBoundary,
-    vaidhritiClearance: Math.abs(declinationSum) - contactBoundary
+    ...contact
   };
   cache.set(timeMs, value);
   return value;
