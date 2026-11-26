@@ -291,7 +291,7 @@ function buildContactEvent(mean, chosen, classifiedRoots) {
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
     model: selectedContactModel.id === "apparent-disks"
       ? "drik-style-geocentric-apparent-declination-band-overlap"
-      : "drik-style-geocentric-fixed-30-arcmin-declination-boundary",
+      : `drik-style-geocentric-fixed-${selectedContactModel.boundaryDegrees * 60}-arcmin-declination-boundary`,
     note: "Primary event window uses the explicitly selected contact definition; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
   };
 }
