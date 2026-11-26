@@ -95,3 +95,15 @@ test("upcoming daily card is current-date only and links to the event month", ()
   assert.match(section,/linkDate\.slice\(0,4\)/);
   assert.match(daily,/scheduleUpcomingMahapata\(dateString,request,resultGrid\)/);
 });
+
+
+test("monthly geocentric Mahapata renders before lazy local work and common guidance is outside event cards",()=>{
+  assert.match(component,/renderApproved\(approval\.publicSpecialPunyaKaalMonth\(null,year,month\),true\)/);
+  assert.match(component,/var initial=loadSpecialPunyaKaal\(year,month,token\)/);
+  assert.match(component,/initial\.then\(function\(\)\{if\(currentRequest\(token,year,month\)\)loadLocalSpecialPunyaKaal/);
+  const cards=component.slice(component.indexOf("approved.forEach(function(item)"),component.indexOf("var guide=document.createElement"));
+  assert.doesNotMatch(cards,/स्नानदानजपश्राद्ध|special-kaal-verse|special-kaal-guidance/);
+  assert.equal((component.match(/स्नानदानजपश्राद्धव्रतहोमादिकर्मभिः/g)||[]).length,1);
+  assert.match(component,/content\.appendChild\(guide\)/);
+  assert.match(blogger,/import\("https:\/\/ourhindudharm\.github\.io\/Panchang\/monthly-special-punya-kaal\.mjs"\)/);
+});
