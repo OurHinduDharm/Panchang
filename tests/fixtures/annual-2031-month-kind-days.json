@@ -1,0 +1,142 @@
+{
+  "sourceFile": "data/ohd-annual-panchang-review-2031.json",
+  "sourceGeneratedAt": "2026-11-24T08:04:25.210Z",
+  "sourceStatus": "research-only-not-approved",
+  "location": {
+    "name": "पिथौरागढ़",
+    "latitude": 29.5828,
+    "longitude": 80.2182,
+    "elevation": 1650,
+    "timezone": "Asia/Kolkata",
+    "timezoneOffset": 330
+  },
+  "purpose": "Small real-data regression fixture for regular versus Adhika Bhadrapada Ekadashi selection; not publication data.",
+  "days": [
+    {
+      "date": "2031-08-11",
+      "masa": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-08-11T00:04:55.685Z",
+      "sunset": "2031-08-11T13:23:29.142Z",
+      "tithiIntervals": [
+        {
+          "tithi": "नवमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-11T00:04:55.685Z",
+          "endTime": "2031-08-11T14:47:00.397Z"
+        },
+        {
+          "tithi": "दशमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-11T14:48:00.397Z",
+          "endTime": "2031-08-12T00:05:30.432Z"
+        }
+      ]
+    },
+    {
+      "date": "2031-08-12",
+      "masa": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-08-12T00:05:30.432Z",
+      "sunset": "2031-08-12T13:22:34.611Z",
+      "tithiIntervals": [
+        {
+          "tithi": "दशमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-12T00:05:30.432Z",
+          "endTime": "2031-08-12T17:00:16.716Z"
+        },
+        {
+          "tithi": "एकादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-12T17:01:16.716Z",
+          "endTime": "2031-08-13T00:06:05.081Z"
+        }
+      ]
+    },
+    {
+      "date": "2031-08-13",
+      "masa": "भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-08-13T00:06:05.081Z",
+      "sunset": "2031-08-13T13:21:39.105Z",
+      "tithiIntervals": [
+        {
+          "tithi": "एकादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-13T00:06:05.081Z",
+          "endTime": "2031-08-13T19:28:51.999Z"
+        },
+        {
+          "tithi": "द्वादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-08-13T19:29:51.999Z",
+          "endTime": "2031-08-14T00:06:39.623Z"
+        }
+      ]
+    },
+    {
+      "date": "2031-09-10",
+      "masa": "अधिक भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-09-10T00:21:18.477Z",
+      "sunset": "2031-09-10T12:50:43.132Z",
+      "tithiIntervals": [
+        {
+          "tithi": "नवमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-10T00:21:18.477Z",
+          "endTime": "2031-09-10T07:40:25.064Z"
+        },
+        {
+          "tithi": "दशमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-10T07:41:25.064Z",
+          "endTime": "2031-09-11T00:21:49.698Z"
+        }
+      ]
+    },
+    {
+      "date": "2031-09-11",
+      "masa": "अधिक भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-09-11T00:21:49.698Z",
+      "sunset": "2031-09-11T12:49:29.881Z",
+      "tithiIntervals": [
+        {
+          "tithi": "दशमी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-11T00:21:49.698Z",
+          "endTime": "2031-09-11T10:10:53.758Z"
+        },
+        {
+          "tithi": "एकादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-11T10:11:53.758Z",
+          "endTime": "2031-09-12T00:22:20.922Z"
+        }
+      ]
+    },
+    {
+      "date": "2031-09-12",
+      "masa": "अधिक भाद्रपद",
+      "paksha": "कृष्ण पक्ष",
+      "sunrise": "2031-09-12T00:22:20.922Z",
+      "sunset": "2031-09-12T12:48:16.427Z",
+      "tithiIntervals": [
+        {
+          "tithi": "एकादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-12T00:22:20.922Z",
+          "endTime": "2031-09-12T12:36:09.015Z"
+        },
+        {
+          "tithi": "द्वादशी",
+          "paksha": "कृष्ण पक्ष",
+          "startTime": "2031-09-12T12:37:09.015Z",
+          "endTime": "2031-09-13T00:22:52.159Z"
+        }
+      ]
+    }
+  ]
+}
