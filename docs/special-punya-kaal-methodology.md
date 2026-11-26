@@ -318,3 +318,14 @@ The source endpoints expose a contact-definition mismatch: 55 of 61 printed endp
 The fixed 30-arcminute profile improves the 30 complete reference pairs to 24 with both endpoints within one minute and 26 within three minutes; median absolute start/end deltas are 0.374/0.281 minutes. All 31 rows remain accounted for. Source rows 1, 3, 9, 25 and 26 require reconciliation, including the partial release-only row. The residual pattern is not a common timezone offset: April has a whole-window shift, while June/January/February have one-sided discrepancies.
 
 Use `node scripts/audit-mahapat-references.mjs` for the dual-definition report, with source-implied angular boundaries, midpoint/duration deltas and raw records. Primary general scanner default remains `apparent-disks`; request `--contact-model=taraprasad-30-arcmin` explicitly for the inferred Tara Prasad convention. No date-specific corrections or numerical coefficient fitting are used. Details: `research/paatadhikar/taraprasad-reference-audit.md`; unresolved work: #482.
+
+
+## 26 नवंबर 2026 — स्वीकृत गणना दिशा (प्रकाशन अनुमोदन अलग)
+
+User selected the classical physical contact definition, using modern apparent geocentric ephemeris. Surya Siddhanta XI.1–2 defines ayana/longitude-related classes; XI.14–15 uses half the sum of disk diameters in its own classical duration algorithm. Vatesvara Siddhanta, Spashtadhikara, Pata 22–23 and the commentary explicitly explain declination-limb equality at contacts. The modern algorithm implements this geometry, not a literal historical tabular calculation.
+- Signed relations in degrees: Vyatipata = Moon declination minus Sun declination; Vaidhriti = Moon plus Sun. Validate ayana/gola and longitude seed around true middle; unresolved class cases remain withheld.
+- Primary boundary = asin(Rsun/dsun) + asin(Rmoon/dmoon), evaluated at each instant, with apparent geocentric distances and consistent angular units.
+- Find F=0 middle(s), and the two signed limb roots F=±B bounding the continuous overlap. Preserve full intervals, multiple middles and date rollovers. No empirical clock shifts or fixed 30/31 arcminute publication rule.
+- Implementation: research/paatadhikar/contact-boundary.mjs exports PRIMARY_CONTACT_MODEL and pataContactState; annual scripts/compare-mahapat-ephemeris.mjs calls this shared function. Fixed models are research-only comparators.
+- References: https://karmasakha.com/texts/surya-siddhanta (XI.1–2,14–15); https://sa.wikisource.org/wiki/वटेश्वरसिद्धान्तः_(रामस्वरूप_शर्मणा_सम्पादितः)/स्पष्टाधिकारः (Pata 22–23, commentary).
+- This records the chosen method, not approval of all annual records. CI, review of unmatched roots and public release remain pending. No public approval gate bypass.
