@@ -107,3 +107,13 @@ test("monthly geocentric Mahapata renders before lazy local work and common guid
   assert.match(component,/content\.appendChild\(guide\)/);
   assert.match(blogger,/import\("https:\/\/ourhindudharm\.github\.io\/Panchang\/monthly-special-punya-kaal\.mjs"\)/);
 });
+
+
+test("daily special calendar links are canonical Blogger URLs and no empty month-only card is rendered",()=>{
+  assert.match(daily,/return "https:\/\/ourhindudharm\.blogspot\.com\/p\/masik-vrat-parv\.html\?year="/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(year,month\)/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(linkDate\.slice\(0,4\),linkDate\.slice\(5,7\)\)/);
+  assert.match(daily,/const visible=todays\.filter/);
+  assert.match(daily,/if\(!visible\.length\)return/);
+  assert.match(daily,/link\.hidden=Boolean\(upcoming&&upcoming\.href===link\.href\)/);
+});
