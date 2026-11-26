@@ -47,7 +47,7 @@ try {
         pathname = pathname.slice("/Panchang".length);
       } else if (url.href.startsWith(bloggerCdn + "/")) {
         pathname = url.href.slice(bloggerCdn.length);
-      } else if (url.origin !== origin) return route.abort();
+      } else if (url.origin !== origin && url.origin !== "https://ourhindudharm.blogspot.com") return route.abort();
       const bloggerDaily = pathname === "/p/panchang-today.html";
       if (bloggerDaily) pathname = "/index.html";
       if (pathname === "/p/masik-vrat-parv.html") pathname = "/docs/monthly-vrat-parv-blogger-snippet.html";
@@ -77,7 +77,11 @@ try {
       assert.match(await card.innerText(),/वैधृति महापात/);
       assert.match(await card.innerText(),/आगामी महापात पुण्यकाल/);
       const href=await card.locator("a").getAttribute("href");
-      assert.match(href,/year=2026&month=11/);
+      assert.equal(href,"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=11#special-punya-kaal");
+      await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
+      await page.waitForTimeout(1000);
+      assert.equal(await page.locator(".special-punya-kaal-card").count(),0);
+      assert.equal(await page.locator(".upcoming-mahapata-card a:visible").count(),1);
       await page.goto(new URL(href,origin).href);
       await page.locator("#special-punya-kaal").waitFor({state:"visible"});
       const details=await page.locator("#specialPunyaKaalContent").innerText();
@@ -117,14 +121,20 @@ try {
     if (staged) assert.match(monthly, /स्पर्श [^\n]+मोक्ष /);
     await page.goto(origin + "/index.html?date=2026-03-19");
     await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
-    const daily = await page.locator(".special-punya-kaal-card").innerText();
-    assert.equal(daily.includes("वैधृति महापात"), staged);
-    if (staged) assert.match(daily, /स्पर्श [^\n]+मोक्ष /);
+    if(staged){
+      const daily = await page.locator(".special-punya-kaal-card").innerText();
+      assert.match(daily,/वैधृति महापात/);
+      assert.match(daily,/स्पर्श [^\n]+मोक्ष /);
+      assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal");
+    }else{
+      await page.waitForTimeout(1000);
+      assert.equal(await page.locator(".special-punya-kaal-card").count(),0);
+    }
     await page.goto(origin + "/p/panchang-today.html?date=2026-03-19");
     await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
-    const href = await page.locator(".special-punya-kaal-card a").getAttribute("href");
-    assert.equal(href, "/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal");
-    await page.goto(new URL(href, origin).href);
+    const canonical="https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal";
+    if(staged)assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),canonical);
+    await page.goto(canonical);
     await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
     await page.locator("#specialPunyaKaalContent").getByText(/वारुणी/).first().waitFor({state:"visible"});
     const bloggerMonth = await page.locator("#specialPunyaKaalContent").innerText();
@@ -137,7 +147,7 @@ try {
       const upcoming=page.locator(".upcoming-mahapata-card");
       await upcoming.waitFor({state:"visible"});
       assert.match(await upcoming.innerText(),/आगामी महापात पुण्यकाल/);
-      assert.match(await upcoming.locator("a").getAttribute("href"),/year=2026&month=03/);
+      assert.equal(await upcoming.locator("a").getAttribute("href"),canonical);
       await page.clock.setFixedTime(new Date("2026-03-19T00:00:00Z"));
       await page.goto(origin + "/index.html?date=2026-03-19");
       await upcoming.waitFor({state:"visible"});
@@ -146,7 +156,7 @@ try {
       await page.goto(origin + "/index.html?date=2026-03-19");
       await upcoming.waitFor({state:"visible"});
       assert.match(await upcoming.innerText(),/आगामी महापात पुण्यकाल/);
-      assert.match(await upcoming.locator("a").getAttribute("href"),/year=2026&month=04/);
+      assert.equal(await upcoming.locator("a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=04#special-punya-kaal");
     }else{
       await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
       assert.equal(await page.locator(".upcoming-mahapata-card").isVisible(),false);
