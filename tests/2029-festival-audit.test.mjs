@@ -139,7 +139,7 @@ test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day P
     sunrise:new Date(item.sunrise),
     sunset:new Date(item.sunset),
     tithis:(item.tithiIntervals||[]).map(interval=>({...interval,name:interval.tithi,start:new Date(interval.start),end:new Date(interval.end)})),
-    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,name:interval.karana,start:new Date(interval.start),end:new Date(interval.end)}))
+    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,name:interval.name,start:new Date(interval.start),end:new Date(interval.end)}))
   });
   const first=day("2029-08-23"),second=day("2029-08-24");
   assert.ok(first&&second);
@@ -150,7 +150,7 @@ test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day P
   assert.equal(muhurta.status,"calculated");
   assert.equal(muhurta.windows.length,1);
   const window=muhurta.windows[0];
-  const bhadra=(first.karanaIntervals||[]).find(item=>/विष्टि|vishti/i.test(item.karana||""));
+  const bhadra=(first.karanaIntervals||[]).find(item=>/विष्टि|vishti/i.test(item.name||item.karana||""));
   assert.ok(bhadra);
   const bhadraEnd=new Date(bhadra.end);
   assert.ok(window.start>=bhadraEnd,"Rakhi window must begin after Bhadra ends");
