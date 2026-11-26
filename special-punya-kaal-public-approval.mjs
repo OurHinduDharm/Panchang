@@ -52,19 +52,41 @@ export function publicSpecialPunyaKaalMonth(calculation, year, month, records = 
   const monthEnd = monthStart + daysInMonth * 86400000;
   const events = calculation?.calculationStatus === "complete" && Array.isArray(calculation.candidates)
     ? calculation.candidates.filter(isApprovedSpecialPunyaKaalCandidate) : [];
+  events.push(...approvedMahapataEvents(records).filter(item =>
+    Date.parse(item.endTime) > monthStart && Date.parse(item.startTime) < monthEnd));
+  return events.sort((a, b) => Date.parse(a.startTime) - Date.parse(b.startTime));
+}
+
+/** One canonical validation path for both monthly and upcoming cards. */
+function approvedMahapataEvents(records) {
+  const events = [];
+  const seen = new Set();
   for (const record of records) {
     const label = mahapataLabels.get(record?.type);
     if (!label || record.status !== "approved" || record.ruleProfile !== "drik-geocentric-apparent-disks") continue;
-    // Generated public times are canonical UTC instants. Reject local strings,
-    // normalized invalid dates, incomplete windows, and research-only records.
     const start = Date.parse(record.start), end = Date.parse(record.end);
     if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start ||
-        new Date(start).toISOString() !== record.start || new Date(end).toISOString() !== record.end ||
-        end <= monthStart || start >= monthEnd) continue;
+        new Date(start).toISOString() !== record.start || new Date(end).toISOString() !== record.end) continue;
     const middle = Date.parse(record.middle);
-    const middleTime = Number.isFinite(middle) && middle >= start && middle <= end && new Date(middle).toISOString() === record.middle ? record.middle : null;
-    events.push({ type: record.type, labels: [label], startTime: record.start, endTime: record.end, middleTime,
-      date: new Date(start + 330 * 60000).toISOString().slice(0, 10), isMahapata: true });
+    const middleTime = Number.isFinite(middle) && middle >= start && middle <= end &&
+      new Date(middle).toISOString() === record.middle ? record.middle : null;
+    const key = [record.type, record.start, record.end].join("|");
+    if (seen.has(key)) continue;
+    seen.add(key);
+    events.push({type: record.type, labels: [label], startTime: record.start, endTime: record.end,
+      middleTime, date: new Date(start + 330 * 60000).toISOString().slice(0, 10), isMahapata: true});
   }
   return events.sort((a, b) => Date.parse(a.startTime) - Date.parse(b.startTime));
+}
+
+/** Active interval first; otherwise the next approved interval, across month/year boundaries. */
+export function nextApprovedMahapata(now = Date.now(), records = reviewedMahapata) {
+  if (!Number.isFinite(now)) return null;
+  const event = approvedMahapataEvents(records).find(item => Date.parse(item.endTime) > now);
+  if (!event) return null;
+  const start = Date.parse(event.startTime), end = Date.parse(event.endTime);
+  const today = new Date(now + 330 * 60000).toISOString().slice(0, 10);
+  const active = start <= now;
+  return {...event, phase: active ? "active" : event.date === today ? "today" : "upcoming",
+    nextTransition: active ? end : start};
 }
