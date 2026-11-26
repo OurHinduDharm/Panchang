@@ -6,7 +6,7 @@ import { chromium } from "playwright";
 
 // Route the regular page entry points to the checkout and pinned npm engines.
 // This isolates rendering from CDN availability. The injected approval exists
-// in one browser context only. The second context uses the real empty register.
+// in one browser context only. The second context explicitly injects an empty register. The third uses the actual release data.
 const root = resolve(".");
 const origin = "https://calendar.test";
 const panchang = await build({
@@ -27,7 +27,7 @@ const nextWindow = {...reviewWindow,type:"vyatipata-mahapat",
 const mime = { ".mjs": "text/javascript", ".js": "text/javascript", ".html": "text/html", ".json": "application/json", ".css": "text/css" };
 const browser = await chromium.launch();
 try {
-  for (const staged of [true, false]) {
+  for (const staged of [true, false, "release"]) {
     const context = await browser.newContext({ viewport: {width: 390, height: 844}, timezoneId: "Asia/Kolkata" });
     await context.route("**/*", async route => {
       const url = new URL(route.request().url());
@@ -52,11 +52,11 @@ try {
       try { body = await readFile(file); }
       catch { return route.fulfill({ status: 404 }); }
       if (bloggerDaily) body = body.toString().replace('src="app.js"', 'src="' + bloggerCdn + '/app.js"');
-      if (staged && pathname === approvalPath) {
+      if (staged !== "release" && pathname === approvalPath) {
         const source = body.toString();
-        const declaration = "const reviewedMahapata = Object.freeze([]);";
+        const declaration = "const reviewedMahapata = mahapataPublicRecords;";
         assert.ok(source.includes(declaration));
-        body = source.replace(declaration, "const reviewedMahapata = [" + JSON.stringify(reviewWindow) + "," + JSON.stringify(nextWindow) + "];");
+        body = source.replace(declaration, staged ? "const reviewedMahapata = [" + JSON.stringify(reviewWindow) + "," + JSON.stringify(nextWindow) + "];" : "const reviewedMahapata = Object.freeze([]);");
       }
       await route.fulfill({ headers, contentType: mime[extname(file)] ?? "application/octet-stream", body });
     });
@@ -64,6 +64,23 @@ try {
     page.on("pageerror", error => console.error("Calendar page error:", error));
     page.on("console", message => { if (["warning", "error"].includes(message.type())) console.error("Calendar console:", message.text()); });
     page.on("response", response => { if (response.status() >= 400) console.error("Calendar HTTP:", response.status(), response.url()); });
+    if(staged==="release"){
+      await page.clock.setFixedTime(new Date("2026-11-27T00:00:00+05:30"));
+      await page.goto(origin+"/index.html?date=2026-11-27");
+      const card=page.locator(".upcoming-mahapata-card");
+      await card.waitFor({state:"visible"});
+      assert.match(await card.innerText(),/वैधृति महापात/);
+      assert.match(await card.innerText(),/आगामी महापात पुण्यकाल/);
+      const href=await card.locator("a").getAttribute("href");
+      assert.match(href,/year=2026&month=11/);
+      await page.goto(new URL(href,origin).href);
+      await page.locator("#special-punya-kaal").waitFor({state:"visible"});
+      const details=await page.locator("#specialPunyaKaalContent").innerText();
+      assert.match(details,/वैधृति महापात/);
+      assert.match(details,/मध्यकाल/);
+      await context.close();
+      continue;
+    }
     await page.goto(origin + "/monthly-vrat-parv.html?year=2026&month=03#special-punya-kaal");
     await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
     const monthly = await page.locator("#specialPunyaKaalContent").innerText();
