@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getFestivalMuhurta, getFestivalMuhurtaContext } from "../festival-muhurta.js";
 
 const folder = join(process.cwd(), "data", "festivals");
 const months = Array.from({ length: 12 }, (_, i) =>
@@ -58,7 +59,7 @@ test("2029 independent observances use separate cards without duplicate titles",
   assert.ok(titles("2029-05-16").some(x => /^त्रेतायुगादि तिथि$/.test(x)));
   assert.ok(titles("2029-05-16").some(x => /^परशुराम जयंती$/.test(x)));
   assert.ok(titles("2029-06-25").some(x => /^वट पूर्णिमा व्रत$/.test(x)));
-  assert.ok(titles("2029-06-25").some(x => /^ज्येष्ठ पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-06-26").some(x => /^ज्येष्ठ पूर्णिमा$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /^श्रीजगन्नाथ रथयात्रा$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /^चन्द्र दर्शन$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /आषाढ़ गुप्त नवरात्र द्वितीय/.test(x)));
@@ -90,6 +91,92 @@ test("2029 Ekadashi cards follow the Smarta sunrise rule and omit Vaishnava dupl
   assert.equal(utpanna.hinduTithi, "मार्गशीर्ष कृष्ण एकादशी");
   assert.equal(has("2029-12-02", /उत्पन्ना एकादशी/), undefined);
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
+});
+
+test("2029 annual review snapshot agrees with the public Smarta Ram Navami card", () => {
+  const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
+  const publicApril = months[3].events.filter(event => /राम नवमी/.test(event.title || ""));
+  const reviewApril = annual.catalog.filter(event => /राम नवमी/.test(event.title || ""));
+  assert.equal(publicApril.length, 1);
+  assert.equal(reviewApril.length, 1);
+  assert.equal(publicApril[0].date, "2029-04-22");
+  assert.equal(reviewApril[0].date, publicApril[0].date);
+  assert.equal(reviewApril[0].dateLabel, "22 अप्रैल");
+  assert.equal(publicApril[0].hinduTithi, "चैत्र शुक्ल नवमी (मध्याह्न-व्याप्ति)");
+
+  const publicDecember = months[11].events.find(event => /उत्पन्ना एकादशी/.test(event.title || ""));
+  const reviewDecember = annual.catalog.find(event => event.title === publicDecember?.title);
+  assert.ok(publicDecember);
+  assert.ok(reviewDecember);
+  assert.equal(publicDecember.date, "2029-12-01");
+  assert.equal(reviewDecember.date, publicDecember.date);
+  assert.equal(reviewDecember.dateLabel, "1 दिसंबर");
+});
+
+test("2029 annual review snapshot agrees with approved public dates for key local observances", () => {
+  const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
+  const monthly = (month,title) => months[month-1].events.find(event=>event.title===title);
+  const reviewed = (month,title) => annual.catalog.find(event=>event.title===title&&event.date.startsWith("2029-"+String(month).padStart(2,"0")+"-"));
+  const vatPurnima=months[5].events.find(event=>event.title==="वट पूर्णिमा व्रत");
+  assert.ok(vatPurnima);
+  assert.equal(vatPurnima.date,"2029-06-25","Vat Purnima keeps its special previous-day decision");
+  const juneReview=JSON.parse(readFileSync(join(process.cwd(),"data","ohd-annual-panchang-review-2029.json"),"utf8"));
+  const junePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-25");
+  const nextJunePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-26");
+  assert.equal(junePurnima.sunriseTithi?.tithi,"चतुर्दशी");
+  assert.equal(nextJunePurnima.sunriseTithi?.tithi,"पूर्णिमा");
+  for(const [month,title,date,label] of [
+    [6,"ज्येष्ठ पूर्णिमा","2029-06-26","26 जून"],
+    [10,"मासिक स्कन्द षष्ठी","2029-10-13","13 अक्टूबर"],
+    [10,"पापांकुशा एकादशी","2029-10-17","17 अक्टूबर"]
+  ]){
+    const publicEvent=monthly(month,title);
+    const reviewEvent=reviewed(month,title);
+    assert.ok(publicEvent,"missing public event: "+title);
+    assert.ok(reviewEvent,"missing annual review event: "+title);
+    assert.equal(publicEvent.date,date);
+    assert.equal(reviewEvent.date,publicEvent.date);
+    assert.equal(reviewEvent.dateLabel,label);
+  }
+});
+
+test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day Purnima is under three muhurtas", () => {
+  const annual = JSON.parse(readFileSync(join(process.cwd(), "data", "ohd-annual-panchang-review-2029.json"), "utf8"));
+  const day = date => annual.dailyPanchang.find(item => item.date === date);
+  const toPanchang = item => ({
+    sunrise:new Date(item.sunrise),
+    sunset:new Date(item.sunset),
+    tithis:(item.tithiIntervals||[]).map(interval=>({...interval,name:interval.tithi,start:new Date(interval.start),end:new Date(interval.end)})),
+    karanas:(item.karanaIntervals||[]).map(interval=>({...interval,name:interval.name,start:new Date(interval.start),end:new Date(interval.end)}))
+  });
+  const first=day("2029-08-23"),second=day("2029-08-24");
+  assert.ok(first&&second);
+  const firstPanchang=toPanchang(first),secondPanchang=toPanchang(second);
+  const context=getFestivalMuhurtaContext(firstPanchang,secondPanchang,new Date("2029-08-23T00:00:00Z"),
+    {latitude:29.58,longitude:80.22,elevation:1650},()=>null,"Asia/Kolkata");
+  const muhurta=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},context);
+  assert.equal(muhurta.status,"calculated");
+  assert.equal(muhurta.windows.length,1);
+  const window=muhurta.windows[0];
+  const bhadra=(first.karanaIntervals||[]).find(item=>/विष्टि|vishti/i.test(item.name||item.karana||""));
+  assert.ok(bhadra);
+  const bhadraEnd=new Date(bhadra.end);
+  assert.ok(window.start>=bhadraEnd,"Rakhi window must begin after Bhadra ends");
+  const sunset=new Date(first.sunset),nextSunrise=new Date(second.sunrise);
+  const pradoshEnd=new Date(sunset.getTime()+(nextSunrise.getTime()-sunset.getTime())/5);
+  assert.ok(window.start>sunset,"when Aparahna is blocked, selected window is in Pradosh");
+  assert.ok(window.end<=pradoshEnd,"selected window must remain inside Pradosh");
+  const purnima=[...(first.tithiIntervals||[]),...(second.tithiIntervals||[])].find(item=>
+    /पूर्णिमा|purnima/i.test(item.tithi||"") &&
+    new Date(item.startTime)<=nextSunrise &&
+    new Date(item.endTime)>nextSunrise
+  );
+  assert.ok(purnima,"a Purnima interval must actually cover the next sunrise");
+  const purnimaEnd=new Date(purnima.endTime);
+  const threeMuhurtas=3*48*60*1000;
+  assert.ok(purnimaEnd.getTime()-nextSunrise.getTime()<threeMuhurtas,
+    "next-day Purnima lasts less than three muhurtas after sunrise, so previous-day Pradosh rule applies");
+  assert.equal(has("2029-08-23",/रक्षाबंधन/).muhurtaRule,"raksha-bandhan-thread");
 });
 
 test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
@@ -172,9 +259,11 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-10-30", /^राधाकुण्ड स्नान$/));
   assert.ok(has("2029-11-16", /देवोत्थानी एकादशी \(स्मार्त\)/));
   assert.ok(has("2029-12-02", /कृष्ण योगेश्वर द्वादशी/));
-  assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती एवं सूरदास जयंती/));
+  assert.ok(has("2029-05-18", /^आदि शंकराचार्य जयंती$/));
+  assert.ok(has("2029-05-18", /^सूरदास जयंती$/));
   assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
-  assert.ok(has("2029-10-22", /वाल्मीकि जयंती एवं मीराबाई जयंती/));
+  assert.ok(has("2029-10-22", /^वाल्मीकि जयंती$/));
+  assert.ok(has("2029-10-22", /^मीराबाई जयंती$/));
   assert.ok(has("2029-12-13", /बाबा नीब करौरी जयंती/));
   assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
@@ -273,12 +362,12 @@ test("2029 Pithoragarh Sharad Navratri combines Katyayani and Kalaratri on the S
 });
 
 
-test("2029 monthly catalog inventory remains 312 event cards with 30 November entries", () => {
+test("2029 monthly catalog inventory remains 324 event cards with 31 November entries", () => {
   let total = 0;
   for (let month = 1; month <= 12; month++) {
     const monthEvents = JSON.parse(readFileSync(join(folder, "2029-" + String(month).padStart(2, "0") + ".json"), "utf8")).events;
     total += monthEvents.length;
-    if (month === 11) assert.equal(monthEvents.length, 30);
+    if (month === 11) assert.equal(monthEvents.length, 31);
   }
-  assert.equal(total, 312);
+  assert.equal(total, 324);
 });

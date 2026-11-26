@@ -16,9 +16,9 @@
  */
 import { createRequire } from "node:module";
 import path from "node:path";
-import { scanBracketedRoots } from "../mahapata-root-solver.mjs";
+import { scanBracketedRoots, scanSmoothRoots } from "../mahapata-root-solver.mjs";
 import { suryaSiddhantaWindow } from "../research/paatadhikar/surya-siddhanta-xi.mjs";
-import { contactModel, contactBoundaryDegrees } from "../research/paatadhikar/contact-boundary.mjs";
+import { contactModel, pataContactState } from "../research/paatadhikar/contact-boundary.mjs";
 import { classifyMahapataGeometry } from "../research/paatadhikar/mahapata-math.mjs";
 
 const require = createRequire(import.meta.url);
@@ -89,27 +89,18 @@ function positions(timeMs) {
   const moonDistance = vectorLength(moon);
   const sunDeclination = vectorDeclination(sunEqd);
   const moonDeclination = vectorDeclination(moonEqd);
-  const sunRadius = Math.asin(SUN_RADIUS_AU / sunDistance) * 180 / Math.PI;
-  const moonRadius = Math.asin(MOON_RADIUS_AU / moonDistance) * 180 / Math.PI;
-  const semidiameterSum = sunRadius + moonRadius;
-  const contactBoundary = contactBoundaryDegrees(selectedContactModel.id, semidiameterSum);
+  const contact = pataContactState({ sunDeclination, moonDeclination,
+    sunDistanceAU: sunDistance, moonDistanceAU: moonDistance, model: selectedContactModel.id });
   const longitudeSum = (vectorLongitude(sunEcliptic) + vectorLongitude(moonEcliptic)) % 360;
-  const declinationDifference = moonDeclination - sunDeclination;
-  const declinationSum = moonDeclination + sunDeclination;
   const value = {
     sunLongitude: vectorLongitude(sunEcliptic),
     moonLongitude: vectorLongitude(moonEcliptic),
     sunDeclination,
     moonDeclination,
-    declinationDifference,
-    declinationSum,
+    declinationDifference: contact.vyatipataRelation,
+    declinationSum: contact.vaidhritiRelation,
     longitudeSum,
-    semidiameterSum,
-    contactBoundary,
-    vyatipataRelation: declinationDifference,
-    vaidhritiRelation: declinationSum,
-    vyatipataClearance: Math.abs(declinationDifference) - contactBoundary,
-    vaidhritiClearance: Math.abs(declinationSum) - contactBoundary
+    ...contact
   };
   cache.set(timeMs, value);
   return value;
@@ -124,8 +115,20 @@ function rootsFor(fn, start, end, step) {
   });
 }
 
-const scanStart = Date.UTC(Math.min(...YEARS) - 1, 11, 30);
-const scanEnd = Date.UTC(Math.max(...YEARS) + 1, 0, 2);
+const smoothOptions = { timeTolerance: 250, valueTolerance: 1e-10 };
+function smoothRoots(fn, start, end, step) {
+  return scanSmoothRoots(fn, start, end, step, smoothOptions);
+}
+
+function januaryFirst(year) {
+  const date = new Date(0);
+  date.setUTCFullYear(year, 0, 1);
+  return date.getTime();
+}
+// An IST New Year contact, its true middle and its longitude seed may all
+// fall on different dates. Pad both the middle and contact search horizons.
+const scanStart = januaryFirst(Math.min(...YEARS)) - 7 * DAY_MS;
+const scanEnd = januaryFirst(Math.max(...YEARS) + 1) + 7 * DAY_MS;
 const meanPatas = [];
 for (const target of [180, 0]) {
   const roots = rootsFor(
@@ -154,13 +157,13 @@ const reviewItems = [];
 for (const mean of meanPatas) {
   const searchStart = mean.time - 3 * DAY_MS;
   const searchEnd = mean.time + 3 * DAY_MS;
-  const equalDeclinationRoots = rootsFor(
+  const equality = smoothRoots(
     time => positions(time)[mean.relationKey],
     searchStart,
     searchEnd,
     HOUR_MS
   );
-  const classifiedRoots = equalDeclinationRoots.map(time => {
+  const classifiedRoots = equality.crossings.map(time => {
     const position = positions(time);
     const geometry = classifyMahapataGeometry({
       sunLongitudeDeg: position.sunLongitude,
@@ -173,21 +176,48 @@ for (const mean of meanPatas) {
   const trueRoots = classifiedRoots
     .filter(root => root.eventClass === mean.eventClassKey)
     .map(root => root.time);
-  if (!trueRoots.length) {
-    reviewItems.push({
-      meanPataYear: mean.year,
-      type: mean.type,
-      meanPata: new Date(mean.time).toISOString(),
-      meanPataIST: toIST(mean.time),
+  const grazing = equality.grazing.filter(time => {
+    const p = positions(time);
+    return classifyMahapataGeometry({
+      sunLongitudeDeg: p.sunLongitude, moonLongitudeDeg: p.moonLongitude,
+      sunDeclinationDeg: p.sunDeclination, moonDeclinationDeg: p.moonDeclination
+    }).eventClass === mean.eventClassKey;
+  });
+  if (!trueRoots.length || grazing.length) {
+    const reviewYear = new Date(mean.time + IST_OFFSET_MS).getUTCFullYear();
+    if (YEARS.includes(reviewYear)) reviewItems.push({
+      meanPataYear: mean.year, type: mean.type,
+      meanPata: new Date(mean.time).toISOString(), meanPataIST: toIST(mean.time),
       equalDeclinationCrossings: classifiedRoots.map(root => ({
         timeIST: toIST(root.time), eventClass: root.eventClass
       })),
-      status: "no-class-compatible-true-crossing-within-three-day-search"
+      grazingCandidatesIST: grazing.map(toIST),
+      status: grazing.length ? "grazing-equality-needs-review" :
+        "no-class-compatible-true-crossing-within-three-day-search"
     });
     continue;
   }
 
-  const chosen = trueRoots.slice().sort((a, b) => Math.abs(a - mean.time) - Math.abs(b - mean.time))[0];
+  // Multiple class-compatible middles can belong to one continuous overlap
+  // or to distinct intervals. Solve both contacts for every middle first.
+  const windows = [];
+  for (const middle of trueRoots.sort((a, b) => Math.abs(a - mean.time) - Math.abs(b - mean.time))) {
+    const event = buildContactEvent(mean, middle, classifiedRoots);
+    if (!YEARS.includes(event.year)) continue;
+    if (!event.startTime || !event.endTime) {
+      reviewItems.push(event);
+      continue;
+    }
+    const same = windows.find(prior =>
+      Math.abs(Date.parse(prior.startTime) - Date.parse(event.startTime)) < 1000 &&
+      Math.abs(Date.parse(prior.endTime) - Date.parse(event.endTime)) < 1000);
+    if (same) same.otherTrueCrossings.push(event.truePataIST);
+    else windows.push(event);
+  }
+  events.push(...windows);
+}
+
+function buildContactEvent(mean, chosen, classifiedRoots) {
   const sample = positions(chosen);
   const sunMotionDegPerDay = dailyLongitudeMotion(chosen, "sunLongitude");
   const moonMotionDegPerDay = dailyLongitudeMotion(chosen, "moonLongitude");
@@ -200,12 +230,13 @@ for (const mean of meanPatas) {
     sunMotionDegPerDay,
     moonMotionDegPerDay
   });
-  const contactRoots = rootsFor(
-    time => positions(time)[mean.clearanceKey],
-    chosen - 3 * DAY_MS,
-    chosen + 3 * DAY_MS,
-    15 * MINUTE_MS
-  );
+  // Use two smooth signed limbs. An absolute-value cusp at equality can
+  // hide two contacts in one sample. A tangent inside an overlap is not an exit.
+  const contactRoots = [-1, 1].flatMap(side => smoothRoots(time => {
+    const p = positions(time);
+    return p[mean.relationKey] - side * p.contactBoundary;
+  }, chosen - 3 * DAY_MS, chosen + 3 * DAY_MS, 15 * MINUTE_MS).crossings)
+    .sort((a, b) => a - b);
   const before = contactRoots.filter(time => time < chosen).at(-1);
   const after = contactRoots.find(time => time > chosen);
   const overlapExists = sample[mean.clearanceKey] < 0 && before !== undefined && after !== undefined;
@@ -213,7 +244,7 @@ for (const mean of meanPatas) {
   const comparatorYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
   const displayYear = comparatorYear;
   const suryaSiddhantaYear = new Date(suryaSiddhantaInterval.startUtcMs + IST_OFFSET_MS).getUTCFullYear();
-  const eventRecord = {
+  return {
     year: displayYear,
     suryaSiddhantaComparisonYear: suryaSiddhantaYear,
     meanPataYear: mean.year,
@@ -244,20 +275,16 @@ for (const mean of meanPatas) {
       method: suryaSiddhantaInterval.method,
       status: "research-only-not-approved"
     },
-    otherTrueCrossings: trueRoots.filter(time => time !== chosen).map(time => toIST(time)),
+    otherTrueCrossings: [],
     rejectedEqualDeclinationCrossings: classifiedRoots
       .filter(root => root.eventClass !== mean.eventClassKey)
       .map(root => ({ timeIST: toIST(root.time), eventClass: root.eventClass })),
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
     model: selectedContactModel.id === "apparent-disks"
       ? "drik-style-geocentric-apparent-declination-band-overlap"
-      : "drik-style-geocentric-fixed-30-arcmin-declination-boundary",
+      : `drik-style-geocentric-fixed-${selectedContactModel.boundaryDegrees * 60}-arcmin-declination-boundary`,
     note: "Primary event window uses the explicitly selected contact definition; Surya Siddhanta XI.14-15 is stored only as a separate comparison."
   };
-  if (YEARS.includes(displayYear)) {
-    if (overlapExists) events.push(eventRecord);
-    else reviewItems.push(eventRecord);
-  }
 }
 
 events.sort((a, b) => a.startTime.localeCompare(b.startTime));
@@ -267,11 +294,18 @@ events.sort((a, b) => a.startTime.localeCompare(b.startTime));
 let discoveryAudit;
 if (process.argv.includes("--audit")) {
   const allRoots = [];
+  const grazingCandidates = [];
   for (const [relationKey, eventClass, type] of [
     ["vyatipataRelation", "Vyatipata", "व्यतीपात महापात"],
     ["vaidhritiRelation", "Vaidhriti", "वैधृति महापात"]
   ]) {
-    for (const time of rootsFor(t => positions(t)[relationKey], scanStart, scanEnd, auditStepMinutes * MINUTE_MS)) {
+    const scan = smoothRoots(t => positions(t)[relationKey], scanStart, scanEnd, auditStepMinutes * MINUTE_MS);
+    for (const time of scan.grazing) {
+      if (YEARS.includes(new Date(time + IST_OFFSET_MS).getUTCFullYear())) {
+        grazingCandidates.push({ relation: relationKey, timeIST: toIST(time) });
+      }
+    }
+    for (const time of scan.crossings) {
       const p = positions(time);
       const geometry = classifyMahapataGeometry({
         sunLongitudeDeg: p.sunLongitude, moonLongitudeDeg: p.moonLongitude,
@@ -280,8 +314,8 @@ if (process.argv.includes("--audit")) {
       if (geometry.eventClass !== eventClass ||
           !YEARS.includes(new Date(time + IST_OFFSET_MS).getUTCFullYear())) continue;
       const represented = events.some(event => event.type === type &&
-        (Math.abs(Date.parse(event.truePata) - time) < 1000 ||
-         event.otherTrueCrossings.some(value => Math.abs(Date.parse(value) - time) < 1000)));
+        Date.parse(event.startTime) < time && time < Date.parse(event.endTime) &&
+        [event.truePata, ...event.otherTrueCrossings].some(t => Math.abs(Date.parse(t) - time) < 1000));
       const nearestSeed = meanPatas.filter(mean => mean.type === type)
         .sort((a, b) => Math.abs(a.time - time) - Math.abs(b.time - time))[0];
       allRoots.push({ type, truePataIST: toIST(time), represented,
@@ -294,9 +328,10 @@ if (process.argv.includes("--audit")) {
     Math.abs(Date.parse(previous.startTime) - Date.parse(event.startTime)) < 1000 &&
     Math.abs(Date.parse(previous.endTime) - Date.parse(event.endTime)) < 1000));
   discoveryAudit = {
-    method: "independent-full-range-classified-equality-sign-change-scan",
+    method: "seed-independent-extremum-refined-signed-declination-scan",
     sampleStepHours: auditStepMinutes / 60,
-    limitations: "Unsampled tangencies or two crossings inside one sample step are not guaranteed; this is not external astronomical validation.",
+    limitations: "Resolved turning points split brackets. Multiple unresolved extrema inside a sampling cell remain possible. Near-zero stationary points require review.",
+    grazingCandidates,
     rootCount: allRoots.length,
     unrepresentedRoots: allRoots.filter(root => !root.represented),
     duplicateIntervals: duplicateIntervals.map(event => ({ type: event.type, startTimeIST: event.startTimeIST })),

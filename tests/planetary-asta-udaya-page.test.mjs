@@ -115,15 +115,13 @@ test("Pithoragarh Agastya Arghya records preserve supplied annual dates and loca
   assert.equal(agastya.location.timeZone, "Asia/Kolkata");
 });
 
-test("city calculator renders Agastya Arghya in a friendly card", () => {
-  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes("./data/agastya-arghya-pithoragarh.json"));
-  assert.ok(source.includes("अगस्त्य अर्घ्य — "));
-  assert.ok(source.includes("अर्घ्य का समय — "));
-  assert.ok(source.includes("अवधि — "));
-  assert.ok(source.includes("अगस्त्य तारा उदय — "));
-  assert.ok(source.includes("अगस्त्य तारा अस्त — "));
-  assert.ok(source.includes('isProjectPithoragarh(location)'));
+test("city calculator displays independently calculated Agastya Arghya", () => {
+  const page = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  const worker = readFileSync(new URL("../annual-tara-city-worker.mjs", import.meta.url), "utf8");
+  assert.ok(page.includes("अगस्त्य अर्घ्य — "));
+  assert.ok(page.includes("अर्घ्य देने का समय — "));
+  assert.ok(!page.includes("agastya-arghya-pithoragarh.json"));
+  assert.ok(worker.includes("calculateAgastyaArghyaWindows"));
 });
 
 test("all seven Agastya years require captured source provenance before public display", () => {
@@ -146,8 +144,8 @@ test("all seven Agastya years require captured source provenance before public d
   }
 
   const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
-  assert.ok(renderer.includes('item.source?.status === "source-page-identity-and-arghya-fields-captured"'));
-  assert.ok(renderer.includes('isProjectPithoragarh(location)'));
+  assert.ok(!renderer.includes("agastya-arghya-pithoragarh.json"));
+  assert.ok(renderer.includes("अगस्त्य अर्घ्य — "));
 });
 
 
@@ -296,4 +294,9 @@ test("city calculator uses city profile elevation without a sea-level fallback",
   const context = readFileSync(new URL("../research/tara-astronomy-context.mjs", import.meta.url), "utf8");
   assert.ok(context.includes("Selected city elevation is missing"));
   assert.doesNotMatch(context, /sea-level approximation/i);
+});
+
+test("annual public card excludes reference and diagnostic details", () => {
+  const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ|reasonText|regionalRecords/);
 });

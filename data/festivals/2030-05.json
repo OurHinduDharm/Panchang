@@ -62,9 +62,19 @@
     {
       "date": "2030-05-08",
       "dateLabel": "8 मई",
-      "title": "आदि शंकराचार्य जयंती एवं सूरदास जयंती / मासिक स्कन्द षष्ठी",
-      "description": "आदि शंकराचार्य जयंती पर अद्वैत वेदान्त के आचार्य के जीवन और दर्शन का स्मरण किया जाता है। सूरदास जयंती पर श्रीकृष्ण-भक्ति से ओतप्रोत उनके पदों का पाठ किया जाता है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
-      "category": "जयंती एवं व्रत",
+      "title": "आदि शंकराचार्य जयंती",
+      "description": "आदि गुरु शंकराचार्य की जयंती पर उनके अद्वैत वेदांत-दर्शन, ग्रंथों और सनातन धर्म के पुनरुत्थान में योगदान का स्मरण करें।",
+      "category": "आचार्य जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल पंचमी / षष्ठी"
+    },
+    {
+      "date": "2030-05-08",
+      "dateLabel": "8 मई",
+      "title": "सूरदास जयंती",
+      "description": "भक्त कवि सूरदास जी की जयंती पर उनके श्रीकृष्ण-भक्ति पदों, काव्य और भक्ति-परंपरा का स्मरण करें।",
+      "category": "संत जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पंचमी / षष्ठी",
@@ -285,6 +295,18 @@
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — 31 मई 2030 दैनिक पंचांग",
       "sourceUrl": "https://www.drikpanchang.com/kannada/panchangam/kannada-day-panchangam.html?date=31%2F05%2F2030"
+    },
+    {
+      "date": "2030-05-08",
+      "dateLabel": "8 मई",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "शुक्ल पक्ष की षष्ठी पर मासिक स्कन्द षष्ठी का व्रत भगवान स्कन्द (कार्तिकेय) की पूजा, मंत्र-जप और नैवेद्य अर्पण के साथ करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल पंचमी / षष्ठी",
+      "sourceName": "Drik Panchang — May 8, 2030 Panchang",
+      "sourceUrl": "https://www.drikpanchang.com/telugu/panchanga/telugu-day-panchanga.html?date=08%2F05%2F2030"
     }
   ]
 }

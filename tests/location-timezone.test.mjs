@@ -80,6 +80,10 @@ test("daily and supplementary Panchang use the selected location timezone", asyn
   assert.match(source, /getIsoDateInTimeZone/);
   assert.doesNotMatch(source, /timezoneOffset\s*:\s*330/);
   assert.doesNotMatch(source, /timeZone\s*:\s*"Asia\/Kolkata"/);
-  assert.doesNotMatch(eclipse, /localStorage\.(?:getItem|setItem)/);
+  // Eclipse Panchang intentionally persists the selected city label only;
+  // exact observer coordinates remain in page memory, never localStorage.
+  assert.match(eclipse, /SAVED_CITY_KEY/);
+  assert.match(eclipse, /state\.location = normalized/);
+  assert.doesNotMatch(eclipse, /localStorage\.setItem\([^,]*(?:lat|lon|elevation|coordinate)/i);
   assert.match(eclipse, /state\.location = normalized/);
 });

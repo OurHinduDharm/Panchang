@@ -191,7 +191,7 @@ The class-validated mean-pāta → true-pāta → apparent disk-contact model ge
 | 2030 | 24 | 5 |
 
 Cross-check status:
-- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March window needs source reconciliation. The former 25 December window was removed by class filtering.
+- 2026: the model matches the Drik windows within a few minutes for the shared dates. The 19 March release agrees with the Rajasthan Patrika bulletin to its printed minute. The Drik annual list omits that event. See [the independent audit](../research/paatadhikar/independent-contact-audit.md). The former 25 December window was removed by class filtering.
 - 2027 and 2028: the computed mean pātā, true pātā and overlap windows match the independent 2026–2028 table to the minute on sampled dates and throughout the table review.
 - The previously reported 19–21 December 2029 extended overlap belonged to the unfiltered model and is absent after ayana/gola classification. The current 2026–2030 output has no interval exceeding 24 hours.
 - Class validation rejects equal-declination roots that have the wrong ayana/gola relation. Across 2026–2030 there are 8 review items: 4 seeds have no equal-declination root within ±3 days, while 4 have roots but none has the required Vyatipata/Vaidhriti geometry. The 2030 review set has 5 items; only four of those have no root at all.
@@ -318,3 +318,14 @@ The source endpoints expose a contact-definition mismatch: 55 of 61 printed endp
 The fixed 30-arcminute profile improves the 30 complete reference pairs to 24 with both endpoints within one minute and 26 within three minutes; median absolute start/end deltas are 0.374/0.281 minutes. All 31 rows remain accounted for. Source rows 1, 3, 9, 25 and 26 require reconciliation, including the partial release-only row. The residual pattern is not a common timezone offset: April has a whole-window shift, while June/January/February have one-sided discrepancies.
 
 Use `node scripts/audit-mahapat-references.mjs` for the dual-definition report, with source-implied angular boundaries, midpoint/duration deltas and raw records. Primary general scanner default remains `apparent-disks`; request `--contact-model=taraprasad-30-arcmin` explicitly for the inferred Tara Prasad convention. No date-specific corrections or numerical coefficient fitting are used. Details: `research/paatadhikar/taraprasad-reference-audit.md`; unresolved work: #482.
+
+
+## 26 नवंबर 2026 — स्वीकृत गणना दिशा (प्रकाशन अनुमोदन अलग)
+
+User selected the classical physical contact definition, using modern apparent geocentric ephemeris. Surya Siddhanta XI.1–2 defines ayana/longitude-related classes; XI.14–15 uses half the sum of disk diameters in its own classical duration algorithm. Vatesvara Siddhanta, Spashtadhikara, Pata 22–23 and the commentary explicitly explain declination-limb equality at contacts. The modern algorithm implements this geometry, not a literal historical tabular calculation.
+- Signed relations in degrees: Vyatipata = Moon declination minus Sun declination; Vaidhriti = Moon plus Sun. Validate ayana/gola and longitude seed around true middle; unresolved class cases remain withheld.
+- Primary boundary = asin(Rsun/dsun) + asin(Rmoon/dmoon), evaluated at each instant, with apparent geocentric distances and consistent angular units.
+- Find F=0 middle(s), and the two signed limb roots F=±B bounding the continuous overlap. Preserve full intervals, multiple middles and date rollovers. No empirical clock shifts or fixed 30/31 arcminute publication rule.
+- Implementation: research/paatadhikar/contact-boundary.mjs exports PRIMARY_CONTACT_MODEL and pataContactState; annual scripts/compare-mahapat-ephemeris.mjs calls this shared function. Fixed models are research-only comparators.
+- References: https://karmasakha.com/texts/surya-siddhanta (XI.1–2,14–15); https://sa.wikisource.org/wiki/वटेश्वरसिद्धान्तः_(रामस्वरूप_शर्मणा_सम्पादितः)/स्पष्टाधिकारः (Pata 22–23, commentary).
+- This records the chosen method, not approval of all annual records. CI, review of unmatched roots and public release remain pending. No public approval gate bypass.

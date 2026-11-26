@@ -833,6 +833,14 @@ function getYatraShoolaDetails(
     directionHindi[direction] ||
     "—";
 
+  // Both lists must describe the same sunrise-based weekday.
+  const safeDirections = directionHindi[direction]
+    ? [...new Set((Array.isArray(effectivePanchang.dishaShoola?.safeDirections)
+        ? effectivePanchang.dishaShoola.safeDirections
+        : Object.keys(directionHindi))
+        .filter(d => directionHindi[d] && d !== direction))]
+    : [];
+
   const nakshatraName =
     getYatraNakshatra(
       p,
@@ -861,8 +869,8 @@ function getYatraShoolaDetails(
       : null;
 
   const nakshatraShoolaActive =
-    nakshatraShoolaDirection ===
-    direction;
+    !!nakshatraShoolaDirection &&
+    nakshatraShoolaDirection === direction;
 
   const kalaShoola =
     getKalaShoolaDetails(
@@ -876,6 +884,7 @@ function getYatraShoolaDetails(
     weekday,
     direction,
     directionHindiName,
+    safeDirections,
     nakshatraName,
     nakshatraShoola,
     nakshatraShoolaDirection,
@@ -1032,6 +1041,7 @@ function renderCollapsibleTimePeriods(
           background:${currentBg};
           border:1px solid ${currentBorder};
         ">
+          <div style="font-size:11px;margin-bottom:3px;">वर्तमान कालखंड${!list.includes(current) ? " (पिछले दिन की रात्रि)" : ""}</div>
           <div class="time-row" style="
             margin:0;
             font-weight:600;
@@ -3816,9 +3826,33 @@ function getAutoSandhyaType(
   const sunsetMs = sunset.getTime();
 
   /*
-   * केवल पहचानी गई संध्या-विंडो में स्वतः चयन करें।
-   * किसी भी संध्या-विंडो के बाहर null लौटाएँ ताकि
-   * कोई विकल्प (विशेषकर तुरीय) अपने-आप चयनित न हो।
+   * तुरीय संध्या: निशीथ का आठवाँ रात्रि-मुहूर्त।
+   * रात्रि-प्रहरों से वर्तमान रात्रि की वास्तविक सीमा लें।
+   */
+  if(
+    Array.isArray(night) &&
+    night.length === 4 &&
+    night[0]?.start &&
+    night[3]?.end
+  ){
+    const nightStartMs = new Date(night[0].start).getTime();
+    const nightEndMs = new Date(night[3].end).getTime();
+    const nightDurationMs = nightEndMs - nightStartMs;
+
+    if(Number.isFinite(nightDurationMs) && nightDurationMs > 0){
+      const nightMuhurtaMs = nightDurationMs / 15;
+      const nishithaStartMs = nightStartMs + nightMuhurtaMs * 7;
+      const nishithaEndMs = nightStartMs + nightMuhurtaMs * 8;
+
+      if(nowMs >= nishithaStartMs && nowMs < nishithaEndMs){
+        return "turiya";
+      }
+    }
+  }
+
+  /*
+   * केवल चल रही संध्या में स्वतः चयन करें।
+   * सभी संध्या-अवधियों के बाहर null लौटाएँ।
    */
   if(nowMs < sunriseMs){
     return (
@@ -3855,42 +3889,99 @@ function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, 
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
   const nowMs = referenceNow.getTime();
-  if(!Number.isFinite(sunrise.getTime()) || !Number.isFinite(sunset.getTime()) ||
-     !Number.isFinite(nowMs) || sunset <= sunrise) return null;
+  const sunriseMs = sunrise.getTime();
+  const sunsetMs = sunset.getTime();
+  if(!Number.isFinite(sunriseMs) || !Number.isFinite(sunsetMs) ||
+     !Number.isFinite(nowMs) || sunsetMs <= sunriseMs) return null;
 
-  const autoType = getAutoSandhyaType(p, praharData, referenceNow);
-  const labels = { pratah: "प्रातः", madhyahna: "मध्याह्न", sayam: "सायं" };
-  if(autoType && labels[autoType]){
-    return { type: autoType, active: true, start: null, label: labels[autoType] };
-  }
+  const labels = { pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं", turiya:"तुरीय" };
+  const nextSunrise = nextSunriseValue ? new Date(nextSunriseValue) : null;
+  const nextSunriseMs = nextSunrise && Number.isFinite(nextSunrise.getTime())
+    ? nextSunrise.getTime() : null;
 
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
+  let nightStartMs = null;
+  let nightEndMs = null;
   if(Array.isArray(night) && night.length === 4 && night[0]?.start && night[3]?.end){
-    const nightMs = new Date(night[3].end).getTime() - new Date(night[0].start).getTime();
+    nightStartMs = new Date(night[0].start).getTime();
+    nightEndMs = new Date(night[3].end).getTime();
+    const nightMs = nightEndMs - nightStartMs;
     if(Number.isFinite(nightMs) && nightMs > 0) nightMuhurtaMs = nightMs / 15;
   }
 
-  const sunriseMs = sunrise.getTime();
-  const sunsetMs = sunset.getTime();
   const dayMs = sunsetMs - sunriseMs;
-  const candidates = [
-    ...(nightMuhurtaMs ? [{type:"pratah", start:sunriseMs-nightMuhurtaMs}] : []),
-    {type:"madhyahna", start:sunriseMs + dayMs/2 - dayMs/30},
-    {type:"sayam", start:sunsetMs}
-  ];
+  const dayMuhurtaMs = dayMs / 15;
+  const intervals = [
+    { type:"pratah", start:sunriseMs - (nightMuhurtaMs || 0), end:sunriseMs },
+    { type:"madhyahna", start:sunriseMs + dayMs/2 - dayMuhurtaMs/2,
+      end:sunriseMs + dayMs/2 + dayMuhurtaMs/2 },
+    ...(nightMuhurtaMs ? [{ type:"sayam", start:sunsetMs, end:sunsetMs + nightMuhurtaMs }] : [])
+  ].filter(item => Number.isFinite(item.start) && Number.isFinite(item.end) && item.end > item.start);
 
-  // If the next sunrise is explicitly available, it is safer than guessing tomorrow's sunrise.
-  const nextSunrise = nextSunriseValue ? new Date(nextSunriseValue) : null;
-  if(nightMuhurtaMs && nextSunrise && Number.isFinite(nextSunrise.getTime()) &&
-     nextSunrise.getTime() > sunsetMs){
-    candidates.push({type:"pratah", start:nextSunrise.getTime()-nightMuhurtaMs});
+  // देव्यथर्वशीर्ष में तुरीय संध्या का समय "निशीथे" कहा गया है।
+  // निशीथ को रात्रि के 15 मुहूर्तों में आठवाँ मुहूर्त मानकर
+  // उसी पूर्ण खण्ड को स्थानीय रात्रिमान के आधार पर निकालें।
+  const turiyaIntervals = [];
+  const addTuriyaNishitha = (startMs, endMs) => {
+    if(!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) return;
+    const nightMuhurta = (endMs - startMs) / 15;
+    const nishithaStart = startMs + nightMuhurta * 7;
+    const nishithaEnd = startMs + nightMuhurta * 8;
+    turiyaIntervals.push({
+      type:"turiya",
+      start:nishithaStart,
+      end:nishithaEnd
+    });
+  };
+
+  // वर्तमान रात्रि: सूर्योदय-पूर्व में पिछला सूर्यास्त से आज का सूर्योदय,
+  // अन्यथा आज का सूर्यास्त से अगला सूर्योदय।
+  addTuriyaNishitha(nightStartMs, nightEndMs);
+  // अगले सूर्यास्त-सूर्योदय की रात्रि भी जोड़ें, ताकि दिन के समय
+  // अगली तुरीय संध्या का समय पहले से दिख सके।
+  if(nextSunriseMs && nextSunriseMs > sunsetMs){
+    addTuriyaNishitha(sunsetMs, nextSunriseMs);
   }
 
-  const next = candidates
+  const uniqueTuriyaIntervals = [...new Map(
+    turiyaIntervals.map(item => [`${item.start}:${item.end}`, item])
+  ).values()];
+
+  intervals.push(...uniqueTuriyaIntervals);
+
+  // अगली प्रातः संध्या के लिए उपलब्ध अगले सूर्योदय का उपयोग करें।
+  if(nightMuhurtaMs && nextSunriseMs && nextSunriseMs > sunsetMs){
+    intervals.push({
+      type:"pratah",
+      start:nextSunriseMs - nightMuhurtaMs,
+      end:nextSunriseMs
+    });
+  }
+
+  const active = intervals
+    .filter(item => nowMs >= item.start && nowMs < item.end)
+    .sort((a,b) => a.end-b.end)[0];
+  if(active){
+    return {
+      type:active.type, active:true,
+      start:new Date(active.start), end:new Date(active.end),
+      label:labels[active.type]
+    };
+  }
+
+  const candidates = intervals
     .filter(item => item.start > nowMs)
-    .sort((left,right) => left.start-right.start)[0];
-  return next ? {type:next.type, active:false, start:new Date(next.start), label:labels[next.type]} : null;
+    .map(item => ({ type:item.type, start:item.start, end:item.end }))
+    .sort((a,b) => a.start-b.start);
+
+  const next = candidates[0];
+  return next ? {
+    type:next.type, active:false,
+    start:new Date(next.start),
+    end:next.end ? new Date(next.end) : null,
+    label:labels[next.type]
+  } : null;
 }
 
 function getSandhyaStatusHtml(ctx = null){
@@ -3898,12 +3989,17 @@ function getSandhyaStatusHtml(ctx = null){
   const info = getSandhyaStatusInfo(ctx.panchang, ctx.praharData, ctx.referenceNow, ctx.nextSunrise);
   if(!info) return "";
 
-  const time = info.start
-    ? new Intl.DateTimeFormat("hi-IN", {timeZone:selectedLocation?.timeZone || "Asia/Kolkata", hour:"2-digit", minute:"2-digit", hour12:false}).format(info.start)
-    : "";
+  const formatter = new Intl.DateTimeFormat("hi-IN", {
+    timeZone:selectedLocation?.timeZone || "Asia/Kolkata",
+    hour:"2-digit", minute:"2-digit", hour12:false
+  });
+  const startTime = info.start ? formatter.format(info.start) : "";
+  const endTime = info.end ? formatter.format(info.end) : "";
   const status = info.active
-    ? `अभी ${info.label} संध्या का समय है।`
-    : `अगली संध्या ${info.label} ${time} बजे से।`;
+    ? `अभी ${info.label} संध्या का समय है — ${startTime} से ${endTime} बजे तक।`
+    : info.type === "turiya"
+      ? `अगली तुरीय संध्या (निशीथ) ${startTime} से ${endTime} बजे तक।`
+      : `अगली संध्या ${info.label} ${startTime} बजे से।`;
 
   const shlokas = `
     <div style="margin-top:6px;line-height:1.7;">
@@ -3933,10 +4029,17 @@ function getSandhyaStatusHtml(ctx = null){
   return `
     <div style="margin-top:8px;padding:7px 9px;border-radius:6px;background:rgba(127,127,127,.08);font-size:13px;line-height:1.5;">
       <div>${status}</div>
-      <details style="margin-top:4px;">
-        <summary style="cursor:pointer;display:inline-block;">शास्त्रीय श्लोक (उत्तम, मध्यम, अधम)</summary>
+      <details class="sandhya-shloka-details" style="margin-top:4px;">
+        <summary style="cursor:pointer;display:flex;align-items:center;justify-content:flex-start;gap:6px;list-style:none;">
+          <span>शास्त्रीय श्लोक (उत्तम, मध्यम, अधम)</span>
+          <span class="sandhya-shloka-chevron" aria-hidden="true" style="display:inline-block;transition:transform .15s ease;">⌄</span>
+        </summary>
         ${shlokas}
       </details>
+      <style>
+        .sandhya-shloka-details summary::-webkit-details-marker{display:none}
+        .sandhya-shloka-details[open] .sandhya-shloka-chevron{transform:rotate(180deg)}
+      </style>
     </div>`;
 }
 
@@ -5012,19 +5115,30 @@ function specialPunyaKaalTime(value){
 function specialPunyaKaalDateTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
+// Both GitHub Pages and Blogger direct readers to the canonical Blogger page.
+function specialPunyaKaalMonthUrl(year,month){
+  return "https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+}
+function syncSpecialPunyaKaalLinks(grid){
+  const upcoming=grid.querySelector(".upcoming-mahapata-card a");
+  for(const link of grid.querySelectorAll(".special-punya-kaal-card a")){
+    link.hidden=Boolean(upcoming&&upcoming.href===link.href);
+  }
+}
 async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
   const isPithoragarh = selectedLocation && selectedLocation.elevationStatus !== "unknown" &&
     Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
     Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02 &&
     Math.abs(Number(selectedLocation.elevation) - 1650) < 100;
-  if(!isPithoragarh||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
+  if(!selectedLocation||selectedLocation.timeZone!=="Asia/Kolkata"||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
   const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
   try{
-    let calculation=specialPunyaKaalMonthCache.get(key);
-    if(!calculation){
+    // Mahapata is geocentric. Only the existing local Varuni scan is limited to Pithoragarh.
+    let calculation=isPithoragarh?specialPunyaKaalMonthCache.get(key):Promise.resolve(null);
+    if(isPithoragarh&&!calculation){
       calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
         const observer=new Observer(location.lat,location.lon,location.elevation);
         return module.calculateSpecialPunyaKaalMonth({
@@ -5040,37 +5154,90 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
         specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
       }
     }
-    const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
+    // A local calculation failure must not hide approved geocentric intervals.
+    const [resultData,approval]=await Promise.all([calculation.catch(()=>null),specialPunyaKaalApprovalPromise]);
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
-    if(resultData.calculationStatus!=="complete")return;
-    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
-      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
-    if(!events.length)return;
-    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
-    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
     const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
     const selectedDayEnd=selectedDayStart+86400000;
     const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
-    todays.forEach(item=>{
+    const visible=todays.filter(item=>!item.isMahapata||dateString!==todayString());
+    // Today's Mahapata is handled by the upcoming/active card. Never render
+    // a second empty month-only card when there are no other actual events.
+    if(!visible.length)return;
+    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
+    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    visible.forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
-      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
+      const times=item.isMahapata
+        ? "स्पर्श "+specialPunyaKaalDateTime(item.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(item.endTime)
+        : "संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime);
+      detail.appendChild(document.createTextNode(times));
+      if(item.isMahapata){
+        const warning=document.createElement("div");warning.className="special-kaal-guidance";
+        warning.textContent="इस काल में मांगलिक कार्य वर्जित";detail.appendChild(warning);
+      }
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    link.href=specialPunyaKaalMonthUrl(year,month);
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);
+    syncSpecialPunyaKaalLinks(resultGrid);
   }catch(error){
     // Missing, incomplete or unapproved calculations must not create a public link.
   }
 }
+let upcomingMahapataTimer = null;
+function scheduleUpcomingMahapata(dateString, request, resultGrid){
+  if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
+  const current=()=>request===specialPunyaKaalMonthRequest&&resultGrid.isConnected&&
+    dateInput.value===dateString&&selectedLocation?.timeZone==="Asia/Kolkata"&&dateString===todayString();
+  if(!current())return;
+  const card=document.createElement("section");
+  card.className="card full upcoming-mahapata-card";
+  // Attach only after an approved event is found; no empty card on an empty register.
+  card.hidden=true;
+  const render=async()=>{
+    if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
+    try{
+      const approval=await specialPunyaKaalApprovalPromise;
+      if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
+      const now=Date.now();
+      const event=approval.nextApprovedMahapata(now);
+      if(!event){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);return;}
+      const heading=document.createElement("div");heading.className="label";
+      heading.textContent=event.phase==="active"?"अभी महापात पुण्यकाल":event.phase==="today"?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल";
+      const name=document.createElement("strong");name.textContent=event.labels[0];
+      const date=document.createElement("div");date.className="value";
+      date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date(event.startTime));
+      const times=document.createElement("div");times.className="value";
+      times.textContent="स्पर्श "+specialPunyaKaalDateTime(event.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(event.endTime);
+      const guidance=document.createElement("div");
+      guidance.textContent="मंत्र-जप, साधना एवं देवोपासना के लिए विशेष पुण्यकाल। इस अवधि में मांगलिक कार्य वर्जित।";
+      const link=document.createElement("a");
+      // An active window may have begun in the previous month; link to the month displaying it today.
+      const linkDate=event.phase==="active"?dateString:event.date;
+      link.href=specialPunyaKaalMonthUrl(linkDate.slice(0,4),linkDate.slice(5,7));
+      link.textContent="समय एवं धार्मिक महत्त्व देखें →";
+      card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
+      if(!card.isConnected)resultGrid.appendChild(card);
+      syncSpecialPunyaKaalLinks(resultGrid);
+      const midnight=Date.parse(dateString+"T00:00:00+05:30")+86400000;
+      upcomingMahapataTimer=setTimeout(render,Math.max(50,Math.min(event.nextTransition,midnight)-now+25));
+    }catch(error){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);}
+  };
+  void render();
+}
+
 function scheduleSpecialPunyaKaalMonthLink(dateString){
   const resultGrid=result.querySelector(".grid");
   if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
   const request=++specialPunyaKaalMonthRequest;
+  scheduleUpcomingMahapata(dateString,request,resultGrid);
   const sentinel=document.createElement("div");
   sentinel.className="special-punya-kaal-sentinel";
   sentinel.style.cssText="grid-column:1/-1;height:1px";
@@ -6036,8 +6203,11 @@ bhadraPartsHtml += `
           वार
         </div>
         <div class="value">
-          ${vara}
+          ${getVara(p)}
         </div>
+        ${isPreSunriseToday && previousPanchang
+          ? `<div class="end-time">वर्तमान वार (सूर्योदय तक): ${vara}</div>`
+          : ""}
       </div>
 
       <div class="card">
@@ -6331,15 +6501,8 @@ bhadraPartsHtml += `
       <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
       <span>
         ${
-          Array.isArray(
-            p.dishaShoola?.safeDirections
-          )
-            ? p.dishaShoola.safeDirections
-                .map(
-                  d =>
-                    directionHindi[d] || d
-                )
-                .join(", ")
+          yatraShoola.safeDirections.length
+            ? yatraShoola.safeDirections.map(d => directionHindi[d]).join(", ")
             : "—"
         }
       </span>

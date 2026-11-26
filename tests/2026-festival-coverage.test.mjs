@@ -32,7 +32,8 @@ test("2026 April restores Akshaya Tritiya and both original article links", asyn
 
 test("2026 April separates Shankaracharya-Surdas and Ramanuja Jayantis", async () => {
   const data = await month("04");
-  assert.ok(find(data, "2026-04-21", /शंकराचार्य.*सूरदास/));
+  assert.ok(find(data, "2026-04-21", /^आदि शंकराचार्य जयंती$/));
+  assert.ok(find(data, "2026-04-21", /^सूरदास जयंती$/));
   assert.ok(find(data, "2026-04-22", /रामानुजाचार्य/));
 });
 
@@ -173,12 +174,15 @@ test("Monthly footer navigation creates its next-month button before appending i
   assert.doesNotMatch(widget, /nav\.appendChild\(prev\);\s*nav\.appendChild\(next\)/);
 });
 
-test("Festival year selector exposes catalog years from 2026 through 2030", async () => {
+test("Festival year selector exposes 2031 while keeping its unavailable catalog state explicit", async () => {
   const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
-  for (const year of [2026, 2027, 2028, 2029, 2030]) {
+  for (const year of [2026, 2027, 2028, 2029, 2030, 2031]) {
     assert.match(html, new RegExp('option value="' + year + '"'));
   }
-  assert.doesNotMatch(html, /option value="2025"|option value="2031"/);
+  assert.match(html, /numeric>2031/);
+  assert.match(html, /requestedYear<=2031/);
+  assert.match(html, /2031 के व्रत-पर्व की मासिक सूची अभी तैयार और सत्यापित नहीं हुई है/);
+  assert.doesNotMatch(html, /option value="2025"/);
 });
 
 test("2026 Purnima titles include the corresponding lunar month names", async () => {
@@ -479,10 +483,11 @@ test("2026 December descriptions do not repeat the same article URL", async () =
 });
 
 
-test("2026 December includes verified regional observances without duplicate same-date/tithi cards", async () => {
+test("2026 December includes verified regional observances without duplicate same-date titles", async () => {
   const data = await month("12");
   const checks = [
-    ["2026-12-14", /विवाह पंचमी \/ नाग पंचमी/, "मार्गशीर्ष शुक्ल पंचमी"],
+    ["2026-12-14", /^विवाह पंचमी$/, "मार्गशीर्ष शुक्ल पंचमी"],
+    ["2026-12-14", /^नाग पंचमी \(तेलुगु परंपरा\)$/, "मार्गशीर्ष शुक्ल पंचमी"],
     ["2026-12-22", /हनुमान जयंती \(कन्नड़ परंपरा\)/, "मार्गशीर्ष शुक्ल त्रयोदशी"],
     ["2026-12-27", /मंडल पूजा \(सबरीमला\)/, undefined]
   ];
@@ -503,10 +508,8 @@ test("2026 December includes verified regional observances without duplicate sam
   );
   const seen = new Set();
   for (const event of data.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    if (key === "2026-12-01|मार्गशीर्ष कृष्ण अष्टमी") continue;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    const key = event.date + "|" + event.title;
+    assert.ok(!seen.has(key), "Duplicate same-date/title card: " + key);
     seen.add(key);
   }
 });
