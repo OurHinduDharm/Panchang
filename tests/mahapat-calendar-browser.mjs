@@ -22,6 +22,8 @@ const bloggerCdn = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@main";
 const approvalPath = "/special-punya-kaal-public-approval.mjs";
 const reviewWindow = { status: "approved", type: "vaidhriti-mahapat", ruleProfile: "drik-geocentric-apparent-disks",
   start: "2026-03-18T22:17:04.035Z", end: "2026-03-19T01:55:18.200Z" };
+const nextWindow = {...reviewWindow,type:"vyatipata-mahapat",
+  start:"2026-04-01T10:00:00.000Z",end:"2026-04-01T12:00:00.000Z"};
 const mime = { ".mjs": "text/javascript", ".js": "text/javascript", ".html": "text/html", ".json": "application/json", ".css": "text/css" };
 const browser = await chromium.launch();
 try {
@@ -54,7 +56,7 @@ try {
         const source = body.toString();
         const declaration = "const reviewedMahapata = Object.freeze([]);";
         assert.ok(source.includes(declaration));
-        body = source.replace(declaration, "const reviewedMahapata = [" + JSON.stringify(reviewWindow) + "];");
+        body = source.replace(declaration, "const reviewedMahapata = [" + JSON.stringify(reviewWindow) + "," + JSON.stringify(nextWindow) + "];");
       }
       await route.fulfill({ headers, contentType: mime[extname(file)] ?? "application/octet-stream", body });
     });
@@ -82,6 +84,27 @@ try {
     const bloggerMonth = await page.locator("#specialPunyaKaalContent").innerText();
     assert.match(bloggerMonth, /वारुणी/);
     assert.equal(bloggerMonth.includes("वैधृति महापात"), staged);
+    // Test the real daily card on a fixed current IST date, not the host's date.
+    await page.clock.setFixedTime(new Date("2026-03-18T12:00:00Z"));
+    await page.goto(origin + "/index.html?date=2026-03-18");
+    if(staged){
+      const upcoming=page.locator(".upcoming-mahapata-card");
+      await upcoming.waitFor({state:"visible"});
+      assert.match(await upcoming.innerText(),/आगामी महापात पुण्यकाल/);
+      assert.match(await upcoming.locator("a").getAttribute("href"),/year=2026&month=03/);
+      await page.clock.setFixedTime(new Date("2026-03-19T00:00:00Z"));
+      await page.goto(origin + "/index.html?date=2026-03-19");
+      await upcoming.waitFor({state:"visible"});
+      assert.match(await upcoming.innerText(),/अभी महापात पुण्यकाल/);
+      await page.clock.setFixedTime(new Date("2026-03-19T02:00:00Z"));
+      await page.goto(origin + "/index.html?date=2026-03-19");
+      await upcoming.waitFor({state:"visible"});
+      assert.match(await upcoming.innerText(),/आगामी महापात पुण्यकाल/);
+      assert.match(await upcoming.locator("a").getAttribute("href"),/year=2026&month=04/);
+    }else{
+      await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
+      assert.equal(await page.locator(".upcoming-mahapata-card").isVisible(),false);
+    }
     await context.close();
   }
 } finally {
