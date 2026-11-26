@@ -833,6 +833,14 @@ function getYatraShoolaDetails(
     directionHindi[direction] ||
     "—";
 
+  // Both lists must describe the same sunrise-based weekday.
+  const safeDirections = directionHindi[direction]
+    ? [...new Set((Array.isArray(effectivePanchang.dishaShoola?.safeDirections)
+        ? effectivePanchang.dishaShoola.safeDirections
+        : Object.keys(directionHindi))
+        .filter(d => directionHindi[d] && d !== direction))]
+    : [];
+
   const nakshatraName =
     getYatraNakshatra(
       p,
@@ -861,8 +869,8 @@ function getYatraShoolaDetails(
       : null;
 
   const nakshatraShoolaActive =
-    nakshatraShoolaDirection ===
-    direction;
+    !!nakshatraShoolaDirection &&
+    nakshatraShoolaDirection === direction;
 
   const kalaShoola =
     getKalaShoolaDetails(
@@ -876,6 +884,7 @@ function getYatraShoolaDetails(
     weekday,
     direction,
     directionHindiName,
+    safeDirections,
     nakshatraName,
     nakshatraShoola,
     nakshatraShoolaDirection,
@@ -1032,6 +1041,7 @@ function renderCollapsibleTimePeriods(
           background:${currentBg};
           border:1px solid ${currentBorder};
         ">
+          <div style="font-size:11px;margin-bottom:3px;">वर्तमान कालखंड${!list.includes(current) ? " (पिछले दिन की रात्रि)" : ""}</div>
           <div class="time-row" style="
             margin:0;
             font-weight:600;
@@ -5105,6 +5115,16 @@ function specialPunyaKaalTime(value){
 function specialPunyaKaalDateTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
+// Both GitHub Pages and Blogger direct readers to the canonical Blogger page.
+function specialPunyaKaalMonthUrl(year,month){
+  return "https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+}
+function syncSpecialPunyaKaalLinks(grid){
+  const upcoming=grid.querySelector(".upcoming-mahapata-card a");
+  for(const link of grid.querySelectorAll(".special-punya-kaal-card a")){
+    link.hidden=Boolean(upcoming&&upcoming.href===link.href);
+  }
+}
 async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
   const isPithoragarh = selectedLocation && selectedLocation.elevationStatus !== "unknown" &&
@@ -5138,13 +5158,16 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     const [resultData,approval]=await Promise.all([calculation.catch(()=>null),specialPunyaKaalApprovalPromise]);
     if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
     const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
-    if(!events.length)return;
-    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
-    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
     const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
     const selectedDayEnd=selectedDayStart+86400000;
     const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
-    todays.filter(item=>!item.isMahapata||dateString!==todayString()).forEach(item=>{
+    const visible=todays.filter(item=>!item.isMahapata||dateString!==todayString());
+    // Today's Mahapata is handled by the upcoming/active card. Never render
+    // a second empty month-only card when there are no other actual events.
+    if(!visible.length)return;
+    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
+    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    visible.forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
@@ -5159,11 +5182,11 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    const monthlyPage=window.location.pathname==="/p/panchang-today.html" ? "/p/masik-vrat-parv.html" : "monthly-vrat-parv.html";
-    link.href=monthlyPage+"?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    link.href=specialPunyaKaalMonthUrl(year,month);
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);
+    syncSpecialPunyaKaalLinks(resultGrid);
   }catch(error){
     // Missing, incomplete or unapproved calculations must not create a public link.
   }
@@ -5179,13 +5202,13 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
   // Attach only after an approved event is found; no empty card on an empty register.
   card.hidden=true;
   const render=async()=>{
-    if(!current()){card.remove();return;}
+    if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
     try{
       const approval=await specialPunyaKaalApprovalPromise;
-      if(!current()){card.remove();return;}
+      if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
       const now=Date.now();
       const event=approval.nextApprovedMahapata(now);
-      if(!event){card.remove();card.replaceChildren();return;}
+      if(!event){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);return;}
       const heading=document.createElement("div");heading.className="label";
       heading.textContent=event.phase==="active"?"अभी महापात पुण्यकाल":event.phase==="today"?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल";
       const name=document.createElement("strong");name.textContent=event.labels[0];
@@ -5196,16 +5219,16 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
       const guidance=document.createElement("div");
       guidance.textContent="मंत्र-जप, साधना एवं देवोपासना के लिए विशेष पुण्यकाल। इस अवधि में मांगलिक कार्य वर्जित।";
       const link=document.createElement("a");
-      const monthlyPage=window.location.pathname==="/p/panchang-today.html"?"/p/masik-vrat-parv.html":"monthly-vrat-parv.html";
       // An active window may have begun in the previous month; link to the month displaying it today.
       const linkDate=event.phase==="active"?dateString:event.date;
-      link.href=monthlyPage+"?year="+linkDate.slice(0,4)+"&month="+linkDate.slice(5,7)+"#special-punya-kaal";
+      link.href=specialPunyaKaalMonthUrl(linkDate.slice(0,4),linkDate.slice(5,7));
       link.textContent="समय एवं धार्मिक महत्त्व देखें →";
       card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
       if(!card.isConnected)resultGrid.appendChild(card);
+      syncSpecialPunyaKaalLinks(resultGrid);
       const midnight=Date.parse(dateString+"T00:00:00+05:30")+86400000;
       upcomingMahapataTimer=setTimeout(render,Math.max(50,Math.min(event.nextTransition,midnight)-now+25));
-    }catch(error){card.remove();card.replaceChildren();}
+    }catch(error){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);}
   };
   void render();
 }
@@ -6180,8 +6203,11 @@ bhadraPartsHtml += `
           वार
         </div>
         <div class="value">
-          ${vara}
+          ${getVara(p)}
         </div>
+        ${isPreSunriseToday && previousPanchang
+          ? `<div class="end-time">वर्तमान वार (सूर्योदय तक): ${vara}</div>`
+          : ""}
       </div>
 
       <div class="card">
@@ -6475,15 +6501,8 @@ bhadraPartsHtml += `
       <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
       <span>
         ${
-          Array.isArray(
-            p.dishaShoola?.safeDirections
-          )
-            ? p.dishaShoola.safeDirections
-                .map(
-                  d =>
-                    directionHindi[d] || d
-                )
-                .join(", ")
+          yatraShoola.safeDirections.length
+            ? yatraShoola.safeDirections.map(d => directionHindi[d]).join(", ")
             : "—"
         }
       </span>

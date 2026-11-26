@@ -95,3 +95,53 @@ test("upcoming daily card is current-date only and links to the event month", ()
   assert.match(section,/linkDate\.slice\(0,4\)/);
   assert.match(daily,/scheduleUpcomingMahapata\(dateString,request,resultGrid\)/);
 });
+
+
+test("monthly geocentric Mahapata renders before lazy local work and common guidance is outside event cards",()=>{
+  assert.match(component,/renderApproved\(approval\.publicSpecialPunyaKaalMonth\(null,year,month\),true\)/);
+  assert.match(component,/var initial=loadSpecialPunyaKaal\(year,month,token\)/);
+  assert.match(component,/initial\.then\(function\(\)\{if\(currentRequest\(token,year,month\)\)loadLocalSpecialPunyaKaal/);
+  const cards=component.slice(component.indexOf("approved.forEach(function(item)"),component.indexOf("var guide=document.createElement"));
+  assert.doesNotMatch(cards,/स्नानदानजपश्राद्ध|special-kaal-verse|special-kaal-guidance/);
+  assert.equal((component.match(/स्नानदानजपश्राद्धव्रतहोमादिकर्मभिः/g)||[]).length,1);
+  assert.match(component,/content\.appendChild\(guide\)/);
+  assert.match(blogger,/import\("https:\/\/ourhindudharm\.github\.io\/Panchang\/monthly-special-punya-kaal\.mjs"\)/);
+});
+
+
+test("daily special calendar links are canonical Blogger URLs and no empty month-only card is rendered",()=>{
+  assert.match(daily,/return "https:\/\/ourhindudharm\.blogspot\.com\/p\/masik-vrat-parv\.html\?year="/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(year,month\)/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(linkDate\.slice\(0,4\),linkDate\.slice\(5,7\)\)/);
+  assert.match(daily,/const visible=todays\.filter/);
+  assert.match(daily,/if\(!visible\.length\)return/);
+  assert.match(daily,/link\.hidden=Boolean\(upcoming&&upcoming\.href===link\.href\)/);
+});
+
+
+test("pre-sunrise travel directions use one effective weekday, including safe list",()=>{
+  const start=daily.indexOf("function getYatraShoolaDetails(");
+  const end=daily.indexOf("const gowriHindi",start);
+  assert.ok(start>=0&&end>start);
+  const source=daily.slice(start,end);
+  const directionHindi={East:"पूर्व",West:"पश्चिम",North:"उत्तर",South:"दक्षिण"};
+  const dateInput={value:"2026-11-27"};
+  const fn=new Function("dateInput","todayString","getVara","directionHindi","getYatraNakshatra","nakshatraHindi","nakshatraShoolaByDirection","getKalaShoolaDetails","varShoolaRemedy",source+"\nreturn getYatraShoolaDetails;")(
+    dateInput,()=>dateInput.value,p=>p.varaName,directionHindi,()=>"आर्द्रा",["आर्द्रा"],{},()=>({}),{4:"दही",5:"जौ"});
+  const prior={varaName:"गुरुवार",dishaShoola:{inauspiciousDirection:"South",safeDirections:["East","West","North","South"]}};
+  const selected={varaName:"शुक्रवार",sunrise:"2026-11-27T01:13:00Z",dishaShoola:{inauspiciousDirection:"West",safeDirections:["East","North","South"]}};
+  const before=fn(selected,null,new Date("2026-11-26T20:00:00Z"),prior);
+  assert.equal(before.direction,"South");
+  assert.deepEqual(before.safeDirections,["East","West","North"]);
+  assert.equal(before.remedy,"दही");
+  const after=fn(selected,null,new Date("2026-11-27T02:00:00Z"),prior);
+  assert.equal(after.direction,"West");
+  assert.deepEqual(after.safeDirections,["East","North","South"]);
+  assert.equal(after.remedy,"जौ");
+  const unknown=fn({sunrise:selected.sunrise},null,null,null);
+  assert.equal(unknown.nakshatraShoolaActive,false);
+  assert.deepEqual(unknown.safeDirections,[]);
+  assert.match(daily,/yatraShoola\.safeDirections\.map/);
+  assert.match(daily,/वर्तमान वार \(सूर्योदय तक\)/);
+  assert.match(daily,/पिछले दिन की रात्रि/);
+});
