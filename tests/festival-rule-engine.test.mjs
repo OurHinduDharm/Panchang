@@ -286,3 +286,99 @@ test("annual adapter accepts an explicit Adhika lunar month but normalizes allow
   assert.equal(result.status, "date-selected-needs-source-approval");
   assert.equal(result.selectedDate, "2031-05-01");
 });
+
+
+function makeMonthSelectorDay(date, masa) {
+  return {
+    date, masa, paksha: "शुक्ल पक्ष",
+    sunrise: date + "T06:00:00Z",
+    sunset: date + "T18:00:00Z",
+    tithiIntervals: [{
+      index: 10,
+      paksha: "शुक्ल पक्ष",
+      startTime: date + "T05:00:00Z",
+      endTime: date + "T07:00:00Z"
+    }]
+  };
+}
+
+const monthSelectorAnnualData = [
+  makeMonthSelectorDay("2030-06-01", "ज्येष्ठ"),
+  makeMonthSelectorDay("2030-07-01", "अधिक ज्येष्ठ")
+];
+
+test("annual adapter defaults a named lunar month to its regular occurrence", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "jyeshtha-shukla-ekadashi-2030",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "ज्येष्ठ",
+    targetTithiIndex: 10
+  }, 2030, monthSelectorAnnualData);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-06-01");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2030-06-01"]);
+});
+
+test("annual adapter selects only an intercalary month when monthKind is adhika", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "adhika-jyeshtha-shukla-ekadashi-2030",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "ज्येष्ठ",
+    monthKind: "adhika",
+    targetTithiIndex: 10
+  }, 2030, monthSelectorAnnualData);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-07-01");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2030-07-01"]);
+});
+
+test("annual adapter permits both month occurrences only when monthKind is any", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "jyeshtha-shukla-ekadashi-any-month-kind",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "ज्येष्ठ",
+    monthKind: "any",
+    targetTithiIndex: 10
+  }, 2030, monthSelectorAnnualData);
+
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"));
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2030-06-01", "2030-07-01"]);
+  assert.equal(result.autoApproved, false);
+  assert.equal(result.publishable, false);
+});
+
+test("an explicitly prefixed Adhika month keeps its exact intercalary meaning by default", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "adhika-jyeshtha-explicit-month",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "अधिक ज्येष्ठ",
+    targetTithiIndex: 10
+  }, 2030, monthSelectorAnnualData);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-07-01");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2030-07-01"]);
+});
+
+test("annual adapter fails closed for an unknown monthKind selector", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "invalid-month-kind",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "ज्येष्ठ",
+    monthKind: "intercalary",
+    targetTithiIndex: 10
+  }, 2030, monthSelectorAnnualData);
+
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("invalid-month-kind-selector"));
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.publishable, false);
+});
