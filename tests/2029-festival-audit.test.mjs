@@ -58,7 +58,7 @@ test("2029 independent observances use separate cards without duplicate titles",
   assert.ok(titles("2029-05-16").some(x => /^त्रेतायुगादि तिथि$/.test(x)));
   assert.ok(titles("2029-05-16").some(x => /^परशुराम जयंती$/.test(x)));
   assert.ok(titles("2029-06-25").some(x => /^वट पूर्णिमा व्रत$/.test(x)));
-  assert.ok(titles("2029-06-25").some(x => /^ज्येष्ठ पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-06-26").some(x => /^ज्येष्ठ पूर्णिमा$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /^श्रीजगन्नाथ रथयात्रा$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /^चन्द्र दर्शन$/.test(x)));
   assert.ok(titles("2029-07-13").some(x => /आषाढ़ गुप्त नवरात्र द्वितीय/.test(x)));
@@ -122,8 +122,8 @@ test("2029 annual review snapshot agrees with approved public dates for key loca
   const juneReview=JSON.parse(readFileSync(join(process.cwd(),"data","ohd-annual-panchang-review-2029.json"),"utf8"));
   const junePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-25");
   const nextJunePurnima=juneReview.dailyPanchang.find(item=>item.date==="2029-06-26");
-  assert.equal(junePurnima.sunriseTithi,"चतुर्दशी");
-  assert.equal(nextJunePurnima.sunriseTithi,"पूर्णिमा");
+  assert.equal(junePurnima.sunriseTithi?.tithi,"चतुर्दशी");
+  assert.equal(nextJunePurnima.sunriseTithi?.tithi,"पूर्णिमा");
   for(const [month,title,date,label] of [
     [6,"ज्येष्ठ पूर्णिमा","2029-06-26","26 जून"],
     [10,"मासिक स्कन्द षष्ठी","2029-10-13","13 अक्टूबर"],
