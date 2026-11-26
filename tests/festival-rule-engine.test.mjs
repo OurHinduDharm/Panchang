@@ -288,13 +288,14 @@ test("annual adapter accepts an explicit Adhika lunar month but normalizes allow
 });
 
 
-function makeMonthSelectorDay(date, masa) {
+
+function makeMonthSelectorDay(date, masa, tithiIndex = 10) {
   return {
     date, masa, paksha: "शुक्ल पक्ष",
     sunrise: date + "T06:00:00Z",
     sunset: date + "T18:00:00Z",
     tithiIntervals: [{
-      index: 10,
+      index: tithiIndex,
       paksha: "शुक्ल पक्ष",
       startTime: date + "T05:00:00Z",
       endTime: date + "T07:00:00Z"
@@ -302,8 +303,12 @@ function makeMonthSelectorDay(date, masa) {
   };
 }
 
+// Keep the intervening local days in the fixture. The Ekadashi rule checks
+// the previous sunrise to distinguish a repeated tithi from its first day.
 const monthSelectorAnnualData = [
+  makeMonthSelectorDay("2030-05-31", "वैशाख", 9),
   makeMonthSelectorDay("2030-06-01", "ज्येष्ठ"),
+  makeMonthSelectorDay("2030-06-30", "ज्येष्ठ", 9),
   makeMonthSelectorDay("2030-07-01", "अधिक ज्येष्ठ")
 ];
 
