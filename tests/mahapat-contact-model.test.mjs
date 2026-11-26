@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { contactModel, contactBoundaryDegrees } from "../research/paatadhikar/contact-boundary.mjs";
+import { contactModel, contactBoundaryDegrees, PRIMARY_CONTACT_MODEL, pataContactState } from "../research/paatadhikar/contact-boundary.mjs";
 
 test("source boundary is fixed at 30 arcminutes, physical disks retain their changing sizes", () => {
   for (const radius of [0.49, 0.51, 0.55]) {
@@ -42,4 +42,29 @@ test("30-arcminute convention explains most reference endpoints and preserves an
   assert.equal(laterRows.length, 8);
   assert.equal(laterRows.filter(row => row.maxAbsoluteDeltaMinutes < 1).length, 6);
   assert.deepEqual(report.unpairedCalculatedWithinSourceSpan, []);
+});
+
+
+test("shastric boundary uses both actual semidiameters, not a fitted constant", () => {
+  const base = {sunDeclination: 12, moonDeclination: 12, sunDistanceAU: 1, moonDistanceAU: 384400 / 149597870.7};
+  const state = pataContactState(base);
+  const near = pataContactState({...base, moonDistanceAU: 356000 / 149597870.7});
+  const far = pataContactState({...base, moonDistanceAU: 406000 / 149597870.7});
+  assert.equal(PRIMARY_CONTACT_MODEL, "apparent-disks");
+  assert.equal(state.contactBoundary, state.semidiameterSum);
+  assert.ok(near.contactBoundary > state.contactBoundary && state.contactBoundary > far.contactBoundary);
+  assert.equal(state.vyatipataRelation, 0);
+  assert.equal(state.vaidhritiRelation, 24);
+  assert.equal(pataContactState({...base, moonDeclination: -12}).vaidhritiRelation, 0);
+  const touching = pataContactState({...base, moonDeclination: 12 + state.contactBoundary});
+  assert.ok(Math.abs(touching.vyatipataClearance) < 1e-12);
+  assert.throws(() => pataContactState({...base, moonDistanceAU: 0}), RangeError);
+});
+
+test("signed relations are preserved on both sides of the celestial equator", () => {
+  const base = {sunDeclination: 0.2, moonDeclination: -0.3, sunDistanceAU: 1, moonDistanceAU: 0.00257};
+  const state = pataContactState(base);
+  assert.ok(Math.abs(state.vyatipataRelation + 0.5) < 1e-12);
+  assert.ok(Math.abs(state.vaidhritiRelation + 0.1) < 1e-12);
+  assert.equal(pataContactState({...base, model: "drik-31-arcmin"}).contactBoundary, 31/60);
 });
