@@ -158,9 +158,13 @@ test("2029 Raksha Bandhan uses the first-day Bhadra-free Pradosh when next-day P
   const pradoshEnd=new Date(sunset.getTime()+(nextSunrise.getTime()-sunset.getTime())/5);
   assert.ok(window.start>sunset,"when Aparahna is blocked, selected window is in Pradosh");
   assert.ok(window.end<=pradoshEnd,"selected window must remain inside Pradosh");
-  const purnima=[...(first.tithiIntervals||[]),...(second.tithiIntervals||[])].find(item=>/पूर्णिमा|purnima/i.test(item.tithi||""));
-  assert.ok(purnima);
-  const purnimaEnd=new Date(purnima.end);
+  const purnima=[...(first.tithiIntervals||[]),...(second.tithiIntervals||[])].find(item=>
+    /पूर्णिमा|purnima/i.test(item.tithi||"") &&
+    new Date(item.startTime)<=nextSunrise &&
+    new Date(item.endTime)>nextSunrise
+  );
+  assert.ok(purnima,"a Purnima interval must actually cover the next sunrise");
+  const purnimaEnd=new Date(purnima.endTime);
   const threeMuhurtas=3*48*60*1000;
   assert.ok(purnimaEnd.getTime()-nextSunrise.getTime()<threeMuhurtas,
     "next-day Purnima lasts less than three muhurtas after sunrise, so previous-day Pradosh rule applies");
