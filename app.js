@@ -5176,8 +5176,8 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
   if(!current())return;
   const card=document.createElement("section");
   card.className="card full upcoming-mahapata-card";
+  // Attach only after an approved event is found; no empty card on an empty register.
   card.hidden=true;
-  resultGrid.appendChild(card);
   const render=async()=>{
     if(!current()){card.remove();return;}
     try{
@@ -5185,7 +5185,7 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
       if(!current()){card.remove();return;}
       const now=Date.now();
       const event=approval.nextApprovedMahapata(now);
-      if(!event){card.hidden=true;card.replaceChildren();return;}
+      if(!event){card.remove();card.replaceChildren();return;}
       const heading=document.createElement("div");heading.className="label";
       heading.textContent=event.phase==="active"?"अभी महापात पुण्यकाल":event.phase==="today"?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल";
       const name=document.createElement("strong");name.textContent=event.labels[0];
@@ -5202,9 +5202,10 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
       link.href=monthlyPage+"?year="+linkDate.slice(0,4)+"&month="+linkDate.slice(5,7)+"#special-punya-kaal";
       link.textContent="समय एवं धार्मिक महत्त्व देखें →";
       card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
+      if(!card.isConnected)resultGrid.appendChild(card);
       const midnight=Date.parse(dateString+"T00:00:00+05:30")+86400000;
       upcomingMahapataTimer=setTimeout(render,Math.max(50,Math.min(event.nextTransition,midnight)-now+25));
-    }catch(error){card.hidden=true;card.replaceChildren();}
+    }catch(error){card.remove();card.replaceChildren();}
   };
   void render();
 }
