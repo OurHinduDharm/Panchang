@@ -32,6 +32,18 @@
 
   var CONTAINER_ID = 'ohd-eclipse-panchang';
   var APP_CONTAINER_ID = 'ohd-eclipse-app';
+  // Persist only a public city name, never exact coordinates.
+  var SAVED_CITY_KEY = 'ohdEclipsePanchangCity';
+
+  // Site-wide default observer for first-time Grahan Panchang visitors.
+  var DEFAULT_LOCATION = {
+    name: 'पिथौरागढ़, उत्तराखंड, भारत',
+    city: 'पिथौरागढ़',
+    state: 'उत्तराखंड',
+    lat: 29.58,
+    lon: 80.22,
+    elevation: 1650
+  };
 
   var TZ_OFFSET = 330;
   var YEAR_MIN = 2026;
@@ -372,6 +384,55 @@ function getEclipseTypeHindi(g) {
     // overwriting the main Panchang's richer shared observer object.
     state.location = normalized;
     return true;
+  }
+
+  function rememberCity(location) {
+    try {
+      var city = String(location && location.city || '').trim();
+      var stateName = String(location && location.state || '').trim();
+      if (!city) {
+        // GPS/unnamed locations are deliberately not persisted.
+        window.localStorage.removeItem(SAVED_CITY_KEY);
+        return;
+      }
+      window.localStorage.setItem(SAVED_CITY_KEY, [city, stateName, 'India'].filter(Boolean).join(', '));
+    } catch (e) {
+      log('City preference could not be saved:', e);
+    }
+  }
+
+  async function restoreRememberedCity() {
+    var query = '';
+    try { query = String(window.localStorage.getItem(SAVED_CITY_KEY) || '').trim(); }
+    catch (e) { return null; }
+    if (!query) return null;
+    try {
+      var results = await searchLocation(query);
+      if (!Array.isArray(results) || !results.length) return null;
+      for (var i = 0; i < results.length; i++) {
+        var location = resultToLocation(results[i]);
+        if (location) {
+          saveLocation(location);
+          return location;
+        }
+      }
+    } catch (e) {
+      logErr('Remembered city restore failed:', e);
+    }
+    return null;
+  }
+
+  function getInitialLocation() {
+    return restoreRememberedCity().then(function (remembered) {
+      if (remembered) return remembered;
+
+      var shared = readLocation();
+      if (shared) return shared;
+
+      var fallback = normalizeLocation(DEFAULT_LOCATION);
+      saveLocation(fallback);
+      return fallback;
+    });
   }
 
   function locationDisplayName(location) {
@@ -1189,8 +1250,11 @@ function getHindiWeekday(date, tzOffsetMin) {
       ),
       '</h2>',
 
-      '<div class="ohd-eclipse-location-subtitle">',
-      'इसी स्थान के अक्षांश-देशांतर के आधार पर ग्रहण की गणना',
+      '<div class="ohd-eclipse-location-subtitle" id="ohd-eclipse-location-subtitle">',
+      esc(
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना'
+      ),
       '</div>',
 
       '</div>',
@@ -1203,6 +1267,7 @@ function getHindiWeekday(date, tzOffsetMin) {
       '<input',
       ' id="ohd-eclipse-location-input"',
       ' type="search"',
+      ' value="' + esc(location && (location.city || location.name) || '') + '"',
       ' placeholder="शहर / स्थान खोजें..."',
       ' autocomplete="off">',
       '<button',
@@ -1288,6 +1353,26 @@ function getHindiWeekday(date, tzOffsetMin) {
     el.textContent = locationDisplayName(
       location
     );
+
+    /* Keep the explanatory details synchronized with the active city. */
+    var subtitle = app.querySelector(
+      '#ohd-eclipse-location-subtitle'
+    );
+    if (subtitle) {
+      subtitle.textContent =
+        String(location && (location.city || location.name) || 'चयनित स्थान') +
+        ' के अक्षांश-देशांतर के आधार पर ग्रहण की गणना';
+    }
+
+    /* Keep the search field synchronized with the active city. */
+    var input = app.querySelector(
+      '#ohd-eclipse-location-input'
+    );
+    if (input) {
+      input.value = String(
+        location && (location.city || location.name) || ''
+      );
+    }
   }
 
   /* ============================================================
@@ -2110,6 +2195,11 @@ function renderLocalVisibilityDetails(visibility) {
      ECLIPSE CARD
      ============================================================ */
 
+  function isEclipseRitualApplicable(g, visibility) {
+    return Boolean(g && visibility && visibility.localVisible &&
+      String(g.subtype || '').trim().toLowerCase() !== 'penumbral');
+  }
+
   function renderEclipseCard(
     item,
     observer,
@@ -2225,8 +2315,36 @@ var weekdayStr = getHindiWeekday(
   }
 }
 
+    /*
+     * Panchang is calculated ONLY here,
+     * after a real eclipse is confirmed.
+     */
+    try {
+      var eclipseDays = getEclipseDayPanchangs(
+        eclipseDate,
+        observer,
+        api
+      );
+      var dayPanchang = eclipseDays[1];
+      var visibility = getLocalVisibility(g, eclipseDays);
+
+      var ritualApplicable = isEclipseRitualApplicable(g, visibility);
+      if (!ritualApplicable) {
+        if (String(g.subtype || '').trim().toLowerCase() === 'penumbral') {
+          return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
+            ' — ' + esc(getEclipseTypeHindi(g)) +
+            '</h3><p>उपच्छाया ग्रहण में सूतक एवं ग्रहण संबंधी धार्मिक नियम लागू नहीं होते।</p></div>';
+        }
+        var invisibleCity = String(
+          location && (location.city || location.name) || 'चयनित स्थान'
+        ).trim();
+        return '<div class="ohd-eclipse-card"><h3>' + esc(dateStr) +
+          ' — ' + esc(getEclipseTypeHindi(g)) +
+          '</h3><p>' + esc(invisibleCity) +
+          ' में अदृश्य। सूतक मान्य नहीं है।</p></div>';
+      }
  if (
-  g.sutakKaal &&
+  ritualApplicable && g.sutakKaal &&
   g.sutakKaal.start &&
   g.sutakKaal.end
 ) {
@@ -2249,40 +2367,27 @@ var weekdayStr = getHindiWeekday(
 }
 
 if (
-  g.punyaKala &&
-  g.punyaKala.start &&
-  g.punyaKala.end
+  ritualApplicable && visibility.visibleStart &&
+  visibility.visibleEnd
 ) {
   html +=
     '<p><strong>पुण्य काल:</strong><br>' +
     esc(
       fmtDateTime(
-        g.punyaKala.start,
+        visibility.visibleStart,
         TZ_OFFSET
       )
     ) +
     '<br>से<br>' +
     esc(
       fmtDateTime(
-        g.punyaKala.end,
+        visibility.visibleEnd,
         TZ_OFFSET
       )
     ) +
     '</p>';
 }
 
-    /*
-     * Panchang is calculated ONLY here,
-     * after a real eclipse is confirmed.
-     */
-    try {
-      var eclipseDays = getEclipseDayPanchangs(
-        eclipseDate,
-        observer,
-        api
-      );
-      var dayPanchang = eclipseDays[1];
-      var visibility = getLocalVisibility(g, eclipseDays);
 
       html += renderVisibility(visibility, location);
       html += renderLocalVisibilityDetails(visibility);
@@ -2291,18 +2396,7 @@ if (
 
     } catch (e) {
       logErr('Day Panchang failed:', e);
-      html += [
-        '<details class="ohd-eclipse-panchang-details">',
-        '<summary>',
-        '📅 इस ग्रहण-दिन का पंचांग देखें',
-        '</summary>',
-        '<div class="ohd-eclipse-panchang-inner">',
-        '<p>',
-        'इस दिन का पंचांग उपलब्ध नहीं हो सका।',
-        '</p>',
-        '</div>',
-        '</details>'
-      ].join('');
+      throw e;
     }
 
     html += '</div>';
@@ -2394,29 +2488,6 @@ if (
     location,
     api
   ) {
-    if (!eclipses || eclipses.length === 0) {
-      setResults(
-        container,
-        [
-          '<p class="ohd-eclipse-none">',
-          'वर्ष ',
-          esc(
-            String(
-              state.controller
-                ? state.controller.year
-                : ''
-            )
-          ),
-          ' में ',
-          esc(locationDisplayName(location)),
-          ' के लिए कोई खगोलीय ग्रहण ',
-          'इस गणना से प्राप्त नहीं हुआ।',
-          '</p>'
-        ].join('')
-      );
-      return;
-    }
-
     var Observer =
       api.Observer ||
       (api.module && api.module.Observer);
@@ -2435,7 +2506,7 @@ if (
 
     var html = '';
 
-    eclipses.forEach(function (item) {
+    (eclipses || []).forEach(function (item) {
       html += renderEclipseCard(
         item,
         observer,
@@ -2443,6 +2514,29 @@ if (
   location
       );
     });
+
+    if (!html) {
+      setResults(
+        container,
+        [
+          '<p class="ohd-eclipse-none">',
+          'वर्ष ',
+          esc(
+            String(
+              state.controller
+                ? state.controller.year
+                : ''
+            )
+          ),
+          ' में ',
+          esc(locationDisplayName(location)),
+          ' में कोई मान्य दृश्य ग्रहण ',
+          'नहीं है।',
+          '</p>'
+        ].join('')
+      );
+      return;
+    }
 
     html += renderPurashcharanaCard();
 
@@ -2878,6 +2972,7 @@ if (
        * Save first.
        */
       saveLocation(normalized);
+      rememberCity(normalized);
 
       /*
        * Update active controller immediately.
@@ -2979,7 +3074,7 @@ if (
        * This lets a previous Mini Panchang/location
        * selection be picked up.
        */
-      var savedLocation = readLocation();
+      var savedLocation = await getInitialLocation();
 
       existing.attach(container);
 
@@ -3045,7 +3140,7 @@ if (
     /*
      * Read shared saved location.
      */
-    var location = readLocation();
+    var location = await getInitialLocation();
 
     if (!location) {
       renderError(
@@ -3087,7 +3182,12 @@ if (
   window.__OHDEclipsePanchangTools = {
     discoverEclipses: discoverEclipses,
     getLocalVisibility: getLocalVisibility,
-    getEclipseDayPanchangs: getEclipseDayPanchangs
+    renderEclipseCard: renderEclipseCard,
+    isEclipseRitualApplicable: isEclipseRitualApplicable,
+    getEclipseDayPanchangs: getEclipseDayPanchangs,
+    rememberCity: rememberCity,
+    restoreRememberedCity: restoreRememberedCity,
+    getInitialLocation: getInitialLocation
   };
 
   window.initEclipsePanchang = initEclipsePanchang;

@@ -76,6 +76,7 @@ test("profile metadata makes the pending source-review boundary explicit", () =>
   assert.equal(profile.label, "महाशिवरात्रि");
   assert.equal(profile.sourceReview, "primary-text-consulted-two-night-tie-break-pending");
   assert.equal(profile.tradition, "smarta-review-default");
+  assert.equal(profile.ruleVersion, "0.3.0");
   assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
   assert.equal(getObservanceRuleProfile("ekadashi").id, "ekadashi-smarta-udaya");
 });
@@ -844,5 +845,25 @@ test("Parashurama Jayanti takes the earlier day when neither Pradosha is touched
   assert.equal(result.selectedDate, "2030-05-08");
   assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
   assert.equal(result.autoApproved, false);
+});
+
+
+test("listObservanceRuleProfiles exposes every registered profile as a sorted snapshot", async () => {
+  const { listObservanceRuleProfiles, getObservanceRuleProfile } =
+    await import("../festival-observance-rules.mjs");
+  const profiles = listObservanceRuleProfiles();
+  assert.ok(profiles.length > 0);
+  assert.deepEqual(profiles.map(profile => profile.id), profiles.map(profile => profile.id).slice().sort());
+  assert.equal(new Set(profiles.map(profile => profile.id)).size, profiles.length);
+  assert.deepEqual(profiles, profiles.map(profile => getObservanceRuleProfile(profile.id)));
+  assert.ok(profiles.every(profile =>
+    typeof profile.id === "string" &&
+    Array.isArray(profile.tithiIndices) &&
+    typeof profile.sourceReview === "string" &&
+    profile.tradition === "smarta-review-default"
+  ));
+  const first = profiles[0];
+  first.tithiIndices.push(99);
+  assert.ok(!getObservanceRuleProfile(first.id).tithiIndices.includes(99));
 });
 

@@ -172,7 +172,7 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
     [2029,4,"2029-04-23",/चैत्र नवरात्र नवमी/,"navratrihavanvidhi"],
     [2029,10,"2029-10-07",/सर्वपितृ/,"pitri-visarjan"],
     [2029,10,"2029-10-15",/महानवमी/,"navratrihavanvidhi"],
-    [2030,4,"2030-04-12",/श्रीराम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2030,4,"2030-04-12",/चैत्र नवरात्र नवमी/,"navratrihavanvidhi"],
     [2030,9,"2030-09-27",/सर्वपितृ/,"pitri-visarjan"]
   ];
   for (const [year, monthNumber, date, pattern, urlPart] of cases) {

@@ -5,17 +5,17 @@ import { readFile } from "node:fs/promises";
 const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
 const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
 
-test("monthly festival page exposes 2030 and keeps navigation within 2026–2030", () => {
-  assert.match(html, /<option value="2030">2030<\/option>/);
-  assert.match(html, /numeric<2026\|\|numeric>2030/);
-  assert.match(html, /y<2026\|\|y>2030/);
-  assert.match(html, /atEnd=year===2030&&month===12/);
+test("monthly festival page exposes 2031 and keeps navigation within 2026–2031", () => {
+  assert.match(html, /<option value="2031">2031<\/option>/);
+  assert.match(html, /numeric<2026\|\|numeric>2031/);
+  assert.match(html, /y<2026\|\|y>2031/);
+  assert.match(html, /atEnd=year===2031&&month===12/);
 });
 
-test("monthly widget year option and month navigation include 2030", () => {
-  assert.match(widget, /numeric<2026\|\|numeric>2030/);
-  assert.match(widget, /atEnd=year===2030&&month===12/);
-  assert.match(widget, /y<2026\|\|y>2030/);
+test("monthly widget year navigation includes 2031", () => {
+  assert.match(widget, /numeric<2026\|\|numeric>2031/);
+  assert.match(widget, /atEnd=year===2031&&month===12/);
+  assert.match(widget, /y<2026\|\|y>2031/);
 });
 
 test("monthly festival page deduplicates links across description and metadata", () => {

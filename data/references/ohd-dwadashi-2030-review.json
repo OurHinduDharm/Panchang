@@ -215,7 +215,64 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "madana",
+          "name": "मदन द्वादशी",
+          "selectedDate": "2030-04-15",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.2–9",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "चैत्र शुक्ल द्वादशी पर मदन-व्रत, कामरूपी अच्युत की पूजा, उपवास और दान का स्पष्ट विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-04-14T20:02:37.739+05:30",
+            "end": "2030-04-15T18:04:12.166+05:30"
+          },
+          "localDayDecision": "15 अप्रैल 2030 के पिथौरागढ़ सूर्योदय 05:43:28 IST पर चैत्र शुक्ल द्वादशी विद्यमान है और तिथि 18:04:12 IST तक चलती है। नारद पुराण 121.2–9 इसी तिथि पर मदन-व्रत और अच्युत-पूजन बताता है; इसलिए observance date 15 अप्रैल है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण पूर्वार्ध 121.2–9 में चैत्र शुक्ल द्वादशी पर मदन-व्रत का स्पष्ट विधान है। पिथौरागढ़ में 15 अप्रैल सूर्योदय और मध्याह्न दोनों पर द्वादशी है।"
+        },
+        {
+          "observanceId": "bhartr",
+          "name": "भर्तृ द्वादशी",
+          "selectedDate": "2030-04-15",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.10–14",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "उसी चैत्र शुक्ल द्वादशी पर भर्तृ-द्वादशिका का अलग विधान—शय्या पर श्रीहरि-पूजन, रात्रि-जागरण और अगले प्रभात दान।",
+          "localTithiIntervalIST": {
+            "start": "2030-04-14T20:02:37.739+05:30",
+            "end": "2030-04-15T18:04:12.166+05:30"
+          },
+          "localDayDecision": "15 अप्रैल 2030 के पिथौरागढ़ सूर्योदय पर चैत्र शुक्ल द्वादशी है। नारद पुराण 121.10–14 भर्तृ-द्वादशिका को इसी तिथि से जोड़ता है; रात्रि-जागरण और अगले प्रभात दान अलग अंग हैं, इसलिए पूजा-व्रत का दिन 15 अप्रैल है।",
+          "followingMorningActionDate": "2030-04-16",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण 121.10–14 भर्तृ-द्वादशिका को चैत्र शुक्ल द्वादशी पर रखता है। पिथौरागढ़ में उसी दिन सूर्योदय पर द्वादशी विद्यमान है। अगले प्रभात का दान पूजा-दिन को 16 अप्रैल नहीं बनाता।"
+        },
+        {
+          "observanceId": "vamana",
+          "name": "वामन-द्वादशी",
+          "selectedDate": "2030-04-15",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 43.1–7",
+          "sourceUrl": "https://www.transliteral.org/pages/z120714021730/view",
+          "sourceBasis": "चैत्र मास की द्वादशी पर उपवास, जनार्दन/वामन-पूजन, कलश और वामन-प्रतिमा का स्पष्ट विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-04-14T20:02:37.739+05:30",
+            "end": "2030-04-15T18:04:12.166+05:30"
+          },
+          "localDayDecision": "15 अप्रैल 2030 को पिथौरागढ़ में चैत्र शुक्ल द्वादशी सूर्योदय 05:43:28 IST से 18:04:12 IST तक विद्यमान है। वराह पुराण 43.1–7 चैत्र द्वादशी पर वामन-व्रत और पूजा स्पष्ट करता है; इसलिए वामन-द्वादशी 15 अप्रैल है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "वराह पुराण अध्याय 43.1–7 चैत्र मास की द्वादशी पर उपवास और वामन-पूजन का प्रत्यक्ष विधान देता है। पिथौरागढ़ में 15 अप्रैल सूर्योदय पर द्वादशी है।"
+        }
+      ]
     },
     {
       "id": "vaishakha-krishna",
@@ -582,6 +639,24 @@
           "autoApproved": false,
           "reviewStatus": "approved",
           "reviewBasis": "वराह पुराण अध्याय 45.1 में ज्येष्ठ मास में विधिपूर्वक संकल्प और पूजा का निर्देश है; अध्याय 45.5 में राम-लक्ष्मण की स्वर्ण-प्रतिमाओं को पूजकर प्रभात में ब्राह्मण को देने का स्पष्ट विधान है। पिथौरागढ़ में द्वादशी 12 जून 14:06:03 IST पर शुरू होकर 13 जून 05:08:59 IST के सूर्योदय पर विद्यमान रहती है और 10:56:24 IST पर समाप्त होती है। इसलिए 12 जून का पूजा-दिन और 13 जून का प्रभात-दान दिन स्रोत-विधान तथा स्थानीय तिथि-व्याप्ति से मेल खाते हैं।"
+        },
+        {
+          "observanceId": "trivikrama",
+          "name": "त्रिविक्रम-द्वादशी व्रत",
+          "selectedDate": "2030-06-13",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.17–18",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "ज्येष्ठ शुक्ल द्वादशी पर त्रिविक्रम-पूजन, मधुर नैवेद्य/करक और ब्राह्मण को एकभुक्त का स्पष्ट विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-06-12T14:06:03.319+05:30",
+            "end": "2030-06-13T10:56:24.450+05:30"
+          },
+          "localDayDecision": "पिथौरागढ़ में 13 जून 2030 सूर्योदय 05:08:59 IST पर ज्येष्ठ शुक्ल द्वादशी विद्यमान है; तिथि 10:56:24 IST पर समाप्त होती है। नारद पुराण 121.17–18 ज्येष्ठ शुक्ल द्वादशी पर त्रिविक्रम-पूजन बताता है। इसलिए त्रिविक्रम-व्रत 13 जून है। यह 12 जून के रामलक्ष्मण-द्वादशी पूजा-दिन से अलग observance है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण 121.17–18 ज्येष्ठ शुक्ल द्वादशी पर त्रिविक्रम-व्रत स्पष्ट करता है। पिथौरागढ़ में 13 जून सूर्योदय पर द्वादशी विद्यमान है; 12 जून की रामलक्ष्मण पूजा का अलग dateRole यथावत है।"
         }
       ]
     },
@@ -696,7 +771,27 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "vasudeva",
+          "name": "वासुदेव-द्वादशी",
+          "selectedDate": "2030-07-12",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 46.1–16",
+          "sourceUrl": "https://www.transliteral.org/pages/z120717015616/view",
+          "sourceBasis": "आषाढ़ में वासुदेव और चतुर्व्यूह की अंग-पूजा, स्वर्ण-प्रतिमा, उपवास तथा दान का विधान; अध्याय का फल-वर्णन वसुदेव-देवकी आख्यान से जुड़ा है।",
+          "localTithiIntervalIST": {
+            "start": "2030-07-11T20:17:45.380+05:30",
+            "end": "2030-07-12T17:13:43.352+05:30"
+          },
+          "localDayDecision": "पिथौरागढ़ में 12 जुलाई 2030 सूर्योदय 05:17:58 IST पर आषाढ़ शुक्ल द्वादशी विद्यमान है और 17:13:43 IST तक रहती है। वराह पुराण 46.1–16 आषाढ़ द्वादशी पर वासुदेव-चतुर्व्यूह पूजा, उपवास और दान का विधान देता है; इसलिए observance date 12 जुलाई है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "वराह पुराण अध्याय 46.1–16 आषाढ़ द्वादशी पर वासुदेव-चतुर्व्यूह पूजा और उपवास का स्पष्ट विधान देता है। स्थानीय द्वादशी 12 जुलाई के सूर्योदय पर है।"
+        }
+      ]
     },
     {
       "id": "shravana-krishna",
@@ -894,7 +989,45 @@
         },
         "approval": "evidence-only; manual source review pending",
         "autoApproved": false
-      }
+      },
+      "observanceDateReviews": [
+        {
+          "observanceId": "sridhara",
+          "name": "श्रीधर-द्वादशी व्रत",
+          "selectedDate": "2030-08-10",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.21–22",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "श्रावण शुक्ल द्वादशी पर श्रीधर-पूजन, दधिभक्त से ब्राह्मण-भोजन और दक्षिणा का स्पष्ट विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-08-10T02:00:29.669+05:30",
+            "end": "2030-08-10T23:24:16.354+05:30"
+          },
+          "localDayDecision": "10 अगस्त 2030 को पिथौरागढ़ सूर्योदय 05:34:30 IST पर श्रावण शुक्ल द्वादशी विद्यमान है और मध्याह्न सहित रात्रि तक चलती है। नारद पुराण 121.21–22 इसी श्रावण शुक्ल द्वादशी पर श्रीधर-पूजन बताता है; इसलिए observance date 10 अगस्त है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "नारद पुराण 121.21–22 श्रावण शुक्ल द्वादशी पर श्रीधर-व्रत का स्पष्ट विधान देता है। पिथौरागढ़ में 10 अगस्त सूर्योदय और मध्याह्न पर द्वादशी है।"
+        },
+        {
+          "observanceId": "damodara",
+          "name": "दामोदर-द्वादशी",
+          "selectedDate": "2030-08-10",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 47.1–4",
+          "sourceUrl": "https://www.transliteral.org/pages/z120717015850/view",
+          "sourceBasis": "श्रावण शुक्ल द्वादशी पर दामोदर-पूजन, अंग-न्यास, कलश-स्थापन और दान का स्पष्ट विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-08-10T02:00:29.669+05:30",
+            "end": "2030-08-10T23:24:16.354+05:30"
+          },
+          "localDayDecision": "10 अगस्त 2030 को पिथौरागढ़ सूर्योदय 05:34:30 IST पर श्रावण शुक्ल द्वादशी विद्यमान है और मध्याह्न सहित रात्रि तक चलती है। वराह पुराण 47.1–4 श्रावण शुक्ल द्वादशी पर दामोदर-पूजन बताता है; इसलिए observance date 10 अगस्त है। यह नारद पुराण के श्रीधर-व्रत से अलग विधि है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "वराह पुराण अध्याय 47.1–4 श्रावण शुक्ल द्वादशी पर दामोदर-पूजन स्पष्ट करता है। पिथौरागढ़ में 10 अगस्त सूर्योदय और मध्याह्न पर द्वादशी है; श्रीधर-व्रत अलग कार्ड रहेगा।"
+        }
+      ]
     },
     {
       "id": "bhadrapada-krishna",
@@ -1704,11 +1837,19 @@
       "observances": [
         {
           "id": "sahasrashirsha",
-          "name": "सहस्रशीर्ष नारायण द्वादशी",
+          "name": "धरणी-व्रत (सहस्रशीर्ष नारायण पूजन)",
           "deity": "सहस्रशीर्ष भगवान नारायण",
-          "shortDetail": "योगनिद्रा में स्थित सहस्रशीर्ष नारायण की पूजा तथा चार समुद्र-कलश और प्रतिमा के दान का विधान है।",
+          "shortDetail": "कार्तिक शुक्ल द्वादशी पर सहस्रशीर्ष नारायण की पूजा, चार समुद्र-कलश, योगनिद्रा-स्थ भगवान् की प्रतिमा और प्रभात दान का विधान है।",
           "sourceProfile": "varahaPurana",
           "source": "वराह पुराण, अध्याय 50 — धारणी-व्रत (कार्तिक द्वादशी; सहस्रशीर्ष नारायण-पूजन)"
+        },
+        {
+          "id": "damodara",
+          "name": "दामोदर-द्वादशी",
+          "deity": "भगवान दामोदर",
+          "shortDetail": "ऊर्ज शुक्ल द्वादशी पर दामोदर के सर्वाङ्ग-पूजन, कलश-स्थापन, रात्रि-जागरण और प्रभात दान का विधान है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.35–38",
+          "sourceProfile": "naradaPurana"
         }
       ],
       "conditionalObservances": [],
@@ -1726,7 +1867,46 @@
           "status": "cross-reference"
         }
       ],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "sahasrashirsha",
+          "name": "धरणी-व्रत",
+          "selectedDate": "2030-11-06",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 50.3–28",
+          "sourceUrl": "https://www.transliteral.org/pages/z120717020146/view",
+          "sourceBasis": "कार्तिक द्वादशी उपवास, सहस्रशीर्ष नारायण/योगीश्वर-पूजन, चार समुद्र-कलश, रात्रि-जागरण और प्रभात दान; अध्याय इसे धरणी-व्रत कहता है।",
+          "localTithiIntervalIST": {
+            "start": "2030-11-06T03:43:56.837+05:30",
+            "end": "2030-11-07T04:22:50.718+05:30"
+          },
+          "localDayDecision": "कार्तिक शुक्ल द्वादशी 6 नवम्बर 03:43:56 IST से 7 नवम्बर 04:22:50 IST तक है। 6 नवम्बर सूर्योदय 06:26:24 IST पर द्वादशी है; वराह पुराण 50.3–20 कार्तिक द्वादशी का स्पष्ट विधान देता है।",
+          "dateRole": "dwadashi-upavasa-and-next-morning-donation",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "कार्तिक द्वादशी उपवास, सहस्रशीर्ष नारायण/योगीश्वर-पूजन, चार समुद्र-कलश, रात्रि-जागरण और प्रभात दान; अध्याय इसे धरणी-व्रत कहता है। पिथौरागढ़ में 2030-11-06 के सूर्योदय 06:26:24.019 IST पर द्वादशी विद्यमान है।"
+        },
+        {
+          "observanceId": "damodara",
+          "name": "दामोदर-द्वादशी",
+          "selectedDate": "2030-11-06",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.35–38",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "ऊर्ज शुक्ल द्वादशी पर दामोदर-पूजन, ब्राह्मण-भोजन और जलपूर्ण कलश/वस्त्र/स्वर्ण दान का अलग विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-11-06T03:43:56.837+05:30",
+            "end": "2030-11-07T04:22:50.718+05:30"
+          },
+          "localDayDecision": "कार्तिक शुक्ल द्वादशी 6 नवम्बर 03:43:56 IST से 7 नवम्बर 04:22:50 IST तक है। 6 नवम्बर सूर्योदय 06:26:24 IST पर द्वादशी है; नारद पुराण 121.35–38 इसी ऊर्ज शुक्ल द्वादशी पर दामोदर-पूजन बताता है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "ऊर्ज शुक्ल द्वादशी पर दामोदर-पूजन, ब्राह्मण-भोजन और जलपूर्ण कलश/वस्त्र/स्वर्ण दान का अलग विधान। पिथौरागढ़ में 2030-11-06 के सूर्योदय 06:26:24.019 IST पर द्वादशी विद्यमान है।"
+        }
+      ]
     },
     {
       "id": "margashirsha-krishna",
@@ -1828,17 +2008,82 @@
         },
         {
           "id": "standard-margashirsha",
-          "name": "धरणी-व्रत",
+          "name": "धरणी-व्रत (मत्स्य-प्रतिमा पूजन)",
           "deity": "भगवान विष्णु एवं धरणी",
           "shortDetail": "मार्गशीर्ष द्वादशी पर भगवान विष्णु और धरणी की पूजा, कलश-स्थापन तथा मत्स्य-रूप स्वर्ण-प्रतिमा के दान का विधान है।",
           "sourceProfile": "varahaPurana",
           "source": "वराह पुराण, अध्याय 39 — धरणी-व्रत",
           "sourceTextNote": "अध्याय 39 के उपलब्ध पाठ में धरणी-व्रत की विधि है और मत्स्य-रूप प्रतिमा का विधान आता है; अध्याय-शीर्षक और पाठ-शरीर में नामांतर है। इसे अलग मत्स्य-द्वादशी observance के रूप में नहीं जोड़ा गया है।"
+        },
+        {
+          "id": "dwadashaditya",
+          "name": "द्वादशादित्य व्रतारम्भ",
+          "deity": "द्वादश आदित्य",
+          "shortDetail": "मार्गशीर्ष शुक्ल द्वादशी से आरम्भ होकर प्रत्येक शुक्ल द्वादशी पर बारह आदित्यों का पूजन; वर्षांत में बारह स्वर्ण-प्रतिमाओं और दान का विधान है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.54–60",
+          "sourceProfile": "naradaPurana"
         }
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "sadhya",
+          "name": "साध्य-व्रत",
+          "selectedDate": "2030-12-06",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.51–53",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "मार्गशीर्ष शुक्ल द्वादशी पर बारह साध्य देवताओं का कुश-आसन पर पूजन, बारह ब्राह्मणों को भोजन और दक्षिणा।",
+          "localTithiIntervalIST": {
+            "start": "2030-12-05T18:44:42.413+05:30",
+            "end": "2030-12-06T20:40:11.435+05:30"
+          },
+          "localDayDecision": "मार्गशीर्ष शुक्ल द्वादशी 5 दिसम्बर 18:44:42 से 6 दिसम्बर 20:40:11 IST तक है। 6 दिसम्बर सूर्योदय 06:50:25 IST पर द्वादशी विद्यमान है; नारद पुराण 121.51–53 इस तिथि पर साध्य-व्रत बताता है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "मार्गशीर्ष शुक्ल द्वादशी पर बारह साध्य देवताओं का कुश-आसन पर पूजन, बारह ब्राह्मणों को भोजन और दक्षिणा। पिथौरागढ़ में 2030-12-06 के सूर्योदय 06:50:25.737 IST पर द्वादशी विद्यमान है।"
+        },
+        {
+          "observanceId": "dwadashaditya",
+          "name": "द्वादशादित्य व्रतारम्भ",
+          "selectedDate": "2030-12-06",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.54–60",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "उसी मार्गशीर्ष शुक्ल द्वादशी पर द्वादशादित्य-व्रत; बारह आदित्यों का पूजन, प्रतिमास शुक्ल द्वादशी पर अनुष्ठान और वर्षांत में बारह प्रतिमाओं का दान।",
+          "localTithiIntervalIST": {
+            "start": "2030-12-05T18:44:42.413+05:30",
+            "end": "2030-12-06T20:40:11.435+05:30"
+          },
+          "localDayDecision": "मार्गशीर्ष शुक्ल द्वादशी 5 दिसम्बर 18:44:42 से 6 दिसम्बर 20:40:11 IST तक है। 6 दिसम्बर सूर्योदय 06:50:25 IST पर द्वादशी है; नारद पुराण 121.54–60 इसे उसी तिथि का पृथक द्वादशादित्य-व्रत बताता है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "उसी मार्गशीर्ष शुक्ल द्वादशी पर द्वादशादित्य-व्रत; बारह आदित्यों का पूजन, प्रतिमास शुक्ल द्वादशी पर अनुष्ठान और वर्षांत में बारह प्रतिमाओं का दान। पिथौरागढ़ में 2030-12-06 के सूर्योदय 06:50:25.737 IST पर द्वादशी विद्यमान है।"
+        },
+        {
+          "observanceId": "standard-margashirsha",
+          "name": "धरणी-व्रत",
+          "selectedDate": "2030-12-06",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 39.25–76",
+          "sourceUrl": "https://www.transliteral.org/pages/z120714021332/view",
+          "sourceBasis": "मार्गशीर्ष दशमी से व्रत-क्रम आरम्भ, एकादशी उपवास और द्वादशी पर अंतिम विष्णु-पूजन, मत्स्य-प्रतिमा/चार कलश का दान तथा ब्राह्मण-भोजन।",
+          "localTithiIntervalIST": {
+            "start": "2030-12-05T18:44:42.413+05:30",
+            "end": "2030-12-06T20:40:11.435+05:30"
+          },
+          "localDayDecision": "वराह पुराण 39.25–32 दशमी की तैयारी और एकादशी उपवास बताता है; 39.33–58 में अगले प्रभात स्नान, विष्णु-पूजन और स्पष्टतः द्वादशी पर दान/भोजन है। स्थानीय मार्गशीर्ष शुक्ल द्वादशी 6 दिसम्बर सूर्योदय 06:50:25 IST पर विद्यमान है; इसलिए 6 दिसम्बर अंतिम द्वादशी-अनुष्ठान-दिन है।",
+          "dateRole": "dwadashi-final-worship-after-dashami-preparation",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "मार्गशीर्ष दशमी से व्रत-क्रम आरम्भ, एकादशी उपवास और द्वादशी पर अंतिम विष्णु-पूजन, मत्स्य-प्रतिमा/चार कलश का दान तथा ब्राह्मण-भोजन। पिथौरागढ़ में 2030-12-06 के सूर्योदय 06:50:25.737 IST पर द्वादशी विद्यमान है।"
+        }
+      ]
     },
     {
       "id": "pausha-krishna",
@@ -2086,9 +2331,9 @@
       "observances": [
         {
           "id": "sujanna",
-          "name": "सुजन्न-द्वादशी",
+          "name": "सुजन्म-द्वादशी व्रत",
           "deity": "सूर्य",
-          "shortDetail": "एक वर्ष तक प्रत्येक शुक्ल द्वादशी पर निर्दिष्ट दान और संयम का क्रम; वर्षांत में सूर्य-प्रतिमा, गौदान और ब्राह्मण-भोजन का विधान है।",
+          "shortDetail": "पौष शुक्ल द्वादशी से एक वर्ष तक प्रत्येक शुक्ल द्वादशी पर निर्दिष्ट दान और संयम का क्रम; वर्षांत में सूर्य-प्रतिमा, गौदान और ब्राह्मण-भोजन का विधान है।",
           "sourceProfile": "naradaPurana",
           "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
         },
@@ -2103,7 +2348,46 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "observanceDateReviews": [
+        {
+          "observanceId": "sujanna",
+          "name": "सुजन्म-द्वादशी व्रत",
+          "selectedDate": "2030-01-16",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध 121.76–85",
+          "sourceUrl": "https://sa.wikisource.org/wiki/नारदपुराणम्-_पूर्वार्धः/अध्यायः_१२१",
+          "sourceBasis": "पौष शुक्ल द्वादशी पर सुजन्म-द्वादशी व्रत का आरम्भ; वर्ष भर प्रत्येक शुक्ल द्वादशी पर क्रमिक दान और वर्षांत में सूर्य-प्रतिमा/गौदान का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-01-15T16:30:33.938+05:30",
+            "end": "2030-01-16T18:33:49.990+05:30"
+          },
+          "localDayDecision": "पौष शुक्ल द्वादशी 15 जनवरी 16:30:33 से 16 जनवरी 18:33:49 IST तक है। 16 जनवरी सूर्योदय 07:05:09 IST पर द्वादशी विद्यमान है; नारद पुराण 121.76–85 इस तिथि पर वार्षिक व्रत आरम्भ बताता है।",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "पौष शुक्ल द्वादशी पर सुजन्म-द्वादशी व्रत का आरम्भ; वर्ष भर प्रत्येक शुक्ल द्वादशी पर क्रमिक दान और वर्षांत में सूर्य-प्रतिमा/गौदान का विधान। पिथौरागढ़ में 2030-01-16 के सूर्योदय 07:05:09.971 IST पर द्वादशी विद्यमान है।"
+        },
+        {
+          "observanceId": "kurma",
+          "name": "कूर्म-द्वादशी",
+          "selectedDate": "2030-01-16",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 40.1–9",
+          "sourceUrl": "https://www.transliteral.org/pages/z120714021435/view",
+          "sourceBasis": "पौष शुक्ल द्वादशी को कूर्मरूप जनार्दन की तिथि कहा गया है; एकादशी रात्रि पूजा, कूर्म-प्रतिमा/कलश और अगले प्रभात ब्राह्मण को दान का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-01-15T16:30:33.938+05:30",
+            "end": "2030-01-16T18:33:49.990+05:30"
+          },
+          "localDayDecision": "पौष शुक्ल द्वादशी 15 जनवरी 16:30:33 से 16 जनवरी 18:33:49 IST तक है। 16 जनवरी सूर्योदय 07:05:09 IST पर द्वादशी है। वराह पुराण 40.2 तिथि को स्पष्टतः पौष शुक्ल द्वादशी कहता है; 40.3–7 एकादशी-रात्रि पूजा और अगले प्रभात दान बताता है।",
+          "dateRole": "dwadashi-donation-after-ekadashi-night-worship",
+          "dateDecisionScope": "observance-date-only",
+          "autoApproved": false,
+          "reviewStatus": "approved",
+          "reviewBasis": "पौष शुक्ल द्वादशी को कूर्मरूप जनार्दन की तिथि कहा गया है; एकादशी रात्रि पूजा, कूर्म-प्रतिमा/कलश और अगले प्रभात ब्राह्मण को दान का विधान। पिथौरागढ़ में 2030-01-16 के सूर्योदय 07:05:09.971 IST पर द्वादशी विद्यमान है।"
+        }
+      ]
     },
     {
       "id": "magha-krishna",

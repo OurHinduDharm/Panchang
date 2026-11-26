@@ -1,0 +1,34 @@
+name: India eclipse independent audit
+on:
+  push:
+    paths:
+      - 'eclipse-panchang.js'
+      - 'tests/eclipse-panchang-visibility.test.mjs'
+      - 'scripts/audit-india-eclipse.mjs'
+      - '.github/workflows/india-eclipse-audit.yml'
+  pull_request:
+    paths:
+      - 'eclipse-panchang.js'
+      - 'tests/eclipse-panchang-visibility.test.mjs'
+      - 'scripts/audit-india-eclipse.mjs'
+      - '.github/workflows/india-eclipse-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --ignore-scripts @ishubhamx/panchangam-js@3.0.0
+      - run: node --test tests/eclipse-panchang-visibility.test.mjs
+      - run: node scripts/audit-india-eclipse.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eclipse-audit-results
+          path: eclipse-audit-results.json

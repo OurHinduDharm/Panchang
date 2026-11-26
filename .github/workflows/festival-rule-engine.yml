@@ -1,0 +1,28 @@
+name: Festival rule engine v1
+on:
+  pull_request:
+    paths:
+      - "festival-rule-engine.mjs"
+      - "festival-observance-rules.mjs"
+      - "tests/festival-rule-engine.test.mjs"
+      - ".github/workflows/festival-rule-engine.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "festival-rule-engine.mjs"
+      - "festival-observance-rules.mjs"
+      - "tests/festival-rule-engine.test.mjs"
+      - ".github/workflows/festival-rule-engine.yml"
+permissions:
+  contents: read
+jobs:
+  rule-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run year-independent festival rule engine tests
+        run: node --test tests/festival-rule-engine.test.mjs tests/festival-observance-rules.test.mjs

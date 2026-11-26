@@ -58,6 +58,7 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   const result = extractAnnualPanchangDay({
     tithi:9, paksha:"Shukla", masa:{name:"Kartika",isAdhika:false},
     sunrise:"2026-11-01T00:52:00.000Z", sunset:"2026-11-01T11:53:00.000Z",
+    moonrise:"2026-11-01T14:20:00.000Z",
     tithiStartTime:"2026-10-31T23:00:00.000Z", tithiEndTime:"2026-11-01T09:00:00.000Z",
     nakshatra:12, yoga:14, sunRashi:7, nakshatraEndTime:"2026-11-01T10:00:00.000Z",
     nakshatras:[{index:12,name:"Hasta",startTime:new Date("2026-10-31T22:00:00.000Z"),endTime:new Date("2026-11-01T10:00:00.000Z")}],
@@ -70,6 +71,7 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   assert.equal(result.nakshatra,"हस्त");
   assert.equal(result.yoga,"वज्र");
   assert.equal(result.sunRashi,"वृश्चिक");
+  assert.equal(result.moonrise,"2026-11-01T14:20:00.000Z");
   assert.equal(result.karana,"बव");
   assert.equal(result.nakshatraIntervals.length,1);
   assert.deepEqual(result.grahanaTimes,[]);
@@ -1094,4 +1096,57 @@ test("2030 Kartika Krishna Govatsa Dwadashi selects the first Pradosha-vyapini d
   assert.ok(card);
   assert.equal(card.muhurtaRule, "govatsa-dwadashi-pradosh-kala");
   assert.equal(card.sourceUrl, "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030");
+});
+
+
+test("generates a 2031 local Panchang and Chaturmas review draft without hard-coded annual references", async () => {
+  const result = await generateYear(2031);
+  assert.equal(result.annualReview.year, 2031);
+  assert.equal(result.annualReview.calculationStatus, "research-only-not-approved");
+  assert.equal(result.annualReview.dailyPanchang.length, 365);
+  assert.ok(result.annualReview.dailyPanchang.filter(day => day.moonrise).length > 300, "2031 annual Panchang must include local moonrise on most days");
+  assert.equal(result.sourceReview.chaturmasStartCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+  assert.equal(result.sourceReview.chaturmasEndCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+  assert.deepEqual(result.sourceReview.chaturmasStartCrossCheck.sources, []);
+  assert.deepEqual(result.sourceReview.chaturmasEndCrossCheck.sources, []);
+  assert.equal(result.annualReview.catalog.length, 0);
+  assert.equal(result.annualReview.sourceReview.catalogMonthsMissing.length, 12);
+  assert.ok(result.chaturmas.boundaries.length >= 4, "future-year Chaturmas boundary candidates should be calculated");
+  assert.ok(result.chaturmas.boundaries.every(item => item.status !== "approved"), "generated boundaries must never be auto-approved");
+});
+
+
+test("2031 committed annual review draft includes local moonrise and remains unapproved", async () => {
+  const annual = JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2031.json", import.meta.url), "utf8"));
+  assert.equal(annual.year, 2031);
+  assert.equal(annual.calculationStatus, "research-only-not-approved");
+  assert.equal(annual.dailyPanchang.length, 365);
+  assert.equal(annual.dailyPanchang.filter(day => day.moonrise).length, 353);
+  assert.equal(annual.catalog.length, 0);
+  assert.equal(annual.sourceReview.catalogMonthsMissing.length, 12);
+  assert.equal(annual.dailyPanchang[0].date, "2031-01-01");
+  assert.ok(annual.dailyPanchang[0].moonrise);
+});
+
+test("2031 Dwadashi and Chaturmas review remains pending source verification", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2031-review.json", import.meta.url), "utf8"));
+  assert.equal(review.year, 2031);
+  assert.equal(review.status, "needs-review");
+  assert.equal(review.calculationStatus, "panchang-engine-calculated-needs-source-review");
+  assert.equal(review.tithis.length, 26);
+  assert.equal(review.tithiDates.length, 30);
+  assert.equal(review.chaturmas.status, "needs-review");
+  assert.equal(review.chaturmas.boundaries.length, 5);
+  assert.equal(review.chaturmas.missingBoundaries.length, 0);
+  assert.equal(review.sourceReview.status, "pending-manual-cross-check");
+  assert.equal(review.sourceReview.chaturmasStartCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+  assert.equal(review.sourceReview.chaturmasEndCrossCheck.status, "no-configured-reference-manual-cross-check-required");
+});
+
+
+test("annual review draft publishing never overwrites existing hand-reviewed Dwadashi files", async () => {
+  const workflow = await readFile(new URL("../.github/workflows/annual-dwadashi-source-review.yml", import.meta.url), "utf8");
+  assert.match(workflow, /for file in artifacts\/dwadashi-review\/\*\.json/);
+  assert.match(workflow, /if \[ ! -f "\$target" \]; then[\s\S]*cp "\$file" "\$target"/);
+  assert.doesNotMatch(workflow, /cp artifacts\/dwadashi-review\/\*\.json data\/references\//);
 });

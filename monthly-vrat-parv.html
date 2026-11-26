@@ -234,7 +234,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       </select>
     </label>
     <label>वर्ष
-      <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
+      <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option></select>
     </label>
   </div>
   <div class="filters" aria-label="व्रत-पर्व खोजें">
@@ -953,12 +953,20 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
+      if(year===2031){
+        eventsEl.replaceChildren();
+        var unavailable=document.createElement("div");
+        unavailable.className="empty";
+        unavailable.textContent="2031 के व्रत-पर्व की मासिक सूची अभी तैयार और सत्यापित नहीं हुई है। कृपया बाद में देखें।";
+        eventsEl.appendChild(unavailable);
+        countEl.textContent="डेटा तैयार होना बाकी है";
+      }
       restoreViewportAnchor();
     }
   }
   function ensureYearOption(year){
     var numeric=Number(year);
-    if(!Number.isInteger(numeric)||numeric<2026||numeric>2030)return null;
+    if(!Number.isInteger(numeric)||numeric<2026||numeric>2031)return null;
     var value=String(numeric);
     var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
     if(existing)return existing;
@@ -972,14 +980,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
   function syncMonthNavigationButtons(){
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
-    var atStart=year===2026&&month===1,atEnd=year===2030&&month===12;
+    var atStart=year===2026&&month===1,atEnd=year===2031&&month===12;
     ["prevBtn","footerPrevBtn"].forEach(function(id){var button=document.getElementById(id);if(button)button.disabled=atStart;});
     ["nextBtn","footerNextBtn"].forEach(function(id){var button=document.getElementById(id);if(button)button.disabled=atEnd;});
   }
   function shiftMonth(delta,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
-    if(y<2026||y>2030){syncMonthNavigationButtons();return;}
+    if(y<2026||y>2031){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
@@ -1010,7 +1018,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var initialDate=getIndiaCalendarDate();
   var requestedYear=Number(pageParams.get("year"));
   var requestedMonth=Number(pageParams.get("month"));
-  if(Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2030&&
+  if(Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2031&&
      Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }

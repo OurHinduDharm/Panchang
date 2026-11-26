@@ -474,6 +474,26 @@ function createPlanetCard(data, dailyEvents = {}) {
   return card;
 }
 
+function formatHoraCalendarDate(isoDate, includeWeekday = false) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(isoDate || ""))) return "";
+  const [year, month, day] = isoDate.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day, 12));
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "UTC", day: "numeric", month: "long", year: "numeric",
+    ...(includeWeekday ? { weekday: "long" } : {})
+  }).format(date);
+}
+
+function getHoraCycleDate(hora) {
+  const timeZone = getLocation()?.timeZone || "Asia/Kolkata";
+  let isoDate = getIsoDateInTimeZone(hora.start, timeZone);
+  if (hora.part === "रात्रि") {
+    const hour = Number(new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", hourCycle: "h23" }).format(hora.start));
+    if (hour < 12) isoDate = addIsoCalendarDays(isoDate, -1);
+  }
+  return isoDate;
+}
+
 function createHoraCard(
   horaDetails
 ){
@@ -535,6 +555,9 @@ function createHoraCard(
             <b>
               🟢 वर्तमान होरा
             </b>
+            <span style="font-size:11px;color:var(--muted-color,#777);font-weight:500">
+              ${formatHoraCalendarDate(getHoraCycleDate(current), true)}
+            </span>
 
             <span>
               ${current.planet.symbol}
@@ -816,7 +839,7 @@ ${currentText}
           font-size:12px;
           font-weight:700;
         ">
-          🌞 दिन की 12 होरा
+          🌞 दिन की 12 होरा (${formatHoraCalendarDate(getSelectedDate())})
         </div>
 
         ${dayRows}
@@ -827,7 +850,7 @@ ${currentText}
           font-size:12px;
           font-weight:700;
         ">
-          🌙 रात्रि की 12 होरा
+          🌙 रात्रि की 12 होरा (${formatHoraCalendarDate(getSelectedDate())})
         </div>
 
         ${nightRows}
@@ -839,7 +862,7 @@ ${currentText}
 
 <div class="yatra-note">
   <b>📌 नोट:</b>
-  रात्रि की होरा सूर्यास्त से अगले सूर्योदय तक रहती हैं; मध्यरात्रि के बाद का समय अगले दिन की तारीख में आता है।
+  रात्रि की होरा सूर्यास्त से अगले सूर्योदय तक चलती है; मध्यरात्रि के बाद भी इसे सूर्यास्त वाले दिन की रात्रि माना जाता है।
 </div>
 
   `;

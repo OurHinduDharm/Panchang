@@ -190,14 +190,24 @@
     {
       "date": "2029-11-13",
       "dateLabel": "13 नवंबर",
-      "title": "मासिक दुर्गाष्टमी / गोपाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। गोपाष्टमी पर गौ-पूजन, गौ-सेवा और भगवान श्रीकृष्ण की गोचारण लीला का स्मरण किया जाता है।",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और मंत्र-जप करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल अष्टमी",
       "sourceName": "Drik Panchang — 13 November 2029 Panchang",
       "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=13%2F11%2F2029&lang=en"
+    },
+    {
+      "date": "2029-11-13",
+      "dateLabel": "13 नवंबर",
+      "title": "गोपाष्टमी",
+      "description": "गोपाष्टमी पर गौ-पूजन, गौ-सेवा और भगवान श्रीकृष्ण की गोचारण लीला का स्मरण करें।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल अष्टमी"
     },
     {
       "date": "2029-11-14",

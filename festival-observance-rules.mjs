@@ -302,6 +302,11 @@ export function getObservanceRuleProfile(ruleId) {
   });
 }
 
+/** Return a stable, read-only snapshot of every registered observance profile. */
+export function listObservanceRuleProfiles() {
+  return Object.keys(PROFILES).sort().map(id => getObservanceRuleProfile(id));
+}
+
 /**
  * Evaluate one day against an explicit profile. A match is only candidate
  * evidence; source review and festival-specific exceptions remain separate.
@@ -314,6 +319,9 @@ export function evaluateObservanceRule(ruleId, context) {
     evidence: [], finalDate: null, autoApproved: false
   };
   const profile = PROFILES[profileId];
+  const selectedTithiIndices = Array.isArray(context?.targetTithiIndices) && context.targetTithiIndices.length
+    ? context.targetTithiIndices
+    : Number.isInteger(context?.targetTithiIndex) ? [context.targetTithiIndex] : profile.tithiIndices;
   const day = context?.date;
   if (profile.allowedMonths) {
     const month = String(context?.masa ?? "").replace(/^अधिक\s+/, "").trim();
@@ -329,7 +337,7 @@ export function evaluateObservanceRule(ruleId, context) {
     };
   }
   if (profile.reviewOnly) return {
-    status: "manual-review", ruleId: profile.id, ruleVersion: "0.2.0",
+    status: "manual-review", ruleId: profile.id, ruleVersion: "0.3.0",
     date: day ?? null, label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis, sourceReview: profile.sourceReview,
     reviewNote: profile.reviewNote,
@@ -354,7 +362,7 @@ export function evaluateObservanceRule(ruleId, context) {
     const previousPoint = asDate(context.previousSunrise);
     const repeated = previousPoint && context.previousTithis.some(row => {
       const interval = asInterval(row);
-      return interval && profile.tithiIndices.includes(interval.index) && interval.start <= previousPoint && interval.end > previousPoint;
+      return interval && selectedTithiIndices.includes(interval.index) && interval.start <= previousPoint && interval.end > previousPoint;
     });
     if (repeated) return {
       status: "candidate-not-supported", ruleId: profile.id, date: day,
@@ -406,7 +414,7 @@ export function evaluateObservanceRule(ruleId, context) {
   } else {
     for (const row of rows) {
       const interval = asInterval(row);
-      if (!interval || !profile.tithiIndices.includes(interval.index)) continue;
+      if (!interval || !selectedTithiIndices.includes(interval.index)) continue;
       if (profile.paksha && row.paksha && row.paksha !== profile.paksha) continue;
       let matched = profile.decisionMoment === "moonrise"
         ? (interval.start <= window.point && interval.end > window.point
@@ -438,7 +446,7 @@ export function evaluateObservanceRule(ruleId, context) {
     : [];
   return {
     status: evidence.length && allRequired ? "candidate-supported" : "candidate-not-supported",
-    ruleId: profile.id, ruleVersion: "0.2.0", date: day,
+    ruleId: profile.id, ruleVersion: "0.3.0", date: day,
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,
@@ -454,7 +462,7 @@ export function evaluateObservanceRule(ruleId, context) {
  * A unique karmakala match can select a date, but never certifies publication:
  * source approval and any observance-specific tie-break remain separate gates.
  */
-export function resolveObservanceCandidates(ruleId, candidateContexts) {
+export function resolveObservanceCandidates(ruleId, candidateContexts, options = {}) {
   const profileId = ALIAS_TO_ID.get(String(ruleId ?? "").trim().toLowerCase());
   if (!profileId) return {
     status: "manual-review", ruleId: String(ruleId ?? ""),
@@ -466,12 +474,27 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     warnings: ["candidate-contexts-missing"],
     evaluations: [], finalDate: null, autoApproved: false
   };
-  if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(candidateContexts);
-  if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(candidateContexts);
-  if (profileId === "narasimha-jayanti-smarta-review") return resolveNarasimhaJayantiCandidates(candidateContexts);
-  if (profileId === "parashurama-jayanti-pradosha-review") return resolveParashuramaJayantiCandidates(candidateContexts);
-  if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(candidateContexts);
-  const dates = candidateContexts.map(item => String(item?.date ?? ""));
+  const profile = PROFILES[profileId];
+  const targetIndices = options.targetTithiIndices ??
+    (Number.isInteger(options.targetTithiIndex) ? [options.targetTithiIndex] : null);
+  if (targetIndices && (!Array.isArray(targetIndices) || !targetIndices.length ||
+      targetIndices.some(index => !Number.isInteger(index) || !profile.tithiIndices.includes(index)))) {
+    return {
+      status: "manual-review", ruleId: profileId,
+      warnings: ["target-tithi-selector-outside-rule-profile"],
+      evaluations: [], finalDate: null, autoApproved: false
+    };
+  }
+  const scopedContexts = candidateContexts.map(context => ({
+    ...context,
+    ...(targetIndices ? { targetTithiIndices: targetIndices } : {})
+  }));
+  if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(scopedContexts);
+  if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(scopedContexts);
+  if (profileId === "narasimha-jayanti-smarta-review") return resolveNarasimhaJayantiCandidates(scopedContexts);
+  if (profileId === "parashurama-jayanti-pradosha-review") return resolveParashuramaJayantiCandidates(scopedContexts);
+  if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(scopedContexts);
+  const dates = scopedContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
     return {
       status: "insufficient-data", ruleId: profileId,
@@ -479,7 +502,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
       evaluations: [], finalDate: null, autoApproved: false
     };
   }
-  const evaluations = candidateContexts
+  const evaluations = scopedContexts
     .slice()
     .sort((a, b) => String(a.date).localeCompare(String(b.date)))
     .map(context => evaluateObservanceRule(profileId, context));
