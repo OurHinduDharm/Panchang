@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  isApprovedSpecialPunyaKaalCandidate,
+  isApprovedSpecialPunyaKaalCandidate, mayHaveApprovedLocalPunyaKaal,
   SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL, publicSpecialPunyaKaalMonth, nextApprovedMahapata
 } from "../special-punya-kaal-public-approval.mjs";
 
@@ -70,4 +70,15 @@ test("upcoming Mahapata changes from upcoming to today to active to next across 
   assert.equal(nextApprovedMahapata(Date.parse(first.start),[]),null);
   assert.equal(publicSpecialPunyaKaalMonth(null,2026,12,rows).length,1);
   assert.equal(publicSpecialPunyaKaalMonth(null,2027,1,rows).length,2);
+});
+
+test("public local scans are restricted to months and years that can produce approved candidates",()=>{
+  for(const year of [2026,2027,2028,2029,2030,2031]){
+    for(let month=1;month<=12;month++){
+      assert.equal(mayHaveApprovedLocalPunyaKaal(year,month),[2026,2027,2028,2030].includes(year)&&[3,4].includes(month));
+    }
+  }
+  assert.equal(mayHaveApprovedLocalPunyaKaal("2026",3),false);
+  assert.equal(mayHaveApprovedLocalPunyaKaal(2030,4),true); // March 31 boundary
+  assert.equal(publicSpecialPunyaKaalMonth(null,2026,11).length>0,true); // Mahapata unaffected
 });
