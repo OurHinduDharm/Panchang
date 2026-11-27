@@ -781,9 +781,18 @@
       "status": "needs-review",
       "selectedDate": "2030-07-12",
       "displayNames": [
+        "आषाढ़ शुक्ल द्वादशी-व्रत",
         "वासुदेव-द्वादशी"
       ],
       "observances": [
+        {
+          "id": "ashadha-vishnu",
+          "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a",
+          "sourceProfile": "naradaPurana"
+        },
         {
           "id": "vasudeva",
           "name": "वासुदेव-द्वादशी",
@@ -795,6 +804,11 @@
       ],
       "conditionalObservances": [],
       "observanceDateReviews": [
+        {
+          "observanceId": "ashadha-vishnu",
+          "selectedDate": "2030-07-12",
+          "reviewStatus": "approved"
+        },
         {
           "observanceId": "vasudeva",
           "selectedDate": "2030-07-12",
@@ -1420,5 +1434,5 @@
     "completionTithi": "कार्तिक शुक्ल द्वादशी",
     "completionDetail": "त्यागी गई दालों का दान करके चातुर्मास्य व्रत पूर्ण करें।"
   },
-  "note": "पिथौरागढ़ के लिए 28 गणित द्वादशी-तिथि-दिन, 27 अलग से स्वीकृत नामित व्रत और चार स्वीकृत चातुर्मास चरण। सभी 14 शामिल parent मास-पक्ष records स्वयं needs-review हैं; केवल observanceDateReviews में approved नामित व्रत प्रकाशित हैं।"
+  "note": "पिथौरागढ़ के लिए 28 गणित द्वादशी-तिथि-दिन, 30 अलग से स्वीकृत नामित व्रत और चार स्वीकृत चातुर्मास चरण। सभी 15 शामिल parent मास-पक्ष records स्वयं needs-review हैं; केवल observanceDateReviews में approved नामित व्रत प्रकाशित हैं।"
 }

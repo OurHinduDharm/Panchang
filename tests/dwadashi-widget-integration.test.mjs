@@ -90,7 +90,7 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(annual.chaturmas.phases.length,4);
   assert.equal(annual.tithis.length,15);
   const reviews=annual.tithis.flatMap(record=>record.observanceDateReviews||[]);
-  assert.equal(reviews.length,29);
+  assert.equal(reviews.length,30);
   assert.ok(annual.tithis.every(record=>record.status==="needs-review"),"partial package must not approve parent tithi records");
   for(const record of annual.tithis){
     const ids=new Set([...(record.observances||[]),...(record.conditionalObservances||[])].map(item=>item.id));
@@ -113,6 +113,9 @@ test("2030 public Dwadashi package contains only individually approved observanc
   assert.equal(findReview("jyeshtha-shukla","rama").selectedDate,"2030-06-12");
   assert.equal(findReview("jyeshtha-shukla","trivikrama").selectedDate,"2030-06-13");
   assert.equal(findReview("ashadha-shukla","vasudeva").selectedDate,"2030-07-12");
+  assert.equal(findReview("ashadha-shukla","ashadha-vishnu").selectedDate,"2030-07-12");
+  assert.equal(annual.tithis.find(record=>record.id==="ashadha-shukla").status,"needs-review",
+    "Ashadha observance approvals must not approve the parent tithi");
   assert.equal(findReview("shravana-shukla","sridhara").selectedDate,"2030-08-10");
   assert.equal(findReview("shravana-shukla","damodara").selectedDate,"2030-08-10");
   assert.equal(findReview("bhadrapada-shukla","vamana").selectedDate,"2030-09-08");
@@ -159,7 +162,7 @@ test("monthly widget renders every individually approved 2030 Dwadashi observanc
       return {date:review.selectedDate,month:Number(review.selectedDate.slice(5,7)),title:observance.name};
     });
   });
-  assert.equal(expected.length,29);
+  assert.equal(expected.length,30);
   for (const month of [...new Set(expected.map(item => item.month))]) {
     const events = mergeAnnualDwadashiEvents({events:[]},annual,2030,month).events;
     for (const item of expected.filter(entry => entry.month === month)) {
@@ -172,6 +175,12 @@ test("monthly widget renders every individually approved 2030 Dwadashi observanc
     ((event.title || "").includes("पद्मनाभ") || (event.dwadashiAliases || []).some(name=>name.includes("पद्मनाभ"))));
   assert.equal(padmanabhaCards.length,1,"same-tithi Padmanabha forms should share one card with aliases");
   assert.deepEqual(padmanabhaCards[0].dwadashiAliases,["पद्मनाभ-द्वादशी व्रत","पद्मनाभ-द्वादशी"]);
+  const julyData = JSON.parse(await read("data/festivals/2030-07.json"));
+  const july = mergeAnnualDwadashiEvents(julyData,annual,2030,7).events;
+  assert.ok(july.some(event=>event.date==="2030-07-12"&&event.title==="आषाढ़ शुक्ल द्वादशी-व्रत"),
+    "the Narada Purana Ashadha vrata must render as its own card");
+  assert.ok(july.some(event=>event.date==="2030-07-12"&&event.title==="शुक्र प्रदोष व्रत / वासुदेव द्वादशी"),
+    "the distinct Vasudeva/Pradosha card must remain separate");
   const marchData = JSON.parse(await read("data/festivals/2030-03.json"));
   const march = mergeAnnualDwadashiEvents(marchData,annual,2030,3).events;
   const narasimhaCards = march.filter(event => event.date === "2030-03-16" &&

@@ -1154,6 +1154,44 @@ test("2030 Phalguna Shukla Narasimha and Shrihari observances use the locally su
   assert.ok(march.events.some(item => item.date === date && item.title === "नृसिंह द्वादशी"));
 });
   
+
+test("2030 Ashadha Shukla Dwadashi includes the separate Narada Purana twelve-Brahmin vrata", async () => {
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const { getPanchangam, Observer } = panchangPackage;
+  const location = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset:330, calendarType:"purnimanta" };
+  const date = "2030-07-12";
+  const instant = new Date(date + "T00:00:00.000Z");
+  const day = extractDwadashiDay(getPanchangam(instant, location, options), date, instant);
+  const withinTwoSeconds = (actual, expected) =>
+    Math.abs(Date.parse(actual) - Date.parse(expected)) <= 2000;
+  assert.equal(day.tithi, "द्वादशी");
+  assert.ok(withinTwoSeconds(day.sunrise, "2030-07-11T23:47:58.620Z"));
+  assert.ok(withinTwoSeconds(day.tithiStartTime, "2030-07-11T14:47:45.380Z"));
+  assert.ok(withinTwoSeconds(day.tithiEndTime, "2030-07-12T11:43:43.352Z"));
+
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(
+    resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"
+  ));
+  const record = review.tithis.find(item => item.id === "ashadha-shukla");
+  assert.ok(record);
+  assert.equal(record.status, "needs-review");
+  const decision = record.observanceDateReviews.find(item => item.observanceId === "ashadha-vishnu");
+  assert.ok(decision);
+  assert.equal(decision.selectedDate, date);
+  assert.equal(decision.reviewStatus, "approved");
+  assert.equal(decision.autoApproved, false);
+  assert.match(decision.reviewBasis, /121\.19b–21a/);
+  assert.match(decision.reviewBasis, /बारह ब्राह्मणों/);
+  const annual = JSON.parse(await readFile(resolve(root, "data/dwadashi/2030.json"), "utf8"));
+  const publicRecord = annual.tithis.find(item => item.id === "ashadha-shukla");
+  assert.equal(publicRecord.status, "needs-review");
+  assert.ok(publicRecord.observances.some(item => item.id === "ashadha-vishnu"));
+  assert.ok(publicRecord.observances.some(item => item.id === "vasudeva"));
+});
+  
 test("generates a 2031 local Panchang and Chaturmas review draft without hard-coded annual references", async () => {
   const result = await generateYear(2031);
   assert.equal(result.annualReview.year, 2031);
