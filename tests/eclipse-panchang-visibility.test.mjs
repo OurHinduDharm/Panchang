@@ -184,3 +184,22 @@ test("first-time Grahan Panchang visitor gets Pithoragarh as default", async () 
   assert.equal(location.lon, 80.22);
   assert.equal(location.elevation, 1650);
 });
+
+test("monthly discovery includes the adjacent IST year and skips a clipped last tithi", async () => {
+  let scannedDays;
+  const candidates = [];
+  const api = {
+    Observer: class {},
+    findTithiTransitions(start, end) {
+      scannedDays = (end - start) / 86400000;
+      return [
+        { index: 29, endTime: new Date("2026-12-31T12:00:00Z") },
+        { index: 14, endTime: end }
+      ];
+    },
+    getGrahana(index, date) { candidates.push([index, date.toISOString()]); return null; }
+  };
+  await tools.discoverEclipses(2027, { lat: 0, lon: 0 }, api, 1);
+  assert.equal(scannedDays, 35);
+  assert.deepEqual(candidates, [[29, "2026-12-31T06:30:00.000Z"]]);
+});

@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   formatFestivalMuhurtaTime,
+  formatFestivalMuhurtaInterval,
   getFestivalMuhurta,
   getFestivalMuhurtaContext,
   getSamavedaUpakarmaDateDecision
@@ -51,4 +52,13 @@ test("Chhath and moonlight boundaries follow the selected overseas local calenda
   const moonlight=getFestivalMuhurta({muhurtaRule:"moonlight-until-midnight"},{date:mainDate,
     moonrise:new Date("2026-11-15T22:00:00.000Z"),timeZone});
   assert.equal(moonlight.end.toISOString(),"2026-11-16T05:00:00.000Z");
+});
+
+test("parana labels both local dates only when the interval crosses midnight",()=>{
+  const start=new Date("2026-11-21T07:28:00Z"),end=new Date("2026-11-21T23:26:00Z");
+  const result={start,end,dateLabel:"21 नवंबर 2026"};
+  const ist=formatFestivalMuhurtaInterval(result,"Asia/Kolkata");
+  assert.match(ist,/21 नवंबर 2026 .*12:58.*22 नवंबर 2026 .*04:56/);
+  const london=formatFestivalMuhurtaInterval(result,"Europe/London");
+  assert.equal(london,result.dateLabel+" · "+formatFestivalMuhurtaTime(start,"Europe/London")+" – "+formatFestivalMuhurtaTime(end,"Europe/London"));
 });

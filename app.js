@@ -833,6 +833,14 @@ function getYatraShoolaDetails(
     directionHindi[direction] ||
     "—";
 
+  // Both lists must describe the same sunrise-based weekday.
+  const safeDirections = directionHindi[direction]
+    ? [...new Set((Array.isArray(effectivePanchang.dishaShoola?.safeDirections)
+        ? effectivePanchang.dishaShoola.safeDirections
+        : Object.keys(directionHindi))
+        .filter(d => directionHindi[d] && d !== direction))]
+    : [];
+
   const nakshatraName =
     getYatraNakshatra(
       p,
@@ -861,8 +869,8 @@ function getYatraShoolaDetails(
       : null;
 
   const nakshatraShoolaActive =
-    nakshatraShoolaDirection ===
-    direction;
+    !!nakshatraShoolaDirection &&
+    nakshatraShoolaDirection === direction;
 
   const kalaShoola =
     getKalaShoolaDetails(
@@ -876,6 +884,7 @@ function getYatraShoolaDetails(
     weekday,
     direction,
     directionHindiName,
+    safeDirections,
     nakshatraName,
     nakshatraShoola,
     nakshatraShoolaDirection,
@@ -1032,6 +1041,7 @@ function renderCollapsibleTimePeriods(
           background:${currentBg};
           border:1px solid ${currentBorder};
         ">
+          <div style="font-size:11px;margin-bottom:3px;">वर्तमान कालखंड${!list.includes(current) ? " (पिछले दिन की रात्रि)" : ""}</div>
           <div class="time-row" style="
             margin:0;
             font-weight:600;
@@ -5105,19 +5115,32 @@ function specialPunyaKaalTime(value){
 function specialPunyaKaalDateTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
+// Both GitHub Pages and Blogger direct readers to the canonical Blogger page.
+function specialPunyaKaalMonthUrl(year,month){
+  return "https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+}
+function syncSpecialPunyaKaalLinks(grid){
+  const upcoming=grid.querySelector(".upcoming-mahapata-card a");
+  for(const link of grid.querySelectorAll(".special-punya-kaal-card a")){
+    link.hidden=Boolean(upcoming&&upcoming.href===link.href);
+  }
+}
 async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const resultGrid=result.querySelector(".grid");
   const isPithoragarh = selectedLocation && selectedLocation.elevationStatus !== "unknown" &&
     Math.abs(Number(selectedLocation.lat) - 29.5828) < 0.02 &&
     Math.abs(Number(selectedLocation.lon) - 80.2182) < 0.02 &&
     Math.abs(Number(selectedLocation.elevation) - 1650) < 100;
-  if(!isPithoragarh||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
+  if(!selectedLocation||selectedLocation.timeZone!=="Asia/Kolkata"||!resultGrid||!isValidIsoDate(dateString)||request!==specialPunyaKaalMonthRequest)return;
   const year=Number(dateString.slice(0,4)),month=Number(dateString.slice(5,7));
   const location={lat:selectedLocation.lat,lon:selectedLocation.lon,elevation:selectedLocation.elevation};
   const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
   try{
-    let calculation=specialPunyaKaalMonthCache.get(key);
-    if(!calculation){
+    // Mahapata is geocentric. Only the existing local Varuni scan is limited to Pithoragarh.
+    const publicApproval=await specialPunyaKaalApprovalPromise;
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected||dateInput.value!==dateString)return;
+    let calculation=isPithoragarh?specialPunyaKaalMonthCache.get(key):Promise.resolve(null);
+    if(isPithoragarh&&!calculation&&publicApproval.mayHaveApprovedLocalPunyaKaal(year,month)){
       calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
         const observer=new Observer(location.lat,location.lon,location.elevation);
         return module.calculateSpecialPunyaKaalMonth({
@@ -5125,7 +5148,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
           timezoneOffsetMinutes:330,calendarType:"purnimanta"
         });
       }).catch(error=>{
-        specialPunyaKaalMonthCache.delete(key);
+        if(specialPunyaKaalMonthCache.get(key)===calculation)specialPunyaKaalMonthCache.delete(key);
         throw error;
       });
       specialPunyaKaalMonthCache.set(key,calculation);
@@ -5133,52 +5156,116 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
         specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
       }
     }
-    const [resultData,approval]=await Promise.all([calculation,specialPunyaKaalApprovalPromise]);
-    if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
-    if(resultData.calculationStatus!=="complete")return;
-    const events=resultData.candidates.filter(approval.isApprovedSpecialPunyaKaalCandidate)
-      .sort((a,b)=>a.startTime.localeCompare(b.startTime));
-    if(!events.length)return;
-    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
-    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    // A local calculation failure must not hide approved geocentric intervals.
+    calculation??=Promise.resolve(null);
+    const [resultData,approval]=await Promise.all([calculation.catch(()=>null),specialPunyaKaalApprovalPromise]);
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected||dateInput.value!==dateString)return;
+    const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
     const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
     const selectedDayEnd=selectedDayStart+86400000;
     const todays=events.filter(item=>Date.parse(item.endTime)>selectedDayStart&&Date.parse(item.startTime)<selectedDayEnd);
-    todays.forEach(item=>{
+    const visible=todays.filter(item=>!item.isMahapata||dateString!==todayString());
+    // Today's Mahapata is handled by the upcoming/active card. Never render
+    // a second empty month-only card when there are no other actual events.
+    if(!visible.length)return;
+    const card=document.createElement("section");card.className="card full special-punya-kaal-card";
+    const heading=document.createElement("div");heading.className="label";heading.textContent="विशेष साधना काल एवं पुण्यकाल";card.appendChild(heading);
+    visible.forEach(item=>{
       const detail=document.createElement("div");detail.className="value";
       const name=document.createElement("strong");name.textContent=item.labels[0];detail.appendChild(name);
       detail.appendChild(document.createElement("br"));
-      detail.appendChild(document.createTextNode("संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime)));
+      const times=item.isMahapata
+        ? "स्पर्श "+specialPunyaKaalDateTime(item.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(item.endTime)
+        : "संयोग : "+specialPunyaKaalDateTime(item.startTime)+" – "+specialPunyaKaalDateTime(item.endTime);
+      detail.appendChild(document.createTextNode(times));
+      if(item.isMahapata){
+        const warning=document.createElement("div");warning.className="special-kaal-guidance";
+        warning.textContent="इस काल में मांगलिक कार्य वर्जित";detail.appendChild(warning);
+      }
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    link.href="monthly-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+    link.href=specialPunyaKaalMonthUrl(year,month);
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);
+    syncSpecialPunyaKaalLinks(resultGrid);
   }catch(error){
     // Missing, incomplete or unapproved calculations must not create a public link.
   }
 }
+let upcomingMahapataTimer = null;
+let specialPunyaKaalObserver=null;
+function cancelSpecialPunyaKaalWork(){
+  ++specialPunyaKaalMonthRequest;
+  if(specialPunyaKaalObserver){specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;}
+  if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
+}
+function scheduleUpcomingMahapata(dateString, request, resultGrid){
+  if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
+  const current=()=>request===specialPunyaKaalMonthRequest&&resultGrid.isConnected&&
+    dateInput.value===dateString&&selectedLocation?.timeZone==="Asia/Kolkata"&&dateString===todayString();
+  if(!current())return;
+  const card=document.createElement("section");
+  card.className="card full upcoming-mahapata-card";
+  // Attach only after an approved event is found; no empty card on an empty register.
+  card.hidden=true;
+  const render=async()=>{
+    if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
+    try{
+      const approval=await specialPunyaKaalApprovalPromise;
+      if(!current()){card.remove();syncSpecialPunyaKaalLinks(resultGrid);return;}
+      const now=Date.now();
+      const event=approval.nextApprovedMahapata(now);
+      if(!event){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);return;}
+      const heading=document.createElement("div");heading.className="label";
+      heading.textContent=event.phase==="active"?"अभी महापात पुण्यकाल":event.phase==="today"?"आज महापात पुण्यकाल":"आगामी महापात पुण्यकाल";
+      const name=document.createElement("strong");name.textContent=event.labels[0];
+      const date=document.createElement("div");date.className="value";
+      date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date(event.startTime));
+      const times=document.createElement("div");times.className="value";
+      times.textContent="स्पर्श "+specialPunyaKaalDateTime(event.startTime)+" · मोक्ष "+specialPunyaKaalDateTime(event.endTime);
+      const guidance=document.createElement("div");
+      guidance.textContent="मंत्र-जप, साधना एवं देवोपासना के लिए विशेष पुण्यकाल। इस अवधि में मांगलिक कार्य वर्जित।";
+      const link=document.createElement("a");
+      // An active window may have begun in the previous month; link to the month displaying it today.
+      const linkDate=event.phase==="active"?dateString:event.date;
+      link.href=specialPunyaKaalMonthUrl(linkDate.slice(0,4),linkDate.slice(5,7));
+      link.textContent="समय एवं धार्मिक महत्त्व देखें →";
+      card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
+      if(!card.isConnected)resultGrid.appendChild(card);
+      syncSpecialPunyaKaalLinks(resultGrid);
+      const midnight=Date.parse(dateString+"T00:00:00+05:30")+86400000;
+      upcomingMahapataTimer=setTimeout(render,Math.max(50,Math.min(event.nextTransition,midnight)-now+25));
+    }catch(error){card.remove();card.replaceChildren();syncSpecialPunyaKaalLinks(resultGrid);}
+  };
+  void render();
+}
+
 function scheduleSpecialPunyaKaalMonthLink(dateString){
   const resultGrid=result.querySelector(".grid");
   if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
-  const request=++specialPunyaKaalMonthRequest;
+  cancelSpecialPunyaKaalWork();
+  const request=specialPunyaKaalMonthRequest;
+  scheduleUpcomingMahapata(dateString,request,resultGrid);
   const sentinel=document.createElement("div");
   sentinel.className="special-punya-kaal-sentinel";
   sentinel.style.cssText="grid-column:1/-1;height:1px";
   resultGrid.appendChild(sentinel);
   const run=()=>{
-    if(request!==specialPunyaKaalMonthRequest)return;
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected)return;
     appendSpecialPunyaKaalMonthLink(dateString,request);
   };
   if("IntersectionObserver" in window){
     const observer=new IntersectionObserver(entries=>{
       if(entries.some(entry=>entry.isIntersecting)){
         observer.disconnect();
+        if(observer!==specialPunyaKaalObserver)return;
+        specialPunyaKaalObserver=null;
         run();
       }
     },{rootMargin:"450px 0px"});
+    specialPunyaKaalObserver=observer;
     observer.observe(sentinel);
   }else{
     run();
@@ -5186,6 +5273,7 @@ function scheduleSpecialPunyaKaalMonthLink(dateString){
 }
 
 function calculatePanchang(){
+  cancelSpecialPunyaKaalWork();
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
   const __ohdPerfCalls = [];
@@ -6129,8 +6217,11 @@ bhadraPartsHtml += `
           वार
         </div>
         <div class="value">
-          ${vara}
+          ${getVara(p)}
         </div>
+        ${isPreSunriseToday && previousPanchang
+          ? `<div class="end-time">वर्तमान वार (सूर्योदय तक): ${vara}</div>`
+          : ""}
       </div>
 
       <div class="card">
@@ -6424,15 +6515,8 @@ bhadraPartsHtml += `
       <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
       <span>
         ${
-          Array.isArray(
-            p.dishaShoola?.safeDirections
-          )
-            ? p.dishaShoola.safeDirections
-                .map(
-                  d =>
-                    directionHindi[d] || d
-                )
-                .join(", ")
+          yatraShoola.safeDirections.length
+            ? yatraShoola.safeDirections.map(d => directionHindi[d]).join(", ")
             : "—"
         }
       </span>
