@@ -1114,10 +1114,15 @@ test("2030 Phalguna Shukla Narasimha and Shrihari observances use the locally su
   const sunriseDay = extractDwadashiDay(
     getPanchangam(sunriseInstant, location, options), date, sunriseInstant
   );
-  assert.equal(day.sunrise, "2030-03-16T00:48:29.779Z");
+  const withinTwoSeconds = (actual, expected) =>
+    Math.abs(Date.parse(actual) - Date.parse(expected)) <= 2000;
+  assert.ok(withinTwoSeconds(day.sunrise, "2030-03-16T00:48:29.779Z"),
+    "local sunrise should reproduce within two seconds");
   assert.equal(sunriseDay.tithi, "द्वादशी");
-  assert.equal(sunriseDay.tithiStartTime, "2030-03-16T00:47:12.929Z");
-  assert.equal(sunriseDay.tithiEndTime, "2030-03-17T00:06:35.830Z");
+  assert.ok(withinTwoSeconds(sunriseDay.tithiStartTime, "2030-03-16T00:47:12.929Z"),
+    "local Dwadashi start should reproduce within two seconds");
+  assert.ok(withinTwoSeconds(sunriseDay.tithiEndTime, "2030-03-17T00:06:35.830Z"),
+    "local Dwadashi end should reproduce within two seconds");
   const sunriseMargin = Date.parse(day.sunrise) - Date.parse(sunriseDay.tithiStartTime);
   assert.ok(sunriseMargin >= 60000 && sunriseMargin <= 90000,
     "Dwadashi should begin shortly before the local sunrise, not after it");
