@@ -857,6 +857,13 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
   // A generator may include adjacent-year buffer days. Do not select a
   // different year's observance when evidence for this year is missing.
   const targetDays = dailyPanchang.filter(day => day && typeof day.date === "string" && day.date.startsWith(year+"-"));
+  const intervalCoversSunrise = observation => {
+    const sunrise=Date.parse(observation?.sunrise||"");
+    const start=Date.parse(observation?.tithiStartTime||"");
+    const end=Date.parse(observation?.tithiEndTime||"");
+    return [sunrise,start,end].every(Number.isFinite)&&start<=sunrise&&sunrise<end;
+  };
+  const byDate = new Map(targetDays.map(day=>[day.date,day]));
   const boundarySpecs = [
     { id: "start", month: "आषाढ़", paksha: "शुक्ल", tithi: "एकादशी" },
     { id: "shak-end", month: "श्रावण", paksha: "शुक्ल", tithi: "द्वादशी" },
@@ -880,14 +887,16 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
       tithiEndTime: day.sunriseTithi.tithiEndTime || null
     })).filter(item => item.date).sort((a, b) => dateSort(a.date, b.date));
     let observedDates = unique(observations.map(item => item.date));
-    let selectedDate = observedDates[0] || null;
+    // A later repeated sunrise can have a clipped start in the engine.
+    // Require full interval evidence on the FIRST selected sunrise, rather
+    // than silently switching to the next day when evidence is missing.
+    let selectedDate = intervalCoversSunrise(observations[0]) ? observedDates[0] : null;
     let selectionBasis = selectedDate ? "udayavyapini-smarta-first-sunrise" : null;
 
     // Kartik Shukla Ekadashi may be the Smarta observance day even when
     // Dashami is present at that day's sunrise and Ekadashi ends before
     // the following sunrise. In that case sunrise-only matching misses it.
-    if (spec.id === "end" && !selectedDate) {
-      const byDate = new Map(dailyPanchang.map(day => [day.date, day]));
+    if (spec.id === "end" && observations.length===0) {
       const smartaCandidates = targetDays.filter(day => {
         if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return false;
         const masa = normalizeMonth(day.masa);
@@ -905,7 +914,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
         const sunrise = new Date(day.sunrise).getTime();
         const followingSunrise = new Date(nextSunrise).getTime();
         return [start, end, sunrise, followingSunrise].every(Number.isFinite) &&
-          start >= sunrise && end <= followingSunrise;
+          followingSunrise>sunrise && start>=sunrise && end>start && end<=followingSunrise;
       }).map(day => ({
         date: day.date,
         basis: "smarta-ekadashi-between-sunrises",
@@ -948,6 +957,18 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id:"dal", title:"दालों का त्याग", startDate:boundaries[3].selectedDate, endDate:boundaries[4].selectedDate, startTithi:"आश्विन शुक्ल द्वादशी", endTithi:"कार्तिक शुक्ल एकादशी", detail:"आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।" }
   ] : [];
   const cardVisibleThroughDate = complete ? nextCalendarDate(completionDate) : null;
+  // Longer phases are evidence for a special month/ritual decision, not
+  // permission to automatically approve an intercalary-month convention.
+  const reviewWarnings=[];
+  if(complete){
+    const adhikaMonths=unique(targetDays.filter(d=>d.date>=boundaries[0].selectedDate&&d.date<=boundaries[4].selectedDate)
+      .map(d=>normalizeMonth(d.sunriseTithi?.masa||d.masa)).filter(m=>m.adhika&&m.month).map(m=>m.month));
+    if(adhikaMonths.length)reviewWarnings.push({code:"adhika-month-within-chaturmas",months:adhikaMonths});
+    for(const phase of phases){
+      const days=(Date.parse(phase.endDate)-Date.parse(phase.startDate))/86400000;
+      if(days>35)reviewWarnings.push({code:"extended-phase-review-required",phaseId:phase.id,days});
+    }
+  }
   return {
     schemaVersion: 1,
     year: Number.isFinite(year) ? year : null,
@@ -968,6 +989,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     endDate: complete ? boundaries[4].selectedDate : null,
     completionDate,
     completionObservations,
+    reviewWarnings,
     cardVisibleThroughDate,
     phases
   };

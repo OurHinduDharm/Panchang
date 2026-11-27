@@ -23,6 +23,8 @@ on:
       - "data/chaturmas/**"
       - "data/dwadashi-vrata-rules.json"
       - "tests/annual-dwadashi-source-review.test.mjs"
+      - "tests/dwadashi-calendar.test.mjs"
+      - "festival-year-review.html"
       - ".github/workflows/annual-dwadashi-source-review.yml"
   workflow_dispatch:
 
