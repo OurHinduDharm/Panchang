@@ -1557,7 +1557,6 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }catch(error){console.warn("Special calendar unavailable",error);}
   }
   async function loadMonth(preserveViewportAnchor){
-    var token=++requestToken;
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
     function restoreViewportAnchor(){
@@ -1569,6 +1568,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       });
     }
     searchInput.value="";
+    var token=++requestToken;
     renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
