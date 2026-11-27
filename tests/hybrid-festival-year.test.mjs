@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assembleHybridFestivalYear,getHybridFestivalMonth,expandCompactFestivalExceptions} from "../scripts/assemble-hybrid-festival-year.mjs";
+import {assembleHybridFestivalYear,getHybridFestivalMonth,expandCompactFestivalExceptions,expandCompactAutomaticFestivalRecords} from "../scripts/assemble-hybrid-festival-year.mjs";
 const year=2031;
 const plan={year,status:"approved",records:[{occurrenceId:"a",mode:"automatic"},{occurrenceId:"b",mode:"exception"}]};
 const automatic={year,records:[{occurrenceId:"a",reviewStatus:"approved",publishable:true,ruleId:"rule",ruleVersion:"1",reviewEvidence:"checked",event:{date:"2031-02-03",title:"मासिक व्रत",description:"पुराना विवरण",articleUrl:"https://example.com/article",muhurtaRule:"existing-rule",diagnostics:"internal"}}]};
@@ -74,4 +74,33 @@ test("compact exceptions use exact shared content keys and contain no repeated d
  assert.throws(()=>expandCompactFestivalExceptions({year,exceptions:compact,catalogue:{templates:[catalogue.templates[0],catalogue.templates[0]]}}));
  const pending=expandCompactFestivalExceptions({year,exceptions:withRow({reviewStatus:"needs-review",publishable:false}),catalogue});
  assert.equal(build({exceptions:pending}).annual,null);
+});
+
+test("both automatic and exception cards inherit edited text without changing approved dates or rules",()=>{
+ const catalogue={templates:[
+   {key:"stable-a",title:"मासिक व्रत",description:"पुराना विवरण",muhurtaRule:"shared-rule"},
+   {key:"stable-b",title:"विशेष पर्व",description:"पुराना विशेष विवरण"}
+ ]};
+ const auto={schemaVersion:1,year,records:[{occurrenceId:"a",contentKey:"stable-a",date:"2031-02-03",reviewStatus:"approved",publishable:true,reviewEvidence:"checked",ruleId:"rule",ruleVersion:"1"}]};
+ const manual={schemaVersion:1,year,records:[{occurrenceId:"b",contentKey:"stable-b",date:"2031-02-03",reviewStatus:"approved",publishable:true,reviewEvidence:"checked",decisionSource:"verified",exceptionReason:"complex"}]};
+ const render=()=>build({automatic:expandCompactAutomaticFestivalRecords({year,automatic:auto,catalogue}),exceptions:expandCompactFestivalExceptions({year,exceptions:manual,catalogue})});
+ const before=render();
+ catalogue.templates[0].title="संशोधित मासिक व्रत";
+ catalogue.templates[0].description="नया विवरण";
+ catalogue.templates[0].articleUrl="https://example.com/new-article";
+ catalogue.templates[1].description="नया विशेष विवरण";
+ const after=render();
+ assert.equal(after.report.status,"approved");
+ const edited=after.annual.events.find(e=>e.title==="संशोधित मासिक व्रत");
+ assert.equal(edited.description,"नया विवरण");
+ assert.equal(edited.articleUrl,"https://example.com/new-article");
+ assert.equal(edited.date,"2031-02-03");
+ assert.equal(edited.muhurtaRule,"shared-rule");
+ assert.equal(after.annual.events.find(e=>e.title==="विशेष पर्व").description,"नया विशेष विवरण");
+ assert.deepEqual(after.annual.events.map(e=>e.date),before.annual.events.map(e=>e.date));
+ assert.equal(auto.records[0].ruleId,"rule");
+ assert.equal(before.annual.events.find(e=>e.title==="मासिक व्रत").description,"पुराना विवरण");
+ const unapproved={...auto,records:[{...auto.records[0],autoApproved:true}]};
+ assert.equal(build({automatic:expandCompactAutomaticFestivalRecords({year,automatic:unapproved,catalogue}),exceptions:expandCompactFestivalExceptions({year,exceptions:manual,catalogue})}).annual,null);
+ assert.throws(()=>expandCompactAutomaticFestivalRecords({year,automatic:{...auto,records:[{...auto.records[0],title:"duplicate copy"}]},catalogue}));
 });
