@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assembleHybridFestivalYear,getHybridFestivalMonth} from "../scripts/assemble-hybrid-festival-year.mjs";
+import {assembleHybridFestivalYear,getHybridFestivalMonth,expandCompactFestivalExceptions} from "../scripts/assemble-hybrid-festival-year.mjs";
 const year=2031;
 const plan={year,status:"approved",records:[{occurrenceId:"a",mode:"automatic"},{occurrenceId:"b",mode:"exception"}]};
 const automatic={year,records:[{occurrenceId:"a",reviewStatus:"approved",publishable:true,ruleId:"rule",ruleVersion:"1",reviewEvidence:"checked",event:{date:"2031-02-03",title:"मासिक व्रत",description:"पुराना विवरण",articleUrl:"https://example.com/article",muhurtaRule:"existing-rule",diagnostics:"internal"}}]};
@@ -53,4 +53,25 @@ test("multi-day event end dates survive annual assembly and invalid ranges are r
  assert.equal(result.annual.events.find(e=>e.title==="विशेष पर्व").endDate,"2031-02-06");
  assert.equal(getHybridFestivalMonth(result,2031,2).events.find(e=>e.title==="विशेष पर्व").endDate,"2031-02-06");
  for(const invalid of ["2031-02-01","2031-02-30","2033-01-01"])assert.equal(build({exceptions:withEnd(invalid)}).annual,null);
+});
+
+test("compact exceptions use exact shared content keys and contain no repeated descriptions",()=>{
+ const catalogue={templates:[{key:"special",title:"विशेष पर्व",category:"पर्व",description:"साझा धार्मिक विवरण",articleUrl:"https://example.com/article",muhurtaRule:"shared-rule"}]};
+ const compact={schemaVersion:1,year,records:[{occurrenceId:"b",contentKey:"special",date:"2031-02-03",endDate:"2031-02-04",hinduTithi:"माघ शुक्ल नवमी",reviewStatus:"approved",publishable:true,reviewEvidence:"checked",decisionSource:"verified",exceptionReason:"complex"}]};
+ const expanded=expandCompactFestivalExceptions({year,exceptions:compact,catalogue});
+ const result=build({exceptions:expanded});
+ const event=result.annual.events.find(e=>e.title==="विशेष पर्व");
+ assert.equal(event.description,"साझा धार्मिक विवरण");
+ assert.equal(event.articleUrl,"https://example.com/article");
+ assert.equal(event.muhurtaRule,"shared-rule");
+ assert.equal(event.hinduTithi,"माघ शुक्ल नवमी");
+ assert.equal(event.endDate,"2031-02-04");
+ assert.ok(!Object.hasOwn(compact.records[0],"description"));
+ const withRow=change=>({...compact,records:[{...compact.records[0],...change}]});
+ assert.throws(()=>expandCompactFestivalExceptions({year,exceptions:withRow({contentKey:"unknown"}),catalogue}));
+ assert.throws(()=>expandCompactFestivalExceptions({year,exceptions:withRow({description:"override"}),catalogue}));
+ assert.throws(()=>expandCompactFestivalExceptions({year,exceptions:withRow({date:"2031-02-30"}),catalogue}));
+ assert.throws(()=>expandCompactFestivalExceptions({year,exceptions:compact,catalogue:{templates:[catalogue.templates[0],catalogue.templates[0]]}}));
+ const pending=expandCompactFestivalExceptions({year,exceptions:withRow({reviewStatus:"needs-review",publishable:false}),catalogue});
+ assert.equal(build({exceptions:pending}).annual,null);
 });

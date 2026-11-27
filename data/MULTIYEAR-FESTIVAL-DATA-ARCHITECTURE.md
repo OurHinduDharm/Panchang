@@ -74,3 +74,17 @@ generated temporary deployment/cache representation may be considered after
 measuring performance and obtaining owner approval; it must not introduce a
 second manually maintained or committed annual festival catalogue. Do not
 silently relax this policy to make publication easier.
+
+### Compact exceptions contract
+
+Use exact `contentKey` references to the shared catalogue templates (currently
+`data/festival-content-master.json`), with an explicit occurrence ID, date,
+optional date-dependent fields and reviewed decision provenance. Do not repeat
+titles, long descriptions, article links or muhurta rule definitions in the
+annual exception package. Missing or ambiguous keys must fail closed; newly
+needed permanent content belongs in the shared catalogue after review. The
+compact package is expanded transiently before the existing approval gates.
+The shared catalogue's present template keys are not a complete stable
+observance-ID registry; the target-year plan and any missing content must
+still be verified independently. Performance estimates use synthetic exception
+rows with real catalogue keys, not approved 2031 data.

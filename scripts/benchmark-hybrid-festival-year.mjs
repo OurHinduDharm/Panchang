@@ -5,7 +5,7 @@ import {performance} from "node:perf_hooks";
 import assert from "node:assert/strict";
 import {getPanchangam,Observer} from "@ishubhamx/panchangam-js";
 import {buildRecurringFestivalReview,buildAnnualFestivalReview,buildRuleCoverageReview} from "./generate-annual-festival-review.mjs";
-import {assembleHybridFestivalYear,getHybridFestivalMonth} from "./assemble-hybrid-festival-year.mjs";
+import {assembleHybridFestivalYear,getHybridFestivalMonth,expandCompactFestivalExceptions} from "./assemble-hybrid-festival-year.mjs";
 const read=path=>readFile(new URL("../"+path,import.meta.url),"utf8");
 const size=value=>({rawBytes:Buffer.byteLength(value),gzipBytes:gzipSync(value).length});
 const measure=(fn,n=5)=>{
@@ -46,11 +46,25 @@ for(let day=1;day<=31;day++){
  if(p.sunrise){getPanchangam(new Date(p.sunrise),observer,options);calls++;}
 }
 const astronomyMs=Number((performance.now()-t).toFixed(2));
+const catalogueRaw=await read("data/festival-content-master.json");
+const catalogue=JSON.parse(catalogueRaw);
+// Hypothetical 25/50/100-row payloads with real shared keys and representative
+// short approval metadata; not actual 2031 exceptions or approved dates.
+const compactPayloads=[25,50,100].map(count=>{
+ const exceptions={schemaVersion:1,year,records:catalogue.templates.slice(0,count).map((template,i)=>({
+ occurrenceId:"sample-"+i,contentKey:template.key,date:new Date(Date.UTC(year,0,i+1)).toISOString().slice(0,10),
+ hinduTithi:"माघ शुक्ल एकादशी",reviewStatus:"needs-review",publishable:false,
+ reviewEvidence:"benchmark-only",decisionSource:"benchmark-only",exceptionReason:"benchmark-only"
+ }))};
+ const expanded=measure(()=>expandCompactFestivalExceptions({year,exceptions,catalogue}));
+ assert.equal(expanded.result.records.length,count);
+ return {count,...size(JSON.stringify(exceptions)),expandMs:expanded.ms};
+});
 const payloads=months.map(size);
 console.log(JSON.stringify({
  benchmark:"hybrid-festival-performance-diagnostic",environment:process.version,
  actual2030MonthPayloads:{minGzipBytes:Math.min(...payloads.map(x=>x.gzipBytes)),maxGzipBytes:Math.max(...payloads.map(x=>x.gzipBytes)),averageGzipBytes:Math.round(payloads.reduce((n,x)=>n+x.gzipBytes,0)/12)},
- actual2031ResearchInput:size(raw),researchInputParseMs:parsed.ms,
+ sharedContentMaster:size(catalogueRaw),compactExceptionPayloadEstimates:compactPayloads,actual2031ResearchInput:size(raw),researchInputParseMs:parsed.ms,
  recurringReviewMs:recurring.ms,mappedReviewMs:mapped.ms,coverageReviewMs:coverage.ms,
  syntheticHistoricalAssembly:{events:fixtureEvents.length,ms:assembly.ms},cachedTwelveMonthViewsMs:navigation.ms,
  astronomy31DaySample:{calls,ms:astronomyMs},
