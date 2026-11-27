@@ -779,9 +779,10 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       try{
         var previousMonth=month===1?12:month-1;
         var previousYear=month===1?year-1:year;
-        var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+previousYear+"-"+String(previousMonth).padStart(2,"0")+".json",{cache:"no-cache"});
+        var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+previousYear+"-"+String(previousMonth).padStart(2,"0")+".json",{cache:"no-cache",signal:activeMonthRequest?.signal});
         if(previousResponse.ok){var previousData=await previousResponse.json();startEvent=(previousData.events||[]).find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});}
       }catch(_){/* पिछले महीने का डेटा न मिले तो गतिशील पंचांग से प्रयास करें */}
+      if(token!==requestToken)return [];
       if(!startEvent){
         try{
           var priorDynamic=await buildDynamicNavratriEvents(previousYear,previousMonth,token);
@@ -1601,15 +1602,17 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     eventsEl.replaceChildren();
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
+    var renderedCatalog=false;
     try{
       var response=await fetch(url,{signal:controller.signal,cache:"no-cache"});
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
       var dwadashiYearPromise=fetchDwadashiYear(year,controller.signal);
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
-      if(Array.isArray(data.events)&&data.events.length){render(data,year,month,token);restoreViewportAnchor();}
+      if(data.events.length){render(data,year,month,token);renderedCatalog=true;restoreViewportAnchor();}
       var storedEvents=Array.isArray(data.events)?data.events:[];
       // 2026 आषाढ़ गुप्त नवरात्र के स्वीकृत कार्ड विशेष तिथि-व्याप्ति पर आधारित हैं:
       // 17 जुलाई को सूर्योदय-व्यापिनी तृतीया थी; चतुर्थी 06:28 पर शुरू होकर
@@ -1631,7 +1634,10 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       // स्वतंत्र गणनाएँ समानांतर चलाएँ: नवरात्रि की तिथि-जाँच और स्थानीय ग्रहण-जाँच।
       // इससे एक गणना पूरी होने तक दूसरी निष्क्रिय नहीं रहती।
       var parallelResults=await Promise.all([
-        keepCuratedNavratri2026?Promise.resolve({events:[],recognized:false}):buildDynamicNavratriEvents(year,month,token),
+        keepCuratedNavratri2026?Promise.resolve({events:[],recognized:false}):buildDynamicNavratriEvents(year,month,token).catch(function(error){
+          console.warn("Dynamic Navratri calculation unavailable",error);
+          return {events:[],recognized:false};
+        }),
         buildLocationEclipseEvents(year,month,token)
       ]);
       if(token!==requestToken)return;
@@ -1643,7 +1649,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
       data.events=storedEvents.concat(dynamicNavratri.events);
-      var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
+      var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token).catch(function(error){
+        console.warn("Saraswati calculation unavailable",error);return [];
+      });
       if(token!==requestToken)return;
       data.events=data.events.concat(computedSaraswatiEvents,locationEclipseEvents);
       var approvedDwadashiYear=await dwadashiYearPromise;
@@ -1654,6 +1662,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       focusFestivalCard();
     }catch(e){
       if(token!==requestToken)return;
+      // A failed optional enrichment must not erase an already displayed catalog.
+      if(renderedCatalog){
+        console.warn("Monthly calendar enrichment unavailable",e);
+        focusFestivalCard();return;
+      }
       if(e&&e.name==="AbortError"){
         render({events:[]},year,month,token);
         restoreViewportAnchor();
