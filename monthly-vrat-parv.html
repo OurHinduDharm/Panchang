@@ -843,6 +843,43 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       }).map(function(entry){return entry.item;});
   }
 
+  // General devotional guidance, separate from event date and muhurta calculations.
+  function festivalPunyaGuidance(item){
+    var category=String(item.category||"").trim();
+    var title=String(item.title||"").trim();
+    if(/^(?:मन्वादि|युगादि|युग-मन्वादि)(?:\s+तिथि)?$/.test(category)){
+      return "इस तिथि में पितरों के निमित्त विधिपूर्वक श्राद्ध का विशेष महत्त्व है; मत्स्य महापुराण (अध्याय 17) इसे अक्षय फलदायी बताता है। अपनी कुलपरम्परा एवं अधिकार के अनुसार तर्पण और दान करें।";
+    }
+    if(/^संक्रा(?:ं|न्)ति$/.test(category)||/^(?:मेष|वृषभ|मिथुन|कर्क|सिंह|कन्या|तुला|वृश्चिक|धनु|मकर|कुंभ|कुम्भ|मीन)\s+संक्रा(?:ं|न्)ति(?:\s*\/|\s*\(|\s*$)/.test(title)){
+      return "संक्रान्ति के पुण्यकाल में पवित्र स्नान, यथाशक्ति दान, जप, सूर्योपासना तथा विधिपूर्वक होम आदि का विशेष महत्त्व है। श्रद्धानुसार किसी भी देवी-देवता की स्तोत्रात्मक उपासना भी कर सकते हैं।";
+    }
+    return "";
+  }
+  // Precomputed conjunctions need no local astronomical calculation.
+  function isVaruniFestival(item){
+    return item.specialPunyaKaalProfile==="chaitra-krishna-trayodashi-shatabhisha"&&["वारुणी योग","महावारुणी योग","महामहावारुणी योग"].includes(item.title);
+  }
+  function varuniConjunctionText(item){
+    if(!isVaruniFestival(item))return null;
+    var start=Date.parse(item.conjunctionStart),end=Date.parse(item.conjunctionEnd);
+    if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start)return null;
+    function format(value){
+      var date=new Date(value+330*60000),hour=date.getUTCHours();
+      var period=hour<4?"रात्रि":hour<12?"प्रातः":hour===12?"मध्याह्न":hour<16?"अपराह्ण":hour<19?"सायं":"रात्रि";
+      return date.getUTCDate()+" "+months[date.getUTCMonth()]+", "+period+" "+(hour%12||12)+":"+String(date.getUTCMinutes()).padStart(2,"0")+" बजे";
+    }
+    return {start:format(start),end:format(end)};
+  }
+  function appendVaruniConjunction(item,content){
+    var times=varuniConjunctionText(item);
+    if(!times)return;
+    var note=document.createElement("div");note.className="desc varuni-conjunction";
+    note.style.cssText="margin-top:7px;padding:7px 9px;border-left:3px solid #b87918;background:#fffaf2;overflow-wrap:anywhere";
+    var label=document.createElement("strong");label.textContent="संयोग का समय (पिथौरागढ़, IST)";note.appendChild(label);
+    var start=document.createElement("div");start.textContent="आरम्भ — "+times.start;note.appendChild(start);
+    var end=document.createElement("div");end.textContent="समाप्ति — "+times.end;note.appendChild(end);
+    content.appendChild(note);
+  }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     if(reviewMode&&data&&data.status&&data.status!=="approved"){
@@ -882,7 +919,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
-      appendTithiVyapti(item,String(item.date||""),content,token);
+      if(!isVaruniFestival(item))appendTithiVyapti(item,String(item.date||""),content,token);
       var cardLinkUrls=new Set();
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
@@ -904,7 +941,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         }
         renderDescription(desc,description,cardLinkUrls);content.appendChild(desc);
       }
-      appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
+      var punyaGuidance=festivalPunyaGuidance(item);
+      if(punyaGuidance){
+        var punyaNote=document.createElement("p");punyaNote.className="desc";
+        punyaNote.textContent=punyaGuidance;content.appendChild(punyaNote);
+      }
+      if(isVaruniFestival(item))appendVaruniConjunction(item,content);
+      else appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel,cardLinkUrls);
       if(mainLink)links.appendChild(mainLink);

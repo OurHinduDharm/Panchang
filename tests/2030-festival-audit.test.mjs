@@ -400,7 +400,8 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
   assert.equal(months[1].events.length, 32);
-  assert.equal(months[2].events.length, 31);
+  assert.equal(months[2].events.length, 32);
+  assert.ok(at(months[2].events, "2030-03-31", /^वारुणी योग$/));
   assert.equal(months[8].events.length, 35);
   assert.equal(oct.length, 44);
   assert.equal(nov.length, 27);
@@ -472,7 +473,9 @@ test("2030 October-November-December source audit covers same-tithi and annual o
     assert.equal(event.sourceName, undefined);
     assert.equal(event.sourceUrl, undefined);
   }
-  assert.equal(events.length, 349);
+  // The existing 349 annual observances plus one separately approved Varuni card.
+  assert.equal(events.length, 350);
+  assert.equal(events.filter(event => event.specialPunyaKaalProfile === "chaitra-krishna-trayodashi-shatabhisha").length, 1);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");

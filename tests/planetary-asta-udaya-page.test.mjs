@@ -116,11 +116,12 @@ test("Pithoragarh Agastya Arghya records preserve supplied annual dates and loca
   assert.equal(agastya.location.timeZone, "Asia/Kolkata");
 });
 
-test("city calculator displays independently calculated Agastya Arghya", () => {
+test("city calculator distinguishes astronomical Agastya window from traditional Arghya", () => {
   const page = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   const worker = readFileSync(new URL("../annual-tara-city-worker.mjs", import.meta.url), "utf8");
-  assert.ok(page.includes("अगस्त्य अर्घ्य — "));
-  assert.ok(page.includes("अर्घ्य देने का समय — "));
+  assert.ok(page.includes("उदय से सूर्योदय तक — "));
+  assert.ok(page.includes("पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है।"));
+  assert.ok(!page.includes("अर्घ्य देने का समय — "));
   assert.ok(!page.includes("agastya-arghya-pithoragarh.json"));
   assert.ok(worker.includes("calculateAgastyaArghyaWindows"));
 });
@@ -146,7 +147,7 @@ test("all seven Agastya years require captured source provenance before public d
 
   const renderer = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.ok(!renderer.includes("agastya-arghya-pithoragarh.json"));
-  assert.ok(renderer.includes("अगस्त्य अर्घ्य — "));
+  assert.ok(renderer.includes("उदय से सूर्योदय तक — "));
 });
 
 
@@ -300,4 +301,11 @@ test("city calculator uses city profile elevation without a sea-level fallback",
 test("annual public card excludes reference and diagnostic details", () => {
   const source = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(source, /पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ|reasonText|regionalRecords/);
+});
+
+test("annual calculation excludes ambiguous Canopus events and permits retry after errors",()=>{
+  const worker=readFileSync(new URL("../annual-tara-city-worker.mjs",import.meta.url),"utf8");
+  const page=readFileSync(new URL("../annual-tara-city-page.mjs",import.meta.url),"utf8");
+  assert.match(worker,/!unavailable\.some\(issue => issue\.event === entry\.event\)/);
+  assert.match(page,/if \(!data\.error\) \{[\s\S]*?cache\.set\(key, data\)/);
 });

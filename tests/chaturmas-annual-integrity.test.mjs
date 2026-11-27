@@ -21,7 +21,7 @@ const files = (await readdir(dataDir))
   .sort();
 
 test("annual Chaturmas configs exist and every file is named for its year", () => {
-  assert.ok(files.length > 0, "at least one annual Chaturmas config must exist");
+  for (const year of [2026, 2027, 2028, 2029, 2030]) assert.ok(files.includes(`${year}.json`), `missing annual Chaturmas config ${year}`);
 });
 
 for (const file of files) {
@@ -115,4 +115,27 @@ test("annual Panchang generator is not hard-limited to the 2026–2030 data wind
   assert.ok(generator.includes("no-configured-reference-manual-cross-check-required"));
   assert.ok(generator.includes("catalogMonthsMissing"));
   assert.ok(generator.includes('error.code === "ENOENT"'));
+});
+
+test("2027 and 2028 Chaturmas use approved Smarta cards and local sunrise Dwadashi evidence", async () => {
+  for (const year of [2027,2028]) {
+    const config=JSON.parse(await readFile(new URL(`../data/chaturmas/${year}.json`,import.meta.url),"utf8"));
+    const reference=JSON.parse(await readFile(new URL(`../data/references/ohd-dwadashi-${year}-review.json`,import.meta.url),"utf8"));
+    const boundaries=reference.chaturmas.boundaries;
+    assert.deepEqual([config.startDate,...config.phases.map(p=>p.endDate)],boundaries.map(b=>b.selectedDate));
+    for(const boundary of boundaries){
+      const selected=boundary.observations.find(o=>o.date===boundary.selectedDate);
+      assert.ok(selected, "missing local observation");
+      assert.ok(Date.parse(selected.tithiStartTime)<=Date.parse(selected.sunrise));
+      assert.ok(Date.parse(selected.sunrise)<Date.parse(selected.tithiEndTime));
+    }
+    for(const [date,pattern] of [[config.startDate,/देवशयनी/],[config.endDate,/देवोत्थानी.*स्मार्त/]]){
+      const monthly=JSON.parse(await readFile(new URL(`../data/festivals/${date.slice(0,7)}.json`,import.meta.url),"utf8"));
+      assert.ok(monthly.events.some(e=>e.date===date&&pattern.test(e.title)&&e.reviewStatus==="approved"));
+    }
+    const completion=reference.tithiDates.find(t=>t.date>config.endDate&&t.month==="कार्तिक"&&t.paksha==="शुक्ल"&&t.observedAtSunrise);
+    assert.equal(config.completionDate,completion.date);
+    assert.ok(completion.sunriseObservations.some(o=>Date.parse(o.tithiStartTime)<=Date.parse(o.sunrise)&&Date.parse(o.sunrise)<Date.parse(o.tithiEndTime)));
+    assert.equal(config.cardVisibleThroughDate,new Date(Date.parse(config.completionDate)+86400000).toISOString().slice(0,10));
+  }
 });

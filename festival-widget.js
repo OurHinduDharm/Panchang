@@ -210,6 +210,14 @@
           copy.appendChild(element("div", "ohd-fw-chaturmas-phase-dates",
             fromLabel + " से " + toLabel + " " + hindiDigits(to.getFullYear())));
           if (phase.detail) copy.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", phase.detail));
+          const extension = phase.adhikaExtension;
+          const durationDays = (Date.parse(phase.endDate) - Date.parse(phase.startDate)) / 86400000;
+          if (chaturmasConfig.adhikaPolicy === "continuous-vow-nija-transition-v1" &&
+              extension && ["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"].includes(extension.month) &&
+              extension.durationDays === durationDays && durationDays >= 50 && durationDays <= 65) {
+            copy.appendChild(element("div", "ohd-fw-chaturmas-phase-detail",
+              "इस वर्ष अधिक " + extension.month + " के कारण यह आहार-चरण " + hindiDigits(durationDays) + " दिनों का है। व्रत निरंतर रखें।"));
+          }
           row.appendChild(copy);
 
           let phaseStatus;
@@ -230,13 +238,8 @@
           section.appendChild(row);
         });
 
-        const completionDate = parseDate(chaturmasConfig.completionDate) ||
-          (() => {
-            const lastPhaseEnd = parseDate(phases[phases.length - 1].endDate);
-            if (!lastPhaseEnd) return null;
-            lastPhaseEnd.setDate(lastPhaseEnd.getDate() + 1);
-            return lastPhaseEnd;
-          })();
+        // Never guess the completion date from the last Ekadashi.
+        const completionDate = parseDate(chaturmasConfig.completionDate);
         if (completionDate && todayKey >= dateKey(completionDate)) {
           const completion = element("div", "ohd-fw-chaturmas-completion");
           const completionLabel = [

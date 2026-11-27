@@ -254,6 +254,18 @@
       "muhurtaRule": "pradosh-kala"
     },
     {
+      "date": "2028-03-23",
+      "dateLabel": "23 मार्च",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2028-03-23T05:52:19.768Z",
+      "conjunctionEnd": "2028-03-24T00:03:52.731Z"
+    },
+    {
       "date": "2028-03-24",
       "dateLabel": "24 मार्च",
       "title": "मासिक शिवरात्रि",

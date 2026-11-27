@@ -5186,6 +5186,14 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
     });
     const link=document.createElement("a");
     link.href=specialPunyaKaalMonthUrl(year,month);
+    if(visible.every(item=>!item.isMahapata)){
+      const target=visible[0];
+      const url=new URL(specialPunyaKaalMonthUrl(target.date.slice(0,4),target.date.slice(5,7)));
+      url.searchParams.set("focus",target.date);
+      url.searchParams.set("focusTitle",target.labels[0]);
+      url.hash="events";
+      link.href=url.href;
+    }
     link.textContent="विशेष पुण्यकाल देखें →";
     card.appendChild(link);
     resultGrid.appendChild(card);
