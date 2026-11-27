@@ -145,3 +145,21 @@ test("pre-sunrise travel directions use one effective weekday, including safe li
   assert.match(daily,/वर्तमान वार \(सूर्योदय तक\)/);
   assert.match(daily,/पिछले दिन की रात्रि/);
 });
+
+test("special calendar skips heavy local imports when no approved local result is possible",()=>{
+  assert.match(daily,/if\(isPithoragarh&&!calculation&&publicApproval\.mayHaveApprovedLocalPunyaKaal\(year,month\)\)/);
+  assert.match(component,/!publicApproval\.mayHaveApprovedLocalPunyaKaal\(year,month\)\)return;/);
+  assert.match(component,/if\(renderKey===lastRenderKey\)return;/);
+  assert.match(component,/if\(specialPunyaKaalMonthCache\.get\(cacheKey\)===calculation\)specialPunyaKaalMonthCache\.delete\(cacheKey\)/);
+});
+
+test("daily recalculation disconnects stale visibility observers and cancels obsolete timers",()=>{
+  const start=daily.indexOf("function cancelSpecialPunyaKaalWork(){");
+  const end=daily.indexOf("function scheduleUpcomingMahapata(",start);
+  assert.ok(start>=0&&end>start);
+  const setup=new Function("assert","let specialPunyaKaalMonthRequest=4;let disconnected=0;let cleared=0;let specialPunyaKaalObserver={disconnect(){disconnected++}};let upcomingMahapataTimer=7;function clearTimeout(id){assert.equal(id,7);cleared++}"+daily.slice(start,end)+"return {cancel:cancelSpecialPunyaKaalWork,state:()=>[specialPunyaKaalMonthRequest,disconnected,cleared,specialPunyaKaalObserver,upcomingMahapataTimer]};");
+  const harness=setup(assert);
+  harness.cancel();harness.cancel();
+  assert.deepEqual(harness.state(),[6,1,1,null,null]);
+  assert.match(daily,/function calculatePanchang\(\)\{\s*cancelSpecialPunyaKaalWork\(\);/);
+});
