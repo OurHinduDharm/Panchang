@@ -406,3 +406,21 @@ test("an explicit regular or any selector cannot contradict an Adhika-prefixed m
     assert.equal(result.publishable, false);
   }
 });
+
+test("Ratha Saptami sees Arunodaya in the previous sunrise partition in the 2030 annual export", async () => {
+  const observance = {
+    id: "ratha-saptami",
+    dateType: "tithi",
+    ruleId: "ratha-saptami-review",
+    lunarMonth: "माघ",
+    paksha: "शुक्ल पक्ष",
+    targetTithiIndex: 6
+  };
+  const annual = JSON.parse(await readFile(
+    new URL("../data/ohd-annual-panchang-review-2030.json", import.meta.url), "utf8"
+  ));
+  const result = resolveFestivalObservanceFromAnnualPanchang(observance, 2030, annual.dailyPanchang);
+  assert.equal(result.selectedDate, "2030-02-09");
+  assert.equal(result.selectionBasis, "magha-shukla-saptami-at-local-arunodaya");
+  assert.equal(result.publishable, false);
+});

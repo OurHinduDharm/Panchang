@@ -72,3 +72,39 @@ test("recurring audit retains year-edge candidates for manual review",()=>{
  assert.equal(first.status,"manual-review");
  assert.ok(first.warnings.includes("adjacent-year-context-required"));
 });
+
+test("same-year comparison distinguishes matches, date differences, and unresolved cards", () => {
+  const source = structuredClone(sourceMonths);
+  source[8].events.push(
+    { date: "2030-09-10", title: "समान तिथि" },
+    { date: "2030-09-11", title: "निर्णय शेष" }
+  );
+  const selector = manifest.mappings[0];
+  const comparison = buildAnnualFestivalReview({
+    annual: {
+      year: 2030,
+      dailyPanchang: dailyPanchang.map(day => ({
+        ...day,
+        date: day.date.replace("2031", "2030"),
+        sunrise: day.sunrise.replace("2031", "2030"),
+        sunset: day.sunset.replace("2031", "2030"),
+        tithiIntervals: day.tithiIntervals.map(row => ({
+          ...row,
+          startTime: row.startTime.replace("2031", "2030"),
+          endTime: row.endTime.replace("2031", "2030")
+        }))
+      }))
+    },
+    manifest: { ...manifest, mappings: [
+      selector,
+      { ...selector, recordKey: "2030-09-10::समान तिथि" },
+      { ...selector, recordKey: "2030-09-11::निर्णय शेष", lunarMonth: "कार्तिक" }
+    ] },
+    sourceMonths: source,
+    year: 2030
+  }).comparison;
+  assert.deepEqual(comparison.counts, { matched: 1, different: 1, unresolved: 1, unmapped: 1 });
+  assert.deepEqual(comparison.differences.map(({ sourceDate, calculatedDate }) => [
+    sourceDate, calculatedDate
+  ]), [["2030-09-01", "2030-09-10"], ["2030-09-11", null]]);
+});
