@@ -95,3 +95,23 @@ for(const [name,source] of [["Blogger",widget],["standalone",standalone]]){
 test("late default elevation cannot trigger a reload for a selected city",()=>{
   assert.match(standalone,/if\(elevationChanged&&!selectedLocationInSession\)\{/);
 });
+
+test("festival devotional guidance is identical in Blogger and standalone and restricted to its own event types",()=>{
+  for(const source of [widget,standalone]){
+    const start=source.indexOf("  function festivalPunyaGuidance(item){");
+    const end=source.indexOf("  function render(data,year,month,token){",start);
+    assert.ok(start>=0&&end>start);
+    const guidance=new Function(source.slice(start,end)+"\nreturn festivalPunyaGuidance;")();
+    assert.match(guidance({category:"मन्वादि तिथि"}),/श्राद्ध/);
+    assert.match(guidance({category:"युगादि तिथि"}),/अक्षय/);
+    for(const category of ["संक्रांति","संक्रान्ति"]){
+      const note=guidance({category});
+      assert.match(note,/पुण्यकाल/);
+      assert.match(note,/स्तोत्रात्मक उपासना/);
+    }
+    assert.equal(guidance({category:"व्रत",title:"संक्रांति से पहले का व्रत"}),"");
+    assert.equal(guidance({category:"त्योहार",title:"गुड़ी पड़वा / युगादि"}),"");
+    assert.equal(guidance({category:"ग्रहण"}),"");
+    assert.match(source,/punyaNote\.textContent=punyaGuidance/);
+  }
+});
