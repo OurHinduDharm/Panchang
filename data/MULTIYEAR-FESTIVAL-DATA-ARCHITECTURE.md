@@ -88,3 +88,14 @@ The shared catalogue's present template keys are not a complete stable
 observance-ID registry; the target-year plan and any missing content must
 still be verified independently. Performance estimates use synthetic exception
 rows with real catalogue keys, not approved 2031 data.
+
+### Editing the single shared master
+
+Keep `data/festival-content-master.json` as one shared file. Both automatic
+transient decisions and manual exceptions inherit exact-key master content via
+the compact expansion functions. Edit the template's title, description or
+article links, but keep its existing key unchanged; changing a key requires
+an explicit reviewed migration. A content edit does not alter the independent
+occurrence date or rule ID. Changes to muhurta rules are functional changes
+and require their own review. Existing historical cards are not rewritten.
+The runtime is not yet connected; these are assembly contract guarantees.

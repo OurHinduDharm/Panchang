@@ -25,26 +25,37 @@ function indexRecords(records,name){
 // Content, article links and display rules are inherited by exact catalogue key.
 const CONTENT_FIELDS=["title","description","category","articleUrl","articleLabel","secondaryArticleUrl","secondaryArticleLabel","muhurtaRule","muhurtaRules"];
 const DATE_FIELDS=["date","endDate","hinduTithi","muhurtaDate","followingMorningActionDate","specialPunyaKaalProfile","conjunctionStart","conjunctionEnd"];
-const COMPACT_FIELDS=new Set(["occurrenceId","contentKey","reviewStatus","publishable","reviewEvidence","decisionSource","exceptionReason",...DATE_FIELDS]);
-export function expandCompactFestivalExceptions({year,exceptions,catalogue}){
-  if(!validYear(year)||exceptions?.year!==year||exceptions?.schemaVersion!==1||!Array.isArray(catalogue?.templates))throw new Error("Invalid compact exception package or shared catalogue");
+const BASE_COMPACT_FIELDS=["occurrenceId","contentKey","reviewStatus","publishable","reviewEvidence",...DATE_FIELDS];
+const EXCEPTION_FIELDS=new Set([...BASE_COMPACT_FIELDS,"decisionSource","exceptionReason"]);
+const AUTOMATIC_FIELDS=new Set([...BASE_COMPACT_FIELDS,"ruleId","ruleVersion","autoApproved"]);
+function expandCompactRecords({year,packageData,catalogue,mode}){
+  if(!validYear(year)||packageData?.year!==year||packageData?.schemaVersion!==1||!Array.isArray(catalogue?.templates))throw new Error("Invalid compact festival package or shared catalogue");
   const templates=new Map();
   for(const template of catalogue.templates){
     if(!text(template?.key)||templates.has(template.key)||!text(template.title))throw new Error("Invalid or duplicate shared content key");
     templates.set(template.key,template);
   }
-  const rows=indexRecords(exceptions.records,"compact exceptions");
+  const rows=indexRecords(packageData.records,"compact "+mode);
+  const fields=mode==="automatic"?AUTOMATIC_FIELDS:EXCEPTION_FIELDS;
   const records=[];
   for(const [id,row] of rows){
-    if(Object.keys(row).some(key=>!COMPACT_FIELDS.has(key)))throw new Error("Unexpected compact exception field: "+id);
+    if(Object.keys(row).some(key=>!fields.has(key)))throw new Error("Unexpected compact "+mode+" field: "+id);
     const template=templates.get(row.contentKey);
     if(!template)throw new Error("Unknown shared content key: "+id);
-    if(!validDate(row.date,year))throw new Error("Invalid exception date: "+id);
+    if(!validDate(row.date,year))throw new Error("Invalid "+mode+" date: "+id);
     const event=Object.fromEntries(CONTENT_FIELDS.filter(key=>Object.hasOwn(template,key)).map(key=>[key,structuredClone(template[key])]));
     for(const key of DATE_FIELDS)if(Object.hasOwn(row,key))event[key]=structuredClone(row[key]);
-    records.push({occurrenceId:id,reviewStatus:row.reviewStatus,publishable:row.publishable,reviewEvidence:row.reviewEvidence,decisionSource:row.decisionSource,exceptionReason:row.exceptionReason,event});
+    const evidence=mode==="automatic"?{ruleId:row.ruleId,ruleVersion:row.ruleVersion,autoApproved:row.autoApproved}:{decisionSource:row.decisionSource,exceptionReason:row.exceptionReason};
+    records.push({occurrenceId:id,reviewStatus:row.reviewStatus,publishable:row.publishable,reviewEvidence:row.reviewEvidence,...evidence,event});
   }
   return {year,records};
+}
+export function expandCompactFestivalExceptions({year,exceptions,catalogue}){
+  return expandCompactRecords({year,packageData:exceptions,catalogue,mode:"exception"});
+}
+/** Automatically calculated decisions are transient objects, not annual files. */
+export function expandCompactAutomaticFestivalRecords({year,automatic,catalogue}){
+  return expandCompactRecords({year,packageData:automatic,catalogue,mode:"automatic"});
 }
 
 export function assembleHybridFestivalYear({year,plan,automatic,exceptions}){
