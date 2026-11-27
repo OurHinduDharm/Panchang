@@ -21,3 +21,17 @@ test("approved Varuni conjunction dates are ordinary monthly cards without runti
   }
   assert.deepEqual(found,SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL.dates);
 });
+
+import {parseVaruniReviewYears,buildVaruniReviewCards} from "../scripts/varuni-annual-review-cards.mjs";
+test("future years are independently selectable and all three yoga variants remain review-only",()=>{
+  assert.deepEqual(parseVaruniReviewYears(["--year","2031"]),[2031]);
+  assert.deepEqual(parseVaruniReviewYears(["--year","2050"]),[2050]);
+  assert.throws(()=>parseVaruniReviewYears(["--year","2201"]));
+  const row={date:"2031-03-22",ruleProfile:"chaitra-krishna-trayodashi-shatabhisha",startTime:"2031-03-22T01:00:00Z",endTime:"2031-03-22T02:00:00Z"};
+  const rows=["वारुणी योग","महावारुणी योग","महामहावारुणी योग"].map(label=>({...row,labels:[label]}));
+  const cards=buildVaruniReviewCards([...rows,rows[0]],[2031]);
+  assert.equal(cards["2031-03"].length,3);
+  assert.ok(cards["2031-03"].every(card=>card.reviewStatus==="needs-review"&&!card.muhurtaRule));
+  assert.deepEqual(cards["2031-04"],[]);
+  assert.deepEqual(buildVaruniReviewCards(rows,[2031],[{year:2031}])["2031-03"],[]);
+});

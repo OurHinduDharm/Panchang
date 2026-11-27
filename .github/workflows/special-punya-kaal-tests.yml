@@ -33,6 +33,7 @@ on:
       - "tests/mahapata-root-solver.test.mjs"
       - "tests/mahapata-reference-check.test.mjs"
       - "scripts/generate-special-punya-kaal-review.mjs"
+      - "scripts/varuni-annual-review-cards.mjs"
       - "scripts/compare-mahapat-ephemeris.mjs"
       - ".github/workflows/special-punya-kaal-tests.yml"
   workflow_dispatch:
@@ -70,6 +71,8 @@ jobs:
         run: node --experimental-default-type=module --test tests/varuni-catalog.test.mjs tests/monthly-religious-calendar.test.mjs tests/special-punya-kaal-public-integration.test.mjs tests/special-punya-kaal-runtime.test.mjs tests/special-punya-kaal-engine-integration.test.mjs tests/special-punya-kaal-public-approval.test.mjs tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs tests/karana-kutuhula-khanda-tables.test.mjs tests/karana-kutuhula-sthiti.test.mjs tests/mahapat-2023-2024-reference.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
+      - name: Generate future-year Varuni review cards (2031)
+        run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs --year 2031
       - name: Run Mahapata geocentric contact comparison (research-only)
         run: node --experimental-default-type=module scripts/compare-mahapat-ephemeris.mjs > data/reviews/mahapata-geocentric-comparison-2026-2030.json
       - name: Check Mahapata windows against pinned independent references
@@ -84,5 +87,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: special-punya-kaal-2026-2030-review-only
-          path: data/reviews/special-punya-kaal-2026-2030-candidates.json
+          path: |
+            data/reviews/special-punya-kaal-2026-2030-candidates.json
+            data/reviews/special-punya-kaal-2031-candidates.json
           if-no-files-found: error

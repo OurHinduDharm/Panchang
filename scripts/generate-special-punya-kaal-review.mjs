@@ -11,9 +11,14 @@ import { getPanchangam, Observer } from "@ishubhamx/panchangam-js";
 import { calculateSpecialPunyaKaalMonth } from "../special-punya-kaal-runtime.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = path.join(ROOT, "data/reviews/special-punya-kaal-2026-2030-candidates.json");
+import { parseVaruniReviewYears, buildVaruniReviewCards } from "./varuni-annual-review-cards.mjs";
+const args = process.argv.slice(2);
+const YEARS = parseVaruniReviewYears(args);
+const explicitYear = args.length > 0;
+const OUT = path.join(ROOT, "data/reviews", explicitYear
+  ? "special-punya-kaal-" + YEARS[0] + "-candidates.json"
+  : "special-punya-kaal-2026-2030-candidates.json");
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
-const YEARS = [2026, 2027, 2028, 2029, 2030];
 
 const monthlyScans = [];
 const candidates = [];
@@ -75,6 +80,7 @@ const output = {
   diagnostics,
   candidateCount: candidates.length,
   candidates,
+  monthlyFestivalReviewCards: buildVaruniReviewCards(candidates, YEARS, diagnostics),
   mahodayaCandidateCount: mahodayaCandidates.length,
   mahodayaCandidates
 };
