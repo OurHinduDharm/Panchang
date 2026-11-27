@@ -1,0 +1,24 @@
+name: Festival content catalogue audit
+on:
+  pull_request:
+    paths:
+      - 'scripts/festival-content-catalogue.mjs'
+      - 'scripts/audit-festival-content-catalogue.mjs'
+      - 'tests/festival-content-catalogue.test.mjs'
+      - 'tests/manvadi-yugadi-reference.test.mjs'
+      - 'data/references/taraprasad-2084-manvadi-yugadi.json'
+      - 'data/festivals/**'
+      - '.github/workflows/festival-content-catalogue.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/festival-content-catalogue.test.mjs tests/manvadi-yugadi-reference.test.mjs
+      - run: node scripts/audit-festival-content-catalogue.mjs
