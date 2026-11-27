@@ -5,6 +5,12 @@ on:
       - "festival-rule-engine.mjs"
       - "festival-observance-rules.mjs"
       - "tests/festival-rule-engine.test.mjs"
+      - "scripts/generate-annual-festival-review.mjs"
+      - "tests/annual-festival-review.test.mjs"
+      - "data/reviews/observance-rule-mapping-*.json"
+      - "data/festivals/2030-*.json"
+      - "tests/festival-observance-rules.test.mjs"
+      - "data/ohd-annual-panchang-review-2031.json"
       - ".github/workflows/festival-rule-engine.yml"
   push:
     branches:
@@ -13,6 +19,12 @@ on:
       - "festival-rule-engine.mjs"
       - "festival-observance-rules.mjs"
       - "tests/festival-rule-engine.test.mjs"
+      - "scripts/generate-annual-festival-review.mjs"
+      - "tests/annual-festival-review.test.mjs"
+      - "data/reviews/observance-rule-mapping-*.json"
+      - "data/festivals/2030-*.json"
+      - "tests/festival-observance-rules.test.mjs"
+      - "data/ohd-annual-panchang-review-2031.json"
       - ".github/workflows/festival-rule-engine.yml"
 permissions:
   contents: read
@@ -25,4 +37,12 @@ jobs:
         with:
           node-version: 20
       - name: Run year-independent festival rule engine tests
-        run: node --test tests/festival-rule-engine.test.mjs tests/festival-observance-rules.test.mjs
+        run: node --test tests/festival-rule-engine.test.mjs tests/festival-observance-rules.test.mjs tests/annual-festival-review.test.mjs
+      - name: Generate 2031 review-only calendar candidates
+        run: node scripts/generate-annual-festival-review.mjs --year=2031 --source-year=2030
+      - name: Upload annual review output
+        uses: actions/upload-artifact@v4
+        with:
+          name: festival-annual-review-2031
+          path: artifacts/festival-annual-review/2031-from-2030.json
+          if-no-files-found: error
