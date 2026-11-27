@@ -974,12 +974,14 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       if(token!==requestToken)return {events:[],recognized:false};
       var iso=String(year)+"-"+String(month).padStart(2,"0")+"-"+String(day).padStart(2,"0");
       var values;
-      try{values=await getDatePanchang(iso);}catch(_){continue;}
+      // Missing daily data must never be interpreted as a skipped lunar tithi.
+      try{values=await getDatePanchang(iso);}catch(_){return {events:[],recognized:false};}
       if(token!==requestToken)return {events:[],recognized:false};
-      var p=values.p||{},sunrise=new Date(p.sunrise);
-      if(!Number.isFinite(sunrise.getTime()))continue;
+      var p=values&&values.p||{},sunrise=new Date(p.sunrise);
+      if(p.sunrise==null||!Number.isFinite(sunrise.getTime()))return {events:[],recognized:false};
       // getPanchangam के scalar masa/tithi/paksha स्थानीय सूर्योदय के आधार पर हैं।
       var masa=normalizedMasaName(p.masa);
+      if(!masa||p.tithi==null)return {events:[],recognized:false};
       var family=navratriFamily(masa);
       if(!family)continue;
       var rawTithi=p.tithi;
@@ -1005,7 +1007,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var base=makeDynamicNavratriEvent(row.date,row.family,row.tithiIndex,row.locationName);
       if(base)found.push(base);
       var nextRow=sunriseRows[nextIndex];
-      if(nextRow&&nextRow.family.id===row.family.id&&nextRow.tithiIndex>row.tithiIndex+1){
+      var lastRepeat=sunriseRows[nextIndex-1];
+      var adjacent=nextRow&&Date.parse(nextRow.date+"T00:00:00Z")-Date.parse(lastRepeat.date+"T00:00:00Z")===86400000;
+      if(adjacent&&nextRow.family.id===row.family.id&&nextRow.tithiIndex>row.tithiIndex+1){
         for(var skipped=row.tithiIndex+1;skipped<nextRow.tithiIndex&&skipped<=8;skipped++){
           var extra=makeDynamicNavratriEvent(row.date,row.family,skipped,row.locationName);
           if(!extra)continue;
@@ -1553,18 +1557,18 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }catch(error){console.warn("Special calendar unavailable",error);}
   }
   async function loadMonth(preserveViewportAnchor){
+    var token=++requestToken;
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
     function restoreViewportAnchor(){
-      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      if(token!==requestToken||anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
       window.requestAnimationFrame(function(){
-        if(!preserveViewportAnchor.isConnected)return;
+        if(token!==requestToken||!preserveViewportAnchor.isConnected)return;
         var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
     searchInput.value="";
-    var token=++requestToken;
     renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
@@ -1648,6 +1652,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
           focusFestivalCard();
           if(!fallbackData.events.length) countEl.textContent="इस महीने की स्थिर सूची उपलब्ध नहीं है; नवरात्रि की कोई गतिशील प्रविष्टि नहीं मिली।";
         }catch(fallbackError){
+          if(token!==requestToken)return;
           render({events:[]},year,month,token);
           restoreViewportAnchor();
           countEl.textContent="स्थिर डेटा उपलब्ध नहीं है और गतिशील पंचांग-गणना भी पूरी नहीं हो सकी।";
