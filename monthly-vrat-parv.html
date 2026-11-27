@@ -316,6 +316,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var locationStatus=document.getElementById("locationStatus");
   var locationSuggestions=document.getElementById("locationSuggestions");
   var requestToken=0;
+  var activeMonthRequest=null;
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
@@ -963,15 +964,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
     function restoreViewportAnchor(){
-      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      if(token!==requestToken||anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
       window.requestAnimationFrame(function(){
-        if(!preserveViewportAnchor.isConnected)return;
+        if(token!==requestToken||!preserveViewportAnchor.isConnected)return;
         var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
     searchInput.value="";
     var token=++requestToken;
+    if(activeMonthRequest)activeMonthRequest.abort();
+    var controller=new AbortController();
+    activeMonthRequest=controller;
+    var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
     scheduleSpecialPunyaKaal(year,month);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
@@ -980,16 +985,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
-      var response=await fetch(url);
+      var response=await fetch(url,{signal:controller.signal,cache:"no-cache"});
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
       render(data,year,month,token);
       restoreViewportAnchor();
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
-      if(year===2031){
+      if(e&&e.name==="AbortError"){
+        countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
+      }else if(year===2031){
         eventsEl.replaceChildren();
         var unavailable=document.createElement("div");
         unavailable.className="empty";
@@ -998,6 +1006,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         countEl.textContent="डेटा तैयार होना बाकी है";
       }
       restoreViewportAnchor();
+    }finally{
+      clearTimeout(timeoutId);
+      if(token===requestToken)activeMonthRequest=null;
     }
   }
   function ensureYearOption(year){
@@ -1072,7 +1083,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       defaultLocationElevation=fetchedElevation;
       defaultElevationFromDem=true;
       syncLocationUI();
-      if(elevationChanged){
+      if(elevationChanged&&!selectedLocationInSession){
         panchangCache.clear();
         loadMonth();
       }
