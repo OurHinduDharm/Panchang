@@ -135,10 +135,21 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+" · समय क्षेत्र: "+location.timeZone+heightNote;
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
   }
+  var locationSearchGeneration=0;
+  var locationSelectionGeneration=0;
+  function parseSearchCoordinate(raw,limit){
+    if(typeof raw!=="number"&&(typeof raw!=="string"||!raw.trim()))return NaN;
+    var value=Number(raw);
+    return Number.isFinite(value)&&Math.abs(value)<=limit?value:NaN;
+  }
   async function searchLocation(){
+    var searchGeneration=++locationSearchGeneration;
+    ++locationSelectionGeneration;
     var query=locationInput.value.trim();
     if(query.length<2){
       locationStatus.textContent="कृपया शहर या स्थान का नाम लिखें।";
+      locationSearchBtn.disabled=false;
+      locationSearchBtn.textContent="खोजें";
       locationSuggestions.replaceChildren();
       return;
     }
@@ -151,20 +162,24 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var response=await fetch(url,{headers:{"Accept":"application/json"}});
       if(!response.ok) throw new Error("HTTP_"+response.status);
       var places=await response.json();
+      if(searchGeneration!==locationSearchGeneration)return;
+      if(!Array.isArray(places))throw new Error("Invalid location search response");
       if(!places.length){
         locationStatus.textContent="स्थान नहीं मिला। नाम थोड़ा बदलकर खोजें।";
         return;
       }
       places.forEach(function(place){
+        if(!place||typeof place!=="object")return;
         var button=document.createElement("button");
         button.type="button";
         button.setAttribute("role","option");
         button.textContent=place.display_name||place.name||query;
         button.addEventListener("click",async function(){
+          if(searchGeneration!==locationSearchGeneration)return;
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:0,elevationStatus:"unknown",
+            lat:parseSearchCoordinate(place.lat,90),lon:parseSearchCoordinate(place.lon,180),elevation:0,elevationStatus:"unknown",
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query,
             country:address.country||"",
@@ -182,6 +197,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
             locationStatus.textContent="इस स्थान का समय क्षेत्र निर्धारित नहीं हो सका। दूसरा परिणाम चुनें।";
             return;
           }
+          ++locationSelectionGeneration;
           selectedLocationInSession=selected;
           panchangCache.clear();
           observerCache.clear();
@@ -195,11 +211,14 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       });
       locationStatus.textContent="नीचे दिए परिणामों में से अपना स्थान चुनें।";
     }catch(error){
+      if(searchGeneration!==locationSearchGeneration)return;
       console.warn("Location search failed:",error);
       locationStatus.textContent="स्थान खोजने में समस्या हुई। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
     }finally{
-      locationSearchBtn.disabled=false;
-      locationSearchBtn.textContent="खोजें";
+      if(searchGeneration===locationSearchGeneration){
+        locationSearchBtn.disabled=false;
+        locationSearchBtn.textContent="खोजें";
+      }
     }
   }
   async function getDatePanchang(dateIso){
