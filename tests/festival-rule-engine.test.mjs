@@ -424,3 +424,17 @@ test("Ratha Saptami sees Arunodaya in the previous sunrise partition in the 2030
   assert.equal(result.selectionBasis, "magha-shukla-saptami-at-local-arunodaya");
   assert.equal(result.publishable, false);
 });
+
+
+test("2030 Pithoragarh Vikata Sankashti uses the documented no-moonrise-coverage fallback", async () => {
+  const annual = JSON.parse(await readFile(
+    new URL("../data/ohd-annual-panchang-review-2030.json", import.meta.url), "utf8"
+  ));
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id:"vikata-sankashti", dateType:"tithi", ruleId:"sankashti-moonrise",
+    lunarMonth:"वैशाख", paksha:"कृष्ण पक्ष", targetTithiIndex:18
+  }, 2030, annual.dailyPanchang);
+  assert.equal(result.selectedDate,"2030-04-21");
+  assert.equal(result.selectionBasis,"dharmasindhu-neither-moonrise-later-day");
+  assert.equal(result.publishable,false);
+});

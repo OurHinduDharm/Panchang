@@ -867,3 +867,24 @@ test("listObservanceRuleProfiles exposes every registered profile as a sorted sn
   assert.ok(!getObservanceRuleProfile(first.id).tithiIndices.includes(99));
 });
 
+
+
+test("Dharmasindhu Sankashti fallback selects the later day only with a continuous bracketed Chaturthi", () => {
+  const days = [
+    { date: "2030-04-20", moonrise: "2030-04-20T15:00:00Z",
+      tithis: [interval(18, "2030-04-20T17:00:00Z", "2030-04-21T00:00:00Z", "कृष्ण पक्ष")] },
+    { date: "2030-04-21", moonrise: "2030-04-21T17:00:00Z",
+      tithis: [interval(18, "2030-04-21T00:00:00Z", "2030-04-21T13:30:00Z", "कृष्ण पक्ष")] }
+  ];
+  const result = resolveObservanceCandidates("sankashti-moonrise", days);
+  assert.equal(result.selectedDate, "2030-04-21");
+  assert.equal(result.selectionBasis, "dharmasindhu-neither-moonrise-later-day");
+  assert.equal(result.autoApproved, false);
+  assert.ok(result.evaluations.every(row => row.status === "candidate-not-supported"));
+  for (const invalid of [
+    [days[0]],
+    [days[0], {...days[1], date:"2030-04-22"}],
+    [days[0], {...days[1], moonrise:null}],
+    [days[0], {...days[1], tithis:[interval(18,"2030-04-21T01:00:00Z","2030-04-21T13:30:00Z","कृष्ण पक्ष")]}]
+  ]) assert.equal(resolveObservanceCandidates("sankashti-moonrise",invalid).finalDate, null);
+});

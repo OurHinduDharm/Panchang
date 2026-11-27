@@ -517,6 +517,38 @@ export function resolveObservanceCandidates(ruleId, candidateContexts, options =
     evaluations, finalDate: null, autoApproved: false
   };
   const supported = evaluations.filter(item => item.status === "candidate-supported");
+  // Dharmasindhu, first pariccheda, Chaturthi-nirnaya: when neither
+  // moonrise is covered, select the later of the two days. Require
+  // an actual single, continuous Chaturthi bracketed by both moonrises.
+  // This is a date candidate, not evidence of Chaturthi at moonrise.
+  if (profileId === "sankashti-moonrise" && supported.length === 0) {
+    const days = scopedContexts.slice().sort((a,b) => a.date.localeCompare(b.date));
+    if (days.length === 2) {
+      const [first, second] = days;
+      const a = asDate(first.moonrise), b = asDate(second.moonrise);
+      const adjacent = Date.parse(second.date) - Date.parse(first.date) === 86400000;
+      const parts = days.flatMap(day => (day.tithis || [])
+        .filter(row => !row.paksha || row.paksha === "कृष्ण पक्ष")
+        .map(asInterval).filter(row => row && row.index === 18))
+        .sort((x,y) => x.start - y.start);
+      if (adjacent && a && b && a < b && parts.length) {
+        const start = parts[0].start;
+        let end = parts[0].end, continuous = true;
+        for (const part of parts.slice(1)) {
+          if (part.start > end) { continuous = false; break; }
+          if (part.end > end) end = part.end;
+        }
+        if (continuous && a < start && end <= b) return {
+          status: "date-selected-needs-source-approval", ruleId: profileId,
+          selectedDate: second.date, finalDate: second.date,
+          selectionBasis: "dharmasindhu-neither-moonrise-later-day",
+          warnings: ["chaturthi-absent-at-both-moonrises",
+            "primary-source-and-publication-approval-still-required"],
+          evaluations, autoApproved: false
+        };
+      }
+    }
+  }
   if (!supported.length) return {
     status: "candidate-not-supported", ruleId: profileId,
     warnings: ["no-candidate-day-covers-the-required-karmakala"],
