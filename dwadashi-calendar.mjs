@@ -995,6 +995,24 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
   };
 }
 
+/**
+ * The ordinary review checkbox cannot approve an exceptional Chaturmas.
+ * An intercalary-month or extended-phase decision requires a separately
+ * reviewed rule/exception, not merely acknowledgement of a warning.
+ * This is a review-tool guard; existing published legacy configs are unchanged.
+ */
+export function canApproveChaturmasProposal(proposal) {
+  return !!proposal && ["needs-review","approved"].includes(proposal.status) &&
+    Array.isArray(proposal.missingBoundaries) && proposal.missingBoundaries.length===0 &&
+    Array.isArray(proposal.reviewWarnings) && proposal.reviewWarnings.length===0 &&
+    Array.isArray(proposal.boundaries) && proposal.boundaries.length===5 &&
+    proposal.boundaries.every(b=>typeof b.selectedDate==="string") &&
+    Array.isArray(proposal.phases) && proposal.phases.length===4 &&
+    typeof proposal.completionDate==="string" &&
+    Array.isArray(proposal.completionObservations) &&
+    proposal.completionObservations.some(o=>o.date===proposal.completionDate);
+}
+
 export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) {
   const dwadashi = buildDwadashiCalendar(dailyPanchang, rules);
   const chaturmas = buildChaturmasProposal(dailyPanchang, location);
