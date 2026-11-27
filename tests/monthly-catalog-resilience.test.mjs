@@ -34,7 +34,7 @@ function harness(source,overrides={}){
     function scheduleSpecialPunyaKaal(){} function syncMonthNavigationButtons(){} function isLegacyNavratriDailyEvent(){return false}
     function focusFestivalCard(){focuses.push(true)}
     function render(data,year,month){draws.push({year,month,events:data.events.slice()});countEl.textContent=data.events.length+" प्रविष्टियाँ"}
-    `+source.slice(start,end)+"\\nreturn loadMonth;"
+    `+source.slice(start,end)+"\nreturn loadMonth;"
   )(config,yearSelect,monthSelect,countEl,draws,requests,focuses);
   return {load,draws,requests,focuses,monthSelect,countEl};
 }
