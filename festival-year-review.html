@@ -329,8 +329,14 @@ function renderDwadashiReview(){
   if(ch.status==="incomplete"){
    const missing=document.createElement("p");missing.className="muted";missing.textContent="अपूर्ण सीमाएँ: "+(ch.missingBoundaries||[]).join(", ")+". अनुमान से नहीं भरी गईं।";chCard.appendChild(missing);
   }
-  const approveChLabel=document.createElement("label");approveChLabel.className="field";approveChLabel.textContent="पाँचों सीमाएँ और चारों चरण जाँचकर स्वीकृत करें";
-  const approveCh=document.createElement("input");approveCh.type="checkbox";approveCh.checked=ch.status==="approved";approveCh.disabled=!Array.isArray(ch.phases)||ch.phases.length!==4;
+  const completion=document.createElement("p");completion.textContent="व्रत-समापन (कार्तिक शुक्ल द्वादशी): "+(ch.completionDate||"निर्णय शेष");chCard.appendChild(completion);
+  for(const warning of ch.reviewWarnings||[]){
+   const line=document.createElement("p");line.className="muted";
+   line.textContent=warning.code==="adhika-month-within-chaturmas"?"चातुर्मास में अधिकमास: "+warning.months.join(", ")+"। आहार-चरण का विशेष नियम जाँचें।":"विस्तारित आहार-चरण: "+warning.days+" दिन। विशेष निर्णय आवश्यक।";
+   chCard.appendChild(line);
+  }
+  const approveChLabel=document.createElement("label");approveChLabel.className="field";approveChLabel.textContent="पाँचों सीमाएँ, चारों चरण, अधिकमास और द्वादशी समापन जाँचकर स्वीकृत करें";
+  const approveCh=document.createElement("input");approveCh.type="checkbox";approveCh.checked=ch.status==="approved";approveCh.disabled=ch.status==="incomplete"||!ch.completionDate||!Array.isArray(ch.phases)||ch.phases.length!==4;
   approveCh.addEventListener("change",()=>{ch.status=approveCh.checked?"approved":"needs-review";syncDwadashiPackageStatus();renderDwadashiReview()});
   approveChLabel.appendChild(approveCh);chCard.appendChild(approveChLabel);
   const chState=document.createElement("p");chState.className="muted";chState.textContent=ch.status==="approved"?"चातुर्मास: स्वीकृत":ch.status==="incomplete"?"चातुर्मास: गणना अपूर्ण":"चातुर्मास: समीक्षा बाकी";chCard.appendChild(chState);
