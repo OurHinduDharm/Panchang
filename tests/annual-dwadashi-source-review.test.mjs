@@ -1183,7 +1183,7 @@ test("2030 Ashadha Shukla Dwadashi includes the separate Narada Purana twelve-Br
   assert.equal(decision.selectedDate, date);
   assert.equal(decision.reviewStatus, "approved");
   assert.equal(decision.autoApproved, false);
-  assert.match(decision.reviewBasis, /121\.19–20/);
+  assert.match(decision.reviewBasis, /121\.19b–21a/);
   assert.match(decision.reviewBasis, /बारह ब्राह्मणों/);
   const annual = JSON.parse(await readFile(resolve(root, "data/dwadashi/2030.json"), "utf8"));
   const publicRecord = annual.tithis.find(item => item.id === "ashadha-shukla");
