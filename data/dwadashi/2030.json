@@ -1214,6 +1214,48 @@
           "dateRole": "ekadashi-day-preparation-and-following-dawn-donation"
         }
       ]
+    },
+    {
+      "id": "phalguna-shukla",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "status": "needs-review",
+      "selectedDate": "2030-03-16",
+      "displayNames": [
+        "श्रीहरि-द्वादशी व्रत",
+        "नृसिंह-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "phalguna-hari",
+          "name": "श्रीहरि-द्वादशी व्रत",
+          "deity": "भगवान श्रीहरि",
+          "shortDetail": "श्रीहरि की गंध-पुष्पादि से पूजा, स्वर्ण-प्रतिमा का दान, बारह ब्राह्मणों को भोजन और दक्षिणा का विधान है।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+          "sourceProfile": "naradaPurana"
+        },
+        {
+          "id": "narasimha",
+          "name": "नृसिंह-द्वादशी",
+          "deity": "भगवान नृसिंह",
+          "shortDetail": "हिरण्यकशिपु-वध करने वाले नृसिंह की पूजा और नृसिंह-प्रतिमा के दान का विधान है।",
+          "source": "वराह पुराण, अध्याय 42 — नृसिंह-द्वादशी-व्रत",
+          "sourceProfile": "varahaPurana"
+        }
+      ],
+      "conditionalObservances": [],
+      "observanceDateReviews": [
+        {
+          "observanceId": "phalguna-hari",
+          "selectedDate": "2030-03-16",
+          "reviewStatus": "approved"
+        },
+        {
+          "observanceId": "narasimha",
+          "selectedDate": "2030-03-16",
+          "reviewStatus": "approved"
+        }
+      ]
     }
   ],
   "chaturmas": {
