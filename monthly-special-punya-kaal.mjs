@@ -18,11 +18,14 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
   var specialPunyaKaalEnginePromise=null;
   var specialPunyaKaalMonthCache=new Map();
   var specialPunyaKaalObserver=null;
+  var lastRenderKey=null;
+  var specialDateTimeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",hourCycle:"h23",numberingSystem:"latn"});
+  var specialDateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"});
   var specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
   function formatSpecialPunyaKaalDateTime(value){
     var date=new Date(value);
     if(Number.isNaN(date.getTime()))return "";
-    var parts=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",hourCycle:"h23",numberingSystem:"latn"}).formatToParts(date);
+    var parts=specialDateTimeFormatter.formatToParts(date);
     var values=Object.fromEntries(parts.map(function(part){return [part.type,part.value];}));
     var hour=Number(values.hour);
     var period=hour<4?"रात्रि":hour<12?"प्रातः":hour<16?"अपराह्ण":hour<19?"सायं":"रात्रि";
@@ -54,6 +57,9 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
     var section=document.getElementById("special-punya-kaal");
     var content=document.getElementById("specialPunyaKaalContent");
     var details=document.getElementById("specialPunyaKaalDetails");
+    var renderKey=JSON.stringify(approved);
+    if(renderKey===lastRenderKey)return;
+    lastRenderKey=renderKey;
     content.replaceChildren();
     section.hidden=!approved.length;
     if(!approved.length)return;
@@ -66,7 +72,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
       var card=document.createElement("article");card.className="special-kaal-card";
       var title=document.createElement("div");title.className="special-kaal-title";title.textContent=item.labels[0];card.appendChild(title);
       var date=document.createElement("div");date.className="special-kaal-date";
-      date.textContent=(item.isMahapata?"स्पर्श की तिथि ":"संयोग की तिथि: ")+new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(item.date+"T12:00:00+05:30"));
+      date.textContent=(item.isMahapata?"स्पर्श की तिथि ":"संयोग की तिथि: ")+specialDateFormatter.format(new Date(item.date+"T12:00:00+05:30"));
       card.appendChild(date);
       var time=document.createElement("div");time.className="special-kaal-time";
       time.textContent=(item.isMahapata?"स्पर्श ":"संयोग आरंभ : ")+formatSpecialPunyaKaalDateTime(item.startTime)
@@ -130,6 +136,8 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
   }
   async function loadLocalSpecialPunyaKaal(year,month,token){
     try{
+      var publicApproval=await specialPunyaKaalApprovalPromise;
+      if(!currentRequest(token,year,month)||!publicApproval.mayHaveApprovedLocalPunyaKaal(year,month))return;
       var location=getLocalLocation();
       if(!location||![location.lat,location.lon,location.elevation].every(v=>v!=null&&Number.isFinite(Number(v))))return;
       var cacheKey=[year,month,Number(location.lat).toFixed(5),Number(location.lon).toFixed(5),Number(location.elevation)||0].join(":");
@@ -142,7 +150,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
             timezoneOffsetMinutes:330,calendarType:"purnimanta"
           });
         }).catch(function(error){
-          specialPunyaKaalMonthCache.delete(cacheKey);
+          if(specialPunyaKaalMonthCache.get(cacheKey)===calculation)specialPunyaKaalMonthCache.delete(cacheKey);
           throw error;
         });
         specialPunyaKaalMonthCache.set(cacheKey,calculation);
@@ -169,6 +177,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
   }
   return function scheduleSpecialPunyaKaal(year,month){
     var token=++specialPunyaKaalRequest;
+    lastRenderKey=null;
     document.getElementById("special-punya-kaal").hidden=true;
     document.getElementById("specialPunyaKaalContent").replaceChildren();
     var initial=loadSpecialPunyaKaal(year,month,token);

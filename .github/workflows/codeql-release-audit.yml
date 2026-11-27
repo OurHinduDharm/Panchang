@@ -1,0 +1,66 @@
+name: CodeQL release security audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.html'
+      - '.github/workflows/codeql-release-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  javascript-security:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          build-mode: none
+      - name: Analyze without changing the repository's default code-scanning setup
+        uses: github/codeql-action/analyze@v4
+        with:
+          upload: never
+          upload-database: false
+          output: sarif-results
+      - name: Verify security findings
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          files = list(Path("sarif-results").rglob("*.sarif"))
+          if not files:
+              raise SystemExit("No SARIF result produced; security check is incomplete.")
+          runs = [run for path in files for run in json.loads(path.read_text()).get("runs", [])]
+          if not runs:
+              raise SystemExit("No CodeQL analysis runs found.")
+          findings = []
+          for run in runs:
+              for result in run.get("results", []):
+                  if result.get("kind", "fail") not in ("fail", "review"):
+                      continue
+                  for location in (result.get("locations") or [{}])[:1]:
+                      physical = location.get("physicalLocation", {})
+                      uri = physical.get("artifactLocation", {}).get("uri", "(unknown)")
+                      line = physical.get("region", {}).get("startLine", 0)
+                      findings.append((result.get("ruleId", "(unknown)"), uri, line))
+          for rule, uri, line in findings:
+              print(f"{rule}: {uri}:{line}")
+          print(f"CodeQL findings requiring review: {len(findings)}")
+          if findings:
+              raise SystemExit("Security findings require review before release.")
+          PY
+      - name: Preserve CodeQL report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-release-sarif
+          path: sarif-results
+          if-no-files-found: error

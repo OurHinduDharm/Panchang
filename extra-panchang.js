@@ -1035,6 +1035,37 @@ function restorePanchangDisclosureState(state) {
    Main update
    ========================================= */
 
+// Only immutable-in-time, observer-specific calculation inputs are memoized.
+// The current Hora is still determined from the live clock on every refresh.
+const extraSnapshotCache = new Map();
+const EXTRA_SNAPSHOT_LIMIT = 12;
+function memoExtraSnapshot(kind, instant, location, compute, cacheable = () => true) {
+  const key = JSON.stringify([kind, instant.getTime(), location.latitude,
+    location.longitude, location.elevation, location.timeZone || "Asia/Kolkata"]);
+  if (extraSnapshotCache.has(key)) {
+    const value = extraSnapshotCache.get(key);
+    extraSnapshotCache.delete(key);
+    extraSnapshotCache.set(key, value);
+    return value;
+  }
+  const value = compute();
+  if (cacheable(value)) {
+    extraSnapshotCache.set(key, value);
+    while (extraSnapshotCache.size > EXTRA_SNAPSHOT_LIMIT) {
+      extraSnapshotCache.delete(extraSnapshotCache.keys().next().value);
+    }
+  }
+  return value;
+}
+function validExtraPanchangSnapshot(p) {
+  return p != null && p.sunrise != null && p.sunset != null && p.tithi != null &&
+    Number.isFinite(new Date(p.sunrise).getTime()) && Number.isFinite(new Date(p.sunset).getTime());
+}
+function extraPanchangAt(instant, location, observer, timezoneOffset) {
+  return memoExtraSnapshot("panchang:" + timezoneOffset, instant, location,
+    () => getPanchangam(instant, observer, {timezoneOffset}), validExtraPanchangSnapshot);
+}
+
 function updatePlanetRiseSet() {
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
@@ -1087,27 +1118,13 @@ function updatePlanetRiseSet() {
       location.elevation
     );
 
-  const pHora =
-    getPanchangam(
-      horaDate,
-      horaObserver,
-      {
-        timezoneOffset: horaTimezoneOffset
-      }
-    );
+  const pHora = extraPanchangAt(horaDate, location, horaObserver, horaTimezoneOffset);
 
   const nextSelectedHoraDate = addIsoCalendarDays(selectedDate, 1);
   const nextHoraDate = zonedDateTimeToUtc(nextSelectedHoraDate, 0, 0, timeZone);
   const nextHoraTimezoneOffset = getTimeZoneOffsetForLocalDay(nextHoraDate, timeZone);
 
-  const nextPHora =
-    getPanchangam(
-      nextHoraDate,
-      horaObserver,
-      {
-        timezoneOffset: nextHoraTimezoneOffset
-      }
-    );
+  const nextPHora = extraPanchangAt(nextHoraDate, location, horaObserver, nextHoraTimezoneOffset);
 
 const now =
   new Date();
@@ -1148,12 +1165,7 @@ if(
     const previousDateObj = zonedDateTimeToUtc(previousSelectedDate, 0, 0, timeZone);
     const previousTimezoneOffset = getTimeZoneOffsetForLocalDay(previousDateObj, timeZone);
 
-    const previousPanchang =
-      getPanchangam(
-        previousDateObj,
-        horaObserver,
-        { timezoneOffset:previousTimezoneOffset }
-      );
+    const previousPanchang = extraPanchangAt(previousDateObj, location, horaObserver, previousTimezoneOffset);
 
     const previousHoraDetails =
       calculateHoraDetails(
@@ -1206,7 +1218,7 @@ if(
   // not from the selected date's midnight input instant.
   const sunriseInstant = pHora.sunrise ? new Date(pHora.sunrise) : null;
   const sunrisePanchang = sunriseInstant
-    ? getPanchangam(sunriseInstant, horaObserver, { timezoneOffset:getTimeZoneOffsetForLocalDay(sunriseInstant, timeZone) })
+    ? extraPanchangAt(sunriseInstant, location, horaObserver, getTimeZoneOffsetForLocalDay(sunriseInstant, timeZone))
     : null;
   const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
   __ohdPerfMark("Nivasa calculation and card");
@@ -1220,8 +1232,8 @@ if(
 
   // Selected date ke baad ke agle local Mars horizon rise/set events.
   // Yeh daily topocentric horizon crossings hain, Tara-Asta visibility boundaries nahi.
-  const marsRiseEvent = SearchRiseSet("Mars", horaObserver, 1, horaDate, 3, 0);
-  const marsSetEvent = SearchRiseSet("Mars", horaObserver, -1, horaDate, 3, 0);
+  const marsRiseEvent = memoExtraSnapshot("mars-rise", horaDate, location, () => SearchRiseSet("Mars", horaObserver, 1, horaDate, 3, 0));
+  const marsSetEvent = memoExtraSnapshot("mars-set", horaDate, location, () => SearchRiseSet("Mars", horaObserver, -1, horaDate, 3, 0));
   const dailyEvents = {
     sunrise: pHora.sunrise ? formatEventDateTime(new Date(pHora.sunrise)) : null,
     sunset: pHora.sunset ? formatEventDateTime(new Date(pHora.sunset)) : null,
@@ -1303,7 +1315,8 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
     selectedDate,
     location.latitude,
     location.longitude,
-    location.elevation
+    location.elevation,
+    location.timeZone || "Asia/Kolkata"
   ].join("|");
 
   if (cacheKey === classicalYogaCacheKey && classicalYogaCacheDetails) {
@@ -1511,28 +1524,16 @@ function initExtraPanchang() {
     }
   );
 
-  setInterval(
-    () => {
-
-      const selectedDate =
-        getSelectedDate();
-
-      if (!selectedDate) {
-        return;
-      }
-
-      const now =
-        new Date();
-
-      const localToday = getIsoDateInTimeZone(now, getLocation()?.timeZone || "Asia/Kolkata");
-
-      if (selectedDate === localToday) {
-        updatePlanetRiseSet();
-      }
-
-    },
-    30000
-  );
+  function refreshCurrentHora(){
+    if (document.hidden) return;
+    const selectedDate = getSelectedDate();
+    if (!selectedDate) return;
+    const localToday = getIsoDateInTimeZone(new Date(), getLocation()?.timeZone || "Asia/Kolkata");
+    if (selectedDate === localToday) updatePlanetRiseSet();
+  }
+  setInterval(refreshCurrentHora, 30000);
+  // A background tab need not calculate; immediately catch up when visible.
+  document.addEventListener("visibilitychange", refreshCurrentHora);
 
 }
 

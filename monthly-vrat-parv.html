@@ -316,6 +316,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var locationStatus=document.getElementById("locationStatus");
   var locationSuggestions=document.getElementById("locationSuggestions");
   var requestToken=0;
+  var activeMonthRequest=null;
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
@@ -347,14 +348,25 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var response=await fetch(url,{headers:{"Accept":"application/json"}});
     if(!response.ok) throw new Error("Elevation_HTTP_"+response.status);
     var data=await response.json();
-    var elevation=Array.isArray(data.elevation)?Number(data.elevation[0]):NaN;
+    var elevation=Array.isArray(data.elevation)&&typeof data.elevation[0]==="number"?data.elevation[0]:NaN;
     if(!Number.isFinite(elevation)) throw new Error("Elevation data unavailable");
     return elevation;
   }
+  var locationSearchGeneration=0;
+  var locationSelectionGeneration=0;
+  function parseSearchCoordinate(raw,limit){
+    if(typeof raw!=="number"&&(typeof raw!=="string"||!raw.trim()))return NaN;
+    var value=Number(raw);
+    return Number.isFinite(value)&&Math.abs(value)<=limit?value:NaN;
+  }
   async function searchLocation(){
+    var searchGeneration=++locationSearchGeneration;
+    ++locationSelectionGeneration;
     var query=locationInput.value.trim();
     if(query.length<2){
       locationStatus.textContent="कृपया शहर या स्थान का नाम लिखें।";
+      locationSearchBtn.disabled=false;
+      locationSearchBtn.textContent="खोजें";
       locationSuggestions.replaceChildren();
       return;
     }
@@ -367,20 +379,24 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var response=await fetch(url,{headers:{"Accept":"application/json"}});
       if(!response.ok) throw new Error("HTTP_"+response.status);
       var places=await response.json();
+      if(searchGeneration!==locationSearchGeneration)return;
+      if(!Array.isArray(places))throw new Error("Invalid location search response");
       if(!places.length){
         locationStatus.textContent="स्थान नहीं मिला। नाम थोड़ा बदलकर खोजें।";
         return;
       }
       places.forEach(function(place){
+        if(!place||typeof place!=="object")return;
         var button=document.createElement("button");
         button.type="button";
         button.setAttribute("role","option");
         button.textContent=place.display_name||place.name||query;
         button.addEventListener("click",async function(){
+          if(searchGeneration!==locationSearchGeneration)return;
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:null,
+            lat:parseSearchCoordinate(place.lat,90),lon:parseSearchCoordinate(place.lon,180),elevation:null,
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query
           };
@@ -388,16 +404,20 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
+          var selectionGeneration=++locationSelectionGeneration;
           button.disabled=true;
           locationStatus.textContent="चुने गए स्थान की ऊँचाई प्राप्त की जा रही है…";
           try{
             selected.elevation=await getTerrainElevation(selected.lat,selected.lon);
           }catch(error){
+            button.disabled=false;
+            if(searchGeneration!==locationSearchGeneration||selectionGeneration!==locationSelectionGeneration)return;
             console.warn("Location elevation unavailable:",error);
             locationStatus.textContent="इस स्थान की ऊँचाई का डेटा अभी नहीं मिल सका। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
-            button.disabled=false;
             return;
           }
+          button.disabled=false;
+          if(searchGeneration!==locationSearchGeneration||selectionGeneration!==locationSelectionGeneration)return;
           selectedLocationInSession=selected;
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
@@ -409,11 +429,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       });
       locationStatus.textContent="नीचे दिए परिणामों में से अपना स्थान चुनें।";
     }catch(error){
+      if(searchGeneration!==locationSearchGeneration)return;
       console.warn("Location search failed:",error);
       locationStatus.textContent="स्थान खोजने में समस्या हुई। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
     }finally{
-      locationSearchBtn.disabled=false;
-      locationSearchBtn.textContent="खोजें";
+      if(searchGeneration===locationSearchGeneration){
+        locationSearchBtn.disabled=false;
+        locationSearchBtn.textContent="खोजें";
+      }
     }
   }
   async function getDatePanchang(dateIso){
@@ -941,15 +964,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
     function restoreViewportAnchor(){
-      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      if(token!==requestToken||anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
       window.requestAnimationFrame(function(){
-        if(!preserveViewportAnchor.isConnected)return;
+        if(token!==requestToken||!preserveViewportAnchor.isConnected)return;
         var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
     searchInput.value="";
     var token=++requestToken;
+    if(activeMonthRequest)activeMonthRequest.abort();
+    var controller=new AbortController();
+    activeMonthRequest=controller;
+    var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
     scheduleSpecialPunyaKaal(year,month);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
@@ -958,16 +985,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
-      var response=await fetch(url);
+      var response=await fetch(url,{signal:controller.signal,cache:"no-cache"});
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
       render(data,year,month,token);
       restoreViewportAnchor();
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
-      if(year===2031){
+      if(e&&e.name==="AbortError"){
+        countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
+      }else if(year===2031){
         eventsEl.replaceChildren();
         var unavailable=document.createElement("div");
         unavailable.className="empty";
@@ -976,6 +1006,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         countEl.textContent="डेटा तैयार होना बाकी है";
       }
       restoreViewportAnchor();
+    }finally{
+      clearTimeout(timeoutId);
+      if(token===requestToken)activeMonthRequest=null;
     }
   }
   function ensureYearOption(year){
@@ -1050,7 +1083,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       defaultLocationElevation=fetchedElevation;
       defaultElevationFromDem=true;
       syncLocationUI();
-      if(elevationChanged){
+      if(elevationChanged&&!selectedLocationInSession){
         panchangCache.clear();
         loadMonth();
       }
