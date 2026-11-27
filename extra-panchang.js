@@ -472,8 +472,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><a href="${annualTaraPageUrl()}">वार्षिक उदय-अस्त देखें</a></div></div>
-    <p style="margin:12px 0 0"><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
   `;
   return card;
 }

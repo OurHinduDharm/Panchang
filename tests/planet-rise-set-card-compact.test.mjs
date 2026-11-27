@@ -28,7 +28,8 @@ test("public card does not show additional planetary rows", () => {
 
 
 test("Agastya row links to selected annual year without a daily worker",()=>{
-  assert.match(card,/अगस्त्य तारा<\/strong><a href="\$\{annualTaraPageUrl\(\)\}">वार्षिक उदय-अस्त देखें/);
+  assert.match(card,/अगस्त्य तारा<\/strong><a href="\$\{annualTaraPageUrl\(\)\}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें/);
+  assert.equal([...card.matchAll(/href="\$\{annualTaraPageUrl\(\)\}"/g)].length,1);
   const start=source.indexOf("function annualTaraPageUrl()");
   const end=source.indexOf("function createPlanetCard",start);
   const make=new Function("getLocation","getSelectedDate",source.slice(start,end)+"\nreturn annualTaraPageUrl;")(()=>({cityProfileKey:"delhi"}),()=>"2031-06-10");
