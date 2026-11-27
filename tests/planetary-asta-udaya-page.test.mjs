@@ -94,8 +94,9 @@ test("annual page keeps the public city calculator and removes legacy records UI
   assert.ok(!page.includes('id="pithoragarh-records"'));
   assert.ok(!page.includes('id="results"'));
   assert.ok(!page.includes("./data/agastya-arghya-pithoragarh.json"));
-  assert.ok(!page.includes("http://") && !page.includes("https://"));
-  assert.ok(!page.includes("Drik Panchang") && !page.includes("drikpanchang.com"));
+  // Source-text policy, not a URL trust/sanitization check.
+  assert.doesNotMatch(page, /https?:\/\//i);
+  assert.doesNotMatch(page, /Drik Panchang|drikpanchang[.]com/i);
 });
 
 const agastya = JSON.parse(readFileSync(
