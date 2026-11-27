@@ -425,6 +425,10 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
 function annualTaraPageUrl() {
   const url = new URL("https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html");
   const location = getLocation();
+  const selectedYear = Number(String(getSelectedDate() || "").slice(0, 4));
+  if (Number.isInteger(selectedYear) && selectedYear >= 2021 && selectedYear <= 2035) {
+    url.searchParams.set("year", String(selectedYear));
+  }
   if (location?.cityProfileKey && Object.hasOwn({
     "pithoragarh-project-target": true, "drikpanchang-almora": true,
     "drikpanchang-ramnagar": true, delhi: true, dehradun: true
@@ -468,7 +472,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><a href="${annualTaraPageUrl()}">वार्षिक उदय-अस्त देखें</a></div></div>
     <p style="margin:12px 0 0"><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></p>
   `;
   return card;

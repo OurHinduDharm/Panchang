@@ -92,11 +92,12 @@ try {
 
   await page.selectOption("#forecast-year", "2026");
   await page.selectOption("#city", "pithoragarh-project-target");
-  const arghya = page.locator(".planet").filter({hasText: "अगस्त्य अर्घ्य"});
+  const arghya = page.locator(".planet").filter({hasText: "उदय से सूर्योदय तक"});
   await arghya.waitFor();
   const recorded = await arghya.innerText();
-  assert.match(recorded, /अगस्त्य अर्घ्य —/);
-  assert.match(recorded, /अर्घ्य देने का समय —/);
+  assert.match(recorded, /उदय से सूर्योदय तक —/);
+  assert.match(recorded, /पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है/);
+  assert.doesNotMatch(recorded, /अर्घ्य देने का समय —/);
   assert.match(recorded, /उदय — 6 सितंबर/);
   assert.match(recorded, /अस्त — 16 अप्रैल/);
   assert.doesNotMatch(recorded, /पारंपरिक पिथौरागढ़ अर्घ्य-संदर्भ|गणना-प्रोफाइल उपलब्ध नहीं/);
@@ -142,7 +143,7 @@ try {
   await requested;
   await restore.selectOption("#forecast-year", "2026");
   releaseIndex();
-  await restore.getByText(/अगस्त्य अर्घ्य —/).waitFor();
+  await restore.getByText(/उदय से सूर्योदय तक —/).waitFor();
   assert.match(await restore.locator("#selected-place").innerText(), /पिथौरागढ़/);
   await restore.close();
 

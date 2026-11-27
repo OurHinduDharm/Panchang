@@ -8,7 +8,7 @@ const end = source.indexOf("function createHoraCard(", start);
 assert.ok(start >= 0 && end > start, "planet rise/set card function must exist");
 const card = source.slice(start, end);
 
-test("planet card contains only Guru and Shukra Tara Asta dates", () => {
+test("planet card retains Guru and Shukra dates and links to annual Agastya", () => {
   assert.match(card, /अस्त प्रारम्भ/);
   assert.match(card, /पुनः उदय/);
   assert.match(card, /गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त/);
@@ -26,3 +26,14 @@ test("public card does not show additional planetary rows", () => {
   assert.doesNotMatch(card, /name: "सूर्य|name: "चंद्रमा"/);
 });
 
+
+test("Agastya row links to selected annual year without a daily worker",()=>{
+  assert.match(card,/अगस्त्य तारा<\/strong><a href="\$\{annualTaraPageUrl\(\)\}">वार्षिक उदय-अस्त देखें/);
+  const start=source.indexOf("function annualTaraPageUrl()");
+  const end=source.indexOf("function createPlanetCard",start);
+  const make=new Function("getLocation","getSelectedDate",source.slice(start,end)+"\nreturn annualTaraPageUrl;")(()=>({cityProfileKey:"delhi"}),()=>"2031-06-10");
+  const url=new URL(make());
+  assert.equal(url.searchParams.get("year"),"2031");
+  assert.equal(url.searchParams.get("city"),"delhi");
+  assert.doesNotMatch(card,/new Worker|annual-tara-runtime|agastya-arghya-pithoragarh/);
+});
