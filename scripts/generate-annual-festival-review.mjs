@@ -3,7 +3,7 @@
 import {readFile, mkdir, writeFile} from "node:fs/promises";
 import {resolve, dirname} from "node:path";
 import {fileURLToPath} from "node:url";
-import {resolveFestivalObservanceFromAnnualPanchang} from "../festival-rule-engine.mjs";
+import {buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} from "../festival-rule-engine.mjs";
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const validYear=y=>Number.isInteger(y)&&y>=1900&&y<=2200;
@@ -90,6 +90,44 @@ export function buildRuleCoverageReview({annual,manifests,year,sourceYear}){
   return {status:"review-only-not-approved",year,sourceYear,sourceYears:[...seenYears].sort((a,b)=>a-b),sourceOccurrences:slots.reduce((n,s)=>n+s.sources.length,0),distinctRuleSelectors:slots.length,additionalSelectors:slots.filter(s=>!s.inSourceYear).length,additionalWithCandidate:slots.filter(s=>!s.inSourceYear&&s.calculatedCandidateDate&&s.status!=="manual-review").length,slots,
     note:"Selector coverage is not a count of festivals; source title variants, repeated lunar occurrences and adhika-month rules still require independent review."};
 }
+// Enumerate each recurring tithi cycle independently, not each old calendar card.
+// Candidate evidence only: the source title, weekday and ritual approval are separate.
+export function buildRecurringFestivalReview({annual,year}){
+  validateAnnualInput(annual,year);
+  const days=annual.dailyPanchang;
+  const contexts=buildFestivalRuleContexts(days);
+  const rules=[
+    ["pradosh-trayodashi",12],["pradosh-trayodashi",27],
+    ["ekadashi-smarta-udaya",10],["ekadashi-smarta-udaya",25],
+    ["sankashti-moonrise",18],["masik-shivaratri-nishita",28],
+    ["vinayaka-chaturthi-madhyahna",3]
+  ];
+  const series=rules.map(([ruleId,targetTithiIndex])=>{
+    const groups=[];
+    for(let i=0;i<contexts.length;i++){
+      if(!contexts[i].tithis.some(t=>t.index===targetTithiIndex&&Number.isFinite(Date.parse(t.startTime))&&Date.parse(t.endTime)>Date.parse(t.startTime)))continue;
+      const last=groups.at(-1);
+      if(last&&last.end===i-1)last.end=i;
+      else groups.push({start:i,end:i});
+    }
+    const occurrences=groups.map(({start,end})=>{
+      const first=days[start].date,last=days[end].date;
+      const boundary=start===0||end===days.length-1;
+      // Include neighbouring days for sunrise/previous-tithi evidence.
+      const slice=days.slice(Math.max(0,start-1),Math.min(days.length,end+2));
+      const result=resolveFestivalObservanceFromAnnualPanchang({id:ruleId+"-"+targetTithiIndex+"-"+first,dateType:"tithi",ruleId,targetTithiIndex,monthKind:"any"},year,slice);
+      const candidate=result.selectedDate??null;
+      const selectedDate=!boundary&&candidate&&candidate>=first&&candidate<=last?candidate:null;
+      return {firstEvidenceDate:first,lastEvidenceDate:last,calculatedCandidateDate:candidate,selectedDate,
+        status:boundary?"manual-review":result.status,
+        calendarMonthEvidence:selectedDate?days.find(d=>d.date===selectedDate)?.masa??null:null,
+        warnings:[...(result.warnings??[]),...(boundary?["adjacent-year-context-required"]:[])],
+        publishable:false};
+    });
+    return {ruleId,targetTithiIndex,occurrences,counts:{cycles:occurrences.length,selected:occurrences.filter(o=>o.selectedDate).length,unresolved:occurrences.filter(o=>!o.selectedDate).length}};
+  });
+  return {status:"review-only-not-approved",year,publishable:false,series,counts:{cycles:series.reduce((n,r)=>n+r.counts.cycles,0),selected:series.reduce((n,r)=>n+r.counts.selected,0),unresolved:series.reduce((n,r)=>n+r.counts.unresolved,0)},note:"Independent recurring-tithi candidate cycles, including intercalary months. Month names, special observance exceptions, source approval and calendar-year boundary cases must be reviewed before creating public cards."};
+}
 async function main(){
   const args=process.argv.slice(2);
   const year=Number(args.find(x=>x.startsWith("--year="))?.slice(7)||2031);
@@ -104,9 +142,10 @@ async function main(){
   const historicalYears=[...new Set([2026,2027,2028,2029,2030,sourceYear])];
   const manifests=await Promise.all(historicalYears.map(y=>read("data/reviews/observance-rule-mapping-"+y+".json")));
   output.ruleCoverage=buildRuleCoverageReview({annual,manifests,year,sourceYear});
+  output.recurringReview=buildRecurringFestivalReview({annual,year});
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
   await writeFile(resolve(dir,year+"-from-"+sourceYear+".json"),JSON.stringify(output,null,2)+"\n");
-  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
+  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,recurringReview:output.recurringReview.counts,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error);process.exitCode=1;});

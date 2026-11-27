@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {buildAnnualFestivalReview,validateAnnualInput,buildRuleCoverageReview} from "../scripts/generate-annual-festival-review.mjs";
+import {buildAnnualFestivalReview,validateAnnualInput,buildRuleCoverageReview,buildRecurringFestivalReview} from "../scripts/generate-annual-festival-review.mjs";
 const year=2031;
 const dailyPanchang=Array.from({length:365},(_,i)=>{
   const date=new Date(Date.UTC(year,0,i+1)).toISOString().slice(0,10);
@@ -43,4 +43,32 @@ test("historical selector coverage adds missing rule slots without treating titl
  assert.equal(adhika.status,"manual-review");
  assert.equal(adhika.calculatedCandidateDate,null);
  assert.ok(coverage.slots.every(s=>s.publishable===false));
+});
+
+test("recurring observances resolve per lunar cycle, including intercalary months, instead of copying source-year count",()=>{
+ const custom=structuredClone(annual);
+ for(const date of ["2031-03-08","2031-04-07","2031-04-08"]){
+   const day=custom.dailyPanchang.find(d=>d.date===date);
+   day.masa=date.startsWith("2031-04")?"अधिक चैत्र":"चैत्र";
+   // April two adjacent contexts share one physical tithi interval.
+   const first=date.startsWith("2031-04")?"2031-04-07":"2031-03-08";
+   const end=date.startsWith("2031-04")?"2031-04-08T02:00:00Z":date+"T08:00:00Z";
+   day.tithiIntervals=[{index:3,startTime:first+"T04:00:00Z",endTime:end}];
+ }
+ const report=buildRecurringFestivalReview({annual:custom,year});
+ const vinayaka=report.series.find(r=>r.ruleId==="vinayaka-chaturthi-madhyahna");
+ assert.equal(vinayaka.counts.cycles,3);
+ assert.equal(vinayaka.counts.selected,3);
+ assert.deepEqual(vinayaka.occurrences.map(o=>o.selectedDate),["2031-03-08","2031-04-07","2031-09-10"]);
+ assert.equal(vinayaka.occurrences[1].calendarMonthEvidence,"अधिक चैत्र");
+ assert.ok(vinayaka.occurrences.every(o=>o.publishable===false));
+});
+test("recurring audit retains year-edge candidates for manual review",()=>{
+ const custom=structuredClone(annual);
+ custom.dailyPanchang[0].tithiIntervals=[{index:3,startTime:"2031-01-01T04:00:00Z",endTime:"2031-01-01T08:00:00Z"}];
+ const report=buildRecurringFestivalReview({annual:custom,year});
+ const first=report.series.find(r=>r.ruleId==="vinayaka-chaturthi-madhyahna").occurrences[0];
+ assert.equal(first.selectedDate,null);
+ assert.equal(first.status,"manual-review");
+ assert.ok(first.warnings.includes("adjacent-year-context-required"));
 });
