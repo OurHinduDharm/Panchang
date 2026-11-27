@@ -957,16 +957,25 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id:"dal", title:"दालों का त्याग", startDate:boundaries[3].selectedDate, endDate:boundaries[4].selectedDate, startTithi:"आश्विन शुक्ल द्वादशी", endTithi:"कार्तिक शुक्ल एकादशी", detail:"आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।" }
   ] : [];
   const cardVisibleThroughDate = complete ? nextCalendarDate(completionDate) : null;
-  // Longer phases are evidence for a special month/ritual decision, not
-  // permission to automatically approve an intercalary-month convention.
+  // Project tradition confirmed by the owner on 2026-11-28:
+  // continue the current dietary vow through adhika masa; transition on
+  // the next prescribed nija-month Dwadashi. This is not a universal rule.
+  const adhikaPolicy="continuous-vow-nija-transition-v1";
   const reviewWarnings=[];
+  const adhikaMonths=[];
   if(complete){
-    const adhikaMonths=unique(targetDays.filter(d=>d.date>=boundaries[0].selectedDate&&d.date<=boundaries[4].selectedDate)
-      .map(d=>normalizeMonth(d.sunriseTithi?.masa||d.masa)).filter(m=>m.adhika&&m.month).map(m=>m.month));
-    if(adhikaMonths.length)reviewWarnings.push({code:"adhika-month-within-chaturmas",months:adhikaMonths});
     for(const phase of phases){
       const days=(Date.parse(phase.endDate)-Date.parse(phase.startDate))/86400000;
-      if(days>35)reviewWarnings.push({code:"extended-phase-review-required",phaseId:phase.id,days});
+      const months=unique(targetDays.filter(d=>d.date>=phase.startDate&&d.date<phase.endDate)
+        .map(d=>normalizeMonth(d.sunriseTithi?.masa||d.masa)).filter(m=>m.adhika&&m.month).map(m=>m.month));
+      for(const month of months)if(!adhikaMonths.includes(month))adhikaMonths.push(month);
+      // These are civil-date differences, not exact elapsed hours.
+      // Only attach an extension when the calendar evidence supports it.
+      if(days>35 && days>=50 && days<=65 && months.length===1){
+        phase.adhikaExtension={month:months[0],durationDays:days};
+      }else if(days>35 || days<25){
+        reviewWarnings.push({code:"unexpected-phase-duration",phaseId:phase.id,days});
+      }
     }
   }
   return {
@@ -989,10 +998,31 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     endDate: complete ? boundaries[4].selectedDate : null,
     completionDate,
     completionObservations,
+    adhikaPolicy,
+    adhikaMonths,
     reviewWarnings,
     cardVisibleThroughDate,
     phases
   };
+}
+
+/**
+ * Known intercalary-month extensions are accepted under the owner's
+ * continuous-vow policy. Unexpected durations or missing evidence still
+ * require a separately reviewed decision.
+ * This is a review-tool guard; existing published legacy configs are unchanged.
+ */
+export function canApproveChaturmasProposal(proposal) {
+  return !!proposal && ["needs-review","approved"].includes(proposal.status) &&
+    Array.isArray(proposal.missingBoundaries) && proposal.missingBoundaries.length===0 &&
+    proposal.adhikaPolicy==="continuous-vow-nija-transition-v1" &&
+    Array.isArray(proposal.reviewWarnings) && proposal.reviewWarnings.length===0 &&
+    Array.isArray(proposal.boundaries) && proposal.boundaries.length===5 &&
+    proposal.boundaries.every(b=>typeof b.selectedDate==="string") &&
+    Array.isArray(proposal.phases) && proposal.phases.length===4 &&
+    typeof proposal.completionDate==="string" &&
+    Array.isArray(proposal.completionObservations) &&
+    proposal.completionObservations.some(o=>o.date===proposal.completionDate);
 }
 
 export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) {
