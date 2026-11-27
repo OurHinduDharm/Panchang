@@ -55,6 +55,41 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
   return {schemaVersion:1,year,sourceYear,status:"review-only-not-approved",publishable:false,location:annual.location??null,counts:{sourceCards:source.length,mapped:decisions.length,selected:decisions.filter(d=>d.selectedDate).length,unresolved:decisions.filter(d=>!d.selectedDate).length,unmapped:unmapped.length},monthlyReview,decisions,unmapped,
     note:"Candidate dates only. Repeated or missing lunar observances, combined titles, weekday-dependent names, adhika months and special cases require independent review. Source-year coverage is not complete target-year coverage."};
 }
+// A rule-selector is not a festival identity. Retain every source title
+// and occurrence; never choose one title or publish a card from this audit.
+export function buildRuleCoverageReview({annual,manifests,year,sourceYear}){
+  validateAnnualInput(annual,year);
+  if(!Array.isArray(manifests)||!manifests.length)throw new Error("Historical mappings required");
+  const groups=new Map();
+  const seenYears=new Set();
+  for(const manifest of manifests){
+    if(!validYear(manifest.year)||seenYears.has(manifest.year)||!Array.isArray(manifest.mappings))throw new Error("Invalid historical mapping");
+    seenYears.add(manifest.year);
+    for(const row of manifest.mappings){
+      const indices=Array.isArray(row.targetTithiIndices)?[...new Set(row.targetTithiIndices)].sort((a,b)=>a-b):[row.targetTithiIndex];
+      const selector={ruleId:row.ruleId,lunarMonth:row.lunarMonth??"",paksha:row.paksha??"",targetTithiIndices:indices,monthKind:row.monthKind??null};
+      const key=JSON.stringify(selector);
+      if(!groups.has(key))groups.set(key,{selector,sources:[]});
+      groups.get(key).sources.push({year:manifest.year,recordKey:row.recordKey,title:row.title,classification:row.classification});
+    }
+  }
+  if(!seenYears.has(sourceYear))throw new Error("Source-year mapping missing");
+  const slots=[...groups.values()].map(({selector,sources},index)=>{
+    const inSourceYear=sources.some(row=>row.year===sourceYear);
+    const repeatedSourceYears=[...seenYears].filter(y=>sources.filter(row=>row.year===y).length>1);
+    // Bare "अधिक" is not a lunar-month name; do not normalize it to a regular month.
+    const invalidMonth=!selector.lunarMonth||selector.lunarMonth==="अधिक";
+    const result=invalidMonth?null:resolveFestivalObservanceFromAnnualPanchang({id:"coverage-"+index,dateType:"tithi",...selector},year,annual.dailyPanchang);
+    const candidate=result?.selectedDate??null;
+    const boundary=candidate===isoDay(year,0)||candidate===isoDay(year,annual.dailyPanchang.length-1);
+    return {selector,sources,inSourceYear,repeatedSourceYears,calculatedCandidateDate:candidate,
+      status:invalidMonth||boundary?"manual-review":result?.status??"manual-review",
+      warnings:[...(result?.warnings??[]),...(invalidMonth?["explicit-lunar-month-required"]:[]),...(boundary?["adjacent-year-context-required"]:[]),...(repeatedSourceYears.length?["recurring-or-distinct-source-occurrences-require-separate-review"]:[])],
+      publishable:false};
+  });
+  return {status:"review-only-not-approved",year,sourceYear,sourceYears:[...seenYears].sort((a,b)=>a-b),sourceOccurrences:slots.reduce((n,s)=>n+s.sources.length,0),distinctRuleSelectors:slots.length,additionalSelectors:slots.filter(s=>!s.inSourceYear).length,additionalWithCandidate:slots.filter(s=>!s.inSourceYear&&s.calculatedCandidateDate&&s.status!=="manual-review").length,slots,
+    note:"Selector coverage is not a count of festivals; source title variants, repeated lunar occurrences and adhika-month rules still require independent review."};
+}
 async function main(){
   const args=process.argv.slice(2);
   const year=Number(args.find(x=>x.startsWith("--year="))?.slice(7)||2031);
@@ -65,9 +100,13 @@ async function main(){
   const manifest=await read("data/reviews/observance-rule-mapping-"+sourceYear+".json");
   const sourceMonths=await Promise.all(Array.from({length:12},(_,i)=>read("data/festivals/"+sourceYear+"-"+String(i+1).padStart(2,"0")+".json")));
   const output=buildAnnualFestivalReview({annual,manifest,sourceMonths,year});
+  // Historical manifests are evidence only. The annual target calculation is unchanged.
+  const historicalYears=[...new Set([2026,2027,2028,2029,2030,sourceYear])];
+  const manifests=await Promise.all(historicalYears.map(y=>read("data/reviews/observance-rule-mapping-"+y+".json")));
+  output.ruleCoverage=buildRuleCoverageReview({annual,manifests,year,sourceYear});
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
   await writeFile(resolve(dir,year+"-from-"+sourceYear+".json"),JSON.stringify(output,null,2)+"\n");
-  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status}));
+  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error);process.exitCode=1;});

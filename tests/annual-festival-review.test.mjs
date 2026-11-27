@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {buildAnnualFestivalReview,validateAnnualInput} from "../scripts/generate-annual-festival-review.mjs";
+import {buildAnnualFestivalReview,validateAnnualInput,buildRuleCoverageReview} from "../scripts/generate-annual-festival-review.mjs";
 const year=2031;
 const dailyPanchang=Array.from({length:365},(_,i)=>{
   const date=new Date(Date.UTC(year,0,i+1)).toISOString().slice(0,10);
@@ -26,4 +26,21 @@ test("missing daily data, duplicate mappings and missing source months fail clos
  assert.throws(()=>validateAnnualInput({...annual,dailyPanchang:dailyPanchang.slice(1)},year));
  assert.throws(()=>buildAnnualFestivalReview({annual,manifest:{...manifest,mappings:[...manifest.mappings,...manifest.mappings]},sourceMonths,year}));
  assert.throws(()=>buildAnnualFestivalReview({annual,manifest,sourceMonths:sourceMonths.slice(1),year}));
+});
+
+test("historical selector coverage adds missing rule slots without treating titles as identities",()=>{
+ const original=manifest.mappings[0];
+ const history={year:2029,mappings:[{...original,recordKey:"2029-09-02::अलग नाम",title:"अलग नाम"},{...original,recordKey:"2029-09-03::पुनरावृत्ति",title:"पुनरावृत्ति"},{...original,lunarMonth:"अधिक",recordKey:"2029-01-01::अधिकमास"}]};
+ const coverage=buildRuleCoverageReview({annual,manifests:[history,manifest],year,sourceYear:2030});
+ assert.equal(coverage.sourceOccurrences,4);
+ assert.equal(coverage.distinctRuleSelectors,2);
+ assert.equal(coverage.additionalSelectors,1);
+ const shared=coverage.slots.find(s=>s.inSourceYear);
+ assert.equal(shared.sources.length,3);
+ assert.deepEqual(shared.repeatedSourceYears,[2029]);
+ assert.ok(shared.calculatedCandidateDate==="2031-09-10");
+ const adhika=coverage.slots.find(s=>!s.inSourceYear);
+ assert.equal(adhika.status,"manual-review");
+ assert.equal(adhika.calculatedCandidateDate,null);
+ assert.ok(coverage.slots.every(s=>s.publishable===false));
 });
