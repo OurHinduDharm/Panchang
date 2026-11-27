@@ -1,0 +1,32 @@
+name: Manvadi Yugadi independent evidence
+on:
+  pull_request:
+    paths:
+      - 'scripts/review-manvadi-yugadi.mjs'
+      - 'tests/manvadi-yugadi-window-evidence.test.mjs'
+      - 'data/references/taraprasad-2084-manvadi-yugadi.json'
+      - 'data/ohd-annual-panchang-review-*.json'
+      - 'festival-rule-engine.mjs'
+      - 'festival-observance-rules.mjs'
+      - '.github/workflows/manvadi-yugadi-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/manvadi-yugadi-reference.test.mjs tests/manvadi-yugadi-window-evidence.test.mjs
+      - run: |
+          mkdir -p artifacts/manvadi-yugadi
+          node scripts/review-manvadi-yugadi.mjs 2030 > artifacts/manvadi-yugadi/2030.json
+          node scripts/review-manvadi-yugadi.mjs 2031 > artifacts/manvadi-yugadi/2031.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manvadi-yugadi-review-only
+          path: artifacts/manvadi-yugadi/
+          if-no-files-found: error

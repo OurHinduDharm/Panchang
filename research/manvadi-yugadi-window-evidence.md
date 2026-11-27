@@ -1,0 +1,10 @@
+# Manvadi/Yugadi independent decision-window evidence
+
+Issue #545. Follow-up to research/manvadi-yugadi-shastric-review-2026-11-27.md; raw reference remains unchanged.
+
+- Nirnayasindhu, second pariccheda, Chaitra Manvadi and Vaishakha Yugadi decisions: https://vishvasa.github.io/kalpAntaram/dharmaH/nibandhaH/kamalAkarabhaTTaH/nirNayasindhuH/ — explicitly distinguishes Shukla Purvahna and Krishna Aparahna; Yugadi section cites the two equal parts of daylight. It cites the both-month rule for intercalary Manvadi/Yugadi shraddha. It also records competing traditions; do not collapse them.
+- Dharmasindhu, second pariccheda, Marathi Tithi-nirnaya: https://www.transliteral.org/pages/z80422070211/view — Shukla first half of daylight, Krishna fourth of five daylight parts. This alternative is narrower than the half-day hypothesis; compute both rather than silently choosing one.
+- Matsya Purana 17.4–8, Sanskrit: https://vmlt.in/books/matsyapurana/mpur-17 and Hindi Gita Press edition https://sarvakosh.com/hi/granth/matsya-puran-gita-press/79 — independently confirms the category and many positions, but gives Phalguna Amavasya rather than the reference's Shravana Amavasya. Not a complete validation of the printed list.
+- Drik New Delhi 2026 https://www.drikpanchang.com/panchang/tithi/manvadi/manvadi-days.html?year=2026 lists Bhadrapada Krishna Ashtami, compatible with an amanta Shravana Krishna input. The original printed page is still unavailable. Compare both month-label hypotheses for Krishna entries, not two asserted traditions.
+
+The offline generator uses the existing annual Panchang adapter, intersects each candidate tithi with the explicit windows, preserves adhika and regular month evidence and separates source name from normalized tithi. Outputs are research-only; no date selection or published data changes. A missing candidate is not proof of a missing observance: year boundaries, month-label transitions, missing interval evidence and tie/fallback decisions need further review. CI produces 2030/2031 candidate artifacts, not production files.
