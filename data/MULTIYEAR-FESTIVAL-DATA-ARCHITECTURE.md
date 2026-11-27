@@ -38,3 +38,33 @@ The helper combines available `YYYY-MM.json` files for one year, preserves each 
 4. Add validation for schemas, date validity, duplicate IDs and approval gates.
 5. Connect the existing Calculator and Review pages to the shared catalog/year files using on-demand fetches.
 6. Benchmark mobile cold-load size and only then propose runtime integration. No live change until owner approval.
+
+## Hybrid annual policy — 27 November 2026
+
+For 2031 onward, use automatic calculation by default. Only genuinely difficult
+or unresolved ritual date decisions belong in a manually maintained single
+annual exceptions file, proposed path `data/special-festivals/YYYY.json`.
+The permanent card catalogue owns descriptions, titles, article links and
+muhurta display rules. Year-specific entries must use stable occurrence IDs
+and retain independent decision provenance.
+
+Proposed annual publication: `data/festival-years/YYYY.json`. The existing
+2026–2030 monthly files remain archived and unchanged. Generated review
+artifacts do not count as approved exceptions or public data. No twelve
+manually maintained monthly files are required for each new year.
+
+The offline `scripts/assemble-hybrid-festival-year.mjs` contract takes a
+complete, independently reviewed annual occurrence plan, approved automatic
+decisions and approved exceptions for the same year. It rejects missing,
+conflicting and unexpected occurrence IDs, invalid dates and insufficient
+approval evidence. A partial year cannot produce a public snapshot.
+It only assembles supplied decisions; it does not approve or calculate
+festivals. The annual plan must explicitly cover all target-year occurrences,
+not just copy the preceding year's cards.
+
+Before connecting this annual layout to production, measure compressed
+payload and mobile cold-load performance, update all consumers (daily,
+monthly, previous-month carry-over and upcoming widget), preserve deep
+links, and test historical fallback. If month-level delivery is required for
+speed, generate monthly payloads automatically during deployment rather
+than manually maintain twelve source files. No runtime changes yet.
