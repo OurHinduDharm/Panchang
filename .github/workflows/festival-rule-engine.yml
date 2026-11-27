@@ -8,6 +8,8 @@ on:
       - "scripts/generate-annual-festival-review.mjs"
       - "tests/annual-festival-review.test.mjs"
       - "data/reviews/observance-rule-mapping-2030.json"
+      - "data/festivals/2030-*.json"
+      - "tests/festival-observance-rules.test.mjs"
       - "data/ohd-annual-panchang-review-2031.json"
       - ".github/workflows/festival-rule-engine.yml"
   push:
@@ -20,6 +22,8 @@ on:
       - "scripts/generate-annual-festival-review.mjs"
       - "tests/annual-festival-review.test.mjs"
       - "data/reviews/observance-rule-mapping-2030.json"
+      - "data/festivals/2030-*.json"
+      - "tests/festival-observance-rules.test.mjs"
       - "data/ohd-annual-panchang-review-2031.json"
       - ".github/workflows/festival-rule-engine.yml"
 permissions:
