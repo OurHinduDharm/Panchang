@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   FESTIVAL_RULE_ENGINE_VERSION,
   buildFestivalRuleContexts,
@@ -285,4 +286,123 @@ test("annual adapter accepts an explicit Adhika lunar month but normalizes allow
   }]);
   assert.equal(result.status, "date-selected-needs-source-approval");
   assert.equal(result.selectedDate, "2031-05-01");
+});
+
+
+
+
+const annual2031MonthFixture = JSON.parse(await readFile(
+  new URL("./fixtures/annual-2031-month-kind-days.json", import.meta.url),
+  "utf8"
+));
+const annual2031MonthDays = annual2031MonthFixture.days;
+
+test("real 2031 annual Panchanga defaults named Bhadrapada to the regular month", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "bhadrapada-krishna-ekadashi-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "भाद्रपद",
+    targetTithiIndex: 25
+  }, 2031, annual2031MonthDays);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-08-13");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2031-08-12", "2031-08-13"]);
+});
+
+test("real 2031 annual Panchanga selects only Adhika Bhadrapada when requested", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "adhika-bhadrapada-krishna-ekadashi-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "भाद्रपद",
+    monthKind: "adhika",
+    targetTithiIndex: 25
+  }, 2031, annual2031MonthDays);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-09-12");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2031-09-11", "2031-09-12"]);
+});
+
+test("real 2031 data with monthKind any exposes both occurrences for manual review", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "bhadrapada-krishna-ekadashi-any-month-kind-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "भाद्रपद",
+    monthKind: "any",
+    targetTithiIndex: 25
+  }, 2031, annual2031MonthDays);
+
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"));
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2031-08-12", "2031-08-13", "2031-09-11", "2031-09-12"]);
+  assert.equal(result.autoApproved, false);
+  assert.equal(result.publishable, false);
+});
+
+test("an explicitly prefixed Adhika month keeps its exact intercalary meaning by default", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "adhika-bhadrapada-explicit-month-2031",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "अधिक भाद्रपद",
+    targetTithiIndex: 25
+  }, 2031, annual2031MonthDays);
+
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2031-09-12");
+  assert.deepEqual(result.evaluations.map(item => item.date), ["2031-09-11", "2031-09-12"]);
+});
+
+test("annual adapter fails closed for an unknown monthKind selector", () => {
+  const result = resolveFestivalObservanceFromAnnualPanchang({
+    id: "invalid-month-kind",
+    dateType: "tithi",
+    ruleId: "ekadashi-smarta-udaya",
+    lunarMonth: "भाद्रपद",
+    monthKind: "intercalary",
+    targetTithiIndex: 25
+  }, 2031, annual2031MonthDays);
+
+  assert.equal(result.status, "manual-review");
+  assert.ok(result.warnings.includes("invalid-month-kind-selector"));
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.publishable, false);
+});
+
+
+test("explicit regular or adhika monthKind requires a named lunar month", () => {
+  for (const monthKind of ["regular", "adhika"]) {
+    const result = resolveFestivalObservanceFromAnnualPanchang({
+      id: "missing-lunar-month-" + monthKind,
+      dateType: "tithi",
+      ruleId: "ekadashi-smarta-udaya",
+      monthKind,
+      targetTithiIndex: 25
+    }, 2031, annual2031MonthDays);
+    assert.equal(result.status, "manual-review");
+    assert.ok(result.warnings.includes("lunar-month-required-for-month-kind-selector"));
+    assert.equal(result.selectedDate, null);
+    assert.equal(result.publishable, false);
+  }
+});
+
+test("an explicit regular or any selector cannot contradict an Adhika-prefixed month name", () => {
+  for (const monthKind of ["regular", "any"]) {
+    const result = resolveFestivalObservanceFromAnnualPanchang({
+      id: "conflicting-month-selector-" + monthKind,
+      dateType: "tithi",
+      ruleId: "ekadashi-smarta-udaya",
+      lunarMonth: "अधिक भाद्रपद",
+      monthKind,
+      targetTithiIndex: 25
+    }, 2031, annual2031MonthDays);
+    assert.equal(result.status, "manual-review");
+    assert.ok(result.warnings.includes("conflicting-month-kind-and-prefixed-lunar-month"));
+    assert.equal(result.selectedDate, null);
+    assert.equal(result.publishable, false);
+  }
 });

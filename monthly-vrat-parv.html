@@ -59,6 +59,12 @@ h2{font-size:19px;margin:0}
   .special-kaal-date,.special-kaal-time{font-size:13px;color:var(--muted)}
   .special-kaal-time{font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums}
   .special-kaal-description{font-size:13px;line-height:1.5;margin-top:7px;color:var(--ink)}
+.special-mahapata-guide{padding:12px;border:1px solid #e6cba4;border-radius:10px;background:#fffaf2;color:#78350f;line-height:1.65;overflow-wrap:anywhere}
+.special-mahapata-guide h3{font-size:1rem;margin:0 0 .5rem}
+.special-mahapata-guide p{margin:.5rem 0 0;font-size:.9rem}
+.special-mahapata-guide blockquote{margin:.5rem 0;font-size:.95rem;font-weight:600;padding:.5rem;border-inline-start:3px solid #c27816}
+.special-kaal-zone{margin:0;color:#80501f;font-size:.8rem}
+.special-kaal-middle,.special-kaal-duration{font-size:.85rem;margin-top:.25rem}
   .special-kaal-warning{font-size:12px;color:#80501f;background:#fff2df;border-radius:8px;padding:8px;margin-top:7px}
 
 .event{display:flex;gap:12px;padding:11px;align-items:flex-start}
@@ -258,7 +264,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <section id="events" class="events" aria-live="polite"><div class="empty">पर्वों की सूची लोड हो रही है…</div></section>
 <div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>
 <section id="special-punya-kaal" class="special-calendar" aria-label="विशेष साधना काल एवं पुण्यकाल" hidden>
-  <details id="specialPunyaKaalDetails">
+  <details id="specialPunyaKaalDetails" open>
     <summary>विशेष साधना काल एवं पुण्यकाल</summary>
     <div id="specialPunyaKaalContent" class="special-calendar-content"></div>
   </details>
@@ -310,6 +316,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var locationStatus=document.getElementById("locationStatus");
   var locationSuggestions=document.getElementById("locationSuggestions");
   var requestToken=0;
+  var activeMonthRequest=null;
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
@@ -341,14 +348,25 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var response=await fetch(url,{headers:{"Accept":"application/json"}});
     if(!response.ok) throw new Error("Elevation_HTTP_"+response.status);
     var data=await response.json();
-    var elevation=Array.isArray(data.elevation)?Number(data.elevation[0]):NaN;
+    var elevation=Array.isArray(data.elevation)&&typeof data.elevation[0]==="number"?data.elevation[0]:NaN;
     if(!Number.isFinite(elevation)) throw new Error("Elevation data unavailable");
     return elevation;
   }
+  var locationSearchGeneration=0;
+  var locationSelectionGeneration=0;
+  function parseSearchCoordinate(raw,limit){
+    if(typeof raw!=="number"&&(typeof raw!=="string"||!raw.trim()))return NaN;
+    var value=Number(raw);
+    return Number.isFinite(value)&&Math.abs(value)<=limit?value:NaN;
+  }
   async function searchLocation(){
+    var searchGeneration=++locationSearchGeneration;
+    ++locationSelectionGeneration;
     var query=locationInput.value.trim();
     if(query.length<2){
       locationStatus.textContent="कृपया शहर या स्थान का नाम लिखें।";
+      locationSearchBtn.disabled=false;
+      locationSearchBtn.textContent="खोजें";
       locationSuggestions.replaceChildren();
       return;
     }
@@ -361,20 +379,24 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var response=await fetch(url,{headers:{"Accept":"application/json"}});
       if(!response.ok) throw new Error("HTTP_"+response.status);
       var places=await response.json();
+      if(searchGeneration!==locationSearchGeneration)return;
+      if(!Array.isArray(places))throw new Error("Invalid location search response");
       if(!places.length){
         locationStatus.textContent="स्थान नहीं मिला। नाम थोड़ा बदलकर खोजें।";
         return;
       }
       places.forEach(function(place){
+        if(!place||typeof place!=="object")return;
         var button=document.createElement("button");
         button.type="button";
         button.setAttribute("role","option");
         button.textContent=place.display_name||place.name||query;
         button.addEventListener("click",async function(){
+          if(searchGeneration!==locationSearchGeneration)return;
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:null,
+            lat:parseSearchCoordinate(place.lat,90),lon:parseSearchCoordinate(place.lon,180),elevation:null,
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query
           };
@@ -382,16 +404,20 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
+          var selectionGeneration=++locationSelectionGeneration;
           button.disabled=true;
           locationStatus.textContent="चुने गए स्थान की ऊँचाई प्राप्त की जा रही है…";
           try{
             selected.elevation=await getTerrainElevation(selected.lat,selected.lon);
           }catch(error){
+            button.disabled=false;
+            if(searchGeneration!==locationSearchGeneration||selectionGeneration!==locationSelectionGeneration)return;
             console.warn("Location elevation unavailable:",error);
             locationStatus.textContent="इस स्थान की ऊँचाई का डेटा अभी नहीं मिल सका। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
-            button.disabled=false;
             return;
           }
+          button.disabled=false;
+          if(searchGeneration!==locationSearchGeneration||selectionGeneration!==locationSelectionGeneration)return;
           selectedLocationInSession=selected;
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
@@ -403,27 +429,37 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       });
       locationStatus.textContent="नीचे दिए परिणामों में से अपना स्थान चुनें।";
     }catch(error){
+      if(searchGeneration!==locationSearchGeneration)return;
       console.warn("Location search failed:",error);
       locationStatus.textContent="स्थान खोजने में समस्या हुई। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
     }finally{
-      locationSearchBtn.disabled=false;
-      locationSearchBtn.textContent="खोजें";
+      if(searchGeneration===locationSearchGeneration){
+        locationSearchBtn.disabled=false;
+        locationSearchBtn.textContent="खोजें";
+      }
     }
   }
-  function getDatePanchang(dateIso){
+  async function getDatePanchang(dateIso){
     var location=getLocalLocation();
+    var nextIso=new Date(Date.parse(dateIso+"T12:00:00Z")+86400000).toISOString().slice(0,10);
+    var [today,tomorrow]=await Promise.all([getDayPanchang(dateIso,location),getDayPanchang(nextIso,location)]);
+    return Object.assign({},today,{next:tomorrow.p});
+  }
+  function getDayPanchang(dateIso,location){
     var cacheKey=[dateIso,location.lat,location.lon,location.elevation].join("|");
     if(panchangCache.has(cacheKey)) return panchangCache.get(cacheKey);
     var promise=Promise.resolve().then(async function(){
       var panchangLib=await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
       var date=new Date(dateIso+"T12:00:00+05:30");
-      var nextDate=new Date(date.getTime()+24*60*60*1000);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
-      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer};
+      return {p:p,location:location,date:date,panchangLib:panchangLib,observer:observer};
+    }).catch(function(error){
+      if(panchangCache.get(cacheKey)===promise)panchangCache.delete(cacheKey);
+      throw error;
     });
     panchangCache.set(cacheKey,promise);
+    if(panchangCache.size>90)panchangCache.delete(panchangCache.keys().next().value);
     return promise;
   }
 
@@ -504,6 +540,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     function signAt(ms){
       var instant=new Date(ms);
       try{
+        // Use the same instantaneous ascendant as getKundli in the pinned engine.
+        if(typeof lib.getUdayaLagna==="function"&&typeof lib.getAyanamsa==="function"){
+          var longitude=lib.getUdayaLagna(instant,observer,lib.getAyanamsa(instant));
+          if(Number.isFinite(longitude)&&longitude>=0&&longitude<360)return Math.floor(longitude/30);
+        }
         var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
         var index=getLagnaIndex(panchang);
         if(index!==null)return index;
@@ -672,7 +713,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaInterval(result);
         }else{
           return;
         }
@@ -767,16 +808,12 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   function applyFilters(){
     var query=normalizeSearch(searchInput.value);
     var cards=Array.from(eventsEl.querySelectorAll(".event"));
-    var matches=[],others=[];
+    var visible=0,total=cards.length;
     cards.forEach(function(card){
-      var haystack=normalizeSearch(card.dataset.search||"");
-      var isMatch=!query||haystack.includes(query);
-      card.hidden=!!query&&!isMatch;
-      (isMatch?matches:others).push(card);
+      var hide=Boolean(query)&&!card.dataset.search.includes(query);
+      if(card.hidden!==hide)card.hidden=hide;
+      if(!hide)visible++;
     });
-    // मिलान वाली प्रविष्टि सूची में सबसे ऊपर; बाकी खोज के दौरान छिपी रहती हैं।
-    matches.concat(others).forEach(function(card){eventsEl.appendChild(card);});
-    var visible=matches.length,total=cards.length;
     countEl.textContent=query?visible+" / "+total+" पर्व":total+" पर्व";
     var empty=eventsEl.querySelector(".filter-empty");
     if(query&&!visible&&total){
@@ -823,12 +860,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     }
     list=sortFestivalEvents(list);
     countEl.textContent=list.length+" प्रविष्टियाँ";
-    searchInput.value="";
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
       eventsEl.appendChild(empty);
-      scheduleSpecialPunyaKaal(year,month);
       return;
     }
     list.forEach(function(item){
@@ -841,7 +876,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
 
-      card.dataset.search=[item.title,item.hinduTithi,item.description,item.category].join(" ");
+      card.dataset.search=normalizeSearch([item.title,item.hinduTithi,item.description,item.category].join(" "));
       card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
@@ -915,136 +950,54 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       card.appendChild(content);eventsEl.appendChild(card);
     });
     applyFilters();
-    scheduleSpecialPunyaKaal(year,month);
   }
-  var specialPunyaKaalRequest=0;
-  var specialPunyaKaalEnginePromise=null;
-  var specialPunyaKaalMonthCache=new Map();
-  var specialPunyaKaalObserver=null;
-  var specialPunyaKaalApprovalPromise=import("./special-punya-kaal-public-approval.mjs");
-  function formatSpecialPunyaKaalDateTime(value){
-    var date=new Date(value);
-    if(Number.isNaN(date.getTime()))return "";
-    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
-  }
-  function sameObserver(a,b){
-    if(!a||!b)return false;
-    return Math.abs(Number(a.lat)-Number(b.lat))<0.0001&&Math.abs(Number(a.lon)-Number(b.lon))<0.0001&&Math.abs(Number(a.elevation)-Number(b.elevation))<1;
-  }
-  function getSpecialPunyaKaalEngine(){
-    if(!specialPunyaKaalEnginePromise){
-      specialPunyaKaalEnginePromise=Promise.all([
-        import("./special-punya-kaal-runtime.mjs"),
-        specialPunyaKaalApprovalPromise,
-        import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0")
-      ]).then(function(modules){
-        return {runtime:modules[0],approval:modules[1],panchang:modules[2]};
-      }).catch(function(error){
-        specialPunyaKaalEnginePromise=null;
-        throw error;
-      });
-    }
-    return specialPunyaKaalEnginePromise;
-  }
-  async function loadSpecialPunyaKaal(year,month){
-    var token=++specialPunyaKaalRequest;
-    var section=document.getElementById("special-punya-kaal");
-    var content=document.getElementById("specialPunyaKaalContent");
-    var details=document.getElementById("specialPunyaKaalDetails");
-    section.hidden=true;content.replaceChildren();
+  let specialCalendar;
+  async function scheduleSpecialPunyaKaal(year,month){
     try{
-      var location=getLocalLocation();
-      var cacheKey=[year,month,Number(location.lat).toFixed(5),Number(location.lon).toFixed(5),Number(location.elevation)||0].join(":");
-      var calculation=specialPunyaKaalMonthCache.get(cacheKey);
-      if(!calculation){
-        calculation=getSpecialPunyaKaalEngine().then(function(engine){
-          var observer=new engine.panchang.Observer(location.lat,location.lon,location.elevation);
-          return engine.runtime.calculateSpecialPunyaKaalMonth({
-            year:year,month:month,observer:observer,getPanchangam:engine.panchang.getPanchangam,
-            timezoneOffsetMinutes:330,calendarType:"purnimanta"
-          });
-        }).catch(function(error){
-          specialPunyaKaalMonthCache.delete(cacheKey);
-          throw error;
-        });
-        specialPunyaKaalMonthCache.set(cacheKey,calculation);
-        if(specialPunyaKaalMonthCache.size>12){
-          specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
-        }
-      }
-      var data=await calculation;
-      if(token!==specialPunyaKaalRequest||Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
-      if(data.calculationStatus!=="complete"||!sameObserver(location,getLocalLocation()))return;
-      var engine=await getSpecialPunyaKaalEngine();
-      var approved=(Array.isArray(data.candidates)?data.candidates:[]).filter(engine.approval.isApprovedSpecialPunyaKaalCandidate)
-        .sort(function(a,b){return a.startTime.localeCompare(b.startTime);});
-      if(!approved.length)return;
-      approved.forEach(function(item){
-        var card=document.createElement("article");card.className="special-kaal-card";
-        var title=document.createElement("div");title.className="special-kaal-title";title.textContent=item.labels[0];card.appendChild(title);
-        var date=document.createElement("div");date.className="special-kaal-date";
-        date.textContent="संयोग की तिथि: "+new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(item.date+"T12:00:00+05:30"));
-        card.appendChild(date);
-        var time=document.createElement("div");time.className="special-kaal-time";
-        time.textContent="संयोग आरंभ : "+formatSpecialPunyaKaalDateTime(item.startTime)+" · संयोग समाप्ति : "+formatSpecialPunyaKaalDateTime(item.endTime);
-        card.appendChild(time);
-        content.appendChild(card);
-      });
-      section.hidden=false;
-      if(window.location.hash==="#special-punya-kaal"){
-        details.open=true;
-        window.requestAnimationFrame(function(){section.scrollIntoView({block:"start",behavior:"smooth"});});
-      }
-    }catch(error){
-      if(token===specialPunyaKaalRequest)section.hidden=true;
-    }
-  }
-  function scheduleSpecialPunyaKaal(year,month){
-    if(specialPunyaKaalObserver){specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;}
-    var sentinel=document.getElementById("special-punya-kaal-sentinel");
-    if(!sentinel)return;
-    var run=function(){loadSpecialPunyaKaal(year,month);};
-    if(window.location.hash==="#special-punya-kaal"){run();return;}
-    if("IntersectionObserver" in window){
-      specialPunyaKaalObserver=new IntersectionObserver(function(entries){
-        if(entries.some(function(entry){return entry.isIntersecting;})){
-          specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;run();
-        }
-      },{rootMargin:"550px 0px"});
-      specialPunyaKaalObserver.observe(sentinel);
-    }else{
-      run();
-    }
+      const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs");
+      if(Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
+      specialCalendar??=createMonthlySpecialCalendar(getLocalLocation,yearSelect,monthSelect,eventsEl);
+      specialCalendar(year,month);
+    }catch(error){console.warn("Special calendar unavailable",error);}
   }
   async function loadMonth(preserveViewportAnchor){
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
     function restoreViewportAnchor(){
-      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      if(token!==requestToken||anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
       window.requestAnimationFrame(function(){
-        if(!preserveViewportAnchor.isConnected)return;
+        if(token!==requestToken||!preserveViewportAnchor.isConnected)return;
         var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
         if(Math.abs(delta)>1)window.scrollBy(0,delta);
       });
     }
+    searchInput.value="";
     var token=++requestToken;
+    if(activeMonthRequest)activeMonthRequest.abort();
+    var controller=new AbortController();
+    activeMonthRequest=controller;
+    var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    scheduleSpecialPunyaKaal(year,month);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
     eventsEl.replaceChildren();
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
-      var response=await fetch(url);
+      var response=await fetch(url,{signal:controller.signal,cache:"no-cache"});
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
       render(data,year,month,token);
       restoreViewportAnchor();
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
-      if(year===2031){
+      if(e&&e.name==="AbortError"){
+        countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
+      }else if(year===2031){
         eventsEl.replaceChildren();
         var unavailable=document.createElement("div");
         unavailable.className="empty";
@@ -1053,6 +1006,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         countEl.textContent="डेटा तैयार होना बाकी है";
       }
       restoreViewportAnchor();
+    }finally{
+      clearTimeout(timeoutId);
+      if(token===requestToken)activeMonthRequest=null;
     }
   }
   function ensureYearOption(year){
@@ -1127,7 +1083,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       defaultLocationElevation=fetchedElevation;
       defaultElevationFromDem=true;
       syncLocationUI();
-      if(elevationChanged){
+      if(elevationChanged&&!selectedLocationInSession){
         panchangCache.clear();
         loadMonth();
       }

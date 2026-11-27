@@ -4,7 +4,21 @@ on:
   pull_request:
     paths:
       - 'research/paatadhikar/**'
-      - 'tests/paatadhikar-*.*.mjs'
+      - 'tests/paatadhikar-*.mjs'
+      - 'tests/mahapat*.mjs'
+      - 'tests/surya-siddhanta-paatadhikar.test.mjs'
+      - 'scripts/*mahapat*.mjs'
+      - 'scripts/audit-mahapat-independent.py'
+      - 'scripts/audit-mahapat-contact-conventions.py'
+      - 'scripts/audit-mahapata-annual-release.py'
+      - 'special-punya-kaal-public-approval.mjs'
+      - 'app.js'
+      - 'monthly-vrat-parv.html'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-special-punya-kaal.mjs'
+      - 'mahapata-root-solver.mjs'
+      - 'data/reviews/mahapat*.json'
+      - 'data/special-punya-kaal/mahapata-*.mjs'
       - '.github/workflows/paatadhikar-mahapata-research.yml'
   workflow_dispatch:
 
@@ -25,8 +39,77 @@ jobs:
       - name: Check syntax
         run: |
           node --check research/paatadhikar/mahapata-math.mjs
+          node --check research/paatadhikar/surya-siddhanta-xi.mjs
           node --check research/paatadhikar/astronomy-engine-adapter.mjs
           node --check tests/paatadhikar-mahapata-math.test.mjs
+          node --check tests/surya-siddhanta-paatadhikar.test.mjs
           node --check tests/paatadhikar-astronomy-engine.integration.mjs
+          node --check tests/mahapat-taraprasad-backtest.test.mjs
+          node --check scripts/audit-mahapat-references.mjs
+          node --check research/paatadhikar/contact-boundary.mjs
+          node --check tests/mahapat-contact-model.test.mjs
+          node --check tests/mahapat-discovery-audit.test.mjs
+          node --check scripts/diagnose-mahapat-exceptions.mjs
+          node --check tests/mahapat-exception-diagnostics.test.mjs
+          node --check tests/mahapat-exception-report.test.mjs
       - name: Unit and ephemeris smoke tests
-        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs
+        run: node --test tests/paatadhikar-mahapata-math.test.mjs tests/surya-siddhanta-paatadhikar.test.mjs tests/paatadhikar-astronomy-engine.integration.mjs tests/mahapata-reference-check.test.mjs tests/mahapat-taraprasad-backtest.test.mjs tests/mahapat-discovery-audit.test.mjs tests/mahapat-contact-model.test.mjs tests/mahapat-exception-diagnostics.test.mjs tests/mahapat-exception-report.test.mjs
+
+      - name: Verify every public Mahapata interval against independent JS calculation
+        run: node scripts/verify-mahapata-public-release.mjs
+
+  independent-ephemeris:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: aloistr/swisseph
+          ref: 6fd0678e1ba819a01dae4964b85b7e7f38e5d689
+          path: swiss-audit
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*.c
+            /*.h
+      - name: Compile independent research ephemeris
+        working-directory: swiss-audit
+        run: gcc -O2 -fPIC -shared -o libswe.so swecl.c swedate.c swehel.c swehouse.c swejpl.c swemmoon.c swemplan.c sweph.c swephlib.c -lm -ldl
+      - name: Verify the independent contacts and retain the diagnostics
+        run: python3 scripts/audit-mahapat-independent.py swiss-audit/libswe.so --verify > "$RUNNER_TEMP/independent-mahapata.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: independent-mahapata
+          path: ${{ runner.temp }}/independent-mahapata.json
+
+  contact-conventions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyswisseph==2.10.3.2 scipy numpy
+      - name: Recompute every published interval independently
+        run: python scripts/audit-mahapata-annual-release.py --verify > "$RUNNER_TEMP/annual-mahapata.json"
+      - name: Verify both reference conventions
+        run: python scripts/audit-mahapat-contact-conventions.py > "$RUNNER_TEMP/contact-conventions.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mahapata-contact-conventions
+          path: ${{ runner.temp }}/contact-conventions.json
+
+  calendar-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install calendar and browser test dependencies
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0 astronomy-engine@2.1.19 esbuild@0.25.12 playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - name: Exercise approved and withheld intervals on both mobile pages
+        run: node tests/mahapat-calendar-browser.mjs

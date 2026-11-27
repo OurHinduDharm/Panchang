@@ -1,9 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 
-const path = "data/reviews/mahapata-geocentric-comparison-2026-2030.json";
-const data = JSON.parse(fs.readFileSync(path, "utf8"));
+const data = JSON.parse(await readFile(
+  new URL("../data/reviews/mahapata-fixtures-2026-2030.json", import.meta.url),
+  "utf8"
+));
 
 function event(type, datePrefix) {
   const found = data.events.find(item =>
@@ -44,11 +46,30 @@ test("2028-03-24 Vaidhriti overlap agrees with the independent full-year table",
   near(item.endTimeIST, "2028-03-24T21:58:00+05:30", 2);
 });
 
-test("2030 mean patas without a true crossing remain review items, never public events", () => {
+test("Drik-style apparent contact interval remains primary; Surya Siddhanta is separate", () => {
+  const item = event("व्यतीपात महापात", "2026-01-13");
+  assert.equal(item.model, "drik-style-geocentric-apparent-declination-band-overlap");
+  assert.equal(item.suryaSiddhantaComparison.method,
+    "surya-siddhanta-xi-14-15-numerical-adaptation");
+  near(item.suryaSiddhantaComparison.startTimeIST, "2026-01-13T02:11:45+05:30", 1);
+  near(item.suryaSiddhantaComparison.endTimeIST, "2026-01-13T04:29:13+05:30", 1);
+  assert.notEqual(item.suryaSiddhantaComparison.startTimeIST, item.startTimeIST);
+  assert.equal(item.suryaSiddhantaComparison.status, "research-only-not-approved");
+});
+
+test("annual grouping follows the Drik-style apparent-contact start", () => {
+  assert.ok(data.events.every(item => item.year === Number(item.startTimeIST.slice(0, 4))));
+  assert.ok(data.events.every(item => Number.isInteger(item.suryaSiddhantaComparisonYear)));
+});
+
+test("2030 seeds without a class-compatible true crossing remain review items", () => {
   const missing = data.reviewItems.filter(item =>
-    item.status === "no-true-crossing-within-three-day-search" &&
+    item.status === "no-class-compatible-true-crossing-within-three-day-search" &&
     item.meanPataIST?.startsWith("2030-")
   );
-  assert.equal(missing.length, 4);
+  assert.equal(missing.length, 5);
   assert.ok(missing.every(item => !("startTimeIST" in item)));
+  assert.ok(missing.some(item => item.equalDeclinationCrossings?.some(root =>
+    root.eventClass === null
+  )));
 });
