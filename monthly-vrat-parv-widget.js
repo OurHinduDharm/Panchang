@@ -298,10 +298,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   var locationEclipseCalculationFailed=false;
   var eclipseToolsPromise=import("https://ourhindudharm.github.io/Panchang/eclipse-panchang.js").then(function(){
     var tools=window.__OHDEclipsePanchangTools||null;
-    if(!tools)locationEclipseCalculationFailed=true;
     return tools;
   }).catch(function(error){
-    locationEclipseCalculationFailed=true;
     console.warn("Eclipse visibility module unavailable:",error);return null;
   });
   var locationEclipseCache=new Map();
@@ -336,8 +334,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       if(!tools||typeof tools.discoverEclipses!=="function"||
          typeof tools.getLocalVisibility!=="function"||
          typeof tools.getEclipseDayPanchangs!=="function"){
-        locationEclipseCalculationFailed=true;
-        return [];
+        throw new Error("Eclipse visibility module unavailable");
       }
       // getDatePanchang supplies the same pinned Panchang API and observer
       // already used by the monthly muhurta calculations.
@@ -374,12 +371,15 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
           showReviewStatus:false
         });
       });
-      return events;
+      return {events:events,failed:false};
     })().catch(function(error){
-      locationEclipseCalculationFailed=true;
-      console.warn("Location-based eclipse discovery failed:",error);return [];
+      // A failed scan is not a verified empty result. Retry on a later visit.
+      if(locationEclipseCache.get(cacheKey)===task)locationEclipseCache.delete(cacheKey);
+      console.warn("Location-based eclipse discovery failed:",error);
+      return {events:[],failed:true};
     });
     locationEclipseCache.set(cacheKey,task);
+    while(locationEclipseCache.size>24)locationEclipseCache.delete(locationEclipseCache.keys().next().value);
     return task;
   }
 
@@ -688,8 +688,6 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
             if(timeItem.note){var timeNote=document.createElement("div");timeNote.className="muhurta-window-note";timeNote.textContent=timeItem.note;row.appendChild(timeNote);}
             detail.appendChild(row);
           });
-        }else if(result.status==="reference"&&result.time){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="reference"&&result.time){
           detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time,values.location.timeZone);
         }else if(result.status==="calculated"&&result.time){
@@ -1565,6 +1563,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     searchInput.value="";
     var token=++requestToken;
+    locationEclipseCalculationFailed=false;
     renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
@@ -1614,7 +1613,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       ]);
       if(token!==requestToken)return;
       var dynamicNavratri=parallelResults[0];
-      var locationEclipseEvents=parallelResults[1];
+      var eclipseResult=parallelResults[1];
+      locationEclipseCalculationFailed=eclipseResult.failed;
+      var locationEclipseEvents=eclipseResult.events;
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
