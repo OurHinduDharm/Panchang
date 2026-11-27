@@ -1082,11 +1082,17 @@ test("Chaturmas rejects missing or contradictory first-boundary evidence and fla
  const result=buildChaturmasProposal(days);
  assert.equal(result.status,"needs-review");
  assert.equal(result.boundaries[2].selectedDate,"2031-09-28");
- assert.ok(result.reviewWarnings.some(w=>w.code==="adhika-month-within-chaturmas"));
- assert.ok(result.reviewWarnings.some(w=>w.code==="extended-phase-review-required"&&w.phaseId==="dahi"&&w.days===59));
- assert.equal(canApproveChaturmasProposal(result),false);
- assert.equal(canApproveChaturmasProposal({...result,status:"approved"}),false);
+ assert.equal(result.adhikaPolicy,"continuous-vow-nija-transition-v1");
+ assert.deepEqual(result.adhikaMonths,["भाद्रपद"]);
+ assert.deepEqual(result.phases[1].adhikaExtension,{month:"भाद्रपद",durationDays:59});
+ assert.deepEqual(result.reviewWarnings,[]);
+ assert.equal(canApproveChaturmasProposal(result),true);
+ assert.equal(canApproveChaturmasProposal({...result,status:"approved"}),true);
  assert.equal(canApproveChaturmasProposal({...result,reviewWarnings:undefined}),false);
+ assert.equal(canApproveChaturmasProposal({...result,adhikaPolicy:undefined}),false);
+ const unexplained=buildChaturmasProposal(days.filter(d=>d.date!=="2031-08-29"));
+ assert.ok(unexplained.reviewWarnings.some(w=>w.code==="unexpected-phase-duration"&&w.phaseId==="dahi"));
+ assert.equal(canApproveChaturmasProposal(unexplained),false);
  for(const field of ["tithiStartTime","tithiEndTime"]){
   const invalid=structuredClone(days);
   invalid[0].sunriseTithi[field]=null;

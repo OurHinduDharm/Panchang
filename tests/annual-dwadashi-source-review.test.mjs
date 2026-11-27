@@ -1205,8 +1205,9 @@ test("generates a 2031 local Panchang and Chaturmas review draft without hard-co
   assert.equal(result.annualReview.catalog.length, 0);
   assert.equal(result.annualReview.sourceReview.catalogMonthsMissing.length, 12);
   assert.ok(result.chaturmas.boundaries.length >= 4, "future-year Chaturmas boundary candidates should be calculated");
-  assert.ok(result.chaturmas.reviewWarnings.some(w=>w.code==="adhika-month-within-chaturmas"&&w.months.includes("भाद्रपद")));
-  assert.ok(result.chaturmas.reviewWarnings.some(w=>w.code==="extended-phase-review-required"&&w.phaseId==="dahi"&&w.days===59));
+  assert.ok(result.chaturmas.adhikaMonths.includes("भाद्रपद"));
+  assert.deepEqual(result.chaturmas.phases[1].adhikaExtension,{month:"भाद्रपद",durationDays:59});
+  assert.deepEqual(result.chaturmas.reviewWarnings,[]);
   assert.ok(result.chaturmas.boundaries.every(item => item.status !== "approved"), "generated boundaries must never be auto-approved");
 });
 

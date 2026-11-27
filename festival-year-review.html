@@ -332,12 +332,18 @@ function renderDwadashiReview(){
    const missing=document.createElement("p");missing.className="muted";missing.textContent="अपूर्ण सीमाएँ: "+(ch.missingBoundaries||[]).join(", ")+". अनुमान से नहीं भरी गईं।";chCard.appendChild(missing);
   }
   const completion=document.createElement("p");completion.textContent="व्रत-समापन (कार्तिक शुक्ल द्वादशी): "+(ch.completionDate||"निर्णय शेष");chCard.appendChild(completion);
-  for(const warning of ch.reviewWarnings||[]){
+  for(const phase of ch.phases||[]){
+   if(!phase.adhikaExtension)continue;
    const line=document.createElement("p");line.className="muted";
-   line.textContent=warning.code==="adhika-month-within-chaturmas"?"चातुर्मास में अधिकमास: "+warning.months.join(", ")+"। आहार-चरण का विशेष नियम जाँचें।":"विस्तारित आहार-चरण: "+warning.days+" दिन। विशेष निर्णय आवश्यक।";
+   line.textContent="अधिक "+phase.adhikaExtension.month+" के कारण "+phase.title+" का चरण "+phase.adhikaExtension.durationDays+" दिनों का है। हमारी परंपरा के अनुसार व्रत निरंतर रहेगा।";
    chCard.appendChild(line);
   }
-  if(ch.reviewWarnings?.length){const pending=document.createElement("p");pending.className="muted";pending.textContent="विशेष शास्त्रीय निर्णय के बिना इस प्रस्ताव को स्वीकृत नहीं किया जा सकता।";chCard.appendChild(pending);}
+  for(const warning of ch.reviewWarnings||[]){
+   const line=document.createElement("p");line.className="muted";
+   line.textContent="असामान्य आहार-चरण अवधि: "+warning.days+" दिन। गणना एवं निर्णय की समीक्षा आवश्यक।";
+   chCard.appendChild(line);
+  }
+  if(ch.reviewWarnings?.length){const pending=document.createElement("p");pending.className="muted";pending.textContent="असामान्य गणना की समीक्षा के बिना इस प्रस्ताव को स्वीकृत नहीं किया जा सकता।";chCard.appendChild(pending);}
   const approveChLabel=document.createElement("label");approveChLabel.className="field";approveChLabel.textContent="पाँचों सीमाएँ, चारों चरण, अधिकमास और द्वादशी समापन जाँचकर स्वीकृत करें";
   const approveCh=document.createElement("input");approveCh.type="checkbox";approveCh.checked=ch.status==="approved";approveCh.disabled=!canApproveChaturmasProposal(ch);
   approveCh.addEventListener("change",()=>{if(canApproveChaturmasProposal(ch))ch.status=approveCh.checked?"approved":"needs-review";syncDwadashiPackageStatus();renderDwadashiReview()});
