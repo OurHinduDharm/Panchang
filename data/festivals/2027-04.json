@@ -45,6 +45,18 @@
       "muhurtaRule": "pradosh-kala"
     },
     {
+      "date": "2027-04-04",
+      "dateLabel": "4 अप्रैल",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं। संयोग का गणितीय समय (पिथौरागढ़, IST): 4 अप्रैल को 4:26 am बजे से 4 अप्रैल को 4:32 pm बजे तक।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2027-04-03T22:56:57.290Z",
+      "conjunctionEnd": "2027-04-04T11:02:55.133Z"
+    },
+    {
       "date": "2027-04-05",
       "dateLabel": "5 अप्रैल",
       "title": "मासिक शिवरात्रि",

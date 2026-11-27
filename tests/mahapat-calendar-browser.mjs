@@ -120,14 +120,16 @@ try {
       continue;
     }
     await page.goto(origin + "/monthly-vrat-parv.html?year=2026&month=03#special-punya-kaal");
-    await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
-    await page.locator("#specialPunyaKaalContent").getByText(/वारुणी/).first().waitFor({state:"visible"});
-    const monthly = await page.locator("#specialPunyaKaalContent").innerText();
-    assert.match(monthly, /वारुणी/);
-    assert.ok(localRuntimeRequests>0,"approved March Varuni must still load its local runtime");
-    assert.equal(monthly.includes("वैधृति महापात"), staged);
+    const varuniCard=page.locator("#events .event").filter({hasText:"वारुणी योग"});
+    await varuniCard.first().waitFor({state:"visible"});
+    assert.equal(await varuniCard.count(),1);
+    assert.match(await varuniCard.innerText(),/पिथौरागढ़/);
+    assert.equal(localRuntimeRequests,0,"monthly March must not load the local runtime");
+    if(staged){
+      await page.locator("#special-punya-kaal").waitFor({state:"visible"});
+      assert.match(await page.locator("#specialPunyaKaalContent").innerText(),/वैधृति महापात/);
+    }
     assert.equal(await page.locator(".special-mahapata-guide").count(),staged?1:0);
-    if (staged) assert.match(monthly, /स्पर्श [^\n]+मोक्ष /);
     await page.goto(origin + "/index.html?date=2026-03-19");
     await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
     if(staged){
@@ -143,12 +145,13 @@ try {
     await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
     const canonical="https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal";
     if(staged)assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),canonical);
+    const runtimeBeforeMonthly=localRuntimeRequests;
     await page.goto(canonical);
-    await page.locator("#special-punya-kaal").waitFor({ state: "visible" });
-    await page.locator("#specialPunyaKaalContent").getByText(/वारुणी/).first().waitFor({state:"visible"});
-    const bloggerMonth = await page.locator("#specialPunyaKaalContent").innerText();
-    assert.match(bloggerMonth, /वारुणी/);
-    assert.equal(bloggerMonth.includes("वैधृति महापात"), staged);
+    const bloggerVaruni=page.locator("#events .event").filter({hasText:"वारुणी योग"});
+    await bloggerVaruni.first().waitFor({state:"visible"});
+    assert.equal(await bloggerVaruni.count(),1);
+    assert.equal(localRuntimeRequests,runtimeBeforeMonthly,"Blogger monthly must not request the local runtime");
+    if(staged)await page.locator("#special-punya-kaal").waitFor({state:"visible"});
     // Test the real daily card on a fixed current IST date, not the host's date.
     await page.clock.setFixedTime(new Date("2026-03-18T12:00:00Z"));
     await page.goto(origin + "/index.html?date=2026-03-18");
