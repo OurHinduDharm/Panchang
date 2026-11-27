@@ -252,13 +252,21 @@ test("Adhika month stays separate and does not inherit nija-month vrata aliases"
   assert.deepEqual(record.displayNames,[]);
 });
 
+// Full synthetic sunrise evidence for Chaturmas tests; other Dwadashi
+// fixtures intentionally exercise the separate label-only adapter.
+const chaturmasDay=(...args)=>{
+ const day=sunriseDay(...args);
+ day.sunriseTithi.tithiStartTime=new Date(Date.parse(day.sunrise)-3600000).toISOString();
+ day.sunriseTithi.tithiEndTime=new Date(Date.parse(day.sunrise)+3600000).toISOString();
+ return day;
+};
 test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
   const days = [
-    sunriseDay("2026-07-25","आषाढ़","शुक्ल","एकादशी"),
-    sunriseDay("2026-08-24","श्रावण","शुक्ल","द्वादशी"),
-    sunriseDay("2026-08-25","श्रावण","शुक्ल","द्वादशी"),
-    sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी"),
-    sunriseDay("2026-10-23","आश्विन","शुक्ल","द्वादशी"),
+    chaturmasDay("2026-07-25","आषाढ़","शुक्ल","एकादशी"),
+    chaturmasDay("2026-08-24","श्रावण","शुक्ल","द्वादशी"),
+    chaturmasDay("2026-08-25","श्रावण","शुक्ल","द्वादशी"),
+    chaturmasDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी"),
+    chaturmasDay("2026-10-23","आश्विन","शुक्ल","द्वादशी"),
     {
       date:"2026-11-20", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"दशमी",
       noonTithi:"एकादशी", noonTithiStartTime:"2026-11-20T01:15:00.000Z",
@@ -268,7 +276,7 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
     {
       date:"2026-11-21", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"द्वादशी",
       sunrise:"2026-11-21T01:08:00.000Z",
-      sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल पक्ष",tithi:"द्वादशी"}
+      sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल पक्ष",tithi:"द्वादशी",tithiStartTime:"2026-11-21T01:01:00.000Z",tithiEndTime:"2026-11-22T00:20:00.000Z"}
     }
   ];
   const result = buildChaturmasProposal(days,{name:"Pithoragarh",latitude:29.58,longitude:80.22,elevation:1650});
@@ -287,7 +295,7 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
 
 test("missing Chaturmas boundary is marked incomplete, never guessed", () => {
   const result = buildChaturmasProposal([
-    sunriseDay("2026-07-25","आषाढ़","शुक्ल","एकादशी")
+    chaturmasDay("2026-07-25","आषाढ़","शुक्ल","एकादशी")
   ]);
   assert.equal(result.status,"incomplete");
   assert.equal(result.phases.length,0);
@@ -1028,4 +1036,58 @@ test("Ashadha Narada Purana Dwadashi source is consistent across the shared cata
   assert.equal(monthly.shortDetail, expectedDetail);
   assert.equal(unified.shortDetail, expectedDetail);
   assert.notEqual(unified.id, "vasudeva");
+});
+
+test("Chaturmas completion follows observed Dwadashi rather than next civil day, and never guesses missing or adhika evidence",()=>{
+ const days=[
+ chaturmasDay("2028-07-02","आषाढ़","शुक्ल","एकादशी"),
+ chaturmasDay("2028-08-02","श्रावण","शुक्ल","द्वादशी"),
+ chaturmasDay("2028-08-31","भाद्रपद","शुक्ल","द्वादशी"),
+ chaturmasDay("2028-09-30","आश्विन","शुक्ल","द्वादशी"),
+ chaturmasDay("2028-10-28","कार्तिक","शुक्ल","एकादशी"),
+ chaturmasDay("2028-10-29","कार्तिक","शुक्ल","एकादशी"),
+ {...chaturmasDay("2028-10-30","कार्तिक","शुक्ल","द्वादशी"),sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल",tithi:"द्वादशी",tithiStartTime:"2028-10-29T00:31:00Z",tithiEndTime:"2028-10-30T03:21:00Z"}}
+ ];
+ const result=buildChaturmasProposal(days);
+ assert.equal(result.status,"needs-review");
+ assert.equal(result.endDate,"2028-10-28");
+ assert.equal(result.completionDate,"2028-10-30");
+ assert.equal(result.cardVisibleThroughDate,"2028-10-31");
+ assert.equal(result.completionObservations.length,1);
+ const missing=buildChaturmasProposal(days.slice(0,-1));
+ assert.equal(missing.status,"incomplete");
+ assert.ok(missing.missingBoundaries.includes("completion-dwadashi"));
+ assert.equal(missing.completionDate,null);
+ assert.equal(missing.phases.length,0);
+ const adhika=structuredClone(days);
+ adhika.at(-1).sunriseTithi.masa="अधिक कार्तिक";
+ assert.equal(buildChaturmasProposal(adhika).completionDate,null);
+ const contradictory=structuredClone(days);
+ contradictory.at(-1).sunriseTithi.tithiEndTime="2028-10-30T00:29:00Z";
+ assert.equal(buildChaturmasProposal(contradictory).completionDate,null);
+});
+
+test("Chaturmas rejects missing or contradictory first-boundary evidence and flags long phases",()=>{
+ const days=[
+ chaturmasDay("2031-07-01","आषाढ़","शुक्ल","एकादशी"),
+ chaturmasDay("2031-07-31","श्रावण","शुक्ल","द्वादशी"),
+ chaturmasDay("2031-08-29","भाद्रपद","शुक्ल","द्वादशी",true),
+ chaturmasDay("2031-09-28","भाद्रपद","शुक्ल","द्वादशी"),
+ chaturmasDay("2031-10-27","आश्विन","शुक्ल","द्वादशी"),
+ chaturmasDay("2031-11-24","कार्तिक","शुक्ल","एकादशी"),
+ chaturmasDay("2031-11-25","कार्तिक","शुक्ल","द्वादशी")
+ ];
+ const result=buildChaturmasProposal(days);
+ assert.equal(result.status,"needs-review");
+ assert.equal(result.boundaries[2].selectedDate,"2031-09-28");
+ assert.ok(result.reviewWarnings.some(w=>w.code==="adhika-month-within-chaturmas"));
+ assert.ok(result.reviewWarnings.some(w=>w.code==="extended-phase-review-required"&&w.phaseId==="dahi"&&w.days===59));
+ for(const field of ["tithiStartTime","tithiEndTime"]){
+  const invalid=structuredClone(days);
+  invalid[0].sunriseTithi[field]=null;
+  assert.equal(buildChaturmasProposal(invalid).status,"incomplete");
+ }
+ const reversed=structuredClone(days);
+ reversed[0].sunriseTithi.tithiEndTime="2031-07-01T00:00:00Z";
+ assert.ok(buildChaturmasProposal(reversed).missingBoundaries.includes("start"));
 });
