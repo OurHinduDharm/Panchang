@@ -9,6 +9,8 @@ on:
       - "tests/annual-festival-review.test.mjs"
       - "scripts/assemble-hybrid-festival-year.mjs"
       - "tests/hybrid-festival-year.test.mjs"
+      - "scripts/benchmark-hybrid-festival-year.mjs"
+      - "scripts/generate-annual-dwadashi-review.mjs"
       - "data/reviews/observance-rule-mapping-*.json"
       - "data/festivals/2030-*.json"
       - "tests/festival-observance-rules.test.mjs"
@@ -25,6 +27,8 @@ on:
       - "tests/annual-festival-review.test.mjs"
       - "scripts/assemble-hybrid-festival-year.mjs"
       - "tests/hybrid-festival-year.test.mjs"
+      - "scripts/benchmark-hybrid-festival-year.mjs"
+      - "scripts/generate-annual-dwadashi-review.mjs"
       - "data/reviews/observance-rule-mapping-*.json"
       - "data/festivals/2030-*.json"
       - "tests/festival-observance-rules.test.mjs"
@@ -44,6 +48,10 @@ jobs:
         run: node --test tests/festival-rule-engine.test.mjs tests/festival-observance-rules.test.mjs tests/annual-festival-review.test.mjs tests/hybrid-festival-year.test.mjs
       - name: Generate 2031 review-only calendar candidates
         run: node scripts/generate-annual-festival-review.mjs --year=2031 --source-year=2030
+      - name: Install pinned Panchanga engine for performance diagnostics
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Measure real annual review and month calculation cost
+        run: node scripts/benchmark-hybrid-festival-year.mjs
       - name: Upload annual review output
         uses: actions/upload-artifact@v4
         with:
