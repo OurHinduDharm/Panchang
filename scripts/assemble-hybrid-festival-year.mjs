@@ -1,7 +1,7 @@
 /**
  * Offline annual hybrid assembly. It consumes explicit occurrence IDs from
  * a reviewed yearly plan, never infers a date or promotes review candidates.
- * No runtime/browser imports and no writes into the published data tree.
+ * The plan and automatic decisions are transient objects; the sole maintained\n * year-specific festival JSON is the exception package. The assembled annual\n * result is an in-memory view, not a second persisted annual file.
  */
 const validYear=y=>Number.isInteger(y)&&y>=1900&&y<=2200;
 const validDate=(date,year)=>{
@@ -65,4 +65,16 @@ export function assembleHybridFestivalYear({year,plan,automatic,exceptions}){
   const report={year,status:ready?"approved":"needs-review",counts:{expected:expected.size,automatic:auto.size,exceptions:manual.size,accepted:events.length,issues:issues.length},issues};
   // No partial public year: a caller must not publish a missing month as an empty calendar.
   return {report,annual:ready?{schemaVersion:1,year,status:"approved",eventCount:events.length,events}:null};
+}
+
+/** Select one calendar month without persisting another JSON. */
+export function getHybridFestivalMonth(result,year,month){
+  if(!validYear(year)||!Number.isInteger(month)||month<1||month>12)throw new RangeError("Invalid year/month");
+  const annual=result?.annual;
+  if(result?.report?.status!=="approved"||annual?.status!=="approved"||annual.year!==year||
+    !Array.isArray(annual.events)||!annual.events.length||annual.eventCount!==annual.events.length||
+    annual.events.some(e=>!validDate(e?.date,year)||e.reviewStatus!=="approved"))return null;
+  const prefix=year+"-"+String(month).padStart(2,"0")+"-";
+  return {schemaVersion:1,year,month,monthName:monthNames[month-1],status:"approved",
+    events:annual.events.filter(e=>e.date.startsWith(prefix)).map(e=>structuredClone(e))};
 }

@@ -43,7 +43,7 @@ Do not duplicate executable rule logic or annual dates in the shared catalogue. 
 
 ### 4. Annual generated JSON
 
-Annual/monthly JSON remains the static data consumed by Blogger widgets. It is the generated publication snapshot containing calculated civil date, Hindu tithi label, display content, rule ID/version and review/publication status. It is not the authority for calculation and must not become a second copy of the rules.
+For 2026–2030, retain the existing annual/monthly publication data. For 2031 onward, the owner prefers one maintained annual festival JSON containing only complex exceptions; ordinary dates are calculated from shared rules. The generated annual and monthly calendar views are transient results, not additional committed yearly catalogue files. Runtime integration requires approval and measured mobile performance.
 
 Generate it by running the same calculation and rule modules for each year. Preserve existing manually approved 2026–2030 dates as the current public baseline until each observance has been migrated, compared and explicitly approved. Do not bulk-rewrite those dates during foundation work.
 
@@ -70,7 +70,7 @@ A resolver must return structured evidence, not only a date. The annual generato
 3. Complete and independently review the decision rule for each vrata/parva. Keep complex or disputed cases in manual review; do not guess.
 4. Build a year-independent resolver and tests using synthetic edge cases plus known annual examples. Include repeated tithis, kshaya tithi, two-day vyapti, missing data, and timezone/location boundaries where relevant.
 5. Generate a review-only annual result for one year first. Compare every affected result with the approved 2026–2030 baseline and source references; explain every difference.
-6. After the user approves rule and date changes, regenerate annual JSON. Only then connect the new generated output to the existing static Blogger data path.
+6. After the user approves rule and date changes, regenerate annual JSON. Only then connect the new generated output to the Blogger data path under the single annual exceptions-file policy.
 7. Extend the same generator to future years (including 2031+) without copying rule code or auto-approving unreviewed results.
 
 ## Non-goals for the foundation change

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assembleHybridFestivalYear} from "../scripts/assemble-hybrid-festival-year.mjs";
+import {assembleHybridFestivalYear,getHybridFestivalMonth} from "../scripts/assemble-hybrid-festival-year.mjs";
 const year=2031;
 const plan={year,status:"approved",records:[{occurrenceId:"a",mode:"automatic"},{occurrenceId:"b",mode:"exception"}]};
 const automatic={year,records:[{occurrenceId:"a",reviewStatus:"approved",publishable:true,ruleId:"rule",ruleVersion:"1",reviewEvidence:"checked",event:{date:"2031-02-03",title:"मासिक व्रत",description:"पुराना विवरण",articleUrl:"https://example.com/article",muhurtaRule:"existing-rule",diagnostics:"internal"}}]};
@@ -30,4 +30,18 @@ test("reject conflicting ownership, duplicate IDs, unexpected rows and dates fro
  assert.equal(build({automatic:{year,records:[{...automatic.records[0],event:{...automatic.records[0].event,date:"2030-02-03"}}]}}).annual,null);
  assert.equal(build({automatic:{year,records:[{...automatic.records[0],event:{...automatic.records[0].event,date:"2031-02-30"}}]}}).annual,null);
  assert.throws(()=>build({exceptions:{...exceptions,year:2032}}));
+});
+
+test("monthly view uses the same approved in-memory annual result without another stored file",()=>{
+ const result=build();
+ const month=getHybridFestivalMonth(result,2031,2);
+ assert.equal(month.monthName,"फरवरी");
+ assert.equal(month.events.length,2);
+ month.events[0].title="modified";
+ assert.notEqual(result.annual.events[0].title,"modified");
+ assert.deepEqual(getHybridFestivalMonth(result,2031,3).events,[]);
+ assert.equal(getHybridFestivalMonth(build({exceptions:{year,records:[]}}),2031,2),null);
+ assert.equal(getHybridFestivalMonth(result,2032,2),null);
+ assert.equal(getHybridFestivalMonth({...result,annual:{...result.annual,eventCount:99}},2031,2),null);
+ assert.throws(()=>getHybridFestivalMonth(result,2031,13));
 });
