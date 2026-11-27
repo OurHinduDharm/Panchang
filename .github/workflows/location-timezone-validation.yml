@@ -6,6 +6,8 @@ on:
       - "app.js"
       - "extra-panchang.js"
       - "monthly-vrat-parv-widget.js"
+      - "monthly-vrat-parv.html"
+      - "tests/monthly-location-search-races.test.mjs"
       - "eclipse-panchang.js"
       - "festival-muhurta.js"
       - "tithi-vyapti.js"
@@ -40,4 +42,4 @@ jobs:
           node --check festival-muhurta.js
           node --check tithi-vyapti.js
       - name: Run timezone tests
-        run: node --test tests/location-timezone.test.mjs tests/monthly-location-timezone.test.mjs tests/monthly-muhurta-timezone-followup.test.mjs
+        run: node --test tests/monthly-location-search-races.test.mjs tests/location-timezone.test.mjs tests/monthly-location-timezone.test.mjs tests/monthly-muhurta-timezone-followup.test.mjs
