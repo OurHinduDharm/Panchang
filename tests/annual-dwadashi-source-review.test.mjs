@@ -1101,6 +1101,8 @@ test("2030 Kartika Krishna Govatsa Dwadashi selects the first Pradosha-vyapini d
 
 
 test("2030 Phalguna Shukla Narasimha and Shrihari observances use the locally sunrise-present Dwadashi", async () => {
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
   const { getPanchangam, Observer } = panchangPackage;
   const location = new Observer(29.5828, 80.2182, 1650);
   const options = { timezoneOffset:330, calendarType:"purnimanta" };
