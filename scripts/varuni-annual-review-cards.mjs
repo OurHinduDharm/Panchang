@@ -1,5 +1,6 @@
 // Build year-independent review cards, never write or approve public catalogues.
 const labels = new Set(["वारुणी योग","महावारुणी योग","महामहावारुणी योग"]);
+const descriptions = {"वारुणी योग":"चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।","महावारुणी योग":"वारुणी योग के साथ शनिवार का संयोग होने पर महावारुणी योग होता है।","महामहावारुणी योग":"महावारुणी के साथ शुभ योग का संयोग महामहावारुणी योग कहलाता है।"};
 const profile = "chaitra-krishna-trayodashi-shatabhisha";
 export function parseVaruniReviewYears(args = []){
   if(!args.length)return [2026,2027,2028,2029,2030];
@@ -12,7 +13,6 @@ export function buildVaruniReviewCards(candidates,years,diagnostics=[]){
   const seen=new Set();
   // Incomplete annual evidence must never produce a seemingly complete draft.
   const blocked=new Set(diagnostics.map(item=>item.year));
-  const fmt=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"numeric",minute:"2-digit",hour12:true,numberingSystem:"latn"});
   for(const row of candidates){
     const label=row.labels?.[0],key=String(row.date).slice(0,7),year=Number(key.slice(0,4));
     const start=Date.parse(row.startTime),end=Date.parse(row.endTime);
@@ -22,7 +22,7 @@ export function buildVaruniReviewCards(candidates,years,diagnostics=[]){
     if(seen.has(id))continue;
     seen.add(id);
     output[key].push({date:row.date,title:label,category:"योग",hinduTithi:"चैत्र कृष्ण त्रयोदशी",
-      description:"संयोग का गणितीय समय (पिथौरागढ़, IST): "+fmt.format(new Date(start))+" से "+fmt.format(new Date(end))+" तक।",
+      description:descriptions[label],
       reviewStatus:"needs-review",specialPunyaKaalProfile:profile,conjunctionStart:row.startTime,conjunctionEnd:row.endTime});
   }
   for(const list of Object.values(output))list.sort((a,b)=>a.date.localeCompare(b.date)||a.title.localeCompare(b.title,"hi"));

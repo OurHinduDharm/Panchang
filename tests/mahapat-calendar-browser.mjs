@@ -124,6 +124,13 @@ try {
     await varuniCard.first().waitFor({state:"visible"});
     assert.equal(await varuniCard.count(),1);
     assert.match(await varuniCard.innerText(),/पिथौरागढ़/);
+    await page.setViewportSize({width:320,height:844});
+    const conjunction=varuniCard.locator(".varuni-conjunction");
+    assert.equal(await conjunction.count(),1);
+    assert.match(await conjunction.innerText(),/आरम्भ.*प्रातः.*6:22/);
+    assert.match(await conjunction.innerText(),/समाप्ति.*प्रातः.*9:23/);
+    assert.ok(await conjunction.evaluate(el=>el.scrollWidth<=el.clientWidth+1),"Varuni time panel must fit a 320px viewport");
+    await page.setViewportSize({width:390,height:844});
     assert.equal(localRuntimeRequests,0,"monthly March must not load the local runtime");
     if(staged){
       await page.locator("#special-punya-kaal").waitFor({state:"visible"});

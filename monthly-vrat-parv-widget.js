@@ -1242,6 +1242,31 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     return "";
   }
+  // Precomputed conjunctions need no local astronomical calculation.
+  function isVaruniFestival(item){
+    return item.specialPunyaKaalProfile==="chaitra-krishna-trayodashi-shatabhisha"&&["वारुणी योग","महावारुणी योग","महामहावारुणी योग"].includes(item.title);
+  }
+  function varuniConjunctionText(item){
+    if(!isVaruniFestival(item))return null;
+    var start=Date.parse(item.conjunctionStart),end=Date.parse(item.conjunctionEnd);
+    if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start)return null;
+    function format(value){
+      var date=new Date(value+330*60000),hour=date.getUTCHours();
+      var period=hour<4?"रात्रि":hour<12?"प्रातः":hour===12?"मध्याह्न":hour<16?"अपराह्ण":hour<19?"सायं":"रात्रि";
+      return date.getUTCDate()+" "+months[date.getUTCMonth()]+", "+period+" "+(hour%12||12)+":"+String(date.getUTCMinutes()).padStart(2,"0")+" बजे";
+    }
+    return {start:format(start),end:format(end)};
+  }
+  function appendVaruniConjunction(item,content){
+    var times=varuniConjunctionText(item);
+    if(!times)return;
+    var note=document.createElement("div");note.className="desc varuni-conjunction";
+    note.style.cssText="margin-top:7px;padding:7px 9px;border-left:3px solid #b87918;background:#fffaf2;overflow-wrap:anywhere";
+    var label=document.createElement("strong");label.textContent="संयोग का समय (पिथौरागढ़, IST)";note.appendChild(label);
+    var start=document.createElement("div");start.textContent="आरम्भ — "+times.start;note.appendChild(start);
+    var end=document.createElement("div");end.textContent="समाप्ति — "+times.end;note.appendChild(end);
+    content.appendChild(note);
+  }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     if(reviewMode&&data&&data.status&&data.status!=="approved"){
@@ -1300,7 +1325,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
-      appendTithiVyapti(item,String(item.date||""),content,token);
+      if(!isVaruniFestival(item))appendTithiVyapti(item,String(item.date||""),content,token);
       var cardLinkUrls=new Set();
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
@@ -1333,7 +1358,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         var punyaNote=document.createElement("p");punyaNote.className="desc";
         punyaNote.textContent=punyaGuidance;content.appendChild(punyaNote);
       }
-      appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
+      if(isVaruniFestival(item))appendVaruniConjunction(item,content);
+      else appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel,cardLinkUrls);
       if(mainLink)links.appendChild(mainLink);
