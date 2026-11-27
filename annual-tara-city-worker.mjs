@@ -10,9 +10,10 @@ self.onmessage = ({data: {location, city, year}}) => {
       engine, location ?? locations[city], year, profiles
     );
     const unavailable = result.canopusIssues;
-    const events = result.events.map(({body, event, utcMilliseconds, model}) =>
+    const events = result.events.filter(entry => entry.body !== "Star1" ||
+      !unavailable.some(issue => issue.event === entry.event)).map(({body, event, utcMilliseconds, model}) =>
       ({body, event, utcMilliseconds, model: model ?? "solar-altitude-threshold"}));
-    // Independent Arghya window: calculated Canopus heliacal rise until local sunrise.
+    // Astronomical first-visible-rise to sunrise window, not a traditional ritual decision.
     // Never substitute a reference table for a missing astronomical event.
     const observer = new engine.Observer(result.observer.latitude, result.observer.longitude, result.observer.elevation);
     const arghya = calculateAgastyaArghyaWindows(events, observer,

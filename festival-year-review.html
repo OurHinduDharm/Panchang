@@ -63,7 +63,7 @@
 import * as panchangApi from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const {getPanchangam,Observer}=panchangApi;
 import {resolveSamavedaAnnualDecision} from "./samaveda-annual-review.js";
-import {buildAnnualDwadashiPackage} from "./dwadashi-calendar.mjs";
+import {buildAnnualDwadashiPackage,canApproveChaturmasProposal} from "./dwadashi-calendar.mjs";
 import {detectFestivalCandidates} from "./festival-detector.mjs";
 import {evaluateObservanceRule,getObservanceRuleProfile} from "./festival-observance-rules.mjs";
 const $=id=>document.getElementById(id);
@@ -259,7 +259,9 @@ function syncDwadashiPackageStatus(){
    return check.getUTCFullYear()===parts[0]&&check.getUTCMonth()===parts[1]-1&&check.getUTCDate()===parts[2];
   });
  });
- const chaturmasApproved=dwadashiPackage.chaturmas&&dwadashiPackage.chaturmas.status==="approved"&&dwadashiPackage.chaturmas.phases?.length===4;
+ const chaturmas=dwadashiPackage.chaturmas;
+ if(chaturmas?.status==="approved"&&!canApproveChaturmasProposal(chaturmas))chaturmas.status="needs-review";
+ const chaturmasApproved=chaturmas?.status==="approved"&&canApproveChaturmasProposal(chaturmas);
  // Package-level approval means at least one publishable item exists;
  // each tithi/observance still retains its own independent status.
  dwadashiPackage.status=hasApprovedTithi||hasApprovedObservance||chaturmasApproved?"approved":"needs-review";
@@ -329,9 +331,22 @@ function renderDwadashiReview(){
   if(ch.status==="incomplete"){
    const missing=document.createElement("p");missing.className="muted";missing.textContent="अपूर्ण सीमाएँ: "+(ch.missingBoundaries||[]).join(", ")+". अनुमान से नहीं भरी गईं।";chCard.appendChild(missing);
   }
-  const approveChLabel=document.createElement("label");approveChLabel.className="field";approveChLabel.textContent="पाँचों सीमाएँ और चारों चरण जाँचकर स्वीकृत करें";
-  const approveCh=document.createElement("input");approveCh.type="checkbox";approveCh.checked=ch.status==="approved";approveCh.disabled=!Array.isArray(ch.phases)||ch.phases.length!==4;
-  approveCh.addEventListener("change",()=>{ch.status=approveCh.checked?"approved":"needs-review";syncDwadashiPackageStatus();renderDwadashiReview()});
+  const completion=document.createElement("p");completion.textContent="व्रत-समापन (कार्तिक शुक्ल द्वादशी): "+(ch.completionDate||"निर्णय शेष");chCard.appendChild(completion);
+  for(const phase of ch.phases||[]){
+   if(!phase.adhikaExtension)continue;
+   const line=document.createElement("p");line.className="muted";
+   line.textContent="अधिक "+phase.adhikaExtension.month+" के कारण "+phase.title+" का चरण "+phase.adhikaExtension.durationDays+" दिनों का है। हमारी परंपरा के अनुसार व्रत निरंतर रहेगा।";
+   chCard.appendChild(line);
+  }
+  for(const warning of ch.reviewWarnings||[]){
+   const line=document.createElement("p");line.className="muted";
+   line.textContent="असामान्य आहार-चरण अवधि: "+warning.days+" दिन। गणना एवं निर्णय की समीक्षा आवश्यक।";
+   chCard.appendChild(line);
+  }
+  if(ch.reviewWarnings?.length){const pending=document.createElement("p");pending.className="muted";pending.textContent="असामान्य गणना की समीक्षा के बिना इस प्रस्ताव को स्वीकृत नहीं किया जा सकता।";chCard.appendChild(pending);}
+  const approveChLabel=document.createElement("label");approveChLabel.className="field";approveChLabel.textContent="पाँचों सीमाएँ, चारों चरण, अधिकमास और द्वादशी समापन जाँचकर स्वीकृत करें";
+  const approveCh=document.createElement("input");approveCh.type="checkbox";approveCh.checked=ch.status==="approved";approveCh.disabled=!canApproveChaturmasProposal(ch);
+  approveCh.addEventListener("change",()=>{if(canApproveChaturmasProposal(ch))ch.status=approveCh.checked?"approved":"needs-review";syncDwadashiPackageStatus();renderDwadashiReview()});
   approveChLabel.appendChild(approveCh);chCard.appendChild(approveChLabel);
   const chState=document.createElement("p");chState.className="muted";chState.textContent=ch.status==="approved"?"चातुर्मास: स्वीकृत":ch.status==="incomplete"?"चातुर्मास: गणना अपूर्ण":"चातुर्मास: समीक्षा बाकी";chCard.appendChild(chState);
  }else{chCard.textContent="चातुर्मास डेटा उपलब्ध नहीं है।"}

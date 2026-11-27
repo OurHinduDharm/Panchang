@@ -410,6 +410,18 @@
       "showReviewStatus": false,
       "hinduTithi": "चैत्र कृष्ण पक्ष त्रयोदशी",
       "muhurtaRule": "pradosh-kala"
+    },
+    {
+      "date": "2030-03-31",
+      "dateLabel": "31 मार्च",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2030-03-30T19:12:52.734Z",
+      "conjunctionEnd": "2030-03-31T14:19:26.614Z"
     }
   ]
 }
