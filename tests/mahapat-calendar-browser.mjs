@@ -29,9 +29,11 @@ const browser = await chromium.launch();
 try {
   for (const staged of [true, false, "release"]) {
     const context = await browser.newContext({ viewport: {width: 390, height: 844}, timezoneId: "Asia/Kolkata" });
+    let localRuntimeRequests=0;
     await context.route("**/*", async route => {
       const url = new URL(route.request().url());
       let pathname = url.pathname;
+      if(pathname.endsWith("/special-punya-kaal-runtime.mjs"))localRuntimeRequests++;
       // Model a failed jsDelivr component and local ephemeris import on the
       // release Blogger host. The public Mahapata must still render.
       if(staged==="release"&&url.href.startsWith(bloggerCdn+"/monthly-special-punya-kaal.mjs"))return route.abort();
@@ -82,6 +84,7 @@ try {
       await page.waitForTimeout(1000);
       assert.equal(await page.locator(".special-punya-kaal-card").count(),0);
       assert.equal(await page.locator(".upcoming-mahapata-card a:visible").count(),1);
+      assert.equal(localRuntimeRequests,0,"November daily page must not request the local runtime");
       await page.goto(new URL(href,origin).href);
       await page.locator("#special-punya-kaal").waitFor({state:"visible"});
       const details=await page.locator("#specialPunyaKaalContent").innerText();
@@ -108,6 +111,11 @@ try {
       assert.equal(await page.locator(".special-mahapata-guide").count(),1);
       await page.locator("#monthSelect").selectOption("11");
       await assertNovemberMahapata();
+      await page.locator("#special-punya-kaal").scrollIntoViewIfNeeded();
+      await page.waitForTimeout(300);
+      await assertNovemberMahapata();
+      assert.equal(localRuntimeRequests,0,"November/December monthly navigation must not request the local runtime");
+      console.log("Performance guard: zero local runtime requests in November daily and November/December monthly views.");
       await context.close();
       continue;
     }
@@ -116,6 +124,7 @@ try {
     await page.locator("#specialPunyaKaalContent").getByText(/वारुणी/).first().waitFor({state:"visible"});
     const monthly = await page.locator("#specialPunyaKaalContent").innerText();
     assert.match(monthly, /वारुणी/);
+    assert.ok(localRuntimeRequests>0,"approved March Varuni must still load its local runtime");
     assert.equal(monthly.includes("वैधृति महापात"), staged);
     assert.equal(await page.locator(".special-mahapata-guide").count(),staged?1:0);
     if (staged) assert.match(monthly, /स्पर्श [^\n]+मोक्ष /);

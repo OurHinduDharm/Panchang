@@ -28,7 +28,11 @@ test("2026–2030 festival article links use descriptive visible text", async ()
           }
         }
         for (const match of String(event.description || "").matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)) {
-          const label = match[1].replace(/<[^>]+>/g, "").trim();
+          // Collect text tokens from the trusted test fixture; this is not an
+          // HTML sanitizer and the result is never used as rendered markup.
+          const label = [...match[1].matchAll(/<[^>]+>|[^<]+|</g)]
+            .map(token => token[0]).filter(token => !token.startsWith("<") || token === "<")
+            .join("").trim();
           assert.ok(label, key + " " + event.title + " has an empty inline article link");
           assert.ok(!genericLabels.has(label),
             key + " " + event.title + " has a generic inline link label: " + label);

@@ -32,6 +32,15 @@ export function isApprovedSpecialPunyaKaalCandidate(item) {
   return Number.isFinite(start) && Number.isFinite(end) && end > start;
 }
 
+// The local runtime currently scans only March/April. No date outside
+// APPROVED_DATES can pass the public gate. Keep both months eligible for
+// reviewed years to preserve intervals crossing the March/April boundary.
+export function mayHaveApprovedLocalPunyaKaal(year, month) {
+  if (!Number.isInteger(year) || (month !== 3 && month !== 4)) return false;
+  const prefix = String(year) + "-";
+  return [...APPROVED_DATES].some(date => date.startsWith(prefix));
+}
+
 export const SPECIAL_PUNYA_KAAL_PUBLIC_APPROVAL = Object.freeze({
   profiles: Object.freeze([...APPROVED_PROFILES]),
   dates: Object.freeze([...APPROVED_DATES]),

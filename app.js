@@ -5137,8 +5137,10 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
   const key=[year,month,location.lat.toFixed(5),location.lon.toFixed(5),location.elevation].join(":");
   try{
     // Mahapata is geocentric. Only the existing local Varuni scan is limited to Pithoragarh.
+    const publicApproval=await specialPunyaKaalApprovalPromise;
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected||dateInput.value!==dateString)return;
     let calculation=isPithoragarh?specialPunyaKaalMonthCache.get(key):Promise.resolve(null);
-    if(isPithoragarh&&!calculation){
+    if(isPithoragarh&&!calculation&&publicApproval.mayHaveApprovedLocalPunyaKaal(year,month)){
       calculation=Promise.all([import("./special-punya-kaal-runtime.mjs"),specialPunyaKaalApprovalPromise]).then(([module])=>{
         const observer=new Observer(location.lat,location.lon,location.elevation);
         return module.calculateSpecialPunyaKaalMonth({
@@ -5146,7 +5148,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
           timezoneOffsetMinutes:330,calendarType:"purnimanta"
         });
       }).catch(error=>{
-        specialPunyaKaalMonthCache.delete(key);
+        if(specialPunyaKaalMonthCache.get(key)===calculation)specialPunyaKaalMonthCache.delete(key);
         throw error;
       });
       specialPunyaKaalMonthCache.set(key,calculation);
@@ -5155,8 +5157,9 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       }
     }
     // A local calculation failure must not hide approved geocentric intervals.
+    calculation??=Promise.resolve(null);
     const [resultData,approval]=await Promise.all([calculation.catch(()=>null),specialPunyaKaalApprovalPromise]);
-    if(request!==specialPunyaKaalMonthRequest||dateInput.value!==dateString)return;
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected||dateInput.value!==dateString)return;
     const events=approval.publicSpecialPunyaKaalMonth(resultData,year,month);
     const selectedDayStart=Date.parse(dateString+"T00:00:00+05:30");
     const selectedDayEnd=selectedDayStart+86400000;
@@ -5192,6 +5195,12 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
   }
 }
 let upcomingMahapataTimer = null;
+let specialPunyaKaalObserver=null;
+function cancelSpecialPunyaKaalWork(){
+  ++specialPunyaKaalMonthRequest;
+  if(specialPunyaKaalObserver){specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;}
+  if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
+}
 function scheduleUpcomingMahapata(dateString, request, resultGrid){
   if(upcomingMahapataTimer!==null){clearTimeout(upcomingMahapataTimer);upcomingMahapataTimer=null;}
   const current=()=>request===specialPunyaKaalMonthRequest&&resultGrid.isConnected&&
@@ -5236,23 +5245,27 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
 function scheduleSpecialPunyaKaalMonthLink(dateString){
   const resultGrid=result.querySelector(".grid");
   if(!resultGrid||!isValidIsoDate(dateString)||!selectedLocation)return;
-  const request=++specialPunyaKaalMonthRequest;
+  cancelSpecialPunyaKaalWork();
+  const request=specialPunyaKaalMonthRequest;
   scheduleUpcomingMahapata(dateString,request,resultGrid);
   const sentinel=document.createElement("div");
   sentinel.className="special-punya-kaal-sentinel";
   sentinel.style.cssText="grid-column:1/-1;height:1px";
   resultGrid.appendChild(sentinel);
   const run=()=>{
-    if(request!==specialPunyaKaalMonthRequest)return;
+    if(request!==specialPunyaKaalMonthRequest||!resultGrid.isConnected)return;
     appendSpecialPunyaKaalMonthLink(dateString,request);
   };
   if("IntersectionObserver" in window){
     const observer=new IntersectionObserver(entries=>{
       if(entries.some(entry=>entry.isIntersecting)){
         observer.disconnect();
+        if(observer!==specialPunyaKaalObserver)return;
+        specialPunyaKaalObserver=null;
         run();
       }
     },{rootMargin:"450px 0px"});
+    specialPunyaKaalObserver=observer;
     observer.observe(sentinel);
   }else{
     run();
@@ -5260,6 +5273,7 @@ function scheduleSpecialPunyaKaalMonthLink(dateString){
 }
 
 function calculatePanchang(){
+  cancelSpecialPunyaKaalWork();
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
   const __ohdPerfCalls = [];
