@@ -10,7 +10,7 @@ const validDate=(date,year)=>{
   return Number.isFinite(instant.getTime())&&instant.toISOString().slice(0,10)===date;
 };
 const text=v=>typeof v==="string"&&v.trim().length>0;
-const PUBLIC_FIELDS=["date","title","description","category","hinduTithi","articleUrl","articleLabel","secondaryArticleUrl","secondaryArticleLabel","muhurtaRule","muhurtaRules","muhurtaDate","followingMorningActionDate","specialPunyaKaalProfile","conjunctionStart","conjunctionEnd"];
+const PUBLIC_FIELDS=["date","endDate","title","description","category","hinduTithi","articleUrl","articleLabel","secondaryArticleUrl","secondaryArticleLabel","muhurtaRule","muhurtaRules","muhurtaDate","followingMorningActionDate","specialPunyaKaalProfile","conjunctionStart","conjunctionEnd"];
 const monthNames=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
 function indexRecords(records,name){
   if(!Array.isArray(records))throw new TypeError(name+" must contain records");
@@ -47,6 +47,9 @@ export function assembleHybridFestivalYear({year,plan,automatic,exceptions}){
     }
     if(!validDate(event?.date,year)||!text(event?.title)){
       issues.push({occurrenceId:id,reason:"invalid-event-date-or-title"});continue;
+    }
+    if(event.endDate!=null&&(!validDate(event.endDate,year)&&!validDate(event.endDate,year+1)||event.endDate<event.date)){
+      issues.push({occurrenceId:id,reason:"invalid-event-end-date"});continue;
     }
     const dateTitle=event.date+"::"+event.title;
     if(usedDates.has(dateTitle)){issues.push({occurrenceId:id,reason:"duplicate-date-title"});continue;}

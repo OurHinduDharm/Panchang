@@ -45,3 +45,12 @@ test("monthly view uses the same approved in-memory annual result without anothe
  assert.equal(getHybridFestivalMonth({...result,annual:{...result.annual,eventCount:99}},2031,2),null);
  assert.throws(()=>getHybridFestivalMonth(result,2031,13));
 });
+
+test("multi-day event end dates survive annual assembly and invalid ranges are rejected",()=>{
+ const record=exceptions.records[0];
+ const withEnd=endDate=>({year,records:[{...record,event:{...record.event,endDate}}]});
+ const result=build({exceptions:withEnd("2031-02-06")});
+ assert.equal(result.annual.events.find(e=>e.title==="विशेष पर्व").endDate,"2031-02-06");
+ assert.equal(getHybridFestivalMonth(result,2031,2).events.find(e=>e.title==="विशेष पर्व").endDate,"2031-02-06");
+ for(const invalid of ["2031-02-01","2031-02-30","2033-01-01"])assert.equal(build({exceptions:withEnd(invalid)}).annual,null);
+});
