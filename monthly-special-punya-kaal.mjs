@@ -15,9 +15,6 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
     document.getElementById("special-punya-kaal").insertAdjacentHTML("beforebegin", '<div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>');
   }
   var specialPunyaKaalRequest=0;
-  var specialPunyaKaalEnginePromise=null;
-  var specialPunyaKaalMonthCache=new Map();
-  var specialPunyaKaalObserver=null;
   var lastRenderKey=null;
   var specialDateTimeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",hourCycle:"h23",numberingSystem:"latn"});
   var specialDateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"});
@@ -32,27 +29,7 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
     if(hour===12)period="मध्याह्न";
     return values.day+" "+values.month+", "+period+" "+(hour%12||12)+":"+values.minute+" बजे";
   }
-  function sameObserver(a,b){
-    if(!a||!b)return false;
-    return Math.abs(Number(a.lat)-Number(b.lat))<0.0001&&Math.abs(Number(a.lon)-Number(b.lon))<0.0001&&Math.abs(Number(a.elevation)-Number(b.elevation))<1;
-  }
-  function getSpecialPunyaKaalEngine(){
-    if(!specialPunyaKaalEnginePromise){
-      specialPunyaKaalEnginePromise=Promise.all([
-        import("./special-punya-kaal-runtime.mjs"),
-        specialPunyaKaalApprovalPromise,
-        import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0")
-      ]).then(function(modules){
-        return {runtime:modules[0],approval:modules[1],panchang:modules[2]};
-      }).catch(function(error){
-        specialPunyaKaalEnginePromise=null;
-        throw error;
-      });
-    }
-    return specialPunyaKaalEnginePromise;
-  }
-  // Render approved geocentric records immediately. Local calculations are
-  // an optional enhancement and cannot suppress the independent calendar.
+  // Render approved geocentric Mahapata records immediately.
   function renderApproved(approved,openOnLink){
     var section=document.getElementById("special-punya-kaal");
     var content=document.getElementById("specialPunyaKaalContent");
@@ -134,70 +111,13 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
       console.warn("Special calendar rendering unavailable",error);
     }
   }
-  async function loadLocalSpecialPunyaKaal(year,month,token){
-    try{
-      var publicApproval=await specialPunyaKaalApprovalPromise;
-      if(!currentRequest(token,year,month)||!publicApproval.mayHaveApprovedLocalPunyaKaal(year,month))return;
-      var location=getLocalLocation();
-      if(!location||![location.lat,location.lon,location.elevation].every(v=>v!=null&&Number.isFinite(Number(v))))return;
-      var cacheKey=[year,month,Number(location.lat).toFixed(5),Number(location.lon).toFixed(5),Number(location.elevation)||0].join(":");
-      var calculation=specialPunyaKaalMonthCache.get(cacheKey);
-      if(!calculation){
-        calculation=getSpecialPunyaKaalEngine().then(function(engine){
-          var observer=new engine.panchang.Observer(location.lat,location.lon,location.elevation);
-          return engine.runtime.calculateSpecialPunyaKaalMonth({
-            year:year,month:month,observer:observer,getPanchangam:engine.panchang.getPanchangam,
-            timezoneOffsetMinutes:330,calendarType:"purnimanta"
-          });
-        }).catch(function(error){
-          if(specialPunyaKaalMonthCache.get(cacheKey)===calculation)specialPunyaKaalMonthCache.delete(cacheKey);
-          throw error;
-        });
-        specialPunyaKaalMonthCache.set(cacheKey,calculation);
-        if(specialPunyaKaalMonthCache.size>12){
-          specialPunyaKaalMonthCache.delete(specialPunyaKaalMonthCache.keys().next().value);
-        }
-      }
-      // Reviewed geocentric Mahapata windows do not depend on the local Varuni scan.
-      // A failed local scan must not suppress independently approved windows.
-      var data=await calculation.catch(function(error){
-        console.warn("Local special calendar calculation unavailable",error);
-        return null;
-      });
-
-      if(!currentRequest(token,year,month)||!sameObserver(location,getLocalLocation()))return;
-      var approval=await specialPunyaKaalApprovalPromise;
-      if(!currentRequest(token,year,month)||!sameObserver(location,getLocalLocation()))return;
-      var approved=approval.publicSpecialPunyaKaalMonth(data,year,month);
-      // A failed local scan must never replace or hide valid Mahapata records.
-      renderApproved(approved,window.location.hash==="#special-punya-kaal"&&document.getElementById("special-punya-kaal").hidden);
-    }catch(error){
-      console.warn("Local special calendar unavailable",error);
-    }
-  }
   return function scheduleSpecialPunyaKaal(year,month){
     var token=++specialPunyaKaalRequest;
     lastRenderKey=null;
     document.getElementById("special-punya-kaal").hidden=true;
     document.getElementById("specialPunyaKaalContent").replaceChildren();
-    var initial=loadSpecialPunyaKaal(year,month,token);
-    if(specialPunyaKaalObserver){specialPunyaKaalObserver.disconnect();specialPunyaKaalObserver=null;}
-    var sentinel=document.getElementById("special-punya-kaal-sentinel");
-    if(!sentinel)return;
-    var run=function(){initial.then(function(){if(currentRequest(token,year,month))loadLocalSpecialPunyaKaal(year,month,token);});};
-    if(window.location.hash==="#special-punya-kaal"){run();return;}
-    if("IntersectionObserver" in window){
-      var observer=new IntersectionObserver(function(entries){
-        if(entries.some(function(entry){return entry.isIntersecting;})){
-          observer.disconnect();
-          if(observer!==specialPunyaKaalObserver)return;
-          specialPunyaKaalObserver=null;run();
-        }
-      },{rootMargin:"550px 0px"});
-      specialPunyaKaalObserver=observer;
-      observer.observe(sentinel);
-    }else{
-      run();
-    }
+    // Varuni-family dates are included in the ordinary monthly catalogue.
+    // Never load the local ephemeris from the special calendar.
+    loadSpecialPunyaKaal(year,month,token);
   };
 }

@@ -8,19 +8,12 @@ const blogger = await readFile(new URL("../monthly-vrat-parv-widget.js", import.
 const daily = await readFile(new URL("../app.js", import.meta.url), "utf8");
 const schema = JSON.parse(await readFile(new URL("../data/special-punya-kaal/schema.json", import.meta.url), "utf8"));
 
-test("monthly special punya-kaal section calculates lazily and stays hidden without approved candidates", () => {
+test("monthly special section uses only approved Mahapata and never starts a Varuni ephemeris scan", () => {
   assert.match(monthly, /id="special-punya-kaal"[^>]*hidden/);
-  assert.match(component, /import\("\.\/special-punya-kaal-runtime\.mjs"\)/);
-  assert.match(component, /import\("https:\/\/esm\.sh\/@ishubhamx\/panchangam-js\@3\.0\.0"\)/);
-  assert.match(component, /IntersectionObserver/);
-  assert.match(component, /Number\(a\.elevation\)-Number\(b\.elevation\)/);
-  assert.match(component, /!sameObserver/);
+  assert.doesNotMatch(component, /special-punya-kaal-runtime|panchangam-js|IntersectionObserver|calculateSpecialPunyaKaalMonth/);
   assert.match(component, /if\(!approved\.length\)return/);
-  assert.match(component, /specialPunyaKaalApprovalPromise=import\("\.\/special-punya-kaal-public-approval\.mjs"\)/);
-  assert.match(component, /approval\.publicSpecialPunyaKaalMonth\(data,year,month\)/);
-  assert.match(component, /var data=await calculation\.catch/);
-  assert.match(component, /var approval=await specialPunyaKaalApprovalPromise/);
-  assert.doesNotMatch(monthly, /data\/special-punya-kaal\//);
+  assert.match(component, /approval\.publicSpecialPunyaKaalMonth\(null,year,month\)/);
+  assert.match(component, /if\(!currentRequest\(token,year,month\)\)return/);
 });
 
 test("monthly section uses the selected year/month from its navigation URL", () => {
@@ -99,8 +92,7 @@ test("upcoming daily card is current-date only and links to the event month", ()
 
 test("monthly geocentric Mahapata renders before lazy local work and common guidance is outside event cards",()=>{
   assert.match(component,/renderApproved\(approval\.publicSpecialPunyaKaalMonth\(null,year,month\),true\)/);
-  assert.match(component,/var initial=loadSpecialPunyaKaal\(year,month,token\)/);
-  assert.match(component,/initial\.then\(function\(\)\{if\(currentRequest\(token,year,month\)\)loadLocalSpecialPunyaKaal/);
+  assert.match(component,/loadSpecialPunyaKaal\(year,month,token\);/);
   const cards=component.slice(component.indexOf("approved.forEach(function(item)"),component.indexOf("var guide=document.createElement"));
   assert.doesNotMatch(cards,/स्नानदानजपश्राद्ध|special-kaal-verse|special-kaal-guidance/);
   assert.equal((component.match(/स्नानदानजपश्राद्धव्रतहोमादिकर्मभिः/g)||[]).length,1);
@@ -148,9 +140,7 @@ test("pre-sunrise travel directions use one effective weekday, including safe li
 
 test("special calendar skips heavy local imports when no approved local result is possible",()=>{
   assert.match(daily,/if\(isPithoragarh&&!calculation&&publicApproval\.mayHaveApprovedLocalPunyaKaal\(year,month\)\)/);
-  assert.match(component,/!publicApproval\.mayHaveApprovedLocalPunyaKaal\(year,month\)\)return;/);
   assert.match(component,/if\(renderKey===lastRenderKey\)return;/);
-  assert.match(component,/if\(specialPunyaKaalMonthCache\.get\(cacheKey\)===calculation\)specialPunyaKaalMonthCache\.delete\(cacheKey\)/);
 });
 
 test("daily recalculation disconnects stale visibility observers and cancels obsolete timers",()=>{
