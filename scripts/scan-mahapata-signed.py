@@ -3,6 +3,8 @@ Does not infer publication eligibility or guarantee unsampled tangencies.
 """
 import datetime as dt
 import math
+import json
+from pathlib import Path
 from functools import lru_cache
 import swisseph as swe
 from scipy.optimize import brentq
@@ -71,11 +73,38 @@ def scan(year, minutes):
                 result.append((kind, root))
     return sorted(result, key=lambda event:event[1])
 
+def compare_published_middles(events):
+    """Check every published middle against the independently scanned roots.
+
+    Release contacts are indexed by start, whereas scan() is indexed by
+    middle. Fail explicitly if those conventions produce different rows.
+    The published catalogue is read only after the independent scan.
+    """
+    path = Path(__file__).resolve().parents[1] / 'data/special-punya-kaal/mahapata-2026-2030.mjs'
+    source = path.read_text(encoding='utf-8')
+    rows = json.loads(source.split('export const mahapataEpochRows = Object.freeze(', 1)[1]
+                      .split('.map(Object.freeze)', 1)[0])
+    if len(events) != len(rows):
+        raise AssertionError(f'Published/start-year versus scanned/middle-year count: {len(rows)} vs {len(events)}')
+    errors = []
+    for index, ((kind, jd), (code, start, middle, end)) in enumerate(zip(events, rows), 1):
+        assert start < middle < end, (index, 'invalid published contact ordering')
+        assert {'vyatipata': 'V', 'vaidhrti': 'W'}[kind] == code, (index, 'kind mismatch')
+        delta = abs((jd - 2440587.5) * 86400 - middle)
+        assert delta <= 1, (index, kind, 'middle delta seconds', delta)
+        errors.append(delta)
+    print('Published middle parity:', len(errors), 'rows; max seconds', max(errors), flush=True)
+
+
 if __name__ == '__main__':
     self_test()
     print('Swiss flags', evaluate(julian(2025))[3:])
+    release_events = []
     for year in range(2025, 2031):
         coarse, fine = scan(year,60), scan(year,15)
         assert len(coarse) == len(fine), (year, len(coarse), len(fine))
         assert all(a[0] == b[0] and abs(a[1]-b[1])*86400 < 1 for a,b in zip(coarse,fine)), year
+        if year >= 2026:
+            release_events.extend(fine)
         print(year, len(fine), {k:sum(x[0]==k for x in fine) for k in ('vyatipata','vaidhrti')}, 'max seconds', max(abs(a[1]-b[1])*86400 for a,b in zip(coarse,fine)), flush=True)
+    compare_published_middles(release_events)
