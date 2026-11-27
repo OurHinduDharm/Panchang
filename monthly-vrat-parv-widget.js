@@ -1230,6 +1230,18 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   }
 
   var renderedCards=new WeakMap();
+  // General devotional guidance, separate from event date and muhurta calculations.
+  function festivalPunyaGuidance(item){
+    var category=String(item.category||"").trim();
+    var title=String(item.title||"").trim();
+    if(/^(?:मन्वादि|युगादि|युग-मन्वादि)(?:\s+तिथि)?$/.test(category)){
+      return "इस तिथि में पितरों के निमित्त विधिपूर्वक श्राद्ध का विशेष महत्त्व है; मत्स्य महापुराण (अध्याय 17) इसे अक्षय फलदायी बताता है। अपनी कुलपरम्परा एवं अधिकार के अनुसार तर्पण और दान करें।";
+    }
+    if(/^संक्रा(?:ं|न्)ति$/.test(category)||/^(?:मेष|वृषभ|मिथुन|कर्क|सिंह|कन्या|तुला|वृश्चिक|धनु|मकर|कुंभ|कुम्भ|मीन)\s+संक्रा(?:ं|न्)ति(?:\s*\/|\s*\(|\s*$)/.test(title)){
+      return "संक्रान्ति के पुण्यकाल में पवित्र स्नान, यथाशक्ति दान, जप, सूर्योपासना तथा विधिपूर्वक होम आदि का विशेष महत्त्व है। श्रद्धानुसार किसी भी देवी-देवता की स्तोत्रात्मक उपासना भी कर सकते हैं।";
+    }
+    return "";
+  }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     if(reviewMode&&data&&data.status&&data.status!=="approved"){
@@ -1315,6 +1327,11 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         locationNote.textContent="स्थान: "+item.saraswatiLocation;
         locationNote.style.cssText="font-size:10px;line-height:1.35;color:#74685a;margin-top:4px";
         content.appendChild(locationNote);
+      }
+      var punyaGuidance=festivalPunyaGuidance(item);
+      if(punyaGuidance){
+        var punyaNote=document.createElement("p");punyaNote.className="desc";
+        punyaNote.textContent=punyaGuidance;content.appendChild(punyaNote);
       }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
