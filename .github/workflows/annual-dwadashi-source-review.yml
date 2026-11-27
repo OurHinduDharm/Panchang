@@ -6,6 +6,8 @@ on:
     paths:
       - "scripts/generate-annual-dwadashi-review.mjs"
       - "dwadashi-calendar.mjs"
+      - "scripts/audit-generated-chaturmas.mjs"
+      - "data/chaturmas/**"
       - "data/dwadashi-vrata-rules.json"
       - "data/festivals/**"
       - "festival-year-review.html"
@@ -17,6 +19,8 @@ on:
     paths:
       - "scripts/generate-annual-dwadashi-review.mjs"
       - "dwadashi-calendar.mjs"
+      - "scripts/audit-generated-chaturmas.mjs"
+      - "data/chaturmas/**"
       - "data/dwadashi-vrata-rules.json"
       - "tests/annual-dwadashi-source-review.test.mjs"
       - ".github/workflows/annual-dwadashi-source-review.yml"
@@ -44,6 +48,8 @@ jobs:
         run: node --test tests/annual-dwadashi-source-review.test.mjs tests/dwadashi-calendar.test.mjs
       - name: Generate 2026–2031 review-only candidates
         run: node scripts/generate-annual-dwadashi-review.mjs --years=2026,2027,2028,2029,2030,2031 --out=artifacts/dwadashi-review
+      - name: Compare generated Chaturmas against five approved years
+        run: node scripts/audit-generated-chaturmas.mjs artifacts/dwadashi-review
       - name: Upload review-only JSON files
         uses: actions/upload-artifact@v4
         with:

@@ -853,6 +853,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
 }
 
 export function buildChaturmasProposal(dailyPanchang, location = {}) {
+  const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
+  // A generator may include adjacent-year buffer days. Do not select a
+  // different year's observance when evidence for this year is missing.
+  const targetDays = dailyPanchang.filter(day => day && typeof day.date === "string" && day.date.startsWith(year+"-"));
   const boundarySpecs = [
     { id: "start", month: "आषाढ़", paksha: "शुक्ल", tithi: "एकादशी" },
     { id: "shak-end", month: "श्रावण", paksha: "शुक्ल", tithi: "द्वादशी" },
@@ -861,7 +865,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id: "end", month: "कार्तिक", paksha: "शुक्ल", tithi: "एकादशी" }
   ];
   const boundaries = boundarySpecs.map(spec => {
-    const observations = dailyPanchang.filter(day => {
+    const observations = targetDays.filter(day => {
       const sunrise = day && day.sunriseTithi;
       if (!sunrise) return false;
       const masa = normalizeMonth(sunrise.masa || day.masa);
@@ -884,7 +888,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     // the following sunrise. In that case sunrise-only matching misses it.
     if (spec.id === "end" && !selectedDate) {
       const byDate = new Map(dailyPanchang.map(day => [day.date, day]));
-      const smartaCandidates = dailyPanchang.filter(day => {
+      const smartaCandidates = targetDays.filter(day => {
         if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return false;
         const masa = normalizeMonth(day.masa);
         if (masa.adhika || masa.month !== spec.month ||
@@ -920,6 +924,22 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     return { ...spec, observations, observedDates, selectedDate, selectionBasis };
   });
   const missing = boundaries.filter(item => !item.selectedDate).map(item => item.id);
+  const orderedBoundaries = missing.length === 0 && boundaries.every((boundary,index) => index===0 || boundaries[index-1].selectedDate < boundary.selectedDate);
+  if(missing.length===0&&!orderedBoundaries) missing.push("boundary-order");
+  // Completion follows the actual subsequent regular Kartika Shukla
+  // Dwadashi sunrise, not a hard-coded civil day after Ekadashi.
+  const completionObservations = orderedBoundaries ? targetDays.filter(day=>{
+    const t=day.sunriseTithi;
+    if(!t||day.date<=boundaries[4].selectedDate||day.date>nextCalendarDate(nextCalendarDate(nextCalendarDate(boundaries[4].selectedDate))))return false;
+    const masa=normalizeMonth(t.masa||day.masa);
+    if(masa.adhika||masa.month!=="कार्तिक"||normalizePaksha(t.paksha||day.paksha)!=="शुक्ल"||normalizeTithi(t.tithi)!=="द्वादशी")return false;
+    const sunrise=Date.parse(day.sunrise||"");
+    const start=Date.parse(t.tithiStartTime||"");
+    const end=Date.parse(t.tithiEndTime||"");
+    return [sunrise,start,end].every(Number.isFinite)&&start<=sunrise&&sunrise<end;
+  }).map(day=>({date:day.date,sunrise:day.sunrise,tithiStartTime:day.sunriseTithi.tithiStartTime,tithiEndTime:day.sunriseTithi.tithiEndTime})).sort((a,b)=>dateSort(a.date,b.date)) : [];
+  const completionDate = completionObservations[0]?.date || null;
+  if(orderedBoundaries&&!completionDate) missing.push("completion-dwadashi");
   const complete = missing.length === 0;
   const phases = complete ? [
     { id:"shak", title:"शाक (सब्जी) का त्याग", startDate:boundaries[0].selectedDate, endDate:boundaries[1].selectedDate, startTithi:"आषाढ़ शुक्ल एकादशी", endTithi:"श्रावण शुक्ल द्वादशी", detail:"शाक-सब्जी का त्याग करें; परंपरा के अनुसार किसी एक प्रकार की शाक का सेवन न करने का विकल्प भी है।" },
@@ -927,15 +947,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id:"doodh", title:"दूध का त्याग", startDate:boundaries[2].selectedDate, endDate:boundaries[3].selectedDate, startTithi:"भाद्रपद शुक्ल द्वादशी", endTithi:"आश्विन शुक्ल द्वादशी", detail:"आरंभ में दही का दान करें।" },
     { id:"dal", title:"दालों का त्याग", startDate:boundaries[3].selectedDate, endDate:boundaries[4].selectedDate, startTithi:"आश्विन शुक्ल द्वादशी", endTithi:"कार्तिक शुक्ल एकादशी", detail:"आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।" }
   ] : [];
-  // The final dietary restriction ends on Smarta Ekadashi.
-  // The vow is completed on the following Kartik Shukla Dwadashi.
-  const completion = complete ? new Date(boundaries[4].selectedDate + "T00:00:00Z") : null;
-  if (completion) completion.setUTCDate(completion.getUTCDate() + 1);
-  const completionDate = completion ? completion.toISOString().slice(0, 10) : null;
-  const visibleThrough = completion ? new Date(completion) : null;
-  if (visibleThrough) visibleThrough.setUTCDate(visibleThrough.getUTCDate() + 1);
-  const cardVisibleThroughDate = visibleThrough ? visibleThrough.toISOString().slice(0, 10) : null;
-  const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
+  const cardVisibleThroughDate = complete ? nextCalendarDate(completionDate) : null;
   return {
     schemaVersion: 1,
     year: Number.isFinite(year) ? year : null,
@@ -955,6 +967,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     startDate: complete ? boundaries[0].selectedDate : null,
     endDate: complete ? boundaries[4].selectedDate : null,
     completionDate,
+    completionObservations,
     cardVisibleThroughDate,
     phases
   };
