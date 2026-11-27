@@ -1015,3 +1015,17 @@ test("general Shravana Yoga Dwadashi review excludes adjacent-year buffer days",
   );
   assert.deepEqual(result.dwadashiYogas,[]);
 });
+
+test("Ashadha Narada Purana Dwadashi source is consistent across the shared catalogue", async () => {
+  const rules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const monthly = rules.profiles.naradaPurana.monthlyVratas.find(item => item.id === "ashadha-vishnu");
+  const unified = rules.unifiedTithiIndex.tithis.find(item => item.id === "ashadha-shukla")
+    .observances.find(item => item.id === "ashadha-vishnu");
+  const expectedSource = "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a";
+  const expectedDetail = "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।";
+  assert.equal(monthly.source, expectedSource);
+  assert.equal(unified.source, expectedSource);
+  assert.equal(monthly.shortDetail, expectedDetail);
+  assert.equal(unified.shortDetail, expectedDetail);
+  assert.notEqual(unified.id, "vasudeva");
+});
