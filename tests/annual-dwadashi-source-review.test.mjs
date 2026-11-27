@@ -1099,6 +1099,61 @@ test("2030 Kartika Krishna Govatsa Dwadashi selects the first Pradosha-vyapini d
 });
 
 
+
+test("2030 Phalguna Shukla Narasimha and Shrihari observances use the locally sunrise-present Dwadashi", async () => {
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const { getPanchangam, Observer } = panchangPackage;
+  const location = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset:330, calendarType:"purnimanta" };
+  const date = "2030-03-16";
+  const noon = new Date(date + "T06:30:00.000Z");
+  const day = extractDwadashiDay(getPanchangam(noon, location, options), date, noon);
+  assert.ok(day.sunrise, "Pithoragarh sunrise must be available");
+  const sunriseInstant = new Date(day.sunrise);
+  const sunriseDay = extractDwadashiDay(
+    getPanchangam(sunriseInstant, location, options), date, sunriseInstant
+  );
+  const withinTwoSeconds = (actual, expected) =>
+    Math.abs(Date.parse(actual) - Date.parse(expected)) <= 2000;
+  assert.ok(withinTwoSeconds(day.sunrise, "2030-03-16T00:48:29.779Z"),
+    "local sunrise should reproduce within two seconds");
+  assert.equal(sunriseDay.tithi, "द्वादशी");
+  assert.ok(withinTwoSeconds(sunriseDay.tithiStartTime, "2030-03-16T00:47:12.929Z"),
+    "local Dwadashi start should reproduce within two seconds");
+  assert.ok(withinTwoSeconds(sunriseDay.tithiEndTime, "2030-03-17T00:06:35.830Z"),
+    "local Dwadashi end should reproduce within two seconds");
+  const sunriseMargin = Date.parse(day.sunrise) - Date.parse(sunriseDay.tithiStartTime);
+  assert.ok(sunriseMargin >= 60000 && sunriseMargin <= 90000,
+    "Dwadashi should begin shortly before the local sunrise, not after it");
+  assert.ok(Date.parse(day.sunrise) < Date.parse(sunriseDay.tithiEndTime));
+
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const review = JSON.parse(await readFile(
+    resolve(root, "data/references/ohd-dwadashi-2030-review.json"), "utf8"
+  ));
+  const record = review.tithis.find(item => item.id === "phalguna-shukla");
+  assert.ok(record);
+  assert.equal(record.status, "needs-review", "parent Dwadashi must remain pending");
+  assert.equal(record.selectedDate, date);
+  for (const id of ["phalguna-hari", "narasimha"]) {
+    const decision = record.observanceDateReviews.find(item => item.observanceId === id);
+    assert.ok(decision);
+    assert.equal(decision.selectedDate, date);
+    assert.equal(decision.reviewStatus, "approved");
+    assert.equal(decision.autoApproved, false);
+    assert.ok(decision.reviewBasis.length > 100);
+  }
+  const narasimha = record.observanceDateReviews.find(item => item.observanceId === "narasimha");
+  assert.match(narasimha.reviewBasis, /42\.1–5/);
+  const hari = record.observanceDateReviews.find(item => item.observanceId === "phalguna-hari");
+  assert.match(hari.reviewBasis, /121\.89b–91a/);
+  const march = JSON.parse(await readFile(
+    resolve(root, "data/festivals/2030-03.json"), "utf8"
+  ));
+  assert.ok(march.events.some(item => item.date === date && item.title === "नृसिंह द्वादशी"));
+});
+  
 test("generates a 2031 local Panchang and Chaturmas review draft without hard-coded annual references", async () => {
   const result = await generateYear(2031);
   assert.equal(result.annualReview.year, 2031);
