@@ -49,11 +49,36 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
       sourceContent:{title:event.title,description:event.description??"",category:event.category??"",articleUrl:event.articleUrl??"",articleLabel:event.articleLabel??"",secondaryArticleUrl:event.secondaryArticleUrl??"",secondaryArticleLabel:event.secondaryArticleLabel??""}});
   }
   const unmapped=source.filter(e=>!mapped.has(recordKey(e))).map(e=>({recordKey:recordKey(e),title:e.title,hinduTithi:e.hinduTithi??null,status:"manual-review",reason:"explicit-observance-rule-mapping-required",publishable:false}));
+  // Compare the historical dates only after resolving independent candidates.
+  const comparison = year === sourceYear ? compareSourceDates(decisions, unmapped) : null;
   const monthlyReview=Object.fromEntries(Array.from({length:12},(_,i)=>[year+"-"+String(i+1).padStart(2,"0"),[]]));
   for(const decision of decisions)if(decision.selectedDate&&monthlyReview[decision.selectedDate.slice(0,7)])monthlyReview[decision.selectedDate.slice(0,7)].push(decision);
   for(const rows of Object.values(monthlyReview))rows.sort((a,b)=>a.selectedDate.localeCompare(b.selectedDate)||a.recordKey.localeCompare(b.recordKey));
-  return {schemaVersion:1,year,sourceYear,status:"review-only-not-approved",publishable:false,location:annual.location??null,counts:{sourceCards:source.length,mapped:decisions.length,selected:decisions.filter(d=>d.selectedDate).length,unresolved:decisions.filter(d=>!d.selectedDate).length,unmapped:unmapped.length},monthlyReview,decisions,unmapped,
+  return {schemaVersion:1,year,sourceYear,status:"review-only-not-approved",publishable:false,location:annual.location??null,counts:{sourceCards:source.length,mapped:decisions.length,selected:decisions.filter(d=>d.selectedDate).length,unresolved:decisions.filter(d=>!d.selectedDate).length,unmapped:unmapped.length},monthlyReview,decisions,unmapped,comparison,
     note:"Candidate dates only. Repeated or missing lunar observances, combined titles, weekday-dependent names, adhika months and special cases require independent review. Source-year coverage is not complete target-year coverage."};
+}
+function compareSourceDates(decisions, unmapped) {
+  const counts = { matched: 0, different: 0, unresolved: 0, unmapped: unmapped.length };
+  const differences = [];
+  for (const decision of decisions) {
+    const sourceDate = decision.recordKey.split("::", 1)[0];
+    if (decision.selectedDate === sourceDate) {
+      counts.matched++;
+      continue;
+    }
+    const outcome = decision.selectedDate ? "different" : "unresolved";
+    counts[outcome]++;
+    differences.push({
+      recordKey: decision.recordKey,
+      sourceDate,
+      calculatedDate: decision.selectedDate,
+      ruleId: decision.ruleId,
+      outcome,
+      selectionBasis: decision.selectionBasis ?? null,
+      warnings: decision.warnings ?? [decision.reason]
+    });
+  }
+  return { counts, differences };
 }
 // A rule-selector is not a festival identity. Retain every source title
 // and occurrence; never choose one title or publish a card from this audit.
@@ -146,6 +171,6 @@ async function main(){
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
   await writeFile(resolve(dir,year+"-from-"+sourceYear+".json"),JSON.stringify(output,null,2)+"\n");
-  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,recurringReview:output.recurringReview.counts,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
+  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,comparison:output.comparison?.counts,recurringReview:output.recurringReview.counts,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error);process.exitCode=1;});

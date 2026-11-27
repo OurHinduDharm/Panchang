@@ -145,7 +145,20 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   if (requestedPaksha && profile.paksha && requestedPaksha !== profile.paksha) {
     return fail("manual-review", observance, ["paksha-selector-outside-rule-profile"]);
   }
-  const candidateContexts = contexts.filter(context => {
+  // The annual export partitions tithi intervals at sunrise. The Arunodaya
+  // rule also needs the previous day's partition, which covers the time
+  // immediately before today's sunrise.
+  const ruleContexts = profile.id === "ratha-saptami-review"
+    ? contexts.map(context => {
+      const sunrise = Date.parse(context.sunrise);
+      const arunodaya = sunrise - 96 * 60_000;
+      const beforeSunrise = context.previousTithis.filter(row =>
+        Date.parse(row.startTime) <= arunodaya && arunodaya < Date.parse(row.endTime)
+      );
+      return { ...context, tithis: [...beforeSunrise, ...context.tithis] };
+    })
+    : contexts;
+  const candidateContexts = ruleContexts.filter(context => {
     const rawMonth = String(context.masa ?? "").trim();
     const normalizedMonth = rawMonth.replace(/^अधिक\s+/, "").trim();
     // Ordinary named festivals must not silently match an intercalary month.
