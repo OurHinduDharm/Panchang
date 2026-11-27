@@ -781,9 +781,18 @@
       "status": "needs-review",
       "selectedDate": "2030-07-12",
       "displayNames": [
+        "आषाढ़ शुक्ल द्वादशी-व्रत",
         "वासुदेव-द्वादशी"
       ],
       "observances": [
+        {
+          "id": "ashadha-vishnu",
+          "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर गंधादि से पूजन करें तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19–20",
+          "sourceProfile": "naradaPurana"
+        },
         {
           "id": "vasudeva",
           "name": "वासुदेव-द्वादशी",
@@ -795,6 +804,11 @@
       ],
       "conditionalObservances": [],
       "observanceDateReviews": [
+        {
+          "observanceId": "ashadha-vishnu",
+          "selectedDate": "2030-07-12",
+          "reviewStatus": "approved"
+        },
         {
           "observanceId": "vasudeva",
           "selectedDate": "2030-07-12",
