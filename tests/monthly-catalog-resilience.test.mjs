@@ -104,6 +104,18 @@ test("festival devotional guidance is identical in Blogger and standalone and re
     const guidance=new Function(source.slice(start,end)+"\nreturn festivalPunyaGuidance;")();
     assert.match(guidance({category:"मन्वादि तिथि"}),/श्राद्ध/);
     assert.match(guidance({category:"युगादि तिथि"}),/अक्षय/);
+    // Real catalogue variants, not just synthetic canonical categories.
+    const jan2026=JSON.parse(readFileSync(new URL("../data/festivals/2026-01.json",import.meta.url),"utf8"));
+    const jan2027=JSON.parse(readFileSync(new URL("../data/festivals/2027-01.json",import.meta.url),"utf8"));
+    const makar=jan2026.events.find(item=>item.title==="मकर संक्रांति / सूर्य उत्तरायण प्रारम्भ");
+    const dharma=jan2027.events.find(item=>item.title==="धर्म सावर्णि मन्वादि");
+    assert.ok(makar&&dharma);
+    assert.match(guidance(makar),/पुण्यकाल/);
+    assert.match(guidance(dharma),/श्राद्ध/);
+    assert.match(guidance({category:"युग-मन्वादि",title:"रैवत मन्वादि"}),/श्राद्ध/);
+    assert.match(guidance({category:"व्रत-पर्व",title:"कुम्भ संक्रान्ति"}),/स्तोत्रात्मक उपासना/);
+    assert.equal(guidance({category:"व्रत",title:"मकर संक्रांति से पहले का व्रत"}),"");
+
     for(const category of ["संक्रांति","संक्रान्ति"]){
       const note=guidance({category});
       assert.match(note,/पुण्यकाल/);
