@@ -61,11 +61,14 @@ async function show({events, arghya = [], elevationSourceApproximate}, selectedY
       card.append(row);
     }
     if (body === "Star1") {
+      // Visibility is an astronomical result, not a reviewed ritual decision.
+      if (bodyEvents.length) addText(card, "p", "दृश्यता-आधारित उदय-अस्त");
       for (const window of arghya) {
         const start = new Date(window.startUtcMilliseconds);
         const end = new Date(window.endUtcMilliseconds);
-        addText(card, "h3", "अगस्त्य अर्घ्य — " + dateOnly.format(start));
-        addText(card, "p", "अर्घ्य देने का समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
+        addText(card, "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
+        addText(card, "p", "समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
+        addText(card, "p", "पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है।");
       }
     }
     fragment.append(card);
@@ -118,8 +121,11 @@ function calculateSelection(sync = true) {
       if (version !== selectionVersion) return;
       worker.terminate();
       worker = undefined;
-      if (cache.size >= 40) cache.delete(cache.keys().next().value);
-      cache.set(key, data);
+      // A transient worker failure must not poison the retry cache.
+      if (!data.error) {
+        if (cache.size >= 40) cache.delete(cache.keys().next().value);
+        cache.set(key, data);
+      }
       render(data);
     };
     worker.onerror = () => failed();
