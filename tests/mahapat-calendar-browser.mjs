@@ -147,6 +147,32 @@ try {
       await page.waitForTimeout(300);
       await assertNovemberMahapata();
       assert.equal(localRuntimeRequests,0,"November/December monthly navigation must not request the local runtime");
+      // Calendar export runs on both public entry points, not just as a serializer.
+      for (const host of [origin+"/monthly-vrat-parv.html","https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html"]){
+        await page.goto(host+"?year=2026&month=12&m=1");
+        const ekadashi=page.locator("#events .event").filter({hasText:"उत्पन्ना एकादशी"}).first();
+        const google=ekadashi.getByRole("link",{name:"Google Calendar में जोड़ें"});
+        await google.waitFor({state:"visible"});
+        const target=new URL(await google.getAttribute("href"));
+        assert.equal(target.origin,"https://calendar.google.com");
+        assert.equal(target.searchParams.get("dates"),"20261204/20261205");
+        const button=page.locator(".ohd-calendar-download button");
+        await button.waitFor({state:"visible"});
+        const downloadPromise=page.waitForEvent("download");
+        await button.click();
+        const download=await downloadPromise;
+        assert.equal(download.suggestedFilename(),"OurHinduDharm-2026-12.ics");
+        const ics=(await readFile(await download.path(),"utf8")).replace(/\r\n /g,"");
+        assert.match(ics,/BEGIN:VCALENDAR/);
+        assert.match(ics,/DTSTART;VALUE=DATE:20261204/);
+        assert.match(ics,/SUMMARY:उत्पन्ना एकादशी/);
+        assert.doesNotMatch(ics,/DTSTART;VALUE=DATE:202611/);
+        await page.locator("#monthSelect").selectOption("11");
+        await page.locator("#events .event").filter({hasText:"रमा एकादशी"}).first().getByRole("link",{name:"Google Calendar में जोड़ें"}).waitFor({state:"visible"});
+        const novemberPromise=page.waitForEvent("download");
+        await button.click();
+        assert.equal((await novemberPromise).suggestedFilename(),"OurHinduDharm-2026-11.ics");
+      }
       console.log("Performance guard: zero local runtime requests in November daily and November/December monthly views.");
       await context.close();
       continue;

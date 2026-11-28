@@ -199,6 +199,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   .muhurta-window:hover{border-color:#d9c29f;box-shadow:0 3px 10px rgba(70,48,25,.07);transform:translateY(-1px)}
 }
 @media print{
+  .ohd-calendar-download{display:none!important}
   .muhurta-box{break-inside:avoid;box-shadow:none;background:#fff;border:1px solid #bbb}
   .muhurta-window,.muhurta-window.primary{break-inside:avoid;background:#fff;box-shadow:none}
 }
@@ -293,6 +294,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <script type="module">
 import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
+import {createFestivalCalendarLinks} from "./festival-calendar-export.mjs";
 (function(){
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
@@ -311,6 +313,8 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
   syncPublishedYearOptions(yearSelect);
   var currentMonthBtn=document.getElementById("currentMonthBtn");
   var eventsEl=document.getElementById("events");
+  var festivalCalendarLinks=createFestivalCalendarLinks(eventsEl);
+  var updateCalendarExport=festivalCalendarLinks.update;
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
@@ -993,6 +997,16 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
         var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी",cardLinkUrls);
         if(eclipseLink)links.appendChild(eclipseLink);
       }
+      var calendarUrl=festivalCalendarLinks.urlFor(item);
+      if(calendarUrl&&!reviewMode){
+        var calendarLink=document.createElement("a");
+        calendarLink.href=calendarUrl;
+        calendarLink.target="_blank";
+        calendarLink.rel="noopener noreferrer";
+        calendarLink.referrerPolicy="no-referrer";
+        calendarLink.textContent="Google Calendar में जोड़ें";
+        links.appendChild(calendarLink);
+      }
       if(links.childNodes.length)content.appendChild(links);
       if(reviewMode&&item.showReviewStatus!==false){
         var status=document.createElement("div");status.className="pill";
@@ -1028,6 +1042,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
     }
     searchInput.value="";
     var token=++requestToken;
+    updateCalendarExport(null);
     if(activeMonthRequest)activeMonthRequest.abort();
     var controller=new AbortController();
     activeMonthRequest=controller;
@@ -1047,6 +1062,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
       var data=await response.json();
       if(token!==requestToken)return;
       if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
+      if(!reviewMode)updateCalendarExport(data,year,month);
       render(data,year,month,token);
       restoreViewportAnchor();
     }catch(e){
