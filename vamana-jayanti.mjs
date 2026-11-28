@@ -34,10 +34,18 @@ export function reviewVamanaJayanti(days) {
       return false;
     });
     const consistent=n.every((x,i)=>!i||x.start>=n[i-1].end);
+    // Keep exact source gaps in review output; never fill missing intervals
+    // based on an assumed scanner convention.
+    const nakshatraGaps=n.slice(1).map((x,i)=>({previousIndex:n[i].index,nextIndex:x.index,
+      previousEnd:new Date(n[i].end).toISOString(),nextStart:new Date(x.start).toISOString(),
+      gapMs:x.start-n[i].end})).filter(x=>x.gapMs!==0);
+    const relevantTithis=t.map(x=>({index:x.index,start:x.startTime,end:x.endTime}));
+    const nakshatraBounds=n.map(x=>({index:x.index,start:new Date(x.start).toISOString(),end:new Date(x.end).toISOString()}));
+
     const sum=(i,shravana)=>t.filter(x=>x.index===i).reduce((s,x)=>s+
       (shravana?n.filter(y=>y.index===21).reduce((z,y)=>z+overlap(ms(x.startTime),ms(x.endTime),y.start,y.end),0):
         overlap(ms(x.startTime),ms(x.endTime),a+(b-a)*2/5,a+(b-a)*3/5)),0);
-    evaluations.push({date:d.date,nakshatraComplete:covered&&consistent,
+    evaluations.push({date:d.date,nakshatraComplete:covered&&consistent,nakshatraGaps,relevantTithis,nakshatraBounds,
       dwadashiMadhyahnaMs:sum(11,false),dwadashiShravanaMs:sum(11,true),ekadashiShravanaMs:sum(10,true),
       ekadashiAtSunrise:d.tithis[0]?.index===10,
       ekadashiYuktaDwadashi:t.some(x=>x.index===10)&&t.some(x=>x.index===11)});
