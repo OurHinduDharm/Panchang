@@ -1,3 +1,4 @@
+import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
 
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOffsetForLocalDay,isValidTimeZone} from "./location-timezone.mjs";
@@ -29,6 +30,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   }
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
+  syncPublishedYearOptions(yearSelect);
   var currentMonthBtn=document.getElementById("currentMonthBtn");
   // पुराने Blogger HTML में बटन न हो तो नेविगेशन के नीचे स्वयं जोड़ें।
   if(!currentMonthBtn){
@@ -1740,24 +1742,15 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
   }
   function ensureYearOption(year){
-    var numeric=Number(year);
-    if(!Number.isInteger(numeric)||numeric<2026||numeric>2031)return null;
-    var value=String(numeric);
-    var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
-    if(existing)return existing;
-    var option=document.createElement("option");
-    option.value=value;option.textContent=value;
-    yearSelect.appendChild(option);
-    Array.from(yearSelect.options)
-      .sort(function(a,b){return Number(a.value)-Number(b.value);})
-      .forEach(function(item){yearSelect.appendChild(item);});
-    return option;
+    if(!publishedYearNavigation.has(year))return null;
+    return Array.from(yearSelect.options).find(function(option){return option.value===String(year);})||null;
   }
   function syncMonthNavigationButtons(){
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
-    var atStart=year===2026&&month===1,atEnd=year===2031&&month===12;
+    var atStart=!publishedYearNavigation.shift(year,month,-1),atEnd=!publishedYearNavigation.shift(year,month,1);
     var previous=document.getElementById("prevBtn");
     var next=document.getElementById("nextBtn");
+    if(currentMonthBtn)currentMonthBtn.disabled=!publishedYearNavigation.has(getIndiaCalendarDate().getUTCFullYear());
     if(previous)previous.disabled=atStart;
     if(next)next.disabled=atEnd;
     var footerNav=widgetRoot.querySelector(".footer-month-nav");
@@ -1771,7 +1764,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
-    if(y<2026||y>2031){syncMonthNavigationButtons();return;}
+    if(!publishedYearNavigation.has(y)){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
@@ -1822,7 +1815,6 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   function goToCurrentMonth(){
     var now=getIndiaCalendarDate();
     var year=now.getUTCFullYear();
-    ensureYearOption(year);
     if(!ensureYearOption(year))return;
     yearSelect.value=String(year);
     monthSelect.value=String(now.getUTCMonth()+1).padStart(2,"0");
@@ -1851,16 +1843,15 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   var initialDate=getIndiaCalendarDate();
   var requestedYear=Number(pageParams.get("year"));
   var requestedMonth=Number(pageParams.get("month"));
-  var validRequestedMonth=Number.isInteger(requestedYear)&&requestedYear>=2026&&requestedYear<=2031&&
+  var validRequestedMonth=publishedYearNavigation.has(requestedYear)&&
     Number.isInteger(requestedMonth)&&requestedMonth>=1&&requestedMonth<=12;
   if(validRequestedMonth){
     initialDate=new Date(Date.UTC(requestedYear,requestedMonth-1,1,12,0,0));
   }
-  var initialYear=Math.min(2031,Math.max(2026,initialDate.getUTCFullYear()));
-  if(initialYear!==initialDate.getUTCFullYear())initialDate=new Date(Date.UTC(initialYear,initialDate.getUTCMonth(),1,12,0,0));
-  ensureYearOption(initialYear);
-  yearSelect.value=String(initialYear);
-  monthSelect.value=String(initialDate.getUTCMonth()+1).padStart(2,"0");
+  var initialPeriod=publishedYearNavigation.initial(initialDate.getUTCFullYear(),initialDate.getUTCMonth()+1);
+  if(!validRequestedMonth&&requestedYear&&!publishedYearNavigation.has(requestedYear))focusPending=false;
+  yearSelect.value=String(initialPeriod.year);
+  monthSelect.value=String(initialPeriod.month).padStart(2,"0");
   syncMonthNavigationButtons();
   syncLocationUI();
   // पिथौरागढ़ की स्वीकृत ऊँचाई यथावत; कोई गैर-व्यावसायिक elevation API कॉल नहीं।
