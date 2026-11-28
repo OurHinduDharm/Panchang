@@ -8,6 +8,8 @@ on:
       - "tests/agastya-traditional-source-provenance.test.mjs"
       - "research/agastya-traditional-decision.mjs"
       - "tests/agastya-traditional-decision.test.mjs"
+      - "research/agastya-latitude-depression.mjs"
+      - "tests/agastya-latitude-depression.test.mjs"
       - ".github/workflows/agastya-source-provenance.yml"
   pull_request:
     paths:
@@ -16,6 +18,8 @@ on:
       - "tests/agastya-traditional-source-provenance.test.mjs"
       - "research/agastya-traditional-decision.mjs"
       - "tests/agastya-traditional-decision.test.mjs"
+      - "research/agastya-latitude-depression.mjs"
+      - "tests/agastya-latitude-depression.test.mjs"
       - ".github/workflows/agastya-source-provenance.yml"
 
 permissions:
@@ -31,5 +35,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Install pinned astronomy engine
+        run: npm install --no-save --ignore-scripts astronomy-engine@2.1.19
       - name: Validate source provenance and public-data invariance
-        run: node --test tests/agastya-traditional-source-provenance.test.mjs tests/agastya-traditional-decision.test.mjs
+        run: node --test tests/agastya-traditional-source-provenance.test.mjs tests/agastya-traditional-decision.test.mjs tests/agastya-latitude-depression.test.mjs
