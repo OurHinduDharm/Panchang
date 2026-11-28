@@ -150,6 +150,8 @@ test("real 2030 composite does not assign Parashurama's date to Akshaya, Yugadi 
  assert.equal(result.components[0].candidateDate,"2030-05-05");
  assert.equal(result.components[1].candidateDate,null);
  assert.equal(result.components[1].legacyCandidateDate,"2030-05-04");
+ assert.equal(result.components[1].sharedRuleCandidateDate,null);
+ assert.equal(result.components[1].sharedRuleStatus,"manual-review");
  assert.equal(result.components[1].firstYamaCandidateDate,"2030-05-05");
  assert.equal(result.components[1].evidence[0].firstYamaCoverageMs,0);
  assert.ok(result.components[1].evidence[1].firstYamaCoverageMs>0);

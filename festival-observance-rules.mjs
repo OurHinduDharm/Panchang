@@ -164,12 +164,12 @@ const PROFILES = {
   },
   "parashurama-jayanti-pradosha-review": {
     id: "parashurama-jayanti-pradosha-review", aliases: ["parashurama-jayanti", "parashuram-jayanti", "parashurama-avatara-jayanti"],
-    label: "परशुराम जयंती — प्रदोष-व्याप्ति का विशेष निर्णय", tithiIndices: [2], paksha: "शुक्ल पक्ष",
-    decisionMoment: "pradosh", windowLabel: "सूर्यास्त से रात्रि के प्रथम तीन मुहूर्त",
-    calculationBasis: "vaishakha-shukla-tritiya-pradosha-two-day-partial-or-full-later-otherwise-earlier",
+    label: "परशुराम जयंती — प्रथम याम एवं प्रदोष का विशेष निर्णय", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "pradosh", windowLabel: "प्रथम याम का तिथि-निर्णय एवं प्रदोष का पूजनकाल",
+    calculationBasis: "vaishakha-shukla-tritiya-first-yama-and-pradosha-source-variant-gate",
     allowedMonths: ["वैशाख"], reviewOnly: true,
-    reviewNote: "परशुराम जयंती के लिए वैशाख शुक्ल तृतीया का प्रदोष-व्याप्त होना देखा जाता है। दो दिनों में प्रदोष की पूर्ण या आंशिक व्याप्ति हो तो दूसरा दिन; अन्यथा पहला दिन। अक्षय तृतीया का मध्याह्न-नियम अलग रहेगा।",
-    sourceReview: "nirnaya-sindhu-dharmasindhu-parashurama-pradosha-two-day-rule-implemented-source-approval-pending"
+    reviewNote: "धर्मसिन्धु के प्रथम याम और निर्णयसिन्धु के प्रदोष एवं पूर्वदिन-विधान को अलग जाँचें। स्पष्ट समान निर्णय ही उम्मीदवार है; विवादित अथवा अनुपलब्ध व्याप्ति में शास्त्रीय समीक्षा आवश्यक है।",
+    sourceReview: "nirnayasindhu-dharmasindhu-first-yama-pradosha-variant-comparison-review-only"
   },
   "radha-ashtami-madhyahna-review": {
     id: "radha-ashtami-madhyahna-review", aliases: ["radha-ashtami", "radhashtami", "radha-jayanti"],
@@ -849,79 +849,73 @@ export function calculateEkadashiParanaWindow(context = {}) {
  * association. Candidate selection is not public-date approval.
  */
 /**
- * Resolve Vaishakha Shukla Tritiya for Parashurama Jayanti.
- * Nirnaya Sindhu/Dharmasindhu: if Tritiya touches Pradosha on both
- * consecutive days (even partially), take the later day; otherwise take
- * the earlier day. This is distinct from Akshaya Tritiya's daytime rule.
+ * Dharmasindhu distinguishes first-night-yama date evidence and Pradosha
+ * worship. Nirnayasindhu has a differently worded earlier-day fallback.
+ * Compare explicit readings; only common candidates are returned.
+ * Keep the existing profile id for catalogue compatibility.
  */
 export function resolveParashuramaJayantiCandidates(candidateDays) {
-  const fail = (status, warnings, evaluations = []) => ({
-    status, ruleId: "parashurama-jayanti-pradosha-review", evaluations,
-    selectedDate: null, finalDate: null, autoApproved: false, warnings
-  });
-  if (!Array.isArray(candidateDays) || candidateDays.length !== 2) {
-    return fail("insufficient-data", ["exactly-two-consecutive-local-days-required"]);
-  }
-  const days = candidateDays.slice().sort((a, b) => String(a?.date ?? "").localeCompare(String(b?.date ?? "")));
-  const info = days.map(day => {
-    const date = String(day?.date ?? "");
-    const sunset = asDate(day?.sunset);
-    const nextSunrise = asDate(day?.nextSunrise);
-    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
-    const paksha = String(day?.paksha ?? "").trim();
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !sunset || !nextSunrise ||
-        nextSunrise <= sunset || masa !== "वैशाख" ||
-        !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
-        !Array.isArray(day?.tithis) || !day.tithis.length) return null;
-    const nightMs = nextSunrise.getTime() - sunset.getTime();
-    const pradosh = { start: sunset, end: new Date(sunset.getTime() + nightMs * 3 / 15) };
-    const tritiyas = day.tithis.map(row => asInterval(row)).filter(item => item && item.index === 2);
-    const covered = tritiyas.map(item => overlap(item, pradosh)).filter(Boolean);
-    const coverageMs = covered.reduce((sum, item) => sum + item.end.getTime() - item.start.getTime(), 0);
-    return {
-      date, sunset, nextSunrise, pradosh, tritiyas, coverageMs,
-      intervals: tritiyas.map(item => ({ start: item.start.toISOString(), end: item.end.toISOString() }))
-    };
-  });
-  if (info.some(item => !item)) return fail("insufficient-data", [
-    "local-sunset-next-sunrise-vaishakha-shukla-paksha-or-tritiya-data-missing"
-  ]);
-  const expected = new Date(info[0].sunset.getTime());
-  expected.setUTCDate(expected.getUTCDate() + 1);
-  if (expected.toISOString().slice(0, 10) !== info[1].sunset.toISOString().slice(0, 10)) {
-    return fail("insufficient-data", ["candidate-days-are-not-consecutive"]);
-  }
-  const allTithis = info.flatMap(day => day.tritiyas);
-  const cycleStart = info[0].sunset;
-  const cycleEnd = info[1].nextSunrise;
-  if (!allTithis.some(item => overlap(item, { start: cycleStart, end: cycleEnd }))) {
-    return fail("insufficient-data", ["vaishakha-shukla-tritiya-interval-not-found-in-candidate-cycle"]);
-  }
-  const coveredDays = info.filter(day => day.coverageMs > 0);
-  const bothDays = coveredDays.length === 2;
-  const selectedDate = bothDays ? info[1].date : info[0].date;
-  const selectionBasis = bothDays
-    ? "dharmasindhu-two-day-pradosha-vyapti-later-day"
-    : "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day";
-  const evaluations = info.map(day => ({
-    date: day.date,
-    pradoshStart: day.pradosh.start.toISOString(),
-    pradoshEnd: day.pradosh.end.toISOString(),
-    tritiyaPradoshaCoverageMs: day.coverageMs,
-    tritiyaIntervals: day.intervals
-  }));
-  return {
-    status: "date-selected-needs-source-approval",
-    ruleId: "parashurama-jayanti-pradosha-review",
-    selectedDate, finalDate: selectedDate, selectionBasis,
-    evaluations,
-    warnings: [
-      "parashurama-jayanti-is-pradosha-first-prahara-not-akshaya-tritiya-madhyahna",
-      "partial-pradosha-overlap-counts-for-two-day-later-day-rule",
-      "source-and-publication-approval-required"
-    ],
-    autoApproved: false
+  const ruleId="parashurama-jayanti-pradosha-review";
+  const fail=(status,warnings,evaluations=[])=>({status,ruleId,evaluations,selectedDate:null,finalDate:null,autoApproved:false,warnings});
+  if(!Array.isArray(candidateDays)||candidateDays.length!==2)
+    return fail("insufficient-data",["exactly-two-consecutive-local-days-required"]);
+  const days=candidateDays.slice().sort((a,b)=>String(a?.date??"").localeCompare(String(b?.date??"")));
+  const validDate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&Number.isFinite(Date.parse(d))&&new Date(d).toISOString().slice(0,10)===d;
+  if(!days.every(d=>validDate(d?.date))||Date.parse(days[1].date)-Date.parse(days[0].date)!==86400000)
+    return fail("insufficient-data",["candidate-days-are-not-consecutive"]);
+  const union=parts=>{
+    const merged=[];
+    for(const [a,b] of parts.slice().sort((x,y)=>x[0]-y[0])){
+      const last=merged.at(-1);
+      if(last&&a<=last[1])last[1]=Math.max(last[1],b);
+      else merged.push([a,b]);
+    }
+    return merged;
   };
+  const coverage=(parts,a,b)=>union(parts.map(([x,y])=>[Math.max(x,a),Math.min(y,b)]).filter(([x,y])=>x<y)).reduce((sum,[x,y])=>sum+y-x,0);
+  const info=days.map(day=>{
+    const sunset=asDate(day.sunset),next=asDate(day.nextSunrise);
+    const masa=String(day.masa??"").replace(/^अधिक\s+/,"").trim();
+    const paksha=String(day.paksha??"").trim();
+    if(!sunset||!next||next<=sunset||masa!=="वैशाख"||!["शुक्ल","शुक्ल पक्ष"].includes(paksha)||!Array.isArray(day.tithis)||!day.tithis.length)return null;
+    const rows=day.tithis.map(asInterval);
+    if(rows.some(row=>!row||!Number.isInteger(row.index)||row.index<0||row.index>29))return null;
+    const a=+sunset,b=+next,yama=Math.floor(a+(b-a)/4),pradosh=Math.floor(a+(b-a)*3/15);
+    const parts=rows.filter(row=>row.index===2).map(row=>[+row.start,+row.end]);
+    const all=rows.map(row=>[+row.start,+row.end]);
+    // Absence of Tritiya is meaningful only with a fully known ritual window.
+    if(coverage(all,a,yama)!==yama-a)return null;
+    // Reject simultaneous conflicting tithis, not repeated identical partitions.
+    const other=rows.filter(row=>row.index!==2).map(row=>[+row.start,+row.end]);
+    if(parts.some(([x,y])=>coverage(other,Math.max(x,a),Math.min(y,yama))>0))return null;
+    return {date:day.date,sunset:a,next:b,parts,
+      pradoshStart:sunset.toISOString(),pradoshEnd:new Date(pradosh).toISOString(),
+      firstYamaEnd:new Date(yama).toISOString(),
+      tritiyaPradoshaCoverageMs:coverage(parts,a,pradosh),
+      tritiyaFirstYamaCoverageMs:coverage(parts,a,yama),
+      tritiyaIntervals:parts.map(([x,y])=>({start:new Date(x).toISOString(),end:new Date(y).toISOString()}))};
+  });
+  if(info.some(x=>!x)||info[0].next>info[1].sunset)
+    return fail("insufficient-data",["complete-chronological-local-night-tithi-evidence-required"]);
+  const parts=union(info.flatMap(x=>x.parts));
+  if(parts.length!==1||parts[0][0]>=info[1].next||parts[0][1]<=info[0].sunset)
+    return fail("insufficient-data",["one-continuous-vaishakha-tritiya-cycle-required"]);
+  const evaluations=info.map(({parts,sunset,next,...row})=>row);
+  const yamaDays=evaluations.filter(x=>x.tritiyaFirstYamaCoverageMs>0);
+  const pradoshaDays=evaluations.filter(x=>x.tritiyaPradoshaCoverageMs>0);
+  const firstYamaCandidate=yamaDays.at(-1)?.date??null;
+  const nirnayaFallbackReading=pradoshaDays.length===2?info[1].date:info[0].date;
+  // Second-only and neither-day cases cannot be settled by assuming the
+  // scope of "anyathā pūrvā"; do not promote the legacy earlier-day guess.
+  if(!firstYamaCandidate||firstYamaCandidate!==nirnayaFallbackReading||
+      (pradoshaDays.length===0)||
+      (yamaDays.length===2&&pradoshaDays.length!==2))
+    return fail("manual-review",["parashurama-first-yama-pradosha-source-interpretation-unresolved"],evaluations);
+  const selectionBasis=yamaDays.length===2
+    ?"parashurama-both-night-windows-later-day"
+    :"parashurama-first-night-window-common-earlier-day";
+  return {status:"date-selected-needs-source-approval",ruleId,selectedDate:firstYamaCandidate,finalDate:firstYamaCandidate,
+    selectionBasis,evaluations,warnings:["parashurama-source-variant-candidate-only","source-and-publication-approval-required"],autoApproved:false};
 }
 
 export function resolveNarasimhaJayantiCandidates(candidateDays) {
