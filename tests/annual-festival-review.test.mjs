@@ -229,3 +229,35 @@ test("annual scanner normalization closes only the documented minute gap without
  assert.deepEqual(day,original);
  assert.deepEqual(normalizeAnnualTrisprishaPartitions([normalized]),[normalized]);
 });
+
+import {reviewTrisprishaParanaWindows} from "../ekadashi-trisprisha.mjs";
+test("Trisprisha parana separates Hari Vasara, Aparahna and later Trayodashi evidence",()=>{
+  const days=trisprishaDays().map(day=>({...day,sunset:day.date+"T12:00:00Z"}));
+  const r=reviewTrisprishaParanaWindows(days,10);
+  assert.equal(r.status,"source-review-required");
+  assert.equal(r.hariVasaraEnd,"2030-05-14T06:15:00.000Z");
+  assert.equal(r.earlierFast.pratah,null);
+  assert.deepEqual(r.earlierFast.aparahna,{start:"2030-05-14T07:12:00.000Z",end:"2030-05-14T09:36:00.000Z"});
+  assert.equal(r.earlierFast.postMadhyahna.end,"2030-05-14T12:00:00.000Z");
+  assert.equal(r.laterFast.paranaDate,"2030-05-15");
+  assert.equal(r.laterFast.trayodashiAtSunrise,true);
+  assert.equal(r.laterFast.pratahDiagnostic.end,"2030-05-15T02:24:00.000Z");
+  assert.equal(r.approvedWindow,null);
+  assert.equal(r.publishable,false);
+  const incomplete=structuredClone(days);delete incomplete[1].sunset;
+  assert.equal(reviewTrisprishaParanaWindows(incomplete,10).status,"manual-review");
+});
+test("actual 2030 Mohini parana evidence is bounded by Hari Vasara, Dwadashi and local daylight",async()=>{
+  const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+  const result=buildEkadashiTrisprishaReview(annual).occurrences.find(x=>x.sunriseDates[1]==="2030-05-14"&&x.index===10);
+  const r=result.paranaReview;
+  assert.equal(r.status,"source-review-required");
+  assert.equal(r.earlierFast.paranaDate,"2030-05-14");
+  assert.equal(r.earlierFast.pratah,null);
+  assert.ok(r.earlierFast.aparahna);
+  assert.ok(Date.parse(r.earlierFast.aparahna.start)>=Date.parse(r.hariVasaraEnd));
+  assert.ok(Date.parse(r.earlierFast.postMadhyahna.end)<=Date.parse(result.dwadashi.end));
+  assert.equal(r.laterFast.paranaDate,"2030-05-15");
+  assert.equal(r.approvedWindow,null);
+  console.log("MOHINI_PARANA_REVIEW="+JSON.stringify(r));
+});

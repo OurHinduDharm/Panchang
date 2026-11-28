@@ -1,5 +1,5 @@
 import {buildFestivalRuleContexts} from "../festival-rule-engine.mjs";
-import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle} from "../ekadashi-trisprisha.mjs";
+import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,reviewTrisprishaParanaWindows} from "../ekadashi-trisprisha.mjs";
 export {reviewTrisprishaSunriseCycle} from "../ekadashi-trisprisha.mjs";
 const ms=value=>typeof value==="string"?Date.parse(value):NaN;
 export function buildEkadashiTrisprishaReview(annual){
@@ -11,7 +11,7 @@ export function buildEkadashiTrisprishaReview(annual){
       // Only evaluate a possible central Ekadashi sunrise; do not scan all days as errors.
       if(!day.tithis.some(r=>r.index===index&&ms(r.startTime??r.start)<=ms(day.sunrise)&&ms(day.sunrise)<ms(r.endTime??r.end)))continue;
       const result=reviewTrisprishaSunriseCycle(contexts.slice(i-1,i+2),index);
-      if(result.status==="source-review-required")occurrences.push(result);
+      if(result.status==="source-review-required")occurrences.push({...result,paranaReview:reviewTrisprishaParanaWindows(contexts.slice(i-1,i+2),index)});
       else if(result.status==="manual-review")incomplete.push({date:day.date,index,reason:result.reason});
     }
   }
