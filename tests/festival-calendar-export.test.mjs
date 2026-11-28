@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {approvedCalendarEvents,buildFestivalIcs,isMajorFestival} from "../festival-calendar-export.mjs";
+import {approvedCalendarEvents,buildFestivalIcs,isMajorFestival,buildGoogleCalendarUrl,createFestivalCalendarLinks} from "../festival-calendar-export.mjs";
 const event = (title,category="प्रमुख पर्व",date="2027-12-31",reviewStatus="approved") => ({title,category,date,reviewStatus});
 const catalogue = events => ({year:2027,month:12,status:"approved",events});
 test("exports only unique approved major public observances in the requested month",()=>{
@@ -25,4 +25,30 @@ test("ICS all-day dates, year rollover, UTF-8 folding, text escaping and stable 
  assert.equal(unfolded.split("\r\nBEGIN:VEVENT\r\n").length,2);
  assert.ok(unfolded.includes("DTSTAMP:20261128T120000Z"));
  assert.equal(unfolded.match(/^UID:.*$/m)[0],buildFestivalIcs(events,new Date("2026-11-29T12:00:00Z")).replace(/\r\n /g,"").match(/^UID:.*$/m)[0]);
+});
+
+test("Google Calendar links carry only public title and one all-day date, with no location",()=>{
+ const item={...event("दीपावली / पूजा & व्रत"),lat:29.58,lon:80.21,location:"private GPS"};
+ const url=new URL(buildGoogleCalendarUrl(item));
+ assert.equal(url.origin,"https://calendar.google.com");
+ assert.equal(url.pathname,"/calendar/r/eventedit");
+ assert.equal(url.searchParams.get("action"),"TEMPLATE");
+ assert.equal(url.searchParams.get("text"),item.title);
+ assert.equal(url.searchParams.get("dates"),"20271231/20280101");
+ assert.match(url.searchParams.get("details"),/ourhindudharm\.blogspot\.com/);
+ assert.deepEqual([...url.searchParams.keys()],["action","text","dates","details"]);
+ assert.ok(!url.href.includes("private"));
+ assert.equal(buildGoogleCalendarUrl(event("bad","प्रमुख पर्व","2027-02-30")),"");
+});
+test("calendar link controller excludes unapproved, minor, dynamic and stale month cards",()=>{
+ const major=event("दीपावली"),minor=event("चन्द्र दर्शन","पर्व");
+ const links=createFestivalCalendarLinks();
+ links.update(catalogue([major,minor]),2027,12);
+ assert.ok(links.urlFor(major));
+ assert.equal(links.urlFor(minor),"");
+ assert.equal(links.urlFor({...major,reviewStatus:"needs-review"}),"");
+ assert.equal(links.urlFor({...major,date:"2027-12-30"}),"");
+ assert.equal(links.urlFor({...major,isLocationEclipse:true}),"");
+ links.update(null);
+ assert.equal(links.urlFor(major),"");
 });
