@@ -19,7 +19,7 @@ export function isMajorFestival(item) {
   const title = String(item?.title || "");
   const category = String(item?.category || "").trim();
   if (/^(प्रमुख पर्व|एकादशी|पूर्णिमा|अमावस्या|संक्रांति|श्रावण सोमवार)$/.test(category)) return true;
-  return /प्रदोष|नवरात्र(?:ि)?\s*(?:प्रार[ंम्]भ|आरम्भ)|घटस्थापना|राम\s*नवमी|महाशिवरात्रि|जन्माष्टमी|गणेश चतुर्थी|रक्षा\s*बंधन|रक्षाबंधन|हनुमान जयंती|अक्षय तृतीया|अक्षय नवमी|आंवला नवमी|करवा चौथ|अहोई अष्टमी|भाई दूज|नरक चतुर्दशी|वट सावित्री|हरतालिका तीज|हरियाली तीज|गुरु पूर्णिमा|वसंत पंचमी|बसंत पंचमी|गंगा दशहरा|जगन्नाथ रथ यात्रा|नृसिंह जयंती|नरसिंह जयंती/.test(title) && !/मासिक.*जन्माष्टमी/.test(title);
+  return /प्रदोष|नवरात्र(?:ि)?\s*(?:प्रारंभ|प्रारम्भ|आरंभ|आरम्भ)|घटस्थापना|राम\s*नवमी|महाशिवरात्रि|जन्माष्टमी|गणेश चतुर्थी|रक्षा\s*बंधन|रक्षाबंधन|हनुमान जयंती|अक्षय तृतीया|अक्षय नवमी|आंवला नवमी|करवा चौथ|अहोई अष्टमी|भाई दूज|नरक चतुर्दशी|वट सावित्री|हरतालिका तीज|हरियाली तीज|गुरु पूर्णिमा|वसंत पंचमी|बसंत पंचमी|गंगा दशहरा|जगन्नाथ रथ यात्रा|नृसिंह जयंती|नरसिंह जयंती/.test(title) && !/मासिक.*जन्माष्टमी/.test(title);
 }
 export function approvedCalendarEvents(data,year,month) {
   if (!Number.isInteger(year) || !Number.isInteger(month) || month < 1 || month > 12 ||
@@ -51,29 +51,31 @@ export function buildFestivalIcs(events,now = new Date()) {
   lines.push("END:VCALENDAR");
   return lines.map(fold).join("\r\n")+"\r\n";
 }
-export function createFestivalCalendarExport(eventsEl) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.textContent = "प्रमुख व्रत-पर्व कैलेंडर (.ics)";
-  button.title = "प्रमुख प्रकाशित पर्व-तिथियाँ; स्थानीय मुहूर्त और ग्रहण शामिल नहीं हैं";
-  button.style.cssText = "display:block;min-height:44px;margin:8px auto;padding:8px 12px;max-width:100%;font:inherit;cursor:pointer";
-  button.hidden = true;
-  button.style.display = "none";
-  eventsEl.insertAdjacentElement("beforebegin",button);
-  let events = [], filename = "";
-  button.addEventListener("click",() => {
-    if (!events.length) return;
-    const blob = new Blob([buildFestivalIcs(events)],{type:"text/calendar;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url; anchor.download = filename;
-    document.body.appendChild(anchor); anchor.click(); anchor.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),30000);
-  });
-  return (data,year,month) => {
-    events = approvedCalendarEvents(data,year,month);
-    filename = events.length ? "OurHinduDharm-"+year+"-"+String(month).padStart(2,"0")+".ics" : "";
-    button.hidden = !events.length;
-    button.style.display = events.length ? "block" : "none";
+// The ICS serializer above is retained for a future annual download, not exposed in the UI.
+export function buildGoogleCalendarUrl(item) {
+  if (!item || !validPanchangDate(item.date) || typeof item.title !== "string" || !item.title.trim()) return "";
+  const end = new Date(item.date + "T00:00:00Z");
+  end.setUTCDate(end.getUTCDate()+1);
+  const page = new URL("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html");
+  page.searchParams.set("year",item.date.slice(0,4));
+  page.searchParams.set("month",item.date.slice(5,7));
+  const url = new URL("https://calendar.google.com/calendar/r/eventedit");
+  url.searchParams.set("action","TEMPLATE");
+  url.searchParams.set("text",item.title.trim());
+  url.searchParams.set("dates",item.date.replace(/-/g,"")+"/"+end.toISOString().slice(0,10).replace(/-/g,""));
+  url.searchParams.set("details","OurHinduDharm — प्रकाशित व्रत-पर्व तिथि। स्थानीय मुहूर्त हेतु "+page.href);
+  return url.href;
+}
+export function createFestivalCalendarLinks() {
+  let approved = new Map();
+  const key = item => item.date + "|" + item.title.trim();
+  return {
+    update(data,year,month) {
+      approved = new Map(approvedCalendarEvents(data,year,month).map(item=>[key(item),buildGoogleCalendarUrl(item)]));
+    },
+    urlFor(item) {
+      if (!item || item.reviewStatus !== "approved" || item.isLocationEclipse || typeof item.title !== "string") return "";
+      return approved.get(key(item)) || "";
+    }
   };
 }
