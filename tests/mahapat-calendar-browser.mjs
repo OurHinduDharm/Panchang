@@ -133,6 +133,41 @@ try {
         const card=document.querySelector(".special-kaal-card");
         return card?.style.outline&&card.getBoundingClientRect().top>=0&&card.getBoundingClientRect().top<innerHeight/2;
       });
+      // Reproduce a Blogger ad/header expanding AFTER the first successful
+      // landing. Disable native scroll anchoring so the app correction is tested.
+      await page.evaluate(()=>{
+        document.documentElement.style.overflowAnchor="none";
+        const spacer=document.createElement("div");
+        spacer.id="late-blogger-layout";
+        spacer.style.height="480px";
+        document.body.insertBefore(spacer,document.body.firstChild);
+      });
+      await page.waitForFunction(()=>{
+        const card=document.querySelector(".special-kaal-card");
+        return card&&Math.abs(scrollY-Math.min(Math.max(0,card.getBoundingClientRect().top+scrollY-100),Math.max(0,document.scrollingElement.scrollHeight-innerHeight)))<=12;
+      });
+      // A second hash navigation without reloading the module works too.
+      await page.evaluate(()=>{location.hash="";});
+      await page.waitForFunction(()=>location.hash==="");
+      await page.evaluate(()=>{window.scrollTo(0,0);location.hash="special-punya-kaal";});
+      await page.waitForFunction(()=>{
+        const card=document.querySelector(".special-kaal-card");
+        return card?.style.outline&&Math.abs(scrollY-Math.min(Math.max(0,card.getBoundingClientRect().top+scrollY-100),Math.max(0,document.scrollingElement.scrollHeight-innerHeight)))<=12;
+      });
+      // User scroll cancels late corrections; another layout shift must
+      // not pull them back after they have chosen a different position.
+      await page.evaluate(()=>{
+        window.dispatchEvent(new WheelEvent("wheel",{deltaY:-200}));
+        window.scrollTo(0,0);
+        document.getElementById("late-blogger-layout").style.height="960px";
+      });
+      await page.waitForTimeout(1700);
+      assert.ok(await page.evaluate(()=>scrollY<20),"late corrections must respect user scroll");
+      await page.goto("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=12&m=1&special=mahapat");
+      await page.waitForFunction(()=>{
+        const card=document.querySelector(".special-kaal-card");
+        return card?.style.outline&&card.getBoundingClientRect().top>=0&&card.getBoundingClientRect().top<innerHeight/2;
+      });
       const second=await page.locator(".special-kaal-card").last().evaluate(el=>({date:el.dataset.specialDate,type:el.dataset.specialType}));
       const exact=new URL("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=12&m=1");
       exact.searchParams.set("specialFocus",second.date);exact.searchParams.set("specialType",second.type);
