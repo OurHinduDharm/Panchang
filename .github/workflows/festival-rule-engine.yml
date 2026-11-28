@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - "festival-rule-engine.mjs"
+      - "akshaya-tritiya.mjs"
+      - "scripts/review-vaishakha-tritiya-components.mjs"
       - "manvadi-observances.mjs"
       - "festival-public-scope.mjs"
       - "ekadashi-trisprisha.mjs"
@@ -28,6 +30,8 @@ on:
       - main
     paths:
       - "festival-rule-engine.mjs"
+      - "akshaya-tritiya.mjs"
+      - "scripts/review-vaishakha-tritiya-components.mjs"
       - "manvadi-observances.mjs"
       - "festival-public-scope.mjs"
       - "ekadashi-trisprisha.mjs"
