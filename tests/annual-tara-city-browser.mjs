@@ -14,6 +14,7 @@ const panchangBundle = (await build({
   bundle:true,format:"esm",platform:"browser",write:false
 })).outputFiles[0].contents;
 const server = createServer(async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // emulate CDN module CORS for Blogger
   const path = new URL(req.url, "http://localhost").pathname;
   if (path === "/__test-panchang.mjs") return res.writeHead(200, {"Content-Type":"text/javascript"}).end(panchangBundle);
   const file = resolve(root, "." + (path === "/" ? "/index.html" : path));
@@ -99,6 +100,20 @@ try {
   const annualGuru=located.events.filter(e=>e.body==="Jupiter");
   assert.equal(dailyGuru.astaUtcMilliseconds,annualGuru.find(e=>e.event==="Asta").utcMilliseconds);
   assert.equal(dailyGuru.udayaUtcMilliseconds,annualGuru.find(e=>e.event==="Udaya").utcMilliseconds);
+  // Exercise the cross-origin blob bootstrap used when Blogger imports
+  // extra-panchang.js from a CDN. The second hostname is a distinct origin.
+  const crossOriginDaily = await page.evaluate((port)=>new Promise((resolve,reject)=>{
+    const url="http://localhost:"+port+"/daily-tara-planet-worker.mjs";
+    const blob=URL.createObjectURL(new Blob(["import "+JSON.stringify(url)+";"],{type:"text/javascript"}));
+    let worker;
+    try { worker=new Worker(blob,{type:"module"}); }
+    finally { URL.revokeObjectURL(blob); }
+    const timer=setTimeout(()=>{worker.terminate();reject(new Error("cross-origin daily worker timed out"));},30000);
+    worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(new Error(e.message||"cross-origin module failed"));};
+    worker.onmessage=({data})=>{clearTimeout(timer);worker.terminate();resolve(data);};
+    worker.postMessage({id:17,date:"2027-01-01",location:{latitude:25.3176,longitude:82.9739,elevation:81}});
+  }),server.address().port);
+  assert.deepEqual(crossOriginDaily,daily,"CDN-style worker must produce the same intervals");
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
