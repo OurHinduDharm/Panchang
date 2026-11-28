@@ -354,3 +354,32 @@ test("2030 avatar components resolve independently without promoting combined so
     console.log("Avatar components:",JSON.stringify({year,counts:review.counts,cards:review.cards.map(c=>({title:c.sourceContent.title,components:c.components.map(x=>({title:x.title,date:x.selectedDate,status:x.status}))}))}));
   }
 });
+
+
+test("a rule for one slash-joined component cannot select the entire card, even in ordinary tithi cases",()=>{
+ const source=structuredClone(sourceMonths);
+ source[8].events[0].title="विनायक चतुर्थी / स्वतंत्र देवी जयंती";
+ const mapping={...manifest.mappings[0],recordKey:"2030-09-01::"+source[8].events[0].title};
+ const output=buildAnnualFestivalReview({annual,manifest:{...manifest,mappings:[mapping]},sourceMonths:source,year});
+ const d=output.decisions[0];
+ assert.equal(d.calculatedCandidateDate,"2031-09-10");
+ assert.equal(d.selectedDate,null);
+ assert.equal(d.status,"manual-review");
+ assert.ok(d.warnings.includes("composite-card-requires-independent-component-decisions"));
+ assert.equal(output.inventory.compositeMappedCards,1);
+ assert.equal(output.monthlyReview["2031-09"].length,0);
+ assert.equal(d.publishable,false);
+});
+test("stale or ambiguous mapping does not inflate source-card coverage",()=>{
+ const source=structuredClone(sourceMonths);
+ source[8].events.push({...source[8].events[0]});
+ const stale={...manifest.mappings[0],recordKey:"2030-09-03::removed"};
+ const result=buildAnnualFestivalReview({annual,manifest:{...manifest,mappings:[...manifest.mappings,stale]},sourceMonths:source,year});
+ assert.deepEqual(result.counts,{sourceCards:3,mapped:0,selected:0,unresolved:0,unmapped:3});
+ assert.equal(result.inventory.manifestMappings,2);
+ assert.equal(result.inventory.staleOrAmbiguousMappings,2);
+ assert.equal(result.inventory.sourceCardsAccountedFor,3);
+ assert.deepEqual(result.mappingDiagnostics.map(x=>x.sourceMatches),[2,0]);
+ assert.ok(result.mappingDiagnostics.every(x=>x.selectedDate===null&&!x.publishable));
+ assert.throws(()=>buildAnnualFestivalReview({annual,manifest:{...manifest,mappings:[stale,stale]},sourceMonths:source,year}));
+});

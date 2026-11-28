@@ -38,14 +38,17 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
   for(const event of source){const key=recordKey(event);byKey.set(key,[...(byKey.get(key)||[]),event]);}
   const mapped=new Set();
   const decisions=[];
+  const mappingDiagnostics=[];
+  const seenMappingKeys=new Set();
   for(const mapping of manifest.mappings){
-    if(mapped.has(mapping.recordKey))throw new Error("Duplicate mapping: "+mapping.recordKey);
-    mapped.add(mapping.recordKey);
+    if(seenMappingKeys.has(mapping.recordKey))throw new Error("Duplicate mapping: "+mapping.recordKey);
+    seenMappingKeys.add(mapping.recordKey);
     const rows=byKey.get(mapping.recordKey)||[];
     if(rows.length!==1){
-      decisions.push({recordKey:mapping.recordKey,ruleId:mapping.ruleId,status:"manual-review",selectedDate:null,reason:"source-card-missing-or-ambiguous",publishable:false});
+      mappingDiagnostics.push({recordKey:mapping.recordKey,ruleId:mapping.ruleId,status:"manual-review",selectedDate:null,reason:"source-card-missing-or-ambiguous",sourceMatches:rows.length,publishable:false});
       continue;
     }
+    mapped.add(mapping.recordKey);
     const event=rows[0];
     const descriptor={id:mapping.observanceId,dateType:"tithi",ruleId:mapping.ruleId,lunarMonth:mapping.lunarMonth,paksha:mapping.paksha,targetTithiIndex:mapping.targetTithiIndex,targetTithiIndices:mapping.targetTithiIndices,monthKind:mapping.monthKind,...(mapping.ekadashiTradition!=null?{ekadashiTradition:mapping.ekadashiTradition}:{})};
     // No year-specific Gregorian date is supplied to the resolver.
@@ -54,10 +57,11 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
     const inYear=typeof date==="string"&&date.startsWith(year+"-");
     // Boundary days need adjacent-year context, not an assumed previous/next sunrise.
     const boundary=inYear&&(date===isoDay(year,0)||date===isoDay(year,annual.dailyPanchang.length-1));
-    // A tradition-specific candidate for one Ekadashi does not establish a
-    // second observance joined in the historical card by a slash.
+    // A rule for one component cannot select an entire slash-joined card.
+    // Some slash titles are synonyms, but synonym equivalence requires explicit
+    // review, not automatic string inference. Preserve the candidate as evidence.
     const alternatives=trisprishaAlternatives(result);
-    const composite=alternatives.length>0&&/\s\/\s/.test(event.title);
+    const composite=/\s+\/\s+/.test(event.title);
     decisions.push({recordKey:mapping.recordKey,sourceTitle:event.title,sourceHinduTithi:event.hinduTithi??null,sourceClassification:mapping.classification,sourceReason:mapping.reason,
       ruleId:mapping.ruleId,selector:descriptor,calculatedCandidateDate:inYear?date:null,
       selectedDate:inYear&&!boundary&&!composite?date:null,status:boundary||composite?"manual-review":result.status,
@@ -74,6 +78,7 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
   for(const decision of decisions)if(decision.selectedDate&&monthlyReview[decision.selectedDate.slice(0,7)])monthlyReview[decision.selectedDate.slice(0,7)].push(decision);
   for(const rows of Object.values(monthlyReview))rows.sort((a,b)=>a.selectedDate.localeCompare(b.selectedDate)||a.recordKey.localeCompare(b.recordKey));
   return {schemaVersion:1,year,sourceYear,status:"review-only-not-approved",publishable:false,location:annual.location??null,counts:{sourceCards:source.length,mapped:decisions.length,selected:decisions.filter(d=>d.selectedDate).length,unresolved:decisions.filter(d=>!d.selectedDate).length,unmapped:unmapped.length},monthlyReview,decisions,unmapped,comparison,
+    mappingDiagnostics,inventory:{manifestMappings:manifest.mappings.length,matchedSourceMappings:decisions.length,staleOrAmbiguousMappings:mappingDiagnostics.length,compositeMappedCards:decisions.filter(d=>d.warnings?.includes("composite-card-requires-independent-component-decisions")).length,sourceCardsAccountedFor:decisions.length+unmapped.length},
     note:"Candidate dates only. Repeated or missing lunar observances, combined titles, weekday-dependent names, adhika months and special cases require independent review. Source-year coverage is not complete target-year coverage."};
 }
 function compareSourceDates(decisions, unmapped) {
@@ -197,6 +202,6 @@ async function main(){
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
   await writeFile(resolve(dir,year+"-from-"+sourceYear+".json"),JSON.stringify(output,null,2)+"\n");
-  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,comparison:output.comparison?.counts,recurringReview:output.recurringReview.counts,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
+  console.log(JSON.stringify({year,sourceYear,...output.counts,status:output.status,inventory:output.inventory,comparison:output.comparison?.counts,recurringReview:output.recurringReview.counts,ruleCoverage:{sourceOccurrences:output.ruleCoverage.sourceOccurrences,distinctRuleSelectors:output.ruleCoverage.distinctRuleSelectors,additionalSelectors:output.ruleCoverage.additionalSelectors,additionalWithCandidate:output.ruleCoverage.additionalWithCandidate}}));
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error);process.exitCode=1;});
