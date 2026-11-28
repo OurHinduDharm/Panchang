@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Audit tracked repository layout and archived paths
+        run: node scripts/audit-repository-layout.mjs
       - name: Check JavaScript syntax
         run: |
           node --experimental-default-type=module --check app.js
