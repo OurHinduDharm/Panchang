@@ -293,7 +293,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <script type="module">
 import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
-import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
+import {createFestivalCalendarLinks} from "./festival-calendar-export.mjs";
 (function(){
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
@@ -312,7 +312,8 @@ import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
   syncPublishedYearOptions(yearSelect);
   var currentMonthBtn=document.getElementById("currentMonthBtn");
   var eventsEl=document.getElementById("events");
-  var updateCalendarExport=createFestivalCalendarExport(eventsEl);
+  var festivalCalendarLinks=createFestivalCalendarLinks();
+  var updateCalendarExport=festivalCalendarLinks.update;
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
@@ -994,6 +995,16 @@ import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
       if(isEclipseEvent){
         var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी",cardLinkUrls);
         if(eclipseLink)links.appendChild(eclipseLink);
+      }
+      var calendarUrl=festivalCalendarLinks.urlFor(item);
+      if(calendarUrl&&!reviewMode){
+        var calendarLink=document.createElement("a");
+        calendarLink.href=calendarUrl;
+        calendarLink.target="_blank";
+        calendarLink.rel="noopener noreferrer";
+        calendarLink.referrerPolicy="no-referrer";
+        calendarLink.textContent="Google Calendar में जोड़ें";
+        links.appendChild(calendarLink);
       }
       if(links.childNodes.length)content.appendChild(links);
       if(reviewMode&&item.showReviewStatus!==false){
