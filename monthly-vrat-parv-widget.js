@@ -1600,12 +1600,12 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
   }
 
   let specialCalendar;
-  async function scheduleSpecialPunyaKaal(year,month){
+  async function scheduleSpecialPunyaKaal(year,month,layoutReady){
     try{
       const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs").catch(()=>import("https://ourhindudharm.github.io/Panchang/monthly-special-punya-kaal.mjs"));
       if(Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       specialCalendar??=createMonthlySpecialCalendar(getLocalLocation,yearSelect,monthSelect,eventsEl);
-      specialCalendar(year,month);
+      specialCalendar(year,month,layoutReady);
     }catch(error){console.warn("Special calendar unavailable",error);}
   }
   async function loadMonth(preserveViewportAnchor){
@@ -1629,7 +1629,9 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     activeMonthRequest=controller;
     var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
-    scheduleSpecialPunyaKaal(year,month);
+    var finishSpecialLayout;
+    var specialLayoutReady=new Promise(resolve=>{finishSpecialLayout=resolve;});
+    scheduleSpecialPunyaKaal(year,month,specialLayoutReady);
     syncMonthNavigationButtons();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
@@ -1726,6 +1728,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
         }
       }
     }finally{
+      finishSpecialLayout();
       clearTimeout(timeoutId);
       if(token===requestToken)activeMonthRequest=null;
     }

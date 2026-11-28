@@ -79,7 +79,14 @@ try {
       assert.match(await card.innerText(),/वैधृति महापात/);
       assert.match(await card.innerText(),/आगामी महापात पुण्यकाल/);
       const href=await card.locator("a").getAttribute("href");
-      assert.equal(href,"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=11#special-punya-kaal");
+      const targetUrl=new URL(href);
+      assert.equal(targetUrl.origin,"https://ourhindudharm.blogspot.com");
+      assert.equal(targetUrl.pathname,"/p/masik-vrat-parv.html");
+      assert.equal(targetUrl.searchParams.get("year"),"2026");
+      assert.equal(targetUrl.searchParams.get("month"),"11");
+      assert.equal(targetUrl.searchParams.get("specialType"),"vaidhriti-mahapat");
+      assert.match(targetUrl.searchParams.get("specialFocus"),/^2026-11-\d{2}$/);
+      assert.equal(targetUrl.hash,"#special-punya-kaal");
       await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
       await page.waitForTimeout(1000);
       assert.equal(await page.locator(".special-punya-kaal-card").count(),0);
@@ -87,6 +94,12 @@ try {
       assert.equal(localRuntimeRequests,0,"November daily page must not request the local runtime");
       await page.goto(new URL(href,origin).href);
       await page.locator("#special-punya-kaal").waitFor({state:"visible"});
+      await page.waitForFunction(({date,type})=>{
+        const card=Array.from(document.querySelectorAll(".special-kaal-card")).find(el=>el.dataset.specialDate===date&&el.dataset.specialType===type);
+        if(!card||!card.style.outline)return false;
+        const rect=card.getBoundingClientRect();
+        return rect.top>=0&&rect.top<innerHeight/2;
+      },{date:targetUrl.searchParams.get("specialFocus"),type:targetUrl.searchParams.get("specialType")});
       const details=await page.locator("#specialPunyaKaalContent").innerText();
       assert.match(details,/वैधृति महापात/);
       assert.match(details,/मध्यकाल/);
@@ -109,6 +122,25 @@ try {
       await page.locator("#monthSelect").selectOption("12");
       await page.locator("#specialPunyaKaalContent").getByText(/स्पर्श की तिथि .*दिसंबर|स्पर्श की तिथि .*दिसम्बर/).first().waitFor({state:"visible"});
       assert.equal(await page.locator(".special-mahapata-guide").count(),1);
+      // The exact old mobile URL must still focus after a deliberately slow
+      // December catalogue load; the new query also works without a fragment.
+      await page.route("**/data/festivals/2026-12.json",async route=>{
+        await new Promise(resolve=>setTimeout(resolve,500));
+        await route.fallback();
+      });
+      await page.goto("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=12&m=1#special-punya-kaal");
+      await page.waitForFunction(()=>{
+        const card=document.querySelector(".special-kaal-card");
+        return card?.style.outline&&card.getBoundingClientRect().top>=0&&card.getBoundingClientRect().top<innerHeight/2;
+      });
+      const second=await page.locator(".special-kaal-card").last().evaluate(el=>({date:el.dataset.specialDate,type:el.dataset.specialType}));
+      const exact=new URL("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=12&m=1");
+      exact.searchParams.set("specialFocus",second.date);exact.searchParams.set("specialType",second.type);
+      await page.goto(exact.href);
+      await page.waitForFunction(({date,type})=>{
+        const card=Array.from(document.querySelectorAll(".special-kaal-card")).find(el=>el.dataset.specialDate===date&&el.dataset.specialType===type);
+        return card?.style.outline&&card.getBoundingClientRect().top>=0&&card.getBoundingClientRect().top<innerHeight/2;
+      },second);
       await page.locator("#monthSelect").selectOption("11");
       await assertNovemberMahapata();
       await page.locator("#special-punya-kaal").scrollIntoViewIfNeeded();
@@ -143,14 +175,14 @@ try {
       const daily = await page.locator(".special-punya-kaal-card").innerText();
       assert.match(daily,/वैधृति महापात/);
       assert.match(daily,/स्पर्श [^\n]+मोक्ष /);
-      assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal");
+      assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03&specialFocus=2026-03-19&specialType=vaidhriti-mahapat#special-punya-kaal");
     }else{
       await page.waitForTimeout(1000);
       assert.equal(await page.locator(".special-punya-kaal-card").count(),0);
     }
     await page.goto(origin + "/p/panchang-today.html?date=2026-03-19");
     await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
-    const canonical="https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03#special-punya-kaal";
+    const canonical="https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=03&specialFocus=2026-03-19&specialType=vaidhriti-mahapat#special-punya-kaal";
     if(staged)assert.equal(await page.locator(".special-punya-kaal-card a").getAttribute("href"),canonical);
     const runtimeBeforeMonthly=localRuntimeRequests;
     await page.goto(canonical);
@@ -175,7 +207,7 @@ try {
       await page.goto(origin + "/index.html?date=2026-03-19");
       await upcoming.waitFor({state:"visible"});
       assert.match(await upcoming.innerText(),/आगामी महापात पुण्यकाल/);
-      assert.equal(await upcoming.locator("a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=04#special-punya-kaal");
+      assert.equal(await upcoming.locator("a").getAttribute("href"),"https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=04&specialFocus=2026-04-01&specialType=vyatipata-mahapat#special-punya-kaal");
     }else{
       await page.locator(".special-punya-kaal-sentinel").last().scrollIntoViewIfNeeded();
       assert.equal(await page.locator(".upcoming-mahapata-card").isVisible(),false);

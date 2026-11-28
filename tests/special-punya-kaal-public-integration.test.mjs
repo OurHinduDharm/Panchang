@@ -20,7 +20,9 @@ test("monthly section uses the selected year/month from its navigation URL", () 
   assert.match(monthly, /pageParams\.get\("year"\)/);
   assert.match(monthly, /pageParams\.get\("month"\)/);
   assert.match(component, /window\.location\.hash==="#special-punya-kaal"/);
-  assert.match(component, /section\.scrollIntoView\(\{block:"start",behavior:"smooth"\}\)/);
+  assert.match(component, /await layoutReady/);
+  assert.match(component, /window\.scrollTo\(\{top:Math\.max\(0,top\),behavior:"auto"\}\)/);
+  assert.match(component, /card\.dataset\.specialDate===focusDate&&card\.dataset\.specialType===focusType/);
 });
 
 test("monthly special section uses the approved practice-focused title", () => {
@@ -64,7 +66,7 @@ test("public data schema permits only reviewed special punya-kaal types, never S
 test("Blogger and GitHub Pages schedule the same monthly component", () => {
   for (const host of [monthly, blogger]) {
     assert.match(host, /import\("\.\/monthly-special-punya-kaal\.mjs"\)/);
-    assert.match(host, /scheduleSpecialPunyaKaal\(year,month\);/);
+    assert.match(host, /scheduleSpecialPunyaKaal\(year,month,specialLayoutReady\);/);
   }
 });
 
@@ -91,8 +93,8 @@ test("upcoming daily card is current-date only and links to the event month", ()
 
 
 test("monthly geocentric Mahapata renders before lazy local work and common guidance is outside event cards",()=>{
-  assert.match(component,/renderApproved\(approval\.publicSpecialPunyaKaalMonth\(null,year,month\),true\)/);
-  assert.match(component,/loadSpecialPunyaKaal\(year,month,token\);/);
+  assert.match(component,/renderApproved\(approval\.publicSpecialPunyaKaalMonth\(null,year,month\)\)/);
+  assert.match(component,/loadSpecialPunyaKaal\(year,month,token,layoutReady\);/);
   const cards=component.slice(component.indexOf("approved.forEach(function(item)"),component.indexOf("var guide=document.createElement"));
   assert.doesNotMatch(cards,/स्नानदानजपश्राद्ध|special-kaal-verse|special-kaal-guidance/);
   assert.equal((component.match(/स्नानदानजपश्राद्धव्रतहोमादिकर्मभिः/g)||[]).length,1);
@@ -102,9 +104,9 @@ test("monthly geocentric Mahapata renders before lazy local work and common guid
 
 
 test("daily special calendar links are canonical Blogger URLs and no empty month-only card is rendered",()=>{
-  assert.match(daily,/return "https:\/\/ourhindudharm\.blogspot\.com\/p\/masik-vrat-parv\.html\?year="/);
-  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(year,month\)/);
-  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(linkDate\.slice\(0,4\),linkDate\.slice\(5,7\)\)/);
+  assert.match(daily,/new URL\("https:\/\/ourhindudharm\.blogspot\.com\/p\/masik-vrat-parv\.html"\)/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(year,month,visible\.find\(item=>item\.isMahapata\)\)/);
+  assert.match(daily,/link\.href=specialPunyaKaalMonthUrl\(linkDate\.slice\(0,4\),linkDate\.slice\(5,7\),event\)/);
   assert.match(daily,/const visible=todays\.filter/);
   assert.match(daily,/if\(!visible\.length\)return/);
   assert.match(daily,/link\.hidden=Boolean\(upcoming&&upcoming\.href===link\.href\)/);
@@ -152,4 +154,22 @@ test("daily recalculation disconnects stale visibility observers and cancels obs
   harness.cancel();harness.cancel();
   assert.deepEqual(harness.state(),[6,1,1,null,null]);
   assert.match(daily,/function calculatePanchang\(\)\{\s*cancelSpecialPunyaKaalWork\(\);/);
+});
+
+
+test("daily Mahapata URL carries exact target across Blogger query rewriting and civil-month boundaries",()=>{
+  const start=daily.indexOf("function specialPunyaKaalMonthUrl(");
+  const end=daily.indexOf("function syncSpecialPunyaKaalLinks(",start);
+  const make=new Function(daily.slice(start,end)+"\\nreturn specialPunyaKaalMonthUrl;".replace("\\n","\n"))();
+  const url=new URL(make(2026,12,{isMahapata:true,date:"2026-11-30",type:"vaidhriti-mahapat"}));
+  assert.equal(url.searchParams.get("year"),"2026");
+  assert.equal(url.searchParams.get("month"),"12");
+  assert.equal(url.searchParams.get("specialFocus"),"2026-11-30");
+  assert.equal(url.searchParams.get("specialType"),"vaidhriti-mahapat");
+  assert.equal(url.hash,"#special-punya-kaal");
+  for(const host of [monthly,blogger]){
+    assert.match(host,/specialLayoutReady=new Promise/);
+    assert.match(host,/specialCalendar\(year,month,layoutReady\)/);
+    assert.match(host,/finally\{\s*finishSpecialLayout\(\);/);
+  }
 });
