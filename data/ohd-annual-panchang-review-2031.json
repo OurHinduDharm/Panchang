@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-24T08:04:25.210Z",
+  "generatedAt": "2026-11-28T18:50:06.927Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2031,
   "location": {
@@ -30063,9 +30063,9 @@
             "id": "ashadha-vishnu",
             "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
             "deity": "भगवान विष्णु",
-            "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+            "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a"
           },
           {
             "id": "vasudeva",
@@ -33490,6 +33490,19 @@
       "startDate": "2031-07-01",
       "endDate": "2031-11-24",
       "completionDate": "2031-11-25",
+      "completionObservations": [
+        {
+          "date": "2031-11-25",
+          "sunrise": "2031-11-25T01:11:34.581Z",
+          "tithiStartTime": "2031-11-24T22:14:13.551Z",
+          "tithiEndTime": "2031-11-25T21:51:29.270Z"
+        }
+      ],
+      "adhikaPolicy": "continuous-vow-nija-transition-v1",
+      "adhikaMonths": [
+        "भाद्रपद"
+      ],
+      "reviewWarnings": [],
       "cardVisibleThroughDate": "2031-11-26",
       "phases": [
         {
@@ -33508,7 +33521,11 @@
           "endDate": "2031-09-28",
           "startTithi": "श्रावण शुक्ल द्वादशी",
           "endTithi": "भाद्रपद शुक्ल द्वादशी",
-          "detail": "आरंभ में त्यागी गई सब्जियों का दान करें। तक्र या मट्ठा निषेध नहीं है।"
+          "detail": "आरंभ में त्यागी गई सब्जियों का दान करें। तक्र या मट्ठा निषेध नहीं है।",
+          "adhikaExtension": {
+            "month": "भाद्रपद",
+            "durationDays": 59
+          }
         },
         {
           "id": "doodh",

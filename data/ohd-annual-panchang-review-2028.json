@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-24T08:04:13.102Z",
+  "generatedAt": "2026-11-28T18:49:49.523Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2028,
   "location": {
@@ -963,6 +963,19 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2028-03-23",
+      "dateLabel": "23 मार्च",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2028-03-23T05:52:19.768Z",
+      "conjunctionEnd": "2028-03-24T00:03:52.731Z",
+      "reviewCategory": "योग"
+    },
+    {
       "date": "2028-03-24",
       "dateLabel": "24 मार्च",
       "title": "मासिक शिवरात्रि",
@@ -1084,7 +1097,7 @@
       "date": "2028-03-28",
       "dateLabel": "28 मार्च",
       "title": "मत्स्य-अवतार जयंती",
-      "description": "चैत्र शुक्ल द्वितीया को भगवान विष्णु के मत्स्य-अवतार का स्मरण और पूजन किया जाता है। मत्स्यावतार की कथा, विष्णु-मंत्र-जप और दान की परंपरा है।",
+      "description": "चैत्र शुक्ल तृतीया को भगवान विष्णु के मत्स्य-अवतार का स्मरण और पूजन किया जाता है। मत्स्यावतार की कथा, विष्णु-मंत्र-जप और दान की परंपरा है।",
       "category": "अवतार जयंती",
       "reviewStatus": "approved",
       "sourceName": "Drik Panchang — March 2028 Hindu Festivals",
@@ -1093,14 +1106,14 @@
       "reviewCategory": "अवतार जयंती"
     },
     {
-      "date": "2028-03-28",
-      "dateLabel": "28 मार्च",
+      "date": "2028-03-29",
+      "dateLabel": "29 मार्च",
       "title": "स्वयंभुव मन्वादि",
-      "description": "चैत्र शुक्ल द्वितीया को स्वयंभुव मन्वादि तिथि माना जाता है। इस युगादि तिथि पर भगवान विष्णु का स्मरण, जप और दान किया जाता है।",
+      "description": "चैत्र शुक्ल तृतीया की पूर्वाह्ण-व्याप्ति में स्वायम्भुव मन्वादि का श्राद्ध और तर्पण किया जाता है। इस तिथि पर भगवान विष्णु का स्मरण, जप और दान करने की परंपरा है।",
       "category": "मन्वादि तिथि",
       "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — March 2028 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2028",
+      "sourceName": "धर्मसिन्धु, द्वितीय परिच्छेद, चैत्र मन्वादि-निर्णय",
+      "sourceUrl": "https://whm.cdsharma.in/dharma-nirnay?g=ds&p=8&t=path",
       "hinduTithi": "चैत्र शुक्ल तृतीया",
       "reviewCategory": "मन्वादि तिथि"
     },
@@ -1707,8 +1720,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पंचमी",
-      "sourceName": "Drik Panchang — Saint Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/surdas/kavi-surdas-jayanti.html?year=2028",
       "reviewCategory": "आचार्य जयंती"
     },
     {
@@ -3993,8 +4004,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2028",
       "reviewCategory": "संत जयंती"
     },
     {
@@ -4006,8 +4015,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2028",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -4651,6 +4658,16 @@
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
       "muhurtaRule": "masik-shivaratri-nishita",
       "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2028-11-15",
+      "dateLabel": "15 नवंबर",
+      "title": "श्री बाला सिद्धविद्या जयंती",
+      "description": "मार्गशीर्ष कृष्ण चतुर्दशी को सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती मनाई जाती है। इस अवसर पर भगवती श्री बाला त्रिपुरसुंदरी की स्तोत्रात्मक उपासना करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
+      "reviewCategory": "जयंती"
     },
     {
       "date": "2028-11-16",
@@ -35227,9 +35244,9 @@
             "id": "ashadha-vishnu",
             "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
             "deity": "भगवान विष्णु",
-            "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+            "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a"
           },
           {
             "id": "vasudeva",
@@ -38674,8 +38691,19 @@
       "missingBoundaries": [],
       "startDate": "2028-07-02",
       "endDate": "2028-10-28",
-      "completionDate": "2028-10-29",
-      "cardVisibleThroughDate": "2028-10-30",
+      "completionDate": "2028-10-30",
+      "completionObservations": [
+        {
+          "date": "2028-10-30",
+          "sunrise": "2028-10-30T00:51:29.852Z",
+          "tithiStartTime": "2028-10-29T00:51:18.754Z",
+          "tithiEndTime": "2028-10-30T03:21:23.863Z"
+        }
+      ],
+      "adhikaPolicy": "continuous-vow-nija-transition-v1",
+      "adhikaMonths": [],
+      "reviewWarnings": [],
+      "cardVisibleThroughDate": "2028-10-31",
       "phases": [
         {
           "id": "shak",

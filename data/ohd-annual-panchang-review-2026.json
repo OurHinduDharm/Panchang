@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-24T08:04:04.790Z",
+  "generatedAt": "2026-11-28T18:49:37.709Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2026,
   "location": {
@@ -668,6 +668,19 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2026-03-17",
+      "dateLabel": "17 मार्च",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2026-03-17T00:52:08.083Z",
+      "conjunctionEnd": "2026-03-17T03:53:26.360Z",
+      "reviewCategory": "योग"
+    },
+    {
       "date": "2026-03-19",
       "dateLabel": "19 मार्च",
       "title": "उगादी",
@@ -1250,8 +1263,6 @@
       "category": "आचार्य जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल पंचमी",
-      "sourceName": "Drik Panchang — Surdas Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/surdas/kavi-surdas-jayanti.html?year=2026",
       "reviewCategory": "आचार्य जयंती"
     },
     {
@@ -3498,8 +3509,6 @@
       "category": "संत जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2026",
       "reviewCategory": "संत जयंती"
     },
     {
@@ -3510,8 +3519,6 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2026",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -4019,8 +4026,8 @@
     {
       "date": "2026-12-07",
       "dateLabel": "7 दिसंबर",
-      "title": "मासिक शिवरात्रि / श्री बाला सिद्धविद्या जयंती",
-      "description": "द्वादश सिद्धविद्याओं की परंपरा में श्री बाला सिद्धविद्या, श्री बाला त्रिपुरसुंदरी का ही स्वरूप हैं। मार्गशीर्ष कृष्ण चतुर्दशी को उनकी जयंती पर बालारूपिणी त्रिपुरसुंदरी की उपासना, मंत्र-जप और स्तोत्र-पाठ करें।",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
@@ -4028,6 +4035,16 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
       "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2026-12-07",
+      "dateLabel": "7 दिसंबर",
+      "title": "श्री बाला सिद्धविद्या जयंती",
+      "description": "मार्गशीर्ष कृष्ण चतुर्दशी को सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती मनाई जाती है। इस अवसर पर भगवती श्री बाला त्रिपुरसुंदरी की स्तोत्रात्मक उपासना करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
+      "reviewCategory": "जयंती"
     },
     {
       "date": "2026-12-08",
@@ -34586,9 +34603,9 @@
             "id": "ashadha-vishnu",
             "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
             "deity": "भगवान विष्णु",
-            "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+            "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a"
           },
           {
             "id": "vasudeva",
@@ -37839,6 +37856,17 @@
       "startDate": "2026-07-25",
       "endDate": "2026-11-20",
       "completionDate": "2026-11-21",
+      "completionObservations": [
+        {
+          "date": "2026-11-21",
+          "sunrise": "2026-11-21T01:08:30.241Z",
+          "tithiStartTime": "2026-11-21T01:01:52.535Z",
+          "tithiEndTime": "2026-11-21T23:26:52.169Z"
+        }
+      ],
+      "adhikaPolicy": "continuous-vow-nija-transition-v1",
+      "adhikaMonths": [],
+      "reviewWarnings": [],
       "cardVisibleThroughDate": "2026-11-22",
       "phases": [
         {

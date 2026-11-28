@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-24T08:04:08.938Z",
+  "generatedAt": "2026-11-28T18:49:43.570Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2027,
   "location": {
@@ -1196,6 +1196,19 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2027-04-04",
+      "dateLabel": "4 अप्रैल",
+      "title": "वारुणी योग",
+      "category": "योग",
+      "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
+      "description": "चैत्र कृष्ण त्रयोदशी और शतभिषा नक्षत्र के संयोग को वारुणी योग कहते हैं।",
+      "reviewStatus": "approved",
+      "specialPunyaKaalProfile": "chaitra-krishna-trayodashi-shatabhisha",
+      "conjunctionStart": "2027-04-03T22:56:57.290Z",
+      "conjunctionEnd": "2027-04-04T11:02:55.133Z",
+      "reviewCategory": "योग"
+    },
+    {
       "date": "2027-04-05",
       "dateLabel": "5 अप्रैल",
       "title": "मासिक शिवरात्रि",
@@ -1915,8 +1928,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पंचमी",
-      "sourceName": "Drik Panchang — Saint Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/surdas/kavi-surdas-jayanti.html?year=2027",
       "reviewCategory": "आचार्य जयंती"
     },
     {
@@ -5281,8 +5292,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2027",
+      "sourceName": "Drik Panchang — Meera Bai Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/meerabai/meerabai-jayanti.html?year=2027",
       "reviewCategory": "संत जयंती"
     },
     {
@@ -5294,8 +5305,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2027",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -6160,6 +6169,16 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
       "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2027-11-27",
+      "dateLabel": "27 नवंबर",
+      "title": "श्री बाला सिद्धविद्या जयंती",
+      "description": "मार्गशीर्ष कृष्ण चतुर्दशी को सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती मनाई जाती है। इस अवसर पर भगवती श्री बाला त्रिपुरसुंदरी की स्तोत्रात्मक उपासना करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
+      "reviewCategory": "जयंती"
     },
     {
       "date": "2027-11-28",
@@ -36726,9 +36745,9 @@
             "id": "ashadha-vishnu",
             "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
             "deity": "भगवान विष्णु",
-            "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+            "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a"
           },
           {
             "id": "vasudeva",
@@ -40140,6 +40159,17 @@
       "startDate": "2027-07-14",
       "endDate": "2027-11-10",
       "completionDate": "2027-11-11",
+      "completionObservations": [
+        {
+          "date": "2027-11-11",
+          "sunrise": "2027-11-11T01:00:09.206Z",
+          "tithiStartTime": "2027-11-10T03:41:36.290Z",
+          "tithiEndTime": "2027-11-11T04:37:34.041Z"
+        }
+      ],
+      "adhikaPolicy": "continuous-vow-nija-transition-v1",
+      "adhikaMonths": [],
+      "reviewWarnings": [],
       "cardVisibleThroughDate": "2027-11-12",
       "phases": [
         {

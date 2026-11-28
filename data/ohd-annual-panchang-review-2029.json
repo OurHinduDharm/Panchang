@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-24T08:04:17.142Z",
+  "generatedAt": "2026-11-28T18:49:55.317Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2029,
   "location": {
@@ -1480,8 +1480,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पंचमी",
-      "sourceName": "Drik Panchang — Saint Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/surdas/kavi-surdas-jayanti.html?year=2029",
       "reviewCategory": "आचार्य जयंती"
     },
     {
@@ -1903,13 +1901,13 @@
       "date": "2029-06-26",
       "dateLabel": "26 जून",
       "title": "ज्येष्ठ पूर्णिमा",
-      "description": "ज्येष्ठ मास की पूर्णिमा पर स्नान, दान और जप का विशेष महत्व है।",
+      "description": "ज्येष्ठ मास की उदयव्यापिनी पूर्णिमा पर स्नान, दान और जप का विशेष महत्व है।",
       "category": "पूर्णिमा व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Vat Purnima Vrat 2029",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/savitri/vat-purnima-date-time.html?lang=en&year=2029",
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा (उदयव्यापिनी)",
+      "sourceName": "मासिक पूर्णिमा व्रत — उदयव्यापिनी नियम",
+      "sourceUrl": "https://egyankosh.ac.in/bitstream/123456789/80293/1/Block-4.pdf",
       "reviewCategory": "पूर्णिमा व्रत"
     },
     {
@@ -3444,8 +3442,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2029",
       "reviewCategory": "संत जयंती"
     },
     {
@@ -3457,8 +3453,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — Valmiki Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2029",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -3990,6 +3984,16 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
       "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2029-12-04",
+      "dateLabel": "4 दिसंबर",
+      "title": "श्री बाला सिद्धविद्या जयंती",
+      "description": "मार्गशीर्ष कृष्ण चतुर्दशी को सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती मनाई जाती है। इस अवसर पर भगवती श्री बाला त्रिपुरसुंदरी की स्तोत्रात्मक उपासना करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
+      "reviewCategory": "जयंती"
     },
     {
       "date": "2029-12-06",
@@ -34492,9 +34496,9 @@
             "id": "ashadha-vishnu",
             "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
             "deity": "भगवान विष्णु",
-            "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+            "shortDetail": "बारह ब्राह्मणों को मधुर अन्न से भोजन कराकर पृथक्-पृथक् गंधादि से पूजन करें तथा वस्त्र, दण्ड, यज्ञोपवीत, मुद्रिका और पात्र अर्पित करें।",
             "sourceProfile": "naradaPurana",
-            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+            "source": "नारद पुराण, पूर्वार्ध, अध्याय 121.19b–21a"
           },
           {
             "id": "vasudeva",
@@ -37784,6 +37788,17 @@
       "startDate": "2029-07-21",
       "endDate": "2029-11-16",
       "completionDate": "2029-11-17",
+      "completionObservations": [
+        {
+          "date": "2029-11-17",
+          "sunrise": "2029-11-17T01:05:26.478Z",
+          "tithiStartTime": "2029-11-16T17:58:45.366Z",
+          "tithiEndTime": "2029-11-17T20:24:03.896Z"
+        }
+      ],
+      "adhikaPolicy": "continuous-vow-nija-transition-v1",
+      "adhikaMonths": [],
+      "reviewWarnings": [],
       "cardVisibleThroughDate": "2029-11-18",
       "phases": [
         {
