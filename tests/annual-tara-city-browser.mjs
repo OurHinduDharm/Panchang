@@ -6,7 +6,13 @@ import { resolve, sep, extname } from "node:path";
 import { build } from "esbuild";
 
 const root = resolve(".");
-const panchangBundle = (await build({stdin:{contents:'export * from "@ishubhamx/panchangam-js";',resolveDir:root},bundle:true,format:"esm",platform:"browser",write:false})).outputFiles[0].contents;
+// Only the calculation exports are used. The library's optional kundli file
+// exporter imports Node fs lazily; leave that unused API external, rather
+// than attempting to bundle Node file access into a browser test.
+const panchangBundle = (await build({
+  stdin:{contents:'export { Observer, getPanchangam } from "@ishubhamx/panchangam-js";',resolveDir:root},
+  bundle:true,format:"esm",platform:"browser",external:["fs","node:fs"],write:false
+})).outputFiles[0].contents;
 const server = createServer(async (req, res) => {
   const path = new URL(req.url, "http://localhost").pathname;
   if (path === "/__test-panchang.mjs") return res.writeHead(200, {"Content-Type":"text/javascript"}).end(panchangBundle);
