@@ -199,6 +199,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   .muhurta-window:hover{border-color:#d9c29f;box-shadow:0 3px 10px rgba(70,48,25,.07);transform:translateY(-1px)}
 }
 @media print{
+  .ohd-calendar-download{display:none!important}
   .muhurta-box{break-inside:avoid;box-shadow:none;background:#fff;border:1px solid #bbb}
   .muhurta-window,.muhurta-window.primary{break-inside:avoid;background:#fff;box-shadow:none}
 }
@@ -312,7 +313,7 @@ import {createFestivalCalendarLinks} from "./festival-calendar-export.mjs";
   syncPublishedYearOptions(yearSelect);
   var currentMonthBtn=document.getElementById("currentMonthBtn");
   var eventsEl=document.getElementById("events");
-  var festivalCalendarLinks=createFestivalCalendarLinks();
+  var festivalCalendarLinks=createFestivalCalendarLinks(eventsEl);
   var updateCalendarExport=festivalCalendarLinks.update;
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
