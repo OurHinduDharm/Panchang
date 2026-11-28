@@ -50,10 +50,12 @@ export function reviewVamanaJayanti(days) {
     selectionBasis:basis,evaluations,autoApproved:false,publishable:false,
     warnings:["source-and-publication-approval-required","vamana-parana-separate-review-required"]});
   if(dy.length){
+    if(dy.length===2){
+      if(middle.some(x=>x.date===dy[0].date))return choose(dy[0],"dharmasindhu-two-shravana-days-earlier");
+      return pending("two-shravana-days-with-conflicting-madhyahna-review",evaluations);
+    }
     if(middle.length===1&&dy.some(x=>x.date===middle[0].date))
       return choose(middle[0],"dharmasindhu-madhyahna-dwadashi-with-shravana");
-    if(dy.length===2&&middle.some(x=>x.date===dy[0].date))
-      return choose(dy[0],"dharmasindhu-two-shravana-days-earlier");
     // Earlier midday and later Shravana outside midday.
     if(middle.length===1&&dy.length===1&&middle[0].date<dy[0].date)
       return choose(middle[0],"dharmasindhu-earlier-madhyahna-later-non-madhyahna-shravana");
