@@ -51,7 +51,7 @@ export function buildFestivalIcs(events,now = new Date()) {
   lines.push("END:VCALENDAR");
   return lines.map(fold).join("\r\n")+"\r\n";
 }
-// The ICS serializer above is retained for a future annual download, not exposed in the UI.
+// Individual links are intentionally narrower than the monthly export.
 export function buildGoogleCalendarUrl(item) {
   if (!item || !validPanchangDate(item.date) || typeof item.title !== "string" || !item.title.trim()) return "";
   const end = new Date(item.date + "T00:00:00Z");
@@ -66,16 +66,58 @@ export function buildGoogleCalendarUrl(item) {
   url.searchParams.set("details","OurHinduDharm — प्रकाशित व्रत-पर्व तिथि। स्थानीय मुहूर्त हेतु "+page.href);
   return url.href;
 }
-export function createFestivalCalendarLinks() {
-  let approved = new Map();
+export function isGoogleCalendarFestival(item) {
+  const category = String(item?.category || "").trim();
+  const title = String(item?.title || "");
+  return /^(प्रमुख पर्व|एकादशी)$/.test(category) ||
+    (!/मासिक/.test(title) && /नवरात्र(?:ि)?\s*(?:प्रारंभ|प्रारम्भ|आरंभ|आरम्भ)|घटस्थापना|राम\s*नवमी|महाशिवरात्रि|जन्माष्टमी|गणेश चतुर्थी|हनुमान जयंती|अक्षय तृतीया|करवा चौथ|अहोई अष्टमी|भाई दूज|नरक चतुर्दशी|वट सावित्री|हरतालिका तीज|वसंत पंचमी|बसंत पंचमी|गंगा दशहरा/.test(title));
+}
+export function createFestivalCalendarLinks(eventsEl) {
+  let approved = new Map(), monthlyEvents = [], filename = "";
   const key = item => item.date + "|" + item.title.trim();
+  // One optional bulk download after the list, not another button on each card.
+  let footer, button;
+  if (eventsEl) {
+    const doc = eventsEl.ownerDocument;
+    footer = doc.createElement("div");
+    footer.className = "ohd-calendar-download";
+    footer.hidden = true;
+    footer.style.cssText = "text-align:center;margin:16px 0";
+    button = doc.createElement("button");
+    button.type = "button";
+    button.textContent = "प्रमुख मासिक व्रत-पर्व डाउनलोड (.ics)";
+    button.style.cssText = "min-height:44px;max-width:100%;cursor:pointer";
+    footer.appendChild(button);
+    const note = doc.createElement("p");
+    note.textContent = "कैलेंडर ऐप में आयात करें। स्थानीय मुहूर्त शामिल नहीं हैं।";
+    note.style.cssText = "font-size:12px;margin:5px 0";
+    footer.appendChild(note);
+    eventsEl.insertAdjacentElement("afterend",footer);
+    button.addEventListener("click", () => {
+      if (!monthlyEvents.length) return;
+      const url = URL.createObjectURL(new Blob([buildFestivalIcs(monthlyEvents)],{type:"text/calendar;charset=utf-8"}));
+      const anchor = doc.createElement("a");
+      anchor.href = url;
+      anchor.download = filename;
+      doc.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),30000);
+    });
+  }
   return {
     update(data,year,month) {
-      approved = new Map(approvedCalendarEvents(data,year,month).map(item=>[key(item),buildGoogleCalendarUrl(item)]));
+      monthlyEvents = approvedCalendarEvents(data,year,month);
+      approved = new Map(monthlyEvents.filter(isGoogleCalendarFestival).map(item=>[key(item),buildGoogleCalendarUrl(item)]));
+      filename = monthlyEvents.length ? "OurHinduDharm-"+year+"-"+String(month).padStart(2,"0")+".ics" : "";
+      if (footer) footer.hidden = !monthlyEvents.length;
     },
     urlFor(item) {
       if (!item || item.reviewStatus !== "approved" || item.isLocationEclipse || typeof item.title !== "string") return "";
       return approved.get(key(item)) || "";
+    },
+    monthlyDownload() {
+      return monthlyEvents.length ? {filename,content:buildFestivalIcs(monthlyEvents)} : null;
     }
   };
 }
