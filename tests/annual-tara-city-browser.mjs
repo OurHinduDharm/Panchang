@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   if (!file.startsWith(root + sep)) return res.writeHead(403).end();
   try {
     let data = await readFile(file);
-    if (path === "/annual-tara-city-worker.mjs") {
+    if (path === "/annual-tara-city-worker.mjs" || path === "/daily-tara-planet-worker.mjs") {
       // A worker module fetch bypasses normal page routes. Serve the same pinned
       // npm distribution in CI so the model test does not depend on jsDelivr.
       const cdn = "https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/esm/astronomy.js";
@@ -85,6 +85,20 @@ try {
   assert.match(await rules.nth(0).innerText(), /\(एवं सप्तदिनं दत्त्वा अर्घ्यं प्रागुदयान्मुनेः॥/);
   assert.match(await rules.nth(1).innerText(), /\(आसप्तरात्रादुदयाद्यमस्य दातव्यमेतत्सकलं नरेण।/);
   assert.match(await rules.nth(2).innerText(), /\(कन्यायामागते सूर्येऽर्वाग्वै सप्तमे दिने। कन्यायां समनुप्राप्ते ह्यर्घकालो निवर्तते॥\)/);
+  // Test the production daily worker against the actual annual worker.
+  const daily = await page.evaluate(() => new Promise((resolve,reject)=>{
+    const worker=new Worker("./daily-tara-planet-worker.mjs",{type:"module"});
+    const timer=setTimeout(()=>{worker.terminate();reject(new Error("daily worker timed out"));},30000);
+    worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(new Error(e.message));};
+    worker.onmessage=({data})=>{clearTimeout(timer);worker.terminate();resolve(data);};
+    worker.postMessage({id:17,date:"2027-01-01",location:{latitude:25.3176,longitude:82.9739,elevation:81}});
+  }));
+  assert.equal(daily.id,17);
+  const dailyGuru=daily.windows?.Jupiter;
+  assert.ok(dailyGuru,"daily Guru interval");
+  const annualGuru=located.events.filter(e=>e.body==="Jupiter");
+  assert.equal(dailyGuru.astaUtcMilliseconds,annualGuru.find(e=>e.event==="Asta").utcMilliseconds);
+  assert.equal(dailyGuru.udayaUtcMilliseconds,annualGuru.find(e=>e.event==="Udaya").utcMilliseconds);
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
