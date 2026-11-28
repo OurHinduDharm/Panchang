@@ -662,68 +662,63 @@ import {inPublicFestivalScope} from "./festival-public-scope.mjs";
   async function load() {
     const today = localMidnight(new Date());
     const todayKey = dateKey(today);
-    const endExclusive = new Date(today.getFullYear(), today.getMonth(), today.getDate() + DAYS_AHEAD);
     const lastVisible = new Date(today.getFullYear(), today.getMonth(), today.getDate() + DAYS_AHEAD - 1);
-
-    // Include the prior month so an ongoing multi-day observance is not hidden when its start date has passed.
-    const monthDates = new Map();
-    const addMonth = date => monthDates.set(monthKey(date), new Date(date.getFullYear(), date.getMonth(), 1));
-    addMonth(new Date(today.getFullYear(), today.getMonth() - 1, 1));
-    addMonth(new Date(today.getFullYear(), today.getMonth(), 1));
-    addMonth(new Date(lastVisible.getFullYear(), lastVisible.getMonth(), 1));
-
-    // Read the current year's Chaturmas dates from shared month JSON, not hardcoded dates.
     const currentChaturmasYear = today.getFullYear();
-    for (let month = 5; month <= 10; month++) addMonth(new Date(currentChaturmasYear, month, 1));
 
+    // Cache promises only for this widget load, not in browser storage.
+    const monthRequests = new Map();
+    function requestMonth(date) {
+      const key = monthKey(date);
+      if (!monthRequests.has(key)) {
+        monthRequests.set(key, fetchMonth(new Date(date.getFullYear(), date.getMonth(), 1)));
+      }
+      return monthRequests.get(key);
+    }
+    const visibleMonths = [
+      new Date(today.getFullYear(), today.getMonth() - 1, 1),
+      new Date(today.getFullYear(), today.getMonth(), 1),
+      lastVisible
+    ];
     mount.textContent = "आगामी पर्व लोड हो रहे हैं…";
     try {
-      let responses = await Promise.all(Array.from(monthDates.values()).map(fetchMonth));
-      let allEvents = responses.flatMap(data => data.events || []);
-      let deduped = new Map();
-      allEvents.forEach(item => {
-        const key = [item.date || "", item.title || ""].join("|");
-        if (!deduped.has(key)) deduped.set(key, item);
-      });
-      let items = Array.from(deduped.values());
-
-      // Keep this year's card through its reviewed Dwadashi visibility date,
-      // not merely through the Devotthani Ekadashi event date.
-      const currentEnd = items.find(item => {
-        const d = parseDate(item.date);
-        return d && d.getFullYear() === currentChaturmasYear &&
-          !/वैष्णव|गौण/i.test(item.title || "") &&
-          /देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
-      });
-      let chaturmasYear = currentChaturmasYear;
-      let chaturmasConfig = await fetchChaturmasConfig(currentChaturmasYear);
-      let currentVisibleThrough = currentEnd && parseDate(chaturmasConfig && chaturmasConfig.cardVisibleThroughDate);
-      if (currentEnd && !currentVisibleThrough) {
-        currentVisibleThrough = parseDate(currentEnd.date);
-        currentVisibleThrough.setDate(currentVisibleThrough.getDate() + 2);
-      }
-      if (!currentEnd || dateKey(currentVisibleThrough) < todayKey) {
-        chaturmasYear = currentChaturmasYear + 1;
-        const nextYearMonths = [];
-        for (let month = 5; month <= 10; month++) {
-          nextYearMonths.push(fetchMonth(new Date(chaturmasYear, month, 1)));
+      // Read the small date window and annual config concurrently.
+      const [, chaturmasConfig] = await Promise.all([
+        Promise.all(visibleMonths.map(requestMonth)),
+        fetchChaturmasConfig(currentChaturmasYear)
+      ]);
+      const start = chaturmasConfig && parseDate(chaturmasConfig.startDate);
+      const end = chaturmasConfig && parseDate(chaturmasConfig.endDate);
+      const through = chaturmasConfig && parseDate(chaturmasConfig.cardVisibleThroughDate);
+      const approvedWindow = chaturmasConfig && chaturmasConfig.status === "approved" &&
+        Number(chaturmasConfig.year) === currentChaturmasYear && start && end && through &&
+        dateKey(start) <= dateKey(end) && dateKey(end) <= dateKey(through);
+      if (approvedWindow) {
+        // The card is hidden outside the approved window. Fetch only its boundary
+        // months (and preceding dates in case the Ekadashi is in the prior month).
+        if (dateKey(start) <= todayKey && todayKey <= dateKey(through)) {
+          for (const date of [start,end]) {
+            requestMonth(date);
+            requestMonth(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1));
+          }
         }
-        const nextYearData = await Promise.all(nextYearMonths);
-        allEvents = allEvents.concat(nextYearData.flatMap(data => data.events || []));
-        deduped = new Map();
-        allEvents.forEach(item => {
-          const key = [item.date || "", item.title || ""].join("|");
-          if (!deduped.has(key)) deduped.set(key, item);
-        });
-        items = Array.from(deduped.values());
-        chaturmasConfig = await fetchChaturmasConfig(chaturmasYear);
+      } else {
+        // Preserve the original current-year catalogue fallback when config is unavailable.
+        for (let month = 5; month <= 10; month++) requestMonth(new Date(currentChaturmasYear,month,1));
       }
-
-      const chaturmasEvents = items.filter(item => {
-        const d = parseDate(item.date);
-        return d && d.getFullYear() === chaturmasYear;
+      const responses = await Promise.all(monthRequests.values());
+      const deduped = new Map();
+      responses.flatMap(data=>data.events || []).forEach(item=>{
+        const key = [item.date || "",item.title || ""].join("|");
+        if (!deduped.has(key)) deduped.set(key,item);
       });
-      render(items, today, chaturmasEvents, chaturmasConfig, 0);
+      const items = Array.from(deduped.values());
+      // Next year's Chaturmas cannot be visible today; do not download its catalogue.
+      const chaturmasEvents = approvedWindow && (todayKey < dateKey(start) || todayKey > dateKey(through))
+        ? [] : items.filter(item=>{
+          const d = parseDate(item.date);
+          return d && d.getFullYear() === currentChaturmasYear;
+        });
+      render(items,today,chaturmasEvents,chaturmasConfig,0);
     } catch (_) {
       mount.textContent = "अभी आगामी पर्व लोड नहीं हो पाए।";
     }
