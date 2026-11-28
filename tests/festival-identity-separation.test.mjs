@@ -112,7 +112,7 @@ test("independent saint jayantis are not merged with each other or Purnima", () 
 
 
 test("Bala Siddhavidya denotes Bala Tripurasundari; no unrelated ritual or muhurta is inherited",()=>{
-  for(const [year,m,date] of [[2026,12,"2026-12-07"],[2030,11,"2030-11-24"]]){
+  for(const [year,m,date] of [[2026,12,"2026-12-07"],[2027,11,"2027-11-27"],[2028,11,"2028-11-15"],[2029,12,"2029-12-04"],[2030,11,"2030-11-24"]]){
     const events=month(year,m);
     const bala=events.find(e=>e.date===date&&e.title==="श्री बाला सिद्धविद्या जयंती");
     assert.ok(bala);
