@@ -15,6 +15,7 @@ import {
 import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,resolveTrisprishaSourcePrecedence} from "./ekadashi-trisprisha.mjs";
 
 import {completeDay} from "./festival-tithi-partitions.mjs";
+import {reviewVamanaJayanti} from "./vamana-jayanti.mjs";
 import {selectYamaDvitiyaDay} from "./yama-dvitiya.mjs";
 import {resolveShuklaManvadiCycles} from "./manvadi-observances.mjs";
 
@@ -190,6 +191,13 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
       return { ...context, tithis: [...beforeSunrise, ...context.tithis] };
     })
     : contexts;
+  if(profile.id==="vamana-jayanti-madhyahna-review"){
+    if(monthKind==="adhika"||(requestedMonth&&requestedMonth!=="भाद्रपद"))
+      return fail("manual-review",observance,["vamana-regular-bhadrapada-only"]);
+    const evidence=reviewVamanaJayanti(normalizeAnnualTrisprishaPartitions(contexts));
+    return {...fail(evidence.status,observance,evidence.warnings),...evidence,
+      ruleType:"tithi",ruleVersion:profile.ruleVersion};
+  }
   const candidateContexts = ruleContexts.filter(context => {
     const rawMonth = String(context.masa ?? "").trim();
     const normalizedMonth = rawMonth.replace(/^अधिक\s+/, "").trim();
