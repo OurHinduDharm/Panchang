@@ -555,7 +555,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts, options =
   if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(scopedContexts);
   if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(scopedContexts);
   if (profileId === "narasimha-jayanti-smarta-review") return resolveNarasimhaJayantiCandidates(scopedContexts);
-  if (profileId === "parashurama-jayanti-pradosha-review") return resolveParashuramaJayantiCandidates(scopedContexts);
+  if (profileId === "parashurama-jayanti-pradosha-review") return resolveParashuramaJayantiCandidates(scopedContexts, options.parashuramaSourcePolicy);
   if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(scopedContexts);
   const dates = scopedContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
@@ -950,9 +950,10 @@ export function calculateEkadashiParanaWindow(context = {}) {
  * Compare explicit readings; only common candidates are returned.
  * Keep the existing profile id for catalogue compatibility.
  */
-export function resolveParashuramaJayantiCandidates(candidateDays) {
+export function resolveParashuramaJayantiCandidates(candidateDays, sourcePolicy = "source-agreement") {
   const ruleId="parashurama-jayanti-pradosha-review";
   const fail=(status,warnings,evaluations=[])=>({status,ruleId,evaluations,selectedDate:null,finalDate:null,autoApproved:false,warnings});
+  if(!["source-agreement","dharmasindhu-first-yama"].includes(sourcePolicy))return fail("manual-review",["unknown-parashurama-source-policy"]);
   if(!Array.isArray(candidateDays)||candidateDays.length!==2)
     return fail("insufficient-data",["exactly-two-consecutive-local-days-required"]);
   const days=candidateDays.slice().sort((a,b)=>String(a?.date??"").localeCompare(String(b?.date??"")));
@@ -1001,6 +1002,17 @@ export function resolveParashuramaJayantiCandidates(candidateDays) {
   const pradoshaDays=evaluations.filter(x=>x.tritiyaPradoshaCoverageMs>0);
   const firstYamaCandidate=yamaDays.at(-1)?.date??null;
   const nirnayaFallbackReading=pradoshaDays.length===2?info[1].date:info[0].date;
+  // Explicit source preference only, not an implicit reinterpretation of Nirnayasindhu.
+  // Dharmasindhu distinguishes the date's first-yama criterion from Pradosha worship.
+  // Do not invent a fallback when neither first yama has Tritiya.
+  if(sourcePolicy==="dharmasindhu-first-yama"){
+    if(days.some(d=>d.masa!=="वैशाख"))return fail("manual-review",["regular-vaishakha-only-for-explicit-policy"],evaluations);
+    if(!firstYamaCandidate)return fail("manual-review",["neither-first-yama-covered"],evaluations);
+    return {status:"date-selected-needs-source-approval",ruleId,selectedDate:firstYamaCandidate,finalDate:firstYamaCandidate,
+      selectionBasis:"parashurama-dharmasindhu-first-yama-explicit",
+      evaluations,warnings:["explicit-dharmasindhu-source-preference","pradosha-puja-window-separate","source-and-publication-approval-required"],
+      autoApproved:false,publishable:false};
+  }
   // Second-only and neither-day cases cannot be settled by assuming the
   // scope of "anyathā pūrvā"; do not promote the legacy earlier-day guess.
   if(!firstYamaCandidate||firstYamaCandidate!==nirnayaFallbackReading||
