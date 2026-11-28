@@ -51,15 +51,32 @@ function scanAnnualStarProfiles(engine, observer, startLocalDayUtc, profiles) {
   return {predictions, starScans};
 }
 
-// Lightweight annual Udaya only, using exactly the same star scan as the annual page.
-export function calculateAnnualAgastyaRise(engine, location, year, profiles) {
+// Lightweight Canopus-only calculation; exactly the same scan as the annual page.
+export function calculateAnnualAgastyaEvents(engine, location, year, profiles) {
   const {astronomyObserver} = createTaraContextFromPanchangLocation(location,engine.Observer,year);
   const start = Date.parse(`${year}-01-01T00:00:00+05:30`);
   const end = Date.parse(`${year+1}-01-01T00:00:00+05:30`);
-  const {predictions} = scanAnnualStarProfiles(engine,astronomyObserver,start,
-    profiles.filter(p=>p.key.startsWith("Star1|rise|Udaya|")));
-  const events = predictions.filter(e=>e.event==="Udaya" && e.utcMilliseconds>=start && e.utcMilliseconds<end);
-  return events.length===1 ? events[0].utcMilliseconds : null;
+  const {predictions} = scanAnnualStarProfiles(engine,astronomyObserver,start,profiles);
+  const result = {};
+  for (const type of ["Asta","Udaya"]) {
+    const events = predictions.filter(e=>e.event===type && e.utcMilliseconds>=start && e.utcMilliseconds<end);
+    result[type] = events.length===1 ? events[0].utcMilliseconds : null;
+  }
+  return result;
+}
+
+// A missing or ambiguous current-year event must never be replaced with a
+// later year's event as if it were known to be the next occurrence.
+export function nextAgastyaEvents(current, following, selectedStart) {
+  const result = {Asta:null,Udaya:null};
+  if (!Number.isFinite(selectedStart)) return result;
+  for (const type of ["Asta","Udaya"]) {
+    const value = current?.[type];
+    if (!Number.isFinite(value)) continue;
+    if (value >= selectedStart) result[type] = value;
+    else if (Number.isFinite(following?.[type]) && following[type] >= selectedStart) result[type] = following[type];
+  }
+  return result;
 }
 
 // The scan receives fitted profiles and the selected city's fixed observer profile.
