@@ -5141,8 +5141,16 @@ function specialPunyaKaalDateTime(value){
   return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(value));
 }
 // Both GitHub Pages and Blogger direct readers to the canonical Blogger page.
-function specialPunyaKaalMonthUrl(year,month){
-  return "https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year="+year+"&month="+String(month).padStart(2,"0")+"#special-punya-kaal";
+function specialPunyaKaalMonthUrl(year,month,event){
+  const url=new URL("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html");
+  url.searchParams.set("year",String(year));
+  url.searchParams.set("month",String(month).padStart(2,"0"));
+  if(event?.isMahapata&&/^\d{4}-\d{2}-\d{2}$/.test(event.date)&&["vyatipata-mahapat","vaidhriti-mahapat"].includes(event.type)){
+    url.searchParams.set("specialFocus",event.date);
+    url.searchParams.set("specialType",event.type);
+  }
+  url.hash="special-punya-kaal";
+  return url.href;
 }
 function syncSpecialPunyaKaalLinks(grid){
   const upcoming=grid.querySelector(".upcoming-mahapata-card a");
@@ -5210,7 +5218,7 @@ async function appendSpecialPunyaKaalMonthLink(dateString,request){
       card.appendChild(detail);
     });
     const link=document.createElement("a");
-    link.href=specialPunyaKaalMonthUrl(year,month);
+    link.href=specialPunyaKaalMonthUrl(year,month,visible.find(item=>item.isMahapata));
     if(visible.every(item=>!item.isMahapata)){
       const target=visible[0];
       const url=new URL(specialPunyaKaalMonthUrl(target.date.slice(0,4),target.date.slice(5,7)));
@@ -5263,7 +5271,7 @@ function scheduleUpcomingMahapata(dateString, request, resultGrid){
       const link=document.createElement("a");
       // An active window may have begun in the previous month; link to the month displaying it today.
       const linkDate=event.phase==="active"?dateString:event.date;
-      link.href=specialPunyaKaalMonthUrl(linkDate.slice(0,4),linkDate.slice(5,7));
+      link.href=specialPunyaKaalMonthUrl(linkDate.slice(0,4),linkDate.slice(5,7),event);
       link.textContent="समय एवं धार्मिक महत्त्व देखें →";
       card.replaceChildren(heading,name,date,times,guidance,link);card.hidden=false;
       if(!card.isConnected)resultGrid.appendChild(card);
