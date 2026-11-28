@@ -205,7 +205,7 @@ test("real Pithoragarh 2030 Mohini has Dwadashi ksaya and separate candidate dat
   const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
   const report=buildEkadashiTrisprishaReview(annual);
   const result=report.occurrences.find(x=>x.sunriseDates[1]==="2030-05-14"&&x.index===10);
-  assert.ok(result,"Mohini Trisprisha evidence must be derived from local data");
+  assert.ok(result,"Mohini Trisprisha evidence must be derived from local data: "+JSON.stringify(report.incomplete));
   assert.deepEqual(result.sunriseSequence,[9,10,12]);
   assert.equal(result.candidates.smartaHouseholderEarlier,"2030-05-13");
   assert.equal(result.candidates.mumukshuVaishnavaLater,"2030-05-14");

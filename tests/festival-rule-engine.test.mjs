@@ -438,3 +438,18 @@ test("2030 Pithoragarh Vikata Sankashti uses the documented no-moonrise-coverage
   assert.equal(result.selectionBasis,"dharmasindhu-neither-moonrise-later-day");
   assert.equal(result.publishable,false);
 });
+
+test("annual Ekadashi adapter recognizes real Mohini Trisprisha and selects only an explicit householder policy",async()=>{
+ const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+ const descriptor={id:"mohini",dateType:"tithi",ruleId:"ekadashi-smarta-udaya",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:10};
+ const unresolved=resolveFestivalObservanceFromAnnualPanchang(descriptor,2030,annual.dailyPanchang);
+ assert.equal(unresolved.status,"manual-review");
+ assert.equal(unresolved.selectedDate,null);
+ assert.equal(unresolved.evaluations[0].candidates.smartaHouseholderEarlier,"2030-05-13");
+ const result=resolveFestivalObservanceFromAnnualPanchang({...descriptor,ekadashiTradition:"smarta-householder"},2030,annual.dailyPanchang);
+ assert.equal(result.selectedDate,"2030-05-13");
+ assert.equal(result.selectionBasis,"dharmasindhu-ekadashi-only-vriddhi-smarta-householder-earlier");
+ assert.equal(result.publishable,false);
+ assert.equal(result.autoApproved,false);
+ assert.ok(result.warnings.includes("trisprisha-householder-date-only-special-parana-review-required"));
+});

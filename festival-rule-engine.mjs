@@ -12,6 +12,8 @@ import {
   resolveObservanceCandidates
 } from "./festival-observance-rules.mjs";
 
+import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle} from "./ekadashi-trisprisha.mjs";
+
 export const FESTIVAL_RULE_ENGINE_VERSION = "1.0.0";
 
 const TITHI_ORDINAL = new Map([
@@ -176,6 +178,33 @@ export function resolveFestivalObservanceFromAnnualPanchang(observance, year, da
   });
   if (!candidateContexts.length) {
     return fail("candidate-not-supported", observance, ["no-annual-day-contains-the-profile-tithi"]);
+  }
+  // A sunrise-only rule must not silently approve a Dvadashi-ksaya exception.
+  // Only an explicitly scoped, single-cycle Smarta householder policy can
+  // select the earlier candidate; other traditions remain separate evidence.
+  if(profile.id==="ekadashi-smarta-udaya"&&targetIndices.length===1){
+    const index=targetIndices[0];
+    const normalized=normalizeAnnualTrisprishaPartitions(contexts);
+    const candidateDates=new Set(candidateContexts.map(d=>d.date));
+    const special=[];
+    for(let i=1;i<normalized.length-1;i++){
+      const day=normalized[i];
+      if(!candidateDates.has(day.date))continue;
+      const result=reviewTrisprishaSunriseCycle(normalized.slice(i-1,i+2),index);
+      if(result.status==="source-review-required"||
+         result.status==="manual-review"&&result.sunriseSequence?.join(",")===[index-1,index,index+2].join(","))special.push(result);
+    }
+    if(special.length){
+      const evidence=special[0];
+      const cycleOnly=special.length===1&&evidence.sunriseDates&&candidateContexts.every(d=>evidence.sunriseDates.slice(0,2).includes(d.date));
+      if(cycleOnly&&evidence.status==="source-review-required"&&observance.ekadashiTradition==="smarta-householder"&&candidateDates.has(evidence.candidates.smartaHouseholderEarlier)){
+        const selectedDate=evidence.candidates.smartaHouseholderEarlier;
+        return {...fail("date-selected-needs-source-approval",observance,["trisprisha-householder-date-only-special-parana-review-required","source-and-publication-approval-required"]),
+          selectedDate,finalDate:selectedDate,selectionBasis:"dharmasindhu-ekadashi-only-vriddhi-smarta-householder-earlier",
+          evaluations:special,ruleType:"tithi",ruleVersion:profile.ruleVersion};
+      }
+      return fail("manual-review",observance,["trisprisha-dwadashi-ksaya-explicit-tradition-and-complete-cycle-required"],{evaluations:special,ruleType:"tithi",ruleVersion:profile.ruleVersion});
+    }
   }
   return resolveFestivalObservance(observance, year, candidateContexts);
 }
