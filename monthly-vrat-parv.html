@@ -1007,12 +1007,12 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
     applyFilters();
   }
   let specialCalendar;
-  async function scheduleSpecialPunyaKaal(year,month){
+  async function scheduleSpecialPunyaKaal(year,month,layoutReady){
     try{
       const {createMonthlySpecialCalendar}=await import("./monthly-special-punya-kaal.mjs");
       if(Number(yearSelect.value)!==year||Number(monthSelect.value)!==month)return;
       specialCalendar??=createMonthlySpecialCalendar(getLocalLocation,yearSelect,monthSelect,eventsEl);
-      specialCalendar(year,month);
+      specialCalendar(year,month,layoutReady);
     }catch(error){console.warn("Special calendar unavailable",error);}
   }
   async function loadMonth(preserveViewportAnchor){
@@ -1033,7 +1033,9 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
     activeMonthRequest=controller;
     var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
-    scheduleSpecialPunyaKaal(year,month);
+    var finishSpecialLayout;
+    var specialLayoutReady=new Promise(resolve=>{finishSpecialLayout=resolve;});
+    scheduleSpecialPunyaKaal(year,month,specialLayoutReady);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
     eventsEl.replaceChildren();
@@ -1062,6 +1064,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
       }
       restoreViewportAnchor();
     }finally{
+      finishSpecialLayout();
       clearTimeout(timeoutId);
       if(token===requestToken)activeMonthRequest=null;
     }
