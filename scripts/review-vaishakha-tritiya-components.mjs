@@ -45,6 +45,9 @@ export function buildVaishakhaTritiyaComponentReview(annual) {
   const akshaya=reviewAkshayaTritiya(days);
   const parashurama=resolveFestivalObservanceFromAnnualPanchang({id:"parashurama-jayanti",dateType:"tithi",
     ruleId:"parashurama-jayanti-pradosha-review",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:2},annual.year,annual.dailyPanchang);
+  const dharmasindhuPolicy=resolveFestivalObservanceFromAnnualPanchang({id:"parashurama-jayanti",dateType:"tithi",
+    ruleId:"parashurama-jayanti-pradosha-review",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:2,
+    parashuramaSourcePolicy:"dharmasindhu-first-yama"},annual.year,annual.dailyPanchang);
   const diagnostic=reviewParashuramaNightEvidence(days);
   const legacyCandidateDate=diagnostic.evidence.length===2?(diagnostic.evidence.every(e=>e.threeNightMuhurtasCoverageMs>0)?diagnostic.evidence[1].date:diagnostic.evidence[0].date):null;
   const comparison=reviewParashuramaNightEvidence(days,legacyCandidateDate);
@@ -56,7 +59,9 @@ export function buildVaishakhaTritiyaComponentReview(annual) {
         sharedRuleCandidateDate:parashurama.selectedDate??null,sharedRuleStatus:parashurama.status,
         candidateDate:comparison.candidateDate&&comparison.candidateDate===parashurama.selectedDate?comparison.candidateDate:null,
         status:comparison.candidateDate&&comparison.candidateDate===parashurama.selectedDate?comparison.status:"manual-review",
-        sharedRuleEvidence:parashurama.evaluations},
+        sharedRuleEvidence:parashurama.evaluations,
+        dharmasindhuPolicyCandidateDate:dharmasindhuPolicy.selectedDate,
+        dharmasindhuPolicyStatus:dharmasindhuPolicy.status},
       {id:"yugadi-shraddha",candidateDate:null,status:"manual-review",reason:"separate ritual decision and competing yuga names; see #545",publishable:false},
       {id:"matangi-jayanti",candidateDate:null,status:"manual-review",reason:"independent ritual-window source required",publishable:false}
     ]};
