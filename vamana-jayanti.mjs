@@ -25,6 +25,17 @@ export function reviewVamanaJayanti(days) {
       start:ms(x.startTime??x.start),end:ms(x.endTime??x.end)}))
       .filter(x=>Number.isInteger(x.index)&&x.index>=0&&x.index<27&&x.end>x.start)
       .sort((x,y)=>x.start-y.start);
+    // Annual scanner advances its cursor by exactly one minute after a
+    // transition (same convention as the annual tithi partition adapter).
+    // Repair only consecutive nakshatra indices with an exact 60000 ms gap.
+    const normalizedCursorGaps=[];
+    for(let i=1;i<n.length;i++){
+      const prev=n[i-1],next=n[i];
+      if(next.index===(prev.index+1)%27&&next.start-prev.end===60000){
+        normalizedCursorGaps.push({index:next.index,oldStart:new Date(next.start).toISOString(),newStart:new Date(prev.end).toISOString()});
+        next.start=prev.end;
+      }
+    }
     // Absence of Shravana must be established by complete nakshatra coverage
     // over the relevant tithis, not inferred from an empty or truncated array.
     const covered=t.every(x=>{
@@ -45,7 +56,7 @@ export function reviewVamanaJayanti(days) {
     const sum=(i,shravana)=>t.filter(x=>x.index===i).reduce((s,x)=>s+
       (shravana?n.filter(y=>y.index===21).reduce((z,y)=>z+overlap(ms(x.startTime),ms(x.endTime),y.start,y.end),0):
         overlap(ms(x.startTime),ms(x.endTime),a+(b-a)*2/5,a+(b-a)*3/5)),0);
-    evaluations.push({date:d.date,nakshatraComplete:covered&&consistent,nakshatraGaps,relevantTithis,nakshatraBounds,
+    evaluations.push({date:d.date,nakshatraComplete:covered&&consistent,normalizedCursorGaps,nakshatraGaps,relevantTithis,nakshatraBounds,
       dwadashiMadhyahnaMs:sum(11,false),dwadashiShravanaMs:sum(11,true),ekadashiShravanaMs:sum(10,true),
       ekadashiAtSunrise:d.tithis[0]?.index===10,
       ekadashiYuktaDwadashi:t.some(x=>x.index===10)&&t.some(x=>x.index===11)});
