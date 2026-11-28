@@ -144,7 +144,7 @@ try {
       });
       await page.waitForFunction(()=>{
         const card=document.querySelector(".special-kaal-card");
-        return card&&Math.abs(card.getBoundingClientRect().top-100)<=12;
+        return card&&Math.abs(scrollY-Math.min(Math.max(0,card.getBoundingClientRect().top+scrollY-100),Math.max(0,document.scrollingElement.scrollHeight-innerHeight)))<=12;
       });
       // A second hash navigation without reloading the module works too.
       await page.evaluate(()=>{location.hash="";});
@@ -152,7 +152,7 @@ try {
       await page.evaluate(()=>{window.scrollTo(0,0);location.hash="special-punya-kaal";});
       await page.waitForFunction(()=>{
         const card=document.querySelector(".special-kaal-card");
-        return card?.style.outline&&Math.abs(card.getBoundingClientRect().top-100)<=12;
+        return card?.style.outline&&Math.abs(scrollY-Math.min(Math.max(0,card.getBoundingClientRect().top+scrollY-100),Math.max(0,document.scrollingElement.scrollHeight-innerHeight)))<=12;
       });
       // User scroll cancels late corrections; another layout shift must
       // not pull them back after they have chosen a different position.
