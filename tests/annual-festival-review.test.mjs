@@ -110,7 +110,7 @@ test("same-year comparison distinguishes matches, date differences, and unresolv
 });
 
 import {readFile} from "node:fs/promises";
-import {reviewAkshayaTritiya,buildVaishakhaTritiyaComponentReview} from "../scripts/review-vaishakha-tritiya-components.mjs";
+import {reviewAkshayaTritiya,reviewParashuramaNightEvidence,buildVaishakhaTritiyaComponentReview} from "../scripts/review-vaishakha-tritiya-components.mjs";
 function tritiyaDays(start,end){
   const first="2030-05-04",second="2030-05-05",finish="2030-05-06";
   const day=(date,next)=>{
@@ -148,8 +148,26 @@ test("real 2030 composite does not assign Parashurama's date to Akshaya, Yugadi 
  const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
  const result=buildVaishakhaTritiyaComponentReview(annual);
  assert.equal(result.components[0].candidateDate,"2030-05-05");
- assert.equal(result.components[1].candidateDate,"2030-05-04");
+ assert.equal(result.components[1].candidateDate,null);
+ assert.equal(result.components[1].legacyCandidateDate,"2030-05-04");
+ assert.equal(result.components[1].firstYamaCandidateDate,"2030-05-05");
+ assert.equal(result.components[1].evidence[0].firstYamaCoverageMs,0);
+ assert.ok(result.components[1].evidence[1].firstYamaCoverageMs>0);
  assert.ok(result.components.slice(2).every(r=>r.candidateDate===null));
  assert.ok(result.components.every(r=>r.publishable===false));
  console.log("VAISHAKHA_TRITIYA_COMPONENTS="+JSON.stringify(result));
+});
+
+test("first-yama evidence distinguishes a quarter-night from three night muhurtas",()=>{
+  const days=tritiyaDays(Date.parse("2030-05-04T14:30:00Z"),Date.parse("2030-05-05T13:00:00Z"));
+  const r=reviewParashuramaNightEvidence(days,"2030-05-04");
+  assert.equal(r.evidence[0].threeNightMuhurtasCoverageMs,0);
+  assert.equal(r.evidence[0].firstYamaCoverageMs,30*60*1000);
+  assert.equal(r.firstYamaCandidateDate,"2030-05-05");
+  assert.equal(r.candidateDate,null);
+  assert.equal(reviewParashuramaNightEvidence(days,"2030-05-05").candidateDate,"2030-05-05");
+  const incomplete=structuredClone(days);incomplete[1].tithis.pop();
+  assert.equal(reviewParashuramaNightEvidence(incomplete,"2030-05-05").candidateDate,null);
+  const broken=structuredClone(days);broken[0].tithis[1].endTime="2030-05-04T23:00:00Z";
+  assert.equal(reviewParashuramaNightEvidence(broken,"2030-05-05").candidateDate,null);
 });

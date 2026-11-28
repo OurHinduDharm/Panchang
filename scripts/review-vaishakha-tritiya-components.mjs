@@ -55,6 +55,42 @@ export function reviewAkshayaTritiya(days) {
     reason:candidateDate?"source-variants-agree":"no-purvahna-or-source-variants-disagree",
     evidence,publishable:false};
 }
+// Compare the literal first-yama (quarter of the local night) with the
+// pre-existing three-night-muhurta Pradosha convention. This is evidence,
+// not a new approved vrata rule: the two Sanskrit passages differ in wording.
+export function reviewParashuramaNightEvidence(days,legacyCandidateDate=null) {
+  const fail=reason=>({status:"manual-review",candidateDate:null,legacyCandidateDate,reason,evidence:[],publishable:false});
+  if(!Array.isArray(days)||!days.length||days.length>2)return fail("one-or-two-local-tithi-days-required");
+  const ordered=days.slice().sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  if(ordered.length===2&&Date.parse(ordered[1].date)-Date.parse(ordered[0].date)!==86400000)return fail("nonconsecutive-days");
+  const evidence=ordered.map(day=>{
+    const sunrise=dateMs(day.sunrise),sunset=dateMs(day.sunset),next=dateMs(day.nextSunrise);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(day.date??"")||day.masa!=="वैशाख"||
+      ![sunrise,sunset,next].every(Number.isFinite)||!(sunrise<sunset&&sunset<next)||!Array.isArray(day.tithis))return null;
+    const rows=day.tithis.map(r=>({index:r.index,a:dateMs(r.startTime??r.start),b:dateMs(r.endTime??r.end)}));
+    if(rows.some(r=>!Number.isInteger(r.index)||!Number.isFinite(r.a)||!Number.isFinite(r.b)||r.b<=r.a))return null;
+    const yamaEnd=Math.floor(sunset+(next-sunset)/4);
+    const pradoshaEnd=Math.floor(sunset+(next-sunset)*3/15);
+    const all=rows.map(r=>[r.a,r.b]), tritiya=rows.filter(r=>r.index===2).map(r=>[r.a,r.b]);
+    if(!tritiya.length||coverage(all,sunset,yamaEnd)!==yamaEnd-sunset)return null;
+    return {date:day.date,sunset:new Date(sunset).toISOString(),
+      firstYamaEnd:new Date(yamaEnd).toISOString(),pradoshaEnd:new Date(pradoshaEnd).toISOString(),
+      firstYamaCoverageMs:coverage(tritiya,sunset,yamaEnd),
+      threeNightMuhurtasCoverageMs:coverage(tritiya,sunset,pradoshaEnd),
+      tritiyaParts:tritiya.map(([a,b])=>[Math.max(a,sunrise),Math.min(b,next)]).filter(([a,b])=>a<b)};
+  });
+  if(evidence.some(e=>!e))return fail("missing-or-incomplete-night-evidence");
+  if(union(evidence.flatMap(e=>e.tritiyaParts)).length!==1)return fail("discontinuous-tritiya-cycle");
+  const covered=evidence.filter(e=>e.firstYamaCoverageMs>0);
+  // Diagnostic reading of Dharmasindhu: choose the only covered day,
+  // or the later if both have first-yama coverage. No no-coverage fallback.
+  const firstYamaCandidateDate=covered.at(-1)?.date??null;
+  const candidateDate=firstYamaCandidateDate&&firstYamaCandidateDate===legacyCandidateDate?firstYamaCandidateDate:null;
+  return {status:candidateDate?"source-consistent-candidate":"manual-review",candidateDate,legacyCandidateDate,
+    firstYamaCandidateDate,reason:candidateDate?"legacy-and-first-yama-evidence-agree":firstYamaCandidateDate?"legacy-and-first-yama-disagree":"neither-first-yama-covered",
+    evidence:evidence.map(({tritiyaParts,...e})=>e),publishable:false};
+}
+
 export function buildVaishakhaTritiyaComponentReview(annual) {
   const days=buildFestivalRuleContexts(annual?.dailyPanchang).filter(d=>d.masa==="वैशाख"&&d.tithis.some(r=>r.index===2));
   const akshaya=reviewAkshayaTritiya(days);
@@ -64,9 +100,8 @@ export function buildVaishakhaTritiyaComponentReview(annual) {
     sourceCardScope:"Vaishakha Shukla Tritiya composite; review each component separately",
     components:[
       {id:"akshaya-tritiya",...akshaya},
-      {id:"parashurama-jayanti",candidateDate:parashurama.selectedDate??null,status:parashurama.status,
-        evidence:parashurama.evaluations,selectionBasis:parashurama.selectionBasis,
-        reason:"existing pradosha resolver; first-yama vs three-night-muhurta boundary still needs separate audit",publishable:false},
+      {id:"parashurama-jayanti",...reviewParashuramaNightEvidence(days,parashurama.selectedDate??null),
+        legacySelectionBasis:parashurama.selectionBasis,legacyEvidence:parashurama.evaluations},
       {id:"yugadi-shraddha",candidateDate:null,status:"manual-review",reason:"separate ritual decision and competing yuga names; see #545",publishable:false},
       {id:"matangi-jayanti",candidateDate:null,status:"manual-review",reason:"independent ritual-window source required",publishable:false}
     ]};
