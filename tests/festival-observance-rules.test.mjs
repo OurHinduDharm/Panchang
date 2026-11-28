@@ -885,3 +885,22 @@ test("Dharmasindhu Sankashti fallback selects the later day only with a continuo
     [days[0], {...days[1], tithis:[interval(18,"2030-04-21T01:00:00Z","2030-04-21T13:30:00Z","कृष्ण पक्ष")]}]
   ]) assert.equal(resolveObservanceCandidates("sankashti-moonrise",invalid).finalDate, null);
 });
+
+
+test("explicit Dharmasindhu first-yama preference selects the covered later date without approving it",()=>{
+  const days=parashuramaPair(Date.parse("2030-05-08T19:00:00Z"),Date.parse("2030-05-09T13:00:00Z"));
+  const opts={parashuramaSourcePolicy:"dharmasindhu-first-yama"};
+  const r=resolveObservanceCandidates("parashurama-jayanti",days,opts);
+  assert.equal(r.selectedDate,"2030-05-09");
+  assert.equal(r.selectionBasis,"parashurama-dharmasindhu-first-yama-explicit");
+  assert.equal(r.autoApproved,false);
+  assert.equal(r.publishable,false);
+  assert.equal(resolveObservanceCandidates("parashurama-jayanti",days).selectedDate,null);
+  assert.equal(resolveObservanceCandidates("parashurama-jayanti",days,{parashuramaSourcePolicy:"unknown"}).selectedDate,null);
+  const incomplete=structuredClone(days);incomplete[1].tithis.pop();
+  assert.equal(resolveObservanceCandidates("parashurama-jayanti",incomplete,opts).selectedDate,null);
+  const adhika=days.map(d=>({...d,masa:"अधिक वैशाख"}));
+  assert.equal(resolveObservanceCandidates("parashurama-jayanti",adhika,opts).selectedDate,null);
+  const neither=parashuramaPair(Date.parse("2030-05-08T16:00:00Z"),Date.parse("2030-05-09T11:00:00Z"));
+  assert.equal(resolveObservanceCandidates("parashurama-jayanti",neither,opts).selectedDate,null);
+});

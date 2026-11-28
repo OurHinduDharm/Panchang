@@ -320,7 +320,8 @@ export function resolveFestivalObservance(observance, year, candidateContexts = 
   }
   const resolved = resolveObservanceCandidates(profile.id, candidateContexts, {
     targetTithiIndex: observance.targetTithiIndex,
-    targetTithiIndices: observance.targetTithiIndices
+    targetTithiIndices: observance.targetTithiIndices,
+    parashuramaSourcePolicy: observance.parashuramaSourcePolicy
   });
   return {
     engineVersion: FESTIVAL_RULE_ENGINE_VERSION,
