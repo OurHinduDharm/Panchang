@@ -29,6 +29,46 @@ export function normalizeAnnualTrisprishaPartitions(days){
     return {...day,tithis:rows};
   });
 }
+// Diagnostic ritual windows, not a published Parana prescription.
+// Dharmasindhu/Nirnayasindhu: first quarter of Dwadashi is Hari Vasara;
+// some authorities prefer the first 3 daylight muhurtas, others Aparahna.
+// Keep Aparahna (fourth fifth) separate from the broader post-Madhyahna window.
+export function reviewTrisprishaParanaWindows(days,index){
+  const fail=reason=>({status:"manual-review",reason,publishable:false,approvedWindow:null});
+  const cycle=reviewTrisprishaSunriseCycle(days,index);
+  if(cycle.status!=="source-review-required")return fail("complete-trisprisha-cycle-required");
+  const [,early,late]=days;
+  const [a,b]=[ms(early.sunrise),ms(early.sunset)];
+  const [c,d]=[ms(late.sunrise),ms(late.sunset)];
+  const ds=ms(cycle.dwadashi.start),de=ms(cycle.dwadashi.end);
+  if(![a,b,c,d,ds,de].every(Number.isFinite)||!(a<b&&b<c&&c<d&&a<ds&&ds<de&&de<c))
+    return fail("complete-local-daylight-and-dwadashi-interval-required");
+  const hv=Math.floor(ds+(de-ds)/4);
+  const boundary=(start,end,k)=>Math.floor(start+(end-start)*k/5);
+  const interval=(start,end)=>end>start?{start:iso(start),end:iso(end)}:null;
+  const overlap=(start,end)=>interval(Math.max(start,ds,hv),Math.min(end,de,b));
+  const pratah=overlap(a,boundary(a,b,1));
+  const aparahna=overlap(boundary(a,b,3),boundary(a,b,4));
+  const postMadhyahna=overlap(boundary(a,b,3),b);
+  const allAfterHariVasara=overlap(a,b);
+  // No Dwadashi anywhere after the later fast's next sunrise. Verify the
+  // actual Trayodashi interval rather than treating any sunrise as sufficient.
+  const trayodashi=merged(late.tithis.filter(row=>row.index===index+2).map(row=>[ms(row.startTime??row.start),ms(row.endTime??row.end)]).filter(([x,y])=>Number.isFinite(x)&&Number.isFinite(y)&&y>x));
+  const atSunrise=trayodashi.filter(([x,y])=>x<=c&&c<y);
+  if(atSunrise.length!==1)return fail("trayodashi-at-later-parana-sunrise-not-established");
+  const [ts,te]=atSunrise[0];
+  const latePratah=interval(Math.max(c,ts),Math.min(boundary(c,d,1),te,d));
+  return {status:"source-review-required",publishable:false,approvedWindow:null,
+    hariVasaraEnd:iso(hv),
+    earlierFast:{fastDate:cycle.candidates.smartaHouseholderEarlier,paranaDate:early.date,
+      dwadashi:cycle.dwadashi,pratah,aparahna,postMadhyahna,allAfterHariVasara,
+      note:"Alternative computed windows; no consensus asserted on the upper limit or the nakta exception."},
+    laterFast:{fastDate:cycle.candidates.mumukshuVaishnavaLater,paranaDate:late.date,
+      dwadashiAbsentAfterSunrise:true,trayodashiAtSunrise:true,
+      pratahDiagnostic:latePratah,
+      note:"Trayodashi parana is a source-backed exception; exact window and eligibility require separate approval."}};
+}
+
 export function reviewTrisprishaSunriseCycle(days,index){
   const fail=reason=>({status:"manual-review",reason,candidateDate:null,publishable:false});
   if(![10,25].includes(index)||!Array.isArray(days)||days.length!==3)return fail("three-local-sunrise-contexts-required");
