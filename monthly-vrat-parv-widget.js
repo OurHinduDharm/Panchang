@@ -1623,8 +1623,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     searchInput.value="";
     var token=++requestToken;
-    updateCalendarExport(null);
     locationEclipseCalculationFailed=false;
+    updateCalendarExport(null);
     renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
