@@ -1368,13 +1368,13 @@
     },
     {
       "date": "2026-12-07",
-      "title": "मासिक शिवरात्रि / श्री बाला सिद्धविद्या जयंती",
+      "title": "मासिक शिवरात्रि",
       "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
       "observanceId": "masik-shivaratri-nishita-2026-12-07",
       "ruleId": "masik-shivaratri-nishita",
       "classification": "candidate-needs-source-approval",
       "reason": "मासिक कृष्ण चतुर्दशी; स्थानीय निशीथ काल की गणना आवश्यक।",
-      "recordKey": "2026-12-07::मासिक शिवरात्रि / श्री बाला सिद्धविद्या जयंती",
+      "recordKey": "2026-12-07::मासिक शिवरात्रि",
       "lunarMonth": "मार्गशीर्ष",
       "paksha": "कृष्ण पक्ष",
       "targetTithiIndex": 28
