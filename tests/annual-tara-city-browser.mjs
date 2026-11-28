@@ -6,12 +6,12 @@ import { resolve, sep, extname } from "node:path";
 import { build } from "esbuild";
 
 const root = resolve(".");
-// Only the calculation exports are used. The library's optional kundli file
-// exporter imports Node fs lazily; leave that unused API external, rather
-// than attempting to bundle Node file access into a browser test.
+// Bundle the actual pinned ayanamsa implementation directly, not the
+// package barrel (which eagerly loads a Node-only kundli exporter).
+const ayanamsaPath = "./node_modules/@ishubhamx/panchangam-js/dist/core/ayanamsa.js";
 const panchangBundle = (await build({
-  stdin:{contents:'export { getAyanamsa } from "@ishubhamx/panchangam-js";',resolveDir:root},
-  bundle:true,format:"esm",platform:"browser",external:["fs","node:fs"],write:false
+  stdin:{contents:`export { getAyanamsa } from "${ayanamsaPath}";`,resolveDir:root},
+  bundle:true,format:"esm",platform:"browser",write:false
 })).outputFiles[0].contents;
 const server = createServer(async (req, res) => {
   const path = new URL(req.url, "http://localhost").pathname;
