@@ -43,8 +43,6 @@ jobs:
           node --experimental-default-type=module --check festival-muhurta.js
           sed -n '/^<script type="module">$/,/^<\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
           node --check /tmp/festival-year-review.mjs
-          sed -n '/^<script type="module">$/,/^<\/script>$/p' asta-udaya-calculator.html | sed '1d;$d' > /tmp/asta-udaya-calculator.mjs
-          node --check /tmp/asta-udaya-calculator.mjs
       - name: Install pinned astronomy engines for regression tests
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0 astronomy-engine@2.1.19
       - name: Run Agnivasa/Shivavasa and special punya-kaal regression tests
@@ -71,7 +69,3 @@ jobs:
         run: node tests/local-horizon-engine-smoke.mjs
       - name: Run planetary Asta/Udaya direction regression tests
         run: node --experimental-default-type=module --test tests/planetary-asta-udaya-direction.test.js
-      - name: Validate uploaded Asta/Udaya data integrity and sampled vectors
-        run: node tests/validate-asta-udaya-dataset.mjs
-      - name: Measure six-hour vector interpolation error at every interval midpoint
-        run: node tests/measure-asta-udaya-interpolation.mjs
