@@ -229,7 +229,11 @@ const params = new URLSearchParams(window.location.search);
 const currentYear = Number(panchangIsoDate(new Date()).slice(0, 4));
 for (let y = 2021; y <= 2035; y++) year.add(new Option(String(y), String(y)));
 year.value = [...year.options].some(o => o.value === params.get("year")) ? params.get("year") : String(currentYear);
-if (params.has("geoname")) {
+const restoredMajorCity = "geoname:" + params.get("geoname");
+if (params.has("geoname") && [...city.options].some(o => o.value === restoredMajorCity)) {
+  city.value = restoredMajorCity;
+  loadMajorCity(params.get("geoname"));
+} else if (params.has("geoname")) {
   city.value = "";
   status.textContent = "स्थान लोड हो रहा है…";
   const initialVersion = selectionVersion;
