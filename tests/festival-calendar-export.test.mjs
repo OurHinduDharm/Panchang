@@ -52,3 +52,20 @@ test("calendar link controller excludes unapproved, minor, dynamic and stale mon
  links.update(null);
  assert.equal(links.urlFor(major),"");
 });
+
+test("monthly download includes more major vratas than individual Google Calendar links",()=>{
+ const major=event("दीपावली"),pradosh=event("गुरु प्रदोष व्रत","व्रत"),minor=event("चन्द्र दर्शन","पर्व");
+ const links=createFestivalCalendarLinks();
+ links.update(catalogue([major,pradosh,minor]),2027,12);
+ assert.ok(links.urlFor(major));
+ assert.equal(links.urlFor(pradosh),"");
+ const download=links.monthlyDownload();
+ assert.equal(download.filename,"OurHinduDharm-2027-12.ics");
+ const unfolded=download.content.replace(/\r\n /g,"");
+ assert.ok(unfolded.includes("SUMMARY:दीपावली"));
+ assert.ok(unfolded.includes("SUMMARY:गुरु प्रदोष व्रत"));
+ assert.ok(!unfolded.includes("चन्द्र दर्शन"));
+ links.update(null);
+ assert.equal(links.monthlyDownload(),null);
+ assert.equal(links.urlFor(major),"");
+});
