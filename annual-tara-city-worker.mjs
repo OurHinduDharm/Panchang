@@ -46,7 +46,7 @@ self.onmessage = async ({data: {location, city, year}}) => {
         kanyaCalendar = {ingressUtcMilliseconds:ingress,dawns};
         kanyaStatus = "calculated";
       }
-    } catch (_) { kanyaStatus = "calculation-error"; }
+    } catch (error) { kanyaStatus = "calculation-error"; console.warn("Kanya calculation:", error instanceof Error ? error.message : String(error)); }
     self.postMessage({
       events, arghya, kanyaCalendar, kanyaStatus, unavailable, year: result.year,
       observer: result.observer,
