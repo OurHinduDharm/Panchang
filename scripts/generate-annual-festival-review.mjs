@@ -8,6 +8,15 @@ import {buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} f
 import {buildVaishakhaTritiyaComponentReview} from "./review-vaishakha-tritiya-components.mjs";
 
 import {buildEkadashiTrisprishaReview} from "./review-ekadashi-trisprisha.mjs";
+import {resolveTrisprishaSourcePrecedence} from "../ekadashi-trisprisha.mjs";
+
+const TRISPRISHA_TRADITIONS=["smarta-householder","smarta-mumukshu","vaishnava"];
+function trisprishaAlternatives(result){
+  const cycles=(result.evaluations??[]).filter(row=>row.pattern==="dasami-ekadashi-trayodashi-sunrise-sequence-with-dwadashi-ksaya");
+  if(!cycles.length)return [];
+  return cycles.map(cycle=>({sunriseDates:cycle.sunriseDates,month:cycle.month,index:cycle.index,
+    alternatives:TRISPRISHA_TRADITIONS.map(tradition=>({tradition,...resolveTrisprishaSourcePrecedence(cycle,tradition),autoApproved:false}))}));
+}
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const validYear=y=>Number.isInteger(y)&&y>=1900&&y<=2200;
@@ -37,17 +46,22 @@ export function buildAnnualFestivalReview({annual,manifest,sourceMonths,year}){
       continue;
     }
     const event=rows[0];
-    const descriptor={id:mapping.observanceId,dateType:"tithi",ruleId:mapping.ruleId,lunarMonth:mapping.lunarMonth,paksha:mapping.paksha,targetTithiIndex:mapping.targetTithiIndex,targetTithiIndices:mapping.targetTithiIndices,monthKind:mapping.monthKind};
+    const descriptor={id:mapping.observanceId,dateType:"tithi",ruleId:mapping.ruleId,lunarMonth:mapping.lunarMonth,paksha:mapping.paksha,targetTithiIndex:mapping.targetTithiIndex,targetTithiIndices:mapping.targetTithiIndices,monthKind:mapping.monthKind,...(mapping.ekadashiTradition!=null?{ekadashiTradition:mapping.ekadashiTradition}:{})};
     // No year-specific Gregorian date is supplied to the resolver.
     const result=resolveFestivalObservanceFromAnnualPanchang(descriptor,year,annual.dailyPanchang);
     const date=result.selectedDate;
     const inYear=typeof date==="string"&&date.startsWith(year+"-");
     // Boundary days need adjacent-year context, not an assumed previous/next sunrise.
     const boundary=inYear&&(date===isoDay(year,0)||date===isoDay(year,annual.dailyPanchang.length-1));
+    // A tradition-specific candidate for one Ekadashi does not establish a
+    // second observance joined in the historical card by a slash.
+    const alternatives=trisprishaAlternatives(result);
+    const composite=alternatives.length>0&&/\s\/\s/.test(event.title);
     decisions.push({recordKey:mapping.recordKey,sourceTitle:event.title,sourceHinduTithi:event.hinduTithi??null,sourceClassification:mapping.classification,sourceReason:mapping.reason,
       ruleId:mapping.ruleId,selector:descriptor,calculatedCandidateDate:inYear?date:null,
-      selectedDate:inYear&&!boundary?date:null,status:boundary?"manual-review":result.status,
-      warnings:[...(result.warnings||[]),...(boundary?["adjacent-year-context-required"]:[])],
+      selectedDate:inYear&&!boundary&&!composite?date:null,status:boundary||composite?"manual-review":result.status,
+      warnings:[...(result.warnings||[]),...(boundary?["adjacent-year-context-required"]:[]),...(composite?["composite-card-requires-independent-component-decisions"]:[])],
+      ...(alternatives.length?{trisprishaAlternatives:alternatives}:{}),
       selectionBasis:result.selectionBasis??null,reviewStatus:"needs-review",publishable:false,
       // Stable content only; old dates, weekday titles and muhurta times are not public cards.
       sourceContent:{title:event.title,description:event.description??"",category:event.category??"",articleUrl:event.articleUrl??"",articleLabel:event.articleLabel??"",secondaryArticleUrl:event.secondaryArticleUrl??"",secondaryArticleLabel:event.secondaryArticleLabel??""}});
@@ -96,7 +110,7 @@ export function buildRuleCoverageReview({annual,manifests,year,sourceYear}){
     seenYears.add(manifest.year);
     for(const row of manifest.mappings){
       const indices=Array.isArray(row.targetTithiIndices)?[...new Set(row.targetTithiIndices)].sort((a,b)=>a-b):[row.targetTithiIndex];
-      const selector={ruleId:row.ruleId,lunarMonth:row.lunarMonth??"",paksha:row.paksha??"",targetTithiIndices:indices,monthKind:row.monthKind??null};
+      const selector={ruleId:row.ruleId,lunarMonth:row.lunarMonth??"",paksha:row.paksha??"",targetTithiIndices:indices,monthKind:row.monthKind??null,...(row.ekadashiTradition!=null?{ekadashiTradition:row.ekadashiTradition}:{})};
       const key=JSON.stringify(selector);
       if(!groups.has(key))groups.set(key,{selector,sources:[]});
       groups.get(key).sources.push({year:manifest.year,recordKey:row.recordKey,title:row.title,classification:row.classification});
@@ -114,6 +128,7 @@ export function buildRuleCoverageReview({annual,manifests,year,sourceYear}){
     return {selector,sources,inSourceYear,repeatedSourceYears,calculatedCandidateDate:candidate,
       status:invalidMonth||boundary?"manual-review":result?.status??"manual-review",
       warnings:[...(result?.warnings??[]),...(invalidMonth?["explicit-lunar-month-required"]:[]),...(boundary?["adjacent-year-context-required"]:[]),...(repeatedSourceYears.length?["recurring-or-distinct-source-occurrences-require-separate-review"]:[])],
+      ...(result&&trisprishaAlternatives(result).length?{trisprishaAlternatives:trisprishaAlternatives(result)}:{}),
       publishable:false};
   });
   return {status:"review-only-not-approved",year,sourceYear,sourceYears:[...seenYears].sort((a,b)=>a-b),sourceOccurrences:slots.reduce((n,s)=>n+s.sources.length,0),distinctRuleSelectors:slots.length,additionalSelectors:slots.filter(s=>!s.inSourceYear).length,additionalWithCandidate:slots.filter(s=>!s.inSourceYear&&s.calculatedCandidateDate&&s.status!=="manual-review").length,slots,
@@ -151,6 +166,7 @@ export function buildRecurringFestivalReview({annual,year}){
         status:boundary?"manual-review":result.status,
         calendarMonthEvidence:selectedDate?days.find(d=>d.date===selectedDate)?.masa??null:null,
         warnings:[...(result.warnings??[]),...(boundary?["adjacent-year-context-required"]:[])],
+        ...(trisprishaAlternatives(result).length?{trisprishaAlternatives:trisprishaAlternatives(result)}:{}),
         publishable:false};
     });
     return {ruleId,targetTithiIndex,occurrences,counts:{cycles:occurrences.length,selected:occurrences.filter(o=>o.selectedDate).length,unresolved:occurrences.filter(o=>!o.selectedDate).length}};
