@@ -519,3 +519,32 @@ test("Manvadi decisions resolve standalone shared cards, including the 2028 Pith
   assert.match(cards[0].description,/शुक्ल तृतीया/);
   assert.doesNotMatch(cards[0].description,/द्वितीया|युगादि/);
 });
+
+
+test("Matsya Jayanti uses local Aparahna, not sunrise or Manvadi Purvahna", () => {
+  const descriptor={id:"matsya",dateType:"tithi",ruleId:"matsya-jayanti-aparahna",lunarMonth:"चैत्र",monthKind:"regular"};
+  const day=(date,start,end,masa="चैत्र")=>({date,masa,paksha:"शुक्ल पक्ष",
+    sunrise:date+"T00:00:00Z",sunset:date+"T12:00:00Z",
+    tithiIntervals:[interval(2,date+start,date+end,"शुक्ल पक्ष")]});
+  const first=day("2031-04-09","T06:00:00Z","T23:59:00Z");
+  const second=day("2031-04-10","T00:00:00Z","T06:00:00Z");
+  const unique=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[first,second]);
+  assert.equal(unique.selectedDate,first.date);
+  assert.equal(unique.publishable,false);
+  assert.equal(unique.autoApproved,false);
+  const both=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[first,day(second.date,"T00:00:00Z","T10:00:00Z")]);
+  assert.equal(both.status,"manual-review");
+  assert.equal(both.selectedDate,null);
+  const noOverlap=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[second]);
+  assert.equal(noOverlap.selectedDate,null);
+  const adhika=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[{...first,masa:"अधिक चैत्र"}]);
+  assert.equal(adhika.selectedDate,null);
+});
+
+test("2028 Matsya duplicate: independently report both local Aparahna candidates before migration",async()=>{
+  const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2028.json",import.meta.url),"utf8"));
+  const result=resolveFestivalObservanceFromAnnualPanchang({id:"matsya",dateType:"tithi",ruleId:"matsya-jayanti-aparahna",lunarMonth:"चैत्र",monthKind:"regular"},2028,annual.dailyPanchang);
+  assert.equal(result.publishable,false);
+  assert.ok(result.evaluations?.length>=2);
+  console.log("2028 Matsya review:",JSON.stringify({status:result.status,selectedDate:result.selectedDate,evaluations:result.evaluations}));
+});
