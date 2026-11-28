@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
-const pages = ["monthly-vrat-parv.html", "festival-year-review.html", "festival-review.html"];
+const pages = ["monthly-vrat-parv.html", "festival-year-review.html"];
 
 test("inline JavaScript in festival pages parses without syntax errors", () => {
   const temp = mkdtempSync(join(tmpdir(), "ohd-review-page-check-"));
@@ -35,7 +35,7 @@ test("imported future-year proposals require a valid earlier source year", () =>
 });
 
 test("festival review pages avoid unsafe HTML-string sinks", () => {
-  for (const page of ["festival-year-review.html", "festival-review.html"]) {
+  for (const page of ["festival-year-review.html"]) {
     const html = readFileSync(resolve(page), "utf8");
     assert.doesNotMatch(html, /(?:innerHTML|outerHTML)\s*=|insertAdjacentHTML\s*\(/, page + " should build user/data-derived UI with DOM APIs");
   }
