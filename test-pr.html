@@ -175,7 +175,7 @@ code{overflow-wrap:anywhere}
           option.value = path;
           select.appendChild(option);
         });
-        const preferred = changedHtml[0] || (htmlPaths.includes("test-astronomy.html") ? "test-astronomy.html" : (htmlPaths.includes("index.html") ? "index.html" : htmlPaths[0]));
+        const preferred = changedHtml[0] || (htmlPaths.includes("index.html") ? "index.html" : htmlPaths[0]);
         select.value = preferred;
         result.appendChild(select);
         result.appendChild(el("p", "★ वाले पेज PR में बदले गए हैं। यदि PR केवल JavaScript बदलता है, तो सूची से उससे संबंधित परीक्षण-पृष्ठ चुनें।", "muted"));
