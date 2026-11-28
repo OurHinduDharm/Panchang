@@ -34,7 +34,8 @@ for(const p of required)if(!files.includes(p))throw Error("Required preserved fi
 const retired=["asta-udaya-calculator.html","test-astronomy.html","data/asta-udaya-all-chunks.json","data/asta-udaya-manifest.json","tests/validate-asta-udaya-dataset.mjs","tests/measure-asta-udaya-interpolation.mjs","tests/asta-udaya-boundary-audit-export.test.mjs","archive/data/ohd-annual-panchang-review-2026.json"];
 for(const path of retired){
  if(files.includes(path))throw Error("Retired file unexpectedly restored: "+path);
- const dependencies=refs(basename(path),path).filter(p=>!p.endsWith(".md")&&p!=="data/asta-udaya-benchmark.json"&&!(path.startsWith("archive/data/")&&basename(p)===basename(path))&&!(path.startsWith("archive/data/")));
+ const needle=path.startsWith("archive/data/")?path:basename(path);
+ const dependencies=refs(needle,path).filter(p=>!p.endsWith(".md")&&!(path==="test-astronomy.html"&&p==="data/asta-udaya-benchmark.json"));
  if(dependencies.length)throw Error("Retired tool dependency: "+path+" "+JSON.stringify(dependencies));
 }
 const duplicates=[...hashes.values()].filter(a=>a.length>1);
