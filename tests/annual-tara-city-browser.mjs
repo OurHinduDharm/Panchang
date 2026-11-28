@@ -42,6 +42,7 @@ try {
     isMobile: true, timezoneId: "America/Los_Angeles"});
   const errors = [];
   page.on("pageerror", error => errors.push(error.message));
+  page.on("console", message => { if (message.text().includes("Kanya calculation:")) console.log(message.text()); });
   const started = Date.now();
   await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html");
   await page.selectOption("#city", "delhi");
