@@ -17,3 +17,10 @@
 - `research/` के astronomy modules: कुछ सीधे public worker द्वारा आयात होते हैं; पूरी निर्देशिका archival नहीं है।
 
 यह सीमित खोज-आधारित dependency review है, पूरे Git tree और Blogger में externally linked assets की exhaustive जाँच नहीं। बाकी cleanup में प्रकाशित URLs, imports, fetch paths, test globs, workflow triggers और स्रोत-साक्ष्य का सत्यापन आवश्यक है। मूल गणना या सार्वजनिक HTML/JS इस चरण में नहीं बदले गए।
+
+## दूसरा चरण — पुराना निदान और 2026 वार्षिक snapshot
+
+- `worklogs/ASTA-UDAYA-PHASE-DIAGNOSTICS.md`: पुराने geocentric threshold मॉडल का निदान; वर्तमान दृक्-गणना का विवरण नहीं। मूल blob `8d490a864246ac7ba03d155391c5447bbb77e0c7`।
+- `data/ohd-annual-panchang-review-2026.json`: पूर्व `data/references/` का 2,292,955-byte वार्षिक समीक्षा snapshot। मूल blob `c9829bee6c99b197a79afd849af3170e67140b44`। वर्तमान `data/ohd-annual-panchang-review-2026.json` (अलग blob, 1,539,052 bytes) जनरेटर, परीक्षण और documented annual data path के लिए यथावत है। पुराने snapshot को duplicate मानकर नष्ट नहीं किया गया है।
+- दोनों मूल पथ commit `c09acf3d8b4499cf7e37149b5eb4c6a055208354` में पुनर्प्राप्त किए जा सकते हैं। स्थानांतरण में वही Git blobs रखे गए हैं।
+- `test-pr.html`, `test-astronomy.html`, `asta-udaya-calculator.html`, `monthly-vrat-parv-widget-safe-v2.js` तथा मूल चित्र अभी सुरक्षित हैं: browser preview, परीक्षण, workflow या बाहरी Blogger/CDN links हो सकते हैं। केवल खोज में संदर्भ न मिलना हटाने का प्रमाण नहीं है।
