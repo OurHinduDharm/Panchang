@@ -120,7 +120,7 @@ test("city calculator distinguishes astronomical Agastya window from traditional
   const page = readFileSync(new URL("../annual-tara-city-page.mjs", import.meta.url), "utf8");
   const worker = readFileSync(new URL("../annual-tara-city-worker.mjs", import.meta.url), "utf8");
   assert.ok(page.includes("उदय से सूर्योदय तक — "));
-  assert.ok(page.includes("पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है।"));
+  assert.ok(!page.includes("पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है।"));
   assert.ok(!page.includes("अर्घ्य देने का समय — "));
   assert.ok(!page.includes("agastya-arghya-pithoragarh.json"));
   assert.ok(worker.includes("calculateAgastyaArghyaWindows"));

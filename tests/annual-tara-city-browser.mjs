@@ -96,7 +96,7 @@ try {
   await arghya.waitFor();
   const recorded = await arghya.innerText();
   assert.match(recorded, /उदय से सूर्योदय तक —/);
-  assert.match(recorded, /पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है/);
+  assert.doesNotMatch(recorded, /पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है/);
   assert.doesNotMatch(recorded, /अर्घ्य देने का समय —/);
   assert.match(recorded, /उदय — 6 सितंबर/);
   assert.match(recorded, /अस्त — 16 अप्रैल/);

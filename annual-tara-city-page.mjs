@@ -68,7 +68,6 @@ async function show({events, arghya = [], elevationSourceApproximate}, selectedY
         const end = new Date(window.endUtcMilliseconds);
         addText(card, "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
         addText(card, "p", "समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
-        addText(card, "p", "पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है।");
       }
     }
     fragment.append(card);
