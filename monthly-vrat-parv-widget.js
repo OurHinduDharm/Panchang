@@ -1,3 +1,4 @@
+import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
 
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
@@ -1279,7 +1280,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     var pageTitle=document.getElementById("pageTitle");
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
-    var list=(data&&Array.isArray(data.events))?data.events.slice():[];
+    var list=(data&&Array.isArray(data.events))?data.events.filter(inPublicFestivalScope):[];
     // वर्ष के सामान्य ग्रहण-कैटलॉग कार्ड स्थान-विशिष्ट नहीं होते।
     // उन्हें हटाकर केवल ऊपर की स्थानीय दृश्यता-जाँच से बने कार्ड दिखाएँ।
     list=list.filter(function(item){

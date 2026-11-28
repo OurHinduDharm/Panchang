@@ -14,6 +14,13 @@ import {
 
 import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,resolveTrisprishaSourcePrecedence} from "./ekadashi-trisprisha.mjs";
 
+import {resolveShuklaManvadiCycles} from "./manvadi-observances.mjs";
+
+export function resolveAnnualShuklaManvadi(dailyPanchang) {
+  const contexts = normalizeAnnualTrisprishaPartitions(buildFestivalRuleContexts(dailyPanchang));
+  return resolveShuklaManvadiCycles(contexts);
+}
+
 export const FESTIVAL_RULE_ENGINE_VERSION = "1.0.0";
 
 const TITHI_ORDINAL = new Map([
@@ -87,6 +94,7 @@ export function buildFestivalRuleContexts(dailyPanchang) {
     return {
       date: day?.date ?? null,
       masa: day?.masa ?? null,
+      sunriseMasa: day?.sunriseTithi?.masa ?? null,
       paksha: day?.paksha ?? null,
       sunrise: day?.sunrise ?? undefined,
       sunset: day?.sunset ?? undefined,

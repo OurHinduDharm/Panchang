@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - "festival-rule-engine.mjs"
+      - "manvadi-observances.mjs"
+      - "festival-public-scope.mjs"
       - "ekadashi-trisprisha.mjs"
       - "scripts/review-ekadashi-trisprisha.mjs"
       - "festival-observance-rules.mjs"
@@ -26,6 +28,8 @@ on:
       - main
     paths:
       - "festival-rule-engine.mjs"
+      - "manvadi-observances.mjs"
+      - "festival-public-scope.mjs"
       - "ekadashi-trisprisha.mjs"
       - "scripts/review-ekadashi-trisprisha.mjs"
       - "festival-observance-rules.mjs"

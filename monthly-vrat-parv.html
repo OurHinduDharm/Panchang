@@ -291,6 +291,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <footer><div>OurHinduDharm · मासिक व्रत-पर्व सूची</div></footer>
 </main>
 <script type="module">
+import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
 (function(){
   "use strict";
@@ -893,7 +894,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
     }
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     document.getElementById("pageTitle").textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
-    var list=(data&&Array.isArray(data.events))?data.events.slice():[];
+    var list=(data&&Array.isArray(data.events))?data.events.filter(inPublicFestivalScope):[];
     if(!reviewMode){
       list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy";});
     }
