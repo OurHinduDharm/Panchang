@@ -328,3 +328,29 @@ test("annual review carries explicit Trisprisha traditions without assigning Moh
  assert.equal(cycle.selectedDate,null);
  assert.equal(cycle.trisprishaAlternatives[0].alternatives.length,3);
 });
+
+
+test("2030 avatar components resolve independently without promoting combined source cards",async()=>{
+  const {buildAvatarComponentReview}=await import("../scripts/review-avatar-components.mjs");
+  const read=async path=>JSON.parse(await readFile(new URL("../data/"+path,import.meta.url),"utf8"));
+  const sourceMonths=await Promise.all(Array.from({length:12},(_,i)=>read("festivals/2030-"+String(i+1).padStart(2,"0")+".json")));
+  for(const year of [2030,2031]){
+    const annual=await read("ohd-annual-panchang-review-"+year+".json");
+    const review=buildAvatarComponentReview({annual,sourceMonths,year});
+    assert.equal(review.cards.length,4);
+    assert.equal(review.counts.components,11);
+    for(const card of review.cards){
+      assert.equal(card.selectedDate,null);
+      assert.equal(card.publishable,false);
+      assert.deepEqual(card.sourceContent,sourceMonths.flatMap(m=>m.events).find(e=>e.date+"::"+e.title===card.recordKey));
+      assert.ok(card.components.every(c=>!c.publishable));
+    }
+    const naga=review.cards.find(c=>c.sourceContent.title==="नाग पंचमी / कल्कि जयंती");
+    assert.equal(naga.components.find(c=>c.title==="नाग पंचमी").selectedDate,null);
+    assert.ok(naga.components.find(c=>c.title==="कल्कि जयंती").selectedDate?.startsWith(String(year)));
+    const kurma=review.cards.find(c=>c.sourceContent.title.includes("कूर्म अवतार जयंती"));
+    assert.equal(kurma.components.find(c=>c.title==="बुद्ध पूर्णिमा").selectedDate,null);
+    assert.equal(kurma.components.find(c=>c.title==="कूर्म अवतार जयंती").selectedDate,year===2030?"2030-05-17":"2031-05-06");
+    console.log("Avatar components:",JSON.stringify({year,counts:review.counts,cards:review.cards.map(c=>({title:c.sourceContent.title,components:c.components.map(x=>({title:x.title,date:x.selectedDate,status:x.status}))}))}));
+  }
+});
