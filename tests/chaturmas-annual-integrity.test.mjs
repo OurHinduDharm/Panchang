@@ -139,3 +139,41 @@ test("2027 and 2028 Chaturmas use approved Smarta cards and local sunrise Dwadas
     assert.equal(config.cardVisibleThroughDate,new Date(Date.parse(config.completionDate)+86400000).toISOString().slice(0,10));
   }
 });
+
+test("upcoming widget limits requests to visible months outside approved Chaturmas and boundary months inside it", async () => {
+  const start=widget.indexOf("  async function load() {");
+  const end=widget.indexOf("\n  load();",start);
+  assert.ok(start>=0&&end>start);
+  const source=widget.slice(start,end);
+  const config={year:2026,status:"approved",startDate:"2026-07-25",endDate:"2026-11-20",cardVisibleThroughDate:"2026-11-22"};
+  async function simulate(day,annual) {
+    const [y,m,d]=day.split("-").map(Number);
+    class FixedDate extends Date {
+      constructor(...args){super(...(args.length?args:[y,m-1,d,12]));}
+    }
+    const dateKey=date=>date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
+    const monthKey=date=>dateKey(date).slice(0,7);
+    const parseDate=value=>value?new FixedDate(value+"T12:00:00"):null;
+    const requests=[],draws=[];
+    const mount={textContent:""};
+    const load=new Function("Date","localMidnight","dateKey","monthKey","parseDate","fetchMonth","fetchChaturmasConfig","mount","render","DAYS_AHEAD",source+"\nreturn load;")(
+      FixedDate,date=>new FixedDate(date.getFullYear(),date.getMonth(),date.getDate()),dateKey,monthKey,parseDate,
+      async date=>{requests.push(monthKey(date));return {events:[{date:monthKey(date)+"-15",title:"पर्व"}]}},
+      async()=>annual,mount,(...args)=>draws.push(args),20
+    );
+    await load();
+    assert.equal(draws.length,1);
+    assert.equal(requests.length,new Set(requests).size);
+    return {requests:requests.sort(),chaturmasEvents:draws[0][2]};
+  }
+  const after=await simulate("2026-11-28",config);
+  assert.deepEqual(after.requests,["2026-10","2026-11","2026-12"]);
+  assert.deepEqual(after.chaturmasEvents,[]);
+  const active=await simulate("2026-08-15",config);
+  assert.deepEqual(active.requests,["2026-07","2026-08","2026-09","2026-11"]);
+  assert.ok(active.chaturmasEvents.length);
+  const fallback=await simulate("2026-11-28",null);
+  assert.deepEqual(fallback.requests,["2026-06","2026-07","2026-08","2026-09","2026-10","2026-11","2026-12"]);
+  const boundary=await simulate("2026-12-25",config);
+  assert.deepEqual(boundary.requests,["2026-11","2026-12","2027-01"]);
+});
