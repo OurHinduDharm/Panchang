@@ -43,7 +43,7 @@ function eventLink(card, label, date, location) {
   }
 }
 
-async function show({events, arghya = [], elevationSourceApproximate}, selectedYear, location, version) {
+async function show({events, arghya = [], kanyaCalendar = null, elevationSourceApproximate}, selectedYear, location, version) {
   if (version !== selectionVersion) return;
   const fragment = document.createDocumentFragment();
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
@@ -78,6 +78,24 @@ async function show({events, arghya = [], elevationSourceApproximate}, selectedY
           const hours = Math.floor(minutes / 60), remainder = minutes % 60;
           addText(card, "p", "अवधि — " + [hours ? hours + " घंटा" : "", remainder ? remainder + " मिनट" : ""].filter(Boolean).join(" "));
         }
+      }
+      if (kanyaCalendar?.dawns?.length === 7 && Number.isFinite(kanyaCalendar.ingressUtcMilliseconds)) {
+        const ingress = new Date(kanyaCalendar.ingressUtcMilliseconds);
+        addText(card, "h3", "कन्या संक्रान्ति से पूर्व अगस्त्यार्घ्य");
+        addText(card, "p", "भविष्यपुराण के अनुसार सात प्रातःकालीन अवसर");
+        addText(card, "p", "कन्या संक्रान्ति — " + dateOnly.format(ingress) + " · " + formatClock(clock.format(ingress)));
+        addText(card, "p", "संक्रान्ति के बाद अर्घ्यकाल समाप्त। सातों दिन अर्घ्य देना अनिवार्य नहीं है।");
+        const list = document.createElement("ol");
+        for (const dawn of kanyaCalendar.dawns) {
+          // Round inward so the published minute never extends past the bound.
+          const from = new Date(Math.ceil(dawn.startUtcMilliseconds / 60000) * 60000);
+          const to = new Date(Math.floor(dawn.endUtcMilliseconds / 60000) * 60000);
+          if (from >= to) continue;
+          const row = addText(list, "li", dateOnly.format(from) + " — " + formatClock(clock.format(from)) + " से " + formatClock(clock.format(to)) + " तक");
+          row.style.marginBottom = "0.5em";
+        }
+        card.append(list);
+        addText(card, "p", "समय-गणना: स्थानीय ब्रह्ममुहूर्त के आरम्भ से सूर्योदय तक; संक्रान्ति पहले हो तो वहीं तक। यह गणितीय प्रातःकाल है, ग्रन्थ में मिनटों की निश्चित सीमा नहीं दी गई है।");
       }
     }
     fragment.append(card);
