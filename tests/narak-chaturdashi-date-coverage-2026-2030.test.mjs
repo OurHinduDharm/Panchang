@@ -89,5 +89,7 @@ test("Bala Siddhavidya is explicitly identified as Bala Tripurasundari", async (
   const data = await readMonth("2026-12");
   const event = data.events.find(e => /बाला सिद्धविद्या जयंती/.test(e.title || ""));
   assert.ok(event);
-  assert.match(event.description, /श्री बाला त्रिपुरसुंदरी/);
+  assert.match(event.description, /सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती/);
+  assert.equal(event.title, "श्री बाला सिद्धविद्या जयंती");
+  assert.equal(event.muhurtaRule, undefined);
 });
