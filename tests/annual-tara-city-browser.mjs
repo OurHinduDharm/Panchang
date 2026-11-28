@@ -70,6 +70,11 @@ try {
   assert.equal(await section.count(),1);
   assert.equal(await section.locator("ol li").count(),7);
   assert.match(await section.innerText(), /संक्रान्ति के बाद अर्घ्यकाल समाप्त/);
+  const rules = section.locator("ul li");
+  assert.equal(await rules.count(),3);
+  assert.match(await rules.nth(0).innerText(), /स्कन्दपुराण.*पूर्व सात दिन प्रतिदिन/);
+  assert.match(await rules.nth(1).innerText(), /पद्मपुराण.*निर्णयसिन्धु.*सात रात्रियों तक/);
+  assert.match(await rules.nth(2).innerText(), /भविष्यपुराण.*व्रतहेमाद्रि.*कन्या संक्रान्ति से पूर्व सात दिन/);
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
