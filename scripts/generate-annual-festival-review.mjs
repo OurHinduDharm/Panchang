@@ -3,7 +3,7 @@
 import {readFile, mkdir, writeFile} from "node:fs/promises";
 import {resolve, dirname} from "node:path";
 import {fileURLToPath} from "node:url";
-import {resolveAnnualShuklaManvadi,buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} from "../festival-rule-engine.mjs";
+import {resolveAnnualYamaDvitiya,resolveAnnualShuklaManvadi,buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} from "../festival-rule-engine.mjs";
 
 import {buildVaishakhaTritiyaComponentReview} from "./review-vaishakha-tritiya-components.mjs";
 
@@ -171,6 +171,7 @@ async function main(){
   const historicalYears=[...new Set([2026,2027,2028,2029,2030,sourceYear])];
   const manifests=await Promise.all(historicalYears.map(y=>read("data/reviews/observance-rule-mapping-"+y+".json")));
   output.ruleCoverage=buildRuleCoverageReview({annual,manifests,year,sourceYear});
+  output.yamaDvitiya=resolveAnnualYamaDvitiya(annual.dailyPanchang);
   output.shuklaManvadi=resolveAnnualShuklaManvadi(annual.dailyPanchang);
   output.recurringReview=buildRecurringFestivalReview({annual,year});
   output.vaishakhaTritiyaComponents=buildVaishakhaTritiyaComponentReview(annual);

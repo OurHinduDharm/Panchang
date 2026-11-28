@@ -9,6 +9,7 @@ const observanceRulesSource = await readFile(new URL("../festival-observance-rul
 const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
 const observanceRulesUrl = "data:text/javascript;base64," + Buffer.from(observanceRulesSource).toString("base64");
 const sourceWithHelper = source
+  .replace('"./yama-dvitiya.mjs"', JSON.stringify(new URL("../yama-dvitiya.mjs",import.meta.url).href))
   .replace(
     'import { getNightPraharWindows } from "./night-prahar.js";',
     `const { getNightPraharWindows } = await import("${helperUrl}");`
@@ -1367,3 +1368,16 @@ test("Pithoragarh 2030 Govatsa Dwadashi has the local Dwadashi-Pradosh overlap",
   assert.match(result.note, /गाय और बछड़े/);
 });
 
+
+test("Yama Dvitiya between consecutive afternoons selects the later day without a false tilak window", () => {
+  const day = n => ({sunrise:date(n+"T06:00:00+05:30"), sunset:date(n+"T18:00:00+05:30"), tithis:[]});
+  const days = ["2032-11-04","2032-11-05","2032-11-06"].map(day);
+  const d = {index:1,startTime:date("2032-11-04T16:00:00+05:30"),endTime:date("2032-11-05T12:00:00+05:30")};
+  days[0].tithis=[d];
+  const decision = getBhaiDoojDateDecision(...days);
+  assert.equal(decision.selectedDateKey,"2032-11-05");
+  const result = getFestivalMuhurta({muhurtaRule:"bhai-dooj-tilak"},
+    {...days[1],tithis:[d],bhaiDoojDateDecision:decision});
+  assert.equal(result.status,"unavailable");
+  assert.equal(result.windows,undefined);
+});

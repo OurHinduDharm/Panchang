@@ -4,6 +4,7 @@
  * Keep rule decisions isolated here so each festival can receive a reviewed rule.
  */
 
+import {selectYamaDvitiyaDay} from "./yama-dvitiya.mjs";
 import { getNightPraharWindows } from "./night-prahar.js";
 import { calculateEkadashiParanaWindow } from "./festival-observance-rules.mjs";
 
@@ -232,31 +233,16 @@ export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay, timeZo
   if (!tithis.length) {
     return { status: "unavailable", message: "कार्तिक शुक्ल द्वितीया की वास्तविक अवधि उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
   }
-  const overlapsAparahna = day => {
-    const duration = day.sunset.getTime() - day.sunrise.getTime();
-    const start = new Date(day.sunrise.getTime() + duration * 3 / 5);
-    const end = new Date(day.sunrise.getTime() + duration * 4 / 5);
-    return tithis.some(tithi => tithi.end > start && tithi.start < end);
-  };
-  const overlaps = days.map(overlapsAparahna);
-  let selectedDateKey = "";
-  if (overlaps[0] && overlaps[1] && overlaps[2]) {
-    return { status: "unavailable", message: "द्वितीया तीन लगातार दिनों के अपराह्न में व्याप्त दिख रही है; सामान्य द्विदिनीय नियम से निर्णय सुरक्षित रूप से नहीं किया जा सकता।" };
+  // Input may repeat whole intervals or split them at sunrise. Only a
+  // continuous Dvitiya can supply negative evidence for both afternoons.
+  let end=tithis[0].end.getTime();
+  for(const part of tithis.slice(1)){
+    if(part.start.getTime()>end) return {status:"unavailable",message:"द्वितीया की पूरी अवधि उपलब्ध नहीं है।"};
+    end=Math.max(end,part.end.getTime());
   }
-  if (overlaps[0] && overlaps[1]) selectedDateKey = keys[1];
-  else if (overlaps[1] && overlaps[2]) selectedDateKey = keys[2];
-  else if (overlaps[0]) selectedDateKey = keys[0];
-  else if (overlaps[1]) selectedDateKey = keys[1];
-  else if (overlaps[2]) selectedDateKey = keys[2];
-  else {
-    // Neither compared Aparahna is occupied: the second civil date of the
-    // actual Dwitiya interval is the conservative fallback.
-    const lastMoment = new Date(Math.max(...tithis.map(item => item.end.getTime())) - 1);
-    selectedDateKey = localDateKey(lastMoment, timeZone);
-    if (!keys.includes(selectedDateKey)) {
-      return { status: "unavailable", message: "अपराह्न-व्याप्ति नहीं मिली और द्वितीया की समाप्ति इन तीन दिनों के बाहर है; पर्व-दिन निर्धारित नहीं किया गया।" };
-    }
-  }
+  const selected=selectYamaDvitiyaDay(days.map((day,i)=>({...day,date:keys[i]})),tithis[0].start.getTime(),end);
+  if(!selected) return {status:"unavailable",message:"स्थानीय अपराह्ण से पर्व-दिन निर्धारित नहीं हुआ।"};
+  const {date:selectedDateKey,overlaps}=selected;
   const selectedIndex = keys.indexOf(selectedDateKey);
   return {
     status: "calculated",
