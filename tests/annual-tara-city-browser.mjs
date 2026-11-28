@@ -147,6 +147,29 @@ try {
   assert.match(await restore.locator("#selected-place").innerText(), /पिथौरागढ़/);
   await restore.close();
 
+  // New dropdown cities resolve the exact same indexed observer as search.
+  await page.selectOption("#city", "geoname:1253405");
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.match(await page.locator("#selected-place").innerText(), /Varanasi/);
+  assert.equal(new URL(page.url()).searchParams.get("geoname"), "1253405");
+  const indexedLink = await page.getByRole("link", {name:"गुरु अस्त का पंचांग देखें"}).getAttribute("href");
+  const indexedEvents = await page.locator("#city-events").innerText();
+  await page.reload();
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.equal(await page.locator("#city").inputValue(), "geoname:1253405");
+  assert.equal(await page.locator("#city-events").innerText(), indexedEvents);
+  await page.locator("#place-search").fill("काशी");
+  await page.locator("#place-search").press("Enter");
+  await page.getByRole("button", {name:/Varanasi.*Uttar Pradesh/}).click();
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.equal(await page.getByRole("link", {name:"गुरु अस्त का पंचांग देखें"}).getAttribute("href"), indexedLink);
+  assert.equal(await page.locator("#city").inputValue(), "geoname:1253405");
+  await page.selectOption("#city", "geoname:1279259");
+  await page.locator("#city-events .planet").first().waitFor();
+  assert.match(await page.locator("#selected-place").innerText(), /Agra/);
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+
   // Verify the actual iframe link points outside the annual calendar.
   await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html", {waitUntil: "domcontentloaded"});
   await page.setContent('<iframe title="वार्षिक पंचांग" src="/planetary-asta-udaya.html?city=delhi&year=2027"></iframe>');

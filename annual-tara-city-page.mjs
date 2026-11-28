@@ -144,9 +144,35 @@ function clearSearch() {
 function selectPlace(place) {
   clearSearch();
   chosenPlace = resolvePithoragarhSearch(place) ?? place;
-  city.value = "";
-  searchInput.value = chosenPlace.city;
+  const preset = "geoname:" + chosenPlace.id;
+  city.value = [...city.options].some(o => o.value === preset) ? preset : "";
+  searchInput.value = city.value ? "" : chosenPlace.city;
   calculateSelection();
+}
+
+// Use the identical indexed observer as text search; no duplicate city
+// coordinates or second elevation value. Load the index only on demand.
+async function loadMajorCity(id) {
+  const version = ++selectionVersion;
+  worker?.terminate();
+  worker = undefined;
+  chosenPlace = undefined;
+  cards.replaceChildren();
+  cards.setAttribute("aria-busy", "true");
+  selectedPlace.textContent = "";
+  status.textContent = "स्थान लोड हो रहा है…";
+  retry.hidden = true;
+  try {
+    const place = await findTaraPlace(id);
+    if (version !== selectionVersion) return;
+    if (!place) throw new Error("City missing");
+    selectPlace(place);
+  } catch {
+    if (version !== selectionVersion) return;
+    cards.setAttribute("aria-busy", "false");
+    status.textContent = "स्थान लोड नहीं हो पाया। कृपया फिर प्रयास करें।";
+    retry.hidden = false;
+  }
 }
 
 async function runSearch() {
@@ -187,15 +213,27 @@ city.onchange = () => {
   clearSearch();
   chosenPlace = undefined;
   searchInput.value = "";
-  calculateSelection();
+  if (city.value.startsWith("geoname:")) {
+    loadMajorCity(city.value.slice(8));
+  } else {
+    calculateSelection();
+  }
 };
-year.onchange = retry.onclick = () => calculateSelection();
+year.onchange = () => calculateSelection();
+retry.onclick = () => {
+  if (!chosenPlace && city.value.startsWith("geoname:")) loadMajorCity(city.value.slice(8));
+  else calculateSelection();
+};
 
 const params = new URLSearchParams(window.location.search);
 const currentYear = Number(panchangIsoDate(new Date()).slice(0, 4));
 for (let y = 2021; y <= 2035; y++) year.add(new Option(String(y), String(y)));
 year.value = [...year.options].some(o => o.value === params.get("year")) ? params.get("year") : String(currentYear);
-if (params.has("geoname")) {
+const restoredMajorCity = "geoname:" + params.get("geoname");
+if (params.has("geoname") && [...city.options].some(o => o.value === restoredMajorCity)) {
+  city.value = restoredMajorCity;
+  loadMajorCity(params.get("geoname"));
+} else if (params.has("geoname")) {
   city.value = "";
   status.textContent = "स्थान लोड हो रहा है…";
   const initialVersion = selectionVersion;

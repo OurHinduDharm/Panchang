@@ -45,3 +45,19 @@ test("short inputs skip loading and unknown cities produce no match", async () =
   assert.deepEqual(await searchTaraPlaces("x"), []);
   assert.deepEqual(matchPlaces(index, "no-such-Indian-place"), []);
 });
+
+
+test("major city dropdown uses distinct existing GeoNames observers", () => {
+  const html = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
+  const ids = [...html.matchAll(/<option value="geoname:(\d+)">([^<]+)<\/option>/g)];
+  assert.equal(ids.length, 27);
+  assert.equal(new Set(ids.map(row => row[1])).size, ids.length);
+  const rows = new Map(index.cities.map(row => [String(row[0]), row]));
+  for (const [, id, label] of ids) {
+    const row = rows.get(id);
+    assert.ok(row, label + " missing in shared city index: " + id);
+    normalizeTaraObserver({latitude:row[4],longitude:row[5],elevation:row[6]});
+  }
+  assert.equal(rows.get("1253405")[1], "Varanasi");
+  assert.equal(rows.get("1279259")[1], "Agra");
+});
