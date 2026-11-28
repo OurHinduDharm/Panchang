@@ -1,7 +1,7 @@
 import { resolveCityObserver } from "./panchang-city-observer.mjs";
 import { findTaraPlace } from "./annual-tara-place-search.mjs";
 import { locations as annualCityProfiles } from "./annual-tara-locations.mjs";
-import { clearPanchangLinkLocation, hasPanchangLinkLocation, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
+import { buildPanchangEventUrl, clearPanchangLinkLocation, hasPanchangLinkLocation, readPanchangLinkLocation, validPanchangDate as isValidIsoDate } from "./panchang-event-links.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
@@ -146,6 +146,30 @@ const hasEventLocation = hasPanchangLinkLocation(locationParams);
 const requestedDate = locationParams.getAll("date").length === 1 ? locationParams.get("date") : null;
 const sharedLocationKeys = ["locLat", "locLon", "locTz", "locElevation", "locName", "locState", "locCity", "locCountry", "locCountryCode"];
 const hasSharedLocation = sharedLocationKeys.some(key => locationParams.has(key));
+// Only default/restored catalogue cities or explicitly selected public search results may be shared.
+let publicCityShareAllowed = !hasEventLocation && !hasSharedLocation;
+
+function canSharePublicPanchang() {
+  return publicCityShareAllowed && selectedLocation && selectedLocation.observerSource !== "gps" &&
+    ["provided", "estimated"].includes(selectedLocation.elevationStatus) && isValidIsoDate(dateInput.value);
+}
+
+result.addEventListener("click", event => {
+  if (!event.target.closest("[data-ohd-whatsapp-share]") || !canSharePublicPanchang()) return;
+  const location = selectedLocation;
+  try {
+    const link = buildPanchangEventUrl("https://ourhindudharm.blogspot.com/p/panchang-today.html", dateInput.value, {
+      latitude: location.lat, longitude: location.lon, elevation: location.elevation,
+      elevationStatus: location.elevationStatus
+    });
+    const message = ["OurHinduDharm — दैनिक हिन्दू पंचांग", location.city || location.name,
+      dateInput.value.split("-").reverse().join("-"), link].join("\n");
+    window.open("https://wa.me/?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+  } catch {
+    // Do not share incomplete observer details or fall back to an unrelated city.
+    alert("इस स्थान का पंचांग लिंक साझा नहीं हो सका। कृपया शहर फिर से चुनें।");
+  }
+});
 dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : (hasEventLocation ? "" : todayString());
 
 /* HINDI DATA */
@@ -3175,6 +3199,7 @@ async function selectCity(place){
   try {
     selectedLocation = resolvedLocation;
     if (!publishSelectedLocation()) throw new Error("LOCATION_INVALID");
+    publicCityShareAllowed = true;
     if (wasViewingPreviousLocationToday && !requestedDate) dateInput.value = todayString();
     rememberPublicCity(selectedLocation);
     selectedCity.textContent = "✅ चुना गया स्थान: " + selectedLocation.name + " · " + selectedLocation.timeZone;
@@ -6180,6 +6205,9 @@ bhadraPartsHtml += `
     <div class="date-title">
       ${dateText}
     </div>
+    ${canSharePublicPanchang() ? `<div style="text-align:center;margin:6px 0 10px">
+      <button type="button" data-ohd-whatsapp-share style="min-height:44px;padding:8px 14px;border:1px solid #176b3a;border-radius:8px;background:#fff;color:#176b3a;font:inherit;cursor:pointer">WhatsApp पर पंचांग साझा करें</button>
+    </div>` : ""}
 
     <div class="grid">
       <div class="card full">
@@ -7172,6 +7200,7 @@ window.useMyLocation = function(){
 
       if (version !== gpsRequest) return;
       selectedLocation = gpsLocation;
+      publicCityShareAllowed = false;
       clearEventLocation();
       selectedCity.style.display = "block";
 
