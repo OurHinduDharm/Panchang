@@ -459,7 +459,7 @@ async function showNextAgastyaEvents(location, selectedDate, version) {
     const following = needsFollowing && year < 2035 ? getAnnual(year+1) : null;
     const next = runtime.nextAgastyaEvents(current,following,selectedStart);
     if (!stillCurrent()) return;
-    const formatter = new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"});
+    const formatter = new Intl.DateTimeFormat("hi-IN",{timeZone:location.timeZone,day:"numeric",month:"long",year:"numeric"});
     for (const [type,label] of [["Asta","आगामी अस्त"],["Udaya","आगामी उदय"]]) {
       const row = document.querySelector(`#planetRiseSetCard [data-agastya-next="${type}"]`);
       if (!row || !Number.isFinite(next[type])) continue;
@@ -469,7 +469,7 @@ async function showNextAgastyaEvents(location, selectedDate, version) {
     const available = Object.values(next).filter(Number.isFinite);
     const link = document.querySelector("#planetRiseSetCard [data-agastya-link]");
     if (link && available.length) {
-      const y = Number(new Intl.DateTimeFormat("en",{timeZone:"Asia/Kolkata",year:"numeric"}).format(new Date(Math.min(...available))));
+      const y = Number(new Intl.DateTimeFormat("en",{timeZone:location.timeZone,year:"numeric"}).format(new Date(Math.min(...available))));
       const url = new URL(link.href);
       url.searchParams.set("year",String(y));
       link.href=url.href;
