@@ -6,12 +6,16 @@ on:
       - "data/agastya-arghya-pithoragarh.json"
       - "research/agastya/traditional-arghya-source-provenance-audit.json"
       - "tests/agastya-traditional-source-provenance.test.mjs"
+      - "research/agastya-traditional-decision.mjs"
+      - "tests/agastya-traditional-decision.test.mjs"
       - ".github/workflows/agastya-source-provenance.yml"
   pull_request:
     paths:
       - "data/agastya-arghya-pithoragarh.json"
       - "research/agastya/traditional-arghya-source-provenance-audit.json"
       - "tests/agastya-traditional-source-provenance.test.mjs"
+      - "research/agastya-traditional-decision.mjs"
+      - "tests/agastya-traditional-decision.test.mjs"
       - ".github/workflows/agastya-source-provenance.yml"
 
 permissions:
@@ -28,4 +32,4 @@ jobs:
         with:
           node-version: "22"
       - name: Validate source provenance and public-data invariance
-        run: node --test tests/agastya-traditional-source-provenance.test.mjs
+        run: node --test tests/agastya-traditional-source-provenance.test.mjs tests/agastya-traditional-decision.test.mjs
