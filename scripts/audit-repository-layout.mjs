@@ -31,7 +31,7 @@ const dynamicRefs=refs("references/ohd-annual-panchang",oldPath).filter(p=>!p.en
 if(activeRefs.length||dynamicRefs.length)throw Error("Archived annual source path still referenced: "+JSON.stringify([...new Set([...activeRefs,...dynamicRefs])]));
 const required=["archive/worklogs/ASTA-UDAYA-PHASE-DIAGNOSTICS.md","data/ohd-annual-panchang-review-2026.json"];
 for(const p of required)if(!files.includes(p))throw Error("Required preserved file missing: "+p);
-const retired=["asta-udaya-calculator.html","test-astronomy.html","data/asta-udaya-all-chunks.json","data/asta-udaya-manifest.json","tests/validate-asta-udaya-dataset.mjs","tests/measure-asta-udaya-interpolation.mjs","tests/asta-udaya-boundary-audit-export.test.mjs","archive/data/ohd-annual-panchang-review-2026.json"];
+const retired=["test-pr.html","festival-review.html","asta-udaya-calculator.html","test-astronomy.html","data/asta-udaya-all-chunks.json","data/asta-udaya-manifest.json","tests/validate-asta-udaya-dataset.mjs","tests/measure-asta-udaya-interpolation.mjs","tests/asta-udaya-boundary-audit-export.test.mjs","archive/data/ohd-annual-panchang-review-2026.json"];
 for(const path of retired){
  if(files.includes(path))throw Error("Retired file unexpectedly restored: "+path);
  const needle=path.startsWith("archive/data/")?path:basename(path);
