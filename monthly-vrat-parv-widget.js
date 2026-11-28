@@ -49,7 +49,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
   }
   var eventsEl=document.getElementById("events");
-  var festivalCalendarLinks=createFestivalCalendarLinks();
+  var festivalCalendarLinks=createFestivalCalendarLinks(eventsEl);
   var updateCalendarExport=festivalCalendarLinks.update;
   // मासिक सूची के नीचे उपयोगी नियम और गणना-सीमाएँ दिखाएँ; Blogger HTML में
   // अलग से यह खंड न होने पर भी विजेट इसे सुरक्षित DOM APIs से बना देता है।
