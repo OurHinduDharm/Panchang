@@ -45,7 +45,7 @@ export function reviewTraditionalArghya({riseUtcMilliseconds,riseDefinition,simh
 
 // Independent Bhavishya/Hemadri calendar: no traditional-rise input needed.
 // Last seven local morning opportunities before Kanya ingress. The dawn
-// boundary (last 2/15 of the night) is an explicit calculation convention,
+// boundary (morning Sun altitude -12 degrees) is an explicit calculation convention,
 // not an exact numerical definition in the cited verse.
 export function kanyaIngressFromSunSign(year,signAt){
   if(!Number.isInteger(year)||year<1900||year>2199||typeof signAt!=="function")return null;
@@ -57,16 +57,15 @@ export function kanyaIngressFromSunSign(year,signAt){
   }
   return hi;
 }
-export function kanyaPrecedingDawns(ingress,nightForDate){
-  if(!Number.isFinite(ingress)||typeof nightForDate!=="function")return [];
+export function kanyaPrecedingDawns(ingress,dawnForDate){
+  if(!Number.isFinite(ingress)||typeof dawnForDate!=="function")return [];
   const localDay=Date.parse(istDate(ingress)+"T00:00:00+05:30");
   const dawns=[];
   for(let offset=0;offset<=7&&dawns.length<7;offset++){
-    const date=istDate(localDay-offset*DAY),night=nightForDate(date);
-    const sunset=night?.sunsetUtcMilliseconds,sunrise=night?.sunriseUtcMilliseconds;
-    if(!Number.isFinite(sunset)||!Number.isFinite(sunrise)||sunrise<=sunset||
-      sunrise-sunset>=DAY||istDate(sunrise)!==date||istDate(sunset)!==istDate(localDay-(offset+1)*DAY))return [];
-    const start=Math.round(sunrise-(sunrise-sunset)*2/15);
+    const date=istDate(localDay-offset*DAY),dawn=dawnForDate(date);
+    const start=dawn?.dawnUtcMilliseconds,sunrise=dawn?.sunriseUtcMilliseconds;
+    if(!Number.isFinite(start)||!Number.isFinite(sunrise)||sunrise<=start||
+      sunrise-start>=3*3600000||istDate(sunrise)!==date||istDate(start)!==date)return [];
     const end=Math.min(sunrise,ingress);
     if(start<end)dawns.push({date,startUtcMilliseconds:start,endUtcMilliseconds:end});
   }
