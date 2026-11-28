@@ -13,7 +13,7 @@ This document deliberately does not invent unverified Sanskrit readings, constan
 
 - `data/drik-planetary-reference-2024-2027.json`: direct browser-captured named-city Guru/Shukra reference windows. Pithoragarh is city-label-only because the provider does not publish its observer coordinates.
 - `data/asta-udaya-benchmark.json`: event models and source-location policy, including separate IMD/Rashtriya Panchang heliacal event rows.
-- `ASTA-UDAYA-BENCHMARK-AUDIT.md`: source precision, event-class separation, and production acceptance gates.
+- `docs/ASTA-UDAYA-BENCHMARK-AUDIT.md`: source precision, event-class separation, and production acceptance gates.
 - `docs/FREE-ASTRONOMY-ENGINE-LICENSE-AND-TARA-BOUNDARY-RESEARCH.md`: Astronomy Engine 2.1.19 (MIT), Skyfield (MIT), and NASA/JPL Horizons/DE440/DE441 independent-check options.
 - `scripts/inspect-tara-boundary-geometry.mjs`: diagnostic geometry at the published Guru/Shukra boundaries; it is not itself a prediction engine.
 - `data/agastya-arghya-pithoragarh.json` and `research/agastya/traditional-arghya-source-provenance-audit.md`: separate traditional Agastya Arghya records and their single-provider/city-label limitations.
