@@ -205,10 +205,10 @@ const PROFILES = {
     id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
     label: "वामन जयंती — श्रवण नक्षत्र सहित जाँच", tithiIndices: [11], paksha: "शुक्ल पक्ष",
     decisionMoment: "manual-review", windowLabel: "मध्याह्न में द्वादशी और श्रवण नक्षत्र",
-    calculationBasis: "bhadrapada-shukla-dwadashi-madhyahna-shravana-yoga-ekadashi-tie-break",
+    calculationBasis: "bhadrapada-shukla-dwadashi-madhyahna-shravana-yoga-with-ekadashi-exception",
     allowedMonths: ["भाद्रपद"], reviewOnly: true,
-    reviewNote: "धर्मसिंधु के अनुसार भाद्रपद शुक्ल द्वादशी का मध्याह्न में श्रवण नक्षत्र से संयोग देखा जाता है। यदि श्रवण योग एकादशी और द्वादशी दोनों पर हो, तो एकादशी चुनने का नियम भी लागू होता है; इसलिए केवल द्वादशी-मिलान पर्याप्त नहीं।",
-    sourceReview: "dharmasindhu-chapter-7-special-shravana-and-ekadashi-tie-break-manual-review"
+    reviewNote: "धर्मसिंधु के अनुसार मध्याह्नव्यापिनी द्वादशी में मध्याह्न या अन्य काल का श्रवण संयोग देखा जाता है। द्वादशी में सर्वथा श्रवण का अभाव और एकादशी में श्रवण होने पर एकादशी का विशेष निर्णय है। वार्षिक गणना पूर्ण तिथि-नक्षत्र चक्र जाँचती है; अन्य संदिग्ध शाखाएँ और पारण समीक्षा में रहें।",
+    sourceReview: "dharmasindhu-ii-bhadrapada-vamana-jayanti-annual-cycle-review"
   },
   // Dharmasindhu II, Chaitra, Jayanti; Nirnayasindhu II, Dashavatara.
   // The selected calendar tradition only. Alternative kalpa dates and
