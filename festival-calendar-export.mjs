@@ -14,6 +14,13 @@ function fold(line) {
   parts.push(current);
   return parts.join("\r\n");
 }
+// A deliberately compact public selection; expand only after review.
+export function isMajorFestival(item) {
+  const title = String(item?.title || "");
+  const category = String(item?.category || "").trim();
+  if (/^(प्रमुख पर्व|एकादशी|पूर्णिमा|अमावस्या|संक्रांति|श्रावण सोमवार)$/.test(category)) return true;
+  return /प्रदोष|नवरात्र(?:ि)?\s*(?:प्रार[ंम्]भ|आरम्भ)|घटस्थापना|राम\s*नवमी|महाशिवरात्रि|जन्माष्टमी|गणेश चतुर्थी|रक्षा\s*बंधन|रक्षाबंधन|हनुमान जयंती|अक्षय तृतीया|अक्षय नवमी|आंवला नवमी|करवा चौथ|अहोई अष्टमी|भाई दूज|नरक चतुर्दशी|वट सावित्री|हरतालिका तीज|हरियाली तीज|गुरु पूर्णिमा|वसंत पंचमी|बसंत पंचमी|गंगा दशहरा|जगन्नाथ रथ यात्रा|नृसिंह जयंती|नरसिंह जयंती/.test(title) && !/मासिक.*जन्माष्टमी/.test(title);
+}
 export function approvedCalendarEvents(data,year,month) {
   if (!Number.isInteger(year) || !Number.isInteger(month) || month < 1 || month > 12 ||
       data?.year !== year || data?.month !== month || data.status !== "approved" || !Array.isArray(data.events)) return [];
@@ -22,7 +29,7 @@ export function approvedCalendarEvents(data,year,month) {
   return data.events.filter(item => {
     if (!item || item.reviewStatus !== "approved" || !validPanchangDate(item.date) ||
         !item.date.startsWith(prefix) || typeof item.title !== "string" || !item.title.trim() ||
-        !inPublicFestivalScope(item) || /ग्रहण|grahan|eclipse/i.test(item.title + " " + (item.category || ""))) return false;
+        !inPublicFestivalScope(item) || !isMajorFestival(item) || /ग्रहण|grahan|eclipse/i.test(item.title + " " + (item.category || ""))) return false;
     const key = item.date + "|" + item.title.trim();
     if (seen.has(key)) return false;
     seen.add(key); return true;
@@ -47,8 +54,8 @@ export function buildFestivalIcs(events,now = new Date()) {
 export function createFestivalCalendarExport(eventsEl) {
   const button = document.createElement("button");
   button.type = "button";
-  button.textContent = "स्वीकृत मासिक पर्व कैलेंडर (.ics)";
-  button.title = "प्रकाशित पर्व-तिथियाँ; स्थानीय मुहूर्त और ग्रहण शामिल नहीं हैं";
+  button.textContent = "प्रमुख व्रत-पर्व कैलेंडर (.ics)";
+  button.title = "प्रमुख प्रकाशित पर्व-तिथियाँ; स्थानीय मुहूर्त और ग्रहण शामिल नहीं हैं";
   button.style.cssText = "display:block;min-height:44px;margin:8px auto;padding:8px 12px;max-width:100%;font:inherit;cursor:pointer";
   button.hidden = true;
   button.style.display = "none";
