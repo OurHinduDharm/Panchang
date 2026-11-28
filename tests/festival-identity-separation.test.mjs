@@ -30,6 +30,8 @@ test("Neem Karoli Baba Jayanti text preserves Ram and Hanuman devotion", () => {
 
 test("independent observances sharing a date retain separate cards", () => {
   const checks = [
+    [2026, 12, "2026-12-07", ["मासिक शिवरात्रि", "श्री बाला सिद्धविद्या जयंती"]],
+    [2030, 11, "2030-11-24", ["श्री बाला सिद्धविद्या जयंती", "दर्श अमावस्या"]],
     [2026, 12, "2026-12-23", ["मार्गशीर्ष पूर्णिमा", "दत्तात्रेय जयंती", "अन्नपूर्णा सिद्धविद्या जयंती", "त्रिपुरभैरवी महाविद्या जयंती"]],
     [2026, 12, "2026-12-14", ["विवाह पंचमी", "नाग पंचमी (तेलुगु परंपरा)"]],
     [2030, 3, "2030-03-06", ["फुलेरा दूज", "श्रीरामकृष्ण परमहंस जयंती"]],
@@ -106,4 +108,22 @@ test("independent saint jayantis are not merged with each other or Purnima", () 
     assert.ok(has(events, date, "मीराबाई जयंती"), "missing Meera Jayanti " + year);
     assert.ok(has(events, date, "आश्विन पूर्णिमा"), "missing Ashwin Purnima " + year);
   }
+});
+
+
+test("Bala Siddhavidya denotes Bala Tripurasundari; no unrelated ritual or muhurta is inherited",()=>{
+  for(const [year,m,date] of [[2026,12,"2026-12-07"],[2030,11,"2030-11-24"]]){
+    const events=month(year,m);
+    const bala=events.find(e=>e.date===date&&e.title==="श्री बाला सिद्धविद्या जयंती");
+    assert.ok(bala);
+    assert.match(bala.description,/सिद्धविद्या श्री बाला त्रिपुरसुंदरी की जयंती/);
+    assert.match(bala.description,/स्तोत्रात्मक उपासना/);
+    assert.doesNotMatch(bala.description,/का ही स्वरूप|शिवरात्रि|अमावस्या/);
+    assert.equal(bala.muhurtaRule,undefined);
+    assert.equal(bala.articleUrl,undefined);
+    assert.equal(bala.hinduTithi,"मार्गशीर्ष कृष्ण चतुर्दशी");
+  }
+  const shiva=month(2026,12).find(e=>e.date==="2026-12-07"&&e.title==="मासिक शिवरात्रि");
+  assert.equal(shiva.muhurtaRule,"masik-shivaratri-nishita");
+  assert.match(shiva.articleUrl,/MahaShivratri/);
 });
