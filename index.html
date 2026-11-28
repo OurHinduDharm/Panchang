@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta name="description" content="आज और किसी भी चुनी हुई तारीख़ का हिंदू पंचांग देखें। स्थान के अनुसार तिथि, नक्षत्र, योग, करण, सूर्योदय और सूर्यास्त की जानकारी प्राप्त करें।"/>
-<title>हिंदू पंचांग | OurHinduDharm</title>
+<title>दैनिक हिन्दू पंचांग | OurHinduDharm</title>
+<link rel="canonical" href="https://ourhindudharm.blogspot.com/p/panchang-today.html"/>
 <style>
 *{box-sizing:border-box}
 #ohdPanchang{
@@ -584,8 +585,6 @@
 </div>
 
 
-  </div>
-
 </div>
 <div id="ohdPanchang">
   <div class="header">
@@ -593,7 +592,7 @@
     <p>OurHinduDharm</p>
   </div>
   <div class="searchbox">
-    <label>📍 अपना शहर खोजें</label>
+    <label for="cityInput">📍 अपना शहर खोजें</label>
     <div class="searchrow">
       <input autocomplete="off" id="cityInput" placeholder="जैसे Pithoragarh, Delhi, Mumbai..." type="text"/>
       <button onclick="searchCity()">🔍 खोजें</button>
@@ -605,7 +604,7 @@
     <div class="selected" id="selectedCity" style="display:none;"></div>
   </div>
   <div class="datebox">
-    <label>📅 तारीख</label>
+    <label for="dateInput">📅 तारीख</label>
     <input id="dateInput" type="date" lang="en-GB"/>
     <div class="datebuttons">
       <button onclick="previousDay()">‹‹पिछला दिन</button>
@@ -616,14 +615,23 @@
   <div id="result">
     <div class="loading">पंचांग की गणना हो रही है...</div>
   </div>
+  <noscript><p>पंचांग की गणना के लिए JavaScript सक्षम करें। अन्य धार्मिक जानकारी के लिए नीचे दिए गए पृष्ठ खोलें।</p></noscript>
   <div class="footer">
     <p>© <span id="current-year"></span> OurHinduDharm</p>
     <div class="footer-pages">
       <h3>अन्य पेज एवं उपयोगी टूल</h3>
       <div class="site-page-links">
-        <a class="site-page-link" href="monthly-vrat-parv.html">
+        <a class="site-page-link" href="https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html">
           <strong>🪔 मासिक व्रत-पर्व एवं त्योहार</strong>
           <span>महीने और वर्ष के अनुसार व्रत-पर्व की सूची देखें।</span>
+        </a>
+        <a class="site-page-link" href="https://ourhindudharm.blogspot.com/p/grahan-panchang.html">
+          <strong>ग्रहण पंचांग</strong>
+          <span>सूर्यग्रहण और चंद्रग्रहण की जानकारी।</span>
+        </a>
+        <a class="site-page-link" href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">
+          <strong>गुरु-शुक्र-अगस्त्य उदय-अस्त</strong>
+          <span>वार्षिक तारा पंचांग।</span>
         </a>
       </div>
     </div>
