@@ -7,6 +7,8 @@ import {buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} f
 
 import {buildVaishakhaTritiyaComponentReview} from "./review-vaishakha-tritiya-components.mjs";
 
+import {buildEkadashiTrisprishaReview} from "./review-ekadashi-trisprisha.mjs";
+
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const validYear=y=>Number.isInteger(y)&&y>=1900&&y<=2200;
 const isoDay=(year,offset)=>new Date(Date.UTC(year,0,1+offset)).toISOString().slice(0,10);
@@ -171,6 +173,7 @@ async function main(){
   output.ruleCoverage=buildRuleCoverageReview({annual,manifests,year,sourceYear});
   output.recurringReview=buildRecurringFestivalReview({annual,year});
   output.vaishakhaTritiyaComponents=buildVaishakhaTritiyaComponentReview(annual);
+  output.ekadashiTrisprishaReview=buildEkadashiTrisprishaReview(annual);
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
   await writeFile(resolve(dir,year+"-from-"+sourceYear+".json"),JSON.stringify(output,null,2)+"\n");

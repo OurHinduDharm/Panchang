@@ -173,3 +173,42 @@ test("first-yama evidence distinguishes a quarter-night from three night muhurta
   const broken=structuredClone(days);broken[0].tithis[1].endTime="2030-05-04T23:00:00Z";
   assert.equal(reviewParashuramaNightEvidence(broken,"2030-05-05").candidateDate,null);
 });
+
+import {reviewTrisprishaSunriseCycle,buildEkadashiTrisprishaReview} from "../scripts/review-ekadashi-trisprisha.mjs";
+function trisprishaDays(index=10){
+  const rows=[[index-1,"2030-05-12T18:00:00Z","2030-05-13T03:00:00Z"],[index,"2030-05-13T03:00:00Z","2030-05-14T01:00:00Z"],[index+1,"2030-05-14T01:00:00Z","2030-05-14T22:00:00Z"],[index+2,"2030-05-14T22:00:00Z","2030-05-15T22:00:00Z"]];
+  return ["2030-05-13","2030-05-14","2030-05-15"].map(date=>({date,masa:"वैशाख",sunrise:date+"T00:00:00Z",tithis:rows.map(([index,startTime,endTime])=>({index,startTime,endTime}))}));
+}
+test("Trisprisha geometry keeps householder and later observance candidates separate in both pakshas",()=>{
+  for(const index of [10,25]){
+    const result=reviewTrisprishaSunriseCycle(trisprishaDays(index),index);
+    assert.equal(result.status,"source-review-required");
+    assert.deepEqual(result.sunriseSequence,[index-1,index,index+2]);
+    assert.equal(result.candidates.smartaHouseholderEarlier,"2030-05-13");
+    assert.equal(result.candidates.mumukshuVaishnavaLater,"2030-05-14");
+    assert.equal(result.paranaEvidence.dwadashiAtLaterFastNextSunrise,false);
+    assert.equal(result.candidateDate,null);
+    assert.equal(result.publishable,false);
+  }
+});
+test("Trisprisha does not infer missing or conflicting evidence",()=>{
+  const missing=trisprishaDays();for(const day of missing)day.tithis=day.tithis.filter(r=>r.index!==11);
+  assert.equal(reviewTrisprishaSunriseCycle(missing,10).status,"manual-review");
+  const conflicting=trisprishaDays();conflicting[1].tithis.push({index:9,startTime:"2030-05-14T00:30:00Z",endTime:"2030-05-14T02:00:00Z"});
+  assert.equal(reviewTrisprishaSunriseCycle(conflicting,10).status,"manual-review");
+  const normal=trisprishaDays();for(const day of normal){day.tithis[2].endTime="2030-05-15T01:00:00Z";day.tithis[3].startTime="2030-05-15T01:00:00Z";}
+  assert.equal(reviewTrisprishaSunriseCycle(normal,10).status,"not-this-pattern");
+  const gap=trisprishaDays();gap[0].date="2030-05-12";
+  assert.equal(reviewTrisprishaSunriseCycle(gap,10).status,"manual-review");
+});
+test("real Pithoragarh 2030 Mohini has Dwadashi ksaya and separate candidate dates",async()=>{
+  const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+  const report=buildEkadashiTrisprishaReview(annual);
+  const result=report.occurrences.find(x=>x.sunriseDates[1]==="2030-05-14"&&x.index===10);
+  assert.ok(result,"Mohini Trisprisha evidence must be derived from local data");
+  assert.deepEqual(result.sunriseSequence,[9,10,12]);
+  assert.equal(result.candidates.smartaHouseholderEarlier,"2030-05-13");
+  assert.equal(result.candidates.mumukshuVaishnavaLater,"2030-05-14");
+  assert.equal(result.candidateDate,null);
+  console.log("MOHINI_TRISPRISHA="+JSON.stringify(result));
+});
