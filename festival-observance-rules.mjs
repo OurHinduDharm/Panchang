@@ -99,6 +99,17 @@ const PROFILES = {
     allowedMonths: ["चैत्र"],
     sourceReview: "primary-digest-consulted-ashtami-vedha-review-pending"
   },
+  // Dharmasindhu II, Chaitra, Jayanti; Nirnayasindhu II, Dashavatara.
+  // Only the selected Chaitra Tritiya tradition. Other kalpa variants
+  // and the equal-coverage tie rule are not inferred from a generic profile.
+  "matsya-jayanti-aparahna": {
+    id: "matsya-jayanti-aparahna", aliases: [],
+    label: "मत्स्यावतार जयंती", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "aparahna", windowLabel: "अपराह्ण काल",
+    calculationBasis: "chaitra-shukla-tritiya-local-aparahna-unique-overlap",
+    allowedMonths: ["चैत्र"],
+    sourceReview: "dharmasindhu-and-nirnayasindhu-dashavatara-aparahna-unique-window-review-ties-pending"
+  },
   "vijayadashami-aparahna": {
     id: "vijayadashami-aparahna", aliases: ["vijayadashami", "dussehra"],
     label: "विजयादशमी", tithiIndices: [9], paksha: "शुक्ल पक्ष",
