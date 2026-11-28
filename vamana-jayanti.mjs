@@ -69,8 +69,12 @@ export function reviewVamanaJayanti(days) {
     selectionBasis:basis,evaluations,autoApproved:false,publishable:false,
     warnings:["source-and-publication-approval-required","vamana-parana-separate-review-required"]});
   if(dy.length){
+    // उभयदिने श्रवणयोगे पूर्वैव — explicitly earlier when Dwadashi
+    // and Shravana coincide on both consecutive days. At least one
+    // Madhyahna Dwadashi is required here; other cases stay in review.
     if(dy.length===2){
-      if(middle.some(x=>x.date===dy[0].date))return choose(dy[0],"dharmasindhu-two-shravana-days-earlier");
+      if(middle.length&&ms(dy[1].date)-ms(dy[0].date)===86400000)
+        return choose(dy[0],"dharmasindhu-two-shravana-days-earlier");
       return pending("two-shravana-days-with-conflicting-madhyahna-review",evaluations);
     }
     if(middle.length===1&&dy.some(x=>x.date===middle[0].date))
