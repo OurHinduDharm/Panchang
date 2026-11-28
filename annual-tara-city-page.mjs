@@ -43,7 +43,7 @@ function eventLink(card, label, date, location) {
   }
 }
 
-async function show({events, arghya = [], elevationSourceApproximate}, selectedYear, location, version) {
+async function show({events, arghya = [], kanyaCalendar = null, elevationSourceApproximate}, selectedYear, location, version) {
   if (version !== selectionVersion) return;
   const fragment = document.createDocumentFragment();
   for (const [body, name] of [["Jupiter", "गुरु"], ["Venus", "शुक्र"], ["Star1", "अगस्त्य"]]) {
@@ -66,9 +66,44 @@ async function show({events, arghya = [], elevationSourceApproximate}, selectedY
       for (const window of arghya) {
         const start = new Date(window.startUtcMilliseconds);
         const end = new Date(window.endUtcMilliseconds);
-        addText(card, "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
+        // Dawn is supported by Nirnayasindhu; the computed visibility date
+        // itself is not a verified traditional Udaya. Keep that distinction.
+        const minutes = Math.round((end.getTime() - start.getTime()) / 60000);
+        const morningWindow = panchangIsoDate(start) === panchangIsoDate(end) &&
+          minutes > 0 && minutes <= 180 && Number(clock.format(end).split(":")[0]) < 12;
+        if (morningWindow) addText(card, "h3", "अगस्त्यार्घ्य हेतु दृश्यता-आधारित दर्शनकाल");
+        addText(card, morningWindow ? "p" : "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
         addText(card, "p", "समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
+        if (minutes > 0) {
+          const hours = Math.floor(minutes / 60), remainder = minutes % 60;
+          addText(card, "p", "अवधि — " + [hours ? hours + " घंटा" : "", remainder ? remainder + " मिनट" : ""].filter(Boolean).join(" "));
+        }
       }
+      if (kanyaCalendar?.dawns?.length === 7 && Number.isFinite(kanyaCalendar.ingressUtcMilliseconds)) {
+        const ingress = new Date(kanyaCalendar.ingressUtcMilliseconds);
+        addText(card, "h3", "कन्या संक्रान्ति से पूर्व अगस्त्यार्घ्य");
+        addText(card, "p", "भविष्यपुराण (निर्णयसिन्धु में उद्धृत) के अनुसार सात प्रातःकालीन अवसर");
+        addText(card, "p", "कन्या संक्रान्ति — " + dateOnly.format(ingress) + " · " + formatClock(clock.format(ingress)));
+        addText(card, "p", "इस विधान के अनुसार कन्या संक्रान्ति के बाद अर्घ्यकाल समाप्त।");
+        const list = document.createElement("ol");
+        for (const dawn of kanyaCalendar.dawns) {
+          // Round inward so the published minute never extends past the bound.
+          const from = new Date(Math.ceil(dawn.startUtcMilliseconds / 60000) * 60000);
+          const to = new Date(Math.floor(dawn.endUtcMilliseconds / 60000) * 60000);
+          if (from >= to) continue;
+          const row = addText(list, "li", dateOnly.format(from) + " — " + formatClock(clock.format(from)) + " से " + formatClock(clock.format(to)) + " तक");
+          row.style.marginBottom = "0.5em";
+        }
+        card.append(list);
+        addText(card, "p", "समय-गणना: स्थानीय प्रभात (सूर्य क्षितिज से 12° नीचे) से सूर्योदय तक; संक्रान्ति पहले हो तो वहीं तक। यह गणितीय प्रभात-सीमा है।");
+      }
+      addText(card, "h3", "अगस्त्यार्घ्य के शास्त्रीय विधान");
+      const rules = document.createElement("ul");
+      addText(rules, "li", "स्कन्दपुराण — श्रावणमास माहात्म्य, अध्याय 28, श्लोक 2–3 एवं 31–32: अगस्त्योदय से पूर्व सात दिन प्रतिदिन अर्घ्यदान का विधान है। (एवं सप्तदिनं दत्त्वा अर्घ्यं प्रागुदयान्मुनेः॥ — 28.31 उत्तरार्ध)");
+      addText(rules, "li", "पद्मपुराण — निर्णयसिन्धु, द्वितीय परिच्छेद, अगस्त्यार्घ्य प्रकरण में उद्धृत: अगस्त्योदय से सात रात्रियों तक अर्घ्यदान का विधान है। (आसप्तरात्रादुदयाद्यमस्य दातव्यमेतत्सकलं नरेण। — उद्धृत श्लोकांश)");
+      addText(rules, "li", "भविष्यपुराण — व्रतहेमाद्रि के माध्यम से निर्णयसिन्धु में उद्धृत: कन्या संक्रान्ति से पूर्व सात दिन अर्घ्यकाल है; कन्या प्रवेश पर इसकी समाप्ति होती है। (कन्यायामागते सूर्येऽर्वाग्वै सप्तमे दिने। कन्यायां समनुप्राप्ते ह्यर्घकालो निवर्तते॥)");
+      card.append(rules);
+      addText(card, "p", "ये अलग शास्त्रीय विधान हैं। उदय-आधारित विधानों में पारम्परिक अगस्त्योदय का निर्णय तथा अपने कुलाचार का अनुसरण करें।");
     }
     fragment.append(card);
   }

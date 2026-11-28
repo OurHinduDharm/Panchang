@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 20
       - name: Install pinned open-source astronomy engine
-        run: npm install --no-save astronomy-engine@2.1.19 playwright@1.56.1
+        run: npm install --no-save astronomy-engine@2.1.19 playwright@1.56.1 @ishubhamx/panchangam-js@3.0.0 esbuild@0.25.12
       - name: Check source syntax
         run: |
           node --check research/drik-ganita-time-separation.mjs

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {grahalaghavaTargets,reviewTraditionalArghya} from "../research/agastya-traditional-decision.mjs";
+import {grahalaghavaTargets,reviewTraditionalArghya,kanyaIngressFromSunSign,kanyaPrecedingDawns} from "../research/agastya-traditional-decision.mjs";
 const ms=Date.parse;
 const date=i=>new Date(Date.UTC(2027,8,1+i)).toISOString().slice(0,10);
 const at=(i,clock)=>ms(date(i)+"T"+clock+"+05:30");
@@ -40,4 +40,30 @@ test("missing dates, incomplete bracketing and physical rise input fail closed",
   assert.equal(reviewTraditionalArghya(y).firstArghya,null);
   assert.equal(reviewTraditionalArghya({...make(),riseDefinition:"geometric-rise"}).firstArghya,null);
   assert.equal(reviewTraditionalArghya({...make(),riseUtcMilliseconds:NaN}).firstArghya,null);
+});
+
+test("Kanya ingress is independently bisected, rejects invalid sign brackets",()=>{
+  const expected=ms("2027-09-17T08:40:34Z");
+  const found=kanyaIngressFromSunSign(2027,t=>t<expected?4:5);
+  assert.ok(found>=expected&&found-expected<=1000);
+  assert.equal(kanyaIngressFromSunSign(2027,()=>4),null);
+  assert.equal(kanyaIngressFromSunSign(2027,()=>null),null);
+});
+test("seven pre-Kanya mornings include ingress day only if dawn is eligible",()=>{
+  const night=date=>({dawnUtcMilliseconds:ms(date+"T04:24:00+05:30"),
+    sunriseUtcMilliseconds:ms(date+"T06:00:00+05:30")});
+  const midday=kanyaPrecedingDawns(ms("2027-09-17T14:10:00+05:30"),night);
+  assert.equal(midday.length,7);
+  assert.equal(midday[0].date,"2027-09-11");
+  assert.equal(midday.at(-1).date,"2027-09-17");
+  assert.equal(midday.at(-1).startUtcMilliseconds,ms("2027-09-17T04:24:00+05:30"));
+  const early=kanyaPrecedingDawns(ms("2027-09-17T04:00:00+05:30"),night);
+  assert.equal(early[0].date,"2027-09-10");
+  assert.equal(early.at(-1).date,"2027-09-16");
+  const midway=ms("2027-09-17T05:00:00+05:30");
+  const clipped=kanyaPrecedingDawns(midway,night);
+  assert.equal(clipped.at(-1).endUtcMilliseconds,midway);
+  assert.ok(clipped.every(d=>d.endUtcMilliseconds<=midway));
+  assert.deepEqual(kanyaPrecedingDawns(midway,()=>null),[]);
+  assert.deepEqual(kanyaPrecedingDawns(null,night),[]);
 });

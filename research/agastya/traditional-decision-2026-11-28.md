@@ -47,3 +47,33 @@ Owner's printed Tara Prasad VS2084 reference: traditional rise 1 Sep 12:35 IST, 
 First dawn agrees with the printed day. This is a conditional review schedule; do not claim the times are published Tara Prasad Arghya timings. The seven-morning operational counting interpretation and exact dawn boundary remain review choices. Bhavishya's seven preceding mornings in this example are Sep 11–17 and do not overlap the first seven after rise. No forced reconciliation.
 
 Module accepts explicit traditional rise, Simha/Kanya ingresses, complete consecutive local dawn windows and returns separately scoped candidates. It refuses geometric-rise inputs or missing data. The traditional Udaya root for the printed 12:35 is not established. Do not substitute geometric/heliacal rise, copy other cities, or extrapolate publisher times. No new public feature until independent local date/time method is established; current public system remains intact.
+
+## Public dawn-display clarification
+
+The Sanskrit text of Nirnayasindhu II, Agastyarghya (TransLiteral lines 122–125), confirms dawn/night-end as the ritual period in the Vishnurahasya quotation. Its Padma and Bhavishya/Hemadri passages support an allowance after traditional rise and a Kanya-ingress limit respectively; they do not determine the exact modern visibility threshold. The public renderer may describe a calculated same-local-date morning rise-to-sunrise interval as “अगस्त्यार्घ्य हेतु दृश्यता-आधारित दर्शनकाल”, not a verified traditional Arghya muhurta. A positive duration of at most three hours and sunrise before local noon are defensive presentation checks, not scriptural numerical limits. Other intervals retain the astronomical label only. No reference dates copied; the independent traditional rise remains unresolved.
+
+## Independent Kanya-ingress calendar
+
+Nirnayasindhu II, Agastyarghya, future-purana citation through Vrata-Hemadri (TransLiteral line 122) specifies the seventh day before the Sun enters Kanya and cessation at Kanya ingress. The renderer provides a separately labeled calculation of the last seven eligible local morning opportunities up to that ingress. This is an operational interpretation, not a resolution of all traditional day-count conventions or a determination of traditional Udaya. The public calculation uses the same instantaneous sidereal Sun-sign extraction as the existing Panchang Sankranti feature, brackets Simha/Kanya and bisects to one second; the display is minute-based. The initial previous-sunset/last-2/15 proxy has been superseded by the explicitly labeled astronomical morning -12° solar-altitude crossing to sunrise; see the following audit. If ingress is within dawn, clip at ingress; if before dawn, use the prior seven opportunities. No fixed Gregorian date, external timetable, or reference substitution. An absent/invalid ingress or night suppresses only the additional section. Padma's seven nights after independently established traditional Udaya remain unresolved; do not silently substitute modern first-visible rise. Actual worker integration and browser verification required before merge.
+
+## Dawn boundary comparison — revised display convention
+
+Brihat Samhita 12.15 (https://www.transliteral.org/pages/z150218035747/view and Sanskrit https://sa.wikisource.org/wiki/बृहत्संहिता/अध्यायः_१२) describes the night's darkness beginning to disperse with Aruna's rays; it gives no solar altitude. Nirnayasindhu, Vedic observance/vedha context (https://www.transliteral.org/pages/z130515050414/view) describes four ghatis before sunrise and discusses other definitions. Do not promote that context-specific convention to a mandatory Agastya boundary. Drik Panchang New Delhi 2027 (https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?time-format=24hour&year=2027) lists September 4 04:59–06:00, with sunrise 06:00 on its daily page (https://www.drikpanchang.com/panchang/day-panchang.html?date=04/09/2027). This supports the local sunrise end, not a fixed 06:00 or a universal dawn start.
+
+Actual independent Swiss Ephemeris 2.10.03 Moshier calculation: Pithoragarh 29.5828 N, 80.2182 E, 1650 m, standard rise_trans sunrise, auto pressure, 15 C; geometric solar centre altitude roots via scipy brentq, IST. Results:
+
+| September 2027 | 4 ghatis before sunrise | -18° | -12° | -6° | sunrise |
+|---|---|---|---|---|---|
+| 11 | 04:15:58 | 04:30:49 | 04:59:20 | 05:27:26 | 05:51:58 |
+| 12 | 04:16:30 | 04:31:27 | 04:59:55 | 05:27:59 | 05:52:30 |
+| 13 | 04:17:01 | 04:32:05 | 05:00:30 | 05:28:31 | 05:53:01 |
+| 14 | 04:17:32 | 04:32:43 | 05:01:05 | 05:29:04 | 05:53:32 |
+| 15 | 04:18:03 | 04:33:21 | 05:01:39 | 05:29:36 | 05:54:03 |
+| 16 | 04:18:34 | 04:33:58 | 05:02:13 | 05:30:08 | 05:54:34 |
+| 17 | 04:19:05 | 04:34:35 | 05:02:47 | 05:30:40 | 05:55:05 |
+
+The 96-minute boundary is at solar altitude about -21.1 to -21.3°, earlier than astronomical twilight. Use -12° (nautical twilight) as a transparent operational compromise for a calculated dawn window; not a textual cutoff or a fitted publisher rule. The source does not prescribe -12°, and -6° and -18° remain possible physical comparators. Worker uses Astronomy Engine SearchAltitude and SearchRiseSet, not the offline reference times. The seven-morning ingress convention remains separate from Padma's post-traditional-rise rule. Kanya ingress Swiss Lahiri cross-check September 17 14:10:34 IST. Browser results and equivalence to daily Panchang sunrise still require integration verification.
+
+## Three separately attributed scriptural rules — public explanatory text
+
+Skanda Purana, Shravana-masa-mahatmya chapter 28, verses 2–3 and 31–32, Sanskrit transcription: https://stotrasamhita.github.io/puja-vidhanam/kathas/shravana-mahatmyam/chapter-28/ . Verse 31 reads “एवं सप्तदिनं दत्त्वा अर्घ्यं प्रागुदयान्मुनेः”; verse 3 has “दद्यादर्घ्यं प्रत्यहं”. The specified pre-rise practice is daily; avoid a blanket statement that all seven-day observances are optional. Padma and Bhavishya are verified here as quotations in Nirnayasindhu II, Agastyarghya (https://www.transliteral.org/pages/z130530210948/view, lines 122–123), not independently verified editions of those Puranas. Padma's post-rise rule and Bhavishya's Kanya cutoff are presented with this attribution. Do not merge the three into a universal 14-day period, and do not assign traditional pre/post-rise dates from a modern visibility timestamp. The explanatory note is independent of the computed Kanya section; no calculation changes.

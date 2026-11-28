@@ -3,10 +3,19 @@ import { chromium } from "playwright";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { resolve, sep, extname } from "node:path";
+import { build } from "esbuild";
 
 const root = resolve(".");
+// Bundle the actual pinned ayanamsa implementation directly, not the
+// package barrel (which eagerly loads a Node-only kundli exporter).
+const ayanamsaPath = "./node_modules/@ishubhamx/panchangam-js/dist/core/ayanamsa.js";
+const panchangBundle = (await build({
+  stdin:{contents:`export { getAyanamsa } from "${ayanamsaPath}";`,resolveDir:root},
+  bundle:true,format:"esm",platform:"browser",write:false
+})).outputFiles[0].contents;
 const server = createServer(async (req, res) => {
   const path = new URL(req.url, "http://localhost").pathname;
+  if (path === "/__test-panchang.mjs") return res.writeHead(200, {"Content-Type":"text/javascript"}).end(panchangBundle);
   const file = resolve(root, "." + (path === "/" ? "/index.html" : path));
   if (!file.startsWith(root + sep)) return res.writeHead(403).end();
   try {
@@ -16,7 +25,8 @@ const server = createServer(async (req, res) => {
       // npm distribution in CI so the model test does not depend on jsDelivr.
       const cdn = "https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/esm/astronomy.js";
       assert.ok(data.toString().includes(cdn));
-      data = data.toString().replace(cdn, "/node_modules/astronomy-engine/esm/astronomy.js");
+      data = data.toString().replace(cdn, "/node_modules/astronomy-engine/esm/astronomy.js")
+        .replace("https://esm.sh/@ishubhamx/panchangam-js@3.0.0", "/__test-panchang.mjs");
     }
     const mime = { ".html": "text/html", ".mjs": "text/javascript", ".js": "text/javascript", ".json": "application/json" };
     res.writeHead(200, {"Content-Type": mime[extname(file)] || "application/octet-stream"}).end(data);
@@ -32,6 +42,7 @@ try {
     isMobile: true, timezoneId: "America/Los_Angeles"});
   const errors = [];
   page.on("pageerror", error => errors.push(error.message));
+  page.on("console", message => { if (message.text().includes("Kanya calculation:")) console.log(message.text()); });
   const started = Date.now();
   await page.goto("http://127.0.0.1:" + server.address().port + "/planetary-asta-udaya.html");
   await page.selectOption("#city", "delhi");
@@ -55,6 +66,25 @@ try {
     worker.postMessage({location: {name: "वाराणसी", lat: 25.3176, lon: 82.9739,
       elevation: 81, elevationStatus: "provided"}, year: 2027});
   }));
+  // A missing ingress section must fail this test even when the planet cards render.
+  assert.ok(located.kanyaCalendar, "Kanya calendar must be calculated by the actual worker: " + located.kanyaStatus);
+  const {ingressUtcMilliseconds: ingress, dawns} = located.kanyaCalendar;
+  assert.ok(Math.abs(ingress-Date.parse("2027-09-17T14:10:34+05:30")) < 2*3600000, new Date(ingress).toISOString());
+  assert.deepEqual(dawns.map(d=>d.date), Array.from({length:7},(_,i)=>"2027-09-"+(11+i)));
+  assert.ok(dawns.every(d=>d.startUtcMilliseconds<d.endUtcMilliseconds && d.endUtcMilliseconds<=ingress &&
+    d.endUtcMilliseconds-d.startUtcMilliseconds>20*60000 && d.endUtcMilliseconds-d.startUtcMilliseconds<100*60000));
+  const section = page.locator(".planet").filter({hasText:"कन्या संक्रान्ति से पूर्व अगस्त्यार्घ्य"});
+  assert.equal(await section.count(),1);
+  assert.equal(await section.locator("ol li").count(),7);
+  assert.match(await section.innerText(), /संक्रान्ति के बाद अर्घ्यकाल समाप्त/);
+  const rules = section.locator("ul li");
+  assert.equal(await rules.count(),3);
+  assert.match(await rules.nth(0).innerText(), /स्कन्दपुराण.*पूर्व सात दिन प्रतिदिन/);
+  assert.match(await rules.nth(1).innerText(), /पद्मपुराण.*निर्णयसिन्धु.*सात रात्रियों तक/);
+  assert.match(await rules.nth(2).innerText(), /भविष्यपुराण.*व्रतहेमाद्रि.*कन्या संक्रान्ति से पूर्व सात दिन/);
+  assert.match(await rules.nth(0).innerText(), /\(एवं सप्तदिनं दत्त्वा अर्घ्यं प्रागुदयान्मुनेः॥/);
+  assert.match(await rules.nth(1).innerText(), /\(आसप्तरात्रादुदयाद्यमस्य दातव्यमेतत्सकलं नरेण।/);
+  assert.match(await rules.nth(2).innerText(), /\(कन्यायामागते सूर्येऽर्वाग्वै सप्तमे दिने। कन्यायां समनुप्राप्ते ह्यर्घकालो निवर्तते॥\)/);
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
@@ -96,6 +126,8 @@ try {
   await arghya.waitFor();
   const recorded = await arghya.innerText();
   assert.match(recorded, /उदय से सूर्योदय तक —/);
+  assert.match(recorded, /अगस्त्यार्घ्य हेतु दृश्यता-आधारित दर्शनकाल/);
+  assert.match(recorded, /अवधि —/);
   assert.doesNotMatch(recorded, /पारम्परिक अगस्त्यार्घ्य का निर्णय अलग है/);
   assert.doesNotMatch(recorded, /अर्घ्य देने का समय —/);
   assert.match(recorded, /उदय — 6 सितंबर/);
