@@ -1,5 +1,6 @@
 import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
+import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
 
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOffsetForLocalDay,isValidTimeZone} from "./location-timezone.mjs";
@@ -48,6 +49,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
   }
   var eventsEl=document.getElementById("events");
+  var updateCalendarExport=createFestivalCalendarExport(eventsEl);
   // मासिक सूची के नीचे उपयोगी नियम और गणना-सीमाएँ दिखाएँ; Blogger HTML में
   // अलग से यह खंड न होने पर भी विजेट इसे सुरक्षित DOM APIs से बना देता है।
   function ensureUsageGuide(){
@@ -1621,6 +1623,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
     searchInput.value="";
     var token=++requestToken;
+    updateCalendarExport(null);
     locationEclipseCalculationFailed=false;
     renderedCards=new WeakMap();
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
@@ -1643,6 +1646,7 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       var data=await response.json();
       if(token!==requestToken)return;
       if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
+      if(!reviewMode)updateCalendarExport(data,year,month);
       var dwadashiYearPromise=fetchDwadashiYear(year,controller.signal);
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
