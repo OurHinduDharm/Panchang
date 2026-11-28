@@ -14,64 +14,77 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
   if(!document.getElementById("special-punya-kaal-sentinel")){
     document.getElementById("special-punya-kaal").insertAdjacentHTML("beforebegin", '<div id="special-punya-kaal-sentinel" class="special-punya-kaal-sentinel" aria-hidden="true"></div>');
   }
-  // An incoming link is a one-time navigation, not a permanent scroll command.
+  // Keep old fragment links and query-only links working. A bounded landing
+  // correction handles late Blogger headers/ads/fonts, never a user's scroll.
   const params=new URLSearchParams(window.location.search);
   const focusDate=params.get("specialFocus")||"";
   const focusType=params.get("specialType")||"";
   const focusYear=Number(params.get("year")),focusMonth=Number(params.get("month"));
-  let focusPending=window.location.hash==="#special-punya-kaal"||
-    (/^\d{4}-\d{2}-\d{2}$/.test(focusDate)&&["vyatipata-mahapat","vaidhriti-mahapat"].includes(focusType));
-  let focusUserActive=false,focusTimer=null,focusReady=null;
-  function detachFocusListeners(){
-    window.removeEventListener("wheel",markFocusScroll);
-    window.removeEventListener("touchmove",markFocusScroll);
-    window.removeEventListener("keydown",markFocusKey);
-    window.removeEventListener("scroll",continueFocusScroll);
-    if(focusTimer!==null)window.clearTimeout(focusTimer);
-    focusTimer=null;
+  const precise=/^\d{4}-\d{2}-\d{2}$/.test(focusDate)&&["vyatipata-mahapat","vaidhriti-mahapat"].includes(focusType);
+  const legacyHash=()=>window.location.hash==="#special-punya-kaal";
+  let focusPending=legacyHash()||params.get("special")==="mahapat"||precise;
+  let focusReady=null, focusGeneration=0, landing=null, landingTimers=[], highlightTimer=null;
+  function clearLanding(){
+    focusGeneration++;
+    for(const timer of landingTimers)window.clearTimeout(timer);
+    landingTimers=[];
+    if(highlightTimer!==null)window.clearTimeout(highlightTimer);
+    highlightTimer=null;
+    if(landing){landing.style.outline="";landing.style.outlineOffset="";}
+    landing=null;
   }
-  function cancelFocus(){focusPending=false;focusReady=null;detachFocusListeners();}
-  function markFocusScroll(){
-    focusUserActive=true;
-    if(focusTimer!==null)window.clearTimeout(focusTimer);
-    focusTimer=window.setTimeout(()=>{focusTimer=null;focusUserActive=false;tryFocus();},700);
+  function cancelFocus(){focusPending=false;clearLanding();}
+  function onScrollKey(event){
+    if(["ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)&&!event.altKey&&!event.ctrlKey&&!event.metaKey)cancelFocus();
   }
-  function continueFocusScroll(){if(focusUserActive)markFocusScroll();}
-  function markFocusKey(event){
-    if(["ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)&&!event.altKey&&!event.ctrlKey&&!event.metaKey)markFocusScroll();
-  }
+  // Cancel even while the catalogue is loading; a reader who interacts
+  // must not be pulled back by a delayed automatic scroll.
+  window.addEventListener("wheel",cancelFocus,{passive:true});
+  window.addEventListener("touchmove",cancelFocus,{passive:true});
+  window.addEventListener("keydown",onScrollKey);
+  window.addEventListener("pointerdown",event=>{
+    if(event.pointerType==="mouse"&&event.clientX>=document.documentElement.clientWidth-16)cancelFocus();
+  },{passive:true});
   function tryFocus(){
-    if(!focusPending||focusUserActive||!focusReady)return;
+    if(!focusPending||!focusReady)return;
     const {token,year,month}=focusReady;
     if(!currentRequest(token,year,month))return;
     const section=document.getElementById("special-punya-kaal");
     const details=document.getElementById("specialPunyaKaalDetails");
     if(!section||section.hidden||!details)return;
     const cards=Array.from(section.querySelectorAll(".special-kaal-card"));
-    const target=focusDate||focusType
+    const target=precise
       ?cards.find(card=>card.dataset.specialDate===focusDate&&card.dataset.specialType===focusType)
       :cards.find(card=>card.dataset.specialType==="vyatipata-mahapat"||card.dataset.specialType==="vaidhriti-mahapat");
-    // Old month-only links may land at the section; a precise link must
-    // never highlight a different Mahapata when its target is unavailable.
-    if(!target&&(focusDate||focusType)){cancelFocus();return;}
+    if(!target&&precise){cancelFocus();return;}
+    clearLanding();
+    const generation=focusGeneration;
     details.open=true;
     const destination=target||section;
-    window.requestAnimationFrame(()=>window.requestAnimationFrame(()=>{
-      if(!focusPending||focusUserActive||!currentRequest(token,year,month)||!destination.isConnected||section.hidden)return;
-      cancelFocus();
+    function land(){
+      if(generation!==focusGeneration||!currentRequest(token,year,month)||!destination.isConnected||section.hidden||!details.open)return;
       const top=destination.getBoundingClientRect().top+window.pageYOffset-100;
-      window.scrollTo({top:Math.max(0,top),behavior:"auto"});
+      if(Math.abs(window.pageYOffset-Math.max(0,top))>8)window.scrollTo({top:Math.max(0,top),behavior:"auto"});
+    }
+    window.requestAnimationFrame(()=>window.requestAnimationFrame(()=>{
+      if(!focusPending||generation!==focusGeneration||!currentRequest(token,year,month)||!destination.isConnected||section.hidden)return;
+      focusPending=false;
+      landing=destination;
+      land();
       destination.style.outline="3px solid #d97706";
       destination.style.outlineOffset="3px";
-      window.setTimeout(()=>{destination.style.outline="";destination.style.outlineOffset="";},3000);
+      highlightTimer=window.setTimeout(()=>{destination.style.outline="";destination.style.outlineOffset="";highlightTimer=null;},3000);
+      for(const delay of [250,750,1500,3000,5000]){
+        landingTimers.push(window.setTimeout(land,delay));
+      }
     }));
   }
-  if(focusPending){
-    window.addEventListener("wheel",markFocusScroll,{passive:true});
-    window.addEventListener("touchmove",markFocusScroll,{passive:true});
-    window.addEventListener("keydown",markFocusKey);
-    window.addEventListener("scroll",continueFocusScroll,{passive:true});
-  }
+  window.addEventListener("hashchange",()=>{
+    if(!legacyHash()){cancelFocus();return;}
+    if((focusYear&&Number(yearSelect.value)!==focusYear)||(focusMonth&&Number(monthSelect.value)!==focusMonth))return;
+    focusPending=true;
+    tryFocus();
+  });
   var specialPunyaKaalRequest=0;
   var lastRenderKey=null;
   var specialDateTimeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",hourCycle:"h23",numberingSystem:"latn"});
@@ -164,17 +177,16 @@ export function createMonthlySpecialCalendar(getLocalLocation, yearSelect, month
       if(!currentRequest(token,year,month))return;
       renderApproved(approval.publicSpecialPunyaKaalMonth(null,year,month));
       // The list above this section must finish rendering before focus.
-      if(focusPending){
-        await layoutReady;
-        if(!currentRequest(token,year,month))return;
-        focusReady={token,year,month};
-        tryFocus();
-      }
+      await layoutReady;
+      if(!currentRequest(token,year,month))return;
+      focusReady={token,year,month};
+      tryFocus();
     }catch(error){
       console.warn("Special calendar rendering unavailable",error);
     }
   }
   return function scheduleSpecialPunyaKaal(year,month,layoutReady){
+    clearLanding();
     if(focusPending&&((focusYear&&focusYear!==year)||(focusMonth&&focusMonth!==month)))cancelFocus();
     focusReady=null;
     var token=++specialPunyaKaalRequest;
