@@ -13,11 +13,11 @@
     "targetTithiIndices": "Explicit set for a compound/viddha tithi case; special rules still require their own complete interval logic."
   },
   "counts": {
-    "mappedOccurrences": 103,
-    "distinctRuleIds": 21,
+    "mappedOccurrences": 104,
+    "distinctRuleIds": 22,
     "unmappedRegisteredProfiles": 4,
-    "mappedRecords": 103,
-    "distinctObservanceIds": 103,
+    "mappedRecords": 104,
+    "distinctObservanceIds": 104,
     "possibleDuplicateRecords": 0
   },
   "mappings": [
@@ -550,6 +550,19 @@
       "classification": "manual-review",
       "reason": "वैशाख शुक्ल तृतीया प्रदोष-व्याप्ति और दो-दिवसीय निर्णय; स्रोत स्वीकृति लंबित।",
       "recordKey": "2029-05-16::परशुराम जयंती",
+      "lunarMonth": "वैशाख",
+      "paksha": "शुक्ल पक्ष",
+      "targetTithiIndex": 2
+    },
+    {
+      "date": "2029-05-16",
+      "title": "अक्षय तृतीया",
+      "hinduTithi": "वैशाख शुक्ल तृतीया",
+      "observanceId": "akshaya-tritiya-2029-05-16",
+      "ruleId": "akshaya-tritiya-purvahna-review",
+      "classification": "manual-review",
+      "reason": "पूर्वाह्ण-व्याप्ति के निर्णयसिन्धु एवं धर्मसिन्धु के समीक्षा-विकल्पों का स्वतंत्र गणितीय मिलान; प्रकाशन अनुमोदन शेष।",
+      "recordKey": "2029-05-16::अक्षय तृतीया",
       "lunarMonth": "वैशाख",
       "paksha": "शुक्ल पक्ष",
       "targetTithiIndex": 2
