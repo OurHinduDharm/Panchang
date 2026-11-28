@@ -348,7 +348,10 @@ function stopDailyPlanetWorker() {
   dailyPlanetWorker?.terminate();
   dailyPlanetWorker = null;
   dailyPlanetWorkerLocation = "";
-  if (dailyPlanetPending) dailyPlanetPending.resolve(null);
+  if (dailyPlanetPending) {
+    clearTimeout(dailyPlanetPending.timer);
+    dailyPlanetPending.resolve(null);
+  }
   dailyPlanetPending = null;
 }
 
@@ -382,6 +385,7 @@ function requestDailyPlanetWindows(location, date) {
       dailyPlanetWorker.onmessage = ({data}) => {
         const pending = dailyPlanetPending;
         if (!pending || pending.id !== data.id) return;
+        clearTimeout(pending.timer);
         dailyPlanetPending = null;
         if (data.windows) {
           if (dailyPlanetResults.size >= 32) dailyPlanetResults.delete(dailyPlanetResults.keys().next().value);
@@ -389,13 +393,16 @@ function requestDailyPlanetWindows(location, date) {
         }
         pending.resolve(data.windows);
       };
-      dailyPlanetWorker.onerror = stopDailyPlanetWorker;
-      dailyPlanetWorker.onmessageerror = stopDailyPlanetWorker;
+      const activeWorker = dailyPlanetWorker;
+      const onWorkerError = () => { if (dailyPlanetWorker === activeWorker) stopDailyPlanetWorker(); };
+      dailyPlanetWorker.onerror = onWorkerError;
+      dailyPlanetWorker.onmessageerror = onWorkerError;
     }
     const id = ++dailyPlanetRequestId;
     let resolve;
     const promise = new Promise(done=>{resolve=done;});
-    dailyPlanetPending = {id,key,promise,resolve};
+    const timer = setTimeout(() => { if (dailyPlanetPending?.id === id) stopDailyPlanetWorker(); }, 30000);
+    dailyPlanetPending = {id,key,promise,resolve,timer};
     dailyPlanetWorker.postMessage({id,date,location:{latitude:location.latitude,longitude:location.longitude,elevation:location.elevation}});
     return promise;
   } catch (_) {
