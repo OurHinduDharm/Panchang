@@ -414,7 +414,64 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
         }));
     replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
     normalizePanchangCardOrder();
+    showNextAgastyaRise(latestLocation, selectedDate, renderVersion);
   });
+}
+
+// Only the single annual Canopus rise is computed, after the main card
+// renders. No worker, reference dates, network location lookup or storage.
+const agastyaRiseCache = new Map();
+async function showNextAgastyaRise(location, selectedDate, version) {
+  try {
+    if (location.timeZone !== "Asia/Kolkata" ||
+        !["provided","estimated"].includes(location.elevationStatus) ||
+        window.__ohdPanchangLocation?.elevation == null ||
+        String(window.__ohdPanchangLocation.elevation).trim() === "") return;
+    const year = Number(selectedDate.slice(0,4));
+    if (!Number.isInteger(year) || year < 2021 || year > 2035) return;
+    const [engine, runtime, {profiles}] = await Promise.all([
+      import("https://esm.sh/astronomy-engine@2.1.19"),
+      import("./research/annual-tara-runtime.mjs"),
+      import("./research/annual-tara-profiles.mjs")
+    ]);
+    // Yield to the UI before the seasonal single-star calculation.
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const stillCurrent = () => {
+      const latest = getLocation();
+      return version === planetReferenceRenderVersion && getSelectedDate() === selectedDate &&
+        latest?.latitude === location.latitude && latest?.longitude === location.longitude &&
+        latest?.elevation === location.elevation && latest?.elevationStatus === location.elevationStatus;
+    };
+    if (!stillCurrent()) return;
+    const selectedStart = Date.parse(selectedDate+"T00:00:00+05:30");
+    if (!Number.isFinite(selectedStart)) return;
+    for (let y=year; y<=Math.min(year+1,2035); y++) {
+      const key = [location.latitude,location.longitude,location.elevation,y].join("/");
+      if (!agastyaRiseCache.has(key)) {
+        const rise = runtime.calculateAnnualAgastyaRise(engine,location,y,profiles);
+        if (agastyaRiseCache.size>=24) agastyaRiseCache.delete(agastyaRiseCache.keys().next().value);
+        agastyaRiseCache.set(key,rise);
+      }
+      const rise=agastyaRiseCache.get(key);
+      if (!Number.isFinite(rise)) return;
+      if (rise < selectedStart) continue;
+      if (!stillCurrent()) return;
+      const row=document.querySelector("#planetRiseSetCard [data-agastya-next]");
+      if (!row) return;
+      const date=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(rise));
+      row.textContent="आगामी उदय — "+date;
+      row.hidden=false;
+      const link=row.parentElement.querySelector("a");
+      if(link){
+        const url=new URL(link.href);
+        url.searchParams.set("year",String(y));
+        link.href=url.href;
+      }
+      return;
+    }
+  } catch (_) {
+    // Preserve the annual link if the calculated date is unavailable.
+  }
 }
 
 /* =========================================
@@ -472,7 +529,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><span data-agastya-next hidden></span><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
   `;
   return card;
 }
