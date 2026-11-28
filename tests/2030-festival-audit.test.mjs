@@ -404,7 +404,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(months[2].events, "2030-03-31", /^वारुणी योग$/));
   assert.equal(months[8].events.length, 35);
   assert.equal(oct.length, 44);
-  assert.equal(nov.length, 27);
+  assert.equal(nov.length, 28);
   assert.equal(dec.length, 26);
   assert.ok(at(dec, "2030-12-22", /^रूप-व्रत — द्वादशी प्रातः पूजन$/));
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
@@ -448,7 +448,8 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(at(nov, "2030-11-18", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
   assert.equal(at(nov, "2030-11-18", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(nov, "2030-11-22", /कृष्ण योगेश्वर द्वादशी/));
-  assert.ok(at(nov, "2030-11-24", /बाला जयंती.*दर्श अमावस्या/));
+  assert.ok(at(nov, "2030-11-24", /^श्री बाला सिद्धविद्या जयंती$/));
+  assert.ok(at(nov, "2030-11-24", /^दर्श अमावस्या$/));
   assert.ok(at(nov, "2030-11-25", /सोमवती अमावस्या/));
 
   assert.ok(at(dec, "2030-12-01", /भानु सप्तमी/));
@@ -474,7 +475,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
     assert.equal(event.sourceUrl, undefined);
   }
   // The existing 349 annual observances plus one separately approved Varuni card.
-  assert.equal(events.length, 350);
+  assert.equal(events.length, 351);
   assert.equal(events.filter(event => event.specialPunyaKaalProfile === "chaitra-krishna-trayodashi-shatabhisha").length, 1);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.

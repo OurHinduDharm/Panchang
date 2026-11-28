@@ -362,12 +362,12 @@ test("2029 Pithoragarh Sharad Navratri combines Katyayani and Kalaratri on the S
 });
 
 
-test("2029 monthly catalog inventory remains 324 event cards with 31 November entries", () => {
+test("2029 monthly catalog inventory contains 325 event cards with 31 November entries", () => {
   let total = 0;
   for (let month = 1; month <= 12; month++) {
     const monthEvents = JSON.parse(readFileSync(join(folder, "2029-" + String(month).padStart(2, "0") + ".json"), "utf8")).events;
     total += monthEvents.length;
     if (month === 11) assert.equal(monthEvents.length, 31);
   }
-  assert.equal(total, 324);
+  assert.equal(total, 325);
 });
