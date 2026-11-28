@@ -21,6 +21,47 @@ function isNightCrossing(event) {
   return event.thresholdSunAltitudeDeg + event.afterResidualDeg < 0;
 }
 
+function scanAnnualStarProfiles(engine, observer, startLocalDayUtc, profiles) {
+  const {SearchAltitude, Equator, Horizon, DefineStar} = engine;
+  const predictions = [];
+  const starScans = [];
+  for (const profile of profiles.filter(p => p.key.startsWith("Star1|"))) {
+    const [, branch, event] = profile.key.split("|");
+    const startDay = profile.centerDayOfYear - 1 - Math.floor(profile.seasonalWindowDays / 2);
+    const starOptions = {
+      SearchAltitude, Equator, Horizon, body: "Star1", observer, branch, event,
+      startLocalDayUtc: startLocalDayUtc + startDay * DAY_MS, days: profile.seasonalWindowDays,
+      slope: profile.slope, intercept: profile.intercept, residualThresholdDeg: profile.residualThresholdDeg,
+      DefineStar, starCoordinatesAt: canopusCoordinatesAt
+    };
+    let scan = scanDrikStarAzimuthTransitions(starOptions);
+    let nightEvents = scan.events.filter(isNightCrossing);
+    let model = "azimuth-linear";
+    if (!nightEvents.length && profile.medianSunAltitudeDeg < 0 &&
+        Number.isFinite(profile.medianSunAltitudeDeg)) {
+      scan = scanDrikStarAzimuthTransitions({
+        ...starOptions, slope: 0, intercept: profile.medianSunAltitudeDeg, residualThresholdDeg: 0
+      });
+      nightEvents = scan.events.filter(isNightCrossing);
+      model = "solar-altitude-median";
+    }
+    predictions.push(...nightEvents.map(entry => ({...entry, model})));
+    starScans.push({ profile, model, samples: scan.samples });
+  }
+  return {predictions, starScans};
+}
+
+// Lightweight annual Udaya only, using exactly the same star scan as the annual page.
+export function calculateAnnualAgastyaRise(engine, location, year, profiles) {
+  const {astronomyObserver} = createTaraContextFromPanchangLocation(location,engine.Observer,year);
+  const start = Date.parse(`${year}-01-01T00:00:00+05:30`);
+  const end = Date.parse(`${year+1}-01-01T00:00:00+05:30`);
+  const {predictions} = scanAnnualStarProfiles(engine,astronomyObserver,start,
+    profiles.filter(p=>p.key.startsWith("Star1|rise|Udaya|")));
+  const events = predictions.filter(e=>e.event==="Udaya" && e.utcMilliseconds>=start && e.utcMilliseconds<end);
+  return events.length===1 ? events[0].utcMilliseconds : null;
+}
+
 // The scan receives fitted profiles and the selected city's fixed observer profile.
 // There is no target-date input or elevation fallback.
 export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
@@ -57,30 +98,9 @@ export function calculateAnnualTara(engine, selectedLocation, year, profiles) {
     }
   }
 
-  const starScans = [];
-  for (const profile of profiles.filter(p => p.key.startsWith("Star1|"))) {
-    const [, branch, event] = profile.key.split("|");
-    const startDay = profile.centerDayOfYear - 1 - Math.floor(profile.seasonalWindowDays / 2);
-    const starOptions = {
-      SearchAltitude, Equator, Horizon, body: "Star1", observer, branch, event,
-      startLocalDayUtc: startLocalDayUtc + startDay * DAY_MS, days: profile.seasonalWindowDays,
-      slope: profile.slope, intercept: profile.intercept, residualThresholdDeg: profile.residualThresholdDeg,
-      DefineStar, starCoordinatesAt: canopusCoordinatesAt
-    };
-    let scan = scanDrikStarAzimuthTransitions(starOptions);
-    let nightEvents = scan.events.filter(isNightCrossing);
-    let model = "azimuth-linear";
-    if (!nightEvents.length && profile.medianSunAltitudeDeg < 0 &&
-        Number.isFinite(profile.medianSunAltitudeDeg)) {
-      scan = scanDrikStarAzimuthTransitions({
-        ...starOptions, slope: 0, intercept: profile.medianSunAltitudeDeg, residualThresholdDeg: 0
-      });
-      nightEvents = scan.events.filter(isNightCrossing);
-      model = "solar-altitude-median";
-    }
-    predictions.push(...nightEvents.map(entry => ({...entry, model})));
-    starScans.push({ profile, model, samples: scan.samples });
-  }
+  const starResult = scanAnnualStarProfiles(engine, observer, startLocalDayUtc, profiles);
+  predictions.push(...starResult.predictions);
+  const starScans = starResult.starScans;
   const events = predictions.filter(e => e.utcMilliseconds >= startLocalDayUtc && e.utcMilliseconds < endLocalDayUtc)
     .sort((a, b) => a.utcMilliseconds - b.utcMilliseconds);
   const canopusIssues = [];
