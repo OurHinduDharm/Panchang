@@ -8,13 +8,14 @@ const dataset = JSON.parse(await readFile(
   new URL("../data/drik-planetary-reference-2024-2027.json", import.meta.url), "utf8"
 ));
 
-test("production Panchang uses direct city references, not geocentric fixed-angle thresholds", () => {
-  assert.ok(source.includes("getDrikPlanetaryReference"));
-  assert.ok(source.includes("drik-planetary-reference-2024-2027.json"));
+test("production Panchang uses selected observer and independent annual worker, not geocentric fixed-angle thresholds", () => {
+  assert.ok(source.includes("requestDailyPlanetWindows"));
+  assert.ok(source.includes("daily-tara-planet-worker.mjs"));
+  assert.doesNotMatch(source, /getDrikPlanetaryReference|drik-planetary-reference-2024-2027\.json/);
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findNearestAngularBoundary|findThresholdCrossingInstant/);
 });
 
-test("five supported cities use their own direct records and an unsupported city receives no fallback", () => {
+test("internal reference audit still preserves original city records without fallback", () => {
   const pithoragarh = getDrikPlanetaryReference({
     dataset, location: { city: "पिथौरागढ़" },
     selectedDate: "2026-10-31", planet: "Venus"
