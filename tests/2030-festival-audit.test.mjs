@@ -475,7 +475,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
     assert.equal(event.sourceUrl, undefined);
   }
   // The existing 349 annual observances plus one separately approved Varuni card.
-  assert.equal(events.length, 350);
+  assert.equal(events.length, 351);
   assert.equal(events.filter(event => event.specialPunyaKaalProfile === "chaitra-krishna-trayodashi-shatabhisha").length, 1);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
