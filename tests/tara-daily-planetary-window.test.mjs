@@ -17,9 +17,7 @@ test("active interval crosses December/January and includes both local boundary 
  {status:"upcoming",astaUtcMilliseconds:a2.utcMilliseconds,udayaUtcMilliseconds:u2.utcMilliseconds});
 });
 test("do not invent missing, duplicate, reversed, unsupported or ambiguous windows",()=>{
- for(const input of [[u,a2,u2],[a,u2,a2],[a,a,u],[a,u,u]]) {
-   // The second example is valid only if chronologically ordered; use a missing middle crossing instead.
-   if(input[0]===a&&input[1]===u2&&input[2]===a2) continue;
+ for(const input of [[u,a2,u2],[a,a,u],[a,u,u],[a,{...u,utcMilliseconds:a.utcMilliseconds}]]) {
    assert.equal(selectDailyPlanetaryWindow(input,"Venus","2026-01-01"),null);
  }
  assert.equal(selectDailyPlanetaryWindow([a,a2,u2],"Venus","2026-01-01"),null);
