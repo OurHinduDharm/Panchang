@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {approvedCalendarEvents} from "../festival-calendar-export.mjs";
 
 const widget=readFileSync(new URL("../monthly-vrat-parv-widget.js",import.meta.url),"utf8");
 const standalone=readFileSync(new URL("../monthly-vrat-parv.html",import.meta.url),"utf8");
@@ -13,7 +14,7 @@ function harness(source,overrides={}){
   const start=source.indexOf("  async function loadMonth(");
   const end=source.indexOf("  function ensureYearOption(",start);
   assert.ok(start>=0&&end>start);
-  const draws=[],requests=[],focuses=[];
+  const draws=[],requests=[],focuses=[],exports=[];
   const yearSelect={value:"2026"},monthSelect={value:"11"},countEl={textContent:""};
   const config={
     fetch:async()=>result({events:[approved]}),
@@ -24,9 +25,11 @@ function harness(source,overrides={}){
     mergeAnnualDwadashiEvents:data=>data,
     ...overrides
   };
-  const load=new Function("config","yearSelect","monthSelect","countEl","draws","requests","focuses",
+  const load=new Function("config","yearSelect","monthSelect","countEl","draws","requests","focuses","exports","approvedCalendarEvents",
     `let requestToken=0,activeMonthRequest=null,locationEclipseCalculationFailed=false,renderedCards;
     const searchInput={},listTitle={},months=Array(12).fill("माह"),eventsEl={replaceChildren(){},appendChild(){}};
+    const reviewMode=false;
+    function updateCalendarExport(data,year,month){exports.push({year,month,events:approvedCalendarEvents(data,year,month)})}
     const document={createElement(){return {}}},console={warn(){}};
     const setTimeout=()=>1,clearTimeout=()=>{};
     const fetch=(url,opts)=>{requests.push({url,signal:opts?.signal});return config.fetch(url,opts)};
@@ -35,8 +38,8 @@ function harness(source,overrides={}){
     function focusFestivalCard(){focuses.push(true)}
     function render(data,year,month){draws.push({year,month,events:data.events.slice()});countEl.textContent=data.events.length+" प्रविष्टियाँ"}
     `+source.slice(start,end)+"\nreturn loadMonth;"
-  )(config,yearSelect,monthSelect,countEl,draws,requests,focuses);
-  return {load,draws,requests,focuses,monthSelect,countEl};
+  )(config,yearSelect,monthSelect,countEl,draws,requests,focuses,exports,approvedCalendarEvents);
+  return {load,draws,requests,focuses,exports,monthSelect,countEl};
 }
 
 test("optional Navratri failure preserves reviewed month and other successful enrichments",async()=>{
@@ -89,6 +92,9 @@ for(const [name,source] of [["Blogger",widget],["standalone",standalone]]){
     assert.equal(h.requests[1].signal.aborted,false);
     assert.ok(h.draws.length>0);
     assert.ok(h.draws.every(d=>d.month===12));
+    assert.equal(h.exports.filter(e=>e.month!==undefined).length,1);
+    assert.equal(h.exports.at(-1).month,12);
+    assert.deepEqual(h.exports[0].events,[]);
   });
 }
 
