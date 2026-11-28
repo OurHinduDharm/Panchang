@@ -210,6 +210,33 @@ const PROFILES = {
     reviewNote: "धर्मसिंधु के अनुसार भाद्रपद शुक्ल द्वादशी का मध्याह्न में श्रवण नक्षत्र से संयोग देखा जाता है। यदि श्रवण योग एकादशी और द्वादशी दोनों पर हो, तो एकादशी चुनने का नियम भी लागू होता है; इसलिए केवल द्वादशी-मिलान पर्याप्त नहीं।",
     sourceReview: "dharmasindhu-chapter-7-special-shravana-and-ekadashi-tie-break-manual-review"
   },
+  // Dharmasindhu II, Chaitra, Jayanti; Nirnayasindhu II, Dashavatara.
+  // The selected calendar tradition only. Alternative kalpa dates and
+  // two-day tie or absence decisions must not be silently substituted.
+  "varaha-jayanti-aparahna": {
+    id: "varaha-jayanti-aparahna", aliases: ["varaha-jayanti"],
+    label: "वराह जयंती", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "aparahna", windowLabel: "अपराह्ण काल",
+    calculationBasis: "bhadrapada-shukla-tritiya-local-aparahna-unique-overlap",
+    allowedMonths: ["भाद्रपद"],
+    sourceReview: "dharmasindhu-nirnayasindhu-dashavatara-aparahna-source-reviewed-ties-pending"
+  },
+  "kurma-jayanti-sayahna-review": {
+    id: "kurma-jayanti-sayahna-review", aliases: ["kurma-jayanti"],
+    label: "कूर्म जयंती", tithiIndices: [14], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sayahna", windowLabel: "सायाह्न काल",
+    calculationBasis: "vaishakha-shukla-purnima-local-last-fifth-of-daylight-review",
+    allowedMonths: ["वैशाख"],
+    sourceReview: "dharmasindhu-nirnayasindhu-sayam-last-daylight-fifth-hypothesis-review"
+  },
+  "kalki-jayanti-sayahna-review": {
+    id: "kalki-jayanti-sayahna-review", aliases: ["kalki-jayanti"],
+    label: "कल्कि जयंती", tithiIndices: [5], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sayahna", windowLabel: "सायाह्न काल",
+    calculationBasis: "shravana-shukla-shashthi-local-last-fifth-of-daylight-review",
+    allowedMonths: ["श्रावण"],
+    sourceReview: "dharmasindhu-nirnayasindhu-sayam-last-daylight-fifth-hypothesis-review"
+  },
   "shani-jayanti-amavasya-review": {
     id: "shani-jayanti-amavasya-review", aliases: ["shani-jayanti", "shaneshchara-jayanti"],
     label: "शनि जयंती — ज्येष्ठ अमावस्या की जाँच", tithiIndices: [29], paksha: "कृष्ण पक्ष",
@@ -279,6 +306,12 @@ function makeWindow(profile, context) {
     if (!sunrise || !sunset || sunset <= sunrise) return null;
     const span = sunset.getTime() - sunrise.getTime();
     return { start: new Date(sunrise.getTime() + span * 3 / 5), end: new Date(sunrise.getTime() + span * 4 / 5) };
+  }
+  if (profile.decisionMoment === "sayahna") {
+    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
+    if (!sunrise || !sunset || sunset <= sunrise) return null;
+    const span = sunset.getTime() - sunrise.getTime();
+    return { start: new Date(sunrise.getTime() + span * 4 / 5), end: sunset };
   }
   if (profile.decisionMoment === "madhyahna") {
     const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);

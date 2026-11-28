@@ -562,3 +562,37 @@ test("2028 Matsya duplicate: independently report both local Aparahna candidates
   assert.equal(result.selectionBasis,"matsya-complete-over-partial-birth-window-review");
   console.log("2028 Matsya review:",JSON.stringify({status:result.status,selectedDate:result.selectedDate,evaluations:result.evaluations}));
 });
+
+test("independent avatar profiles distinguish Varaha afternoon and Kurma/Kalki evening",()=>{
+  const cases=[
+    ["varaha-jayanti-aparahna","भाद्रपद",2,"T07:30:00Z","T09:00:00Z","T10:00:00Z","T11:00:00Z"],
+    ["kurma-jayanti-sayahna-review","वैशाख",14,"T10:00:00Z","T11:00:00Z","T07:30:00Z","T09:00:00Z"],
+    ["kalki-jayanti-sayahna-review","श्रावण",5,"T10:00:00Z","T11:00:00Z","T07:30:00Z","T09:00:00Z"]
+  ];
+  for(const [ruleId,masa,index,start,end,wrongStart,wrongEnd] of cases){
+    const descriptor={id:ruleId,dateType:"tithi",ruleId,lunarMonth:masa,monthKind:"regular"};
+    const day=(date,a,b,month=masa)=>({date,masa:month,paksha:"शुक्ल पक्ष",sunrise:date+"T00:00:00Z",sunset:date+"T12:00:00Z",tithiIntervals:[interval(index,date+a,date+b,"शुक्ल पक्ष")]});
+    const first=day("2031-06-10",start,end);
+    const second=day("2031-06-11",wrongStart,wrongEnd);
+    const resolved=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[first,second]);
+    assert.equal(resolved.selectedDate,first.date,ruleId);
+    assert.equal(resolved.publishable,false);
+    assert.equal(resolved.autoApproved,false);
+    assert.equal(resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[second]).selectedDate,null);
+    assert.equal(resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[first,day(second.date,start,end)]).selectedDate,null);
+    assert.equal(resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[{...first,masa:"अधिक "+masa}]).selectedDate,null);
+  }
+});
+
+test("annual avatar review reports independent candidates for 2026–2031",async()=>{
+  const cases=[["varaha-jayanti-aparahna","भाद्रपद"],["kurma-jayanti-sayahna-review","वैशाख"],["kalki-jayanti-sayahna-review","श्रावण"]];
+  for(const year of [2026,2027,2028,2029,2030,2031]){
+    const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-"+year+".json",import.meta.url),"utf8"));
+    for(const [ruleId,lunarMonth] of cases){
+      const result=resolveFestivalObservanceFromAnnualPanchang({id:ruleId,dateType:"tithi",ruleId,lunarMonth,monthKind:"regular"},year,annual.dailyPanchang);
+      assert.equal(result.publishable,false);
+      assert.ok(result.evaluations?.length>0,year+" "+ruleId);
+      console.log("Avatar review:",JSON.stringify({year,ruleId,status:result.status,date:result.selectedDate}));
+    }
+  }
+});
