@@ -5,9 +5,9 @@ import panchangPackage from "@ishubhamx/panchangam-js";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
-const observanceRulesSource = await readFile(new URL("../festival-observance-rules.mjs", import.meta.url), "utf8");
 const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
-const observanceRulesUrl = "data:text/javascript;base64," + Buffer.from(observanceRulesSource).toString("base64");
+// Use the real module URL so its shared relative imports resolve normally.
+const observanceRulesUrl = new URL("../festival-observance-rules.mjs", import.meta.url).href;
 const sourceWithHelper = source
   .replace('"./yama-dvitiya.mjs"', JSON.stringify(new URL("../yama-dvitiya.mjs",import.meta.url).href))
   .replace(

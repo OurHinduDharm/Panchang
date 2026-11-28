@@ -5,7 +5,18 @@
  * They are candidate evidence only: no profile certifies a shastriya rule,
  * chooses a final public date, or auto-approves a festival.
  */
+import {reviewAkshayaTritiya} from "./akshaya-tritiya.mjs";
+
 const PROFILES = {
+  "akshaya-tritiya-purvahna-review": {
+    id: "akshaya-tritiya-purvahna-review", aliases: ["akshaya-tritiya"],
+    label: "अक्षय तृतीया — पूर्वाह्ण-व्याप्ति", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "स्थानीय सूर्योदय से मध्याह्न",
+    calculationBasis: "vaishakha-shukla-tritiya-purvahna-source-variant-agreement",
+    allowedMonths: ["वैशाख"], reviewOnly: true,
+    reviewNote: "निर्णयसिन्धु और धर्मसिन्धु के पूर्वाह्ण एवं छह घटिका संबंधी विकल्पों का पृथक परीक्षण; समान निर्णय ही समीक्षा हेतु स्वीकार्य।",
+    sourceReview: "nirnayasindhu-dharmasindhu-variant-comparison-review-only"
+  },
   "pradosh-trayodashi": {
     id: "pradosh-trayodashi", aliases: ["pradosh", "pradosh-evening"],
     label: "प्रदोष व्रत", tithiIndices: [12, 27], paksha: null,
@@ -533,6 +544,14 @@ export function resolveObservanceCandidates(ruleId, candidateContexts, options =
     ...context,
     ...(targetIndices ? { targetTithiIndices: targetIndices } : {})
   }));
+  if (profileId === "akshaya-tritiya-purvahna-review") {
+    const r = reviewAkshayaTritiya(scopedContexts);
+    return {status:r.candidateDate?"date-selected-needs-source-approval":"manual-review",
+      ruleId:profileId, selectedDate:r.candidateDate, finalDate:r.candidateDate,
+      selectionBasis:r.candidateDate?"akshaya-purvahna-source-variants-agree":null,
+      evaluations:r.evidence, warnings:[r.reason,"source-and-publication-approval-required"],
+      autoApproved:false, publishable:false};
+  }
   if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(scopedContexts);
   if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(scopedContexts);
   if (profileId === "narasimha-jayanti-smarta-review") return resolveNarasimhaJayantiCandidates(scopedContexts);

@@ -383,3 +383,26 @@ test("stale or ambiguous mapping does not inflate source-card coverage",()=>{
  assert.ok(result.mappingDiagnostics.every(x=>x.selectedDate===null&&!x.publishable));
  assert.throws(()=>buildAnnualFestivalReview({annual,manifest:{...manifest,mappings:[stale,stale]},sourceMonths:source,year}));
 });
+
+
+test("Akshaya shared rule independently computes 2030 and 2031 without approving source dates",async()=>{
+  const {resolveFestivalObservanceFromAnnualPanchang}=await import("../festival-rule-engine.mjs");
+  for(const year of [2030,2031]){
+    const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-"+year+".json",import.meta.url),"utf8"));
+    const rule={id:"akshaya-tritiya",dateType:"tithi",ruleId:"akshaya-tritiya-purvahna-review",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:2,monthKind:"regular"};
+    const evidence=buildVaishakhaTritiyaComponentReview(annual).components[0];
+    const decision=resolveFestivalObservanceFromAnnualPanchang(rule,year,annual.dailyPanchang);
+    assert.equal(decision.selectedDate,evidence.candidateDate);
+    assert.equal(decision.publishable,false);
+    assert.equal(decision.autoApproved,false);
+    if(year===2030)assert.equal(decision.selectedDate,"2030-05-05");
+    const wrongMonth=resolveFestivalObservanceFromAnnualPanchang({...rule,lunarMonth:"अधिक वैशाख",monthKind:"adhika"},year,annual.dailyPanchang);
+    assert.equal(wrongMonth.selectedDate,null);
+    console.log("AKSHAYA_SHARED_REVIEW="+JSON.stringify({year,date:decision.selectedDate,status:decision.status}));
+  }
+});
+test("Akshaya evidence rejects contradictory simultaneous tithis",()=>{
+ const days=tritiyaDays(Date.parse("2030-05-04T18:00:00Z"),Date.parse("2030-05-05T09:00:00Z"));
+ days[1].tithis.push({index:3,startTime:"2030-05-05T02:00:00Z",endTime:"2030-05-05T03:00:00Z"});
+ assert.equal(reviewAkshayaTritiya(days).candidateDate,null);
+});
