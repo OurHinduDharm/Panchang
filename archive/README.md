@@ -24,3 +24,15 @@
 - `data/ohd-annual-panchang-review-2026.json`: पूर्व `data/references/` का 2,292,955-byte वार्षिक समीक्षा snapshot। मूल blob `c9829bee6c99b197a79afd849af3170e67140b44`। वर्तमान `data/ohd-annual-panchang-review-2026.json` (अलग blob, 1,539,052 bytes) जनरेटर, परीक्षण और documented annual data path के लिए यथावत है। पुराने snapshot को duplicate मानकर नष्ट नहीं किया गया है।
 - दोनों मूल पथ commit `c09acf3d8b4499cf7e37149b5eb4c6a055208354` में पुनर्प्राप्त किए जा सकते हैं। स्थानांतरण में वही Git blobs रखे गए हैं।
 - `test-pr.html`, `test-astronomy.html`, `asta-udaya-calculator.html`, `monthly-vrat-parv-widget-safe-v2.js` तथा मूल चित्र अभी सुरक्षित हैं: browser preview, परीक्षण, workflow या बाहरी Blogger/CDN links हो सकते हैं। केवल खोज में संदर्भ न मिलना हटाने का प्रमाण नहीं है।
+
+## तीसरा चरण — अप्रयुक्त tools और बड़े डेटा का विलोपन
+
+स्वामी के निर्देश पर पुराने standalone astronomy प्रयोग और बहुवर्षीय vector-cache prototype को वर्तमान checkout से हटाया गया। सक्रिय शहरवार उदय-अस्त worker इनमें से किसी का उपयोग नहीं करता। पुराने 2026 archival snapshot को भी हटाया गया; वर्तमान वार्षिक JSON यथावत है। पहले के दो चरणों में archive किए गए snapshot के बारे में ऊपर की जानकारी ऐतिहासिक है, वर्तमान फ़ाइल की उपलब्धता का दावा नहीं। सभी हटाई गई फ़ाइलें Git commit `59b010eaa1a5a178bee7dd929dbfb08da12a01b1` से पुनर्प्राप्त की जा सकती हैं:
+
+- `asta-udaya-calculator.html`
+- `data/asta-udaya-all-chunks.json`, `data/asta-udaya-manifest.json`
+- `tests/validate-asta-udaya-dataset.mjs`, `tests/measure-asta-udaya-interpolation.mjs`
+- `test-astronomy.html`, `tests/asta-udaya-boundary-audit-export.test.mjs`
+- `archive/data/ohd-annual-panchang-review-2026.json`
+
+कुल 8 फाइलों के 3,613,618 bytes हटे; दस्तावेज़/guards में छोटे बदलाव अलग हैं। पुराने prototype के परीक्षण ही हटे, सक्रिय गणना और स्रोत सत्यापन परीक्षण सुरक्षित हैं। PR preview utility `test-pr.html` अब वर्तमान index को प्राथमिकता देती है। `data/asta-udaya-benchmark.json` में पुराने experimental page के उल्लेख स्रोत-इतिहास हैं, runtime dependency नहीं। पुरानी Git history rewrite नहीं की गई है; इसलिए GitHub के पूर्ण repository storage में इतनी ही कमी की गारंटी नहीं है।
