@@ -414,14 +414,14 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
         }));
     replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
     normalizePanchangCardOrder();
-    showNextAgastyaRise(latestLocation, selectedDate, renderVersion);
+    showNextAgastyaEvents(latestLocation, selectedDate, renderVersion);
   });
 }
 
-// Only the single annual Canopus rise is computed, after the main card
+// Only the annual Canopus rise and set are computed, after the main card
 // renders. No worker, reference dates, network location lookup or storage.
-const agastyaRiseCache = new Map();
-async function showNextAgastyaRise(location, selectedDate, version) {
+const agastyaEventCache = new Map();
+async function showNextAgastyaEvents(location, selectedDate, version) {
   try {
     if (location.timeZone !== "Asia/Kolkata" ||
         !["provided","estimated"].includes(location.elevationStatus) ||
@@ -445,29 +445,34 @@ async function showNextAgastyaRise(location, selectedDate, version) {
     if (!stillCurrent()) return;
     const selectedStart = Date.parse(selectedDate+"T00:00:00+05:30");
     if (!Number.isFinite(selectedStart)) return;
-    for (let y=year; y<=Math.min(year+1,2035); y++) {
+    const getAnnual = y => {
       const key = [location.latitude,location.longitude,location.elevation,y].join("/");
-      if (!agastyaRiseCache.has(key)) {
-        const rise = runtime.calculateAnnualAgastyaRise(engine,location,y,profiles);
-        if (agastyaRiseCache.size>=24) agastyaRiseCache.delete(agastyaRiseCache.keys().next().value);
-        agastyaRiseCache.set(key,rise);
+      if (!agastyaEventCache.has(key)) {
+        const events = runtime.calculateAnnualAgastyaEvents(engine,location,y,profiles);
+        if (agastyaEventCache.size>=24) agastyaEventCache.delete(agastyaEventCache.keys().next().value);
+        agastyaEventCache.set(key,events);
       }
-      const rise=agastyaRiseCache.get(key);
-      if (!Number.isFinite(rise)) return;
-      if (rise < selectedStart) continue;
-      if (!stillCurrent()) return;
-      const row=document.querySelector("#planetRiseSetCard [data-agastya-next]");
-      if (!row) return;
-      const date=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"}).format(new Date(rise));
-      row.textContent="आगामी उदय — "+date;
-      row.hidden=false;
-      const link=row.parentElement.querySelector("a");
-      if(link){
-        const url=new URL(link.href);
-        url.searchParams.set("year",String(y));
-        link.href=url.href;
-      }
-      return;
+      return agastyaEventCache.get(key);
+    };
+    const current = getAnnual(year);
+    const needsFollowing = Object.values(current).some(value => Number.isFinite(value) && value < selectedStart);
+    const following = needsFollowing && year < 2035 ? getAnnual(year+1) : null;
+    const next = runtime.nextAgastyaEvents(current,following,selectedStart);
+    if (!stillCurrent()) return;
+    const formatter = new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric"});
+    for (const [type,label] of [["Asta","आगामी अस्त"],["Udaya","आगामी उदय"]]) {
+      const row = document.querySelector(`#planetRiseSetCard [data-agastya-next="${type}"]`);
+      if (!row || !Number.isFinite(next[type])) continue;
+      row.textContent = label+" — "+formatter.format(new Date(next[type]));
+      row.hidden = false;
+    }
+    const available = Object.values(next).filter(Number.isFinite);
+    const link = document.querySelector("#planetRiseSetCard [data-agastya-link]");
+    if (link && available.length) {
+      const y = Number(new Intl.DateTimeFormat("en",{timeZone:"Asia/Kolkata",year:"numeric"}).format(new Date(Math.min(...available))));
+      const url = new URL(link.href);
+      url.searchParams.set("year",String(y));
+      link.href=url.href;
     }
   } catch (_) {
     // Preserve the annual link if the calculated date is unavailable.
@@ -529,7 +534,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><span data-agastya-next hidden></span><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><span data-agastya-next="Asta" hidden></span><span data-agastya-next="Udaya" hidden></span><a href="${annualTaraPageUrl()}" data-agastya-link>गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
   `;
   return card;
 }
