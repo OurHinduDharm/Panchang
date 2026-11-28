@@ -465,3 +465,27 @@ test("2030 annual Mohini resolver respects explicitly scoped later Vaishnava and
    assert.ok(result.warnings.includes("trisprisha-special-parana-review-required"));
  }
 });
+
+test("Shukla Manvadi separates intercalary shraddha and blocks an incomplete cycle", async () => {
+  const {resolveAnnualShuklaManvadi} = await import("../festival-rule-engine.mjs");
+  const {readFile} = await import("node:fs/promises");
+  const annual = JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2031.json",import.meta.url)));
+  const result = resolveAnnualShuklaManvadi(annual.dailyPanchang);
+  const rudra = result.filter(r => r.name === "रुद्रसावर्णि");
+  assert.deepEqual(rudra.map(r => [r.monthKind,r.selectedDate]), [
+    ["adhika","2031-08-21"],["regular","2031-09-19"]
+  ]);
+  const daksha = result.find(r => r.name === "दक्षसावर्णि");
+  assert.equal(daksha.selectedDate,"2031-10-24");
+  assert.equal(daksha.publishable,false);
+  const broken = annual.dailyPanchang.filter(d => d.date !== "2031-10-23");
+  assert.equal(resolveAnnualShuklaManvadi(broken).find(r=>r.name==="दक्षसावर्णि").selectedDate,null);
+});
+
+test("catalogue scope distinguishes ISKCON from general Vaishnava observances", async () => {
+  const {inPublicFestivalScope} = await import("../festival-public-scope.mjs");
+  for (const item of ["इस्कॉन एकादशी",{name:"ISKCON Janmashtami"},
+    {title:"एकादशी",tradition:"iskcon"},{title:"एकादशी",articleLabel:"इस्कोन"}])
+    assert.equal(inPublicFestivalScope(item),false);
+  assert.equal(inPublicFestivalScope({title:"वैष्णव एकादशी"}),true);
+});

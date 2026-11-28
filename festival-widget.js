@@ -1,6 +1,8 @@
 // OurHinduDharm compact upcoming-festivals widget.
 // Blogger snippet: <div id="ohd-festival-widget"></div>
 // Load this file as a module. Festival text/links come from approved monthly JSON data.
+import {inPublicFestivalScope} from "./festival-public-scope.mjs";
+
 (function () {
   const mount = document.getElementById("ohd-festival-widget");
   if (!mount) return;
@@ -30,7 +32,7 @@
   }
 
   function isPublishable(item) {
-    return item && item.reviewStatus === "approved";
+    return inPublicFestivalScope(item) && item.reviewStatus === "approved";
   }
 
   function safeHttpUrl(value) {

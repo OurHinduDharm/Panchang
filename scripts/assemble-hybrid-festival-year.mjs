@@ -3,6 +3,8 @@
  * a reviewed yearly plan, never infers a date or promotes review candidates.
  * The plan and automatic decisions are transient objects; the sole maintained\n * year-specific festival JSON is the exception package. The assembled annual\n * result is an in-memory view, not a second persisted annual file.
  */
+import {inPublicFestivalScope} from "../festival-public-scope.mjs";
+
 const validYear=y=>Number.isInteger(y)&&y>=1900&&y<=2200;
 const validDate=(date,year)=>{
   if(typeof date!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(date)||!date.startsWith(year+"-"))return false;
@@ -43,6 +45,7 @@ function expandCompactRecords({year,packageData,catalogue,mode}){
     const template=templates.get(row.contentKey);
     if(!template)throw new Error("Unknown shared content key: "+id);
     if(!validDate(row.date,year))throw new Error("Invalid "+mode+" date: "+id);
+    if (!inPublicFestivalScope(template) || !inPublicFestivalScope(row)) throw new Error("Outside public catalogue scope: "+id);
     const event=Object.fromEntries(CONTENT_FIELDS.filter(key=>Object.hasOwn(template,key)).map(key=>[key,structuredClone(template[key])]));
     for(const key of DATE_FIELDS)if(Object.hasOwn(row,key))event[key]=structuredClone(row[key]);
     const evidence=mode==="automatic"?{ruleId:row.ruleId,ruleVersion:row.ruleVersion,autoApproved:row.autoApproved}:{decisionSource:row.decisionSource,exceptionReason:row.exceptionReason};
@@ -75,6 +78,9 @@ export function assembleHybridFestivalYear({year,plan,automatic,exceptions}){
     const record=active.get(id);
     if(!record){issues.push({occurrenceId:id,reason:"missing-occurrence"});continue;}
     const event=record.event;
+    if(!inPublicFestivalScope(event)||!inPublicFestivalScope(record)||!inPublicFestivalScope(row)){
+      issues.push({occurrenceId:id,reason:"outside-public-catalogue-scope"});continue;
+    }
     if(record.reviewStatus!=="approved"||record.publishable!==true||
       record.autoApproved===true||
       !text(record.reviewEvidence)||

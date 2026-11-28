@@ -1,9 +1,10 @@
+import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import { getTimeZoneOffsetForLocalDay, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 
 /*
  * OurHinduDharm — Panchang library festival card.
- * Display every festival returned by the library without name filtering or deduplication.
+ * Display library festivals within the public catalogue scope.
  */
 
 function getSelectedDate() {
@@ -95,8 +96,7 @@ function updateHinduFestivals() {
       timezoneOffset: getTimeZoneOffsetForLocalDay(date, location.timeZone)
     });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
-    // Display every festival returned by the Panchang library without name/category filtering or deduplication.
-    renderFestivalCard(dateString, allFestivals);
+    renderFestivalCard(dateString, allFestivals.filter(inPublicFestivalScope));
     lastRenderKey = renderKey;
 
 
