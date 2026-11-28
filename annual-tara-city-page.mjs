@@ -82,9 +82,9 @@ async function show({events, arghya = [], kanyaCalendar = null, elevationSourceA
       if (kanyaCalendar?.dawns?.length === 7 && Number.isFinite(kanyaCalendar.ingressUtcMilliseconds)) {
         const ingress = new Date(kanyaCalendar.ingressUtcMilliseconds);
         addText(card, "h3", "कन्या संक्रान्ति से पूर्व अगस्त्यार्घ्य");
-        addText(card, "p", "भविष्यपुराण के अनुसार सात प्रातःकालीन अवसर");
+        addText(card, "p", "भविष्यपुराण (निर्णयसिन्धु में उद्धृत) के अनुसार सात प्रातःकालीन अवसर");
         addText(card, "p", "कन्या संक्रान्ति — " + dateOnly.format(ingress) + " · " + formatClock(clock.format(ingress)));
-        addText(card, "p", "संक्रान्ति के बाद अर्घ्यकाल समाप्त। सातों दिन अर्घ्य देना अनिवार्य नहीं है।");
+        addText(card, "p", "इस विधान के अनुसार कन्या संक्रान्ति के बाद अर्घ्यकाल समाप्त।");
         const list = document.createElement("ol");
         for (const dawn of kanyaCalendar.dawns) {
           // Round inward so the published minute never extends past the bound.
@@ -97,6 +97,13 @@ async function show({events, arghya = [], kanyaCalendar = null, elevationSourceA
         card.append(list);
         addText(card, "p", "समय-गणना: स्थानीय प्रभात (सूर्य क्षितिज से 12° नीचे) से सूर्योदय तक; संक्रान्ति पहले हो तो वहीं तक। यह गणितीय प्रभात-सीमा है।");
       }
+      addText(card, "h3", "अगस्त्यार्घ्य के शास्त्रीय विधान");
+      const rules = document.createElement("ul");
+      addText(rules, "li", "स्कन्दपुराण — श्रावणमास माहात्म्य, अध्याय 28, श्लोक 2–3 एवं 31–32: अगस्त्योदय से पूर्व सात दिन प्रतिदिन अर्घ्यदान का विधान है।");
+      addText(rules, "li", "पद्मपुराण — निर्णयसिन्धु, द्वितीय परिच्छेद, अगस्त्यार्घ्य प्रकरण में उद्धृत: अगस्त्योदय से सात रात्रियों तक अर्घ्यदान का विधान है।");
+      addText(rules, "li", "भविष्यपुराण — व्रतहेमाद्रि के माध्यम से निर्णयसिन्धु में उद्धृत: कन्या संक्रान्ति से पूर्व सात दिन अर्घ्यकाल है; कन्या प्रवेश पर इसकी समाप्ति होती है।");
+      card.append(rules);
+      addText(card, "p", "ये अलग शास्त्रीय विधान हैं। उदय-आधारित विधानों में पारम्परिक अगस्त्योदय का निर्णय तथा अपने कुलाचार का अनुसरण करें।");
     }
     fragment.append(card);
   }
