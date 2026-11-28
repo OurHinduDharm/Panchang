@@ -535,6 +535,18 @@ test("Matsya Jayanti uses local Aparahna, not sunrise or Manvadi Purvahna", () =
   const both=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[first,day(second.date,"T00:00:00Z","T10:00:00Z")]);
   assert.equal(both.status,"manual-review");
   assert.equal(both.selectedDate,null);
+  const continuousFirst={...first,tithiIntervals:[interval(2,first.date+"T06:00:00Z",second.date+"T00:00:00Z","शुक्ल पक्ष")]};
+  const fullSecond=day(second.date,"T00:00:00Z","T10:00:00Z");
+  const equal=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[continuousFirst,fullSecond]);
+  assert.equal(equal.selectedDate,first.date);
+  assert.equal(equal.selectionBasis,"nirnayasindhu-equal-full-birth-windows-earlier");
+  const partialSecond=day(second.date,"T00:00:00Z","T08:00:00Z");
+  const unequal=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[continuousFirst,partialSecond]);
+  assert.equal(unequal.selectedDate,first.date);
+  assert.equal(unequal.publishable,false);
+  assert.ok(unequal.warnings.includes("complete-over-partial-window-interpretation-review-required"));
+  const partialFirst={...continuousFirst,tithiIntervals:[interval(2,first.date+"T08:00:00Z",second.date+"T00:00:00Z","शुक्ल पक्ष")]};
+  assert.equal(resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[partialFirst,partialSecond]).selectedDate,null);
   const noOverlap=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[second]);
   assert.equal(noOverlap.selectedDate,null);
   const adhika=resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,[{...first,masa:"अधिक चैत्र"}]);
@@ -546,5 +558,7 @@ test("2028 Matsya duplicate: independently report both local Aparahna candidates
   const result=resolveFestivalObservanceFromAnnualPanchang({id:"matsya",dateType:"tithi",ruleId:"matsya-jayanti-aparahna",lunarMonth:"चैत्र",monthKind:"regular"},2028,annual.dailyPanchang);
   assert.equal(result.publishable,false);
   assert.ok(result.evaluations?.length>=2);
+  assert.equal(result.selectedDate,"2028-03-28");
+  assert.equal(result.selectionBasis,"matsya-complete-over-partial-birth-window-review");
   console.log("2028 Matsya review:",JSON.stringify({status:result.status,selectedDate:result.selectedDate,evaluations:result.evaluations}));
 });
