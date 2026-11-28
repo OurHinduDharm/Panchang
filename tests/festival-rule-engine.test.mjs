@@ -596,3 +596,32 @@ test("annual avatar review reports independent candidates for 2026–2031",async
     }
   }
 });
+
+
+test("Vamana source-specific annual cycle prefers Dwadashi Shravana, then Ekadashi exception",()=>{
+  const descriptor={id:"vamana",dateType:"tithi",ruleId:"vamana-jayanti-madhyahna-review",lunarMonth:"भाद्रपद",monthKind:"regular"};
+  const date=i=>"2031-09-"+String(10+i).padStart(2,"0");
+  const time=(i,h=0)=>date(i)+"T"+String(h).padStart(2,"0")+":00:00Z";
+  const make=(e,d)=>[0,1,2,3].map(i=>({date:date(i),masa:"भाद्रपद",paksha:"शुक्ल पक्ष",sunrise:time(i),sunset:time(i,12),
+    tithiIntervals:i===2?[interval(11,time(i),time(i,18),"शुक्ल पक्ष"),interval(12,time(i,18),time(i+1),"शुक्ल पक्ष")]:[interval([9,10,11,12][i],time(i),time(i+1),"शुक्ल पक्ष")],
+    nakshatraIntervals:[interval([19,e,d,23][i],time(i),time(i+1))]}));
+  const resolve=days=>resolveFestivalObservanceFromAnnualPanchang(descriptor,2031,days);
+  const normal=resolve(make(20,21));
+  assert.equal(normal.selectedDate,date(2));assert.equal(normal.publishable,false);
+  assert.equal(resolve(make(21,22)).selectedDate,date(1));
+  assert.equal(resolve(make(19,20)).selectedDate,date(2));
+  const incomplete=make(20,21);incomplete[2].nakshatraIntervals=[];
+  assert.equal(resolve(incomplete).selectedDate,null);
+  const missing=make(20,21);missing.splice(1,1);
+  assert.equal(resolve(missing).selectedDate,null);
+  assert.equal(resolveFestivalObservanceFromAnnualPanchang({...descriptor,monthKind:"adhika"},2031,make(20,21)).selectedDate,null);
+});
+
+test("Vamana review reports actual annual cycle evidence without approving dates",async()=>{
+  for(const year of [2026,2027,2028,2029,2030,2031]){
+    const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-"+year+".json",import.meta.url),"utf8"));
+    const result=resolveFestivalObservanceFromAnnualPanchang({id:"vamana",dateType:"tithi",ruleId:"vamana-jayanti-madhyahna-review",lunarMonth:"भाद्रपद",monthKind:"regular"},year,annual.dailyPanchang);
+    assert.equal(result.publishable,false);assert.equal(result.autoApproved,false);
+    console.log("Vamana review:",JSON.stringify({year,status:result.status,date:result.selectedDate,warnings:result.warnings,evaluations:result.evaluations}));
+  }
+});
