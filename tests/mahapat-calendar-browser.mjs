@@ -133,7 +133,7 @@ try {
         const card=document.querySelector(".special-kaal-card");
         return card?.style.outline&&card.getBoundingClientRect().top>=0&&card.getBoundingClientRect().top<innerHeight/2;
       });
-      const second=await page.locator(".special-kaal-card").nth(1).evaluate(el=>({date:el.dataset.specialDate,type:el.dataset.specialType}));
+      const second=await page.locator(".special-kaal-card").last().evaluate(el=>({date:el.dataset.specialDate,type:el.dataset.specialType}));
       const exact=new URL("https://ourhindudharm.blogspot.com/p/masik-vrat-parv.html?year=2026&month=12&m=1");
       exact.searchParams.set("specialFocus",second.date);exact.searchParams.set("specialType",second.type);
       await page.goto(exact.href);
