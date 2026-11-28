@@ -36,9 +36,9 @@ self.onmessage = async ({data: {location, city, year}}) => {
       const ingress = kanyaIngressFromSunSign(result.year,signAt);
       const dawns = kanyaPrecedingDawns(ingress,date=>{
         const midnight = Date.parse(date+"T00:00:00+05:30");
-        const sunset = engine.SearchRiseSet("Sun",observer,-1,new Date(midnight-18*3600000),1);
+        const dawn = engine.SearchAltitude("Sun",observer,+1,new Date(midnight),1,-12);
         const sunrise = engine.SearchRiseSet("Sun",observer,+1,new Date(midnight),1);
-        return {sunsetUtcMilliseconds:sunset?.date?.getTime(),sunriseUtcMilliseconds:sunrise?.date?.getTime()};
+        return {dawnUtcMilliseconds:dawn?.date?.getTime(),sunriseUtcMilliseconds:sunrise?.date?.getTime()};
       });
       if(dawns.length===7) kanyaCalendar = {ingressUtcMilliseconds:ingress,dawns};
     } catch (_) {}
