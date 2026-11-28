@@ -15,11 +15,11 @@ export function selectDailyPlanetaryWindow(events, body, isoDate) {
   const index = rows.findIndex(e=>e.utcMilliseconds>=start);
   if (index<0) return null;
   const first = rows[index];
-  const asta = first.event==="Udaya" ? rows[index-1] : first;
-  const udaya = first.event==="Udaya" ? first : rows[index+1];
+  const aIndex = first.event==="Udaya" ? index-1 : index;
+  const uIndex = aIndex+1;
+  const asta = rows[aIndex], udaya = rows[uIndex];
   if (asta?.event!=="Asta" || udaya?.event!=="Udaya" ||
       asta.utcMilliseconds>=udaya.utcMilliseconds) return null;
-  const aIndex=rows.indexOf(asta), uIndex=rows.indexOf(udaya);
   // Repeated same-type transitions or simultaneous conflicting events are ambiguous.
   if (rows[aIndex-1]?.event==="Asta" || rows[uIndex+1]?.event==="Udaya" ||
       rows[aIndex-1]?.utcMilliseconds===asta.utcMilliseconds ||
