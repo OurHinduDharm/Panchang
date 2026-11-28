@@ -502,3 +502,20 @@ test("regular Kartika Yama Dvitiya uses the local Aparahnas, including 2026 vrid
     assert.equal(resolveAnnualYamaDvitiya(annual.dailyPanchang.filter(d=>d.date!==date)).selectedDate,null);
   }
 });
+
+test("Manvadi decisions resolve standalone shared cards, including the 2028 Pithoragarh correction", async () => {
+  const {resolveAnnualShuklaManvadi} = await import("../festival-rule-engine.mjs");
+  const {readFile} = await import("node:fs/promises");
+  const read = async path => JSON.parse(await readFile(new URL("../data/"+path,import.meta.url)));
+  const annual = await read("ohd-annual-panchang-review-2028.json");
+  const master = await read("festival-content-master.json");
+  const result = resolveAnnualShuklaManvadi(annual.dailyPanchang);
+  for (const row of result) assert.equal(master.templates.filter(t=>t.key===row.contentKey).length,1);
+  const decision = result.find(row => row.name==="स्वायम्भुव");
+  const march = await read("festivals/2028-03.json");
+  const cards = march.events.filter(row=>row.title==="स्वयंभुव मन्वादि");
+  assert.equal(cards.length,1);
+  assert.equal(cards[0].date,decision.selectedDate);
+  assert.match(cards[0].description,/शुक्ल तृतीया/);
+  assert.doesNotMatch(cards[0].description,/द्वितीया|युगादि/);
+});

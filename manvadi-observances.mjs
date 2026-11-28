@@ -55,7 +55,7 @@ export function resolveShuklaManvadiCycles(days) {
           }
         }
       }
-      results.push({name,month,index,monthKind:knownMonths.size !== 1 ? null :
+      results.push({name,contentKey:name+" मन्वादि तिथि",month,index,monthKind:knownMonths.size !== 1 ? null :
         knownMonths.has(month) ? "regular" : "adhika", firstEvidenceDate:cycle[0].date,
         selectedDate:windows.length === 1 ? windows[0].date : null, windows,
         status:windows.length === 1 ? "date-selected-needs-source-approval" : "manual-review",
