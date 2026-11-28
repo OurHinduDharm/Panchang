@@ -95,7 +95,7 @@ async function show({events, arghya = [], kanyaCalendar = null, elevationSourceA
           row.style.marginBottom = "0.5em";
         }
         card.append(list);
-        addText(card, "p", "समय-गणना: स्थानीय ब्रह्ममुहूर्त के आरम्भ से सूर्योदय तक; संक्रान्ति पहले हो तो वहीं तक। यह गणितीय प्रातःकाल है, ग्रन्थ में मिनटों की निश्चित सीमा नहीं दी गई है।");
+        addText(card, "p", "समय-गणना: स्थानीय प्रभात (सूर्य क्षितिज से 12° नीचे) से सूर्योदय तक; संक्रान्ति पहले हो तो वहीं तक। यह गणितीय प्रभात-सीमा है।");
       }
     }
     fragment.append(card);
