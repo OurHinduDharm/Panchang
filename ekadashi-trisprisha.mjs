@@ -109,3 +109,70 @@ export function reviewTrisprishaSunriseCycle(days,index){
     paranaEvidence:{earlierFastNextSunrise:day.sunrise,earlierFastDwadashiStart:iso(d[0].a),laterFastNextSunrise:next.sunrise,dwadashiAtLaterFastNextSunrise:false},
     note:"Source-specific candidate distinctions only. No final ritual prescription, fast or parana window approved."};
 }
+
+// Narada Purana 1.4.121.96 says Ekadashi ends before sunrise.
+// Drik's explanatory reading additionally requires the Arunodaya transition,
+// Dwadashi throughout daylight and Trayodashi late in the night. These are
+// distinct evidence fields, not an assertion that the verse states all of them.
+export function reviewNaradaTrisprishaCycle(days,index){
+  const fail=reason=>({status:"manual-review",reason,candidateDate:null,publishable:false});
+  if(![10,25].includes(index)||!Array.isArray(days)||days.length!==3)return fail("three-local-sunrise-contexts-required");
+  const [prev,day,next]=days;
+  if(days.some(d=>!validDate(d?.date))||Date.parse(day.date)-Date.parse(prev.date)!==86400000||Date.parse(next.date)-Date.parse(day.date)!==86400000)return fail("nonconsecutive-local-days");
+  const [a,b,c]=days.map(d=>ms(d.sunrise)),sunset=ms(day.sunset);
+  if(![a,b,c,sunset].every(Number.isFinite)||!(a<b&&b<sunset&&sunset<c))return fail("complete-local-daylight-required");
+  if(days.some(d=>!Array.isArray(d.tithis)||!d.tithis.length))return fail("missing-tithi-partitions");
+  const rows=days.flatMap(d=>d.tithis).map(r=>({i:r.index,a:ms(r.startTime??r.start),b:ms(r.endTime??r.end)}));
+  if(rows.some(r=>!Number.isInteger(r.i)||r.i<0||r.i>29||!Number.isFinite(r.a)||!Number.isFinite(r.b)||r.b<=r.a))return fail("invalid-tithi-interval");
+  const groups=new Map();
+  for(const row of rows){if(!groups.has(row.i))groups.set(row.i,[]);groups.get(row.i).push([row.a,row.b]);}
+  const intervals=[...groups].flatMap(([i,parts])=>merged(parts).map(([a,b])=>({i,a,b})));
+  const aruna=b-96*60000;
+  const active=t=>intervals.filter(r=>r.a<=t&&t<r.b);
+  const atDawn=active(aruna),atSunrise=active(b),atNextSunrise=active(c);
+  if([atDawn,atSunrise,atNextSunrise].some(items=>items.length!==1))return fail("ambiguous-or-missing-sunrise-tithi");
+  const [ek]=atDawn,[dv]=atSunrise,[tr]=atNextSunrise;
+  if(ek.i!==index||dv.i!==index+1||tr.i!==index+2)return {status:"not-this-pattern",candidateDate:null,publishable:false};
+  if(!(aruna<ek.b&&ek.b<b&&ek.b===dv.a&&dv.b===tr.a&&sunset<=dv.b&&dv.b<c))return {status:"not-this-pattern",candidateDate:null,publishable:false};
+  const selected=[ek,dv,tr];
+  if(intervals.some(row=>!selected.includes(row)&&row.a<c&&row.b>aruna)||
+    selected.some((row,i)=>selected.slice(i+1).some(other=>Math.max(row.a,other.a)<Math.min(row.b,other.b))))return fail("conflicting-tithi-evidence");
+  // Two transparent diagnostics for "ratrishesha". A quarter-night is a
+  // possible reading; fixed four ghatis is a narrower dawn interpretation.
+  // No unqualified equivalence or publication decision is made.
+  const lastYamaStart=Math.floor(sunset+(c-sunset)*3/4);
+  const nextAruna=c-96*60000;
+  const lastYama=tr.a>=lastYamaStart;
+  const lastFourGhatis=tr.a>=nextAruna;
+  return {status:lastYama?"source-review-required":"narada-broad-reading-only",
+    pattern:"narada-before-sunrise-dwadashi",candidateDate:null,publishable:false,index,
+    month:day.masa??null,observanceDate:day.date,followingSunriseDate:next.date,
+    arunodaya:iso(aruna),ekadashiEnd:iso(ek.b),dwadashiStart:iso(dv.a),dwadashiEnd:iso(dv.b),
+    sunrise:day.sunrise,sunset:day.sunset,followingSunrise:next.sunrise,
+    naradaBeforeSunrise:true,wholeDaylightDwadashi:true,
+    lastNightDiagnostics:{lastYamaStart:iso(lastYamaStart),lastFourGhatisStart:iso(nextAruna),lastYama,lastFourGhatis},
+    source:"Narada Purana 1.4.121.96; Drik expanded reading; late-night boundary not approved"};
+}
+
+// Separate date selection from the special prohibition on the form of
+// observance. Do not infer eligibility, children, or tradition from a date.
+export function resolveTrisprishaSourcePrecedence(cycle,tradition){
+  const fail=reason=>({status:"manual-review",selectedDate:null,publishable:false,reason});
+  if(cycle?.status!=="source-review-required"||cycle.pattern!=="dasami-ekadashi-trayodashi-sunrise-sequence-with-dwadashi-ksaya")return fail("complete-dharmasindhu-cycle-required");
+  const c=cycle.candidates;
+  if(!c?.smartaHouseholderEarlier||!c?.mumukshuVaishnavaLater)return fail("missing-source-candidates");
+  if(tradition==="smarta-householder")return {status:"date-selected-needs-source-approval",selectedDate:c.smartaHouseholderEarlier,
+    selectionBasis:"dharmasindhu-ekadashi-only-vriddhi-smarta-householder-earlier",publishable:false,
+    precedence:{source:"Dharmasindhu Smarta first pariccheda; Madhava",scope:"ordinary Smarta householder date only",
+      exception:"Kurma Purana as cited by Nirnayasindhu and Viramitrodaya: for a son/grandson-bearing householder, the later three-tithi day has a specific full-fast prohibition and nakta rule. Do not treat combined fast as universally applicable."},
+    paranaRequiresReview:true};
+  if(tradition==="vaishnava"&&cycle.arunodaya?.tithiIndex===cycle.index)return {status:"date-selected-needs-source-approval",selectedDate:c.mumukshuVaishnavaLater,
+    selectionBasis:"dharmasindhu-trisprisha-vaishnava-later-arunodaya-clean",publishable:false,
+    precedence:{source:"Dharmasindhu first pariccheda Mahadwadashi; Hari Bhakti Vilasa 12",scope:"explicit Vaishnava selection with clean Arunodaya"},
+    paranaRequiresReview:true};
+  if(tradition==="smarta-mumukshu")return {status:"date-selected-needs-source-approval",selectedDate:c.mumukshuVaishnavaLater,
+    selectionBasis:"dharmasindhu-trisprisha-mumukshu-later",publishable:false,
+    precedence:{source:"Dharmasindhu Smarta first pariccheda",scope:"explicit desire for liberation; ritual eligibility and specific prohibitions require review"},
+    paranaRequiresReview:true};
+  return fail("explicit-applicable-tradition-required");
+}

@@ -1,13 +1,17 @@
 import {buildFestivalRuleContexts} from "../festival-rule-engine.mjs";
-import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,reviewTrisprishaParanaWindows} from "../ekadashi-trisprisha.mjs";
+import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,reviewTrisprishaParanaWindows,reviewNaradaTrisprishaCycle} from "../ekadashi-trisprisha.mjs";
 export {reviewTrisprishaSunriseCycle} from "../ekadashi-trisprisha.mjs";
 const ms=value=>typeof value==="string"?Date.parse(value):NaN;
 export function buildEkadashiTrisprishaReview(annual){
   const contexts=normalizeAnnualTrisprishaPartitions(buildFestivalRuleContexts(annual?.dailyPanchang));
-  const occurrences=[],incomplete=[];
+  const occurrences=[],incomplete=[],naradaOccurrences=[];
   for(let i=1;i<contexts.length-1;i++){
     const day=contexts[i];
     for(const index of [10,25]){
+      if(day.tithis.some(r=>r.index===index+1&&ms(r.startTime??r.start)<=ms(day.sunrise)&&ms(day.sunrise)<ms(r.endTime??r.end))){
+        const narada=reviewNaradaTrisprishaCycle(contexts.slice(i-1,i+2),index);
+        if(["source-review-required","narada-broad-reading-only"].includes(narada.status))naradaOccurrences.push(narada);
+      }
       // Only evaluate a possible central Ekadashi sunrise; do not scan all days as errors.
       if(!day.tithis.some(r=>r.index===index&&ms(r.startTime??r.start)<=ms(day.sunrise)&&ms(day.sunrise)<ms(r.endTime??r.end)))continue;
       const result=reviewTrisprishaSunriseCycle(contexts.slice(i-1,i+2),index);
@@ -15,7 +19,7 @@ export function buildEkadashiTrisprishaReview(annual){
       else if(result.status==="manual-review")incomplete.push({date:day.date,index,reason:result.reason});
     }
   }
-  return {year:annual?.year,status:"review-only-not-approved",publishable:false,occurrences,incomplete,
+  return {year:annual?.year,status:"review-only-not-approved",publishable:false,occurrences,incomplete,naradaOccurrences,
     boundaryPolicy:"Adjacent-year evidence required for first/last sunrise; not inferred.",
     note:"Named Ekadashi, Siddhilakshmi and distinct Dwadashi observances have separate rules. This scan detects only the specified Dwadashi-ksaya geometry, not every Mahadvadashi."};
 }

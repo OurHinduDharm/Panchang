@@ -261,3 +261,39 @@ test("actual 2030 Mohini parana evidence is bounded by Hari Vasara, Dwadashi and
   assert.equal(r.approvedWindow,null);
   console.log("MOHINI_PARANA_REVIEW="+JSON.stringify(r));
 });
+
+import {reviewNaradaTrisprishaCycle,resolveTrisprishaSourcePrecedence} from "../ekadashi-trisprisha.mjs";
+function naradaDays(index=10,end="2032-06-02T22:50:00Z"){
+ const rows=[[index,"2032-06-01T00:00:00Z","2032-06-01T23:00:00Z"],[index+1,"2032-06-01T23:00:00Z",end],[index+2,end,"2032-06-04T00:00:00Z"]];
+ return ["2032-06-01","2032-06-02","2032-06-03"].map(date=>({date,masa:"ज्येष्ठ",sunrise:date+"T00:00:00Z",sunset:date+"T12:00:00Z",tithis:rows.map(([index,startTime,endTime])=>({index,startTime,endTime}))}));
+}
+test("Narada variant is distinct from sunrise Ekadashi and checks both late-night interpretations",()=>{
+ for(const index of [10,25]){
+  const days=naradaDays(index);
+  const r=reviewNaradaTrisprishaCycle(days,index);
+  assert.equal(r.status,"source-review-required");
+  assert.equal(r.wholeDaylightDwadashi,true);
+  assert.equal(r.lastNightDiagnostics.lastFourGhatis,true);
+  assert.equal(r.candidateDate,null);
+  assert.equal(reviewTrisprishaSunriseCycle(days,index).status,"not-this-pattern");
+ }
+ const broad=reviewNaradaTrisprishaCycle(naradaDays(10,"2032-06-02T17:00:00Z"),10);
+ assert.equal(broad.status,"narada-broad-reading-only");
+ const quarter=reviewNaradaTrisprishaCycle(naradaDays(10,"2032-06-02T21:30:00Z"),10);
+ assert.equal(quarter.lastNightDiagnostics.lastYama,true);
+ assert.equal(quarter.lastNightDiagnostics.lastFourGhatis,false);
+ const conflict=naradaDays();conflict[1].tithis.push({index:9,startTime:"2032-06-02T03:00:00Z",endTime:"2032-06-02T04:00:00Z"});
+ assert.equal(reviewNaradaTrisprishaCycle(conflict,10).status,"manual-review");
+});
+test("Trisprisha source precedence is explicit and retains the specific householder prohibition",()=>{
+ const cycle=reviewTrisprishaSunriseCycle(trisprishaDays(),10);
+ const earlier=resolveTrisprishaSourcePrecedence(cycle,"smarta-householder");
+ assert.equal(earlier.selectedDate,"2030-05-13");
+ assert.match(earlier.precedence.exception,/Kurma Purana/);
+ const later=resolveTrisprishaSourcePrecedence(cycle,"vaishnava");
+ assert.equal(later.selectedDate,"2030-05-14");
+ assert.equal(later.publishable,false);
+ assert.equal(resolveTrisprishaSourcePrecedence({...cycle,arunodaya:{tithiIndex:9}},"vaishnava").selectedDate,null);
+ assert.equal(resolveTrisprishaSourcePrecedence(cycle,"smarta-mumukshu").selectedDate,"2030-05-14");
+ assert.equal(resolveTrisprishaSourcePrecedence(cycle,undefined).selectedDate,null);
+});

@@ -453,3 +453,15 @@ test("annual Ekadashi adapter recognizes real Mohini Trisprisha and selects only
  assert.equal(result.autoApproved,false);
  assert.ok(result.warnings.includes("trisprisha-householder-date-only-special-parana-review-required"));
 });
+
+test("2030 annual Mohini resolver respects explicitly scoped later Vaishnava and Mumukshu selection",async()=>{
+ const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+ const descriptor={id:"mohini",dateType:"tithi",ruleId:"ekadashi-smarta-udaya",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:10};
+ for(const ekadashiTradition of ["vaishnava","smarta-mumukshu"]){
+   const result=resolveFestivalObservanceFromAnnualPanchang({...descriptor,ekadashiTradition},2030,annual.dailyPanchang);
+   assert.equal(result.selectedDate,"2030-05-14");
+   assert.equal(result.publishable,false);
+   assert.equal(result.autoApproved,false);
+   assert.ok(result.warnings.includes("trisprisha-special-parana-review-required"));
+ }
+});
