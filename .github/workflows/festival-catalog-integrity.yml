@@ -28,6 +28,8 @@ on:
       - 'tests/2026-festival-coverage.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'festival-public-years.mjs'
+      - 'festival-calendar-export.mjs'
+      - 'tests/festival-calendar-export.test.mjs'
       - 'data/festivals/published-years.mjs'
       - 'scripts/update-published-festival-years.mjs'
       - 'tests/published-festival-years.test.mjs'
@@ -62,6 +64,8 @@ on:
       - 'tests/2026-festival-coverage.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'festival-public-years.mjs'
+      - 'festival-calendar-export.mjs'
+      - 'tests/festival-calendar-export.test.mjs'
       - 'data/festivals/published-years.mjs'
       - 'scripts/update-published-festival-years.mjs'
       - 'tests/published-festival-years.test.mjs'
@@ -84,7 +88,7 @@ jobs:
       - name: Verify published year index and navigation
         run: |
           node scripts/update-published-festival-years.mjs --check
-          node --test tests/published-festival-years.test.mjs tests/monthly-year-and-eclipse-link-dedup.test.mjs
+          node --test tests/published-festival-years.test.mjs tests/monthly-year-and-eclipse-link-dedup.test.mjs tests/festival-calendar-export.test.mjs
       - name: Run integrity, Yugadi and 2026 coverage tests
         run: node --test tests/monthly-catalog-resilience.test.mjs tests/monthly-navratri-incomplete-scan.test.mjs tests/festival-catalog-integrity.test.mjs tests/festival-content-master-sync.test.mjs tests/2026-festival-coverage.test.mjs tests/yugadi-days-2026-2030.test.mjs tests/monthly-location-eclipse-cards.test.mjs tests/dwadashi-calendar.test.mjs tests/dwadashi-widget-integration.test.mjs tests/2030-muhurta-coverage.test.mjs tests/2030-october-description-quality.test.mjs tests/tulsi-narak-observance-copy.test.mjs tests/narak-chaturdashi-date-coverage-2026-2030.test.mjs tests/chaturmas-annual-integrity.test.mjs
       - name: Install pinned Panchang engine for location regression
