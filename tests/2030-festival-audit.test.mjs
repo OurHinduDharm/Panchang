@@ -448,7 +448,8 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(at(nov, "2030-11-18", /^मासिक कालाष्टमी$/)?.muhurtaRule, undefined);
   assert.equal(at(nov, "2030-11-18", /^मासिक कृष्ण जन्माष्टमी$/)?.muhurtaRule, "janmashtami-nishita");
   assert.ok(at(nov, "2030-11-22", /कृष्ण योगेश्वर द्वादशी/));
-  assert.ok(at(nov, "2030-11-24", /बाला जयंती.*दर्श अमावस्या/));
+  assert.ok(at(nov, "2030-11-24", /^श्री बाला सिद्धविद्या जयंती$/));
+  assert.ok(at(nov, "2030-11-24", /^दर्श अमावस्या$/));
   assert.ok(at(nov, "2030-11-25", /सोमवती अमावस्या/));
 
   assert.ok(at(dec, "2030-12-01", /भानु सप्तमी/));
