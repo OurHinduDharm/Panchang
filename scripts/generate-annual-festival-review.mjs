@@ -6,6 +6,7 @@ import {fileURLToPath} from "node:url";
 import {resolveAnnualYamaDvitiya,resolveAnnualShuklaManvadi,buildFestivalRuleContexts,resolveFestivalObservanceFromAnnualPanchang} from "../festival-rule-engine.mjs";
 
 import {buildVaishakhaTritiyaComponentReview} from "./review-vaishakha-tritiya-components.mjs";
+import {buildAvatarComponentReview} from "./review-avatar-components.mjs";
 
 import {buildEkadashiTrisprishaReview} from "./review-ekadashi-trisprisha.mjs";
 import {resolveTrisprishaSourcePrecedence} from "../ekadashi-trisprisha.mjs";
@@ -191,6 +192,7 @@ async function main(){
   output.shuklaManvadi=resolveAnnualShuklaManvadi(annual.dailyPanchang);
   output.recurringReview=buildRecurringFestivalReview({annual,year});
   output.vaishakhaTritiyaComponents=buildVaishakhaTritiyaComponentReview(annual);
+  output.avatarComponents=buildAvatarComponentReview({annual,sourceMonths,year});
   output.ekadashiTrisprishaReview=buildEkadashiTrisprishaReview(annual);
   const dir=resolve(root,"artifacts/festival-annual-review");
   await mkdir(dir,{recursive:true});
