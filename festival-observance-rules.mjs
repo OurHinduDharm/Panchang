@@ -99,6 +99,17 @@ const PROFILES = {
     allowedMonths: ["चैत्र"],
     sourceReview: "primary-digest-consulted-ashtami-vedha-review-pending"
   },
+  // Dharmasindhu II, Chaitra, Jayanti; Nirnayasindhu II, Dashavatara.
+  // Only the selected Chaitra Tritiya tradition. Other kalpa variants
+  // and the equal-coverage tie rule are not inferred from a generic profile.
+  "matsya-jayanti-aparahna": {
+    id: "matsya-jayanti-aparahna", aliases: [],
+    label: "मत्स्यावतार जयंती", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "aparahna", windowLabel: "अपराह्ण काल",
+    calculationBasis: "chaitra-shukla-tritiya-local-aparahna-unique-overlap",
+    allowedMonths: ["चैत्र"],
+    sourceReview: "dharmasindhu-and-nirnayasindhu-dashavatara-aparahna-full-window-precedence-review"
+  },
   "vijayadashami-aparahna": {
     id: "vijayadashami-aparahna", aliases: ["vijayadashami", "dussehra"],
     label: "विजयादशमी", tithiIndices: [9], paksha: "शुक्ल पक्ष",
@@ -554,6 +565,39 @@ export function resolveObservanceCandidates(ruleId, candidateContexts, options =
     warnings: ["no-candidate-day-covers-the-required-karmakala"],
     evaluations, finalDate: null, autoApproved: false
   };
+  // Nirnayasindhu II, Dashavatara, Purana-samuchchaya: कालसाम्ये च पूर्वा.
+  // One complete birth window is preferred to a partial one as a
+  // review candidate, not a universal tie rule. Two partial windows
+  // (or missing evidence) remain unresolved. Never apply this to Rama,
+  // Nrisimha, or other observances with specific contrary injunctions.
+  if (profileId === "matsya-jayanti-aparahna" && supported.length === 2) {
+    const [a,b] = supported;
+    const first = scopedContexts.find(d => d.date === a.date);
+    const second = scopedContexts.find(d => d.date === b.date);
+    const parts = d => (d.tithis ?? []).map(asInterval).filter(t => t && t.index === 2);
+    const p = parts(first), q = parts(second);
+    const boundary = asDate(second.sunrise);
+    const adjacent = Date.parse(b.date) - Date.parse(a.date) === 86400000;
+    const continuous = adjacent && boundary && p.length === 1 && q.length === 1 &&
+      +p[0].end === +boundary && +q[0].start === +boundary;
+    const full = x => x.evidence.length === 1 &&
+      x.evidence[0].start === x.evidence[0].windowStart &&
+      x.evidence[0].end === x.evidence[0].windowEnd;
+    if (continuous && (full(a) || full(b))) {
+      const both = full(a) && full(b);
+      const selected = full(a) ? a : b;
+      return {
+        status:"date-selected-needs-source-approval",ruleId:profileId,
+        selectedDate:selected.date,finalDate:selected.date,
+        selectionBasis:both ? "nirnayasindhu-equal-full-birth-windows-earlier" :
+          "matsya-complete-over-partial-birth-window-review",
+        evaluations,autoApproved:false,
+        warnings:[both ? "equal-full-birth-windows-earlier-day" :
+          "complete-over-partial-window-interpretation-review-required",
+          "primary-source-and-publication-approval-still-required"]
+      };
+    }
+  }
   if (supported.length > 1) return {
     status: "manual-review", ruleId: profileId,
     warnings: ["multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"],
