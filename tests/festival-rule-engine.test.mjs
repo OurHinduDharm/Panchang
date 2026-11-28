@@ -489,3 +489,16 @@ test("catalogue scope distinguishes ISKCON from general Vaishnava observances", 
     assert.equal(inPublicFestivalScope(item),false);
   assert.equal(inPublicFestivalScope({title:"वैष्णव एकादशी"}),true);
 });
+
+test("regular Kartika Yama Dvitiya uses the local Aparahnas, including 2026 vriddhi", async () => {
+  const {resolveAnnualYamaDvitiya} = await import("../festival-rule-engine.mjs");
+  const {readFile} = await import("node:fs/promises");
+  for (const date of ["2026-11-11","2027-10-31","2028-10-19","2029-11-07","2030-10-28","2031-11-16"]) {
+    const year = date.slice(0,4);
+    const annual = JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-"+year+".json",import.meta.url)));
+    const result = resolveAnnualYamaDvitiya(annual.dailyPanchang);
+    assert.equal(result.selectedDate,date);
+    assert.equal(result.contentKey,"भाई दूज");
+    assert.equal(resolveAnnualYamaDvitiya(annual.dailyPanchang.filter(d=>d.date!==date)).selectedDate,null);
+  }
+});

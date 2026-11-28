@@ -14,11 +14,33 @@ import {
 
 import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle,resolveTrisprishaSourcePrecedence} from "./ekadashi-trisprisha.mjs";
 
+import {completeDay} from "./festival-tithi-partitions.mjs";
+import {selectYamaDvitiyaDay} from "./yama-dvitiya.mjs";
 import {resolveShuklaManvadiCycles} from "./manvadi-observances.mjs";
 
 export function resolveAnnualShuklaManvadi(dailyPanchang) {
   const contexts = normalizeAnnualTrisprishaPartitions(buildFestivalRuleContexts(dailyPanchang));
   return resolveShuklaManvadiCycles(contexts);
+}
+
+// Only regular Kartika Shukla Dvitiya supplies this occurrence.
+export function resolveAnnualYamaDvitiya(dailyPanchang) {
+  const ruleId = "dharmasindhu-yama-dvitiya";
+  const pending = {ruleId, contentKey:"भाई दूज", selectedDate:null, status:"manual-review", publishable:false};
+  const days = normalizeAnnualTrisprishaPartitions(buildFestivalRuleContexts(dailyPanchang));
+  const target = day => day.masa === "कार्तिक" && day.tithis.some(t => t.index === 1);
+  const indices = days.flatMap((day,i) => target(day) ? [i] : []);
+  if (!indices.length || indices.at(-1)-indices[0]+1 !== indices.length) return pending;
+  const first = indices[0], last = indices.at(-1);
+  if (first === 0 || last+1 >= days.length) return pending;
+  const around = days.slice(first-1,last+2);
+  if (!around.slice(0,-1).every((day,i) => completeDay(day,around[i+1]))) return pending;
+  const parts = around.flatMap(day => day.tithis).filter(t => t.index === 1);
+  if (parts.length !== indices.length || !parts.every((p,i) => i === 0 || p.startTime === parts[i-1].endTime)) return pending;
+  const all = around.flatMap(day => day.tithis);
+  if (all[all.indexOf(parts[0])-1]?.index !== 0 || all[all.indexOf(parts.at(-1))+1]?.index !== 2) return pending;
+  const decision = selectYamaDvitiyaDay(around,Date.parse(parts[0].startTime),Date.parse(parts.at(-1).endTime));
+  return decision ? {...pending,selectedDate:decision.date,status:"date-selected-needs-source-approval"} : pending;
 }
 
 export const FESTIVAL_RULE_ENGINE_VERSION = "1.0.0";
