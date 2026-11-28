@@ -108,3 +108,48 @@ test("same-year comparison distinguishes matches, date differences, and unresolv
     sourceDate, calculatedDate
   ]), [["2030-09-01", "2030-09-10"], ["2030-09-11", null]]);
 });
+
+import {readFile} from "node:fs/promises";
+import {reviewAkshayaTritiya,buildVaishakhaTritiyaComponentReview} from "../scripts/review-vaishakha-tritiya-components.mjs";
+function tritiyaDays(start,end){
+  const first="2030-05-04",second="2030-05-05",finish="2030-05-06";
+  const day=(date,next)=>{
+    const a=Date.parse(date+"T00:00:00Z"),b=Date.parse(next+"T00:00:00Z");
+    const parts=[[1,a,Math.min(b,start)],[2,Math.max(a,start),Math.min(b,end)],[3,Math.max(a,end),b]];
+    return {date,masa:"वैशाख",sunrise:new Date(a).toISOString(),sunset:date+"T12:00:00Z",nextSunrise:new Date(b).toISOString(),
+      tithis:parts.filter(([,x,y])=>x<y).map(([index,x,y])=>({index,startTime:new Date(x).toISOString(),endTime:new Date(y).toISOString()}))};
+  };
+  return [day(first,second),day(second,finish)];
+}
+test("Akshaya Tritiya independently compares both shastric date variants and refuses a disagreement",()=>{
+  const start=Date.parse("2030-05-04T05:00:00Z");
+  const result=reviewAkshayaTritiya(tritiyaDays(start,Date.parse("2030-05-05T03:00:00Z")));
+  assert.equal(result.candidateDate,"2030-05-05");
+  assert.equal(result.publishable,false);
+  const conflict=reviewAkshayaTritiya(tritiyaDays(start,Date.parse("2030-05-05T01:00:00Z")));
+  assert.equal(conflict.candidateDate,null);
+  assert.equal(conflict.variants.nirnayasindhu,"2030-05-05");
+  assert.equal(conflict.variants.dharmasindhuSixFixedGhatis,"2030-05-04");
+  const equality=reviewAkshayaTritiya(tritiyaDays(start,Date.parse("2030-05-05T02:24:00Z")));
+  assert.equal(equality.candidateDate,null);
+  assert.equal(equality.variants.dharmasindhuSixFixedGhatis,null);
+});
+test("Akshaya review fails closed for a missing interval, a broken cycle, and a gap in day dates",()=>{
+  const days=tritiyaDays(Date.parse("2030-05-04T18:00:00Z"),Date.parse("2030-05-05T09:00:00Z"));
+  assert.equal(reviewAkshayaTritiya(days).candidateDate,"2030-05-05");
+  const incomplete=structuredClone(days);incomplete[1].tithis.pop();
+  assert.equal(reviewAkshayaTritiya(incomplete).candidateDate,null);
+  const gapped=structuredClone(days);gapped[1].date="2030-05-06";
+  assert.equal(reviewAkshayaTritiya(gapped).candidateDate,null);
+  const broken=structuredClone(days);broken[0].tithis[1].endTime="2030-05-04T23:00:00Z";
+  assert.equal(reviewAkshayaTritiya(broken).candidateDate,null);
+});
+test("real 2030 composite does not assign Parashurama's date to Akshaya, Yugadi and Matangi",async()=>{
+ const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+ const result=buildVaishakhaTritiyaComponentReview(annual);
+ assert.equal(result.components[0].candidateDate,"2030-05-05");
+ assert.equal(result.components[1].candidateDate,"2030-05-04");
+ assert.ok(result.components.slice(2).every(r=>r.candidateDate===null));
+ assert.ok(result.components.every(r=>r.publishable===false));
+ console.log("VAISHAKHA_TRITIYA_COMPONENTS="+JSON.stringify(result));
+});
