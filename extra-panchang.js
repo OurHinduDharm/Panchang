@@ -414,7 +414,69 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
         }));
     replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
     normalizePanchangCardOrder();
+    showNextAgastyaEvents(latestLocation, selectedDate, renderVersion);
   });
+}
+
+// Only the annual Canopus rise and set are computed, after the main card
+// renders. No worker, reference dates, network location lookup or storage.
+const agastyaEventCache = new Map();
+async function showNextAgastyaEvents(location, selectedDate, version) {
+  try {
+    if (location.timeZone !== "Asia/Kolkata" ||
+        !["provided","estimated"].includes(location.elevationStatus) ||
+        window.__ohdPanchangLocation?.elevation == null ||
+        String(window.__ohdPanchangLocation.elevation).trim() === "") return;
+    const year = Number(selectedDate.slice(0,4));
+    if (!Number.isInteger(year) || year < 2021 || year > 2035) return;
+    const [engine, runtime, {profiles}] = await Promise.all([
+      import("https://esm.sh/astronomy-engine@2.1.19"),
+      import("./research/annual-tara-runtime.mjs"),
+      import("./research/annual-tara-profiles.mjs")
+    ]);
+    // Yield to the UI before the seasonal single-star calculation.
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const stillCurrent = () => {
+      const latest = getLocation();
+      return version === planetReferenceRenderVersion && getSelectedDate() === selectedDate &&
+        latest?.latitude === location.latitude && latest?.longitude === location.longitude &&
+        latest?.elevation === location.elevation && latest?.elevationStatus === location.elevationStatus;
+    };
+    if (!stillCurrent()) return;
+    const selectedStart = Date.parse(selectedDate+"T00:00:00+05:30");
+    if (!Number.isFinite(selectedStart)) return;
+    const getAnnual = y => {
+      const key = [location.latitude,location.longitude,location.elevation,y].join("/");
+      if (!agastyaEventCache.has(key)) {
+        const events = runtime.calculateAnnualAgastyaEvents(engine,location,y,profiles);
+        if (agastyaEventCache.size>=24) agastyaEventCache.delete(agastyaEventCache.keys().next().value);
+        agastyaEventCache.set(key,events);
+      }
+      return agastyaEventCache.get(key);
+    };
+    const current = getAnnual(year);
+    const needsFollowing = Object.values(current).some(value => Number.isFinite(value) && value < selectedStart);
+    const following = needsFollowing && year < 2035 ? getAnnual(year+1) : null;
+    const next = runtime.nextAgastyaEvents(current,following,selectedStart);
+    if (!stillCurrent()) return;
+    const formatter = new Intl.DateTimeFormat("hi-IN",{timeZone:location.timeZone,day:"numeric",month:"long",year:"numeric"});
+    for (const [type,label] of [["Asta","आगामी अस्त"],["Udaya","आगामी उदय"]]) {
+      const row = document.querySelector(`#planetRiseSetCard [data-agastya-next="${type}"]`);
+      if (!row || !Number.isFinite(next[type])) continue;
+      row.textContent = label+" — "+formatter.format(new Date(next[type]));
+      row.hidden = false;
+    }
+    const available = Object.values(next).filter(Number.isFinite);
+    const link = document.querySelector("#planetRiseSetCard [data-agastya-link]");
+    if (link && available.length) {
+      const y = Number(new Intl.DateTimeFormat("en",{timeZone:location.timeZone,year:"numeric"}).format(new Date(Math.min(...available))));
+      const url = new URL(link.href);
+      url.searchParams.set("year",String(y));
+      link.href=url.href;
+    }
+  } catch (_) {
+    // Preserve the annual link if the calculated date is unavailable.
+  }
 }
 
 /* =========================================
@@ -472,7 +534,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   card.innerHTML = `
     <h3>🌟 गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><a href="${annualTaraPageUrl()}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">${rows}<div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px"><strong style="font-size:1.02em">अगस्त्य तारा</strong><span data-agastya-next="Asta" hidden></span><span data-agastya-next="Udaya" hidden></span><a href="${annualTaraPageUrl()}" data-agastya-link>गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें</a></div></div>
   `;
   return card;
 }

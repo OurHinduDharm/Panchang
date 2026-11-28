@@ -27,8 +27,8 @@ test("public card does not show additional planetary rows", () => {
 });
 
 
-test("Agastya row links to selected annual year without a daily worker",()=>{
-  assert.match(card,/अगस्त्य तारा<\/strong><a href="\$\{annualTaraPageUrl\(\)\}">गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें/);
+test("Agastya row displays deferred next rise and set and links to annual year without a daily worker",()=>{
+  assert.match(card,/अगस्त्य तारा<\/strong><span data-agastya-next="Asta" hidden><\/span><span data-agastya-next="Udaya" hidden><\/span><a href="\$\{annualTaraPageUrl\(\)\}" data-agastya-link>गुरु, शुक्र एवं अगस्त्य की वर्षवार सूची देखें/);
   assert.equal([...card.matchAll(/href="\$\{annualTaraPageUrl\(\)\}"/g)].length,1);
   const start=source.indexOf("function annualTaraPageUrl()");
   const end=source.indexOf("function createPlanetCard",start);
@@ -38,3 +38,11 @@ test("Agastya row links to selected annual year without a daily worker",()=>{
   assert.equal(url.searchParams.get("city"),"delhi");
   assert.doesNotMatch(card,/new Worker|annual-tara-runtime|agastya-arghya-pithoragarh/);
 });
+
+ test("daily events are deferred, locally calculated and stale renders are rejected",()=>{
+  assert.match(source,/runtime\.calculateAnnualAgastyaEvents\(engine,location,y,profiles\)/);
+  assert.match(source,/runtime\.nextAgastyaEvents\(current,following,selectedStart\)/);
+  assert.match(source,/if \(!stillCurrent\(\)\) return/);
+  assert.match(source,/\["Asta","आगामी अस्त"\],\["Udaya","आगामी उदय"\]/);
+  assert.match(source,/url\.searchParams\.set\("year",String\(y\)\)/);
+ });

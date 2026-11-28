@@ -146,3 +146,29 @@ test("no Canopus event is inferred where the star never reaches the horizon", as
   assert.equal(canopusIssues.length, 2);
   assert.ok(canopusIssues.every(i => i.reason === "no-consecutive-horizon-samples"));
 });
+
+ test("daily single-star rise and set match the annual page for each selected city and year",async()=>{
+  const engine=createRequire(import.meta.url)("astronomy-engine");
+  const {profiles}=await import("../research/annual-tara-profiles.mjs");
+  const {calculateAnnualAgastyaEvents,calculateAnnualTara}=await import("../research/annual-tara-runtime.mjs");
+  for(const location of [LOCATION_PROFILES["pithoragarh-project-target"],LOCATION_PROFILES["drikpanchang-ramnagar"],{latitude:28.6139,longitude:77.209,elevation:216}]){
+    for(const year of [2026,2027]){
+      const annual=calculateAnnualTara(engine,location,year,profiles);
+      const daily=calculateAnnualAgastyaEvents(engine,location,year,profiles);
+      for(const type of ["Asta","Udaya"]){
+        const events=annual.events.filter(e=>e.body==="Star1"&&e.event===type);
+        assert.equal(daily[type],events.length===1?events[0].utcMilliseconds:null);
+      }
+    }
+  }
+ });
+
+ test("next star events independently roll over and ambiguous results remain hidden",async()=>{
+  const {nextAgastyaEvents}=await import("../research/annual-tara-runtime.mjs");
+  const current={Asta:100,Udaya:200},following={Asta:300,Udaya:400};
+  assert.deepEqual(nextAgastyaEvents(current,following,90),current);
+  assert.deepEqual(nextAgastyaEvents(current,following,150),{Asta:300,Udaya:200});
+  assert.deepEqual(nextAgastyaEvents(current,following,250),following);
+  assert.deepEqual(nextAgastyaEvents({Asta:null,Udaya:200},following,250),{Asta:null,Udaya:400});
+  assert.deepEqual(nextAgastyaEvents(current,null,250),{Asta:null,Udaya:null});
+ });
