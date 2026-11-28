@@ -10,7 +10,7 @@ const root = resolve(".");
 // exporter imports Node fs lazily; leave that unused API external, rather
 // than attempting to bundle Node file access into a browser test.
 const panchangBundle = (await build({
-  stdin:{contents:'export { Observer, getPanchangam } from "@ishubhamx/panchangam-js";',resolveDir:root},
+  stdin:{contents:'export { getAyanamsa } from "@ishubhamx/panchangam-js";',resolveDir:root},
   bundle:true,format:"esm",platform:"browser",external:["fs","node:fs"],write:false
 })).outputFiles[0].contents;
 const server = createServer(async (req, res) => {
@@ -66,7 +66,7 @@ try {
       elevation: 81, elevationStatus: "provided"}, year: 2027});
   }));
   // A missing ingress section must fail this test even when the planet cards render.
-  assert.ok(located.kanyaCalendar, "Kanya calendar must be calculated by the actual worker");
+  assert.ok(located.kanyaCalendar, "Kanya calendar must be calculated by the actual worker: " + located.kanyaStatus);
   const {ingressUtcMilliseconds: ingress, dawns} = located.kanyaCalendar;
   assert.ok(Math.abs(ingress-Date.parse("2027-09-17T14:10:34+05:30")) < 2*3600000, new Date(ingress).toISOString());
   assert.deepEqual(dawns.map(d=>d.date), Array.from({length:7},(_,i)=>"2027-09-"+(11+i)));
