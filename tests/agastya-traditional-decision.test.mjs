@@ -50,7 +50,7 @@ test("Kanya ingress is independently bisected, rejects invalid sign brackets",()
   assert.equal(kanyaIngressFromSunSign(2027,()=>null),null);
 });
 test("seven pre-Kanya mornings include ingress day only if dawn is eligible",()=>{
-  const night=date=>({sunsetUtcMilliseconds:ms(date+"T00:00:00+05:30")-6*3600000,
+  const night=date=>({dawnUtcMilliseconds:ms(date+"T04:24:00+05:30"),
     sunriseUtcMilliseconds:ms(date+"T06:00:00+05:30")});
   const midday=kanyaPrecedingDawns(ms("2027-09-17T14:10:00+05:30"),night);
   assert.equal(midday.length,7);
