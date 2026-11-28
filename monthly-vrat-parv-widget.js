@@ -1,6 +1,6 @@
 import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
-import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
+import {createFestivalCalendarLinks} from "./festival-calendar-export.mjs";
 
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOffsetForLocalDay,isValidTimeZone} from "./location-timezone.mjs";
@@ -49,7 +49,8 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
     }
   }
   var eventsEl=document.getElementById("events");
-  var updateCalendarExport=createFestivalCalendarExport(eventsEl);
+  var festivalCalendarLinks=createFestivalCalendarLinks();
+  var updateCalendarExport=festivalCalendarLinks.update;
   // मासिक सूची के नीचे उपयोगी नियम और गणना-सीमाएँ दिखाएँ; Blogger HTML में
   // अलग से यह खंड न होने पर भी विजेट इसे सुरक्षित DOM APIs से बना देता है।
   function ensureUsageGuide(){
@@ -1397,6 +1398,16 @@ import {getIsoDateInTimeZone,addIsoCalendarDays,zonedDateTimeToUtc,getTimeZoneOf
       if(isEclipseEvent&&!hasEclipsePageLink){
         var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी",cardLinkUrls);
         if(eclipseLink)links.appendChild(eclipseLink);
+      }
+      var calendarUrl=festivalCalendarLinks.urlFor(item);
+      if(calendarUrl&&!reviewMode){
+        var calendarLink=document.createElement("a");
+        calendarLink.href=calendarUrl;
+        calendarLink.target="_blank";
+        calendarLink.rel="noopener noreferrer";
+        calendarLink.referrerPolicy="no-referrer";
+        calendarLink.textContent="Google Calendar में जोड़ें";
+        links.appendChild(calendarLink);
       }
       if(links.childNodes.length)content.appendChild(links);
       if(reviewMode&&item.showReviewStatus!==false){
