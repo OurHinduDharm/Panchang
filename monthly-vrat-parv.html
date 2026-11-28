@@ -293,6 +293,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <script type="module">
 import {inPublicFestivalScope} from "./festival-public-scope.mjs";
 import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-public-years.mjs";
+import {createFestivalCalendarExport} from "./festival-calendar-export.mjs";
 (function(){
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
@@ -311,6 +312,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
   syncPublishedYearOptions(yearSelect);
   var currentMonthBtn=document.getElementById("currentMonthBtn");
   var eventsEl=document.getElementById("events");
+  var updateCalendarExport=createFestivalCalendarExport(eventsEl);
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
@@ -1028,6 +1030,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
     }
     searchInput.value="";
     var token=++requestToken;
+    updateCalendarExport(null);
     if(activeMonthRequest)activeMonthRequest.abort();
     var controller=new AbortController();
     activeMonthRequest=controller;
@@ -1045,6 +1048,7 @@ import {publishedYearNavigation, syncPublishedYearOptions} from "./festival-publ
       var data=await response.json();
       if(token!==requestToken)return;
       if(!data||!Array.isArray(data.events))throw new Error("Invalid monthly catalog");
+      if(!reviewMode)updateCalendarExport(data,year,month);
       render(data,year,month,token);
       restoreViewportAnchor();
     }catch(e){
