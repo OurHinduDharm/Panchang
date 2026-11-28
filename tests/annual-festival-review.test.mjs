@@ -297,3 +297,34 @@ test("Trisprisha source precedence is explicit and retains the specific househol
  assert.equal(resolveTrisprishaSourcePrecedence(cycle,"smarta-mumukshu").selectedDate,"2030-05-14");
  assert.equal(resolveTrisprishaSourcePrecedence(cycle,undefined).selectedDate,null);
 });
+
+test("annual review carries explicit Trisprisha traditions without assigning Mohini's date to Siddhilakshmi",async()=>{
+ const real=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-2030.json",import.meta.url),"utf8"));
+ const title="मोहिनी एकादशी / सिद्धिलक्ष्मी जयंती";
+ const key="2030-05-13::"+title;
+ const source=Array.from({length:12},(_,i)=>({year:2030,month:i+1,events:i===4?[{date:"2030-05-13",title}]:[]}));
+ const mapping={recordKey:key,observanceId:"mohini",ruleId:"ekadashi-smarta-udaya",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:10,ekadashiTradition:"smarta-householder",classification:"manual-review"};
+ const input={annual:real,manifest:{year:2030,mappings:[mapping]},sourceMonths:source,year:2030};
+ const result=buildAnnualFestivalReview(input).decisions[0];
+ assert.equal(result.calculatedCandidateDate,"2030-05-13");
+ assert.equal(result.selectedDate,null);
+ assert.equal(result.status,"manual-review");
+ assert.ok(result.warnings.includes("composite-card-requires-independent-component-decisions"));
+ assert.equal(result.trisprishaAlternatives[0].alternatives.find(x=>x.tradition==="vaishnava").selectedDate,"2030-05-14");
+ assert.ok(result.trisprishaAlternatives[0].alternatives.every(x=>x.publishable===false));
+ const single="मोहिनी एकादशी";
+ source[4].events[0].title=single;
+ mapping.recordKey="2030-05-13::"+single;
+ const singleDecision=buildAnnualFestivalReview(input).decisions[0];
+ assert.equal(singleDecision.selectedDate,"2030-05-13");
+ assert.equal(singleDecision.publishable,false);
+ const other={...mapping,recordKey:"2030-05-14::गौण मोहिनी",ekadashiTradition:"smarta-mumukshu"};
+ const coverage=buildRuleCoverageReview({annual:real,manifests:[{year:2030,mappings:[mapping,other]}],year:2030,sourceYear:2030});
+ assert.equal(coverage.distinctRuleSelectors,2);
+ assert.deepEqual(coverage.slots.map(x=>x.calculatedCandidateDate),["2030-05-13","2030-05-14"]);
+ const recurring=buildRecurringFestivalReview({annual:real,year:2030});
+ const cycle=recurring.series.find(x=>x.ruleId==="ekadashi-smarta-udaya"&&x.targetTithiIndex===10).occurrences.find(x=>x.trisprishaAlternatives?.some(y=>y.sunriseDates[1]==="2030-05-14"));
+ assert.ok(cycle);
+ assert.equal(cycle.selectedDate,null);
+ assert.equal(cycle.trisprishaAlternatives[0].alternatives.length,3);
+});
