@@ -1,6 +1,7 @@
 import {buildFestivalRuleContexts} from "../festival-rule-engine.mjs";
 import {normalizeAnnualTrisprishaPartitions,reviewTrisprishaSunriseCycle} from "../ekadashi-trisprisha.mjs";
 export {reviewTrisprishaSunriseCycle} from "../ekadashi-trisprisha.mjs";
+const ms=value=>typeof value==="string"?Date.parse(value):NaN;
 export function buildEkadashiTrisprishaReview(annual){
   const contexts=normalizeAnnualTrisprishaPartitions(buildFestivalRuleContexts(annual?.dailyPanchang));
   const occurrences=[],incomplete=[];

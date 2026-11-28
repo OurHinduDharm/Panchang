@@ -212,3 +212,20 @@ test("real Pithoragarh 2030 Mohini has Dwadashi ksaya and separate candidate dat
   assert.equal(result.candidateDate,null);
   console.log("MOHINI_TRISPRISHA="+JSON.stringify(result));
 });
+
+import {normalizeAnnualTrisprishaPartitions} from "../ekadashi-trisprisha.mjs";
+test("annual scanner normalization closes only the documented minute gap without mutating raw evidence",()=>{
+ const day={date:"2032-06-01",tithis:[
+  {index:9,startTime:"2032-06-01T00:00:00Z",endTime:"2032-06-01T03:00:00Z"},
+  {index:10,startTime:"2032-06-01T03:01:00Z",endTime:"2032-06-01T12:00:00Z"},
+  {index:11,startTime:"2032-06-01T12:02:00Z",endTime:"2032-06-01T18:00:00Z"},
+  {index:13,startTime:"2032-06-01T18:01:00Z",endTime:"2032-06-02T00:00:00Z"}
+ ]};
+ const original=structuredClone(day);
+ const [normalized]=normalizeAnnualTrisprishaPartitions([day]);
+ assert.equal(normalized.tithis[1].startTime,"2032-06-01T03:00:00.000Z");
+ assert.equal(normalized.tithis[2].startTime,original.tithis[2].startTime);
+ assert.equal(normalized.tithis[3].startTime,original.tithis[3].startTime);
+ assert.deepEqual(day,original);
+ assert.deepEqual(normalizeAnnualTrisprishaPartitions([normalized]),[normalized]);
+});
