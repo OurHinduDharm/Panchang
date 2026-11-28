@@ -406,3 +406,18 @@ test("Akshaya evidence rejects contradictory simultaneous tithis",()=>{
  days[1].tithis.push({index:3,startTime:"2030-05-05T02:00:00Z",endTime:"2030-05-05T03:00:00Z"});
  assert.equal(reviewAkshayaTritiya(days).candidateDate,null);
 });
+
+
+test("real annual Parashurama source preference is independent and remains unpublished",async()=>{
+  const {resolveFestivalObservanceFromAnnualPanchang}=await import("../festival-rule-engine.mjs");
+  for(const year of [2030,2031]){
+    const annual=JSON.parse(await readFile(new URL("../data/ohd-annual-panchang-review-"+year+".json",import.meta.url),"utf8"));
+    const r=resolveFestivalObservanceFromAnnualPanchang({id:"parashurama-jayanti",dateType:"tithi",ruleId:"parashurama-jayanti-pradosha-review",lunarMonth:"वैशाख",paksha:"शुक्ल पक्ष",targetTithiIndex:2,parashuramaSourcePolicy:"dharmasindhu-first-yama"},year,annual.dailyPanchang);
+    if(year===2030)assert.equal(r.selectedDate,"2030-05-05");
+    assert.equal(r.publishable,false);
+    assert.equal(r.autoApproved,false);
+    const report=buildVaishakhaTritiyaComponentReview(annual);
+    assert.equal(report.components[1].dharmasindhuPolicyCandidateDate,r.selectedDate);
+    console.log("PARASHURAMA_EXPLICIT_POLICY="+JSON.stringify({year,date:r.selectedDate,status:r.status}));
+  }
+});
