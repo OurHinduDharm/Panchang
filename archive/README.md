@@ -36,3 +36,7 @@
 - `archive/data/ohd-annual-panchang-review-2026.json`
 
 कुल 8 फाइलों के 3,613,618 bytes हटे; दस्तावेज़/guards में छोटे बदलाव अलग हैं। पुराने prototype के परीक्षण ही हटे, सक्रिय गणना और स्रोत सत्यापन परीक्षण सुरक्षित हैं। PR preview utility `test-pr.html` अब वर्तमान index को प्राथमिकता देती है। `data/asta-udaya-benchmark.json` में पुराने experimental page के उल्लेख स्रोत-इतिहास हैं, runtime dependency नहीं। पुरानी Git history rewrite नहीं की गई है; इसलिए GitHub के पूर्ण repository storage में इतनी ही कमी की गारंटी नहीं है।
+
+## चौथा चरण — अप्रयुक्त समीक्षा पेज
+
+स्वामी के निर्देश पर `test-pr.html` (12,654 bytes) और `festival-review.html` (16,192 bytes) वर्तमान checkout से हटाए गए। दोनों मूल फाइलें commit `ec77991a837ea8811abfda1b9858298e3f0aa71d` में पुनर्प्राप्त हैं। `festival-year-review.html` तथा उसके परीक्षण और स्वतंत्र वार्षिक गणना सुरक्षित हैं। पहले के PR preview संबंधी विवरण ऐतिहासिक हैं। कुल 28,846 bytes के दो पेज हटे।
