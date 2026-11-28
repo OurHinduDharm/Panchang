@@ -75,6 +75,9 @@ try {
   assert.match(await rules.nth(0).innerText(), /स्कन्दपुराण.*पूर्व सात दिन प्रतिदिन/);
   assert.match(await rules.nth(1).innerText(), /पद्मपुराण.*निर्णयसिन्धु.*सात रात्रियों तक/);
   assert.match(await rules.nth(2).innerText(), /भविष्यपुराण.*व्रतहेमाद्रि.*कन्या संक्रान्ति से पूर्व सात दिन/);
+  assert.match(await rules.nth(0).innerText(), /\(एवं सप्तदिनं दत्त्वा अर्घ्यं प्रागुदयान्मुनेः॥/);
+  assert.match(await rules.nth(1).innerText(), /\(आसप्तरात्रादुदयाद्यमस्य दातव्यमेतत्सकलं नरेण।/);
+  assert.match(await rules.nth(2).innerText(), /\(कन्यायामागते सूर्येऽर्वाग्वै सप्तमे दिने। कन्यायां समनुप्राप्ते ह्यर्घकालो निवर्तते॥\)/);
   const guru = located.events.filter(e => e.body === "Jupiter");
   assert.deepEqual(guru.map(e => e.event), ["Asta", "Udaya"]);
   assert.ok(guru.every(e => Number.isFinite(e.utcMilliseconds)));
