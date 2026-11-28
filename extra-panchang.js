@@ -4,7 +4,6 @@ import "./ads-layout-print-safety.js";
 import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
-import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
 import { addIsoCalendarDays, getIsoDateInTimeZone, getTimeZoneOffsetForLocalDay, isValidTimeZone, zonedDateTimeToUtc } from "./location-timezone.mjs";
 import tzLookup from "./vendor/tz-lookup-11.8.0.mjs";
 
@@ -337,84 +336,111 @@ function formatEventDateTime(instant) {
 
 
 /* =========================================
-   Direct Drik Asta/Udaya reference data
-   Only browser-verified five-city Drik records are
-   displayed. No angular-threshold or nearest-city fallback.
+   Daily planetary windows from the annual calculation model
    ========================================= */
 
-let drikPlanetaryReferenceDataPromise = null;
 let planetReferenceRenderVersion = 0;
-
-function loadDrikPlanetaryReferenceData() {
-  if (!drikPlanetaryReferenceDataPromise) {
-    const url = new URL("./data/drik-planetary-reference-2024-2027.json", import.meta.url);
-    drikPlanetaryReferenceDataPromise = fetch(url, { cache: "force-cache" })
-      .then(response => {
-        if (!response.ok) throw new Error("Drik reference data HTTP " + response.status);
-        return response.json();
-      })
-      .catch(error => {
-        console.warn("Direct Drik Asta/Udaya reference data unavailable:", error);
-        return null;
-      });
-  }
-  return drikPlanetaryReferenceDataPromise;
-}
-
 const TARA_ASTA_PLANETS = PLANETS.filter(planet => planet.key === "jupiter" || planet.key === "venus");
+const dailyPlanetResults = new Map();
+let dailyPlanetWorker = null, dailyPlanetWorkerLocation = "", dailyPlanetPending = null, dailyPlanetRequestId = 0;
 
-function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
-  return TARA_ASTA_PLANETS.map(planet => {
-    const reference = getDrikPlanetaryReference({
-      dataset,
-      location,
-      selectedDate,
-      planet: planet.body
-    });
-    const window = reference.window;
-    return {
-      name: planet.name,
-      status: reference.status,
-      reason: reference.reason,
-      asta: window ? formatDrikBoundary(window.boundaries.astaStart) : null,
-      udaya: window ? formatDrikBoundary(window.boundaries.astaEnd) : null,
-      sourcePageYear: window?.sourcePageYear ?? null,
-      sourceLocation: reference.city || null
-    };
-  });
+function stopDailyPlanetWorker() {
+  dailyPlanetWorker?.terminate();
+  dailyPlanetWorker = null;
+  dailyPlanetWorkerLocation = "";
+  if (dailyPlanetPending) {
+    clearTimeout(dailyPlanetPending.timer);
+    dailyPlanetPending.resolve(null);
+  }
+  dailyPlanetPending = null;
 }
 
-function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
+function requestDailyPlanetWindows(location, date) {
+  if (location.timeZone !== "Asia/Kolkata" ||
+      !["provided","estimated"].includes(location.elevationStatus) ||
+      ![location.latitude,location.longitude,location.elevation].every(Number.isFinite) ||
+      window.__ohdPanchangLocation?.elevation == null ||
+      String(window.__ohdPanchangLocation.elevation).trim() === "") return Promise.resolve(null);
+  const year = Number(String(date).slice(0,4));
+  if (!Number.isInteger(year) || year < 2021 || year > 2035) return Promise.resolve(null);
+  const observerKey = [location.latitude,location.longitude,location.elevation].join("/");
+  const key = observerKey+"/"+date;
+  if (dailyPlanetResults.has(key)) return Promise.resolve(dailyPlanetResults.get(key));
+  if (dailyPlanetPending?.key === key) return dailyPlanetPending.promise;
+  // Only one request is active. A different selection must not publish a stale response.
+  if (dailyPlanetPending || dailyPlanetWorkerLocation !== observerKey) stopDailyPlanetWorker();
+  try {
+    if (!dailyPlanetWorker) {
+      const url = new URL("./daily-tara-planet-worker.mjs", import.meta.url);
+      // Blogger embeds this module from a CDN. A same-origin blob bootstrap
+      // imports the pinned module; the observer remains inside the browser.
+      let bootstrap = null;
+      try {
+        if (url.origin !== window.location.origin) {
+          bootstrap = URL.createObjectURL(new Blob(["import "+JSON.stringify(url.href)+";"],{type:"text/javascript"}));
+        }
+        dailyPlanetWorker = new Worker(bootstrap || url,{type:"module"});
+      } finally { if (bootstrap) URL.revokeObjectURL(bootstrap); }
+      dailyPlanetWorkerLocation = observerKey;
+      dailyPlanetWorker.onmessage = ({data}) => {
+        const pending = dailyPlanetPending;
+        if (!pending || pending.id !== data.id) return;
+        clearTimeout(pending.timer);
+        dailyPlanetPending = null;
+        if (data.windows) {
+          if (dailyPlanetResults.size >= 32) dailyPlanetResults.delete(dailyPlanetResults.keys().next().value);
+          dailyPlanetResults.set(pending.key,data.windows);
+        }
+        pending.resolve(data.windows);
+      };
+      const activeWorker = dailyPlanetWorker;
+      const onWorkerError = () => { if (dailyPlanetWorker === activeWorker) stopDailyPlanetWorker(); };
+      dailyPlanetWorker.onerror = onWorkerError;
+      dailyPlanetWorker.onmessageerror = onWorkerError;
+    }
+    const id = ++dailyPlanetRequestId;
+    let resolve;
+    const promise = new Promise(done=>{resolve=done;});
+    const timer = setTimeout(() => { if (dailyPlanetPending?.id === id) stopDailyPlanetWorker(); }, 30000);
+    dailyPlanetPending = {id,key,promise,resolve,timer};
+    dailyPlanetWorker.postMessage({id,date,location:{latitude:location.latitude,longitude:location.longitude,elevation:location.elevation}});
+    return promise;
+  } catch (_) {
+    stopDailyPlanetWorker();
+    return Promise.resolve(null);
+  }
+}
+
+function formatCalculatedPlanetBoundary(ms, timeZone) {
+  if (!Number.isFinite(ms)) return null;
+  const instant = new Date(Math.round(ms / 60000) * 60000);
+  return {
+    date: new Intl.DateTimeFormat("hi-IN",{timeZone,day:"numeric",month:"long",year:"numeric"}).format(instant),
+    time: new Intl.DateTimeFormat("hi-IN",{timeZone,hour:"2-digit",minute:"2-digit",hour12:true}).format(instant)
+  };
+}
+
+function renderCalculatedPlanetCard(location, selectedDate, dailyEvents) {
   const renderVersion = ++planetReferenceRenderVersion;
   const loadingCard = createPlanetCard(TARA_ASTA_PLANETS.map(planet => ({
-    name: planet.name,
-    status: "loading",
-    asta: null,
-    udaya: null,
+    name: planet.name, status: "loading", asta: null, udaya: null
   })), dailyEvents);
   replaceOrPlacePanchangCard("planetRiseSetCard", loadingCard);
-
-  loadDrikPlanetaryReferenceData().then(dataset => {
-    if (renderVersion !== planetReferenceRenderVersion) return;
-    if (getSelectedDate() !== selectedDate) return;
-    const latestLocation = getLocation();
-    if (
-      !latestLocation ||
-      latestLocation.latitude !== location.latitude ||
-      latestLocation.longitude !== location.longitude ||
-      latestLocation.city !== location.city ||
-      latestLocation.name !== location.name
-    ) return;
-
-    const rows = dataset
-      ? buildDrikPlanetReferenceRows(dataset, latestLocation, selectedDate)
-      : TARA_ASTA_PLANETS.map(planet => ({
-          name: planet.name, status: "unavailable",
-          reason: "dataset-unavailable", asta: null, udaya: null, sourceUrl: null
-        }));
-    replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
+  requestDailyPlanetWindows(location,selectedDate).then(windows=>{
+    if (renderVersion !== planetReferenceRenderVersion || getSelectedDate() !== selectedDate) return;
+    const latest = getLocation();
+    if (!latest || latest.latitude !== location.latitude || latest.longitude !== location.longitude ||
+        latest.elevation !== location.elevation || latest.elevationStatus !== location.elevationStatus ||
+        latest.timeZone !== location.timeZone) return;
+    const rows = TARA_ASTA_PLANETS.map(planet=>{
+      const interval=windows?.[planet.body];
+      return {name:planet.name,status:interval?.status || "unavailable",
+        asta:formatCalculatedPlanetBoundary(interval?.astaUtcMilliseconds,location.timeZone),
+        udaya:formatCalculatedPlanetBoundary(interval?.udayaUtcMilliseconds,location.timeZone)};
+    });
+    replaceOrPlacePanchangCard("planetRiseSetCard",createPlanetCard(rows,dailyEvents));
     normalizePanchangCardOrder();
-    showNextAgastyaEvents(latestLocation, selectedDate, renderVersion);
+    showNextAgastyaEvents(latest,selectedDate,renderVersion);
   });
 }
 
@@ -1307,8 +1333,8 @@ if(
     marsrise: marsRiseEvent?.date ? formatEventDateTime(marsRiseEvent.date) : null,
     marsset: marsSetEvent?.date ? formatEventDateTime(marsSetEvent.date) : null
   };
-  renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
-  __ohdPerfMark("planetary Asta/Udaya date lookup and card");
+  renderCalculatedPlanetCard(location, selectedDate, dailyEvents);
+  __ohdPerfMark("planetary Asta/Udaya worker scheduling and card");
 
 
   /*
@@ -1333,7 +1359,7 @@ if(
       date: selectedDate,
       totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
       phases: __ohdPerfPhases,
-      planetaryReference: "direct-drik-city-data; Mars daily horizon rise/set"
+      planetaryReference: "independent-annual-model; Mars daily horizon rise/set"
     };
     console.info("[OHD performance] Extra Panchang update", report);
     let panel = document.getElementById("ohd-perf-panel");

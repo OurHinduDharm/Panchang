@@ -12,7 +12,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       name: "पिथौरागढ़, उत्तराखंड, भारत",
       lat: 29.5828,
       lon: 80.2182,
-      elevation: 1650,
+      elevation: 1650, elevationStatus: "provided",
       state: "उत्तराखंड",
       city: "पिथौरागढ़"
     })));
@@ -31,7 +31,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
     const card = page.locator("#planetRiseSetCard");
     const initialFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     const panel = await page.locator("#ohd-perf-panel").innerText();
-    assert.match(panel, /direct-drik-city-data; Mars daily horizon rise\/set/);
+    assert.match(panel, /independent-annual-model; Mars daily horizon rise\/set/);
     assert.doesNotMatch(initialFingerprint, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
     assert.match(initialFingerprint, /अस्त प्रारम्भ/);
     assert.match(initialFingerprint, /पुनः उदय/);
@@ -56,7 +56,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       name: "पिथौरागढ़, उत्तराखंड, भारत",
       lat: 29.5828,
       lon: 80.2182,
-      elevation: 1650
+      elevation: 1650, elevationStatus: "provided"
     })));
     const normalResponse = await normalPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31", {
       waitUntil: "domcontentloaded",
@@ -72,7 +72,7 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
       name: "Mumbai, Maharashtra, India",
       lat: 19.0760,
       lon: 72.8777,
-      elevation: 14,
+      elevation: 14, elevationStatus: "provided",
       state: "Maharashtra",
       city: "Mumbai"
     })));
@@ -101,9 +101,9 @@ test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", a
 
 test("production Asta/Udaya card has no provisional angular-threshold engine", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  assert.match(source, /loadDrikPlanetaryReferenceData/);
-  assert.match(source, /drik-planetary-reference-2024-2027\.json/);
-  assert.match(source, /getDrikPlanetaryReference/);
+  assert.match(source, /requestDailyPlanetWindows/);
+  assert.match(source, /daily-tara-planet-worker\.mjs/);
+  assert.doesNotMatch(source, /getDrikPlanetaryReference|drik-planetary-reference-2024-2027\.json/);
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
   assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
 });
@@ -236,7 +236,7 @@ test("public city preference restores Pithoragarh and purges the legacy coordina
     assert.deepEqual({
       lat: location.lat, lon: location.lon, elevation: location.elevation,
       elevationStatus: location.elevationStatus
-    }, {lat: 29.5828, lon: 80.2182, elevation: 1650, elevationStatus: "provided"});
+    }, {lat: 29.5828, lon: 80.2182, elevation: 1650, elevationStatus: "provided", elevationStatus: "provided"});
     assert.equal(location.cityProfileKey, "pithoragarh-project-target");
     assert.equal(location.saved, null);
     assert.deepEqual(errors, []);

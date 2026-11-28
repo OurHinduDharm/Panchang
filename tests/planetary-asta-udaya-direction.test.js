@@ -6,8 +6,8 @@ const source = await readFile(new URL("../extra-panchang.js", import.meta.url), 
 
 test("production Asta/Udaya display does not use fixed angular crossing direction", () => {
   assert.doesNotMatch(source, /findThresholdCrossingInstant|findNearestAngularBoundary|PLANET_ASTA_THRESHOLDS/);
-  assert.ok(source.includes("getDrikPlanetaryReference"));
-  assert.ok(source.includes("renderDrikPlanetReferenceCard"));
+  assert.ok(source.includes("requestDailyPlanetWindows"));
+  assert.ok(source.includes("renderCalculatedPlanetCard"));
 });
 
 test("daily Sun and Moon rise/set remain sourced from the Panchang calculation", () => {

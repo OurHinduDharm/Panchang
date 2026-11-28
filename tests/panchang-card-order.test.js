@@ -146,7 +146,7 @@ test("Planetary Asta/Udaya card links to the three-body annual page without exte
   assert.ok(!cardSource.includes("शनि"));
 });
 
-test("production Panchang no longer contains fixed-angle threshold or daily scan engine", () => {
+test("production Panchang uses a dedicated annual-model worker rather than a fixed-angle daily scan", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   for (const legacy of [
     "PLANET_ASTA_THRESHOLDS",
@@ -155,7 +155,7 @@ test("production Panchang no longer contains fixed-angle threshold or daily scan
     "planetEventBracketCache",
     "getPlanetEvent"
   ]) assert.ok(!source.includes(legacy), legacy + " must be removed from production");
-  assert.ok(source.includes("getDrikPlanetaryReference"));
-  assert.ok(source.includes("loadDrikPlanetaryReferenceData"));
-  assert.ok(source.includes("force-cache"));
+  assert.ok(source.includes("requestDailyPlanetWindows"));
+  assert.ok(source.includes("daily-tara-planet-worker.mjs"));
+  assert.doesNotMatch(source, /loadDrikPlanetaryReferenceData|getDrikPlanetaryReference/);
 });
