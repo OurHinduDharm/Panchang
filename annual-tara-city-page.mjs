@@ -66,8 +66,18 @@ async function show({events, arghya = [], elevationSourceApproximate}, selectedY
       for (const window of arghya) {
         const start = new Date(window.startUtcMilliseconds);
         const end = new Date(window.endUtcMilliseconds);
-        addText(card, "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
+        // Dawn is supported by Nirnayasindhu; the computed visibility date
+        // itself is not a verified traditional Udaya. Keep that distinction.
+        const minutes = Math.round((end.getTime() - start.getTime()) / 60000);
+        const morningWindow = panchangIsoDate(start) === panchangIsoDate(end) &&
+          minutes > 0 && minutes <= 180 && Number(clock.format(end).split(":")[0]) < 12;
+        if (morningWindow) addText(card, "h3", "अगस्त्यार्घ्य हेतु दृश्यता-आधारित दर्शनकाल");
+        addText(card, morningWindow ? "p" : "h3", "उदय से सूर्योदय तक — " + dateOnly.format(start));
         addText(card, "p", "समय — " + formatClock(clock.format(start)) + " से " + formatClock(clock.format(end)) + " तक");
+        if (minutes > 0) {
+          const hours = Math.floor(minutes / 60), remainder = minutes % 60;
+          addText(card, "p", "अवधि — " + [hours ? hours + " घंटा" : "", remainder ? remainder + " मिनट" : ""].filter(Boolean).join(" "));
+        }
       }
     }
     fragment.append(card);
