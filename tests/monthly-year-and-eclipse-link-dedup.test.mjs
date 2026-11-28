@@ -5,17 +5,14 @@ import { readFile } from "node:fs/promises";
 const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
 const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
 
-test("monthly festival page exposes 2031 and keeps navigation within 2026–2031", () => {
-  assert.match(html, /<option value="2031">2031<\/option>/);
-  assert.match(html, /numeric<2026\|\|numeric>2031/);
-  assert.match(html, /y<2026\|\|y>2031/);
-  assert.match(html, /atEnd=year===2031&&month===12/);
-});
-
-test("monthly widget year navigation includes 2031", () => {
-  assert.match(widget, /numeric<2026\|\|numeric>2031/);
-  assert.match(widget, /atEnd=year===2031&&month===12/);
-  assert.match(widget, /y<2026\|\|y>2031/);
+test("both public readers use one approved year index and guard month transitions",()=>{
+  assert.doesNotMatch(html,/<option value="2031">/);
+  for(const source of [html,widget]){
+    assert.match(source,/syncPublishedYearOptions\(yearSelect\)/);
+    assert.match(source,/publishedYearNavigation\.has\(y\)/);
+    assert.match(source,/publishedYearNavigation\.shift\(year,month,1\)/);
+    assert.match(source,/publishedYearNavigation\.has\(requestedYear\)/);
+  }
 });
 
 test("monthly festival page deduplicates links across description and metadata", () => {
